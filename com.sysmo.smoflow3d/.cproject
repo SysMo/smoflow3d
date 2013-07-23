@@ -33,17 +33,19 @@
 									<listOptionValue builtIn="false" value="&quot;${AME}/sys/mingw32/lib/gcc/mingw32/4.2.1-sjlj/include/c++&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${AME}/sys/mingw32/lib/gcc/mingw32/4.2.1-sjlj/include/c++/mingw32&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${AME}/sys/mingw32/lib/gcc/mingw32/4.2.1-sjlj/include/c++/backward&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${AME}/lib&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1072078243" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.build.core.settings.holder.94948412" name="GNU C" superClass="org.eclipse.cdt.build.core.settings.holder">
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1248958853" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/coolprop/CoolProp"/>
 									<listOptionValue builtIn="false" value="&quot;${AME}/sys/mingw32/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${AME}/sys/mingw32/lib/gcc/mingw32/4.2.1-sjlj/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${AME}/sys/mingw32/lib/gcc/mingw32/4.2.1-sjlj/include/c++&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${AME}/sys/mingw32/lib/gcc/mingw32/4.2.1-sjlj/include/c++/mingw32&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${AME}/sys/mingw32/lib/gcc/mingw32/4.2.1-sjlj/include/c++/backward&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${AME}/lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/coolprop/CoolProp}&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1856821500" languageId="org.eclipse.cdt.core.gcc" languageName="GNU C" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
@@ -75,6 +77,22 @@
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
 		<buildTargets>
+			<target name="build" path="amesim/submodels" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>make</buildCommand>
+				<buildArguments/>
+				<buildTarget>build</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
+			<target name="clean" path="amesim/submodels" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
+				<buildCommand>make</buildCommand>
+				<buildArguments/>
+				<buildTarget>clean</buildTarget>
+				<stopOnError>true</stopOnError>
+				<useDefaultCommand>true</useDefaultCommand>
+				<runAllBuilders>true</runAllBuilders>
+			</target>
 			<target name="configure" path="build/debug" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
 				<buildCommand>cmake</buildCommand>
 				<buildArguments>-DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles"</buildArguments>

@@ -15,14 +15,31 @@
 #ifndef COMMONDECLARATIONS_H_
 #define COMMONDECLARATIONS_H_
 
+
+/**
+ * 0) C interface
+ */
+#ifdef __cplusplus
+#define BEGIN_C_LINKAGE extern "C" {
+#define END_C_LINKAGE }
+#else
+#define BEGIN_C_LINKAGE ;
+#define END_C_LINKAGE ;
+#endif //__cplusplus
+
+#define DECLARE_C_STRUCT(name) \
+	typedef struct name##Struct name; \
+
+/**************************************
+ * BEGIN C++ definitions
+ **************************************/
+#ifdef __cplusplus
+
 #include <string>
 typedef double Real;
 typedef int Integer;
 typedef bool Boolean;
 typedef unsigned int Natural;
-
-
-#ifdef __cplusplus
 
 #include <typeinfo>
 #include <sstream>
@@ -114,28 +131,6 @@ namespace smoflow {
 #define assert_h5(h5_herr) assert(h5_herr >= 0)
 
 
-
-
-/**
- * 5) Smart pointers
- */
-
-
-
-/**
- * 6) C interface
- */
-#ifdef _cplusplus
-#define BEGIN_C_LINKAGE extern "C" {
-#define END_C_LINKAGE }
-#else
-#define BEGIN_C_LINKAGE
-#define END_C_LINKAGE
-#endif
-
-#define DECLARE_C_STRUCT(name) \
-	typedef name##Struct name;
-
 /**
  * 7) File operations
  */
@@ -157,5 +152,8 @@ namespace smoflow {
 
 
 #endif //__cplusplus
+/**************************************
+ * END C++ definitions
+ **************************************/
 
 #endif /* COMMONDECLARATIONS_H_ */

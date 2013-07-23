@@ -22,6 +22,7 @@ target_link_libraries(SmoFlow CoolProp)
 install(TARGETS SmoFlow
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION bin    
+    ARCHIVE DESTINATION bin    
 )
 
 #######################################

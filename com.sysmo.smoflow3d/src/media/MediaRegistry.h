@@ -18,7 +18,7 @@
 
 typedef Fluid Medium;
 
-struct MediaRegistry {
+struct MediaRegistryClass {
 	typedef std::map<int, Fluid*> type;
 	typedef type::iterator iterator;
 	type fluids;

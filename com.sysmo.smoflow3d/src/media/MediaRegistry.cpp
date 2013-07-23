@@ -11,24 +11,24 @@
 
 extern FluidsContainer Fluids;
 
-static MediaRegistry mediaRegistry;
+static MediaRegistryClass MediaRegistry;
 
 BEGIN_C_LINKAGE
 void register_medium(const char *mediumName, int mediumIndex) {
-	MediaRegistry::iterator it = mediaRegistry.fluids.find(mediumIndex);
-	if (it != mediaRegistry.fluids.end()) {
+	MediaRegistryClass::iterator it = MediaRegistry.fluids.find(mediumIndex);
+	if (it != MediaRegistry.fluids.end()) {
 		RaiseError("Medium index " << mediumIndex << " already used");
 	}
 	std::string mediumNameStr(mediumName);
 	Fluid* mediumFluid = Fluids.get_fluid(mediumNameStr);
-	mediaRegistry.fluids[mediumIndex] = mediumFluid;
-	mediaRegistry.fluidNames[mediumNameStr] = mediumIndex;
+	MediaRegistry.fluids[mediumIndex] = mediumFluid;
+	MediaRegistry.fluidNames[mediumNameStr] = mediumIndex;
 
 }
 
 Medium* get_medium(int mediumIndex) {
-	MediaRegistry::iterator it = mediaRegistry.fluids.find(mediumIndex);
-	if (it == mediaRegistry.fluids.end()) {
+	MediaRegistryClass::iterator it = MediaRegistry.fluids.find(mediumIndex);
+	if (it == MediaRegistry.fluids.end()) {
 		RaiseError("No medium defined with index " << mediumIndex);
 	}
 	return (*it).second;

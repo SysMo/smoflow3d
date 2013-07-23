@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>13</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_fluid_source</DEFAULT_ICON>
+  <SUB_LABEL>modulated pressure and specific enthalpy source</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <R_STORES_NUMBER>5</R_STORES_NUMBER>
+  <I_STORES_NUMBER>5</I_STORES_NUMBER>
+  <DISCONTINUITY>1</DISCONTINUITY>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>12</SUB_ID>
+    <TITLE>medium index</TITLE>
+    <VARNAME>mediumIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>13</SUB_ID>
+     <TITLE>state index</TITLE>
+     <VARNAME>stateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>4</SUB_ID>
+     <TITLE>enthalpy flow rate at port 1</TITLE>
+     <VARNAME>hfr</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>W</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>5</SUB_ID>
+     <TITLE>mass flow rate at port 1</TITLE>
+     <VARNAME>mfr</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>kg/s</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>6</SUB_ID>
+     <TITLE>thermodynamic state value 1</TITLE>
+     <VARNAME>stateValue1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>7</SUB_ID>
+     <TITLE>thermodynamic state value 2</TITLE>
+     <VARNAME>stateValue2</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>
