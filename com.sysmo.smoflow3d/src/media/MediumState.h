@@ -22,6 +22,7 @@ public:
 	MediumState(Medium* medium);
 	virtual ~MediumState();
 	void start();
+	void pre_update();
 	void update_Tp(double T, double p);
 	void update_Trho(double T, double rho);
 	void update_ph(double p, double h);
@@ -46,6 +47,7 @@ void mstate_update_ph(MediumState* mstate, double p, double h);
 double mstate_T(MediumState* mstate);
 double mstate_p(MediumState* mstate);
 double mstate_rho(MediumState* mstate);
+double mstate_u(MediumState* mstate);
 double mstate_h(MediumState* mstate);
 double mstate_mu(MediumState* mstate);
 double mstate_lambda(MediumState* mstate);

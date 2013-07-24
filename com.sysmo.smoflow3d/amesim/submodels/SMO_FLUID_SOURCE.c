@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_SOURCE skeleton created by AME Submodel editing utility
-   Tue Jul 23 18:22:56 2013 */
+   Wed Jul 24 13:44:04 2013 */
 
 
 
@@ -27,6 +27,9 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLUID_SOURCE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "media/MediumState.h"
+#define fluidStateIndex ic[1]
+#define fluidState ps[1]
 /* <<<<<<<<<<<<End of Private Code. */
 
 /* There is 1 integer parameter:
@@ -34,7 +37,7 @@ REVISIONS :
    mediumIndex medium index
 */
 
-void smo_fluid_sourcein_(int *n, int ip[1], double c[5], int ic[5])
+void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 
 {
    int loop, error;
@@ -71,6 +74,8 @@ void smo_fluid_sourcein_(int *n, int ip[1], double c[5], int ic[5])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   fluidState = create_mstate(mediumIndex);
+   fluidStateIndex = mstate_register(fluidState);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -97,7 +102,7 @@ void smo_fluid_sourcein_(int *n, int ip[1], double c[5], int ic[5])
 
 void smo_fluid_source_(int *n, double *stateIndex, double *hfr
       , double *mfr, double *stateValue1, double *stateValue2
-      , int ip[1], double c[5], int ic[5], int *flag)
+      , int ip[1], int ic[1], void *ps[1], int *flag)
 
 {
    int loop, logi;
@@ -118,6 +123,8 @@ void smo_fluid_source_(int *n, double *stateIndex, double *hfr
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   mstate_update_Tp(fluidState, *stateValue2, *stateValue1);
+   *stateIndex = (double) fluidStateIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
