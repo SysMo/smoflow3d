@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_SOURCE skeleton created by AME Submodel editing utility
-   Wed Jul 24 13:44:04 2013 */
+   Wed Jul 24 23:14:37 2013 */
 
 
 
@@ -81,11 +81,10 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 
 /*  There are 3 ports.
 
-   Port 1 has 3 variables:
+   Port 1 has 2 variables:
 
-      1 stateIndex     state index                  [smoTDS] basic variable output  UNPLOTTABLE
-      2 hfr            enthalpy flow rate at port 1 [W]      basic variable input  UNPLOTTABLE
-      3 mfr            mass flow rate at port 1     [kg/s]   basic variable input  UNPLOTTABLE
+      1 stateIndex     state index [smoTDS] basic variable output  UNPLOTTABLE
+      2 flowIndex      flow index  [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -100,9 +99,9 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 
 */
 
-void smo_fluid_source_(int *n, double *stateIndex, double *hfr
-      , double *mfr, double *stateValue1, double *stateValue2
-      , int ip[1], int ic[1], void *ps[1], int *flag)
+void smo_fluid_source_(int *n, double *stateIndex, double *flowIndex
+      , double *stateValue1, double *stateValue2, int ip[1], int ic[1]
+      , void *ps[1], int *flag)
 
 {
    int loop, logi;
@@ -113,6 +112,10 @@ void smo_fluid_source_(int *n, double *stateIndex, double *hfr
    mediumIndex = ip[0];
    logi = 0;
    loop = 0;
+
+/* Common -> SI units conversions. */
+
+/*   *flowIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -130,5 +133,6 @@ void smo_fluid_source_(int *n, double *stateIndex, double *hfr
 /* SI -> Common units conversions. */
 
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *flowIndex /= ??; CONVERSION UNKNOWN */
 }
 

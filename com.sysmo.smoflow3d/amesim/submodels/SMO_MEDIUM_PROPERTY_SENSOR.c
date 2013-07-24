@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_PROPERTY_SENSOR skeleton created by AME Submodel editing utility
-   Wed Jul 24 15:10:53 2013 */
+   Wed Jul 24 23:18:00 2013 */
 
 
 
@@ -98,28 +98,26 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
 
 /*  There are 3 ports.
 
-   Port 1 has 3 variables:
+   Port 1 has 2 variables:
 
-      1 stateIndexDup     duplicate of stateIndex  
-      2 dmh1              enthalpy flow rate port 1 [W]    basic variable input  UNPLOTTABLE
-      3 dm1               mass flow rate port 1     [kg/s] basic variable input  UNPLOTTABLE
+      1 stateIndexDup     duplicate of stateIndex
+      2 flowIndex         flow index  [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
       1 measuredValue     measured value [null] multi line macro 'smo_medium_property_sensor_macro0_'
 
-   Port 3 has 3 variables:
+   Port 3 has 2 variables:
 
-      1 dmh3           duplicate of dmh1        
-      2 dm3            duplicate of dm1         
-      3 stateIndex     state index               [smoTDS] basic variable input  UNPLOTTABLE
+      1 flowIndexDup     duplicate of flowIndex   
+      2 stateIndex       state index               [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 19 internal variables.
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
+      3 temperatureC                temperature (°C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -138,7 +136,7 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
      19 sigma                       surface tension                     [N/m]               basic variable
 */
 
-void smo_medium_property_sensor_(int *n, double *dmh1, double *dm1
+void smo_medium_property_sensor_(int *n, double *flowIndex
       , double *measuredValue, double *stateIndex, double *pressure
       , double *temperature, double *temperatureC, double *density
       , double *specificVolume, double *internalEnergy
@@ -164,6 +162,7 @@ void smo_medium_property_sensor_(int *n, double *dmh1, double *dm1
 
 /* Common -> SI units conversions. */
 
+/*   *flowIndex *= ??; CONVERSION UNKNOWN */
 /*   *stateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
@@ -216,6 +215,7 @@ void smo_medium_property_sensor_(int *n, double *dmh1, double *dm1
 
 /* SI -> Common units conversions. */
 
+/*   *flowIndex /= ??; CONVERSION UNKNOWN */
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *internalEnergy /= 1.00000000000000e+003;

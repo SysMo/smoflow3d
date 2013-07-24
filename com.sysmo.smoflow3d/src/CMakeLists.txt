@@ -14,6 +14,7 @@ include_directories(${COOLPROP_LOCATION})
 add_library(SmoFlow SHARED
     media/MediaRegistry.cpp
     media/MediumState.cpp
+    media/FluidFlow.cpp
     util/CodeTiming.cpp
 )
 

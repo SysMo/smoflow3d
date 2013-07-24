@@ -9,7 +9,7 @@
 #include "MediumState.h"
 #include <vector>
 
-std::vector<MediumState*> MediaStateRegistry;
+static std::vector<MediumState*> MediumStateRegistry;
 
 MediumState::MediumState(Medium* medium) : CoolPropStateClassSI(medium) {
 	start();
@@ -127,12 +127,12 @@ MediumState* create_mstate(int mediumIndex) {
 }
 
 int mstate_register(MediumState* mstate) {
-	MediaStateRegistry.push_back(mstate);
-	return MediaStateRegistry.size() - 1;
+	MediumStateRegistry.push_back(mstate);
+	return MediumStateRegistry.size() - 1;
 }
 
 MediumState* mstate_get(int mstateIndex) {
-	return MediaStateRegistry.at(mstateIndex);
+	return MediumStateRegistry.at(mstateIndex);
 }
 
 void mstate_update_Tp(MediumState* mstate, double T, double p) {

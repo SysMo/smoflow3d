@@ -1,5 +1,5 @@
 /* Submodel SMO_ZERO_FLOW skeleton created by AME Submodel editing utility
-   Tue Jul 23 18:32:44 2013 */
+   Wed Jul 24 23:20:17 2013 */
 
 
 
@@ -27,8 +27,9 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_ZERO_FLOW"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "media/FluidFlow.h"
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_zero_flowin_(int *n, double *dmh1, double *dm1)
+void smo_zero_flowin_(int *n, double *flowIndex)
 
 {
    int loop, error;
@@ -38,10 +39,9 @@ void smo_zero_flowin_(int *n, double *dmh1, double *dm1)
    error = 0;
 
 /*
-   Check and/or reset the following fixed and/or discrete variables
+   Check and/or reset the following fixed and/or discrete variable
 
-   *dmh1       = ??;
-   *dm1        = ??;
+   *flowIndex  = ??;
 */
 
 
@@ -61,16 +61,19 @@ void smo_zero_flowin_(int *n, double *dmh1, double *dm1)
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   FluidFlow* fluidFlow = FluidFlow_new();
+   fluidFlow->massFlowRate = 0;
+   fluidFlow->enthalpyFlowRate = 0;
+   *flowIndex = FluidFlow_register(fluidFlow);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
 /*  There is 1 port.
 
-   Port 1 has 3 variables:
+   Port 1 has 2 variables:
 
-      1 dmh1           enthalpy flow rate at port 1 [W]      fixed  UNPLOTTABLE
-      2 dm1            mass flow rate at port 1     [kg/s]   fixed  UNPLOTTABLE
-      3 stateIndex     state index                  [smoTDS] basic variable input  UNPLOTTABLE
+      1 flowIndex      flow index  [smoFFL] fixed  UNPLOTTABLE
+      2 stateIndex     state index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.
