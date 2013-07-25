@@ -34,7 +34,7 @@ void testCoolPropCalculationTiming() {
 
 
 	// Time T, p calculation
-	std::cout << "Calcupation based on (T,p)" << std::endl;
+	std::cout << "Calculation based on (T,p)" << std::endl;
 	updateCounter = 0;
 	timer_start(timer1);
 	for (double p = 20e5; p <= 700e5; p+=1e5) {
@@ -50,7 +50,7 @@ void testCoolPropCalculationTiming() {
 
 
 	// Time T, rho calculation
-	std::cout << "Calcupation based on (T,rho)" << std::endl;
+	std::cout << "Calculation based on (T,rho)" << std::endl;
 	updateCounter = 0;
 	timer_start(timer1);
 	for (double rho = 0.1; rho <= 40; rho+= 0.1) {
@@ -66,7 +66,7 @@ void testCoolPropCalculationTiming() {
 
 
 	// Time p, h calculation
-	std::cout << "Calcupation based on (p,h)" << std::endl;
+	std::cout << "Calculation based on (p,h)" << std::endl;
 	updateCounter = 0;
 	timer_start(timer1);
 	for (double p = 20e5; p <= 700e5; p+= 1e5) {
