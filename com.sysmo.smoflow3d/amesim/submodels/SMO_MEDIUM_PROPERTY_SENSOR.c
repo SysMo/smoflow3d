@@ -117,7 +117,7 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (°C)                    [degC]              basic variable
+      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -283,7 +283,7 @@ extern double smo_medium_property_sensor_macro0_(int *n
    if (propertyIndex == 20) {
 	   measuredValue = fluidStateIndex;
    } else {
-	   measuredValue = c[propertyIndex - 1];
+	   measuredValue = c[propertyIndex - 1] * gain + offset;
    }
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

@@ -7,3 +7,5 @@ smo_zero_flow
 &SMO_ZERO_FLOW SmoFlow3d
 smo_fluid_source
 &SMO_FLUID_SOURCE SmoFlow3d
+tpf_mass_flow_sensor
+&SMO_FLOW_SENSOR tpf
