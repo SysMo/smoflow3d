@@ -75,7 +75,7 @@ namespace smoflow {
 	const Real StandardTemperature = 293.15; // K
 
 	const double StefanBoltzmannConstant = 5.67e-8; // Stefan Boltzmann Constant [W/(m^2*K^4)]
-	const double Pi = 4 * std::atan(1.0);
+	const double Pi = 4 * std::atan(1.0f);
 	const double earthAcceleration = 9.81; // [m/s^2]
 }
 
