@@ -13,9 +13,10 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pump" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_drive_cycle_reader" />
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Media" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
@@ -32,6 +33,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pump" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_flow_splitter_3port" />
   </GROUP>
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Control" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />

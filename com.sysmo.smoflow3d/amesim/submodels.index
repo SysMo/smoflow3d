@@ -9,3 +9,7 @@ smo_fluid_source
 &SMO_FLUID_SOURCE SmoFlow3d
 tpf_mass_flow_sensor
 &SMO_FLOW_SENSOR tpf
+smo_heat_source
+&SMO_HEAT_SOURCE SmoFlow3d
+smo_flow_splitter_3port
+&SMO_FLOW_SPLITTER_3PORT SmoFlow3d

@@ -128,11 +128,11 @@ MediumState* create_mstate(int mediumIndex) {
 
 int mstate_register(MediumState* mstate) {
 	MediumStateRegistry.push_back(mstate);
-	return MediumStateRegistry.size() - 1;
+	return MediumStateRegistry.size();
 }
 
 MediumState* mstate_get(int mstateIndex) {
-	return MediumStateRegistry.at(mstateIndex);
+	return MediumStateRegistry.at(mstateIndex - 1);
 }
 
 void mstate_update_Tp(MediumState* mstate, double T, double p) {

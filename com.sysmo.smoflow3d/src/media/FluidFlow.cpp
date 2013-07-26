@@ -18,10 +18,10 @@ FluidFlow* FluidFlow_new(){
 
 int FluidFlow_register(FluidFlow* flow){
 	FluidFlowRegistry.push_back(flow);
-	return FluidFlowRegistry.size() -1;
+	return FluidFlowRegistry.size();
 }
 
 FluidFlow* FluidFlow_get(int flowIndex) {
-	return FluidFlowRegistry.at(flowIndex);
+	return FluidFlowRegistry.at(flowIndex - 1);
 }
 END_C_LINKAGE

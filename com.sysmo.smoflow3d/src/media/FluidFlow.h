@@ -11,13 +11,13 @@
 
 #include "util/CommonDefinitions.h"
 
+BEGIN_C_LINKAGE
 typedef struct {
 	double massFlowRate;
 	double volumetricFlowRate;
 	double enthalpyFlowRate;
 } FluidFlow;
 
-BEGIN_C_LINKAGE
 FluidFlow* FluidFlow_new();
 int FluidFlow_register(FluidFlow* flow);
 FluidFlow* FluidFlow_get(int flowIndex);

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>5</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_heat_source</DEFAULT_ICON>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>1</I_STORES_NUMBER>
+  <P_STORES_NUMBER>1</P_STORES_NUMBER>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>1</SUB_ID>
+     <TITLE>heat flow rate</TITLE>
+     <VARNAME>heatFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>W</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>4</SUB_ID>
+     <TITLE>flow index</TITLE>
+     <VARNAME>flowIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>5</SUB_ID>
+     <TITLE>state index</TITLE>
+     <VARNAME>stateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>
