@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 enable_testing()
 
 
-project(com.sysmo.flrealtime)
+project(com.sysmo.smoflow3d)
 
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}")
 #message("Boost root: $ENV{BOOST_ROOT}")
