@@ -120,6 +120,11 @@ void MediumState::update_ps(double p, double s) {
 	post_update();
 }
 
+double MediumState::u() {
+	return h() - p() / rho();
+}
+
+
 BEGIN_C_LINKAGE
 
 MediumState* create_mstate(int mediumIndex) {
@@ -160,7 +165,7 @@ double mstate_rho(MediumState* mstate) {
 }
 
 double mstate_u(MediumState* mstate) {
-	return  mstate->h() - mstate->p() /mstate->rho();
+	return  mstate->u();
 }
 
 double mstate_h(MediumState* mstate) {

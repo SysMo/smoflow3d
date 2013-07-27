@@ -16,3 +16,6 @@ smo_flow_splitter_3port
 two_port_valve
 smo_reg_valve_2port
 &SMO_VALVE_2PORT_MASS_FLOW SmoFlow3d
+tpf_adiab_chamber
+smo_fluid_chamber_cst_volume
+&SMO_FLUID_CHAMBER SmoFlow3d

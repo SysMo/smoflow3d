@@ -11,6 +11,16 @@
 
 #include "util/CommonDefinitions.h"
 
+
+BEGIN_C_LINKAGE
+typedef struct {
+	double p;
+	double T;
+	double rho;
+	double h;
+} BasicState;
+END_C_LINKAGE
+
 #ifdef __cplusplus
 
 #include "MediaRegistry.h"
@@ -29,6 +39,7 @@ public:
 	void update_prho(double p, double rho);
 	void update_ps(double p, double s);
 	void post_update();
+	double u();
 protected:
 	double _mu, _lambda, _dpdt_v, _dpdv_t, _cp, _beta, _Pr;
 };
