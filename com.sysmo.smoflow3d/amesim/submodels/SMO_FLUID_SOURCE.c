@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_SOURCE skeleton created by AME Submodel editing utility
-   Wed Jul 24 23:14:37 2013 */
+   Sat Jul 27 12:51:09 2013 */
 
 
 
@@ -83,7 +83,7 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 
    Port 1 has 2 variables:
 
-      1 stateIndex     state index [smoTDS] basic variable output  UNPLOTTABLE
+      1 stateIndex     state index [smoTDS] multi line macro 'smo_fluid_source_macro0_'  UNPLOTTABLE
       2 flowIndex      flow index  [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
@@ -98,6 +98,10 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 /*  There are 0 internal variables.
 
 */
+
+#if 0
+
+/* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
 void smo_fluid_source_(int *n, double *stateIndex, double *flowIndex
       , double *stateValue1, double *stateValue2, int ip[1], int ic[1]
@@ -115,24 +119,55 @@ void smo_fluid_source_(int *n, double *stateIndex, double *flowIndex
 
 /* Common -> SI units conversions. */
 
+/*   *stateIndex *= ??; CONVERSION UNKNOWN */
 /*   *flowIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *stateIndex = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   mstate_update_Tp(fluidState, *stateValue2, *stateValue1);
-   *stateIndex = (double) fluidStateIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */
 /*   *flowIndex /= ??; CONVERSION UNKNOWN */
+}
+
+#endif
+extern double smo_fluid_source_macro0_(int *n, double *stateValue1
+      , double *stateValue2, int ip[1], int ic[1], void *ps[1]
+      , int *flag)
+
+{
+   double stateIndex;
+   int loop, logi;
+/* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
+/* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
+   int mediumIndex;
+
+   mediumIndex = ip[0];
+   logi = 0;
+   loop = 0;
+
+/*
+   Define and return the following macro variable:
+
+   stateIndex = ??;
+*/
+
+
+/* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   mstate_update_Tp(fluidState, *stateValue2, *stateValue1);
+   stateIndex = (double) fluidStateIndex;
+/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
+
+/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+
+   return stateIndex;
 }
 

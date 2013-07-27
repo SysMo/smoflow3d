@@ -14,8 +14,8 @@
 BEGIN_C_LINKAGE
 typedef struct {
 	double massFlowRate;
-	double volumetricFlowRate;
 	double enthalpyFlowRate;
+	//double volumetricFlowRate; //:NOT_USED:
 } FluidFlow;
 
 FluidFlow* FluidFlow_new();

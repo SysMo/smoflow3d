@@ -19,7 +19,7 @@
 typedef Fluid Medium;
 
 struct MediaRegistryClass {
-	typedef std::map<int, Fluid*> type;
+	typedef std::map<int, Fluid*> type; //:TODO: (MILEN) rename type to ???
 	typedef type::iterator iterator;
 	type fluids;
 	std::map<std::string, int> fluidNames;
@@ -32,7 +32,7 @@ DECLARE_C_STRUCT(Medium)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-void register_medium(const char *mediumName, int mediumIndex);
+void register_medium(const char *mediumName, int mediumIndex); //:TODO: (MILEN) rename medium_register to Medium_register, Medium_get
 Medium* get_medium(int mediumIndex);
 END_C_LINKAGE
 

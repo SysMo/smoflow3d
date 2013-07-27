@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_MASS_FLOW skeleton created by AME Submodel editing utility
-   Fri Jul 26 15:24:05 2013 */
+   Fri Jul 26 16:22:50 2013 */
 
 
 
@@ -27,9 +27,20 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_VALVE_2PORT_MASS_FLOW"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "FluidPoint.h"
-#define NODE1 ps[0]
-#define NODE2 ps[1]
+#include "media/FluidFlow.h"
+#include "media/MediumState.h"
+
+#define fluidFlowIndex1 ic[1]
+#define fluidFlow1 ps[1]
+
+#define fluidFlowIndex3 ic[2]
+#define fluidFlow3 ps[2]
+
+#define fluidStateIndex1 ic[3]
+#define fluidState1 ps[3]
+
+#define fluidStateIndex3 ic[4]
+#define fluidState3 ps[4]
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_valve_2port_mass_flowin_(int *n, int ic[5], void *ps[5])
 
@@ -57,10 +68,6 @@ void smo_valve_2port_mass_flowin_(int *n, int ic[5], void *ps[5])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-	AME_SET_CURRENT_COMPONENT;
-
-	NODE1 = FluidPoint_new(fluidIndex);
-	NODE2 = FluidPoint_new(fluidIndex);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -81,16 +88,15 @@ void smo_valve_2port_mass_flowin_(int *n, int ic[5], void *ps[5])
       2 stateIndex3     state index3 [smoTDS] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 2 internal variables.
+/*  There is 1 internal variable.
 
-      1 pressureLoss         total pressure loss      [barA -> PaA] basic variable
-      2 port1Temperature     fluid temperature port 1 [K]           basic variable
+      1 pressureLoss     total pressure loss [barA -> PaA] basic variable
 */
 
 void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
       , double *stateIndex1, double *regulatingSignal
       , double *flowIndex3, double *stateIndex3, double *pressureLoss
-      , double *port1Temperature, int ic[5], void *ps[5], int *flag)
+      , int ic[5], void *ps[5], int *flag)
 
 {
    int loop, logi;
@@ -110,7 +116,6 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
    *flowIndex1 = ??;
    *flowIndex3 = ??;
    *pressureLoss = ??;
-   *port1Temperature = ??;
 */
 
 
@@ -118,22 +123,45 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
-	   FluidPoint_init(NODE1, (int)(*port1ComIndex), -1);
-	   FluidPoint_init(NODE2, (int)(*port3ComIndex), -1);
-   }
-   // Setting object inputs
-   FluidPoint_computeState_p_rho(NODE1, *port1Pressure, *port1Density);
-   FluidPoint_computeState_p_rho(NODE2, *port3Pressure, *port3Density);
+	   fluidFlow1 = FluidFlow_new();
+	   fluidFlowIndex1 = FluidFlow_register(fluidFlow1);
 
-   *port3MassFlowRate = *regulatingSignal;
-   double upstreamSpecificEnthalpy;
-   if (*regulatingSignal > 0) {
-	   upstreamSpecificEnthalpy = ((FluidPoint*)NODE1)->h;
-   } else {
-	   upstreamSpecificEnthalpy = ((FluidPoint*)NODE2)->h;
+	   fluidFlow3 = FluidFlow_new();
+	   fluidFlowIndex3 = FluidFlow_register(fluidFlow3);
+
+	   fluidStateIndex1 = *stateIndex1;
+	   fluidState1 = mstate_get(fluidStateIndex1);
+
+	   fluidStateIndex3 = *stateIndex3;
+	   fluidState3 = mstate_get(fluidStateIndex3);
+
+	   int mediumIndex1 = mstate_getMediumIndex(fluidState1);
+	   int mediumIndex3 = mstate_getMediumIndex(fluidState3);
+	   if (mediumIndex1 != mediumIndex3) {
+		   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
+		   amefprintf(stderr, "\nThe valve connects components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
+		   AmeExit(1);
+	   }
    }
-   *port3EnthalpyFlowRate = *port3MassFlowRate * upstreamSpecificEnthalpy;
-   *pressureLoss = fabs(*port1Pressure - *port3Pressure);
+
+   FluidFlow* fluidFlowObject3 = (FluidFlow*) fluidFlow3;
+   fluidFlowObject3->massFlowRate = *regulatingSignal;
+   double upstreamSpecificEnthalpy = 0.0;
+   if (*regulatingSignal > 0) {
+	   upstreamSpecificEnthalpy = mstate_h(fluidState1);
+   } else {
+	   upstreamSpecificEnthalpy = mstate_h(fluidState3);
+   }
+   fluidFlowObject3->enthalpyFlowRate = fluidFlowObject3->massFlowRate * upstreamSpecificEnthalpy;
+
+   FluidFlow* fluidFlowObject1 = (FluidFlow*) fluidFlow1;
+   fluidFlowObject1->massFlowRate = -fluidFlowObject3->massFlowRate;
+   fluidFlowObject1->enthalpyFlowRate = -fluidFlowObject3->enthalpyFlowRate;
+
+   *pressureLoss = fabs(mstate_p(fluidState1) - mstate_p(fluidState3));
+
+   *flowIndex1 = fluidFlowIndex1;
+   *flowIndex3 = fluidFlowIndex3;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

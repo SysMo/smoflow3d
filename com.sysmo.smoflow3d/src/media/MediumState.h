@@ -11,6 +11,10 @@
 
 #include "util/CommonDefinitions.h"
 
+
+/**
+ * MediumState C++ Class & C Structure
+ */
 #ifdef __cplusplus
 
 #include "MediaRegistry.h"
@@ -18,9 +22,10 @@
 
 class MediumState : public CoolPropStateClassSI {
 public:
-	MediumState(int mediumIndex);
 	MediumState(Medium* medium);
+	MediumState(int mediumIndex);
 	virtual ~MediumState();
+
 	void start();
 	void pre_update();
 	void update_Tp(double T, double p);
@@ -29,21 +34,35 @@ public:
 	void update_prho(double p, double rho);
 	void update_ps(double p, double s);
 	void post_update();
+
+public:
+	int mediumIndex;
+
 protected:
 	double _mu, _lambda, _dpdt_v, _dpdv_t, _cp, _beta, _Pr;
 };
-#else
+
+#else //no __cplusplus
+
 DECLARE_C_STRUCT(MediumState)
+
 #endif //__cplusplus
 
 
+/**
+ * MediumState C Functions
+ */
 BEGIN_C_LINKAGE
-MediumState* create_mstate(int mediumIndex);
+MediumState* create_mstate(int mediumIndex); //:TODO: (MILEN) rename create_mstate to MediumState_new, MediumState_register, MediumState_get, MediumState_update_Tp, MediumState_T
 int mstate_register(MediumState* mstate);
 MediumState* mstate_get(int mstateIndex);
+
+int mstate_getMediumIndex(MediumState* mstate);
+
 void mstate_update_Tp(MediumState* mstate, double T, double p);
 void mstate_update_Trho(MediumState* mstate, double T, double rho);
 void mstate_update_ph(MediumState* mstate, double p, double h);
+
 double mstate_T(MediumState* mstate);
 double mstate_p(MediumState* mstate);
 double mstate_rho(MediumState* mstate);
@@ -56,9 +75,7 @@ double mstate_dpdv_t(MediumState* mstate);
 double mstate_cp(MediumState* mstate);
 double mstate_beta(MediumState* mstate);
 double mstate_Pr(MediumState* mstate);
-
-
-
 END_C_LINKAGE
+
 
 #endif /* MEDIUMSTATE_H_ */

@@ -11,11 +11,17 @@
 
 static std::vector<MediumState*> MediumStateRegistry;
 
+
+/**
+ * MediumState C++ Class Functions
+ */
 MediumState::MediumState(Medium* medium) : CoolPropStateClassSI(medium) {
+	this->mediumIndex = -1;
 	start();
 }
 
 MediumState::MediumState(int mediumIndex) : CoolPropStateClassSI(get_medium(mediumIndex)) {
+	this->mediumIndex = mediumIndex;
 	start();
 }
 
@@ -120,6 +126,11 @@ void MediumState::update_ps(double p, double s) {
 	post_update();
 }
 
+
+
+/**
+ * MediumState C Functions
+ */
 BEGIN_C_LINKAGE
 
 MediumState* create_mstate(int mediumIndex) {
@@ -133,6 +144,10 @@ int mstate_register(MediumState* mstate) {
 
 MediumState* mstate_get(int mstateIndex) {
 	return MediumStateRegistry.at(mstateIndex - 1);
+}
+
+int mstate_getMediumIndex(MediumState* mstate) {
+	return mstate->mediumIndex;
 }
 
 void mstate_update_Tp(MediumState* mstate, double T, double p) {

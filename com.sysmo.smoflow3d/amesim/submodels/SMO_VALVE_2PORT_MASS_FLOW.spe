@@ -23,15 +23,6 @@
     <DIMENSION>1</DIMENSION>
     <UNITS>barA</UNITS>
    </IVAR>
-   <IVAR>
-    <SUB_ID>40</SUB_ID>
-    <TITLE>fluid temperature port 1</TITLE>
-    <VARNAME>port1Temperature</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <TYPE>0</TYPE>
-    <DIMENSION>1</DIMENSION>
-    <UNITS>K</UNITS>
-   </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
