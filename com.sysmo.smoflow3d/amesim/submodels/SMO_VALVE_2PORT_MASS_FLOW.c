@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_MASS_FLOW skeleton created by AME Submodel editing utility
-   Fri Jul 26 16:22:50 2013 */
+   Sat Jul 27 14:35:50 2013 */
 
 
 
@@ -88,15 +88,18 @@ void smo_valve_2port_mass_flowin_(int *n, int ic[5], void *ps[5])
       2 stateIndex3     state index3 [smoTDS] basic variable input  UNPLOTTABLE
 */
 
-/*  There is 1 internal variable.
+/*  There are 3 internal variables.
 
-      1 pressureLoss     total pressure loss [barA -> PaA] basic variable
+      1 massFlowRate         mass flow rate      [kg/s]        basic variable
+      2 enthalpzFlowRate     enthalpy flow rate  [W]           basic variable
+      3 pressureLoss         total pressure loss [barA -> PaA] basic variable
 */
 
 void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
       , double *stateIndex1, double *regulatingSignal
-      , double *flowIndex3, double *stateIndex3, double *pressureLoss
-      , int ic[5], void *ps[5], int *flag)
+      , double *flowIndex3, double *stateIndex3, double *massFlowRate
+      , double *enthalpzFlowRate, double *pressureLoss, int ic[5]
+      , void *ps[5], int *flag)
 
 {
    int loop, logi;
@@ -115,6 +118,8 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
 
    *flowIndex1 = ??;
    *flowIndex3 = ??;
+   *massFlowRate = ??;
+   *enthalpzFlowRate = ??;
    *pressureLoss = ??;
 */
 
@@ -158,6 +163,8 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
    fluidFlowObject1->massFlowRate = -fluidFlowObject3->massFlowRate;
    fluidFlowObject1->enthalpyFlowRate = -fluidFlowObject3->enthalpyFlowRate;
 
+   *massFlowRate = fabs(fluidFlowObject3->massFlowRate);
+   *enthalpzFlowRate = fabs(fluidFlowObject3->enthalpyFlowRate);
    *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));
 
    *flowIndex1 = fluidFlowIndex1;
