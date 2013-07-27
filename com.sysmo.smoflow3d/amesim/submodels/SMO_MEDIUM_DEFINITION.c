@@ -27,8 +27,8 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_MEDIUM_DEFINITION"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "media/MediaRegistry.h"
-const char* ameMediaNames[] = {
+#include "media/Medium.h"
+const char* ameMediumNames[] = {
 	"parahydrogen",
 	"nitrogen",
 	"water"
@@ -84,7 +84,7 @@ void smo_medium_definitionin_(int *n, int ip[2])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   register_medium(ameMediaNames[mediumNameIndex - 1], mediumIndex);
+   Medium_register(ameMediumNames[mediumNameIndex - 1], mediumIndex);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 

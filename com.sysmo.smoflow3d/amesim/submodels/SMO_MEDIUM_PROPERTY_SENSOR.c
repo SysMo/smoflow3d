@@ -199,18 +199,18 @@ void smo_medium_property_sensor_(int *n, double *flowIndex
    *specificVolume = c[4];
    *internalEnergy = c[5];
    *enthalpy = c[6];
-   //c[7] = mstate_s(fluidState);
+   //c[7] = MediumState_s(fluidState);
    *cp = c[8];
-   //c[9] = mstate_(fluidState);
-   //c[10] = mstate_(fluidState);
-   //c[11] = mstate_(fluidState);
-   //c[12] = mstate_(fluidState);
-   //c[13] = mstate_(fluidState);
-   //c[14] = mstate_(fluidState);
+   //c[9] = MediumState_(fluidState);
+   //c[10] = MediumState_(fluidState);
+   //c[11] = MediumState_(fluidState);
+   //c[12] = MediumState_(fluidState);
+   //c[13] = MediumState_(fluidState);
+   //c[14] = MediumState_(fluidState);
    *mu = c[15];
    *lambda = c[16];
    *Pr = c[17];
-   //c[18] = mstate_(fluidState);
+   //c[18] = MediumState_(fluidState);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -258,28 +258,28 @@ extern double smo_medium_property_sensor_macro0_(int *n
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    if (firstc_()) {
 	   fluidStateIndex = *stateIndex;
-	   fluidState = mstate_get(fluidStateIndex);
+	   fluidState = MediumState_get(fluidStateIndex);
    }
 
-   c[0] = mstate_p(fluidState);
-   c[1] = mstate_T(fluidState);
+   c[0] = MediumState_p(fluidState);
+   c[1] = MediumState_T(fluidState);
    c[2] = c[1] - 273.15;
-   c[3] = mstate_rho(fluidState);
+   c[3] = MediumState_rho(fluidState);
    c[4] = 1./c[3];
-   c[5] = mstate_u(fluidState);
-   c[6] = mstate_h(fluidState);
-   //c[7] = mstate_s(fluidState);
-   c[8] = mstate_cp(fluidState);
-   //c[9] = mstate_(fluidState);
-   //c[10] = mstate_(fluidState);
-   //c[11] = mstate_(fluidState);
-   //c[12] = mstate_(fluidState);
-   //c[13] = mstate_(fluidState);
-   //c[14] = mstate_(fluidState);
-   c[15] = mstate_mu(fluidState);
-   c[16] = mstate_lambda(fluidState);
-   c[17] = mstate_Pr(fluidState);
-   //c[18] = mstate_(fluidState);
+   c[5] = MediumState_u(fluidState);
+   c[6] = MediumState_h(fluidState);
+   //c[7] = MediumState_s(fluidState);
+   c[8] = MediumState_cp(fluidState);
+   //c[9] = MediumState_(fluidState);
+   //c[10] = MediumState_(fluidState);
+   //c[11] = MediumState_(fluidState);
+   //c[12] = MediumState_(fluidState);
+   //c[13] = MediumState_(fluidState);
+   //c[14] = MediumState_(fluidState);
+   c[15] = MediumState_mu(fluidState);
+   c[16] = MediumState_lambda(fluidState);
+   c[17] = MediumState_Pr(fluidState);
+   //c[18] = MediumState_(fluidState);
    if (propertyIndex == 20) {
 	   measuredValue = fluidStateIndex;
    } else {

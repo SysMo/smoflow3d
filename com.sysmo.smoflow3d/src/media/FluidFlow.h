@@ -11,6 +11,7 @@
 
 #include "util/CommonDefinitions.h"
 
+
 BEGIN_C_LINKAGE
 typedef struct {
 	double massFlowRate;

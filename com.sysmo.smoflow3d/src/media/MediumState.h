@@ -24,8 +24,9 @@ END_C_LINKAGE
 
 #ifdef __cplusplus
 
-#include "MediaRegistry.h"
+#include "Medium.h"
 #include "CPState.h"
+
 
 class MediumState : public CoolPropStateClassSI {
 public:
@@ -58,32 +59,30 @@ DECLARE_C_STRUCT(MediumState)
 #endif //__cplusplus
 
 
-/**
- * MediumState C Functions
- */
+
 BEGIN_C_LINKAGE
-MediumState* create_mstate(int mediumIndex); //:TODO: (MILEN) rename create_mstate to MediumState_new, MediumState_register, MediumState_get, MediumState_update_Tp, MediumState_T
-int mstate_register(MediumState* mstate);
-MediumState* mstate_get(int mstateIndex);
+MediumState* MediumState_new(int mediumIndex);
+int MediumState_register(MediumState* mstate);
+MediumState* MediumState_get(int mstateIndex);
 
-int mstate_getMediumIndex(MediumState* mstate);
+int MediumState_getMediumIndex(MediumState* mstate);
 
-void mstate_update_Tp(MediumState* mstate, double T, double p);
-void mstate_update_Trho(MediumState* mstate, double T, double rho);
-void mstate_update_ph(MediumState* mstate, double p, double h);
+void MediumState_update_Tp(MediumState* mstate, double T, double p);
+void MediumState_update_Trho(MediumState* mstate, double T, double rho);
+void MediumState_update_ph(MediumState* mstate, double p, double h);
 
-double mstate_T(MediumState* mstate);
-double mstate_p(MediumState* mstate);
-double mstate_rho(MediumState* mstate);
-double mstate_u(MediumState* mstate);
-double mstate_h(MediumState* mstate);
-double mstate_mu(MediumState* mstate);
-double mstate_lambda(MediumState* mstate);
-double mstate_dpdt_v(MediumState* mstate);
-double mstate_dpdv_t(MediumState* mstate);
-double mstate_cp(MediumState* mstate);
-double mstate_beta(MediumState* mstate);
-double mstate_Pr(MediumState* mstate);
+double MediumState_T(MediumState* mstate);
+double MediumState_p(MediumState* mstate);
+double MediumState_rho(MediumState* mstate);
+double MediumState_u(MediumState* mstate);
+double MediumState_h(MediumState* mstate);
+double MediumState_mu(MediumState* mstate);
+double MediumState_lambda(MediumState* mstate);
+double MediumState_dpdt_v(MediumState* mstate);
+double MediumState_dpdv_t(MediumState* mstate);
+double MediumState_cp(MediumState* mstate);
+double MediumState_beta(MediumState* mstate);
+double MediumState_Pr(MediumState* mstate);
 END_C_LINKAGE
 
 

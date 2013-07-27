@@ -74,8 +74,8 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   fluidState = create_mstate(mediumIndex);
-   fluidStateIndex = mstate_register(fluidState);
+   fluidState = MediumState_new(mediumIndex);
+   fluidStateIndex = MediumState_register(fluidState);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -162,7 +162,7 @@ extern double smo_fluid_source_macro0_(int *n, double *stateValue1
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   mstate_update_Tp(fluidState, *stateValue2, *stateValue1);
+   MediumState_update_Tp(fluidState, *stateValue2, *stateValue1);
    stateIndex = (double) fluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

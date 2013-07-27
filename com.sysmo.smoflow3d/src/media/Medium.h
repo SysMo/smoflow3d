@@ -1,5 +1,5 @@
 /*
- * MediaRegistry.h
+ * Medium.h
  *
  *  Created on: Jul 22, 2013
  *      Author: Atanas Pavlov
@@ -11,6 +11,7 @@
 
 #include "util/CommonDefinitions.h"
 
+
 #ifdef __cplusplus
 
 #include <map>
@@ -18,11 +19,12 @@
 
 typedef Fluid Medium;
 
-struct MediaRegistryClass {
-	typedef std::map<int, Fluid*> type; //:TODO: (MILEN) rename type to ???
-	typedef type::iterator iterator;
-	type fluids;
-	std::map<std::string, int> fluidNames;
+struct MediumRegistryClass {
+	typedef std::map<int, Medium*> MediumContainer;
+	typedef MediumContainer::iterator iterator;
+
+	MediumContainer mediums;
+	std::map<std::string, int> mediumNames;
 };
 
 #else
@@ -31,9 +33,10 @@ DECLARE_C_STRUCT(Medium)
 
 #endif //__cplusplus
 
+
 BEGIN_C_LINKAGE
-void register_medium(const char *mediumName, int mediumIndex); //:TODO: (MILEN) rename medium_register to Medium_register, Medium_get
-Medium* get_medium(int mediumIndex);
+void Medium_register(const char* mediumName, int mediumIndex);
+Medium* Medium_get(int mediumIndex);
 END_C_LINKAGE
 
 #endif /* MEDIAREGISTRY_H_ */

@@ -20,7 +20,7 @@ MediumState::MediumState(Medium* medium) : CoolPropStateClassSI(medium) {
 	start();
 }
 
-MediumState::MediumState(int mediumIndex) : CoolPropStateClassSI(get_medium(mediumIndex)) {
+MediumState::MediumState(int mediumIndex) : CoolPropStateClassSI(Medium_get(mediumIndex)) {
 	this->mediumIndex = mediumIndex;
 	start();
 }
@@ -137,81 +137,81 @@ double MediumState::u() {
  */
 BEGIN_C_LINKAGE
 
-MediumState* create_mstate(int mediumIndex) {
+MediumState* MediumState_new(int mediumIndex) {
 	return new MediumState(mediumIndex);
 }
 
-int mstate_register(MediumState* mstate) {
+int MediumState_register(MediumState* mstate) {
 	MediumStateRegistry.push_back(mstate);
 	return MediumStateRegistry.size();
 }
 
-MediumState* mstate_get(int mstateIndex) {
+MediumState* MediumState_get(int mstateIndex) {
 	return MediumStateRegistry.at(mstateIndex - 1);
 }
 
-int mstate_getMediumIndex(MediumState* mstate) {
+int MediumState_getMediumIndex(MediumState* mstate) {
 	return mstate->mediumIndex;
 }
 
-void mstate_update_Tp(MediumState* mstate, double T, double p) {
+void MediumState_update_Tp(MediumState* mstate, double T, double p) {
 	mstate->update_Tp(T, p);
 }
 
-void mstate_update_Trho(MediumState* mstate, double T, double rho) {
+void MediumState_update_Trho(MediumState* mstate, double T, double rho) {
 	mstate->update_Trho(T, rho);
 }
 
-void mstate_update_ph(MediumState* mstate, double p, double h) {
+void MediumState_update_ph(MediumState* mstate, double p, double h) {
 	mstate->update_ph(p, h);
 }
 
-double mstate_T(MediumState* mstate) {
+double MediumState_T(MediumState* mstate) {
 	return mstate->T();
 }
 
-double mstate_p(MediumState* mstate) {
+double MediumState_p(MediumState* mstate) {
 	return mstate->p();
 }
 
-double mstate_rho(MediumState* mstate) {
+double MediumState_rho(MediumState* mstate) {
 	return mstate->rho();
 }
 
-double mstate_u(MediumState* mstate) {
+double MediumState_u(MediumState* mstate) {
 	return  mstate->u();
 }
 
-double mstate_h(MediumState* mstate) {
+double MediumState_h(MediumState* mstate) {
 	return mstate->h();
 }
 
-double mstate_mu(MediumState* mstate) {
+double MediumState_mu(MediumState* mstate) {
 	return mstate->viscosity();
 }
 
-double mstate_lambda(MediumState* mstate) {
+double MediumState_lambda(MediumState* mstate) {
 	return mstate->conductivity();
 }
 
-double mstate_dpdt_v(MediumState* mstate) {
+double MediumState_dpdt_v(MediumState* mstate) {
 	return mstate->dpdT_constrho();
 }
 
 //TODO check this
-double mstate_dpdv_t(MediumState* mstate) {
+double MediumState_dpdv_t(MediumState* mstate) {
 	return - mstate->rho() * mstate->rho() * mstate->dpdrho_constT();
 }
 
-double mstate_cp(MediumState* mstate) {
+double MediumState_cp(MediumState* mstate) {
 	return mstate->cp();
 }
 
-double mstate_beta(MediumState* mstate) {
+double MediumState_beta(MediumState* mstate) {
 	return mstate->rho() * mstate->dvdT_constp();
 }
 
-double mstate_Pr(MediumState* mstate) {
+double MediumState_Pr(MediumState* mstate) {
 	return mstate->cp() * mstate->viscosity() / mstate->conductivity();
 }
 
