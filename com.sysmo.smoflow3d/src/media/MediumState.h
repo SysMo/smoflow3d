@@ -12,9 +12,16 @@
 #include "util/CommonDefinitions.h"
 
 
-/**
- * MediumState C++ Class & C Structure
- */
+BEGIN_C_LINKAGE
+typedef struct {
+	double p;
+	double T;
+	double rho;
+	double h;
+} BasicState;
+END_C_LINKAGE
+
+
 #ifdef __cplusplus
 
 #include "MediaRegistry.h"
@@ -34,6 +41,8 @@ public:
 	void update_prho(double p, double rho);
 	void update_ps(double p, double s);
 	void post_update();
+
+	double u();
 
 public:
 	int mediumIndex;
