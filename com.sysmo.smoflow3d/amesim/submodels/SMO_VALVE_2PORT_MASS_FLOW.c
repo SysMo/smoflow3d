@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_MASS_FLOW skeleton created by AME Submodel editing utility
-   Sat Jul 27 14:35:50 2013 */
+   Sun Jul 28 17:41:44 2013 */
 
 
 
@@ -91,14 +91,14 @@ void smo_valve_2port_mass_flowin_(int *n, int ic[5], void *ps[5])
 /*  There are 3 internal variables.
 
       1 massFlowRate         mass flow rate      [kg/s]        basic variable
-      2 enthalpzFlowRate     enthalpy flow rate  [W]           basic variable
+      2 enthalpyFlowRate     enthalpy flow rate  [W]           basic variable
       3 pressureLoss         total pressure loss [barA -> PaA] basic variable
 */
 
 void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
       , double *stateIndex1, double *regulatingSignal
       , double *flowIndex3, double *stateIndex3, double *massFlowRate
-      , double *enthalpzFlowRate, double *pressureLoss, int ic[5]
+      , double *enthalpyFlowRate, double *pressureLoss, int ic[5]
       , void *ps[5], int *flag)
 
 {
@@ -119,7 +119,7 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
    *flowIndex1 = ??;
    *flowIndex3 = ??;
    *massFlowRate = ??;
-   *enthalpzFlowRate = ??;
+   *enthalpyFlowRate = ??;
    *pressureLoss = ??;
 */
 
@@ -149,22 +149,24 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
 	   }
    }
 
-   FluidFlow* fluidFlowObject3 = (FluidFlow*) fluidFlow3;
-   fluidFlowObject3->massFlowRate = *regulatingSignal;
+   FluidFlow* fluidFlowObj3 = (FluidFlow*) fluidFlow3;
+   FluidFlow* fluidFlowObj1 = (FluidFlow*) fluidFlow1;
+
+   fluidFlowObj3->massFlowRate = *regulatingSignal;
    double upstreamSpecificEnthalpy = 0.0;
    if (*regulatingSignal > 0) {
 	   upstreamSpecificEnthalpy = MediumState_h(fluidState1);
    } else {
 	   upstreamSpecificEnthalpy = MediumState_h(fluidState3);
    }
-   fluidFlowObject3->enthalpyFlowRate = fluidFlowObject3->massFlowRate * upstreamSpecificEnthalpy;
+   fluidFlowObj3->enthalpyFlowRate = fluidFlowObj3->massFlowRate * upstreamSpecificEnthalpy;
 
-   FluidFlow* fluidFlowObject1 = (FluidFlow*) fluidFlow1;
-   fluidFlowObject1->massFlowRate = -fluidFlowObject3->massFlowRate;
-   fluidFlowObject1->enthalpyFlowRate = -fluidFlowObject3->enthalpyFlowRate;
 
-   *massFlowRate = fabs(fluidFlowObject3->massFlowRate);
-   *enthalpzFlowRate = fabs(fluidFlowObject3->enthalpyFlowRate);
+   fluidFlowObj1->massFlowRate = -fluidFlowObj3->massFlowRate;
+   fluidFlowObj1->enthalpyFlowRate = -fluidFlowObj3->enthalpyFlowRate;
+
+   *massFlowRate = fabs(fluidFlowObj3->massFlowRate);
+   *enthalpyFlowRate = fabs(fluidFlowObj3->enthalpyFlowRate);
    *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));
 
    *flowIndex1 = fluidFlowIndex1;

@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Sun Jul 28 10:50:23 2013 */
+   Sun Jul 28 17:41:40 2013 */
 
 
 
@@ -27,13 +27,23 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_VALVE_2PORT_REGULATING_SIGNAL"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-/* :DELME:
-#include "FluidPoint.h"
-#include "Valve.h"
-#define NODE1 ps[0]
-#define NODE2 ps[1]
-#define VALVE ps[2]
-*/
+#include "media/MediumState.h"
+#include "media/FluidFlow.h"
+#include "flow/TwoPortValve.h"
+
+#define valve ps[0]
+
+#define fluidFlowIndex1 ic[1]
+#define fluidFlow1 ps[1]
+
+#define fluidFlowIndex3 ic[2]
+#define fluidFlow3 ps[2]
+
+#define fluidStateIndex1 ic[3]
+#define fluidState1 ps[3]
+
+#define fluidStateIndex3 ic[4]
+#define fluidState3 ps[4]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -114,20 +124,15 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-/* :DELME:
- 	AME_SET_CURRENT_COMPONENT;
+   valve = TwoPortValve_new();
+   TwoPortValve* valveObj = valve;
 
-	VALVE = TwoPortValve_new();
-	NODE1 = FluidPoint_new(fluidIndex);
-	NODE2 = FluidPoint_new(fluidIndex);
-
-	TwoPortValve *valve = VALVE;
-	valve->transitionChoice = transitionChoice;
-	valve->Kv = Kv;
-	valve->transitionMassFlowRate = transitionMassFlowRate;
-	valve->transitionPressureDifference = transitionPressureDifference;
-	valve->maximumMassFlowRate = maximumMassFlowRate;
-	valve->allowedFlowDirection = 2 - allowBidirectionalFlow;*/
+   valveObj->transitionChoice = transitionChoice;
+   valveObj->Kv = Kv;
+   valveObj->transitionMassFlowRate = transitionMassFlowRate;
+   valveObj->transitionPressureDifference = transitionPressureDifference;
+   valveObj->maximumMassFlowRate = maximumMassFlowRate;
+   valveObj->allowedFlowDirection = 2 - allowBidirectionalFlow;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -151,14 +156,14 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 /*  There are 3 internal variables.
 
       1 massFlowRate         mass flow rate      [kg/s]        basic variable
-      2 enthalpzFlowRate     enthalpy flow rate  [W]           basic variable
+      2 enthalpyFlowRate     enthalpy flow rate  [W]           basic variable
       3 pressureLoss         total pressure loss [barA -> PaA] basic variable
 */
 
 void smo_valve_2port_regulating_signal_(int *n, double *flowIndex1
       , double *stateIndex1, double *regulatingSignal
       , double *flowIndex3, double *stateIndex3, double *massFlowRate
-      , double *enthalpzFlowRate, double *pressureLoss, double rp[4]
+      , double *enthalpyFlowRate, double *pressureLoss, double rp[4]
       , int ip[2], int ic[5], void *ps[5], int *flag)
 
 {
@@ -190,33 +195,58 @@ void smo_valve_2port_regulating_signal_(int *n, double *flowIndex1
    *flowIndex1 = ??;
    *flowIndex3 = ??;
    *massFlowRate = ??;
-   *enthalpzFlowRate = ??;
+   *enthalpyFlowRate = ??;
    *pressureLoss = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-/* :DELME:
    // Initialization at first run
    if (firstc_()) {
-	   FluidPoint_init(NODE1, (int)(*port1ComIndex), -1);
-	   FluidPoint_init(NODE2, (int)(*port3ComIndex), -1);
-	   TwoPortValve_init(VALVE, NODE1, NODE2);
-   }
-   // Retrieving the objects from the storage
-   TwoPortValve* valve = (TwoPortValve*) VALVE;
+	   fluidFlow1 = (void*) FluidFlow_new();
+	   fluidFlowIndex1 = FluidFlow_register(fluidFlow1);
 
-   // Setting object inputs
-   FluidPoint_computeState_p_rho(NODE1, *port1Pressure, *port1Density);
-   FluidPoint_computeState_p_rho(NODE2, *port3Pressure, *port3Density);
+	   fluidFlow3 = (void*) FluidFlow_new();
+	   fluidFlowIndex3 = FluidFlow_register(fluidFlow3);
+
+	   fluidStateIndex1 = *stateIndex1;
+	   fluidState1 = MediumState_get(fluidStateIndex1);
+
+	   fluidStateIndex3 = *stateIndex3;
+	   fluidState3 = MediumState_get(fluidStateIndex3);
+
+	   int mediumIndex1 = MediumState_getMediumIndex(fluidState1);
+	   int mediumIndex3 = MediumState_getMediumIndex(fluidState3);
+	   if (mediumIndex1 != mediumIndex3) {
+		   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
+		   amefprintf(stderr, "\nThe valve connects two components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
+		   AmeExit(1);
+	   }
+
+	   TwoPortValve_init(valve, fluidState1, fluidState3);
+   }
+
    TwoPortValve_computeMassFlow_Kv(valve, *regulatingSignal);
    TwoPortValve_computeEnthalpyFlow(valve);
-   *port3MassFlowRate = valve->massFlowRate;
-   *port3EnthalpyFlowRate = valve->enthalpyFlowRate;
-   *pressureLoss = valve->pressureDrop;
-   //:TODO: (Nasko) set port1Temperature
-*/
+
+   // Retrieving the objects from the storage
+   TwoPortValve* valveObj = (TwoPortValve*) valve;
+   FluidFlow* fluidFlowObj3 = (FluidFlow*) fluidFlow3;
+   FluidFlow* fluidFlowObj1 = (FluidFlow*) fluidFlow1;
+
+   fluidFlowObj3->massFlowRate = valveObj->massFlowRate;
+   fluidFlowObj3->enthalpyFlowRate = valveObj->enthalpyFlowRate;
+
+   fluidFlowObj1->massFlowRate = -fluidFlowObj3->massFlowRate;
+   fluidFlowObj1->enthalpyFlowRate = -fluidFlowObj3->enthalpyFlowRate;
+
+   *massFlowRate = fabs(fluidFlowObj3->massFlowRate);
+   *enthalpyFlowRate = fabs(fluidFlowObj3->enthalpyFlowRate);
+   *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));
+
+   *flowIndex1 = fluidFlowIndex1;
+   *flowIndex3 = fluidFlowIndex3;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

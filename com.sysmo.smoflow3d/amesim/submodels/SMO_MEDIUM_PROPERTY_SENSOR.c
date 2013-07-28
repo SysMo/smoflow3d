@@ -28,6 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/MediumState.h"
+
 #define fluidStateIndex ic[1]
 #define fluidState ps[1]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -280,6 +281,7 @@ extern double smo_medium_property_sensor_macro0_(int *n
    c[16] = MediumState_lambda(fluidState);
    c[17] = MediumState_Pr(fluidState);
    //c[18] = MediumState_(fluidState);
+
    if (propertyIndex == 20) {
 	   measuredValue = fluidStateIndex;
    } else {

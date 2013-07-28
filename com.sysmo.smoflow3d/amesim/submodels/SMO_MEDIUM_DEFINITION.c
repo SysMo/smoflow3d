@@ -28,6 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/Medium.h"
+
 const char* ameMediumNames[] = {
 	"parahydrogen",
 	"nitrogen",

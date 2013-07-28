@@ -4,14 +4,13 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>30</SUB_ID_MAX>
-  <DEFAULT_ICON>tpf_mass_flow_sensor</DEFAULT_ICON>
+  <SUB_ID_MAX>34</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_flow_sensor</DEFAULT_ICON>
   <SUB_LABEL>mass flow rate sensor</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <R_STORES_NUMBER>2</R_STORES_NUMBER>
   <I_STORES_NUMBER>1</I_STORES_NUMBER>
   <P_STORES_NUMBER>1</P_STORES_NUMBER>
-  <HAS_NO_CALC>1</HAS_NO_CALC>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
    <RPARAM>
@@ -40,8 +39,8 @@
   <IPARAMS_LIST>
    <IPARAM>
     <SUB_ID>15</SUB_ID>
-    <TITLE>measured property</TITLE>
-    <VARNAME>measuredFlowProperty</VARNAME>
+    <TITLE>measured flow property</TITLE>
+    <VARNAME>measuredFlowPropertyIndex</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
@@ -100,11 +99,30 @@
     </ENUM_LIST>
    </IPARAM>
   </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>33</SUB_ID>
+    <TITLE>mass flow rate</TITLE>
+    <VARNAME>massFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/s</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>34</SUB_ID>
+    <TITLE>enthalpy flow rate</TITLE>
+    <VARNAME>enthalpyFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+  </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
     <EVAR>
      <SUB_ID>30</SUB_ID>
-     <ORIG_TITLE>enthalpy flow rate port 1</ORIG_TITLE>
      <VARNAME>flowIndexDup</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
@@ -140,7 +158,6 @@
    <PORT>
     <EVAR>
      <SUB_ID>23</SUB_ID>
-     <ORIG_TITLE>volume at port 1</ORIG_TITLE>
      <VARNAME>stateIndexDup</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>

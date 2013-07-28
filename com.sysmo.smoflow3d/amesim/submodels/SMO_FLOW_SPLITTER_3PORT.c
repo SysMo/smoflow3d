@@ -28,8 +28,9 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/FluidFlow.h"
-#define resultFlowIndex ic[0]
-#define resultFlow ps[0]
+
+#define fluidFlowIndexOut ic[0]
+#define fluidFlowOut ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
 
@@ -57,8 +58,8 @@ void smo_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   resultFlow = FluidFlow_new();
-   resultFlowIndex = FluidFlow_register(resultFlow);
+   fluidFlowOut = FluidFlow_new();
+   fluidFlowIndexOut = FluidFlow_register(fluidFlowOut);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -148,13 +149,14 @@ extern double smo_flow_splitter_3port_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   FluidFlow* flowIn1 = FluidFlow_get(*flowIndexIn1);
-   FluidFlow* flowIn3 = FluidFlow_get(*flowIndexIn3);
-   FluidFlow* flowOut = (FluidFlow*) resultFlow;
-   flowOut->massFlowRate = flowIn1->massFlowRate + flowIn3->massFlowRate;
-   flowOut->enthalpyFlowRate = flowIn1->enthalpyFlowRate + flowIn3->enthalpyFlowRate;
+   FluidFlow* fluidFlowObjIn1 = FluidFlow_get(*flowIndexIn1);
+   FluidFlow* fluidFlowObjIn3 = FluidFlow_get(*flowIndexIn3);
+   FluidFlow* fluidFlowObjOut = (FluidFlow*) fluidFlowOut;
 
-   flowIndexOut = resultFlowIndex;
+   fluidFlowObjOut->massFlowRate = fluidFlowObjIn1->massFlowRate + fluidFlowObjIn3->massFlowRate;
+   fluidFlowObjOut->enthalpyFlowRate = fluidFlowObjIn1->enthalpyFlowRate + fluidFlowObjIn3->enthalpyFlowRate;
+
+   flowIndexOut = fluidFlowIndexOut;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */

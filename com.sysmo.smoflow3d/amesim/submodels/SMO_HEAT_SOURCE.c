@@ -28,6 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/FluidFlow.h"
+
 #define heatFlowIndex ic[0]
 #define heatFlow ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -100,9 +101,9 @@ void smo_heat_source_(int *n, double *heatFlowRate, double *flowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   FluidFlow* heatFlowObject = (FluidFlow*) heatFlow;
-   heatFlowObject->massFlowRate = 0;
-   heatFlowObject->enthalpyFlowRate = *heatFlowRate;
+   FluidFlow* heatFlowObj = (FluidFlow*) heatFlow;
+   heatFlowObj->massFlowRate = 0;
+   heatFlowObj->enthalpyFlowRate = *heatFlowRate;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

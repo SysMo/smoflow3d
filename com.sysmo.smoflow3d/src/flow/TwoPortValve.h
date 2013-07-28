@@ -9,28 +9,31 @@
 #ifndef TWOPORTVALVE_H_
 #define TWOPORTVALVE_H_
 
-#include "util/CommonDefinitions.h"
-
-
-#ifdef __cplusplus
-
 #include "media/MediumState.h"
-
-class TwoPortValve {
-public:
-	TwoPortValve();
-	virtual ~TwoPortValve();
-};
-
-#else //no __cplusplus
-
-DECLARE_C_STRUCT(TwoPortValve)
-
-#endif //__cplusplus
 
 
 BEGIN_C_LINKAGE
+typedef struct {
+	MediumState* state1;
+	MediumState* state2;
+	double pressureDrop;
+	double massFlowRate;
+	double enthalpyFlowRate;
+	int allowedFlowDirection;
 
+	double maximumMassFlowRate;
+	double transitionPressureDifference;
+	double transitionMassFlowRate;
+	double Kv;
+	int transitionChoice;
+	int flowDirection;
+} TwoPortValve;
+
+
+TwoPortValve* TwoPortValve_new();
+void TwoPortValve_init(TwoPortValve* valve, MediumState* state1, MediumState* state2);
+void TwoPortValve_computeMassFlow_Kv(TwoPortValve* valve, double regulatingSignal);
+void TwoPortValve_computeEnthalpyFlow(TwoPortValve* valve);
 END_C_LINKAGE
 
 

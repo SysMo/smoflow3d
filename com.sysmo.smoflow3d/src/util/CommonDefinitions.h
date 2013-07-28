@@ -132,6 +132,12 @@ namespace smoflow {
 
 
 /**
+ * 6) Math
+ */
+#include "MathDeclarations.h"
+
+
+/**
  * 7) File operations
  */
 #define COPY_FILE(sourceFile, destinationFile) \
@@ -149,6 +155,7 @@ namespace smoflow {
  */
 #define str_EndsWith(s, suffix) \
 	s.rfind(suffix) == (s.size()-suffix.size())
+
 
 
 #endif //__cplusplus

@@ -25,7 +25,7 @@
    <IVAR>
     <SUB_ID>57</SUB_ID>
     <TITLE>enthalpy flow rate</TITLE>
-    <VARNAME>enthalpzFlowRate</VARNAME>
+    <VARNAME>enthalpyFlowRate</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
