@@ -28,9 +28,13 @@ void displayState (MediumState* fp1) {
 void testCoolPropCalculationTiming() {
 	int updateCounter ;
 	Timer* timer1 = createTimer();
-	MediumState* fp1 = MediumState_get(MediumState_register(MediumState_new(1)));
-	MediumState* fp2 = MediumState_get(MediumState_register(MediumState_new(1)));;
-	MediumState* fp3 = MediumState_get(MediumState_register(MediumState_new(1)));;
+	Medium* fluid = Medium_get(1);
+	MediumState* fp1 = MediumState_new(fluid);
+	MediumState_register(fp1);
+	MediumState* fp2 = MediumState_new(fluid);
+	MediumState_register(fp2);
+	MediumState* fp3 = MediumState_new(fluid);
+	MediumState_register(fp3);
 
 
 	// Time T, p calculation
@@ -89,7 +93,7 @@ void testCoolPropCalculationTiming() {
 
 int main(int argc, char** argv) {
 	const char* fluidName = "parahydrogen";
-	Medium_register(fluidName, 1);
+	Medium_register(sCompressibleFluidCoolProp, fluidName, 1);
 	testCoolPropCalculationTiming();
 
 	return 0;

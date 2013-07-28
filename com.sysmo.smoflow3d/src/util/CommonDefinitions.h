@@ -15,6 +15,7 @@
 #ifndef COMMONDECLARATIONS_H_
 #define COMMONDECLARATIONS_H_
 
+#include <math.h>
 
 /**
  * 0) C interface
@@ -23,9 +24,18 @@
 #define BEGIN_C_LINKAGE extern "C" {
 #define END_C_LINKAGE }
 #else
-#define BEGIN_C_LINKAGE ;
-#define END_C_LINKAGE ;
+#define BEGIN_C_LINKAGE
+#define END_C_LINKAGE
 #endif //__cplusplus
+
+#ifdef HUGE_VAL
+#  define _HUGE HUGE_VAL
+#else
+// GCC Version of huge value macro
+#ifdef HUGE
+#  define _HUGE HUGE
+#endif
+#endif
 
 #define DECLARE_C_STRUCT(name) \
 	typedef struct name##Struct name; \
@@ -68,16 +78,16 @@ typedef Real* RealFunction(Real);
 /**
  * 2) Constants
  */
-namespace smoflow {
-	const Real RGas = 8.3144621; // J/mol-K
-	const Real N_a = 6.02e23; // Particles per mole
-	const Real StandardPressure = 1e5; // Pa
-	const Real StandardTemperature = 293.15; // K
-
-	const double StefanBoltzmannConstant = 5.67e-8; // Stefan Boltzmann Constant [W/(m^2*K^4)]
-	const double Pi = 4 * std::atan(1.0f);
-	const double earthAcceleration = 9.81; // [m/s^2]
-}
+//namespace smoflow {
+//	const Real RGas = 8.3144621; // J/mol-K
+//	const Real N_a = 6.02e23; // Particles per mole
+//	const Real StandardPressure = 1e5; // Pa
+//	const Real StandardTemperature = 293.15; // K
+//
+//	const double StefanBoltzmannConstant = 5.67e-8; // Stefan Boltzmann Constant [W/(m^2*K^4)]
+//	const double Pi = 4 * std::atan(1.0f);
+//	const double earthAcceleration = 9.81; // [m/s^2]
+//}
 
 
 

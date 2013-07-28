@@ -74,7 +74,8 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   fluidState = MediumState_new(mediumIndex);
+   Medium *fluid = Medium_get(mediumIndex);
+   fluidState = MediumState_new(fluid);
    fluidStateIndex = MediumState_register(fluidState);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
