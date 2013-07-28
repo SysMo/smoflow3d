@@ -4,14 +4,13 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>14</SUB_ID_MAX>
+  <SUB_ID_MAX>22</SUB_ID_MAX>
   <DEFAULT_ICON>smo_fluid_source</DEFAULT_ICON>
   <SUB_LABEL>modulated pressure and specific enthalpy source</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>1</I_STORES_NUMBER>
   <P_STORES_NUMBER>1</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
-  <HAS_NO_CALC>1</HAS_NO_CALC>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <IPARAMS_LIST>
    <IPARAM>
@@ -25,6 +24,62 @@
     <MAX_VALUE>99</MAX_VALUE>
    </IPARAM>
   </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>15</SUB_ID>
+    <TITLE>pressure</TITLE>
+    <VARNAME>pressure</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>16</SUB_ID>
+    <TITLE>temperature</TITLE>
+    <VARNAME>temperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>18</SUB_ID>
+    <TITLE>temperature (°C)</TITLE>
+    <VARNAME>temperatureC</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>degC</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>17</SUB_ID>
+    <TITLE>density</TITLE>
+    <VARNAME>density</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/m**3</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>20</SUB_ID>
+    <TITLE>specific enthalpy</TITLE>
+    <VARNAME>enthalpy</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kJ/kg</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>22</SUB_ID>
+    <TITLE>gas mass fraction</TITLE>
+    <VARNAME>xx</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+  </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
     <EVAR>
@@ -73,6 +128,7 @@
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>null</UNITS>
     </EVAR>
    </PORT>

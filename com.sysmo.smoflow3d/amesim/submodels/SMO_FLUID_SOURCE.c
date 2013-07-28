@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_SOURCE skeleton created by AME Submodel editing utility
-   Sat Jul 27 12:51:09 2013 */
+   Sat Jul 27 14:50:41 2013 */
 
 
 
@@ -93,19 +93,23 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 
    Port 3 has 1 variable:
 
-      1 stateValue2     thermodynamic state value 2 [null] basic variable input
+      1 stateValue2     thermodynamic state value 2 [null] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 0 internal variables.
+/*  There are 6 internal variables.
 
+      1 pressure         pressure          [bar -> Pa]     basic variable
+      2 temperature      temperature       [K]             basic variable
+      3 temperatureC     temperature (�C)  [degC]          basic variable
+      4 density          density           [kg/m**3]       basic variable
+      5 enthalpy         specific enthalpy [kJ/kg -> J/kg] basic variable
+      6 xx               gas mass fraction [null]          basic variable
 */
-
-#if 0
-
-/* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
 void smo_fluid_source_(int *n, double *stateIndex, double *flowIndex
-      , double *stateValue1, double *stateValue2, int ip[1], int ic[1]
+      , double *stateValue1, double *stateValue2, double *pressure
+      , double *temperature, double *temperatureC, double *density
+      , double *enthalpy, double *xx, int ip[1], int ic[1]
       , void *ps[1], int *flag)
 
 {
@@ -126,20 +130,33 @@ void smo_fluid_source_(int *n, double *stateIndex, double *flowIndex
 /*
    Set all submodel outputs below:
 
+   *pressure   = ??;
+   *temperature = ??;
+   *temperatureC = ??;
+   *density    = ??;
+   *enthalpy   = ??;
+   *xx         = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   *pressure = MediumState_p(fluidState);
+   *temperature = MediumState_T(fluidState);
+   *temperatureC = *temperature - 273.15;
+   *density = MediumState_rho(fluidState);
+   *enthalpy = MediumState_h(fluidState);
+   *xx = 0.0; //:TODO: compute gas mass fraction
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */
 /*   *flowIndex /= ??; CONVERSION UNKNOWN */
+   *pressure /= 1.00000000000000e+005;
+   *enthalpy /= 1.00000000000000e+003;
 }
 
-#endif
 extern double smo_fluid_source_macro0_(int *n, double *stateValue1
       , double *stateValue2, int ip[1], int ic[1], void *ps[1]
       , int *flag)
