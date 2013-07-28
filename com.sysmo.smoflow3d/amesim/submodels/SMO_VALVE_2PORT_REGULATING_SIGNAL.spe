@@ -4,11 +4,12 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>52</SUB_ID_MAX>
-  <DEFAULT_ICON>two_port_valve</DEFAULT_ICON>
+  <SUB_ID_MAX>65</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_reg_valve_2port</DEFAULT_ICON>
   <SUB_LABEL>Two port valve with a regulating signan input (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <P_STORES_NUMBER>10</P_STORES_NUMBER>
+  <I_STORES_NUMBER>5</I_STORES_NUMBER>
+  <P_STORES_NUMBER>5</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
@@ -59,16 +60,6 @@
   </RPARAMS_LIST>
   <IPARAMS_LIST>
    <IPARAM>
-    <SUB_ID>23</SUB_ID>
-    <TITLE>index of fluid</TITLE>
-    <VARNAME>fluidIndex</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>1</DEF_VALUE>
-    <VALUE>1</VALUE>
-    <MIN_VALUE>1</MIN_VALUE>
-    <MAX_VALUE>99</MAX_VALUE>
-   </IPARAM>
-   <IPARAM>
     <SUB_ID>32</SUB_ID>
     <TITLE>choice of transition to linear region</TITLE>
     <VARNAME>transitionChoice</VARNAME>
@@ -107,7 +98,25 @@
   </IPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
-    <SUB_ID>14</SUB_ID>
+    <SUB_ID>63</SUB_ID>
+    <TITLE>mass flow rate</TITLE>
+    <VARNAME>massFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/s</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>64</SUB_ID>
+    <TITLE>enthalpy flow rate</TITLE>
+    <VARNAME>enthalpzFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>65</SUB_ID>
     <TITLE>total pressure loss</TITLE>
     <VARNAME>pressureLoss</VARNAME>
     <VISIBILITY>True</VISIBILITY>
@@ -116,67 +125,30 @@
     <DIMENSION>1</DIMENSION>
     <UNITS>barA</UNITS>
    </IVAR>
-   <IVAR>
-    <SUB_ID>40</SUB_ID>
-    <TITLE>fluid temperature port 1</TITLE>
-    <VARNAME>port1Temperature</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <TYPE>0</TYPE>
-    <DIMENSION>1</DIMENSION>
-    <UNITS>K</UNITS>
-   </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
     <EVAR>
-     <SUB_ID>51</SUB_ID>
-     <VARNAME>port1EnthalpyFlowRate</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>4</TYPE>
-     <PRIMARY_PORT>2</PRIMARY_PORT>
-     <PRIMARY_VAR>0</PRIMARY_VAR>
-     <DUP_TYPE>1</DUP_TYPE>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>52</SUB_ID>
-     <VARNAME>port1MassFlowRate</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>4</TYPE>
-     <PRIMARY_PORT>2</PRIMARY_PORT>
-     <PRIMARY_VAR>1</PRIMARY_VAR>
-     <DUP_TYPE>1</DUP_TYPE>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>4</SUB_ID>
-     <TITLE>pressure at port1</TITLE>
-     <VARNAME>port1Pressure</VARNAME>
+     <SUB_ID>57</SUB_ID>
+     <TITLE>flow index 1</TITLE>
+     <VARNAME>flowIndex1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNITS>barA</UNITS>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
-     <SUB_ID>5</SUB_ID>
-     <TITLE>density at port1</TITLE>
-     <VARNAME>port1Density</VARNAME>
+     <SUB_ID>58</SUB_ID>
+     <TITLE>state index 1</TITLE>
+     <VARNAME>stateIndex1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>kg/m**3</UNITS>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>6</SUB_ID>
-     <TITLE>communication index at port1</TITLE>
-     <VARNAME>port1ComIndex</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>null</UNITS>
+     <UNITS>smoTDS</UNITS>
     </EVAR>
    </PORT>
    <PORT>
@@ -193,56 +165,26 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>49</SUB_ID>
-     <TITLE>enthalpy flow rate at port 3</TITLE>
-     <VARNAME>port3EnthalpyFlowRate</VARNAME>
+     <SUB_ID>59</SUB_ID>
+     <TITLE>flow index 3</TITLE>
+     <VARNAME>flowIndex3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
-     <UNITS>W</UNITS>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
-     <SUB_ID>50</SUB_ID>
-     <TITLE>mass flow rate at port 3</TITLE>
-     <VARNAME>port3MassFlowRate</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>2</IO>
-     <UNITS>kg/s</UNITS>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>9</SUB_ID>
-     <TITLE>pressure at port 3</TITLE>
-     <VARNAME>port3Pressure</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNITS>barA</UNITS>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>10</SUB_ID>
-     <TITLE>density at port 3</TITLE>
-     <VARNAME>port3Density</VARNAME>
+     <SUB_ID>60</SUB_ID>
+     <TITLE>state index3</TITLE>
+     <VARNAME>stateIndex3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>kg/m**3</UNITS>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>11</SUB_ID>
-     <TITLE>communication index at port 3</TITLE>
-     <VARNAME>port3ComIndex</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>null</UNITS>
+     <UNITS>smoTDS</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Sun Jul 28 10:43:06 2013 */
+   Sun Jul 28 10:50:23 2013 */
 
 
 
@@ -27,7 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_VALVE_2PORT_REGULATING_SIGNAL"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-/*
+/* :DELME:
 #include "FluidPoint.h"
 #include "Valve.h"
 #define NODE1 ps[0]
@@ -46,27 +46,25 @@ REVISIONS :
 */
 
 
-/* There are 3 integer parameters:
+/* There are 2 integer parameters:
 
-   fluidIndex             index of fluid                       
    transitionChoice       choice of transition to linear region
    allowBidirectionalFlow Allow bi-directional flow            
 */
 
 void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
-      , int ip[3], void *ps[10])
+      , int ip[2], int ic[5], void *ps[5])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int fluidIndex, transitionChoice, allowBidirectionalFlow;
+   int transitionChoice, allowBidirectionalFlow;
    double Kv, transitionMassFlowRate, transitionPressureDifference, 
       maximumMassFlowRate;
 
-   fluidIndex = ip[0];
-   transitionChoice = ip[1];
-   allowBidirectionalFlow = ip[2];
+   transitionChoice = ip[0];
+   allowBidirectionalFlow = ip[1];
 
    Kv         = rp[0];
    transitionMassFlowRate = rp[1];
@@ -87,11 +85,6 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 /*   Integer parameter checking:   */
 
-   if (fluidIndex < 1 || fluidIndex > 99)
-   {
-      amefprintf(stderr, "\nindex of fluid must be in range [1..99].\n");
-      error = 2;
-   }
    if (transitionChoice < 1 || transitionChoice > 2)
    {
       amefprintf(stderr, "\nchoice of transition to linear region must be in range [1..2].\n");
@@ -121,7 +114,8 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-/*	AME_SET_CURRENT_COMPONENT;
+/* :DELME:
+ 	AME_SET_CURRENT_COMPONENT;
 
 	VALVE = TwoPortValve_new();
 	NODE1 = FluidPoint_new(fluidIndex);
@@ -139,52 +133,44 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 /*  There are 3 ports.
 
-   Port 1 has 5 variables:
+   Port 1 has 2 variables:
 
-      1 port1EnthalpyFlowRate     duplicate of port3EnthalpyFlowRate (sign reversed)
-      2 port1MassFlowRate         duplicate of port3MassFlowRate (sign reversed)
-      3 port1Pressure             pressure at port1            [barA -> PaA] basic variable input
-      4 port1Density              density at port1             [kg/m**3]     basic variable input  UNPLOTTABLE
-      5 port1ComIndex             communication index at port1 [null]        basic variable input  UNPLOTTABLE
+      1 flowIndex1      flow index 1  [smoFFL] basic variable output  UNPLOTTABLE
+      2 stateIndex1     state index 1 [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
       1 regulatingSignal     regulating signal [null] basic variable input
 
-   Port 3 has 5 variables:
+   Port 3 has 2 variables:
 
-      1 port3EnthalpyFlowRate     enthalpy flow rate at port 3  [W]           basic variable output
-      2 port3MassFlowRate         mass flow rate at port 3      [kg/s]        basic variable output
-      3 port3Pressure             pressure at port 3            [barA -> PaA] basic variable input
-      4 port3Density              density at port 3             [kg/m**3]     basic variable input  UNPLOTTABLE
-      5 port3ComIndex             communication index at port 3 [null]        basic variable input  UNPLOTTABLE
+      1 flowIndex3      flow index 3 [smoFFL] basic variable output  UNPLOTTABLE
+      2 stateIndex3     state index3 [smoTDS] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 2 internal variables.
+/*  There are 3 internal variables.
 
-      1 pressureLoss         total pressure loss      [barA -> PaA] basic variable
-      2 port1Temperature     fluid temperature port 1 [K]           basic variable
+      1 massFlowRate         mass flow rate      [kg/s]        basic variable
+      2 enthalpzFlowRate     enthalpy flow rate  [W]           basic variable
+      3 pressureLoss         total pressure loss [barA -> PaA] basic variable
 */
 
-void smo_valve_2port_regulating_signal_(int *n, double *port1Pressure
-      , double *port1Density, double *port1ComIndex
-      , double *regulatingSignal, double *port3EnthalpyFlowRate
-      , double *port3MassFlowRate, double *port3Pressure
-      , double *port3Density, double *port3ComIndex
-      , double *pressureLoss, double *port1Temperature, double rp[4]
-      , int ip[3], void *ps[10], int *flag)
+void smo_valve_2port_regulating_signal_(int *n, double *flowIndex1
+      , double *stateIndex1, double *regulatingSignal
+      , double *flowIndex3, double *stateIndex3, double *massFlowRate
+      , double *enthalpzFlowRate, double *pressureLoss, double rp[4]
+      , int ip[2], int ic[5], void *ps[5], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int fluidIndex, transitionChoice, allowBidirectionalFlow;
+   int transitionChoice, allowBidirectionalFlow;
    double Kv, transitionMassFlowRate, transitionPressureDifference, 
       maximumMassFlowRate;
 
-   fluidIndex = ip[0];
-   transitionChoice = ip[1];
-   allowBidirectionalFlow = ip[2];
+   transitionChoice = ip[0];
+   allowBidirectionalFlow = ip[1];
 
    Kv         = rp[0];
    transitionMassFlowRate = rp[1];
@@ -195,22 +181,23 @@ void smo_valve_2port_regulating_signal_(int *n, double *port1Pressure
 
 /* Common -> SI units conversions. */
 
-   *port1Pressure *= 1.00000000000000e+005;
-   *port3Pressure *= 1.00000000000000e+005;
+/*   *stateIndex1 *= ??; CONVERSION UNKNOWN */
+/*   *stateIndex3 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *port3EnthalpyFlowRate = ??;
-   *port3MassFlowRate = ??;
+   *flowIndex1 = ??;
+   *flowIndex3 = ??;
+   *massFlowRate = ??;
+   *enthalpzFlowRate = ??;
    *pressureLoss = ??;
-   *port1Temperature = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-/*
+/* :DELME:
    // Initialization at first run
    if (firstc_()) {
 	   FluidPoint_init(NODE1, (int)(*port1ComIndex), -1);
@@ -234,8 +221,10 @@ void smo_valve_2port_regulating_signal_(int *n, double *port1Pressure
 
 /* SI -> Common units conversions. */
 
-   *port1Pressure /= 1.00000000000000e+005;
-   *port3Pressure /= 1.00000000000000e+005;
+/*   *flowIndex1 /= ??; CONVERSION UNKNOWN */
+/*   *stateIndex1 /= ??; CONVERSION UNKNOWN */
+/*   *flowIndex3 /= ??; CONVERSION UNKNOWN */
+/*   *stateIndex3 /= ??; CONVERSION UNKNOWN */
    *pressureLoss /= 1.00000000000000e+005;
 }
 

@@ -16,6 +16,7 @@ add_library(SmoFlow SHARED
     media/MediumState.cpp
     media/FluidFlow.cpp
     util/CodeTiming.cpp
+    flow/TwoPortValve.cpp
 )
 
 target_link_libraries(SmoFlow CoolProp)
