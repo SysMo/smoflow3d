@@ -27,7 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_HEAT_SOURCE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "media/FluidFlow.h"
+#include "flow/FluidFlow.h"
 
 #define heatFlowIndex ic[0]
 #define heatFlow ps[0]

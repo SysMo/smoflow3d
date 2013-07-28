@@ -27,8 +27,8 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_VALVE_2PORT_MASS_FLOW"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "media/FluidFlow.h"
 #include "media/MediumState.h"
+#include "flow/FluidFlow.h"
 
 #define fluidFlowIndex1 ic[1]
 #define fluidFlow1 ps[1]

@@ -27,7 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLOW_SPLITTER_3PORT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "media/FluidFlow.h"
+#include "flow/FluidFlow.h"
 
 #define fluidFlowIndexOut ic[0]
 #define fluidFlowOut ps[0]

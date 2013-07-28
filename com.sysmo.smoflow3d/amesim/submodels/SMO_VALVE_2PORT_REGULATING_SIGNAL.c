@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/MediumState.h"
-#include "media/FluidFlow.h"
+#include "flow/FluidFlow.h"
 #include "flow/TwoPortValve.h"
 
 #define valve ps[0]

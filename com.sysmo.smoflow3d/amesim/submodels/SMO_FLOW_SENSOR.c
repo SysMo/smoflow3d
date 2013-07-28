@@ -27,7 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLOW_SENSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "media/FluidFlow.h"
+#include "flow/FluidFlow.h"
 
 #define fluidFlowIndex ic[1]
 #define fluidFlow ps[1]
