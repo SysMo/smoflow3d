@@ -10,7 +10,7 @@
 #define FLUIDCHAMBER_H_
 
 #include "util/CommonDefinitions.h"
-#include "MediumState.h"
+#include "media/MediumState.h"
 
 #ifdef __cplusplus
 

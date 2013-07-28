@@ -15,7 +15,6 @@ FluidChamber::FluidChamber(Medium *fluid) {
 }
 
 FluidChamber::~FluidChamber() {
-	// TODO Auto-generated destructor stub
 }
 
 void FluidChamber::seletcStates(params state1, params state2) {
