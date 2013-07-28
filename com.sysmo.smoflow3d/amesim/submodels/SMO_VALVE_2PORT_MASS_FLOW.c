@@ -144,7 +144,7 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
 	   int mediumIndex3 = MediumState_getMediumIndex(fluidState3);
 	   if (mediumIndex1 != mediumIndex3) {
 		   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-		   amefprintf(stderr, "\nThe valve connects components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
+		   amefprintf(stderr, "\nThe valve connects two components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
 		   AmeExit(1);
 	   }
    }

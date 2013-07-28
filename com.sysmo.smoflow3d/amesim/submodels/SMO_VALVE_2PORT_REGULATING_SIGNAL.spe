@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>52</SUB_ID_MAX>
+  <DEFAULT_ICON>two_port_valve</DEFAULT_ICON>
+  <SUB_LABEL>Two port valve with a regulating signan input (R)</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <P_STORES_NUMBER>10</P_STORES_NUMBER>
+  <DISCONTINUITY>1</DISCONTINUITY>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>30</SUB_ID>
+    <TITLE>Flow coefficient Kv</TITLE>
+    <VARNAME>Kv</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>33</SUB_ID>
+    <TITLE>transition mass flow rate</TITLE>
+    <VARNAME>transitionMassFlowRate</VARNAME>
+    <VISIBILITY>(transitionChoice == 1)</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e-004</DEF_VALUE>
+    <VALUE>1.00000000000000e-004</VALUE>
+    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
+    <UNITS>kg/s</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>38</SUB_ID>
+    <TITLE>transition pressure difference</TITLE>
+    <VARNAME>transitionPressureDifference</VARNAME>
+    <VISIBILITY>(transitionChoice == 2)</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e-003</DEF_VALUE>
+    <VALUE>1.00000000000000e-003</VALUE>
+    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
+    <UNITS>bar</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>37</SUB_ID>
+    <TITLE>maximum mass flow</TITLE>
+    <VARNAME>maximumMassFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e-002</DEF_VALUE>
+    <VALUE>5.00000000000000e-002</VALUE>
+    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
+    <UNITS>kg/s</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>23</SUB_ID>
+    <TITLE>index of fluid</TITLE>
+    <VARNAME>fluidIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>32</SUB_ID>
+    <TITLE>choice of transition to linear region</TITLE>
+    <VARNAME>transitionChoice</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>Minimum mass flow</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>Minimum pressure difference</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>42</SUB_ID>
+    <TITLE>Allow bi-directional flow</TITLE>
+    <VARNAME>allowBidirectionalFlow</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>No</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>Yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>14</SUB_ID>
+    <TITLE>total pressure loss</TITLE>
+    <VARNAME>pressureLoss</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <IS_DELTA>1</IS_DELTA>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>barA</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>40</SUB_ID>
+    <TITLE>fluid temperature port 1</TITLE>
+    <VARNAME>port1Temperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>51</SUB_ID>
+     <VARNAME>port1EnthalpyFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>2</PRIMARY_PORT>
+     <PRIMARY_VAR>0</PRIMARY_VAR>
+     <DUP_TYPE>1</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>52</SUB_ID>
+     <VARNAME>port1MassFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>2</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>1</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>4</SUB_ID>
+     <TITLE>pressure at port1</TITLE>
+     <VARNAME>port1Pressure</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>barA</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>5</SUB_ID>
+     <TITLE>density at port1</TITLE>
+     <VARNAME>port1Density</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>kg/m**3</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>6</SUB_ID>
+     <TITLE>communication index at port1</TITLE>
+     <VARNAME>port1ComIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>1</SUB_ID>
+     <TITLE>regulating signal</TITLE>
+     <VARNAME>regulatingSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>49</SUB_ID>
+     <TITLE>enthalpy flow rate at port 3</TITLE>
+     <VARNAME>port3EnthalpyFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>W</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>50</SUB_ID>
+     <TITLE>mass flow rate at port 3</TITLE>
+     <VARNAME>port3MassFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>kg/s</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>9</SUB_ID>
+     <TITLE>pressure at port 3</TITLE>
+     <VARNAME>port3Pressure</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>barA</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>10</SUB_ID>
+     <TITLE>density at port 3</TITLE>
+     <VARNAME>port3Density</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>kg/m**3</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>11</SUB_ID>
+     <TITLE>communication index at port 3</TITLE>
+     <VARNAME>port3ComIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>
