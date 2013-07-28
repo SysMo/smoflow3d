@@ -12,19 +12,83 @@
 #include "util/CommonDefinitions.h"
 
 
+typedef enum {sMediumPhaseUndefined, sSolid, sLiquid, sGas, sFluid, sAnyPhase} MediumPhase;
+typedef enum {sMediumCompressibilityUndefined, sIncompressible, sCompressible} MediumCompressibility;
+typedef enum {sMediumCompositionUndefined, sPure, sMixture} MediumComposition;
+typedef enum {
+	sMediumTypeUndefined,
+	sCompressibleFluidCoolProp,
+	sIncompressibleLiquidCoolProp,
+	sSolidTemperatureInterpolator
+} MediumKnownTypes;
+
 #ifdef __cplusplus
 
 #include <map>
 #include "CoolProp.h"
 
-typedef Fluid Medium;
+struct Medium {
+	MediumKnownTypes mediumType;
+	MediumPhase phase;
+	MediumCompressibility compressibility;
+	MediumComposition composition;
+	int numStates;
+	params naturalStates[2];
+	char name[];
+	Medium() {
+		mediumType = sMediumTypeUndefined;
+		phase = sMediumPhaseUndefined;
+		compressibility = sMediumCompressibilityUndefined;
+		composition = sMediumCompositionUndefined;
+		numStates = 0;
+	}
+	virtual ~Medium(){}
+};
 
-struct MediumRegistryClass {
-	typedef std::map<int, Medium*> MediumContainer;
-	typedef MediumContainer::iterator iterator;
+struct Medium_Fluid : public Medium {
+	Medium_Fluid() {phase = sFluid;}
+};
 
-	MediumContainer mediums;
-	std::map<std::string, int> mediumNames;
+struct Medium_CompressibleFluid : public Medium_Fluid {
+	Medium_CompressibleFluid() {compressibility = sCompressible;}
+};
+
+struct Medium_CompressibleFluid_CoolProp : public Medium_CompressibleFluid {
+	Medium_CompressibleFluid_CoolProp(Fluid* fluid) {
+		mediumType = sCompressibleFluidCoolProp;
+		composition = sPure;
+		numStates = 2;
+		naturalStates[0] = iT;
+		naturalStates[1] = iD;
+		this->fluid = fluid;
+	}
+	Fluid* fluid;
+};
+
+struct Medium_IncompressibleLiquid : public Medium_Fluid {
+	Medium_IncompressibleLiquid() {compressibility = sIncompressible;}
+};
+
+struct Medium_IncompressibleLiquid_CoolProp : public Medium_IncompressibleLiquid {
+	Medium_IncompressibleLiquid_CoolProp() {
+		mediumType = sIncompressibleLiquidCoolProp;
+		composition = sPure;
+		numStates = 2;
+		naturalStates[0] = iT;
+		naturalStates[1] = iP;
+	}
+};
+
+struct Medium_Solid : public Medium {
+	Medium_Solid() {phase = sSolid;}
+};
+
+struct Medium_Solid_TemperatureInterpolator : public Medium_Solid {
+	Medium_Solid_TemperatureInterpolator() {
+		mediumType = sSolidTemperatureInterpolator;
+		numStates = 1;
+		naturalStates[0] = iT;
+	}
 };
 
 #else
@@ -35,8 +99,9 @@ DECLARE_C_STRUCT(Medium)
 
 
 BEGIN_C_LINKAGE
-void Medium_register(const char* mediumName, int mediumIndex);
+void Medium_register(MediumKnownTypes mediumType, const char* mediumName, int mediumIndex);
 Medium* Medium_get(int mediumIndex);
+int Medium_index(Medium* medium);
 END_C_LINKAGE
 
 #endif /* MEDIAREGISTRY_H_ */

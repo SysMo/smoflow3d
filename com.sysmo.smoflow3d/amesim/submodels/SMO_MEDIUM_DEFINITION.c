@@ -85,7 +85,7 @@ void smo_medium_definitionin_(int *n, int ip[2])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   Medium_register(ameMediumNames[mediumNameIndex - 1], mediumIndex);
+   Medium_register(sCompressibleFluidCoolProp, ameMediumNames[mediumNameIndex - 1], mediumIndex);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
