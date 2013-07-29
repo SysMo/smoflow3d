@@ -27,7 +27,6 @@ void Medium_register(MediumKnownTypes mediumType, const char* mediumName, int me
 			RaiseError("Fluid with name " << mediumName << "not found in CoolProp fluid list");
 		} else {
 			MediumRegistry[mediumIndex] = new Medium_CompressibleFluid_CoolProp(mediumFluid);
-			//MediumRegistry.mediumNames[mediumNameStr] = mediumIndex;
 		}
 	}
 	else {
