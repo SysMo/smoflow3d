@@ -19,3 +19,5 @@ install(TARGETS SmoFlowC
     LIBRARY DESTINATION bin    
     ARCHIVE DESTINATION bin    
 )
+
+add_subdirectory(controller/instances)
