@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <HAS_TERMINATE>1</HAS_TERMINATE>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>17</SUB_ID_MAX>
+  <DEFAULT_ICON>state_machine_controller</DEFAULT_ICON>
+  <SUB_UNIT>0</SUB_UNIT>
+  <P_STORES_NUMBER>1</P_STORES_NUMBER>
+  <DISCONTINUITY>1</DISCONTINUITY>
+  <TIME_REQUIRED>1</TIME_REQUIRED>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>14</SUB_ID>
+    <TITLE>real parameters</TITLE>
+    <NB_IN_GROUP>numRealParameters</NB_IN_GROUP>
+    <VARNAME>realParameters</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
+    <VALUE>0.00000000000000e+000</VALUE>
+    <MIN_VALUE>-1.00000000000000e+030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>3</SUB_ID>
+    <TITLE>number of inputs</TITLE>
+    <VARNAME>numInputs</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>3</DEF_VALUE>
+    <VALUE>3</VALUE>
+    <MIN_VALUE>0</MIN_VALUE>
+    <MAX_VALUE>100</MAX_VALUE>
+    <RECOMPILE>1</RECOMPILE>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>5</SUB_ID>
+    <TITLE>number of outputs</TITLE>
+    <VARNAME>numOutputs</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>4</DEF_VALUE>
+    <VALUE>4</VALUE>
+    <MIN_VALUE>0</MIN_VALUE>
+    <MAX_VALUE>100</MAX_VALUE>
+    <RECOMPILE>1</RECOMPILE>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>11</SUB_ID>
+    <TITLE>number of real parameters</TITLE>
+    <VARNAME>numRealParameters</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>0</MIN_VALUE>
+    <MAX_VALUE>100</MAX_VALUE>
+    <RECOMPILE>1</RECOMPILE>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>12</SUB_ID>
+    <TITLE>number of integer parameters</TITLE>
+    <VARNAME>numIntegerParameters</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>0</MIN_VALUE>
+    <MAX_VALUE>100</MAX_VALUE>
+    <RECOMPILE>1</RECOMPILE>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>17</SUB_ID>
+    <TITLE>initial state of the controller</TITLE>
+    <VARNAME>initialState</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>0</MIN_VALUE>
+    <MAX_VALUE>1000</MAX_VALUE>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>15</SUB_ID>
+    <TITLE>integer parameters</TITLE>
+    <NB_IN_GROUP>numIntegerParameters</NB_IN_GROUP>
+    <VARNAME>integerParameters</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>0</DEF_VALUE>
+    <VALUE>0</VALUE>
+    <MIN_VALUE>-100000</MIN_VALUE>
+    <MAX_VALUE>100000</MAX_VALUE>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <TPARAMS_LIST>
+   <TPARAM>
+    <SUB_ID>16</SUB_ID>
+    <TITLE>controller name</TITLE>
+    <VARNAME>controllerName</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>State Machine Controller</DEF_VALUE>
+    <VALUE>State Machine Controller</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+    <TOKEN_LIST>   </TOKEN_LIST>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>10</SUB_ID>
+    <TITLE>controller library (dll)</TITLE>
+    <VARNAME>controllerLibrary</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>Controller.dll</DEF_VALUE>
+    <VALUE>Controller.dll</VALUE>
+    <TEXT_TYPE>1</TEXT_TYPE>
+   </TPARAM>
+  </TPARAMS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>1</SUB_ID>
+     <TITLE>input variables</TITLE>
+     <NB_IN_GROUP>numInputs</NB_IN_GROUP>
+     <VARNAME>inputs</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>6</SUB_ID>
+     <TITLE>outputs</TITLE>
+     <NB_IN_GROUP>numOutputs</NB_IN_GROUP>
+     <VARNAME>outputs</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>10</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>null</UNITS>
+     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
+     <VALUE>0.00000000000000e+000</VALUE>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>9</SUB_ID>
+     <TITLE>controller state</TITLE>
+     <VARNAME>controllerState</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>10</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>null</UNITS>
+     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
+     <VALUE>0.00000000000000e+000</VALUE>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>

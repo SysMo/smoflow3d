@@ -30,12 +30,12 @@ typedef struct {
 } ComponentId;
 
 ComponentId *ComponentId_create(const char *componentName, int componentIndex);
-void setCurrentComponent(const char *componentName, int componentIndex);
+void setCurrentComponent_(const char *componentName, int componentIndex);
 
 extern ComponentId currentComponent;
 
 #define AME_SET_CURRENT_COMPONENT \
-	setCurrentComponent(_SUBMODELNAME_, *n)
+	setCurrentComponent_(_SUBMODELNAME_, *n)
 #define CURRENT_COMPONENT_TO_SELF \
 	strcpy(self->base.component.name, currentComponent.name); \
 	self->base.component.index = currentComponent.index \

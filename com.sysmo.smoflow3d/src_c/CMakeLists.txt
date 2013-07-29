@@ -11,6 +11,7 @@ add_library(SmoFlowC SHARED
     util/Arrays.c 
     util/Table.c 
     util/DynamicLoader.c
+    controller/StateMachineController.c
 )
 
 install(TARGETS SmoFlowC
