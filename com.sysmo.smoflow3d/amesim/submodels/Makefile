@@ -37,7 +37,7 @@ else
 	export COMPILER_FLAGS= $(COMPILER_RELEASE_FLAGS)	
 endif
 
-INCLUDE_FLAGS = -I"$(AME)/lib" -I"../../src"
+INCLUDE_FLAGS = -I"$(AME)/lib" -I"../../src" -I"../../src_c"
 
 # Add a list of .c files to be compiled release/debug
 SOURCE_FILES = \
@@ -49,7 +49,8 @@ SOURCE_FILES = \
 	SMO_HEAT_SOURCE.c \
 	SMO_FLOW_SPLITTER_3PORT.c \
 	SMO_VALVE_2PORT_MASS_FLOW.c \
-	SMO_VALVE_2PORT_REGULATING_SIGNAL.c \ 
+	SMO_VALVE_2PORT_REGULATING_SIGNAL.c \
+	SMO_DRIVECYCLEREADER.c  \
 	#SMO_FLUID_CHAMBER.c
 	
 OBJECT_FILES = $(SOURCE_FILES:%.c=$(OBJDIR)/%.o)
