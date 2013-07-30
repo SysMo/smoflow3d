@@ -40,6 +40,10 @@
 #define DECLARE_C_STRUCT(name) \
 	typedef struct name##Struct name; \
 
+#include "CoolProp/GlobalConstants.h"
+typedef enum params ThermodynamicVariable;
+
+
 /**************************************
  * BEGIN C++ definitions
  **************************************/

@@ -14,28 +14,31 @@
 
 #ifdef __cplusplus
 
-#include "CoolProp.h"
-
 class FluidChamber {
 public:
 	FluidChamber(Medium *fluid);
 	virtual ~FluidChamber();
 
-	void seletcStates(params state1, params state2);
-	inline void setVolume() {this->volume = volume;}
+	void selectStates(ThermodynamicVariable state1, ThermodynamicVariable state2);
+	inline void setVolume(double volume) {this->volume = volume;}
+	inline double getVolume() {return volume;}
+	inline double getFluidMass() {return fluidMass;}
 	void setStateValues(double stateValue1, double stateValue2);
-	void getStateValues(double* stateValue1, double* stateValue2);
+	void getStateValues(double* stateValue1, double* stateValue2, bool getFromFluid);
+	void computeStateDerivatives(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
 	void getStateDerivatives(double* stateDerivative1, double* stateDerivative2);
-	MediumState* getFluidState();
-
-	void computeStateDerivatives(double mDot, double UDot, double VDot);
+	MediumState* getFluidState(){return fluidState;}
 protected:
+	void computeStateDerivatives_cv(double mDot, double UDot, double VDot);
+	void computeStateDerivatives_cp(double mDot, double UDot, double VDot);
+
 	static const int numStateVariables = 2;
-	params states[numStateVariables];
+	ThermodynamicVariable states[numStateVariables];
 	double stateValues[numStateVariables];
 	MediumState* fluidState;
 	BasicState stateTimeDerivatives;
 	double volume;
+	double fluidMass;
 };
 
 #else
@@ -43,12 +46,15 @@ DECLARE_C_STRUCT(FluidChamber)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-FluidChamber* FluidChamber_new();
-void FluidChamber_setVolume(double volume);
-void FluidChamber_setStateValues(double stateValue1, double stateValue2);
-void FluidChamber_computeStateDerivatives(double mDot, double UDot, double VDot);
-void FluidChamber_getStateValues(double* stateValues);
-void FluidChamber_getStateDerivatives(double* stateDerivatives);
+FluidChamber* FluidChamber_new(Medium *fluid);
+void FluidChamber_selectStates(FluidChamber* chamber, ThermodynamicVariable state1, ThermodynamicVariable state2);
+void FluidChamber_setVolume(FluidChamber* chamber, double volume);
+double FluidChamber_getFluidMass(FluidChamber* chamber);
+void FluidChamber_setStateValues(FluidChamber* chamber, double stateValue1, double stateValue2);
+void FluidChamber_getStateValues(FluidChamber* chamber, double* stateValue1, double* stateValue2, int getFromFluid);
+void FluidChamber_computeStateDerivatives(FluidChamber* chamber, double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
+void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDerivative1, double* stateDerivative2);
+MediumState* FluidChamber_getFluidState(FluidChamber* chamber);
 END_C_LINKAGE
 
 #endif /* FLUIDCHAMBER_H_ */

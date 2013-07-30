@@ -11,7 +11,7 @@
 
 #include "MediumState.h"
 #include "Medium.h"
-#include "CPState.h"
+#include "CoolProp/CPState.h"
 
 class MyCoolPropStateClass : public CoolPropStateClassSI {
 	friend class MediumState_FluidCoolProp;
@@ -37,6 +37,7 @@ public:
 	virtual double cv();
 	virtual double dpdt_v();
 	virtual double dpdv_t();
+	virtual double dpdrho_t();
 	virtual double dvdt_p();
 	virtual double beta();
 	virtual double mu();

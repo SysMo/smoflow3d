@@ -44,6 +44,7 @@ void MediumState::clearPropertyCache() {
 	_cv.clear();
 	_dpdt_v.clear();
 	_dpdv_t.clear();
+	_dpdrho_t.clear();
 	_dvdt_p.clear();
 	_beta.clear();
 	_mu.clear();
@@ -108,6 +109,10 @@ double MediumState::dpdv_t() {
 	RaiseError("Unimplemented virtual method 'MediumState::dpdv_t()'")
 }
 
+double MediumState::dpdrho_t() {
+	RaiseError("Unimplemented virtual method 'MediumState::dpdrho_t()'")
+}
+
 double MediumState::dvdt_p() {
 	RaiseError("Unimplemented virtual method 'MediumState::dvdt_p()'")
 }
@@ -152,6 +157,14 @@ int MediumState_register(MediumState* mstate) {
 
 MediumState* MediumState_get(int mstateIndex) {
 	return MediumStateRegistry.at(mstateIndex - 1);
+}
+
+int MediumState_index(MediumState* mstate) {
+	for (size_t i = 0; i < MediumStateRegistry.size(); i++) {
+		if (MediumStateRegistry[i] == mstate)
+			return i + 1;
+	}
+	return -1;
 }
 
 Medium* MediumState_getMedium(MediumState* mstate) {
@@ -209,6 +222,10 @@ double MediumState_dpdt_v(MediumState* mstate) {
 
 double MediumState_dpdv_t(MediumState* mstate) {
 	return mstate->dpdv_t();
+}
+
+double MediumState_dpdrho_t(MediumState* mstate) {
+	return mstate->dpdrho_t();
 }
 
 double MediumState_dvdt_p(MediumState* mstate) {

@@ -1,5 +1,5 @@
 ./submodels
-smo_media_definition
+smo_medium_definition
 &SMO_MEDIUM_DEFINITION SmoFlow3d
 smo_generic_property_sensor
 &SMO_MEDIUM_PROPERTY_SENSOR SmoFlow3d

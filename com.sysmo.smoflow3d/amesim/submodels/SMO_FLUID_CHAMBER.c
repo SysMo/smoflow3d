@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_CHAMBER skeleton created by AME Submodel editing utility
-   Fri Jul 26 16:46:03 2013 */
+   Tue Jul 30 11:33:04 2013 */
 
 
 
@@ -27,6 +27,13 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLUID_CHAMBER"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "volumes/FluidChamber.h"
+#include "flow/FluidFlow.h"
+#define fluidChamberStateIndex ic[0]
+#define fluidChamber ps[0]
+#define fluidState ps[1]
+#define flow1 ps[2]
+#define flow2 ps[3]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -48,7 +55,7 @@ REVISIONS :
 */
 
 void smo_fluid_chamberin_(int *n, double rp[6], int ip[2], int ic[1]
-      , void *ps[3], double *stateVariable1, double *stateVariable2)
+      , void *ps[4], double *state1, double *state2)
 
 {
    int loop, error;
@@ -74,8 +81,8 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[2], int ic[1]
    If necessary, check values of the following:
 
    rp[0..5]
-   *stateVariable1
-   *stateVariable2
+   *state1
+   *state2
 */
 
 
@@ -115,6 +122,23 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[2], int ic[1]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+Medium* fluid = Medium_get(fluidIndex);
+fluidChamber = FluidChamber_new(fluid);
+FluidChamber_setVolume(fluidChamber, volume);
+fluidState = FluidChamber_getFluidState(fluidChamber);
+fluidChamberStateIndex = MediumState_index(fluidState);
+FluidChamber_selectStates(fluidChamber, iT, iD);
+
+if (initConditionsChoice == 1) {
+	MediumState_update_Tp(fluidState, initialTemperature, initialPressure);
+} else if (initConditionsChoice == 2) {
+	MediumState_update_Tp(fluidState, initialTemperatureC + 273.15, initialPressure);
+} else {
+    amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
+    amefprintf(stderr, "Terminating the program.\n");
+    AmeExit(1);
+}
+FluidChamber_getStateValues(fluidChamber, state1, state2, 1);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -122,7 +146,7 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[2], int ic[1]
 
    Port 1 has 2 variables:
 
-      1 stateIndex     state index  [smoTDS] basic variable output  UNPLOTTABLE
+      1 stateIndex     state index  [smoTDS] multi line macro 'smo_fluid_chamber_macro0_'  UNPLOTTABLE
       2 flowIndex1     flow index 1 [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
@@ -140,17 +164,17 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[2], int ic[1]
       5 gasMassFraction      gas mass fraction      [null]          basic variable
       6 superHeat            subcooling / superheat [degC]          basic variable
       7 totalMass            mass in chamber        [kg]            basic variable
-      8 stateVariable1       state variable 1       [null]          explicit state (derivative `stateVariable1Dot')
-      9 stateVariable2       state variable 2       [null]          explicit state (derivative `stateVariable2Dot')
+      8 state1               state variable 1       [null]          explicit state (derivative `state1Dot')
+      9 state2               state variable 2       [null]          explicit state (derivative `state2Dot')
 */
 
 void smo_fluid_chamber_(int *n, double *stateIndex, double *flowIndex1
       , double *flowIndex2, double *pressure, double *temperature
       , double *density, double *specificEnthalpy
       , double *gasMassFraction, double *superHeat, double *totalMass
-      , double *stateVariable1, double *stateVariable1Dot
-      , double *stateVariable2, double *stateVariable2Dot
-      , double rp[6], int ip[2], int ic[1], void *ps[3])
+      , double *state1, double *state1Dot, double *state2
+      , double *state2Dot, double rp[6], int ip[2], int ic[1]
+      , void *ps[4])
 
 {
    int loop;
@@ -173,13 +197,13 @@ void smo_fluid_chamber_(int *n, double *stateIndex, double *flowIndex1
 
 /* Common -> SI units conversions. */
 
+/*   *stateIndex *= ??; CONVERSION UNKNOWN */
 /*   *flowIndex1 *= ??; CONVERSION UNKNOWN */
 /*   *flowIndex2 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *stateIndex = ??;
    *pressure   = ??;
    *temperature = ??;
    *density    = ??;
@@ -187,13 +211,30 @@ void smo_fluid_chamber_(int *n, double *stateIndex, double *flowIndex1
    *gasMassFraction = ??;
    *superHeat  = ??;
    *totalMass  = ??;
-   *stateVariable1Dot = ??;
-   *stateVariable2Dot = ??;
+   *state1Dot  = ??;
+   *state2Dot  = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   if (firstc_()) {
+	   flow1 = FluidFlow_get(*flowIndex1);
+	   flow2 = FluidFlow_get(*flowIndex2);
+   }
+   double massFlowRate = FluidFlow_getMassFlowRate(flow1) + FluidFlow_getMassFlowRate(flow2);
+   double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow1) + FluidFlow_getEnthalpyFlowRate(flow2);
+   FluidChamber_computeStateDerivatives(fluidChamber, massFlowRate, enthalpyFlowRate, 0, 0);
+   FluidChamber_getStateDerivatives(fluidChamber, state1Dot, state2Dot);
+
+   *pressure = MediumState_p(fluidState);
+   *temperature = MediumState_T(fluidState);
+   *density = MediumState_rho(fluidState);
+   *specificEnthalpy = MediumState_h(fluidState);
+   //*gasMassFraction = ??;
+   //*superHeat  = ??;
+   *totalMass  = FluidChamber_getFluidMass(fluidChamber);
+
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -203,5 +244,46 @@ void smo_fluid_chamber_(int *n, double *stateIndex, double *flowIndex1
 /*   *flowIndex2 /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
+}
+
+extern double smo_fluid_chamber_macro0_(int *n, double *state1
+      , double *state2, double rp[6], int ip[2], int ic[1]
+      , void *ps[4])
+
+{
+   double stateIndex;
+   int loop;
+/* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
+/* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
+   int fluidIndex, initConditionsChoice;
+   double initialPressure, initialTemperature, initialTemperatureC, 
+      initialGasMassFraction, initialSuperheat, volume;
+
+   fluidIndex = ip[0];
+   initConditionsChoice = ip[1];
+
+   initialPressure = rp[0];
+   initialTemperature = rp[1];
+   initialTemperatureC = rp[2];
+   initialGasMassFraction = rp[3];
+   initialSuperheat = rp[4];
+   volume     = rp[5];
+   loop = 0;
+
+/*
+   Define and return the following macro variable:
+
+   stateIndex = ??;
+*/
+
+
+/* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   FluidChamber_setStateValues(fluidChamber, *state1, *state2);
+   stateIndex = fluidChamberStateIndex;
+/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
+
+/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+
+   return stateIndex;
 }
 

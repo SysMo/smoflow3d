@@ -113,9 +113,16 @@ double MediumState_FluidCoolProp::dpdt_v() {
 
 double MediumState_FluidCoolProp::dpdv_t() {
 	if (!_dpdv_t) {
-		_dpdv_t = - _rho * _rho * cps.dpdrho_constT();
+		_dpdv_t = - _rho * _rho * dpdrho_t();
 	}
 	return _dpdv_t;
+}
+
+double MediumState_FluidCoolProp::dpdrho_t() {
+	if (!_dpdrho_t) {
+		_dpdrho_t = cps.dpdrho_constT();
+	}
+	return _dpdrho_t;
 }
 
 double MediumState_FluidCoolProp::dvdt_p() {

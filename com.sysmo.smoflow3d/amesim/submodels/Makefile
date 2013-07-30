@@ -7,7 +7,7 @@
 # make
 # Windows clean
 # make clean
-
+DEBUG=1
 # Set-up the OS related variables
 #gcc -g -DWIN32 -D_DEBUG -D_WINDOWS -D_MBCS -I"D:\AMESim\v1200"\lib -c TWOPORTVALVE_00.c -o win32-gcc\TWOPORTVALVE_00.o 
 export CC=${AME}/sys/mingw32/bin/gcc
@@ -37,7 +37,12 @@ else
 	export COMPILER_FLAGS= $(COMPILER_RELEASE_FLAGS)	
 endif
 
-INCLUDE_FLAGS = -I"$(AME)/lib" -I"../../src"
+# Base library locations
+AME_LIB_LOC= "$(AME)/lib"
+SMO_FLOW_LIB_LOC= "../../src"
+COOLPROP_LIB_LOC= "../../../../coolprop"
+
+INCLUDE_FLAGS = -I${AME_LIB_LOC} -I${SMO_FLOW_LIB_LOC} -I${COOLPROP_LIB_LOC}
 
 # Add a list of .c files to be compiled release/debug
 SOURCE_FILES = \
@@ -49,8 +54,8 @@ SOURCE_FILES = \
 	SMO_HEAT_SOURCE.c \
 	SMO_FLOW_SPLITTER_3PORT.c \
 	SMO_VALVE_2PORT_MASS_FLOW.c \
-	SMO_VALVE_2PORT_REGULATING_SIGNAL.c \ 
-	#SMO_FLUID_CHAMBER.c
+	SMO_VALVE_2PORT_REGULATING_SIGNAL.c \
+	SMO_FLUID_CHAMBER.c \
 	
 OBJECT_FILES = $(SOURCE_FILES:%.c=$(OBJDIR)/%.o)
 

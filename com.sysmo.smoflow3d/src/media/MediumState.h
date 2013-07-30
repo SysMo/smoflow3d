@@ -24,7 +24,7 @@ END_C_LINKAGE
 
 #ifdef __cplusplus
 
-#include "CPState.h"
+#include "CoolProp/CPState.h"
 #include "util/CachedProperty.h"
 
 
@@ -51,6 +51,7 @@ public:
 	virtual double cv();
 	virtual double dpdt_v();
 	virtual double dpdv_t();
+	virtual double dpdrho_t();
 	virtual double dvdt_p();
 	virtual double beta();
 	virtual double mu();
@@ -69,6 +70,7 @@ protected:
 	CachedProperty _cv;
 	CachedProperty _dpdt_v;
 	CachedProperty _dpdv_t;
+	CachedProperty _dpdrho_t;
 	CachedProperty _dvdt_p;
 	CachedProperty _beta;
 	CachedProperty _mu;
@@ -88,6 +90,7 @@ BEGIN_C_LINKAGE
 MediumState* MediumState_new(Medium* medium);
 int MediumState_register(MediumState* mstate);
 MediumState* MediumState_get(int mstateIndex);
+int MediumState_index(MediumState* mstate);
 Medium* MediumState_getMedium(MediumState* mstate);
 
 void MediumState_update_Tp(MediumState* mstate, double T, double p);
@@ -104,6 +107,7 @@ double MediumState_cp(MediumState* mstate);
 double MediumState_cv(MediumState* mstate);
 double MediumState_dpdt_v(MediumState* mstate);
 double MediumState_dpdv_t(MediumState* mstate);
+double MediumState_dpdrho_t(MediumState* mstate);
 double MediumState_dvdt_p(MediumState* mstate);
 double MediumState_beta(MediumState* mstate);
 double MediumState_mu(MediumState* mstate);

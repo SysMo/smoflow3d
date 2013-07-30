@@ -1,7 +1,7 @@
 #######################################
 # CoolProp Import
 #######################################
-SET(COOLPROP_LOCATION ${CMAKE_SOURCE_DIR}/../../coolprop/CoolProp)
+SET(COOLPROP_LOCATION ${CMAKE_SOURCE_DIR}/../../coolprop)
 message("Coolprop location: ${COOLPROP_LOCATION}")
 add_library(CoolProp SHARED IMPORTED)
 set_property(TARGET CoolProp PROPERTY IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/bin/libCoolProp.dll")

@@ -25,7 +25,7 @@ typedef enum {
 #ifdef __cplusplus
 
 #include <map>
-#include "CoolProp.h"
+#include "CoolProp/CoolProp.h"
 
 struct Medium {
 	MediumKnownTypes mediumType;
