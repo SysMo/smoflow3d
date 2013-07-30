@@ -15,11 +15,12 @@
 #ifndef COMMONDECLARATIONS_H_
 #define COMMONDECLARATIONS_H_
 
+
+/***************************************
+ * BEGIN C interface
+ **************************************/
 #include <math.h>
 
-/**
- * 0) C interface
- */
 #ifdef __cplusplus
 #define BEGIN_C_LINKAGE extern "C" {
 #define END_C_LINKAGE }
@@ -42,7 +43,9 @@
 
 #include "CoolProp/GlobalConstants.h"
 typedef enum params ThermodynamicVariable;
-
+/***************************************
+ * END C interface
+ **************************************/
 
 /**************************************
  * BEGIN C++ definitions
@@ -50,11 +53,6 @@ typedef enum params ThermodynamicVariable;
 #ifdef __cplusplus
 
 #include <string>
-typedef double Real;
-typedef int Integer;
-typedef bool Boolean;
-typedef unsigned int Natural;
-
 #include <typeinfo>
 #include <sstream>
 #include <iostream>
@@ -67,6 +65,11 @@ typedef unsigned int Natural;
 #include <cmath>
 #include <algorithm>
 #include <assert.h>
+
+typedef double Real;
+typedef int Integer;
+typedef bool Boolean;
+typedef unsigned int Natural;
 
 
 
@@ -98,7 +101,7 @@ typedef Real* RealFunction(Real);
 /**
  * 3) Special numbers
  */
-namespace smoflow {
+/*namespace smoflow {
 	inline Real plusInfinity() {
 		return std::numeric_limits<Real>::infinity();
 	}
@@ -108,7 +111,7 @@ namespace smoflow {
 	inline Real nan() {
 		return std::numeric_limits<Real>::quiet_NaN();
 	}
-}
+}*/
 
 
 
@@ -116,7 +119,6 @@ namespace smoflow {
  * 4) Exceptions & asserts
  */
 // Macro for defining a base exception object.
-#include <assert.h>
 #define ThrowSpecificException(message, ExceptionClass) \
 	{ \
 	std::stringstream errorStream; \
@@ -176,5 +178,6 @@ namespace smoflow {
 /**************************************
  * END C++ definitions
  **************************************/
+
 
 #endif /* COMMONDECLARATIONS_H_ */

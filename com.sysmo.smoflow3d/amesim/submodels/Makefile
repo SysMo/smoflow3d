@@ -39,10 +39,10 @@ endif
 
 # Base library locations
 AME_LIB_LOC= "$(AME)/lib"
-SMO_FLOW_LIB_LOC= "../../src"
+SMO_FLOW_LIB_LOC= "../.."
 COOLPROP_LIB_LOC= "../../../../coolprop"
 
-INCLUDE_FLAGS = -I${AME_LIB_LOC} -I${SMO_FLOW_LIB_LOC} -I${COOLPROP_LIB_LOC}
+INCLUDE_FLAGS = -I${AME_LIB_LOC} -I${SMO_FLOW_LIB_LOC}/src -I${SMO_FLOW_LIB_LOC}/src_c -I${COOLPROP_LIB_LOC}
 
 # Add a list of .c files to be compiled release/debug
 SOURCE_FILES = \
@@ -56,6 +56,8 @@ SOURCE_FILES = \
 	SMO_VALVE_2PORT_MASS_FLOW.c \
 	SMO_VALVE_2PORT_REGULATING_SIGNAL.c \
 	SMO_FLUID_CHAMBER.c \
+	SMO_DRIVECYCLEREADER.c  \
+	SMO_STATEMACHINECONTROLLER.c   \
 	
 OBJECT_FILES = $(SOURCE_FILES:%.c=$(OBJDIR)/%.o)
 

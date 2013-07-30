@@ -19,3 +19,7 @@ smo_reg_valve_2port
 tpf_adiab_chamber
 smo_fluid_chamber_cst_volume
 &SMO_FLUID_CHAMBER SmoFlow3d
+smo_drive_cycle_reader
+&SMO_DRIVECYCLEREADER SmoFlow3d
+smo_state_machine_controller
+&SMO_STATEMACHINECONTROLLER SmoFlow3d

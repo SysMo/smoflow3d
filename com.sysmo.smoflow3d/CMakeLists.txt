@@ -22,4 +22,7 @@ endif()
 
 include_directories(src)
 add_subdirectory(src)
+
+include_directories(src_c)
+add_subdirectory(src_c)
     
