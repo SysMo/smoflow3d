@@ -29,8 +29,8 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/MediumState.h"
 
-#define fluidStateIndex ic[1]
-#define fluidState ps[1]
+#define fluidStateIndex ic[0]
+#define fluidState ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 /* There is 1 integer parameter:
@@ -78,6 +78,7 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
    Medium *fluid = Medium_get(mediumIndex);
    fluidState = MediumState_new(fluid);
    fluidStateIndex = MediumState_register(fluidState);
+/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -182,7 +183,10 @@ extern double smo_fluid_source_macro0_(int *n, double *stateValue1
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    MediumState_update_Tp(fluidState, *stateValue2, *stateValue1);
-   stateIndex = (double) fluidStateIndex;
+   stateIndex = fluidStateIndex;
+   amefprintf(stderr, "\n smo_fluid_source_macro0_ n = %d  stateValue2 %f.\n", *n, *stateValue2);
+   amefprintf(stderr, "\n smo_fluid_source_macro0_ n = %d  stateValue1 %f.\n", *n,  *stateValue1);
+   amefprintf(stderr, "\n smo_fluid_source_macro0_ n = %d  upstreamSpecificEnthalpy %f.\n",  *n, MediumState_h(fluidState));
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */

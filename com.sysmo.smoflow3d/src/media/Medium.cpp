@@ -43,12 +43,10 @@ Medium* Medium_get(int mediumIndex) {
 }
 
 int Medium_index(Medium* medium) {
-	int i = 0;
 	for (MediumContainer::iterator it = MediumRegistry.begin(); it != MediumRegistry.end(); it++) {
 		if ((*it).second == medium) {
-			return i;
+			return (*it).first;
 		}
-		i++;
 	}
 	return -1;
 }

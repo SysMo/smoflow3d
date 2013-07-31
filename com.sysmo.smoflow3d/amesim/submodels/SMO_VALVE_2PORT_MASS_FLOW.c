@@ -160,6 +160,9 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
 	   upstreamSpecificEnthalpy = MediumState_h(fluidState3);
    }
    fluidFlowObj3->enthalpyFlowRate = fluidFlowObj3->massFlowRate * upstreamSpecificEnthalpy;
+   amefprintf(stderr, "\n smo_valve_2port_mass_flow_   fluidFlowObj3->massFlowRate %f.\n", fluidFlowObj3->massFlowRate);
+   amefprintf(stderr, "\n smo_valve_2port_mass_flow_   upstreamSpecificEnthalpy %f.\n", upstreamSpecificEnthalpy);
+   amefprintf(stderr, "\n smo_valve_2port_mass_flow_   fluidFlowObj3->enthalpyFlowRate %f.\n", fluidFlowObj3->enthalpyFlowRate);
 
 
    fluidFlowObj1->massFlowRate = -fluidFlowObj3->massFlowRate;
