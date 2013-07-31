@@ -24,11 +24,14 @@ void FluidChamber::selectStates(ThermodynamicVariable state1, ThermodynamicVaria
 	// TODO if P & T are state variables it has to be ensured that the 2-phase region is not entered
 	if (
 			((state1 == iD && state2 == iT) || (state1 == iT && state2 == iD)) ||
-			((state1 == iP && state2 == iT) || (state1 == iT && state2 == iP))
+			((state1 == iP && state2 == iT) || (state1 == iT && state2 == iP)) ||
+			((state1 == iP && state2 == iD) || (state1 == iD && state2 == iP)) ||
+			((state1 == iP && state2 == iH) || (state1 == iH && state2 == iP))
+
 		) {
 
 	} else {
-		RaiseError("Incorrect combination of states used: "
+		RaiseError("Incorrect combination of states selected (enum): "
 				<< state1 << " and " << state2);
 	}
 }
@@ -44,8 +47,16 @@ void FluidChamber::setStateValues(double stateValue1, double stateValue2) {
 		fluidState->update_Tp(stateValue2, stateValue1);
 	} else if (states[0] == iT && states[1] == iP) {
 		fluidState->update_Tp(stateValue1, stateValue2);
+	} else if (states[0] == iP && states[1] == iD) {
+		fluidState->update_prho(stateValue1, stateValue2);
+	} else if (states[0] == iD && states[1] == iP) {
+		fluidState->update_prho(stateValue2, stateValue1);
+	} else if (states[0] == iP && states[1] == iH) {
+		fluidState->update_ph(stateValue1, stateValue2);
+	} else if (states[0] == iH && states[1] == iP) {
+		fluidState->update_ph(stateValue2, stateValue1);
 	} else {
-		RaiseError("Cannot set state using state variables: "
+		RaiseError("Cannot set state using state variables (enum): "
 				<< states[0] << " and " << states[1]);
 	}
 	fluidMass = fluidState->rho() * volume;
@@ -63,6 +74,9 @@ void FluidChamber::getStateValues(double* stateValue1, double* stateValue2, bool
 				break;
 			case iD:
 				stateValues[i] = fluidState->rho();
+				break;
+			case iH:
+				stateValues[i] = fluidState->h();
 				break;
 			default:
 				RaiseError("Incorrect state variable (enum) " << states[i]);
@@ -85,6 +99,9 @@ void FluidChamber::getStateDerivatives(double* stateDerivative1, double* stateDe
 			break;
 		case iD:
 			stateDerivatives[i] = stateTimeDerivatives.rho;
+			break;
+		case iH:
+			stateDerivatives[i] = stateTimeDerivatives.h;
 			break;
 		default:
 			RaiseError("Calculation of time derivative of state (enum) " << states[i]
@@ -109,6 +126,7 @@ void FluidChamber::computeStateDerivatives_cv(double mDot, double UDot, double V
 	double k2 = (fluidState->T() * fluidState->dpdt_v() - fluidState->p()) * vDot;
 	stateTimeDerivatives.T = (uDot - k2) / fluidState->cv();
 	stateTimeDerivatives.p = fluidState->dpdt_v() * stateTimeDerivatives.T + fluidState->dpdrho_t() * stateTimeDerivatives.rho;
+	stateTimeDerivatives.h = uDot + fluidState->p() * vDot + stateTimeDerivatives.p / fluidState->rho();
 }
 
 void FluidChamber::computeStateDerivatives_cp(double mDot, double UDot, double VDot) {

@@ -29,6 +29,7 @@ protected:
 public:
 	virtual void update_Tp(double T, double p);
 	virtual void update_Trho(double T, double rho);
+	virtual void update_prho(double p, double rho);
 	virtual void update_ph(double p, double h);
 	virtual void update_ps(double p, double s);
 

@@ -38,8 +38,8 @@ public:
 
 	virtual void update_Tp(double T, double p);
 	virtual void update_Trho(double T, double rho);
-	virtual void update_ph(double p, double h);
 	virtual void update_prho(double p, double rho);
+	virtual void update_ph(double p, double h);
 	virtual void update_ps(double p, double s);
 
 	double T();
@@ -95,6 +95,7 @@ Medium* MediumState_getMedium(MediumState* mstate);
 
 void MediumState_update_Tp(MediumState* mstate, double T, double p);
 void MediumState_update_Trho(MediumState* mstate, double T, double rho);
+void MediumState_update_prho(MediumState* mstate, double p, double rho);
 void MediumState_update_ph(MediumState* mstate, double p, double h);
 void MediumState_update_ps(MediumState* mstate, double p, double s);
 
