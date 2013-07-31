@@ -60,12 +60,12 @@ void MediumState::update_Trho(double T, double rho) {
 	RaiseError("Unimplemented virtual method 'MediumState::update_Trho'")
 }
 
-void MediumState::update_ph(double p, double h) {
-	RaiseError("Unimplemented virtual method 'MediumState::update_ph'")
-}
-
 void MediumState::update_prho(double p, double rho) {
 	RaiseError("Unimplemented virtual method 'MediumState::update_prho'")
+}
+
+void MediumState::update_ph(double p, double h) {
+	RaiseError("Unimplemented virtual method 'MediumState::update_ph'")
 }
 
 void MediumState::update_ps(double p, double s) {
@@ -177,6 +177,10 @@ void MediumState_update_Tp(MediumState* mstate, double T, double p) {
 
 void MediumState_update_Trho(MediumState* mstate, double T, double rho) {
 	mstate->update_Trho(T, rho);
+}
+
+void MediumState_update_prho(MediumState* mstate, double p, double rho) {
+	mstate->update_prho(p, rho);
 }
 
 void MediumState_update_ph(MediumState* mstate, double p, double h) {

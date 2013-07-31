@@ -35,8 +35,8 @@ void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 		cps.update_Tp(iT, T, iP, p);
 		_rho = cps.rho();
 	}
-	_h = cps.h();
 	post_update();
+	_h = cps.h();
 }
 
 void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
@@ -44,9 +44,24 @@ void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
 	_T = T;
 	_rho = rho;
 	cps.update_Trho(iT, _T, iD, _rho);
+	post_update();
 	_p = cps.p();
 	_h = cps.h();
+}
+
+void MediumState_FluidCoolProp::update_prho(double p, double rho) {
+	pre_update();
+	_p = p;
+	_rho = rho;
+	if (ValidNumber(_T)) {
+		_T = pFluid->temperature_prho(_p, _rho, _T);
+		cps.update_Trho(iT, _T, iD, _rho);
+	} else {
+		cps.update_prho(iP, _p, iD, _rho);
+		_T = cps.T();
+	}
 	post_update();
+	_h = cps.h();
 }
 
 void MediumState_FluidCoolProp::update_ph(double p, double h) {
@@ -77,10 +92,10 @@ void MediumState_FluidCoolProp::update_ps(double p, double s) {
 	// TODO Currently no function temperature_ps() with supplyied guess
 	// values for T and rho is available for coolprop Fluid class
 	cps.update_ps(iP, p, iS, s);
+	post_update();
 	_T = cps.T();
 	_rho = cps.rho();
 	_h = cps.h();
-	post_update();
 }
 
 double MediumState_FluidCoolProp::u() {

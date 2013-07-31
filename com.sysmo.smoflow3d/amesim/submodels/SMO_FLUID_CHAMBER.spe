@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>41</SUB_ID_MAX>
+  <SUB_ID_MAX>42</SUB_ID_MAX>
   <DEFAULT_ICON>smo_fluid_chamber_cst_volume</DEFAULT_ICON>
   <SUB_LABEL>adiabatic chamber (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -112,6 +112,30 @@
      </ENUM>
      <ENUM>
       <ENUM_STRING>pressure and superheat</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>42</SUB_ID>
+    <TITLE>states variables</TITLE>
+    <VARNAME>stateVariableSelection</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>4</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>(T, rho)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(P, T)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(p, rho)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(p, h)</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
