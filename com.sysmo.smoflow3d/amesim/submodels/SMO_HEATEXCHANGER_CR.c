@@ -41,11 +41,6 @@ REVISIONS :
 
 #define fluidStateIndexOutlet ic[4]
 #define fluidStateOutlet ps[4]
-/*
-#include "FluidPoint.h"
-#define INLET_NODE ps[0]
-#define OUTLET_NODE ps[1]
-*/
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -90,22 +85,6 @@ void smo_heatexchanger_crin_(int *n, double rp[1], int ic[5]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-
-
-
-/*	AME_SET_CURRENT_COMPONENT;
-
-	INLET_NODE = FluidPoint_new(fluidIndex);
-	FluidPoint* inletNode = (FluidPoint*) INLET_NODE;
-	inletNode->p = 1e6;
-	inletNode->T = 300;
-	FluidPoint_init(inletNode, -1, 2);
-
-	OUTLET_NODE = FluidPoint_new(fluidIndex);
-	FluidPoint* outletNode = (FluidPoint*) OUTLET_NODE;
-	outletNode->p = 1e6;
-	outletNode->T = 300;
-	FluidPoint_init(outletNode, -1, 2);*/
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -176,15 +155,6 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 
 	   fluidFlowOutlet = FluidFlow_new();
 	   fluidFlowIndexOutlet = FluidFlow_register(fluidFlowOutlet);
-
-	   fluidStateIndexOutlet = *stateIndexOutlet;
-	   fluidStateOutlet = MediumState_get(fluidStateIndexOutlet);
-
-	   int mediumIndexOutlet = Medium_index(MediumState_getMedium(fluidStateOutlet));
-
-	   Medium* fluid = Medium_get(mediumIndexOutlet);
-	   fluidStateInlet = MediumState_new(fluid);
-	   fluidStateIndexInlet = MediumState_register(fluidStateInlet);
    }
 
    FluidFlow* fluidFlowObjInlet = (FluidFlow*) fluidFlowInlet;
@@ -199,10 +169,6 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
    double wallT = *wallTemperature + 273.15; //degC to K
    if (fluidFlowObjInlet->massFlowRate > 1e-8) {
 	  double inletSpecificEnthalpy = fluidFlowObjInlet->enthalpyFlowRate / fluidFlowObjInlet->massFlowRate;
-	  amefprintf(stderr, "\n fluidFlowObjInlet->enthalpyFlowRate %f.\n", fluidFlowObjInlet->enthalpyFlowRate);
-	  amefprintf(stderr, "\n fluidFlowObjInlet->massFlowRatee %f.\n", fluidFlowObjInlet->massFlowRate);
-
-
 	  MediumState_update_ph(fluidStateInlet, MediumState_p(fluidStateOutlet), inletSpecificEnthalpy);
 
 	  *inletTemperature = MediumState_T(fluidStateInlet);
@@ -217,27 +183,7 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 
    *wallHeatFlowRate = fluidFlowObjInlet->enthalpyFlowRate - fluidFlowObjOutlet->enthalpyFlowRate;
 
-   *stateIndexInlet = fluidStateIndexInlet;
    *flowIndexOutlet = fluidFlowIndexOutlet;
-/*   // Initialization at first run
-   if (*inletMassFlowRate < 0) {
-	   raiseError(OUTLET_NODE, "Reverse flow encouuntered. "
-			   "Restrict the flow direction, e.g. by adding check valve.");
-   }
-   T2 = *wallTemperature + 273.15;
-   FluidPoint* inletNode = (FluidPoint*) INLET_NODE;
-   FluidPoint* outletNode = (FluidPoint*) OUTLET_NODE;
-
-   if (*inletMassFlowRate > 1e-8) {
-	   double inletSpecificEnthalpy = (*inletEnthalpyFlowRate) / (*inletMassFlowRate);
-	   FluidPoint_computeState_p_h(inletNode, *outletPressure, inletSpecificEnthalpy);
-	   *inletTemperature = inletNode->T;
-	   *outletTemperature = inletNode->T +
-			   (T2 - inletNode->T) * efficienccy;
-	   FluidPoint_computeState_p_T(outletNode, *outletPressure, *outletTemperature);
-   }//:TODO: (Nasko) no mass flow rate
-   *outletEnthalpyFlowRate = outletNode->h * (*inletMassFlowRate);
-   *wallHeatFlowRate = (*inletEnthalpyFlowRate) - (*outletEnthalpyFlowRate);*/
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -276,8 +222,18 @@ extern double smo_heatexchanger_cr_macro0_(int *n
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    if (firstc_()) {
-   }
-   stateIndexInlet = *stateIndexOutlet;
+  	   fluidStateIndexOutlet = *stateIndexOutlet;
+  	   fluidStateOutlet = MediumState_get(fluidStateIndexOutlet);
+
+  	   int mediumIndexOutlet = Medium_index(MediumState_getMedium(fluidStateOutlet));
+
+  	   Medium* fluid = Medium_get(mediumIndexOutlet);
+  	   fluidStateInlet = MediumState_new(fluid);
+  	   fluidStateIndexInlet = MediumState_register(fluidStateInlet);
+
+  	   MediumState_update_ph(fluidStateInlet, MediumState_p(fluidStateOutlet), MediumState_h(fluidStateOutlet));
+     }
+   stateIndexInlet = fluidStateIndexInlet;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */

@@ -184,9 +184,6 @@ extern double smo_fluid_source_macro0_(int *n, double *stateValue1
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    MediumState_update_Tp(fluidState, *stateValue2, *stateValue1);
    stateIndex = fluidStateIndex;
-   amefprintf(stderr, "\n smo_fluid_source_macro0_ n = %d  stateValue2 %f.\n", *n, *stateValue2);
-   amefprintf(stderr, "\n smo_fluid_source_macro0_ n = %d  stateValue1 %f.\n", *n,  *stateValue1);
-   amefprintf(stderr, "\n smo_fluid_source_macro0_ n = %d  upstreamSpecificEnthalpy %f.\n",  *n, MediumState_h(fluidState));
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */
