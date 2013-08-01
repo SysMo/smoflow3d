@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_CR skeleton created by AME Submodel editing utility
-   Wed Jul 31 11:52:53 2013 */
+   Thu Aug 1 09:49:44 2013 */
 
 
 
@@ -41,6 +41,12 @@ REVISIONS :
 
 #define fluidStateIndexOutlet ic[4]
 #define fluidStateOutlet ps[4]
+
+#define heatStateIndex ic[5]
+#define heatState ps[5]
+
+#define heatFlowIndex ic[6]
+#define heatFlow ps[6]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -49,8 +55,8 @@ REVISIONS :
    efficienccy heat exchanger efficiency [null]
 */
 
-void smo_heatexchanger_crin_(int *n, double rp[1], int ic[5]
-      , void *ps[5])
+void smo_heatexchanger_crin_(int *n, double rp[1], int ic[7]
+      , void *ps[7])
 
 {
    int loop, error;
@@ -97,8 +103,8 @@ void smo_heatexchanger_crin_(int *n, double rp[1], int ic[5]
 
    Port 2 has 2 variables:
 
-      1 wallHeatFlowRate     heat flow rate at wall  [W]    basic variable output
-      2 wallTemperature      temperature of the wall [degC] basic variable input
+      1 flowIndexHeat      heat flow index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 stateIndexHeat     heat state index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 3 has 2 variables:
 
@@ -106,18 +112,22 @@ void smo_heatexchanger_crin_(int *n, double rp[1], int ic[5]
       2 stateIndexOutlet     state index outlet [smoTDS] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 2 internal variables.
+/*  There are 5 internal variables.
 
-      1 inletTemperature      inlet temperature  [K] basic variable
-      2 outletTemperature     outlet temperature [K] basic variable
+      1 inletTemperature      inlet temperature       [K]    basic variable
+      2 outletTemperature     outlet temperature      [K]    basic variable
+      3 wallTemperature       temperature of the wall [K]    basic variable
+      4 wallHeatFlowRate      heat flow rate at wall  [W]    basic variable
+      5 massFlowRateInlet     mass flow rate at inlet [kg/s] basic variable
 */
 
 void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
-      , double *flowIndexInlet, double *wallHeatFlowRate
-      , double *wallTemperature, double *flowIndexOutlet
+      , double *flowIndexInlet, double *flowIndexHeat
+      , double *stateIndexHeat, double *flowIndexOutlet
       , double *stateIndexOutlet, double *inletTemperature
-      , double *outletTemperature, double rp[1], int ic[5]
-      , void *ps[5], int *flag)
+      , double *outletTemperature, double *wallTemperature
+      , double *wallHeatFlowRate, double *massFlowRateInlet
+      , double rp[1], int ic[7], void *ps[7], int *flag)
 
 {
    int loop, logi;
@@ -134,15 +144,19 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 
 /*   *stateIndexInlet *= ??; CONVERSION UNKNOWN */
 /*   *flowIndexInlet *= ??; CONVERSION UNKNOWN */
+/*   *stateIndexHeat *= ??; CONVERSION UNKNOWN */
 /*   *stateIndexOutlet *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *wallHeatFlowRate = ??;
+   *flowIndexHeat = ??;
    *flowIndexOutlet = ??;
    *inletTemperature = ??;
    *outletTemperature = ??;
+   *wallTemperature = ??;
+   *wallHeatFlowRate = ??;
+   *massFlowRateInlet = ??;
 */
 
 
@@ -155,6 +169,12 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 
 	   fluidFlowOutlet = FluidFlow_new();
 	   fluidFlowIndexOutlet = FluidFlow_register(fluidFlowOutlet);
+
+	   heatState = MediumState_get(*stateIndexHeat);
+	   heatStateIndex = *stateIndexHeat;
+
+	   heatFlow = FluidFlow_new();
+	   heatFlowIndex = FluidFlow_register(heatFlow);
    }
 
    FluidFlow* fluidFlowObjInlet = (FluidFlow*) fluidFlowInlet;
@@ -166,7 +186,7 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 	   AmeExit(1);
    }
 
-   double wallT = *wallTemperature + 273.15; //degC to K
+   double wallT = MediumState_T(heatState);
    if (fluidFlowObjInlet->massFlowRate > 1e-8) {
 	  double inletSpecificEnthalpy = fluidFlowObjInlet->enthalpyFlowRate / fluidFlowObjInlet->massFlowRate;
 	  MediumState_update_ph(fluidStateInlet, MediumState_p(fluidStateOutlet), inletSpecificEnthalpy);
@@ -181,8 +201,15 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
    fluidFlowObjOutlet->massFlowRate = fluidFlowObjInlet->massFlowRate;
    fluidFlowObjOutlet->enthalpyFlowRate = MediumState_h(fluidStateOutlet) * fluidFlowObjInlet->massFlowRate;
 
-   *wallHeatFlowRate = fluidFlowObjInlet->enthalpyFlowRate - fluidFlowObjOutlet->enthalpyFlowRate;
+   FluidFlow* heatFlowObj = (FluidFlow*) heatFlow;
+   heatFlowObj->massFlowRate = 0.0;
+   heatFlowObj->enthalpyFlowRate = fluidFlowObjInlet->enthalpyFlowRate - fluidFlowObjOutlet->enthalpyFlowRate; //wall heat flow rate
 
+   *wallTemperature = wallT;
+   *wallHeatFlowRate = heatFlowObj->enthalpyFlowRate;
+   *massFlowRateInlet = fluidFlowObjInlet->massFlowRate;
+
+   *flowIndexHeat = heatFlowIndex;
    *flowIndexOutlet = fluidFlowIndexOutlet;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -190,12 +217,14 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 
 /*   *stateIndexInlet /= ??; CONVERSION UNKNOWN */
 /*   *flowIndexInlet /= ??; CONVERSION UNKNOWN */
+/*   *flowIndexHeat /= ??; CONVERSION UNKNOWN */
+/*   *stateIndexHeat /= ??; CONVERSION UNKNOWN */
 /*   *flowIndexOutlet /= ??; CONVERSION UNKNOWN */
 /*   *stateIndexOutlet /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_heatexchanger_cr_macro0_(int *n
-      , double *stateIndexOutlet, double rp[1], int ic[5], void *ps[5]
+      , double *stateIndexOutlet, double rp[1], int ic[7], void *ps[7]
       , int *flag)
 
 {

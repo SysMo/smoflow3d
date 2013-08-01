@@ -4,12 +4,12 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>107</SUB_ID_MAX>
-  <DEFAULT_ICON>ideal_heat_exchanger</DEFAULT_ICON>
+  <SUB_ID_MAX>113</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_simple_heater</DEFAULT_ICON>
   <SUB_LABEL>pipe heat exchanger (single phase)  (C-R, no state)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>5</I_STORES_NUMBER>
-  <P_STORES_NUMBER>5</P_STORES_NUMBER>
+  <I_STORES_NUMBER>7</I_STORES_NUMBER>
+  <P_STORES_NUMBER>7</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
@@ -45,6 +45,34 @@
     <DIMENSION>1</DIMENSION>
     <UNITS>K</UNITS>
    </IVAR>
+   <IVAR>
+    <SUB_ID>111</SUB_ID>
+    <TITLE>temperature of the wall</TITLE>
+    <VARNAME>wallTemperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>113</SUB_ID>
+    <TITLE>heat flow rate at wall</TITLE>
+    <VARNAME>wallHeatFlowRate</VARNAME>
+    <VARNAME2>outletTemperatureDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>112</SUB_ID>
+    <TITLE>mass flow rate at inlet</TITLE>
+    <VARNAME>massFlowRateInlet</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/s</UNITS>
+   </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
@@ -74,24 +102,26 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>6</SUB_ID>
-     <TITLE>heat flow rate at wall</TITLE>
-     <VARNAME>wallHeatFlowRate</VARNAME>
+     <SUB_ID>108</SUB_ID>
+     <TITLE>heat flow index</TITLE>
+     <VARNAME>flowIndexHeat</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
-     <UNITS>W</UNITS>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
-     <SUB_ID>7</SUB_ID>
-     <TITLE>temperature of the wall</TITLE>
-     <VARNAME>wallTemperature</VARNAME>
+     <SUB_ID>109</SUB_ID>
+     <TITLE>heat state index</TITLE>
+     <VARNAME>stateIndexHeat</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
-     <UNITS>degC</UNITS>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
     </EVAR>
    </PORT>
    <PORT>
