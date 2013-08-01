@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>84</SUB_ID_MAX>
+  <DEFAULT_ICON>ideal_heat_exchanger</DEFAULT_ICON>
+  <SUB_LABEL>pipe heat exchanger (single phase)  (R-C)</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <P_STORES_NUMBER>10</P_STORES_NUMBER>
+  <DISCONTINUITY>1</DISCONTINUITY>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>40</SUB_ID>
+    <TITLE>initial outlet temperature</TITLE>
+    <VARNAME>initialOutletTemperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.50000000000000e+002</DEF_VALUE>
+    <VALUE>1.50000000000000e+002</VALUE>
+    <MIN_VALUE>1.00000000000000e+001</MIN_VALUE>
+    <MAX_VALUE>1.50000000000000e+003</MAX_VALUE>
+    <UNITS>K</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>73</SUB_ID>
+    <TITLE>heat exchanger efficiency</TITLE>
+    <VARNAME>efficienccy</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>71</SUB_ID>
+    <TITLE>output time constant</TITLE>
+    <VARNAME>tauOutput</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+006</MAX_VALUE>
+    <UNITS>s</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>31</SUB_ID>
+    <TITLE>index of fluid</TITLE>
+    <VARNAME>fluidIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>44</SUB_ID>
+    <TITLE>inlet temperature</TITLE>
+    <VARNAME>inletTemperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>69</SUB_ID>
+    <TITLE>outlet temperature</TITLE>
+    <VARNAME>outletTemperature</VARNAME>
+    <VARNAME2>outletTemperatureDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>1</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+    <DEF_VALUE>0</DEF_VALUE>
+    <VALUE>0</VALUE>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>11</SUB_ID>
+     <TITLE>enthalpy flow rate at inlet</TITLE>
+     <VARNAME>inletEnthalpyFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>W</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>84</SUB_ID>
+     <VARNAME>inletMassFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>2</PRIMARY_PORT>
+     <PRIMARY_VAR>4</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>74</SUB_ID>
+     <TITLE>pressure at inlet</TITLE>
+     <VARNAME>inletPressure</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>barA</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>77</SUB_ID>
+     <TITLE>density at inlet</TITLE>
+     <VARNAME>inletDensity</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>kg/m**3</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>75</SUB_ID>
+     <TITLE>com index at inlet</TITLE>
+     <VARNAME>inletComIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>6</SUB_ID>
+     <TITLE>heat flow rate at wall</TITLE>
+     <VARNAME>wallHeatFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>W</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>7</SUB_ID>
+     <TITLE>temperature of the wall</TITLE>
+     <VARNAME>wallTemperature</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>degC</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>78</SUB_ID>
+     <VARNAME>outletPressure</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>82</SUB_ID>
+     <TITLE>density at outlet</TITLE>
+     <VARNAME>outletDensity</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>kg/m**3</UNITS>
+     <EXPRESS2>@_1_3, @_0_2</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>80</SUB_ID>
+     <TITLE>communication index at outlet</TITLE>
+     <VARNAME>outletComIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>5</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>null</UNITS>
+     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
+     <VALUE>0.00000000000000e+000</VALUE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>1</SUB_ID>
+     <TITLE>enthalpy flow rate at outlet</TITLE>
+     <VARNAME>outletEnthalpyFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>W</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>79</SUB_ID>
+     <TITLE>mass flow rate at outlet</TITLE>
+     <VARNAME>outletMassFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>kg/s</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>
