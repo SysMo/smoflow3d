@@ -4,11 +4,12 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>84</SUB_ID_MAX>
-  <DEFAULT_ICON>ideal_heat_exchanger</DEFAULT_ICON>
+  <SUB_ID_MAX>98</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_simple_heater</DEFAULT_ICON>
   <SUB_LABEL>pipe heat exchanger (single phase)  (R-C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <P_STORES_NUMBER>10</P_STORES_NUMBER>
+  <I_STORES_NUMBER>7</I_STORES_NUMBER>
+  <P_STORES_NUMBER>7</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
@@ -82,138 +83,107 @@
     <DEF_VALUE>0</DEF_VALUE>
     <VALUE>0</VALUE>
    </IVAR>
+   <IVAR>
+    <SUB_ID>96</SUB_ID>
+    <TITLE>temperature of the wall</TITLE>
+    <VARNAME>wallTemperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>97</SUB_ID>
+    <TITLE>heat flow rate at wall</TITLE>
+    <VARNAME>wallHeatFlowRate</VARNAME>
+    <VARNAME2>outletTemperatureDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>98</SUB_ID>
+    <TITLE>mass flow rate at outlet</TITLE>
+    <VARNAME>massFlowRateOutlet</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/s</UNITS>
+   </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
     <EVAR>
-     <SUB_ID>11</SUB_ID>
-     <TITLE>enthalpy flow rate at inlet</TITLE>
-     <VARNAME>inletEnthalpyFlowRate</VARNAME>
+     <SUB_ID>89</SUB_ID>
+     <TITLE>flow index inlet</TITLE>
+     <VARNAME>flowIndexInlet</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
-     <UNITS>W</UNITS>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
-     <SUB_ID>84</SUB_ID>
-     <VARNAME>inletMassFlowRate</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>4</TYPE>
-     <PRIMARY_PORT>2</PRIMARY_PORT>
-     <PRIMARY_VAR>4</PRIMARY_VAR>
-     <DUP_TYPE>0</DUP_TYPE>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>74</SUB_ID>
-     <TITLE>pressure at inlet</TITLE>
-     <VARNAME>inletPressure</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNITS>barA</UNITS>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>77</SUB_ID>
-     <TITLE>density at inlet</TITLE>
-     <VARNAME>inletDensity</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNITS>kg/m**3</UNITS>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>75</SUB_ID>
-     <TITLE>com index at inlet</TITLE>
-     <VARNAME>inletComIndex</VARNAME>
+     <SUB_ID>90</SUB_ID>
+     <TITLE>state index inlet</TITLE>
+     <VARNAME>stateIndexInlet</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>null</UNITS>
+     <UNITS>smoTDS</UNITS>
     </EVAR>
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>6</SUB_ID>
-     <TITLE>heat flow rate at wall</TITLE>
-     <VARNAME>wallHeatFlowRate</VARNAME>
+     <SUB_ID>85</SUB_ID>
+     <TITLE>heat flow index</TITLE>
+     <VARNAME>flowIndexHeat</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
-     <UNITS>W</UNITS>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
-     <SUB_ID>7</SUB_ID>
-     <TITLE>temperature of the wall</TITLE>
-     <VARNAME>wallTemperature</VARNAME>
+     <SUB_ID>86</SUB_ID>
+     <TITLE>heat state index</TITLE>
+     <VARNAME>stateIndexHeat</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
-     <UNITS>degC</UNITS>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
     </EVAR>
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>78</SUB_ID>
-     <VARNAME>outletPressure</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>4</TYPE>
-     <PRIMARY_PORT>0</PRIMARY_PORT>
-     <PRIMARY_VAR>2</PRIMARY_VAR>
-     <DUP_TYPE>0</DUP_TYPE>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>82</SUB_ID>
-     <TITLE>density at outlet</TITLE>
-     <VARNAME>outletDensity</VARNAME>
+     <SUB_ID>91</SUB_ID>
+     <TITLE>state index outlet</TITLE>
+     <VARNAME>stateIndexOutlet</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>8</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>kg/m**3</UNITS>
-     <EXPRESS2>@_1_3, @_0_2</EXPRESS2>
+     <UNITS>smoTDS</UNITS>
+     <EXPRESS2>@_1_2, @_0_2</EXPRESS2>
     </EVAR>
     <EVAR>
-     <SUB_ID>80</SUB_ID>
-     <TITLE>communication index at outlet</TITLE>
-     <VARNAME>outletComIndex</VARNAME>
+     <SUB_ID>92</SUB_ID>
+     <TITLE>flow index outlet</TITLE>
+     <VARNAME>flowIndexOutlet</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>5</TYPE>
+     <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
-     <IO>2</IO>
+     <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>null</UNITS>
-     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
-     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
-     <VALUE>0.00000000000000e+000</VALUE>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>1</SUB_ID>
-     <TITLE>enthalpy flow rate at outlet</TITLE>
-     <VARNAME>outletEnthalpyFlowRate</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNITS>W</UNITS>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>79</SUB_ID>
-     <TITLE>mass flow rate at outlet</TITLE>
-     <VARNAME>outletMassFlowRate</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNITS>kg/s</UNITS>
+     <UNITS>smoFFL</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

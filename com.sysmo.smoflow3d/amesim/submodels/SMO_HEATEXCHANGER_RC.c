@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_RC skeleton created by AME Submodel editing utility
-   Thu Aug 1 08:35:08 2013 */
+   Thu Aug 1 10:26:58 2013 */
 
 
 
@@ -27,6 +27,27 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_HEATEXCHANGER_RC"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "media/MediumState.h"
+#include "flow/FluidFlow.h"
+
+#define fluidFlowIndexInlet ic[1]
+#define fluidFlowInlet ps[1]
+
+#define fluidFlowIndexOutlet ic[2]
+#define fluidFlowOutlet ps[2]
+
+#define fluidStateIndexInlet ic[3]
+#define fluidStateInlet ps[3]
+
+#define fluidStateIndexOutlet ic[4]
+#define fluidStateOutlet ps[4]
+
+#define heatStateIndex ic[5]
+#define heatState ps[5]
+
+#define heatFlowIndex ic[6]
+#define heatFlow ps[6]
+
 /* DELME
 #include "FluidPoint.h"
 #define INLET_NODE ps[0]
@@ -49,8 +70,7 @@ REVISIONS :
 */
 
 void smo_heatexchanger_rcin_(int *n, double rp[3], int ip[1]
-      , void *ps[10], double *outletComIndex
-      , double *outletTemperature)
+      , int ic[7], void *ps[7], double *outletTemperature)
 
 {
    int loop, error;
@@ -72,12 +92,6 @@ void smo_heatexchanger_rcin_(int *n, double rp[3], int ip[1]
 
    rp[0..2]
    *outletTemperature
-*/
-
-/*
-   Check and/or reset the following fixed and/or discrete variable
-
-   *outletComIndex = ??;
 */
 
 
@@ -105,6 +119,7 @@ void smo_heatexchanger_rcin_(int *n, double rp[3], int ip[1]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   *outletTemperature = initialOutletTemperature;
 /* DELME
  	AME_SET_CURRENT_COMPONENT;
 
@@ -123,42 +138,39 @@ void smo_heatexchanger_rcin_(int *n, double rp[3], int ip[1]
 
 /*  There are 3 ports.
 
-   Port 1 has 5 variables:
+   Port 1 has 2 variables:
 
-      1 inletEnthalpyFlowRate     enthalpy flow rate at inlet [W]           basic variable output
-      2 inletMassFlowRate         duplicate of outletMassFlowRate
-      3 inletPressure             pressure at inlet           [barA -> PaA] basic variable input
-      4 inletDensity              density at inlet            [kg/m**3]     basic variable input
-      5 inletComIndex             com index at inlet          [null]        basic variable input  UNPLOTTABLE
+      1 flowIndexInlet      flow index inlet  [smoFFL] basic variable output  UNPLOTTABLE
+      2 stateIndexInlet     state index inlet [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
-      1 wallHeatFlowRate     heat flow rate at wall  [W]    basic variable output
-      2 wallTemperature      temperature of the wall [degC] basic variable input
+      1 flowIndexHeat      heat flow index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 stateIndexHeat     heat state index [smoTDS] basic variable input  UNPLOTTABLE
 
-   Port 3 has 5 variables:
+   Port 3 has 2 variables:
 
-      1 outletPressure             duplicate of inletPressure   
-      2 outletDensity              density at outlet             [kg/m**3] multi line macro 'smo_heatexchanger_rc_macro0_'  UNPLOTTABLE
-      3 outletComIndex             communication index at outlet [null]    fixed  UNPLOTTABLE
-      4 outletEnthalpyFlowRate     enthalpy flow rate at outlet  [W]       basic variable input
-      5 outletMassFlowRate         mass flow rate at outlet      [kg/s]    basic variable input
+      1 stateIndexOutlet     state index outlet [smoTDS] multi line macro 'smo_heatexchanger_rc_macro0_'  UNPLOTTABLE
+      2 flowIndexOutlet      flow index outlet  [smoFFL] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 2 internal variables.
+/*  There are 5 internal variables.
 
-      1 inletTemperature      inlet temperature  [K] basic variable
-      2 outletTemperature     outlet temperature [K] explicit state (derivative `outletTemperatureDot')
+      1 inletTemperature       inlet temperature        [K]    basic variable
+      2 outletTemperature      outlet temperature       [K]    explicit state (derivative `outletTemperatureDot')
+      3 wallTemperature        temperature of the wall  [K]    basic variable
+      4 wallHeatFlowRate       heat flow rate at wall   [W]    basic variable
+      5 massFlowRateOutlet     mass flow rate at outlet [kg/s] basic variable
 */
 
-void smo_heatexchanger_rc_(int *n, double *inletEnthalpyFlowRate
-      , double *inletPressure, double *inletDensity
-      , double *inletComIndex, double *wallHeatFlowRate
-      , double *wallTemperature, double *outletDensity
-      , double *outletEnthalpyFlowRate, double *outletMassFlowRate
-      , double *inletTemperature, double *outletTemperature
-      , double *outletTemperatureDot, double rp[3], int ip[1]
-      , void *ps[10], int *flag)
+void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
+      , double *stateIndexInlet, double *flowIndexHeat
+      , double *stateIndexHeat, double *stateIndexOutlet
+      , double *flowIndexOutlet, double *inletTemperature
+      , double *outletTemperature, double *outletTemperatureDot
+      , double *wallTemperature, double *wallHeatFlowRate
+      , double *massFlowRateOutlet, double rp[3], int ip[1], int ic[7]
+      , void *ps[7], int *flag)
 
 {
    int loop, logi;
@@ -178,20 +190,72 @@ void smo_heatexchanger_rc_(int *n, double *inletEnthalpyFlowRate
 
 /* Common -> SI units conversions. */
 
-   *inletPressure *= 1.00000000000000e+005;
+/*   *stateIndexInlet *= ??; CONVERSION UNKNOWN */
+/*   *stateIndexHeat *= ??; CONVERSION UNKNOWN */
+/*   *stateIndexOutlet *= ??; CONVERSION UNKNOWN */
+/*   *flowIndexOutlet *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *inletEnthalpyFlowRate = ??;
-   *wallHeatFlowRate = ??;
+   *flowIndexInlet = ??;
+   *flowIndexHeat = ??;
    *inletTemperature = ??;
    *outletTemperatureDot = ??;
+   *wallTemperature = ??;
+   *wallHeatFlowRate = ??;
+   *massFlowRateOutlet = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   // Initialization at first run
+   if (firstc_()) {
+	   fluidFlowInlet = FluidFlow_new();
+	   fluidFlowIndexInlet = FluidFlow_register(fluidFlowInlet);
+
+	   fluidFlowIndexOutlet = *flowIndexOutlet;
+	   fluidFlowOutlet = FluidFlow_get(fluidFlowIndexOutlet);
+
+	   heatState = MediumState_get(*stateIndexHeat);
+	   heatStateIndex = *stateIndexHeat;
+
+	   heatFlow = FluidFlow_new();
+	   heatFlowIndex = FluidFlow_register(heatFlow);
+   }
+
+   FluidFlow* fluidFlowObjInlet = (FluidFlow*) fluidFlowInlet;
+   FluidFlow* fluidFlowObjOutlet = (FluidFlow*) fluidFlowOutlet;
+
+   if (fluidFlowObjOutlet->massFlowRate > 0) {
+	   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
+	   amefprintf(stderr, "\nReverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
+	   AmeExit(1);
+   }
+
+   MediumState_update_Tp(fluidStateOutlet, *outletTemperature, MediumState_p(fluidStateInlet)); //:TODO: (MILEN) ??? in macro is aslo called this function
+
+   double wallT = MediumState_T(heatState);
+   double inletT = MediumState_T(fluidStateInlet);
+   double outletTemperatureTarget = inletT + (wallT - inletT) * efficienccy;
+
+   fluidFlowObjInlet->massFlowRate = fluidFlowObjOutlet->massFlowRate;
+   fluidFlowObjInlet->enthalpyFlowRate = MediumState_h(fluidStateInlet) * fluidFlowObjInlet->massFlowRate;
+
+   FluidFlow* heatFlowObj = (FluidFlow*) heatFlow;
+   heatFlowObj->massFlowRate = 0.0;
+   heatFlowObj->enthalpyFlowRate = fluidFlowObjOutlet->massFlowRate * MediumState_h(fluidStateOutlet) - fluidFlowObjInlet->enthalpyFlowRate; //wall heat flow rate
+
+   *outletTemperatureDot = (outletTemperatureTarget - *outletTemperature) / tauOutput;
+
+   *wallTemperature = wallT;
+   *wallHeatFlowRate = heatFlowObj->enthalpyFlowRate;
+   *massFlowRateOutlet = fluidFlowObjOutlet->massFlowRate;
+
+   *inletTemperature = inletT;
+   *flowIndexInlet = fluidFlowIndexInlet;
+   *flowIndexHeat = heatFlowIndex;
 /* DELME
 
    // Initialization at first run
@@ -221,15 +285,20 @@ void smo_heatexchanger_rc_(int *n, double *inletEnthalpyFlowRate
 
 /* SI -> Common units conversions. */
 
-   *inletPressure /= 1.00000000000000e+005;
+/*   *flowIndexInlet /= ??; CONVERSION UNKNOWN */
+/*   *stateIndexInlet /= ??; CONVERSION UNKNOWN */
+/*   *flowIndexHeat /= ??; CONVERSION UNKNOWN */
+/*   *stateIndexHeat /= ??; CONVERSION UNKNOWN */
+/*   *stateIndexOutlet /= ??; CONVERSION UNKNOWN */
+/*   *flowIndexOutlet /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_heatexchanger_rc_macro0_(int *n
-      , double *inletPressure, double *outletTemperature, double rp[3]
-      , int ip[1], void *ps[10], int *flag)
+      , double *stateIndexInlet, double *outletTemperature
+      , double rp[3], int ip[1], int ic[7], void *ps[7], int *flag)
 
 {
-   double outletDensity;
+   double stateIndexOutlet;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -246,27 +315,42 @@ extern double smo_heatexchanger_rc_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-   *inletPressure *= 1.00000000000000e+005;
+/*   *stateIndexInlet *= ??; CONVERSION UNKNOWN */
 
 /*
    Define and return the following macro variable:
 
-   outletDensity = ??;
+   stateIndexOutlet = ??;
 */
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-/* DELME
-   FluidPoint* outletNode = (FluidPoint*) OUTLET_NODE;
-   FluidPoint_computeState_p_T(outletNode, *inletPressure, *outletTemperature);
-   outletDensity = outletNode->rho;*/
+   if (firstc_()) {
+	   fluidStateIndexInlet = *stateIndexInlet;
+	   fluidStateInlet = MediumState_get(fluidStateIndexInlet);
+
+	   int mediumIndexInlet = Medium_index(MediumState_getMedium(fluidStateInlet));
+
+	   Medium* fluid = Medium_get(mediumIndexInlet);
+	   fluidStateOutlet = MediumState_new(fluid);
+	   fluidStateIndexOutlet = MediumState_register(fluidStateOutlet);
+   }
+
+   MediumState_update_Tp(fluidStateOutlet, *outletTemperature, MediumState_p(fluidStateInlet));
+
+   stateIndexOutlet = fluidStateIndexOutlet;
+   /* DELME
+      FluidPoint* outletNode = (FluidPoint*) OUTLET_NODE;
+      FluidPoint_computeState_p_T(outletNode, *inletPressure, *outletTemperature);
+      outletDensity = outletNode->rho;*/
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-   *inletPressure /= 1.00000000000000e+005;
+/*   *stateIndexInlet /= ??; CONVERSION UNKNOWN */
 
+/*   *stateIndexOutlet /= ??; CONVERSION UNKNOWN */
 
-   return outletDensity;
+   return stateIndexOutlet;
 }
 
