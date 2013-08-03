@@ -161,7 +161,6 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
    }
    fluidFlowObj3->enthalpyFlowRate = fluidFlowObj3->massFlowRate * upstreamSpecificEnthalpy;
 
-
    fluidFlowObj1->massFlowRate = -fluidFlowObj3->massFlowRate;
    fluidFlowObj1->enthalpyFlowRate = -fluidFlowObj3->enthalpyFlowRate;
 

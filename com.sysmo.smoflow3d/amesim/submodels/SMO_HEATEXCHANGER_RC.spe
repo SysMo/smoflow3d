@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>98</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_simple_heater</DEFAULT_ICON>
+  <SUB_LABEL>pipe heat exchanger (single phase)  (R-C)</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>7</I_STORES_NUMBER>
+  <P_STORES_NUMBER>7</P_STORES_NUMBER>
+  <DISCONTINUITY>1</DISCONTINUITY>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>40</SUB_ID>
+    <TITLE>initial outlet temperature</TITLE>
+    <VARNAME>initialOutletTemperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.50000000000000e+002</DEF_VALUE>
+    <VALUE>1.50000000000000e+002</VALUE>
+    <MIN_VALUE>1.00000000000000e+001</MIN_VALUE>
+    <MAX_VALUE>1.50000000000000e+003</MAX_VALUE>
+    <UNITS>K</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>73</SUB_ID>
+    <TITLE>heat exchanger efficiency</TITLE>
+    <VARNAME>efficienccy</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>71</SUB_ID>
+    <TITLE>output time constant</TITLE>
+    <VARNAME>tauOutput</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+006</MAX_VALUE>
+    <UNITS>s</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>31</SUB_ID>
+    <TITLE>index of fluid</TITLE>
+    <VARNAME>fluidIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>44</SUB_ID>
+    <TITLE>inlet temperature</TITLE>
+    <VARNAME>inletTemperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>69</SUB_ID>
+    <TITLE>outlet temperature</TITLE>
+    <VARNAME>outletTemperature</VARNAME>
+    <VARNAME2>outletTemperatureDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>1</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+    <DEF_VALUE>0</DEF_VALUE>
+    <VALUE>0</VALUE>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>96</SUB_ID>
+    <TITLE>temperature of the wall</TITLE>
+    <VARNAME>wallTemperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>97</SUB_ID>
+    <TITLE>heat flow rate at wall</TITLE>
+    <VARNAME>wallHeatFlowRate</VARNAME>
+    <VARNAME2>outletTemperatureDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>98</SUB_ID>
+    <TITLE>mass flow rate at outlet</TITLE>
+    <VARNAME>massFlowRateOutlet</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/s</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>89</SUB_ID>
+     <TITLE>flow index inlet</TITLE>
+     <VARNAME>flowIndexInlet</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>90</SUB_ID>
+     <TITLE>state index inlet</TITLE>
+     <VARNAME>stateIndexInlet</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>85</SUB_ID>
+     <TITLE>heat flow index</TITLE>
+     <VARNAME>flowIndexHeat</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>86</SUB_ID>
+     <TITLE>heat state index</TITLE>
+     <VARNAME>stateIndexHeat</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>91</SUB_ID>
+     <TITLE>state index outlet</TITLE>
+     <VARNAME>stateIndexOutlet</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+     <EXPRESS2>@_1_2, @_0_2</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>92</SUB_ID>
+     <TITLE>flow index outlet</TITLE>
+     <VARNAME>flowIndexOutlet</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>
