@@ -34,6 +34,7 @@ public:
 	virtual void update_ps(double p, double s);
 
 	virtual double u();
+	virtual double s();
 	virtual double cp();
 	virtual double cv();
 	virtual double dpdt_v();

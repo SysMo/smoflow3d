@@ -105,6 +105,13 @@ double MediumState_FluidCoolProp::u() {
 	return _u;
 }
 
+double MediumState_FluidCoolProp::s() {
+	if (!_s) {
+		_s = cps.s();
+	}
+	return _s;
+}
+
 double MediumState_FluidCoolProp::cp() {
 	if (!_cp) {
 		_cp = cps.cp();
