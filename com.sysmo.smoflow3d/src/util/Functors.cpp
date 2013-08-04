@@ -84,7 +84,7 @@ protected:
 
 BEGIN_C_LINKAGE
 
-FunctorOneVariable* FunctorOneVariable_newExpression(const char* expressionString,
+FunctorOneVariable* FunctorOneVariable_Expression_new(const char* expressionString,
 		const char* varName) {
 	return new FunctorOneVariable_Expression(expressionString, varName);
 }
@@ -93,11 +93,11 @@ double FunctorOneVariable_evaluate(FunctorOneVariable* functor, double value) {
 	return (*functor)(value);
 }
 
-FunctorTwoVariables* FunctorTwoVariables_newConstant(double constantValue) {
+FunctorTwoVariables* FunctorTwoVariables_Constant_new(double constantValue) {
 	return new FunctorTwoVariables_Constant(constantValue);
 }
 
-FunctorTwoVariables* FunctorTwoVariables_newExpression(const char* expressionString,
+FunctorTwoVariables* FunctorTwoVariables_Expression_new(const char* expressionString,
 		const char* var1Name, const char* var2Name) {
 	return new FunctorTwoVariables_Expression(expressionString, var1Name, var2Name);
 }

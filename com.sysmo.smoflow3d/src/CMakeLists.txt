@@ -54,15 +54,5 @@ install(TARGETS SmoFlow
 #######################################
 # SmoFlow Tests
 #######################################
-
-add_executable(TestMediaHydrogen
-    test/MediaHydrogen.cpp
-)
-
-target_link_libraries(TestMediaHydrogen SmoFlow CoolProp)
-
-install(TARGETS 
-    TestMediaHydrogen
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION bin    
-)
+add_smo_test(MediaHydrogenTest "test/MediaHydrogen.cpp;")
+add_smo_test(FunctorsTest "test/Functors.cpp;")

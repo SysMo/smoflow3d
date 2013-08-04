@@ -3,7 +3,6 @@ enable_testing()
 
 
 project(com.sysmo.smoflow3d)
-
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}")
 #message("Boost root: $ENV{BOOST_ROOT}")
 
@@ -20,9 +19,23 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX )
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall") # -m32 for 32 bit compilation
 endif()
 
+##########################################
+# User functions
+##########################################
+function (add_smo_test TEST_NAME TEST_SOURCES)
+    add_executable(${TEST_NAME} ${TEST_SOURCES})
+    target_link_libraries(${TEST_NAME} SmoFlow CoolProp)
+    install(
+    TARGETS ${TEST_NAME}
+    RUNTIME DESTINATION bin/tests
+    LIBRARY DESTINATION bin/tests
+    )
+endfunction()
+
+
+
 include_directories(src)
 add_subdirectory(src)
 
 include_directories(src_c)
 add_subdirectory(src_c)
-    
