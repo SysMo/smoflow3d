@@ -17,7 +17,6 @@ smo_reg_valve_2port
 &SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
 &SMO_VALVE_2PORT_MASS_FLOW SmoFlow3d
 &SMO_VALVE_2PORT_REGULATING_SIGNAL SmoFlow3d
-tpf_adiab_chamber
 smo_fluid_chamber_cst_volume
 &SMO_FLUID_CHAMBER SmoFlow3d
 smo_drive_cycle_reader
@@ -29,3 +28,5 @@ smo_pump
 smo_simple_heater
 &SMO_HEATEXCHANGER_CR SmoFlow3d
 &SMO_HEATEXCHANGER_RC SmoFlow3d
+smo_fluid_chamber_cst_volume_4port
+&SMO_FLUID_CHAMBER_4PORT SmoFlow3d

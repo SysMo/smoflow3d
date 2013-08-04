@@ -1,5 +1,5 @@
-/* Submodel SMO_FLUID_CHAMBER skeleton created by AME Submodel editing utility
-   Sun Aug 4 16:40:09 2013 */
+/* Submodel SMO_FLUID_CHAMBER_4PORT skeleton created by AME Submodel editing utility
+   Sun Aug 4 16:50:13 2013 */
 
 
 
@@ -24,16 +24,19 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_FLUID_CHAMBER"
+#define _SUBMODELNAME_ "SMO_FLUID_CHAMBER_4PORT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "volumes/FluidChamber.h"
 #include "flow/FluidFlow.h"
+
 #define fluidChamberStateIndex ic[0]
 #define fluidChamber ps[0]
 #define fluidState ps[1]
 #define flow1 ps[2]
 #define flow2 ps[3]
+#define flow3 ps[4]
+#define flow4 ps[5]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -41,7 +44,7 @@ REVISIONS :
 
    initialPressure        initial pressure          [barA -> PaA]
    initialTemperature     initial temperature (K)   [K]
-   initialTemperatureC    initial temperature (°C)  [degC]
+   initialTemperatureC    initial temperature (ï¿½C)  [degC]
    initialGasMassFraction initial gas mass fraction [null]
    initialSuperheat       initial superheat         [K]
    volume                 volume                    [L -> m**3]
@@ -55,8 +58,8 @@ REVISIONS :
    stateVariableSelection states variables      
 */
 
-void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
-      , void *ps[4], double *state1, double *state2)
+void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
+      , int ic[1], void *ps[6], double *state1, double *state2)
 
 {
    int loop, error;
@@ -132,6 +135,7 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
 Medium* fluid = Medium_get(fluidIndex);
 fluidChamber = FluidChamber_new(fluid);
 FluidChamber_setVolume(fluidChamber, volume);
+
 fluidState = FluidChamber_getFluidState(fluidChamber);
 fluidChamberStateIndex = MediumState_index(fluidState);
 
@@ -158,21 +162,32 @@ if (initConditionsChoice == 1) {
     amefprintf(stderr, "Terminating the program.\n");
     AmeExit(1);
 }
+
 FluidChamber_getStateValues(fluidChamber, state1, state2, 1);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
-/*  There are 2 ports.
+/*  There are 4 ports.
 
    Port 1 has 2 variables:
 
-      1 stateIndex     state index  [smoTDS] multi line macro 'smo_fluid_chamber_macro0_'  UNPLOTTABLE
+      1 stateIndex     state index  [smoTDS] multi line macro 'smo_fluid_chamber_4port_macro0_'  UNPLOTTABLE
       2 flowIndex1     flow index 1 [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
-      1 stateIndexDup     duplicate of stateIndex
-      2 flowIndex2        flow index 2 [smoFFL] basic variable input  UNPLOTTABLE
+      1 stateIndexDup2     duplicate of stateIndex
+      2 flowIndex2         flow index 2 [smoFFL] basic variable input  UNPLOTTABLE
+
+   Port 3 has 2 variables:
+
+      1 stateIndexDup3     duplicate of stateIndex
+      2 flowIndex3         flow index 3 [smoFFL] basic variable input  UNPLOTTABLE
+
+   Port 4 has 2 variables:
+
+      1 stateIndexDup4     duplicate of stateIndex
+      2 flowIndex4         flow index 4 [smoFFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 9 internal variables.
@@ -188,13 +203,14 @@ FluidChamber_getStateValues(fluidChamber, state1, state2, 1);
       9 state2               state variable 2       [null]          explicit state (derivative `state2Dot')
 */
 
-void smo_fluid_chamber_(int *n, double *stateIndex, double *flowIndex1
-      , double *flowIndex2, double *pressure, double *temperature
+void smo_fluid_chamber_4port_(int *n, double *stateIndex
+      , double *flowIndex1, double *flowIndex2, double *flowIndex3
+      , double *flowIndex4, double *pressure, double *temperature
       , double *density, double *specificEnthalpy
       , double *gasMassFraction, double *superHeat, double *totalMass
       , double *state1, double *state1Dot, double *state2
       , double *state2Dot, double rp[6], int ip[3], int ic[1]
-      , void *ps[4])
+      , void *ps[6])
 
 {
    int loop;
@@ -221,6 +237,8 @@ void smo_fluid_chamber_(int *n, double *stateIndex, double *flowIndex1
 /*   *stateIndex *= ??; CONVERSION UNKNOWN */
 /*   *flowIndex1 *= ??; CONVERSION UNKNOWN */
 /*   *flowIndex2 *= ??; CONVERSION UNKNOWN */
+/*   *flowIndex3 *= ??; CONVERSION UNKNOWN */
+/*   *flowIndex4 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -242,9 +260,13 @@ void smo_fluid_chamber_(int *n, double *stateIndex, double *flowIndex1
    if (firstc_()) {
 	   flow1 = FluidFlow_get(*flowIndex1);
 	   flow2 = FluidFlow_get(*flowIndex2);
+	   flow3 = FluidFlow_get(*flowIndex3);
+	   flow4 = FluidFlow_get(*flowIndex4);
    }
-   double massFlowRate = FluidFlow_getMassFlowRate(flow1) + FluidFlow_getMassFlowRate(flow2);
-   double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow1) + FluidFlow_getEnthalpyFlowRate(flow2);
+   double massFlowRate = FluidFlow_getMassFlowRate(flow1) + FluidFlow_getMassFlowRate(flow2)
+		   +  FluidFlow_getMassFlowRate(flow3) + FluidFlow_getMassFlowRate(flow4);
+   double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow1) + FluidFlow_getEnthalpyFlowRate(flow2)
+		   + FluidFlow_getEnthalpyFlowRate(flow3) + FluidFlow_getEnthalpyFlowRate(flow4);
    FluidChamber_computeStateDerivatives(fluidChamber, massFlowRate, enthalpyFlowRate, 0, 0);
    FluidChamber_getStateDerivatives(fluidChamber, state1Dot, state2Dot);
 
@@ -263,13 +285,15 @@ void smo_fluid_chamber_(int *n, double *stateIndex, double *flowIndex1
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */
 /*   *flowIndex1 /= ??; CONVERSION UNKNOWN */
 /*   *flowIndex2 /= ??; CONVERSION UNKNOWN */
+/*   *flowIndex3 /= ??; CONVERSION UNKNOWN */
+/*   *flowIndex4 /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
 }
 
-extern double smo_fluid_chamber_macro0_(int *n, double *state1
+extern double smo_fluid_chamber_4port_macro0_(int *n, double *state1
       , double *state2, double rp[6], int ip[3], int ic[1]
-      , void *ps[4])
+      , void *ps[6])
 
 {
    double stateIndex;
