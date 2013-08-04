@@ -9,12 +9,12 @@
 #ifndef MECHANICALCOMPRESSOR_H_
 #define MECHANICALCOMPRESSOR_H_
 
-#include "FlowRComponent.h"
+#include "util/Functors.h"
 #include "FluidFlow.h"
+#include "FlowRComponent.h"
 
 #ifdef __cplusplus
 
-#include "util/Functors.h"
 
 class MechanicalCompressor : public FlowRComponent {
 public:
@@ -24,10 +24,10 @@ public:
 	void setDisplacementVolume(double displacementVolume) {this->displacementVolume = displacementVolume;}
 	void setRotationalSpeed(double rotationalSpeed) {this->rotationalSpeed = rotationalSpeed;};
 
-	void setIsentropicEfficiencyFunction(FunctorTwoVariables* isentropicEfficiencyFunction){this->isentropicEfficiencyFunction = isentropicEfficiencyFunction;}
-	void setMechanicalEfficiencyFunction(FunctorTwoVariables* mechanicalEfficiencyFunction){this->mechanicalEfficiencyFunction = mechanicalEfficiencyFunction;}
 	void setVolumetricEfficiencyFunction(FunctorTwoVariables* volumetricEfficiencyFunction){this->volumetricEfficiencyFunction = volumetricEfficiencyFunction;}
 	void setVolumetricFlowRateFunction(FunctorTwoVariables*  volumetricFlowRateFunction){this->volumetricFlowRateFunction = volumetricFlowRateFunction;}
+	void setIsentropicEfficiencyFunction(FunctorTwoVariables* isentropicEfficiencyFunction){this->isentropicEfficiencyFunction = isentropicEfficiencyFunction;}
+	void setMechanicalEfficiencyFunction(FunctorTwoVariables* mechanicalEfficiencyFunction){this->mechanicalEfficiencyFunction = mechanicalEfficiencyFunction;}
 
 	void compute();
 	void getInletFlowRates(FluidFlow* inletFlow);
@@ -42,10 +42,10 @@ protected:
 	/* Inputs */
 	double displacementVolume;
 	double rotationalSpeed;
-	FunctorTwoVariables* isentropicEfficiencyFunction;
-	FunctorTwoVariables* mechanicalEfficiencyFunction;
 	FunctorTwoVariables* volumetricEfficiencyFunction;
 	FunctorTwoVariables* volumetricFlowRateFunction;
+	FunctorTwoVariables* isentropicEfficiencyFunction;
+	FunctorTwoVariables* mechanicalEfficiencyFunction;
 
 
 	/* Results */
@@ -73,13 +73,15 @@ MechanicalCompressor* MechanicalCompressor_new();
 void MechanicalCompressor_init(MechanicalCompressor* compressor,
 		MediumState* state1, MediumState* state2);
 void MechanicalCompressor_setDisplacementVolume(MechanicalCompressor* compressor, double displacementVolume);
-void MechanicalCompressor_setRotationalSpeed(MechanicalCompressor* compressor, double rotationalSpeed);
+void MechanicalCompressor_setVolumetricEfficiencyFunction(MechanicalCompressor* compressor,
+		FunctorTwoVariables* volumetricEfficiencyFunction);
+void MechanicalCompressor_setVolumetricFlowRateFunction(MechanicalCompressor* compressor,
+		FunctorTwoVariables* volumetricFlowRateFunction);
 void MechanicalCompressor_setIsentropicEfficiencyFunction(MechanicalCompressor* compressor,
 		FunctorTwoVariables* isentropicEfficiencyFunction);
 void MechanicalCompressor_setMechanicalEfficiencyFunction(MechanicalCompressor* compressor,
 		FunctorTwoVariables* mechanicalEfficiencyFunction);
-void MechanicalCompressor_setVolumetricEfficiencyFunction(MechanicalCompressor* compressor,
-		FunctorTwoVariables* volumetricEfficiencyFunction);
+void MechanicalCompressor_setRotationalSpeed(MechanicalCompressor* compressor, double rotationalSpeed);
 void MechanicalCompressor_compute(MechanicalCompressor* compressor);
 void MechanicalCompressor_getInletFlowRates(MechanicalCompressor* compressor, FluidFlow* inletFlow);
 void MechanicalCompressor_getOutletFlowRates(MechanicalCompressor* compressor, FluidFlow* outletFlow);

@@ -4,19 +4,19 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>97</SUB_ID_MAX>
+  <SUB_ID_MAX>100</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pump</DEFAULT_ICON>
   <SUB_LABEL>mechanical compressor (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <R_STORES_NUMBER>15</R_STORES_NUMBER>
-  <I_STORES_NUMBER>15</I_STORES_NUMBER>
+  <I_STORES_NUMBER>10</I_STORES_NUMBER>
+  <P_STORES_NUMBER>10</P_STORES_NUMBER>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
    <RPARAM>
     <SUB_ID>39</SUB_ID>
     <TITLE>displacement volume</TITLE>
     <VARNAME>displacementVolume</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>flowRateCalculationMethod == 1</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+002</DEF_VALUE>
     <VALUE>1.00000000000000e+002</VALUE>
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
@@ -26,14 +26,22 @@
   </RPARAMS_LIST>
   <IPARAMS_LIST>
    <IPARAM>
-    <SUB_ID>47</SUB_ID>
-    <TITLE>index of fluid</TITLE>
-    <VARNAME>fluidIndex</VARNAME>
+    <SUB_ID>100</SUB_ID>
+    <TITLE>flow rate calculation method</TITLE>
+    <VARNAME>flowRateCalculationMethod</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
     <MIN_VALUE>1</MIN_VALUE>
-    <MAX_VALUE>99</MAX_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>displacement volume and volumetric efficiency</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>volumetric flow rate function</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
    </IPARAM>
   </IPARAMS_LIST>
   <TPARAMS_LIST>
@@ -41,9 +49,18 @@
     <SUB_ID>54</SUB_ID>
     <TITLE>expression for volumetric efficiency [-] = f(N[rev/min], tau[-l])</TITLE>
     <VARNAME>etaVolumetricExpression</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>flowRateCalculationMethod == 1</VISIBILITY>
     <DEF_VALUE>0.6</DEF_VALUE>
     <VALUE>0.6</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>99</SUB_ID>
+    <TITLE>expression for volumetric flow rate [m^3/s] = f(N[rev/min], tau[-])</TITLE>
+    <VARNAME>volumetricFlowRateExpression</VARNAME>
+    <VISIBILITY>flowRateCalculationMethod == 2</VISIBILITY>
+    <DEF_VALUE>1e-3</DEF_VALUE>
+    <VALUE>1e-3</VALUE>
     <TEXT_TYPE>0</TEXT_TYPE>
    </TPARAM>
    <TPARAM>
@@ -65,22 +82,6 @@
     <TEXT_TYPE>0</TEXT_TYPE>
    </TPARAM>
   </TPARAMS_LIST>
-  <PARAMS_GROUPS_LIST>
-   <PARAMS_GROUP>
-    <ORIG_TITLE>efficiencies</ORIG_TITLE>
-    <NAME>efficiencies</NAME>
-    <SUB_ID>58</SUB_ID>
-    <SUB_IDS>
-     54 0
-     55 0
-     56 0
-     32 1
-     33 1
-     34 1
-    </SUB_IDS>
-    <EDITABLE>0</EDITABLE>
-   </PARAMS_GROUP>
-  </PARAMS_GROUPS_LIST>
   <IVARS_LIST>
    <IVAR>
     <SUB_ID>31</SUB_ID>
@@ -141,8 +142,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>13</SUB_ID>
-     <TITLE>inlet flow</TITLE>
-     <VARNAME>inletFlow</VARNAME>
+     <TITLE>inlet flow index</TITLE>
+     <VARNAME>inletFlowIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -152,8 +153,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>93</SUB_ID>
-     <TITLE>inlet state</TITLE>
-     <VARNAME>inletState</VARNAME>
+     <TITLE>inlet state index</TITLE>
+     <VARNAME>inletStateIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -165,8 +166,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>94</SUB_ID>
-     <TITLE>outlet flow</TITLE>
-     <VARNAME>outletFlow</VARNAME>
+     <TITLE>outlet flow index</TITLE>
+     <VARNAME>outletFlowIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -176,8 +177,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>95</SUB_ID>
-     <TITLE>outlet state</TITLE>
-     <VARNAME>outletState</VARNAME>
+     <TITLE>outlet state index</TITLE>
+     <VARNAME>outletStateIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>

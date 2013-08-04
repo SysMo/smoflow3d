@@ -133,8 +133,10 @@ typedef Real* RealFunction(Real);
 	ExceptionClass smoError(errorStream.str()); \
 	String str(errorStream.str()); \
 	throw smoError;  \
-	}\
-	{throw -1;} //:TRICKY: this line remove some warnings and will never be reached
+	}
+
+
+//{throw -1;} //:TRICKY: this line remove some warnings and will never be reached
 
 #define RaiseError(message) \
 	ThrowSpecificException (message, std::runtime_error)

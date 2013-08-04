@@ -22,13 +22,15 @@ MechanicalCompressor::~MechanicalCompressor() {
 
 void MechanicalCompressor::init(MediumState* state1, MediumState* state2) {
 	// Check parameters
-	if (isentropicEfficiencyFunction == NULL)
+	if (isentropicEfficiencyFunction == NULL) {
 		RaiseError("Function for evaluating isentropic efficiency not set");
-	if (mechanicalEfficiencyFunction == NULL)
+	}
+	if (mechanicalEfficiencyFunction == NULL) {
 		RaiseError("Function for evaluating mechanical efficiency not set");
-	if (volumetricFlowRateFunction == NULL && volumetricEfficiencyFunction == NULL)
+	}
+	if (volumetricFlowRateFunction == NULL && volumetricEfficiencyFunction == NULL) {
 		RaiseError("Neither 'volumetric flow rate' nor 'volumetric efficiency' functions set");
-
+	}
 	FlowRComponent::init(state1, state2);
 	outletFlowStateIdeal = MediumState_new(state1->getMedium());
 	MediumState_register(outletFlowStateIdeal);
@@ -36,18 +38,19 @@ void MechanicalCompressor::init(MediumState* state1, MediumState* state2) {
 
 void MechanicalCompressor::compute() {
 	pressureRatio = state2->p() / state1->p();
-
-	mechanicalEfficiency = (*mechanicalEfficiencyFunction)(rotationalSpeed, pressureRatio);
-	isentropicEfficiency = (*isentropicEfficiencyFunction)(rotationalSpeed, pressureRatio);
+	double rotationalSpeedRPM = rotationalSpeed / (2 * M_PI) * 60;
 
 	double volumetricFlowRate = 0;
 	if (volumetricFlowRateFunction != NULL) {
-		volumetricFlowRate = (*volumetricFlowRateFunction)(rotationalSpeed, pressureRatio);
+		volumetricFlowRate = (*volumetricFlowRateFunction)(rotationalSpeedRPM, pressureRatio);
 	} else {
-		volumetricEfficiency = (*volumetricEfficiencyFunction)(rotationalSpeed, pressureRatio);
-		volumetricFlowRate = volumetricEfficiency * rotationalSpeed * displacementVolume;
+		volumetricEfficiency = (*volumetricEfficiencyFunction)(rotationalSpeedRPM, pressureRatio);
+		volumetricFlowRate = volumetricEfficiency * rotationalSpeed / (2 * M_PI) * displacementVolume;
 	}
 	massFlowRate = volumetricFlowRate * state1->rho();
+
+	mechanicalEfficiency = (*mechanicalEfficiencyFunction)(rotationalSpeedRPM, pressureRatio);
+	isentropicEfficiency = (*isentropicEfficiencyFunction)(rotationalSpeedRPM, pressureRatio);
 
 	double sIn = state1->s();
 	outletFlowStateIdeal->update_ps(state2->p(), sIn);
@@ -56,7 +59,7 @@ void MechanicalCompressor::compute() {
 	outletEnthalpyReal = state1->h() + enthalpyChangeReal;
 
 	compressorWork = massFlowRate * enthalpyChangeReal / mechanicalEfficiency;
-	torque = compressorWork / (2 * 3.14 * rotationalSpeed);
+	torque = compressorWork / rotationalSpeed;
 
 }
 
@@ -86,6 +89,16 @@ void MechanicalCompressor_setRotationalSpeed(MechanicalCompressor* compressor, d
 	compressor->setRotationalSpeed(rotationalSpeed);
 }
 
+void MechanicalCompressor_setVolumetricEfficiencyFunction(MechanicalCompressor* compressor,
+		FunctorTwoVariables* volumetricEfficiencyFunction) {
+	compressor->setVolumetricEfficiencyFunction(volumetricEfficiencyFunction);
+}
+
+void MechanicalCompressor_setVolumetricFlowRateFunction(MechanicalCompressor* compressor,
+		FunctorTwoVariables* volumetricFlowRateFunction) {
+	compressor->setVolumetricFlowRateFunction(volumetricFlowRateFunction);
+}
+
 void MechanicalCompressor_setIsentropicEfficiencyFunction(MechanicalCompressor* compressor,
 		FunctorTwoVariables* isentropicEfficiencyFunction) {
 	compressor->setIsentropicEfficiencyFunction(isentropicEfficiencyFunction);
@@ -96,10 +109,6 @@ void MechanicalCompressor_setMechanicalEfficiencyFunction(MechanicalCompressor* 
 	compressor->setMechanicalEfficiencyFunction(mechanicalEfficiencyFunction);
 }
 
-void MechanicalCompressor_setVolumetricEfficiencyFunction(MechanicalCompressor* compressor,
-		FunctorTwoVariables* volumetricEfficiencyFunction) {
-	compressor->setVolumetricEfficiencyFunction(volumetricEfficiencyFunction);
-}
 
 void MechanicalCompressor_compute(MechanicalCompressor* compressor) {
 	compressor->compute();

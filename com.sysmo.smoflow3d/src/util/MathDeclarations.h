@@ -25,7 +25,9 @@
 #define FABS(x) std::fabs((long double) x)
 #define SQRT(x) std::sqrt((long double) x)
 
-
+inline double pow(double x, double y) {
+	return std::pow(x, y);
+}
 
 //
 // Macro-like inline functions

@@ -29,8 +29,8 @@ void Orifice_computeMassFlow_CompressibleIdealGas(Orifice* orifice, double regul
 		orifice->massFlowRate = 0.0;
 		return;
 	}
-
-	double pCr = POW(2/(g+1) , g/(g-1)); // critical pressure
+#include <math.h>
+	double pCr = pow(2/(g+1) , g/(g-1)); // critical pressure
 
 	double flowParam = 0.0; //flow parameter
 	if (pDn/pUp > pCr) {//(subsonic)

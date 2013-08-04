@@ -1,5 +1,5 @@
 /* Submodel SMO_MECHANICAL_COMPRESSOR skeleton created by AME Submodel editing utility
-   Sat Aug 3 18:28:55 2013 */
+   Sun Aug 4 16:33:58 2013 */
 
 
 
@@ -27,6 +27,13 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_MECHANICAL_COMPRESSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "flow/MechanicalCompressor.h"
+#include "util/Functors.h"
+#define compressorObject ps[0]
+#define inletFlow ps[1]
+#define outletFlow ps[2]
+#define _inletFlowIndex ic[0]
+#define _outletFlowIndex ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -38,36 +45,38 @@ REVISIONS :
 
 /* There is 1 integer parameter:
 
-   fluidIndex index of fluid
+   flowRateCalculationMethod flow rate calculation method
 */
 
 
-/* There are 3 text parameters:
+/* There are 4 text parameters:
 
-   etaVolumetricExpression expression for volumetric efficiency [-] = f(N[rev/min], tau[-l])
-   etaIsentropicExpression expression for isentropic efficiency [-] = f(N[rev/min], tau[-]) 
-   etaMechanicalExpression expression for mechanical efficiency [-] = f(N[rev/min], tau[-]) 
+   etaVolumetricExpression      expression for volumetric efficiency [-] = f(N[rev/min], tau[-l])  
+   volumetricFlowRateExpression expression for volumetric flow rate [m^3/s] = f(N[rev/min], tau[-])
+   etaIsentropicExpression      expression for isentropic efficiency [-] = f(N[rev/min], tau[-])   
+   etaMechanicalExpression      expression for mechanical efficiency [-] = f(N[rev/min], tau[-])   
 */
 
 void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
-      , char *tp[3], double c[15], int ic[15])
+      , char *tp[4], int ic[10], void *ps[10])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int fluidIndex;
+   int flowRateCalculationMethod;
    double displacementVolume;
-   char *etaVolumetricExpression, *etaIsentropicExpression, 
-      *etaMechanicalExpression;
+   char *etaVolumetricExpression, *volumetricFlowRateExpression, 
+      *etaIsentropicExpression, *etaMechanicalExpression;
 
-   fluidIndex = ip[0];
+   flowRateCalculationMethod = ip[0];
 
    displacementVolume = rp[0];
 
    etaVolumetricExpression = tp[0];
-   etaIsentropicExpression = tp[1];
-   etaMechanicalExpression = tp[2];
+   volumetricFlowRateExpression = tp[1];
+   etaIsentropicExpression = tp[2];
+   etaMechanicalExpression = tp[3];
    loop = 0;
    error = 0;
 
@@ -83,9 +92,9 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
 
 /*   Integer parameter checking:   */
 
-   if (fluidIndex < 1 || fluidIndex > 99)
+   if (flowRateCalculationMethod < 1 || flowRateCalculationMethod > 2)
    {
-      amefprintf(stderr, "\nindex of fluid must be in range [1..99].\n");
+      amefprintf(stderr, "\nflow rate calculation method must be in range [1..2].\n");
       error = 2;
    }
 
@@ -107,6 +116,24 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   compressorObject = MechanicalCompressor_new();
+   inletFlow = FluidFlow_new();
+   _inletFlowIndex = FluidFlow_register(inletFlow);
+   outletFlow = FluidFlow_new();
+   _outletFlowIndex = FluidFlow_register(outletFlow);
+
+   if (flowRateCalculationMethod == 1) {
+	   MechanicalCompressor_setDisplacementVolume(compressorObject, displacementVolume);
+	   MechanicalCompressor_setVolumetricEfficiencyFunction(compressorObject,
+			   FunctorTwoVariables_Expression_new(etaVolumetricExpression, "N", "tau"));
+   } else {
+	   MechanicalCompressor_setVolumetricFlowRateFunction(compressorObject,
+			   FunctorTwoVariables_Expression_new(volumetricFlowRateExpression, "N", "tau"));
+   }
+   MechanicalCompressor_setIsentropicEfficiencyFunction(compressorObject,
+		   FunctorTwoVariables_Expression_new(etaIsentropicExpression, "N", "tau"));
+   MechanicalCompressor_setMechanicalEfficiencyFunction(compressorObject,
+		   FunctorTwoVariables_Expression_new(etaMechanicalExpression, "N", "tau"));
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -114,13 +141,13 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
 
    Port 1 has 2 variables:
 
-      1 inletFlow      inlet flow  [smoFFL] basic variable output  UNPLOTTABLE
-      2 inletState     inlet state [smoTDS] basic variable input  UNPLOTTABLE
+      1 inletFlowIndex      inlet flow index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 inletStateIndex     inlet state index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
-      1 outletFlow      outlet flow  [smoFFL] basic variable output  UNPLOTTABLE
-      2 outletState     outlet state [smoTDS] basic variable input  UNPLOTTABLE
+      1 outletFlowIndex      outlet flow index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 outletStateIndex     outlet state index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 3 has 2 variables:
 
@@ -138,43 +165,44 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
       6 compressorWork     compressor work       [W]    basic variable
 */
 
-void smo_mechanical_compressor_(int *n, double *inletFlow
-      , double *inletState, double *outletFlow, double *outletState
-      , double *torque, double *rotarySpeed, double *pressureRatio
-      , double *etaVolumetric, double *etaIsentropic
-      , double *etaMechanical, double *massFlowRate
-      , double *compressorWork, double rp[1], int ip[1], char *tp[3]
-      , double c[15], int ic[15])
+void smo_mechanical_compressor_(int *n, double *inletFlowIndex
+      , double *inletStateIndex, double *outletFlowIndex
+      , double *outletStateIndex, double *torque, double *rotarySpeed
+      , double *pressureRatio, double *etaVolumetric
+      , double *etaIsentropic, double *etaMechanical
+      , double *massFlowRate, double *compressorWork, double rp[1]
+      , int ip[1], char *tp[4], int ic[10], void *ps[10])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int fluidIndex;
+   int flowRateCalculationMethod;
    double displacementVolume;
-   char *etaVolumetricExpression, *etaIsentropicExpression, 
-      *etaMechanicalExpression;
+   char *etaVolumetricExpression, *volumetricFlowRateExpression, 
+      *etaIsentropicExpression, *etaMechanicalExpression;
 
-   fluidIndex = ip[0];
+   flowRateCalculationMethod = ip[0];
 
    displacementVolume = rp[0];
 
    etaVolumetricExpression = tp[0];
-   etaIsentropicExpression = tp[1];
-   etaMechanicalExpression = tp[2];
+   volumetricFlowRateExpression = tp[1];
+   etaIsentropicExpression = tp[2];
+   etaMechanicalExpression = tp[3];
    loop = 0;
 
 /* Common -> SI units conversions. */
 
-/*   *inletState *= ??; CONVERSION UNKNOWN */
-/*   *outletState *= ??; CONVERSION UNKNOWN */
+/*   *inletStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *outletStateIndex *= ??; CONVERSION UNKNOWN */
    *rotarySpeed *= 1.04719755119660e-001;
 
 /*
    Set all submodel outputs below:
 
-   *inletFlow  = ??;
-   *outletFlow = ??;
+   *inletFlowIndex = ??;
+   *outletFlowIndex = ??;
    *torque     = ??;
    *pressureRatio = ??;
    *etaVolumetric = ??;
@@ -187,14 +215,34 @@ void smo_mechanical_compressor_(int *n, double *inletFlow
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   if (firstc_()) {
+	   MediumState* inletState = MediumState_get(*inletStateIndex);
+	   MediumState* outletState = MediumState_get(*outletStateIndex);
+	   MechanicalCompressor_init(compressorObject, inletState, outletState);
+   }
+   MechanicalCompressor_setRotationalSpeed(compressorObject, *rotarySpeed);
+   MechanicalCompressor_compute(compressorObject);
+   MechanicalCompressor_getInletFlowRates(compressorObject, inletFlow);
+   MechanicalCompressor_getOutletFlowRates(compressorObject, outletFlow);
+   *inletFlowIndex = _inletFlowIndex;
+   *outletFlowIndex = _outletFlowIndex;
+
+   *pressureRatio = MechanicalCompressor_getPressureRatio(compressorObject);
+   *torque = MechanicalCompressor_getTorque(compressorObject);
+   *etaVolumetric = MechanicalCompressor_getVolumetricEfficiency(compressorObject);
+   *etaIsentropic = MechanicalCompressor_getIsentropicEfficiency(compressorObject);
+   *etaMechanical = MechanicalCompressor_getMechanicalEfficiency(compressorObject);
+   *massFlowRate = FluidFlow_getMassFlowRate(outletFlow);
+   *compressorWork = MechanicalCompressor_getCompressorWork(compressorObject);
+
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *inletFlow /= ??; CONVERSION UNKNOWN */
-/*   *inletState /= ??; CONVERSION UNKNOWN */
-/*   *outletFlow /= ??; CONVERSION UNKNOWN */
-/*   *outletState /= ??; CONVERSION UNKNOWN */
+/*   *inletFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *inletStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *outletFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *outletStateIndex /= ??; CONVERSION UNKNOWN */
    *rotarySpeed /= 1.04719755119660e-001;
 }
 

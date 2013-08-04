@@ -27,6 +27,7 @@ public:
 
 
 #else //__cplusplus
+DECLARE_C_STRUCT(FunctorOneVariable)
 DECLARE_C_STRUCT(FunctorTwoVariables)
 #endif //__cplusplus
 
