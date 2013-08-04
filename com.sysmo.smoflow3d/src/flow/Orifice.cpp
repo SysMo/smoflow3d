@@ -8,6 +8,11 @@
 
 #include "Orifice.h"
 
+
+using namespace smoflow;
+
+
+BEGIN_C_LINKAGE
 Orifice* Orifice_new() {
 	return new Orifice();
 }
@@ -29,22 +34,24 @@ void Orifice_computeMassFlow_CompressibleIdealGas(Orifice* orifice, double regul
 		orifice->massFlowRate = 0.0;
 		return;
 	}
-#include <math.h>
-	double pCr = pow(2/(g+1) , g/(g-1)); // critical pressure
+
+	double pCr = m::pow(2/(g+1) , g/(g-1)); // critical pressure
 
 	double flowParam = 0.0; //flow parameter
 	if (pDn/pUp > pCr) {//(subsonic)
-		flowParam = SQRT(2*g/(r*(g-1)))
-			* SQRT(POW(pDn/pUp, 2/g) - POW(pDn/pUp,(g+1)/g));
+		flowParam = m::sqrt(2*g/(r*(g-1)))
+			* m::sqrt(m::pow(pDn/pUp, 2/g) - m::pow(pDn/pUp,(g+1)/g));
 	} else { //pDn/pUp <= pCr (sonic)
-		flowParam = SQRT(2*g/(r*(g+1)))
-			* POW((2/g+1), 1/(g-1));
+		flowParam = m::sqrt(2*g/(r*(g+1)))
+			* m::pow((2/(g+1)), 1/(g-1));
 	}
 
 	orifice->massFlowRate = orifice->orificeArea * orifice->flowCoefficient
-		* flowParam * pUp / SQRT(tUp);
+		* flowParam * pUp / m::sqrt(tUp);
 }
 
 void Orifice_computeEnthalpyFlow(Orifice* orifice) {
 	orifice->enthalpyFlowRate = orifice->massFlowRate * MediumState_h(orifice->stateUp);
 }
+
+END_C_LINKAGE

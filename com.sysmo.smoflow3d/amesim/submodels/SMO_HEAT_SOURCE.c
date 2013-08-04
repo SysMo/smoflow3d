@@ -104,6 +104,8 @@ void smo_heat_source_(int *n, double *heatFlowRate, double *flowIndex
    FluidFlow* heatFlowObj = (FluidFlow*) heatFlow;
    heatFlowObj->massFlowRate = 0;
    heatFlowObj->enthalpyFlowRate = *heatFlowRate;
+
+   *flowIndex = heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

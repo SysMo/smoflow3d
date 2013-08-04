@@ -11,6 +11,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_zero_flow" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_reg_valve_2port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pump" />
@@ -30,6 +31,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_zero_flow" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_reg_valve_2port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pump" />
