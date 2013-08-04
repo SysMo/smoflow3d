@@ -57,6 +57,8 @@ public:
 	virtual double mu();
 	virtual double lambda();
 	virtual double Pr();
+	virtual double R(); //mass-specific gas constant [J/kg/K]
+
 protected:
 	MediumState(Medium* medium);
 
@@ -114,6 +116,8 @@ double MediumState_beta(MediumState* mstate);
 double MediumState_mu(MediumState* mstate);
 double MediumState_lambda(MediumState* mstate);
 double MediumState_Pr(MediumState* mstate);
+double MediumState_gamma(MediumState* mstate);
+double MediumState_R(MediumState* mstate);
 END_C_LINKAGE
 
 

@@ -4,9 +4,9 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>65</SUB_ID_MAX>
+  <SUB_ID_MAX>70</SUB_ID_MAX>
   <DEFAULT_ICON>smo_reg_valve_2port</DEFAULT_ICON>
-  <SUB_LABEL>Two port valve with a regulating signan input (R)</SUB_LABEL>
+  <SUB_LABEL>Orifice with ideal gas compressible flow</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>5</I_STORES_NUMBER>
   <P_STORES_NUMBER>5</P_STORES_NUMBER>
@@ -14,88 +14,28 @@
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
    <RPARAM>
-    <SUB_ID>30</SUB_ID>
-    <TITLE>flow coefficient Kv</TITLE>
-    <VARNAME>Kv</VARNAME>
+    <SUB_ID>69</SUB_ID>
+    <TITLE> orifice area</TITLE>
+    <VARNAME>orificeArea</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
     <VALUE>1.00000000000000e+000</VALUE>
-    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
+    <MIN_VALUE>-1.00000000000000e+030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm**2</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>70</SUB_ID>
+    <TITLE>flow coefficient</TITLE>
+    <VARNAME>flowCoefficient</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
     <UNITS>null</UNITS>
    </RPARAM>
-   <RPARAM>
-    <SUB_ID>33</SUB_ID>
-    <TITLE>transition mass flow rate</TITLE>
-    <VARNAME>transitionMassFlowRate</VARNAME>
-    <VISIBILITY>(transitionChoice == 1)</VISIBILITY>
-    <DEF_VALUE>1.00000000000000e-004</DEF_VALUE>
-    <VALUE>1.00000000000000e-004</VALUE>
-    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
-    <UNITS>kg/s</UNITS>
-   </RPARAM>
-   <RPARAM>
-    <SUB_ID>38</SUB_ID>
-    <TITLE>transition pressure difference</TITLE>
-    <VARNAME>transitionPressureDifference</VARNAME>
-    <VISIBILITY>(transitionChoice == 2)</VISIBILITY>
-    <DEF_VALUE>1.00000000000000e-003</DEF_VALUE>
-    <VALUE>1.00000000000000e-003</VALUE>
-    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
-    <UNITS>bar</UNITS>
-   </RPARAM>
-   <RPARAM>
-    <SUB_ID>37</SUB_ID>
-    <TITLE>maximum mass flow</TITLE>
-    <VARNAME>maximumMassFlowRate</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>5.00000000000000e-002</DEF_VALUE>
-    <VALUE>5.00000000000000e-002</VALUE>
-    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
-    <UNITS>kg/s</UNITS>
-   </RPARAM>
   </RPARAMS_LIST>
-  <IPARAMS_LIST>
-   <IPARAM>
-    <SUB_ID>32</SUB_ID>
-    <TITLE>choice of transition to linear region</TITLE>
-    <VARNAME>transitionChoice</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>1</DEF_VALUE>
-    <VALUE>1</VALUE>
-    <MIN_VALUE>1</MIN_VALUE>
-    <MAX_VALUE>2</MAX_VALUE>
-    <ENUM_LIST>
-     <ENUM>
-      <ENUM_STRING>Minimum mass flow</ENUM_STRING>
-     </ENUM>
-     <ENUM>
-      <ENUM_STRING>Minimum pressure difference</ENUM_STRING>
-     </ENUM>
-    </ENUM_LIST>
-   </IPARAM>
-   <IPARAM>
-    <SUB_ID>42</SUB_ID>
-    <TITLE>allow bi-directional flow</TITLE>
-    <VARNAME>allowBidirectionalFlow</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>1</DEF_VALUE>
-    <VALUE>1</VALUE>
-    <MIN_VALUE>1</MIN_VALUE>
-    <MAX_VALUE>2</MAX_VALUE>
-    <ENUM_LIST>
-     <ENUM>
-      <ENUM_STRING>No</ENUM_STRING>
-     </ENUM>
-     <ENUM>
-      <ENUM_STRING>Yes</ENUM_STRING>
-     </ENUM>
-    </ENUM_LIST>
-   </IPARAM>
-  </IPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
     <SUB_ID>63</SUB_ID>

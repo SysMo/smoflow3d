@@ -175,3 +175,6 @@ double MediumState_FluidCoolProp::Pr() {
 	return _Pr;
 }
 
+double MediumState_FluidCoolProp::R() {
+	return pFluid->R();
+}

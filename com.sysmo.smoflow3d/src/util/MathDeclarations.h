@@ -23,6 +23,8 @@
 //
 #define POW(x, y) std::pow((long double) x, (long double) y)
 #define FABS(x) std::fabs((long double) x)
+#define SQRT(x) std::sqrt((long double) x)
+
 
 
 //

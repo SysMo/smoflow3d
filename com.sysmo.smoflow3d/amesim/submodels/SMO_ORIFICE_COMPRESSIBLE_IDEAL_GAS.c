@@ -1,5 +1,5 @@
-/* Submodel SMO_VALVE_2PORT_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Sat Aug 3 16:50:31 2013 */
+/* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
+   Sun Aug 4 10:59:19 2013 */
 
 
 
@@ -24,14 +24,14 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_VALVE_2PORT_REGULATING_SIGNAL"
+#define _SUBMODELNAME_ "SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/MediumState.h"
 #include "flow/FluidFlow.h"
-#include "flow/TwoPortValve.h"
+#include "flow/Orifice.h"
 
-#define valve ps[0]
+#define orifice ps[0]
 
 #define fluidFlowIndex1 ic[1]
 #define fluidFlow1 ps[1]
@@ -47,64 +47,35 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 4 real parameters:
+/* There are 2 real parameters:
 
-   Kv                           flow coefficient Kv            [null]
-   transitionMassFlowRate       transition mass flow rate      [kg/s]
-   transitionPressureDifference transition pressure difference [bar -> Pa]
-   maximumMassFlowRate          maximum mass flow              [kg/s]
+   orificeArea      orifice area    [mm**2 -> m**2]
+   flowCoefficient flow coefficient [null]
 */
 
-
-/* There are 2 integer parameters:
-
-   transitionChoice       choice of transition to linear region
-   allowBidirectionalFlow allow bi-directional flow            
-*/
-
-void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
-      , int ip[2], int ic[5], void *ps[5])
+void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
+      , int ic[5], void *ps[5])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int transitionChoice, allowBidirectionalFlow;
-   double Kv, transitionMassFlowRate, transitionPressureDifference, 
-      maximumMassFlowRate;
+   double orificeArea, flowCoefficient;
 
-   transitionChoice = ip[0];
-   allowBidirectionalFlow = ip[1];
-
-   Kv         = rp[0];
-   transitionMassFlowRate = rp[1];
-   transitionPressureDifference = rp[2];
-   maximumMassFlowRate = rp[3];
+   orificeArea = rp[0];
+   flowCoefficient = rp[1];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..3]
+   rp[0..1]
 */
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
-
-/*   Integer parameter checking:   */
-
-   if (transitionChoice < 1 || transitionChoice > 2)
-   {
-      amefprintf(stderr, "\nchoice of transition to linear region must be in range [1..2].\n");
-      error = 2;
-   }
-   if (allowBidirectionalFlow < 1 || allowBidirectionalFlow > 2)
-   {
-      amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
-      error = 2;
-   }
 
    if(error == 1)
    {
@@ -119,20 +90,15 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 /* Common -> SI units conversions. */
 
-   rp[2]    *= 1.00000000000000e+005;
-   transitionPressureDifference = rp[2];
+   rp[0]    *= 1.00000000000000e-006;
+   orificeArea = rp[0];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   valve = TwoPortValve_new();
-   TwoPortValve* valveObj = valve;
-
-   valveObj->transitionChoice = transitionChoice;
-   valveObj->Kv = Kv;
-   valveObj->transitionMassFlowRate = transitionMassFlowRate;
-   valveObj->transitionPressureDifference = transitionPressureDifference;
-   valveObj->maximumMassFlowRate = maximumMassFlowRate;
-   valveObj->allowBidirectionalFlow = allowBidirectionalFlow - 1; //0 - No;  1 - Yes
+   orifice = Orifice_new();
+   Orifice* orificeObj = orifice;
+   orificeObj->orificeArea = orificeArea;
+   orificeObj->flowCoefficient = flowCoefficient;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -160,27 +126,20 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
       3 pressureLoss         total pressure loss [barA -> PaA] basic variable
 */
 
-void smo_valve_2port_regulating_signal_(int *n, double *flowIndex1
+void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
       , double *stateIndex1, double *regulatingSignal
       , double *flowIndex3, double *stateIndex3, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureLoss, double rp[4]
-      , int ip[2], int ic[5], void *ps[5], int *flag)
+      , double *enthalpyFlowRate, double *pressureLoss, double rp[2]
+      , int ic[5], void *ps[5], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int transitionChoice, allowBidirectionalFlow;
-   double Kv, transitionMassFlowRate, transitionPressureDifference, 
-      maximumMassFlowRate;
+   double orificeArea, flowCoefficient;
 
-   transitionChoice = ip[0];
-   allowBidirectionalFlow = ip[1];
-
-   Kv         = rp[0];
-   transitionMassFlowRate = rp[1];
-   transitionPressureDifference = rp[2];
-   maximumMassFlowRate = rp[3];
+   orificeArea = rp[0];
+   flowCoefficient = rp[1];
    logi = 0;
    loop = 0;
 
@@ -220,26 +179,28 @@ void smo_valve_2port_regulating_signal_(int *n, double *flowIndex1
 	   int mediumIndex3 = Medium_index(MediumState_getMedium(fluidState3));
 	   if (mediumIndex1 != mediumIndex3) {
 		   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-		   amefprintf(stderr, "\nThe valve connects two components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
+		   amefprintf(stderr, "\nThe orifice connects two components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
 		   AmeExit(1);
 	   }
 
-	   TwoPortValve_init(valve, fluidState1, fluidState3);
+	   Orifice_init(orifice, fluidState1, fluidState3);
    }
 
-   TwoPortValve_computeMassFlow_Kv(valve, *regulatingSignal);
-   TwoPortValve_computeEnthalpyFlow(valve);
+   Orifice_computeMassFlow_CompressibleIdealGas(orifice, *regulatingSignal);
+   Orifice_computeEnthalpyFlow(orifice);
 
    // Retrieving the objects from the storage
-   TwoPortValve* valveObj = (TwoPortValve*) valve;
+   Orifice* orificeObj = (Orifice*) orifice;
    FluidFlow* fluidFlowObj3 = (FluidFlow*) fluidFlow3;
    FluidFlow* fluidFlowObj1 = (FluidFlow*) fluidFlow1;
 
-   fluidFlowObj3->massFlowRate = valveObj->massFlowRate;
-   fluidFlowObj3->enthalpyFlowRate = valveObj->enthalpyFlowRate;
+   fluidFlowObj3->massFlowRate = orificeObj->massFlowRate;
+   fluidFlowObj3->enthalpyFlowRate = orificeObj->enthalpyFlowRate;
 
    fluidFlowObj1->massFlowRate = -fluidFlowObj3->massFlowRate;
    fluidFlowObj1->enthalpyFlowRate = -fluidFlowObj3->enthalpyFlowRate;
+
+   amefprintf(stderr, "\n%s instance %d - fluidFlowObj3->massFlowRate %f \n", _SUBMODELNAME_, *n, fluidFlowObj3->massFlowRate);
 
    *massFlowRate = fabs(fluidFlowObj3->massFlowRate);
    *enthalpyFlowRate = fabs(fluidFlowObj3->enthalpyFlowRate);

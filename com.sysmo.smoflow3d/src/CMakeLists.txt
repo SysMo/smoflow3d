@@ -19,6 +19,7 @@ add_library(SmoFlow SHARED
     media/MediumStateFluidCoolProp.cpp
     flow/FluidFlow.cpp
     flow/TwoPortValve.cpp
+    flow/Orifice.cpp
     volumes/FluidChamber.cpp
 )
 
