@@ -45,10 +45,11 @@ public:
 	virtual double mu();
 	virtual double lambda();
 	virtual double Pr();
+	virtual double R();
+
 protected:
 	Fluid* pFluid;
 	MyCoolPropStateClass cps;
-
 };
 
 #endif /* MEDIUMSTATEFLUIDCOOLPROP_H_ */

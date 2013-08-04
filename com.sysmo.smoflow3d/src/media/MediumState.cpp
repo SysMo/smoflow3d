@@ -138,6 +138,10 @@ double MediumState::Pr() {
 	RaiseError("Unimplemented virtual method 'MediumState::Pr()'")
 }
 
+double MediumState::R() {
+	RaiseError("Unimplemented virtual method 'MediumState::R()'")
+}
+
 /**
  * MediumState C Functions
  */
@@ -255,6 +259,14 @@ double MediumState_lambda(MediumState* mstate) {
 
 double MediumState_Pr(MediumState* mstate) {
 	return mstate->Pr();
+}
+
+double MediumState_gamma(MediumState* mstate) {
+	return mstate->cp() / mstate->cv();
+}
+
+double MediumState_R(MediumState* mstate) {
+	return mstate->R();
 }
 
 END_C_LINKAGE

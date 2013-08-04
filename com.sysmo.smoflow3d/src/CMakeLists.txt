@@ -38,6 +38,7 @@ add_library(SmoFlow SHARED
     flow/FluidFlow.cpp    
     flow/FlowRComponent.cpp
     flow/TwoPortValve.cpp
+    flow/Orifice.cpp
     flow/MechanicalCompressor.cpp  
     volumes/FluidChamber.cpp
     ${MU_PARSER_FILES}

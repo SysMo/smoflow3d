@@ -41,11 +41,11 @@ void TwoPortValve_computeMassFlow_Kv(TwoPortValve* valve, double regulatingSigna
 
 	if (regulatingSignalLimited <= 0) {
 		valve->flowDirection = 0;
-	} else if ( valve->pressureDrop > 0 && (valve->allowedFlowDirection != -1)) {
+	} else if (valve->pressureDrop > 0) {
 		inletState = valve->state1;
 		outletState = valve->state2;
 		valve->flowDirection = 1;
-	} else if ( valve->pressureDrop < 0 && (valve->allowedFlowDirection != 1)) {
+	} else if (valve->pressureDrop < 0 && (valve->allowBidirectionalFlow == 1)) {
 		inletState = valve->state2;
 		outletState = valve->state1;
 		valve->flowDirection = -1;

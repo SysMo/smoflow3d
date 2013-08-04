@@ -14,6 +14,7 @@ smo_heat_source
 smo_flow_splitter_3port
 &SMO_FLOW_SPLITTER_3PORT SmoFlow3d
 smo_reg_valve_2port
+&SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
 &SMO_VALVE_2PORT_MASS_FLOW SmoFlow3d
 &SMO_VALVE_2PORT_REGULATING_SIGNAL SmoFlow3d
 tpf_adiab_chamber

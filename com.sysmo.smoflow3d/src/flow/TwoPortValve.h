@@ -19,7 +19,7 @@ typedef struct {
 	double pressureDrop;
 	double massFlowRate;
 	double enthalpyFlowRate;
-	int allowedFlowDirection;
+	int allowBidirectionalFlow;
 
 	double maximumMassFlowRate;
 	double transitionPressureDifference;
@@ -27,7 +27,7 @@ typedef struct {
 	double Kv;
 	int transitionChoice;
 	int flowDirection;
-} TwoPortValve;
+} TwoPortValve; //:TODO: Rename: TwoPortValve to BidirectionalValve
 
 
 TwoPortValve* TwoPortValve_new();
