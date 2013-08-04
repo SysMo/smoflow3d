@@ -40,6 +40,7 @@ void MediumState::clearState() {
 
 void MediumState::clearPropertyCache() {
 	_u.clear();
+	_s.clear();
 	_cp.clear();
 	_cv.clear();
 	_dpdt_v.clear();
@@ -91,6 +92,10 @@ double MediumState::h() {
 
 double MediumState::u() {
 	RaiseError("Unimplemented virtual method 'MediumState::u()'")
+}
+
+double MediumState::s() {
+	RaiseError("Unimplemented virtual method 'MediumState::s()'")
 }
 
 double MediumState::cp() {

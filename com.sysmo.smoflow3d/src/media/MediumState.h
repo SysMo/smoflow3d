@@ -46,6 +46,7 @@ public:
 	double p();
 	double rho();
 	double h();
+	virtual double s();
 	virtual double u();
 	virtual double cp();
 	virtual double cv();
@@ -68,6 +69,7 @@ protected:
 	double _rho;
 	double _h;
 	CachedProperty _u;
+	CachedProperty _s;
 	CachedProperty _cp;
 	CachedProperty _cv;
 	CachedProperty _dpdt_v;

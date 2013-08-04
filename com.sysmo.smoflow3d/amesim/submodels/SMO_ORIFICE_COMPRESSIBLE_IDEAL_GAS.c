@@ -200,8 +200,6 @@ void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
    fluidFlowObj1->massFlowRate = -fluidFlowObj3->massFlowRate;
    fluidFlowObj1->enthalpyFlowRate = -fluidFlowObj3->enthalpyFlowRate;
 
-   amefprintf(stderr, "\n%s instance %d - fluidFlowObj3->massFlowRate %f \n", _SUBMODELNAME_, *n, fluidFlowObj3->massFlowRate);
-
    *massFlowRate = fabs(fluidFlowObj3->massFlowRate);
    *enthalpyFlowRate = fabs(fluidFlowObj3->enthalpyFlowRate);
    *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));

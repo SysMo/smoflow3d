@@ -9,18 +9,39 @@ set_property(TARGET CoolProp PROPERTY IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/bin/l
 include_directories(${COOLPROP_LOCATION})
 
 #######################################
+# Other external libraries compiled 
+# in source
+#######################################
+
+SET (MU_PARSER_FILES
+third-party/mu-parser/muParser.cpp
+third-party/mu-parser/muParserBase.cpp
+third-party/mu-parser/muParserBytecode.cpp
+third-party/mu-parser/muParserCallback.cpp
+third-party/mu-parser/muParserDLL.cpp
+third-party/mu-parser/muParserError.cpp
+third-party/mu-parser/muParserInt.cpp
+third-party/mu-parser/muParserTest.cpp
+third-party/mu-parser/muParserTokenReader.cpp
+)
+
+#######################################
 # SmoFlow
 #######################################
 add_library(SmoFlow SHARED
     util/CodeTiming.cpp
     util/CachedProperty.cpp
+    util/Functors.cpp
     media/Medium.cpp
     media/MediumState.cpp
     media/MediumStateFluidCoolProp.cpp
-    flow/FluidFlow.cpp
+    flow/FluidFlow.cpp    
+    flow/FlowRComponent.cpp
     flow/TwoPortValve.cpp
     flow/Orifice.cpp
+    flow/MechanicalCompressor.cpp  
     volumes/FluidChamber.cpp
+    ${MU_PARSER_FILES}
 )
 
 target_link_libraries(SmoFlow CoolProp)
