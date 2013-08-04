@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Sun Aug 4 10:59:19 2013 */
+   Sun Aug 4 15:25:47 2013 */
 
 
 
@@ -75,6 +75,11 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
+   if (flowCoefficient < 0.0 || flowCoefficient > 1.0)
+   {
+	   amefprintf(stderr, "\nflow coefficient = %f, but must be in range [0.0 .. 1.0].\n", flowCoefficient);
+	   error = 2;
+   }
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
 
    if(error == 1)

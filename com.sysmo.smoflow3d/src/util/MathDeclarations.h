@@ -18,67 +18,32 @@
 
 #include <cmath>
 
-//
-// Defines
-//
-#define POW(x, y) std::pow((long double) x, (long double) y)
-#define FABS(x) std::fabs((long double) x)
-#define SQRT(x) std::sqrt((long double) x)
+namespace smoflow {
+namespace m {
+	inline double pow(const double& x, const double& y) {
+		return std::pow(x, y);
+	}
 
+	inline double sqrt(const double& x) {
+		return std::sqrt((long double) x);
+	}
 
+	inline double fabs(const double& x) {
+		return std::fabs((long double) x);
+	}
 
-//
-// Macro-like inline functions
-//
-template<class T>
-inline T SQR(const T a) {
-	return a * a;
+	inline float max(const double &a, const float &b) {
+		return b > a ? (b) : float(a);
+	}
+
+	inline float min(const double &a, const float &b) {
+		return b < a ? (b) : float(a);
+	}
+
+	inline float sign(const double &a, const float &b) {
+		return (float) (b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));
+	}
 }
-
-template<class T>
-inline const T &MAX(const T &a, const T &b) {
-	return b > a ? (b) : (a);
-}
-
-inline float MAX(const double &a, const float &b) {
-	return b > a ? (b) : float(a);
-}
-
-inline float MAX(const float &a, const double &b) {
-	return b > a ? float(b) : (a);
-}
-
-template<class T>
-inline const T &MIN(const T &a, const T &b) {
-	return b < a ? (b) : (a);
-}
-
-inline float MIN(const double &a, const float &b) {
-	return b < a ? (b) : float(a);
-}
-
-inline float MIN(const float &a, const double &b) {
-	return b < a ? float(b) : (a);
-}
-
-template<class T>
-inline T SIGN(const T &a, const T &b) {
-	return b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a);
-}
-
-inline float SIGN(const float &a, const double &b) {
-	return b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a);
-}
-
-inline float SIGN(const double &a, const float &b) {
-	return (float) (b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));
-}
-
-template<class T>
-inline void SWAP(T &a, T &b) {
-	T dum = a;
-	a = b;
-	b = dum;
 }
 
 #endif /* MATHDECLARATIONS_H_ */

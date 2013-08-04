@@ -9,6 +9,9 @@
 #include "TwoPortValve.h"
 
 
+using namespace smoflow;
+
+
 BEGIN_C_LINKAGE
 
 TwoPortValve* TwoPortValve_new() {
@@ -63,20 +66,20 @@ void TwoPortValve_computeMassFlow_Kv(TwoPortValve* valve, double regulatingSigna
 
 	// Calculate transition pressure if necessary
 	if (valve->transitionChoice == 1) {
-		valve->transitionPressureDifference = POW((valve->transitionMassFlowRate / rho_inlet)
+		valve->transitionPressureDifference = m::pow((valve->transitionMassFlowRate / rho_inlet)
 				/ (N1 * valve->Kv), 2.0) * relativeDensity;
 	}
 	double volumetricFlowRateMagnitude;
-	if (FABS(valve->pressureDrop) < valve->transitionPressureDifference) {
+	if (m::fabs(valve->pressureDrop) < valve->transitionPressureDifference) {
 		volumetricFlowRateMagnitude = regulatingSignalLimited * N1 * valve->Kv *
-			POW(valve->transitionPressureDifference / relativeDensity, 0.5)
-			* (FABS(valve->pressureDrop) / valve->transitionPressureDifference);
+			m::pow(valve->transitionPressureDifference / relativeDensity, 0.5)
+			* (m::fabs(valve->pressureDrop) / valve->transitionPressureDifference);
 	} else {
 		volumetricFlowRateMagnitude = regulatingSignalLimited * N1 * valve->Kv *
-			POW(FABS(valve->pressureDrop) / relativeDensity, 0.5);
+			m::pow(m::fabs(valve->pressureDrop) / relativeDensity, 0.5);
 	}
 	valve->massFlowRate = volumetricFlowRateMagnitude * valve->flowDirection * rho_inlet;
-	if (FABS(valve->massFlowRate) > valve->maximumMassFlowRate) {
+	if (m::fabs(valve->massFlowRate) > valve->maximumMassFlowRate) {
 		valve->massFlowRate = valve->maximumMassFlowRate * valve->flowDirection;
 	}
 }
