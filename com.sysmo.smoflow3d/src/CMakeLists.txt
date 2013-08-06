@@ -31,16 +31,20 @@ third-party/mu-parser/muParserTokenReader.cpp
 add_library(SmoFlow SHARED
     util/CodeTiming.cpp
     util/CachedProperty.cpp
+    util/SmoComponent.cpp
     util/Functors.cpp
     media/Medium.cpp
     media/MediumState.cpp
     media/MediumStateFluidCoolProp.cpp
+    media/MediumStateSolid.cpp
     flow/FluidFlow.cpp    
     flow/FlowRComponent.cpp
     flow/TwoPortValve.cpp
     flow/Orifice.cpp
-    flow/MechanicalCompressor.cpp  
+    flow/MechanicalCompressor.cpp
+    flow/ThermalConductionElement.cpp
     volumes/FluidChamber.cpp
+    volumes/ThermalNode.cpp
     ${MU_PARSER_FILES}
 )
 

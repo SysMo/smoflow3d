@@ -8,16 +8,31 @@
 
 #include "MechanicalCompressor.h"
 
+using namespace smoflow;
+
 MechanicalCompressor::MechanicalCompressor() {
 	outletFlowStateIdeal = NULL;
-	isentropicEfficiencyFunction = NULL;
-	mechanicalEfficiencyFunction = NULL;
 	volumetricEfficiencyFunction = NULL;
 	volumetricFlowRateFunction = NULL;
+	isentropicEfficiencyFunction = NULL;
+	mechanicalEfficiencyFunction = NULL;
 }
 
 MechanicalCompressor::~MechanicalCompressor() {
-	// TODO Auto-generated destructor stub
+	// At the moment states are meant to be deleted centrally
+	// delete outletFlowStateIdeal;
+	if (volumetricEfficiencyFunction != NULL) {
+		delete volumetricEfficiencyFunction;
+	}
+	if (volumetricFlowRateFunction != NULL) {
+		delete volumetricFlowRateFunction;
+	}
+	if (isentropicEfficiencyFunction != NULL) {
+		delete isentropicEfficiencyFunction;
+	}
+	if (mechanicalEfficiencyFunction != NULL) {
+		delete mechanicalEfficiencyFunction;
+	}
 }
 
 void MechanicalCompressor::init(MediumState* state1, MediumState* state2) {
@@ -39,18 +54,27 @@ void MechanicalCompressor::init(MediumState* state1, MediumState* state2) {
 void MechanicalCompressor::compute() {
 	pressureRatio = state2->p() / state1->p();
 	double rotationalSpeedRPM = rotationalSpeed / (2 * M_PI) * 60;
+	if (pressureRatio < 1) {
+		RaiseError("Outlet pressure is smaller than inlet pressure for the compressor");
+	}
+	if (rotationalSpeed < 0) {
+		RaiseError("Compressor is not allowed to operate in reverse");
+	}
 
 	double volumetricFlowRate = 0;
 	if (volumetricFlowRateFunction != NULL) {
 		volumetricFlowRate = (*volumetricFlowRateFunction)(rotationalSpeedRPM, pressureRatio);
 	} else {
 		volumetricEfficiency = (*volumetricEfficiencyFunction)(rotationalSpeedRPM, pressureRatio);
+		m::limitVariable(volumetricEfficiency, 0, 1);
 		volumetricFlowRate = volumetricEfficiency * rotationalSpeed / (2 * M_PI) * displacementVolume;
 	}
 	massFlowRate = volumetricFlowRate * state1->rho();
 
 	mechanicalEfficiency = (*mechanicalEfficiencyFunction)(rotationalSpeedRPM, pressureRatio);
+	m::limitVariable(mechanicalEfficiency, 0, 1);
 	isentropicEfficiency = (*isentropicEfficiencyFunction)(rotationalSpeedRPM, pressureRatio);
+	m::limitVariable(isentropicEfficiency, 0, 1);
 
 	double sIn = state1->s();
 	outletFlowStateIdeal->update_ps(state2->p(), sIn);

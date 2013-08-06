@@ -28,7 +28,7 @@ END_C_LINKAGE
 #include "util/CachedProperty.h"
 
 
-class MediumState {
+class MediumState : public SmoComponent {
 public:
 	virtual ~MediumState();
 
@@ -58,6 +58,7 @@ public:
 	virtual double mu();
 	virtual double lambda();
 	virtual double Pr();
+	virtual double gamma();
 	virtual double R(); //mass-specific gas constant [J/kg/K]
 
 protected:

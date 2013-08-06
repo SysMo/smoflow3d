@@ -30,3 +30,6 @@ smo_simple_heater
 &SMO_HEATEXCHANGER_RC SmoFlow3d
 smo_fluid_chamber_cst_volume_4port
 &SMO_FLUID_CHAMBER_4PORT SmoFlow3d
+thermal_node
+&SMO_THERMAL_NODE SmoFlow3d
+gravityicon

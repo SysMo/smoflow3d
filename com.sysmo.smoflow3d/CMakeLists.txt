@@ -35,6 +35,7 @@ endfunction()
 
 
 include_directories(src)
+include_directories(src/third-party/eigen)
 add_subdirectory(src)
 
 include_directories(src_c)

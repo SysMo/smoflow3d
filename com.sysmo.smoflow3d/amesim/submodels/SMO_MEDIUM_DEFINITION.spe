@@ -5,8 +5,8 @@
  <SUBMODEL>
   <HAS_TERMINATE>1</HAS_TERMINATE>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>3</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_media_definition</DEFAULT_ICON>
+  <SUB_ID_MAX>6</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_medium_definition</DEFAULT_ICON>
   <SUB_UNIT>0</SUB_UNIT>
   <HAS_NO_CALC>1</HAS_NO_CALC>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
@@ -22,10 +22,76 @@
     <MAX_VALUE>100000</MAX_VALUE>
    </IPARAM>
    <IPARAM>
-    <SUB_ID>3</SUB_ID>
-    <TITLE>medium name</TITLE>
-    <VARNAME>mediumNameIndex</VARNAME>
+    <SUB_ID>4</SUB_ID>
+    <TITLE>medium type</TITLE>
+    <VARNAME>mediumType</VARNAME>
     <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>3</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>solid</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>incompressible liquid</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>real fluid</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>5</SUB_ID>
+    <TITLE>solid name</TITLE>
+    <VARNAME>solidNameIndex</VARNAME>
+    <VISIBILITY>mediumType==1</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>5</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>aluminium 6061</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>stainless steel 304</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>carbon-fiber composite (CFK)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>glass-fiber composite (GFK)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>teflon (PTFE)</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>6</SUB_ID>
+    <TITLE>liquid name</TITLE>
+    <VARNAME>liquidNameIndex</VARNAME>
+    <VISIBILITY>mediumType==2</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>water</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>ethylene glycol</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>3</SUB_ID>
+    <TITLE>real fluid name</TITLE>
+    <VARNAME>realFluidNameIndex</VARNAME>
+    <VISIBILITY>mediumType==3</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
     <MIN_VALUE>1</MIN_VALUE>

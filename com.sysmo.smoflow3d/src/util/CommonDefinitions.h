@@ -15,7 +15,6 @@
 #ifndef COMMONDECLARATIONS_H_
 #define COMMONDECLARATIONS_H_
 
-
 /***************************************
  * BEGIN C interface
  **************************************/
@@ -43,6 +42,7 @@
 
 #include "CoolProp/GlobalConstants.h"
 typedef enum params ThermodynamicVariable;
+
 /***************************************
  * END C interface
  **************************************/
@@ -66,6 +66,9 @@ typedef enum params ThermodynamicVariable;
 #include <algorithm>
 #include <assert.h>
 
+
+#include "SmoComponent.h"
+
 typedef double Real;
 typedef int Integer;
 typedef bool Boolean;
@@ -86,14 +89,16 @@ typedef Real* RealFunction(Real);
  * 2) Constants
  */
 //namespace smoflow {
+namespace cst {
 //	const Real RGas = 8.3144621; // J/mol-K
 //	const Real N_a = 6.02e23; // Particles per mole
-//	const Real StandardPressure = 1e5; // Pa
+	const Real StandardPressure = 1e5; // Pa
 //	const Real StandardTemperature = 293.15; // K
 //
 //	const double StefanBoltzmannConstant = 5.67e-8; // Stefan Boltzmann Constant [W/(m^2*K^4)]
 //	const double Pi = 4 * std::atan(1.0f);
 //	const double earthAcceleration = 9.81; // [m/s^2]
+}
 //}
 
 
@@ -152,7 +157,7 @@ typedef Real* RealFunction(Real);
 /**
  * 6) Math
  */
-#include "MathDeclarations.h"
+#include "math/MathDefinitions.h"
 
 
 /**

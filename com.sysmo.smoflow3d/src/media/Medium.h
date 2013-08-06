@@ -10,6 +10,7 @@
 #define MEDIAREGISTRY_H_
 
 #include "util/CommonDefinitions.h"
+#include "util/Functors.h"
 
 
 typedef enum {sMediumPhaseUndefined, sSolid, sLiquid, sGas, sFluid, sAnyPhase} MediumPhase;
@@ -19,7 +20,7 @@ typedef enum {
 	sMediumTypeUndefined,
 	sCompressibleFluidCoolProp,
 	sIncompressibleLiquidCoolProp,
-	sSolidTemperatureInterpolator
+	sSolidThermal
 } MediumKnownTypes;
 
 #ifdef __cplusplus
@@ -81,14 +82,9 @@ struct Medium_IncompressibleLiquid_CoolProp : public Medium_IncompressibleLiquid
 
 struct Medium_Solid : public Medium {
 	Medium_Solid() {phase = sSolid;}
-};
-
-struct Medium_Solid_TemperatureInterpolator : public Medium_Solid {
-	Medium_Solid_TemperatureInterpolator() {
-		mediumType = sSolidTemperatureInterpolator;
-		numStates = 1;
-		naturalStates[0] = iT;
-	}
+	FunctorOneVariable* densityFunction;
+	FunctorOneVariable* thermalConductivityFunction;
+	FunctorOneVariable* heatCapacityFunction;
 };
 
 #else

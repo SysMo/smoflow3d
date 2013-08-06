@@ -138,6 +138,10 @@ double MediumState::Pr() {
 	RaiseError("Unimplemented virtual method 'MediumState::Pr()'")
 }
 
+double MediumState::gamma() {
+	return cp() / cv();
+}
+
 double MediumState::R() {
 	RaiseError("Unimplemented virtual method 'MediumState::R()'")
 }
@@ -262,7 +266,7 @@ double MediumState_Pr(MediumState* mstate) {
 }
 
 double MediumState_gamma(MediumState* mstate) {
-	return mstate->cp() / mstate->cv();
+	return mstate->gamma();
 }
 
 double MediumState_R(MediumState* mstate) {

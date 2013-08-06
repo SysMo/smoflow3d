@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_DEFINITION skeleton created by AME Submodel editing utility
-   Tue Jul 23 18:06:10 2013 */
+   Tue Aug 6 14:17:25 2013 */
 
 
 
@@ -29,29 +29,49 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/Medium.h"
 
-const char* ameMediumNames[] = {
+static const char* solidNames[] = {
+	"aluminium 6061",
+	"stainless steel 304",
+	"carbon-fiber composite",
+	"glass-fiber composite",
+	"ptfe"
+};
+
+static const char* liquidNames[] = {
+	"water",
+	"ethylene glycol"
+};
+
+static const char* realFluidNames[] = {
 	"parahydrogen",
 	"nitrogen",
 	"water"
 };
 /* <<<<<<<<<<<<End of Private Code. */
 
-/* There are 2 integer parameters:
+/* There are 5 integer parameters:
 
-   mediumIndex     medium index
-   mediumNameIndex medium name 
+   mediumIndex        medium index   
+   mediumType         medium type    
+   solidNameIndex     solid name     
+   liquidNameIndex    liquid name    
+   realFluidNameIndex real fluid name
 */
 
-void smo_medium_definitionin_(int *n, int ip[2])
+void smo_medium_definitionin_(int *n, int ip[5])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int mediumIndex, mediumNameIndex;
+   int mediumIndex, mediumType, solidNameIndex, liquidNameIndex, 
+      realFluidNameIndex;
 
    mediumIndex = ip[0];
-   mediumNameIndex = ip[1];
+   mediumType = ip[1];
+   solidNameIndex = ip[2];
+   liquidNameIndex = ip[3];
+   realFluidNameIndex = ip[4];
    loop = 0;
    error = 0;
 
@@ -66,9 +86,24 @@ void smo_medium_definitionin_(int *n, int ip[2])
       amefprintf(stderr, "\nmedium index must be in range [1..100000].\n");
       error = 2;
    }
-   if (mediumNameIndex < 1 || mediumNameIndex > 3)
+   if (mediumType < 1 || mediumType > 3)
    {
-      amefprintf(stderr, "\nmedium name must be in range [1..3].\n");
+      amefprintf(stderr, "\nmedium type must be in range [1..3].\n");
+      error = 2;
+   }
+   if (solidNameIndex < 1 || solidNameIndex > 5)
+   {
+      amefprintf(stderr, "\nsolid name must be in range [1..5].\n");
+      error = 2;
+   }
+   if (liquidNameIndex < 1 || liquidNameIndex > 2)
+   {
+      amefprintf(stderr, "\nliquid name must be in range [1..2].\n");
+      error = 2;
+   }
+   if (realFluidNameIndex < 1 || realFluidNameIndex > 3)
+   {
+      amefprintf(stderr, "\nreal fluid name must be in range [1..3].\n");
       error = 2;
    }
 
@@ -85,20 +120,35 @@ void smo_medium_definitionin_(int *n, int ip[2])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   Medium_register(sCompressibleFluidCoolProp, ameMediumNames[mediumNameIndex - 1], mediumIndex);
+   if (mediumType == 1) {
+	   Medium_register(sSolidThermal,
+			   solidNames[solidNameIndex - 1], mediumIndex);
+   } else if (mediumType == 2) {
+	   Medium_register(sIncompressibleLiquidCoolProp,
+			   liquidNames[liquidNameIndex - 1], mediumIndex);
+   } else if (mediumType == 2) {
+	   Medium_register(sCompressibleFluidCoolProp,
+			   realFluidNames[realFluidNameIndex - 1], mediumIndex);
+   } else {
+
+   }
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
-void smo_medium_definitionend_(int *n, int ip[2])
+void smo_medium_definitionend_(int *n, int ip[5])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Terminate Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Terminate declarations. */
-   int mediumIndex, mediumNameIndex;
+   int mediumIndex, mediumType, solidNameIndex, liquidNameIndex, 
+      realFluidNameIndex;
 
    mediumIndex = ip[0];
-   mediumNameIndex = ip[1];
+   mediumType = ip[1];
+   solidNameIndex = ip[2];
+   liquidNameIndex = ip[3];
+   realFluidNameIndex = ip[4];
    loop = 0;
    error = 0;
 
@@ -120,16 +170,20 @@ void smo_medium_definitionend_(int *n, int ip[2])
 
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
-void smo_medium_definition_(int *n, int ip[2])
+void smo_medium_definition_(int *n, int ip[5])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int mediumIndex, mediumNameIndex;
+   int mediumIndex, mediumType, solidNameIndex, liquidNameIndex, 
+      realFluidNameIndex;
 
    mediumIndex = ip[0];
-   mediumNameIndex = ip[1];
+   mediumType = ip[1];
+   solidNameIndex = ip[2];
+   liquidNameIndex = ip[3];
+   realFluidNameIndex = ip[4];
    loop = 0;
 
 

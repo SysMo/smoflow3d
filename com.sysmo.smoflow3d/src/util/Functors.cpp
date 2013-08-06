@@ -11,10 +11,18 @@
 #include <string>
 #include <vector>
 
+class FunctorOneVariable_Constant : public FunctorOneVariable {
+public:
+	FunctorOneVariable_Constant(double value){this->value = value;}
+	virtual double operator()(double value) {return this->value;}
+protected:
+	double value;
+};
+
 class FunctorTwoVariables_Constant : public FunctorTwoVariables {
 public:
 	FunctorTwoVariables_Constant(double value){this->value = value;}
-	virtual double operator()(double value1, double value2) {return value;}
+	virtual double operator()(double value1, double value2) {return this->value;}
 protected:
 	double value;
 };
@@ -83,6 +91,10 @@ protected:
 };
 
 BEGIN_C_LINKAGE
+
+FunctorOneVariable* FunctorOneVariable_Constant_new(double constantValue) {
+	return new FunctorOneVariable_Constant(constantValue);
+}
 
 FunctorOneVariable* FunctorOneVariable_Expression_new(const char* expressionString,
 		const char* varName) {
