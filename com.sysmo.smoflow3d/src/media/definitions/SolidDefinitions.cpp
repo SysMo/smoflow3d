@@ -13,10 +13,11 @@ using namespace Eigen;
 
 namespace solids {
 Aluminium6061::Aluminium6061() {
-    ArrayXd TValues;
-    ArrayXd cpValues;
-    ArrayXd lambdaValues;
-    //ArrayXd hValues;
+	const double numValues = 12;
+    ArrayXd TValues(numValues);
+    ArrayXd cpValues(numValues);
+    ArrayXd lambdaValues(numValues);
+    //ArrayXd hValues(numValues);
     double rhoValue = 2700;
 	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 , 275.0 , 300.0;
     cpValues << 8.85 , 148.84 , 334.15 , 492.2 , 616.63 , 713.03 , 784.783 , 835.24 , 869.61 , 895.04 , 920.01 , 953.86;
