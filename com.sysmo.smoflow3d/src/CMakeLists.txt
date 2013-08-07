@@ -64,3 +64,4 @@ install(TARGETS SmoFlow
 #######################################
 add_smo_test(MediaHydrogenTest "test/MediaHydrogen.cpp;")
 add_smo_test(FunctorsTest "test/Functors.cpp;")
+add_smo_test(MediumSolidTest "test/MediumSolid.cpp;")
