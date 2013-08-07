@@ -13,6 +13,8 @@ using namespace Eigen;
 
 namespace solids {
 Aluminium6061::Aluminium6061() {
+	name = "Aluminium6061";
+
 	const double numValues = 12;
     ArrayXd TValues(numValues);
     ArrayXd cpValues(numValues);

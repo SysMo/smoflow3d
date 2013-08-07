@@ -35,7 +35,7 @@ struct Medium {
 	MediumComposition composition;
 	int numStates;
 	params naturalStates[2];
-	char name[];
+	std::string name;
 	Medium() {
 		mediumType = sMediumTypeUndefined;
 		phase = sMediumPhaseUndefined;

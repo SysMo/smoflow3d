@@ -27,7 +27,9 @@ void Medium_register(MediumKnownTypes mediumType, const char* mediumName, int me
 		if (mediumFluid == NULL) {
 			RaiseError("Fluid with name " << mediumName << "not found in CoolProp fluid list");
 		} else {
-			MediumRegistry[mediumIndex] = new Medium_CompressibleFluid_CoolProp(mediumFluid);
+			Medium_CompressibleFluid_CoolProp* medium =  new Medium_CompressibleFluid_CoolProp(mediumFluid);
+			medium->name = mediumNameStr;
+			MediumRegistry[mediumIndex] = medium;
 		}
 	} else if (mediumType == sSolidThermal) {
 		Medium* medium = SolidRegistry.getSolid("mediumName");
