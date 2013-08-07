@@ -10,6 +10,9 @@
 
 MediumStateSolid::MediumStateSolid(Medium_Solid* medium) : MediumState (medium) {
 	this->solid = medium;
+	densityCache = medium->densityFunction->createCache();
+	heatCapacityCache = medium->heatCapacityFunction->createCache();
+	thermalConductivityCache = medium->thermalConductivityFunction->createCache();
 }
 
 MediumStateSolid::~MediumStateSolid() {
@@ -20,20 +23,20 @@ void MediumStateSolid::update_Tp(double T, double p) {
 	clearPropertyCache();
 	_p = p;
 	_T = T;
-	_rho = (*solid->densityFunction)(_T);
+	_rho = (*solid->densityFunction)(_T, densityCache);
 	_h = 0;
 }
 
 double MediumStateSolid::cp() {
 	if (!_cp) {
-		_cp = (*solid->heatCapacityFunction)(_T);
+		_cp = (*solid->heatCapacityFunction)(_T, heatCapacityCache);
 	}
 	return _cp;
 }
 
 double MediumStateSolid::lambda() {
 	if (!_lambda) {
-		_lambda = (*solid->thermalConductivityFunction)(_T);
+		_lambda = (*solid->thermalConductivityFunction)(_T, thermalConductivityCache);
 	}
 	return _lambda;
 }

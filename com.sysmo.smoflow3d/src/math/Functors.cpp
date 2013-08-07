@@ -14,7 +14,8 @@
 class FunctorOneVariable_Constant : public FunctorOneVariable {
 public:
 	FunctorOneVariable_Constant(double value){this->value = value;}
-	virtual double operator()(double value) {return this->value;}
+	virtual double operator()(double value, FunctorCache* cache) {return this->value;}
+	virtual FunctorCache* createCache() {return NULL;}
 protected:
 	double value;
 };
@@ -23,6 +24,7 @@ class FunctorTwoVariables_Constant : public FunctorTwoVariables {
 public:
 	FunctorTwoVariables_Constant(double value){this->value = value;}
 	virtual double operator()(double value1, double value2) {return this->value;}
+	virtual FunctorCache* createCache() {return NULL;}
 protected:
 	double value;
 };
@@ -66,7 +68,7 @@ public:
 		variableNames[0] = varName;
 		expressionFunctor.init(expressionString, variableNames);
 	}
-	virtual double operator()(double value) {
+	virtual double operator()(double value, FunctorCache* cache) {
 		return expressionFunctor(&value);
 	}
 protected:
@@ -89,8 +91,6 @@ public:
 protected:
 	MISOExpressionFunctor expressionFunctor;
 };
-
-BEGIN_C_LINKAGE
 
 FunctorOneVariable* FunctorOneVariable_Constant_new(double constantValue) {
 	return new FunctorOneVariable_Constant(constantValue);
@@ -117,5 +117,3 @@ FunctorTwoVariables* FunctorTwoVariables_Expression_new(const char* expressionSt
 double FunctorTwoVariables_evaluate(FunctorTwoVariables* functor, double value1, double value2) {
 	return (*functor)(value1, value2);
 }
-
-END_C_LINKAGE

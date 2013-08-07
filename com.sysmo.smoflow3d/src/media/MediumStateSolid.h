@@ -10,7 +10,6 @@
 #define MEDIUMSTATESOLID_H_
 
 #include "MediumState.h"
-#include "util/Functors.h"
 
 #ifdef __cplusplus
 
@@ -26,6 +25,9 @@ public:
 
 protected:
 	Medium_Solid* solid;
+	FunctorCache* densityCache;
+	FunctorCache* heatCapacityCache;
+	FunctorCache* thermalConductivityCache;
 };
 
 #else // __cplusplus

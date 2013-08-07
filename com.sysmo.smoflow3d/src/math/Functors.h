@@ -13,15 +13,21 @@
 
 #ifdef __cplusplus
 
+struct FunctorCache {
+
+};
+
 class FunctorOneVariable {
 public:
-	virtual double operator()(double value) = 0;
+	virtual double operator()(double value, FunctorCache* cache = 0) = 0;
+	virtual FunctorCache* createCache() {RaiseError("Unimplemented function FunctorOneVariable::createCache")}
 	virtual ~FunctorOneVariable(){}
 };
 
 class FunctorTwoVariables {
 public:
 	virtual double operator()(double value1, double value2) = 0;
+	virtual FunctorCache* createCache() {RaiseError("Unimplemented function FunctorTwoVariables::createCache")}
 	virtual ~FunctorTwoVariables(){}
 };
 

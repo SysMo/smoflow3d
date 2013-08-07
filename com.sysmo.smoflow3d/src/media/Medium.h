@@ -10,7 +10,7 @@
 #define MEDIAREGISTRY_H_
 
 #include "util/CommonDefinitions.h"
-#include "util/Functors.h"
+#include "math/Functors.h"
 
 
 typedef enum {sMediumPhaseUndefined, sSolid, sLiquid, sGas, sFluid, sAnyPhase} MediumPhase;

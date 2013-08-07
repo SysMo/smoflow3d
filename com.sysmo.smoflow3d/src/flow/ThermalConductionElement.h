@@ -38,7 +38,7 @@ DECLARE_C_STRUCT(ThermalConductionElement)
 BEGIN_C_LINKAGE
 ThermalConductionElement* ThermalConductionElement_new(
 		Medium_Solid* medium, int numNodes);
-ThermalConductionElement* ThermalConductionElement_newLine(
+ThermalConductionElement* ThermalConductionElement_Line_new(
 		Medium_Solid* medium, double area, double length);
 void ThermalConductionElement_assignNode(
 		ThermalConductionElement* element, size_t nodeIndex, ThermalNode* node);

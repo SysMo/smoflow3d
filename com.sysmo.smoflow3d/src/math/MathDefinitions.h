@@ -32,16 +32,16 @@ namespace m {
 		return std::fabs((long double) x);
 	}
 
-	inline float max(const double &a, const float &b) {
-		return b > a ? (b) : float(a);
+	inline double max(const double &a, const double &b) {
+		return b > a ? b : a;
 	}
 
-	inline float min(const double &a, const float &b) {
-		return b < a ? (b) : float(a);
+	inline double min(const double &a, const double &b) {
+		return b < a ? b : a;
 	}
 
-	inline float sign(const double &a, const float &b) {
-		return (float) (b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));
+	inline double sign(const double &a, const double &b) {
+		return (b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));
 	}
 
 	inline void limitVariable(double& variable, double minValue, double maxValue) {

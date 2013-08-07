@@ -83,7 +83,7 @@ ThermalConductionElement* ThermalConductionElement_new(
 	return new ThermalConductionElement_Eigen(medium, numNodes);
 }
 
-ThermalConductionElement* ThermalConductionElement_newLine(
+ThermalConductionElement* ThermalConductionElement_Line_new(
 		Medium_Solid* medium, double area, double length) {
 	ThermalConductionElement* element = ThermalConductionElement_new(medium, 2);
 	double coeff = area/length;

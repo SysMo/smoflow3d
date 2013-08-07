@@ -6,7 +6,7 @@
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "util/Functors.h"
+#include "math/Functors.h"
 #include <sstream>
 
 int main(int argc, char** argv) {

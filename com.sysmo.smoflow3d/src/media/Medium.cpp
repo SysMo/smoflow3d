@@ -8,6 +8,7 @@
 
 #include "Medium.h"
 #include "util/CommonDefinitions.h"
+#include "SolidRegistryClass.h"
 
 extern FluidsContainer Fluids;
 
@@ -28,8 +29,10 @@ void Medium_register(MediumKnownTypes mediumType, const char* mediumName, int me
 		} else {
 			MediumRegistry[mediumIndex] = new Medium_CompressibleFluid_CoolProp(mediumFluid);
 		}
-	}
-	else {
+	} else if (mediumType == sSolidThermal) {
+		Medium* medium = SolidRegistry.getSolid("mediumName");
+		MediumRegistry[mediumIndex] = medium;
+	} else {
 		RaiseError("Unimplemented medium type: " << mediumType);
 	}
 }

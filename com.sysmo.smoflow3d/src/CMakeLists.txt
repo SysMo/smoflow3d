@@ -32,11 +32,14 @@ add_library(SmoFlow SHARED
     util/CodeTiming.cpp
     util/CachedProperty.cpp
     util/SmoComponent.cpp
-    util/Functors.cpp
+    math/Functors.cpp
+    math/Interpolators.cpp
     media/Medium.cpp
+    media/SolidRegistryClass.cpp
     media/MediumState.cpp
     media/MediumStateFluidCoolProp.cpp
     media/MediumStateSolid.cpp
+    media/definitions/SolidDefinitions.cpp
     flow/FluidFlow.cpp    
     flow/FlowRComponent.cpp
     flow/TwoPortValve.cpp
