@@ -8,8 +8,8 @@
   <DEFAULT_ICON>smo_simple_heater</DEFAULT_ICON>
   <SUB_LABEL>pipe heat exchanger (single phase)  (C-R, no state)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>7</I_STORES_NUMBER>
-  <P_STORES_NUMBER>7</P_STORES_NUMBER>
+  <I_STORES_NUMBER>6</I_STORES_NUMBER>
+  <P_STORES_NUMBER>6</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
@@ -104,24 +104,24 @@
     <EVAR>
      <SUB_ID>108</SUB_ID>
      <TITLE>heat flow index</TITLE>
-     <VARNAME>flowIndexHeat</VARNAME>
+     <VARNAME>heatFlowIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoHFL</UNITS>
     </EVAR>
     <EVAR>
      <SUB_ID>109</SUB_ID>
-     <TITLE>heat state index</TITLE>
-     <VARNAME>stateIndexHeat</VARNAME>
+     <TITLE>thermal node index</TITLE>
+     <VARNAME>thermalNodeIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoTHN</UNITS>
     </EVAR>
    </PORT>
    <PORT>
