@@ -15,13 +15,13 @@
 
 typedef enum {sMediumPhaseUndefined, sSolid, sLiquid, sGas, sFluid, sAnyPhase} MediumPhase;
 typedef enum {sMediumCompressibilityUndefined, sIncompressible, sCompressible} MediumCompressibility;
-typedef enum {sMediumCompositionUndefined, sPure, sMixture} MediumComposition;
+typedef enum {sMediumCompositionUndefined, sPure, sMixture} MediumCompositionType;
 typedef enum {
-	sMediumTypeUndefined,
+	sMediumAbstractType,
 	sCompressibleFluidCoolProp,
 	sIncompressibleLiquidCoolProp,
 	sSolidThermal
-} MediumKnownTypes;
+} MediumConcreteTypes;
 
 #ifdef __cplusplus
 
@@ -29,18 +29,18 @@ typedef enum {
 #include "CoolProp/CoolProp.h"
 
 struct Medium {
-	MediumKnownTypes mediumType;
+	MediumConcreteTypes concreteType;
 	MediumPhase phase;
 	MediumCompressibility compressibility;
-	MediumComposition composition;
+	MediumCompositionType compositionType;
 	int numStates;
 	params naturalStates[2];
 	std::string name;
 	Medium() {
-		mediumType = sMediumTypeUndefined;
+		concreteType = sMediumAbstractType;
 		phase = sMediumPhaseUndefined;
 		compressibility = sMediumCompressibilityUndefined;
-		composition = sMediumCompositionUndefined;
+		compositionType = sMediumCompositionUndefined;
 		numStates = 0;
 	}
 	virtual ~Medium(){}
@@ -56,8 +56,8 @@ struct Medium_CompressibleFluid : public Medium_Fluid {
 
 struct Medium_CompressibleFluid_CoolProp : public Medium_CompressibleFluid {
 	Medium_CompressibleFluid_CoolProp(Fluid* fluid) {
-		mediumType = sCompressibleFluidCoolProp;
-		composition = sPure;
+		concreteType = sCompressibleFluidCoolProp;
+		compositionType = sPure;
 		numStates = 2;
 		naturalStates[0] = iT;
 		naturalStates[1] = iD;
@@ -72,8 +72,8 @@ struct Medium_IncompressibleLiquid : public Medium_Fluid {
 
 struct Medium_IncompressibleLiquid_CoolProp : public Medium_IncompressibleLiquid {
 	Medium_IncompressibleLiquid_CoolProp() {
-		mediumType = sIncompressibleLiquidCoolProp;
-		composition = sPure;
+		concreteType = sIncompressibleLiquidCoolProp;
+		compositionType = sPure;
 		numStates = 2;
 		naturalStates[0] = iT;
 		naturalStates[1] = iP;
@@ -81,7 +81,10 @@ struct Medium_IncompressibleLiquid_CoolProp : public Medium_IncompressibleLiquid
 };
 
 struct Medium_Solid : public Medium {
-	Medium_Solid() {phase = sSolid;}
+	Medium_Solid() {
+		phase = sSolid;
+		concreteType = sSolidThermal;
+	}
 	FunctorOneVariable* densityFunction;
 	FunctorOneVariable* thermalConductivityFunction;
 	FunctorOneVariable* heatCapacityFunction;
@@ -90,14 +93,20 @@ struct Medium_Solid : public Medium {
 #else
 
 DECLARE_C_STRUCT(Medium)
+DECLARE_C_STRUCT(Medium_Solid)
 
 #endif //__cplusplus
 
 
 BEGIN_C_LINKAGE
-void Medium_register(MediumKnownTypes mediumType, const char* mediumName, int mediumIndex);
+void Medium_register(MediumConcreteTypes mediumType, const char* mediumName, int mediumIndex);
 Medium* Medium_get(int mediumIndex);
 int Medium_index(Medium* medium);
+
+MediumPhase Medium_getPhase(Medium* medium);
+MediumCompressibility Medium_getCompressibility(Medium* medium);
+MediumCompositionType Medium_getCompositionType(Medium* medium);
+MediumConcreteTypes Medium_getConcreteType(Medium* medium);
 END_C_LINKAGE
 
 #endif /* MEDIAREGISTRY_H_ */

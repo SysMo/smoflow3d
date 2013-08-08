@@ -24,7 +24,6 @@ END_C_LINKAGE
 
 #ifdef __cplusplus
 
-#include "CoolProp/CPState.h"
 #include "util/CachedProperty.h"
 
 
@@ -57,7 +56,7 @@ public:
 	virtual double beta();
 	virtual double mu();
 	virtual double lambda();
-	virtual double Pr();
+	double Pr();
 	virtual double gamma();
 	virtual double R(); //mass-specific gas constant [J/kg/K]
 

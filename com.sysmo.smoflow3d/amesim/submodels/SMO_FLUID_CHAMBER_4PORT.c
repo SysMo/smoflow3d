@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "volumes/FluidChamber.h"
-#include "flow/FluidFlow.h"
+#include "flow/FlowBase.h"
 
 #define fluidChamberStateIndex ic[0]
 #define fluidChamber ps[0]

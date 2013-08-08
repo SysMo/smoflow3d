@@ -10,13 +10,26 @@
 
 std::vector<ThermalNode*> ThermalNodeRegistry;
 
-ThermalNode::ThermalNode() {
+ThermalNode::ThermalNode(ThermalNodeType nodeType)
+: nodeType(nodeType) {
+
 }
 
-ThermalNode::~ThermalNode() {
+void ThermalNode::setTemperature(double temperature) {
+	this->temperature = temperature;
 }
 
-void ThermalNode::addMaterialMass(Medium_Solid* medium, double mass) {
+ThermalSourceNode::ThermalSourceNode()
+: ThermalNode(sThermalNode_Source){
+
+}
+
+ThermalMaterialNode::ThermalMaterialNode()
+: ThermalNode(sThermalNode_Material){
+
+}
+
+void ThermalMaterialNode::addMaterialMass(Medium_Solid* medium, double mass) {
 	size_t i = 0;
 	// Check if a state with such a medium is already present
 	for (i = 0; i < subnodeStates.size(); i++) {
@@ -26,7 +39,7 @@ void ThermalNode::addMaterialMass(Medium_Solid* medium, double mass) {
 	}
 	// If not, create a new state with this medium
 	if (i == subnodeStates.size()) {
-		MediumStateSolid* state = MediumStateSolid_new(medium);
+		MediumState_Solid* state = MediumStateSolid_new(medium);
 		MediumState_register(state);
 		state->parent = this;
 		subnodeStates.push_back(state);
@@ -34,13 +47,14 @@ void ThermalNode::addMaterialMass(Medium_Solid* medium, double mass) {
 	}
 }
 
-void ThermalNode::setTemperature(double temperature) {
+void ThermalMaterialNode::setTemperature(double temperature) {
+	ThermalNode::setTemperature(temperature);
 	for (size_t i = 0; i < subnodeStates.size(); i++) {
 		subnodeStates[i]->update_Tp(temperature, cst::StandardPressure);
 	}
 }
 
-void ThermalNode::compute(double heatFlow) {
+void ThermalMaterialNode::compute(double heatFlow) {
 	totalHeatCapacity = 0;
 	for (size_t i = 0; i < subnodeStates.size(); i++) {
 		totalHeatCapacity += subnodeMasses[i] * subnodeStates[i]->cp();
@@ -48,40 +62,56 @@ void ThermalNode::compute(double heatFlow) {
 	temperatureDerivative = heatFlow / totalHeatCapacity;
 }
 
-ThermalNode* ThermalNode_new() {
-	ThermalNode* node = new ThermalNode();
-	ThermalNodeRegistry.push_back(node);
-	return node;
-}
-
-ThermalNode* ThermalNode_getFromState(MediumStateSolid* state) {
-	ThermalNode* node = dynamic_cast<ThermalNode*>(state->parent);
-	if (node == NULL) {
-		RaiseError("The parent of the MediumStateSolid is not a thermal node");
+ThermalNode* ThermalNode_new(ThermalNodeType nodeType) {
+	if (nodeType == sThermalNode_Source) {
+		return new ThermalSourceNode();
+	} else {
+		return new ThermalMaterialNode();
 	}
-	return node;
 }
 
-void ThermalNode_addMaterialMass(ThermalNode* node, Medium_Solid* medium, double mass) {
-	node->addMaterialMass(medium, mass);
+int ThermalNode_register(ThermalNode* node) {
+	ThermalNodeRegistry.push_back(node);
+	return ThermalNodeRegistry.size();
+}
+
+ThermalNode* ThermalNode_get(int nodeIndex) {
+	return ThermalNodeRegistry.at(nodeIndex - 1);
 }
 
 void ThermalNode_setTemperature(ThermalNode* node, double temperature) {
 	node->setTemperature(temperature);
 }
 
-void ThermalNode_compute(ThermalNode* node, double heatFlow) {
+double ThermalNode_getTemperature(ThermalNode* node) {
+	return node->getTemperature();
+}
+
+void ThermalMaterialNode_addMaterialMass(ThermalMaterialNode* node,
+		Medium_Solid* medium, double mass) {
+	node->addMaterialMass(medium, mass);
+}
+void ThermalMaterialNode_compute(ThermalMaterialNode* node, double heatFlow) {
 	node->compute(heatFlow);
 }
 
-double ThermalNode_getTemperatureDerivative(ThermalNode* node) {
+double ThermalMaterialNode_getTemperatureDerivative(ThermalMaterialNode* node) {
 	return node->getTemperatureDerivative();
 }
 
-double ThermalNode_getTotalHeatCapacity(ThermalNode* node) {
+double ThermalMaterialNode_getTotalHeatCapacity(ThermalMaterialNode* node) {
 	return node->getTotalHeatCapacity();
 }
 
-MediumState* getThermalState(ThermalNode* node, int subnodeIndex) {
+
+ThermalMaterialNode* ThermalMaterialNode_getFromState(MediumState* state) {
+	ThermalMaterialNode* node = dynamic_cast<ThermalMaterialNode*>(state->parent);
+	if (node == NULL) {
+		RaiseError("The parent of the MediumState is not a thermal node");
+	}
+	return node;
+}
+
+MediumState* ThermalMaterialNode_getThermalState(ThermalMaterialNode* node, int subnodeIndex) {
 	return node->getThermalState(subnodeIndex);
 }

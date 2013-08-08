@@ -30,11 +30,11 @@ REVISIONS :
 #include "media/Medium.h"
 
 static const char* solidNames[] = {
-	"aluminium 6061",
-	"stainless steel 304",
-	"carbon-fiber composite",
-	"glass-fiber composite",
-	"ptfe"
+	"Aluminium6061",
+	"StainlessSteel304",
+	"CarbonFiberComposite",
+	"GlassFiberComposite",
+	"PTFE"
 };
 
 static const char* liquidNames[] = {
@@ -43,9 +43,9 @@ static const char* liquidNames[] = {
 };
 
 static const char* realFluidNames[] = {
-	"parahydrogen",
-	"nitrogen",
-	"water"
+	"ParaHydrogen",
+	"Nitrogen",
+	"Water"
 };
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -126,7 +126,7 @@ void smo_medium_definitionin_(int *n, int ip[5])
    } else if (mediumType == 2) {
 	   Medium_register(sIncompressibleLiquidCoolProp,
 			   liquidNames[liquidNameIndex - 1], mediumIndex);
-   } else if (mediumType == 2) {
+   } else if (mediumType == 3) {
 	   Medium_register(sCompressibleFluidCoolProp,
 			   realFluidNames[realFluidNameIndex - 1], mediumIndex);
    } else {

@@ -1,5 +1,5 @@
 /* Submodel SMO_HEAT_SOURCE skeleton created by AME Submodel editing utility
-   Thu Jul 25 22:58:28 2013 */
+   Thu Aug 8 15:47:19 2013 */
 
 
 
@@ -27,10 +27,10 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_HEAT_SOURCE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "flow/FluidFlow.h"
+#include "flow/FlowBase.h"
 
-#define heatFlowIndex ic[0]
-#define heatFlow ps[0]
+#define _heatFlowIndex ic[0]
+#define _heatFlow ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_heat_sourcein_(int *n, int ic[1], void *ps[1])
 
@@ -58,8 +58,8 @@ void smo_heat_sourcein_(int *n, int ic[1], void *ps[1])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   heatFlow = FluidFlow_new();
-   heatFlowIndex = FluidFlow_register(heatFlow);
+   _heatFlow = HeatFlow_new();
+   _heatFlowIndex = HeatFlow_register(_heatFlow);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -71,8 +71,8 @@ void smo_heat_sourcein_(int *n, int ic[1], void *ps[1])
 
    Port 2 has 2 variables:
 
-      1 flowIndex      flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 stateIndex     state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 flowIndex      flow index  [smoHFL] basic variable output  UNPLOTTABLE
+      2 stateIndex     state index [smoTNI] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.
@@ -101,11 +101,8 @@ void smo_heat_source_(int *n, double *heatFlowRate, double *flowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   FluidFlow* heatFlowObj = (FluidFlow*) heatFlow;
-   heatFlowObj->massFlowRate = 0;
-   heatFlowObj->enthalpyFlowRate = *heatFlowRate;
-
-   *flowIndex = heatFlowIndex;
+   HeatFlow_setEnthalpyFlowRate(_heatFlow, *heatFlowRate);
+   *flowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

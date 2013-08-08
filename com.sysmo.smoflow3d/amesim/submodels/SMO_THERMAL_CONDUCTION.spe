@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>39</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_thermal_conduction</DEFAULT_ICON>
+  <SUB_LABEL>Generic conduction model</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>2</I_STORES_NUMBER>
+  <P_STORES_NUMBER>2</P_STORES_NUMBER>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>5</SUB_ID>
+    <TITLE>conduction area</TITLE>
+    <VARNAME>conductionArea</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+002</DEF_VALUE>
+    <VALUE>1.00000000000000e+002</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+012</MAX_VALUE>
+    <UNITS>mm**2</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>34</SUB_ID>
+    <TITLE>conduction length</TITLE>
+    <VARNAME>conductionLength</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+001</DEF_VALUE>
+    <VALUE>1.00000000000000e+001</VALUE>
+    <MIN_VALUE>1.00000000000000e-012</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+012</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>1</SUB_ID>
+    <TITLE>conduction type</TITLE>
+    <VARNAME>conductionType</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>1</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>linear: qDot=f(lambda, area, length)</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>31</SUB_ID>
+    <TITLE>material  index</TITLE>
+    <VARNAME>materialIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>39</SUB_ID>
+    <TITLE>heat flow rate at port 2</TITLE>
+    <VARNAME>qDot2</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>35</SUB_ID>
+     <TITLE>flow index 1</TITLE>
+     <VARNAME>flowIndex1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>36</SUB_ID>
+     <TITLE>state index 1</TITLE>
+     <VARNAME>stateIndex1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>37</SUB_ID>
+     <TITLE>flow index 2</TITLE>
+     <VARNAME>flowIndex2</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>38</SUB_ID>
+     <TITLE>state index 2</TITLE>
+     <VARNAME>stateIndex2</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>

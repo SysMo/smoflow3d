@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "flow/MechanicalCompressor.h"
-#include "util/Functors.h"
+#include "math/Functors.h"
 #define compressorObject ps[0]
 #define inletFlow ps[1]
 #define outletFlow ps[2]

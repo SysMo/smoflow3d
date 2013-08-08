@@ -11,24 +11,26 @@
 
 #include "media/Medium.h"
 #include "volumes/ThermalNode.h"
-#include "flow/FluidFlow.h"
+#include "flow/FlowBase.h"
+#include "Eigen/Core"
 
 #ifdef __cplusplus
 
 class ThermalConductionElement {
 public:
-	ThermalConductionElement(Medium_Solid* medium, int numNodes);
+	ThermalConductionElement(Medium* medium, int numNodes);
 	virtual ~ThermalConductionElement();
 	void assignNode(size_t nodeIndex, ThermalNode* node);
-	virtual void setInteractionCoefficient(size_t row, size_t column, double value) = 0;
-	virtual void computeExplicit() = 0;
+	void setInteractionCoefficient(size_t row, size_t column, double value);
+	void computeExplicit();
 	double getHeatFlow(size_t nodeIndex);
 	void getFlow(size_t nodeIndex, FluidFlow* flow);
 protected:
 	int numNodes;
 	std::vector<ThermalNode*> nodes;
 	std::vector<double> heatFlows;
-	MediumStateSolid* internalState;
+	MediumState* internalState;
+	Eigen::MatrixXd interactionCoefficients;
 };
 
 #else //__cplusplus
@@ -37,7 +39,7 @@ DECLARE_C_STRUCT(ThermalConductionElement)
 
 BEGIN_C_LINKAGE
 ThermalConductionElement* ThermalConductionElement_new(
-		Medium_Solid* medium, int numNodes);
+		Medium* medium, int numNodes);
 ThermalConductionElement* ThermalConductionElement_Line_new(
 		Medium_Solid* medium, double area, double length);
 void ThermalConductionElement_assignNode(

@@ -44,7 +44,6 @@ public:
 	virtual double beta();
 	virtual double mu();
 	virtual double lambda();
-	virtual double Pr();
 	virtual double R();
 
 protected:

@@ -10,18 +10,21 @@
 #define MEDIUMSTATESOLID_H_
 
 #include "MediumState.h"
+#include "Medium.h"
 
 #ifdef __cplusplus
 
-class MediumStateSolid : public MediumState {
+class MediumState_Solid : public MediumState {
 public:
-	MediumStateSolid(Medium_Solid* medium);
-	virtual ~MediumStateSolid();
+	MediumState_Solid(Medium_Solid* medium);
+	virtual ~MediumState_Solid();
 
 	virtual void update_Tp(double T, double p);
 
+	virtual double u();
 	virtual double cp();
 	virtual double lambda();
+	virtual double mu();
 
 protected:
 	Medium_Solid* solid;
@@ -31,11 +34,11 @@ protected:
 };
 
 #else // __cplusplus
-DECLARE_C_STRUCT(MediumStateSolid)
+DECLARE_C_STRUCT(MediumState_Solid)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-MediumStateSolid* MediumStateSolid_new(Medium_Solid* medium);
+MediumState_Solid* MediumStateSolid_new(Medium_Solid* medium);
 END_C_LINKAGE
 
 #endif /* MEDIUMSTATESOLID_H_ */

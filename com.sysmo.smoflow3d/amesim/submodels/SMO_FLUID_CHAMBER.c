@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "volumes/FluidChamber.h"
-#include "flow/FluidFlow.h"
+#include "flow/FlowBase.h"
 #define fluidChamberStateIndex ic[0]
 #define fluidChamber ps[0]
 #define fluidState ps[1]
@@ -41,7 +41,7 @@ REVISIONS :
 
    initialPressure        initial pressure          [barA -> PaA]
    initialTemperature     initial temperature (K)   [K]
-   initialTemperatureC    initial temperature (°C)  [degC]
+   initialTemperatureC    initial temperature (ï¿½C)  [degC]
    initialGasMassFraction initial gas mass fraction [null]
    initialSuperheat       initial superheat         [K]
    volume                 volume                    [L -> m**3]

@@ -8,18 +8,18 @@
 
 #include "MediumStateSolid.h"
 
-MediumStateSolid::MediumStateSolid(Medium_Solid* medium) : MediumState (medium) {
+MediumState_Solid::MediumState_Solid(Medium_Solid* medium) : MediumState (medium) {
 	this->solid = medium;
 	densityCache = medium->densityFunction->createCache();
 	heatCapacityCache = medium->heatCapacityFunction->createCache();
 	thermalConductivityCache = medium->thermalConductivityFunction->createCache();
 }
 
-MediumStateSolid::~MediumStateSolid() {
+MediumState_Solid::~MediumState_Solid() {
 	// TODO Auto-generated destructor stub
 }
 
-void MediumStateSolid::update_Tp(double T, double p) {
+void MediumState_Solid::update_Tp(double T, double p) {
 	clearPropertyCache();
 	_p = p;
 	_T = T;
@@ -27,20 +27,28 @@ void MediumStateSolid::update_Tp(double T, double p) {
 	_h = 0;
 }
 
-double MediumStateSolid::cp() {
+double MediumState_Solid::u() {
+	return _h;
+}
+
+double MediumState_Solid::cp() {
 	if (!_cp) {
 		_cp = (*solid->heatCapacityFunction)(_T, heatCapacityCache);
 	}
 	return _cp;
 }
 
-double MediumStateSolid::lambda() {
+double MediumState_Solid::lambda() {
 	if (!_lambda) {
 		_lambda = (*solid->thermalConductivityFunction)(_T, thermalConductivityCache);
 	}
 	return _lambda;
 }
 
-MediumStateSolid* MediumStateSolid_new(Medium_Solid* medium) {
-	return new MediumStateSolid(medium);
+double MediumState_Solid::mu() {
+	return _HUGE;
+}
+
+MediumState_Solid* MediumStateSolid_new(Medium_Solid* medium) {
+	return new MediumState_Solid(medium);
 }

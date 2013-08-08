@@ -15,8 +15,7 @@ extern FluidsContainer Fluids;
 typedef std::map<int, Medium*> MediumContainer;
 static MediumContainer MediumRegistry;
 
-BEGIN_C_LINKAGE
-void Medium_register(MediumKnownTypes mediumType, const char* mediumName, int mediumIndex) {
+void Medium_register(MediumConcreteTypes mediumType, const char* mediumName, int mediumIndex) {
 	MediumContainer::iterator it = MediumRegistry.find(mediumIndex);
 	if (it != MediumRegistry.end()) {
 		RaiseError("Medium index " << mediumIndex << " already used");
@@ -32,7 +31,7 @@ void Medium_register(MediumKnownTypes mediumType, const char* mediumName, int me
 			MediumRegistry[mediumIndex] = medium;
 		}
 	} else if (mediumType == sSolidThermal) {
-		Medium* medium = SolidRegistry.getSolid("mediumName");
+		Medium* medium = SolidRegistry.getSolid(mediumName);
 		MediumRegistry[mediumIndex] = medium;
 	} else {
 		RaiseError("Unimplemented medium type: " << mediumType);
@@ -56,4 +55,18 @@ int Medium_index(Medium* medium) {
 	return -1;
 }
 
-END_C_LINKAGE
+MediumPhase Medium_getPhase(Medium* medium) {
+	return medium->phase;
+}
+
+MediumCompressibility Medium_getCompressibility(Medium* medium) {
+	return medium->compressibility;
+}
+
+MediumCompositionType Medium_getCompositionType(Medium* medium) {
+	return medium->compositionType;
+}
+
+MediumConcreteTypes Medium_getConcreteType(Medium* medium) {
+	return medium->concreteType;
+}

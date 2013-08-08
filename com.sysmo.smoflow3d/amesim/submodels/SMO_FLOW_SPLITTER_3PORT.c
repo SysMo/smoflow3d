@@ -27,10 +27,9 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLOW_SPLITTER_3PORT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "flow/FluidFlow.h"
-
-#define fluidFlowIndexOut ic[0]
-#define fluidFlowOut ps[0]
+#include "flow/FlowBase.h"
+#define _flowOutIndex ic[0]
+#define _flowOut ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
 
@@ -58,8 +57,8 @@ void smo_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   fluidFlowOut = FluidFlow_new();
-   fluidFlowIndexOut = FluidFlow_register(fluidFlowOut);
+   _flowOut = FluidFlow_new();
+   _flowOutIndex = FluidFlow_register(_flowOut);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -149,14 +148,15 @@ extern double smo_flow_splitter_3port_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   FluidFlow* fluidFlowObjIn1 = FluidFlow_get(*flowIndexIn1);
-   FluidFlow* fluidFlowObjIn3 = FluidFlow_get(*flowIndexIn3);
-   FluidFlow* fluidFlowObjOut = (FluidFlow*) fluidFlowOut;
+   FluidFlow* flowIn1 = FluidFlow_get(*flowIndexIn1);
+   FluidFlow* flowIn3 = FluidFlow_get(*flowIndexIn3);
 
-   fluidFlowObjOut->massFlowRate = fluidFlowObjIn1->massFlowRate + fluidFlowObjIn3->massFlowRate;
-   fluidFlowObjOut->enthalpyFlowRate = fluidFlowObjIn1->enthalpyFlowRate + fluidFlowObjIn3->enthalpyFlowRate;
+   double massFlowIn = FluidFlow_getMassFlowRate(flowIn1) + FluidFlow_getMassFlowRate(flowIn3);
+   double enthalpyFlowIn = FluidFlow_getEnthalpyFlowRate(flowIn1) + FluidFlow_getEnthalpyFlowRate(flowIn3);
+   FluidFlow_setMassFlowRate(_flowOut, massFlowIn);
+   FluidFlow_setEnthalpyFlowRate(_flowOut, enthalpyFlowIn);
 
-   flowIndexOut = fluidFlowIndexOut;
+   flowIndexOut = _flowOutIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */

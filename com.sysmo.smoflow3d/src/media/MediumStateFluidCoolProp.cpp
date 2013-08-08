@@ -175,13 +175,6 @@ double MediumState_FluidCoolProp::lambda() {
 	return _lambda;
 }
 
-double MediumState_FluidCoolProp::Pr() {
-	if (!_Pr) {
-		_Pr = cp() * mu() / lambda();
-	}
-	return _Pr;
-}
-
 double MediumState_FluidCoolProp::R() {
 	return pFluid->R();
 }

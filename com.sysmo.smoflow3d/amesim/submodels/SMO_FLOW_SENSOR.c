@@ -27,10 +27,10 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLOW_SENSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "flow/FluidFlow.h"
+#include "flow/FlowBase.h"
 
-#define fluidFlowIndex ic[1]
-#define fluidFlow ps[1]
+#define _fluidFlowIndex ic[0]
+#define _fluidFlow ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -193,18 +193,18 @@ extern double smo_flow_sensor_macro0_(int *n, double *flowIndex
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    if (firstc_()) {
-	   fluidFlowIndex = *flowIndex;
-	   fluidFlow = FluidFlow_get(fluidFlowIndex);
+	   _fluidFlowIndex = *flowIndex;
+	   _fluidFlow = FluidFlow_get(_fluidFlowIndex);
    }
 
    // Retrieving the objects from the storage
-   FluidFlow* fluidFlowObj= (FluidFlow*) fluidFlow;
+   FluidFlow* fluidFlowObj= (FluidFlow*) _fluidFlow;
 
-   c[0] = fluidFlowObj->massFlowRate;
-   c[1] = fluidFlowObj->enthalpyFlowRate;
+   c[0] = FluidFlow_getMassFlowRate(_fluidFlow);
+   c[1] = FluidFlow_getEnthalpyFlowRate(_fluidFlow);
 
    if (measuredFlowPropertyIndex == 3) {
-	   measuredValue = fluidFlowIndex;
+	   measuredValue = _fluidFlowIndex;
    } else {
 	   measuredValue = c[measuredFlowPropertyIndex - 1] * gain + offset;
    }

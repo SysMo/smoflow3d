@@ -27,7 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_ZERO_FLOW"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "flow/FluidFlow.h"
+#include "flow/FlowBase.h"
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_zero_flowin_(int *n, double *flowIndex)
 

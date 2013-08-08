@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/MediumState.h"
-#include "flow/FluidFlow.h"
+#include "flow/FlowBase.h"
 
 #define fluidFlowIndex1 ic[1]
 #define fluidFlow1 ps[1]

@@ -1,5 +1,5 @@
 /* Submodel SMO_THERMAL_NODE skeleton created by AME Submodel editing utility
-   Tue Aug 6 13:05:14 2013 */
+   Wed Aug 7 22:53:42 2013 */
 
 
 
@@ -27,12 +27,19 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_THERMAL_NODE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
+#include "volumes/ThermalNode.h"
+#include "flow/FlowBase.h"
+#define thermalNode ps[0]
+#define heatFlowObject ps[1]
+#define thermalStateIndex ic[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There is 1 real parameter:
+/* There are 2 real parameters:
 
-   materialMasses[] material masses [kg]
+   materialMasses[]     material masses     [kg]
+   initialTemperature   initial temperature [K]
 */
 
 
@@ -43,7 +50,7 @@ REVISIONS :
 */
 
 void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
-      , double *temperature)
+      , int ic[5], void *ps[5], double *temperature)
 
 {
    int loop, error;
@@ -53,7 +60,7 @@ void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
    int materialIndices_size;
    int param_offset;  /* Offset used to assign parameter values. */
    int numMaterials, *materialIndices;
-   double *materialMasses;
+   double *materialMasses, initialTemperature;
 
    param_offset = 0;
    numMaterials = ip[0];
@@ -65,6 +72,7 @@ void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
    materialMasses = &(rp[0]);
    materialMasses_size = numMaterials;
    param_offset += materialMasses_size-1;
+   initialTemperature = rp[1 + param_offset];
    param_offset = 0;
    loop = 0;
    error = 0;
@@ -72,7 +80,7 @@ void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
 /*
    If necessary, check values of the following:
 
-   rp[0..0]
+   rp[0..1]
    *temperature
 */
 
@@ -110,6 +118,19 @@ void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   *temperature = initialTemperature;
+   thermalNode = ThermalNode_new();
+   for (int i = 0; i < numMaterials; i++) {
+	  Medium* medium = Medium_get(materialIndices[i]);
+	  if (Medium_getConcreteType(medium) != sSolidThermal) {
+		  AME_RAISE_ERROR("Medium concrete type expected to be 'solid thermal'")
+	  }
+	  ThermalNode_addMaterialMass(thermalNode, (Medium_Solid*) medium, materialMasses[i]);
+	  if (i == 0) {
+		  MediumState* state = ThermalNode_getThermalState(thermalNode);
+		  thermalStateIndex = MediumState_index(state);
+	  }
+   }
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -131,7 +152,7 @@ void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
 void smo_thermal_node_(int *n, double *stateIndex, double *flowIndex
       , double *thermalEnergy, double *temperature
       , double *temperatureDot, double *heatFlow, double *rp, int *ip
-      , double c[1])
+      , double c[1], int ic[5], void *ps[5])
 
 {
    int loop;
@@ -141,7 +162,7 @@ void smo_thermal_node_(int *n, double *stateIndex, double *flowIndex
    int materialIndices_size;
    int param_offset;  /* Offset used to assign parameter values. */
    int numMaterials, *materialIndices;
-   double *materialMasses;
+   double *materialMasses, initialTemperature;
 
    param_offset = 0;
    numMaterials = ip[0];
@@ -153,6 +174,7 @@ void smo_thermal_node_(int *n, double *stateIndex, double *flowIndex
    materialMasses = &(rp[0]);
    materialMasses_size = numMaterials;
    param_offset += materialMasses_size-1;
+   initialTemperature = rp[1 + param_offset];
    param_offset = 0;
    loop = 0;
 
@@ -172,6 +194,12 @@ void smo_thermal_node_(int *n, double *stateIndex, double *flowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   if (firstc_()) {
+	   heatFlowObject = FluidFlow_get(*flowIndex);
+   }
+   *heatFlow = FluidFlow_getEnthalpyFlowRate(heatFlowObject);
+   ThermalNode_compute(thermalNode, *heatFlow);
+   *temperatureDot = ThermalNode_getTemperatureDerivative(thermalNode);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -181,7 +209,8 @@ void smo_thermal_node_(int *n, double *stateIndex, double *flowIndex
 }
 
 extern double smo_thermal_node_stateIndex_(int *n, double *temperature
-      , double *rp, int *ip, double c[1], int *macindex)
+      , double *rp, int *ip, double c[1], int ic[5], void *ps[5]
+      , int *macindex)
 
 {
    double stateIndex;
@@ -192,7 +221,7 @@ extern double smo_thermal_node_stateIndex_(int *n, double *temperature
    int materialIndices_size;
    int param_offset;  /* Offset used to assign parameter values. */
    int numMaterials, *materialIndices;
-   double *materialMasses;
+   double *materialMasses, initialTemperature;
 
    param_offset = 0;
    numMaterials = ip[0];
@@ -204,6 +233,7 @@ extern double smo_thermal_node_stateIndex_(int *n, double *temperature
    materialMasses = &(rp[0]);
    materialMasses_size = numMaterials;
    param_offset += materialMasses_size-1;
+   initialTemperature = rp[1 + param_offset];
    param_offset = 0;
    loop = 0;
 
@@ -215,6 +245,8 @@ extern double smo_thermal_node_stateIndex_(int *n, double *temperature
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   ThermalNode_setTemperature(thermalNode, *temperature);
+   stateIndex = thermalStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */

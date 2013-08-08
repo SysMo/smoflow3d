@@ -33,7 +33,7 @@
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoHFL</UNITS>
     </EVAR>
     <EVAR>
      <SUB_ID>5</SUB_ID>
@@ -44,7 +44,7 @@
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoTNI</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

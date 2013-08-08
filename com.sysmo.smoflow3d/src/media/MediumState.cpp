@@ -9,9 +9,6 @@
 #include "MediumState.h"
 #include <vector>
 
-/** Medium state subclasses */
-#include "MediumStateFluidCoolProp.h"
-
 static std::vector<MediumState*> MediumStateRegistry;
 
 
@@ -135,7 +132,10 @@ double MediumState::lambda() {
 }
 
 double MediumState::Pr() {
-	RaiseError("Unimplemented virtual method 'MediumState::Pr()'")
+	if (!_Pr) {
+		_Pr = cp() * mu() / lambda();
+	}
+	return _Pr;
 }
 
 double MediumState::gamma() {
@@ -149,16 +149,22 @@ double MediumState::R() {
 /**
  * MediumState C Functions
  */
-BEGIN_C_LINKAGE
+
+/** Medium state subclasses */
+#include "MediumStateFluidCoolProp.h"
+#include "MediumStateSolid.h"
 
 MediumState* MediumState_new(Medium* medium) {
 	MediumState* state = NULL;
-	if (dynamic_cast<Medium_CompressibleFluid_CoolProp*>(medium) != 0) {
+	if (dynamic_cast<Medium_CompressibleFluid_CoolProp*>(medium) != NULL) {
 		Medium_CompressibleFluid_CoolProp* actualMedium =
 				dynamic_cast<Medium_CompressibleFluid_CoolProp*>(medium);
 		state = new MediumState_FluidCoolProp(actualMedium);
+	} else if (dynamic_cast<Medium_Solid*>(medium) != NULL) {
+		Medium_Solid* actualMedium = dynamic_cast<Medium_Solid*>(medium);
+		state = new MediumState_Solid(actualMedium);
 	} else {
-		RaiseError("Cannot create medium state");
+		RaiseError("Cannot create medium state (unknown medium type)");
 	}
 	return state;
 }
@@ -272,5 +278,3 @@ double MediumState_gamma(MediumState* mstate) {
 double MediumState_R(MediumState* mstate) {
 	return mstate->R();
 }
-
-END_C_LINKAGE

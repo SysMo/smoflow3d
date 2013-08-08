@@ -10,7 +10,7 @@
 #define MECHANICALCOMPRESSOR_H_
 
 #include "math/Functors.h"
-#include "FluidFlow.h"
+#include "FlowBase.h"
 #include "FlowRComponent.h"
 
 #ifdef __cplusplus
