@@ -35,3 +35,6 @@ smo_thermal_node
 th_conduction
 smo_thermal_conduction
 &SMO_THERMAL_CONDUCTION SmoFlow3d
+th2signal1
+smo_temperature_source
+&SMO_TEMPERATURE_SOURCE SmoFlow3d

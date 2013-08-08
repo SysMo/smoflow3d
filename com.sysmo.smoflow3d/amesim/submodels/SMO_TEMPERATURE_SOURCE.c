@@ -1,5 +1,5 @@
-/* Submodel SMO_HEAT_SOURCE skeleton created by AME Submodel editing utility
-   Thu Aug 8 17:21:27 2013 */
+/* Submodel SMO_TEMPERATURE_SOURCE skeleton created by AME Submodel editing utility
+   Thu Aug 8 17:17:54 2013 */
 
 
 
@@ -24,15 +24,14 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_HEAT_SOURCE"
+#define _SUBMODELNAME_ "SMO_TEMPERATURE_SOURCE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "flow/FlowBase.h"
-
-#define _heatFlowIndex ic[0]
-#define _heatFlow ps[0]
+#include "volumes/ThermalNode.h"
+#define _thermalNode ps[0]
+#define _thermalNodeIndex ic[0]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_heat_sourcein_(int *n, int ic[1], void *ps[1])
+void smo_temperature_sourcein_(int *n, int ic[2], void *ps[2])
 
 {
    int loop, error;
@@ -58,8 +57,8 @@ void smo_heat_sourcein_(int *n, int ic[1], void *ps[1])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _heatFlow = HeatFlow_new();
-   _heatFlowIndex = HeatFlow_register(_heatFlow);
+   _thermalNode = ThermalNode_new(sThermalNode_Source);
+   _thermalNodeIndex = ThermalNode_register(_thermalNode);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -67,20 +66,25 @@ void smo_heat_sourcein_(int *n, int ic[1], void *ps[1])
 
    Port 1 has 1 variable:
 
-      1 heatFlowRate     heat flow rate [W] basic variable input
+      1 temperatureSignal     input temperature signal [K] basic variable input
 
    Port 2 has 2 variables:
 
-      1 flowIndex            flow index         [smoHFL] basic variable output  UNPLOTTABLE
-      2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
+      1 thermalNodeIndex     thermal node index [smoTHN] multi line macro 'smo_temperature_source_macro0_'  UNPLOTTABLE
+      2 heatFlowIndex        heat flow index    [smoHFL] basic variable input
 */
 
 /*  There are 0 internal variables.
 
 */
 
-void smo_heat_source_(int *n, double *heatFlowRate, double *flowIndex
-      , double *thermalNodeIndex, int ic[1], void *ps[1])
+#if 0
+
+/* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
+
+void smo_temperature_source_(int *n, double *temperatureSignal
+      , double *thermalNodeIndex, double *heatFlowIndex, int ic[2]
+      , void *ps[2])
 
 {
    int loop;
@@ -91,23 +95,49 @@ void smo_heat_source_(int *n, double *heatFlowRate, double *flowIndex
 /* Common -> SI units conversions. */
 
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
+/*   *heatFlowIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *flowIndex  = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   HeatFlow_setEnthalpyFlowRate(_heatFlow, *heatFlowRate);
-   *flowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
+}
+
+#endif
+extern double smo_temperature_source_macro0_(int *n
+      , double *temperatureSignal, int ic[2], void *ps[2])
+
+{
+   double thermalNodeIndex;
+   int loop;
+/* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
+   ThermalNode_setTemperature(_thermalNode, *temperatureSignal);
+   thermalNodeIndex = _thermalNodeIndex;
+/* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
+   loop = 0;
+
+/*
+   Define and return the following macro variable:
+
+   thermalNodeIndex = ??;
+*/
+
+
+/* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
+
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
+
+   return thermalNodeIndex;
 }
 
