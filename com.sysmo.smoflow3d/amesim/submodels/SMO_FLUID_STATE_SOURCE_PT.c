@@ -1,5 +1,5 @@
-/* Submodel SMO_FLUID_SOURCE skeleton created by AME Submodel editing utility
-   Sat Jul 27 14:50:41 2013 */
+/* Submodel SMO_FLUID_STATE_SOURCE_PT skeleton created by AME Submodel editing utility
+   Thu Aug 8 17:45:42 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_FLUID_SOURCE"
+#define _SUBMODELNAME_ "SMO_FLUID_STATE_SOURCE_PT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/MediumState.h"
@@ -38,7 +38,8 @@ REVISIONS :
    mediumIndex medium index
 */
 
-void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
+void smo_fluid_state_source_ptin_(int *n, int ip[1], int ic[1]
+      , void *ps[1])
 
 {
    int loop, error;
@@ -78,7 +79,6 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
    Medium *fluid = Medium_get(mediumIndex);
    fluidState = MediumState_new(fluid);
    fluidStateIndex = MediumState_register(fluidState);
-/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -86,7 +86,7 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 
    Port 1 has 2 variables:
 
-      1 stateIndex     state index [smoTDS] multi line macro 'smo_fluid_source_macro0_'  UNPLOTTABLE
+      1 stateIndex     state index [smoTDS] multi line macro 'smo_fluid_state_source_pt_macro0_'  UNPLOTTABLE
       2 flowIndex      flow index  [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
@@ -102,17 +102,17 @@ void smo_fluid_sourcein_(int *n, int ip[1], int ic[1], void *ps[1])
 
       1 pressure         pressure          [bar -> Pa]     basic variable
       2 temperature      temperature       [K]             basic variable
-      3 temperatureC     temperature (ï¿½C)  [degC]          basic variable
+      3 temperatureC     temperature (°C)  [degC]          basic variable
       4 density          density           [kg/m**3]       basic variable
       5 enthalpy         specific enthalpy [kJ/kg -> J/kg] basic variable
       6 xx               gas mass fraction [null]          basic variable
 */
 
-void smo_fluid_source_(int *n, double *stateIndex, double *flowIndex
-      , double *stateValue1, double *stateValue2, double *pressure
-      , double *temperature, double *temperatureC, double *density
-      , double *enthalpy, double *xx, int ip[1], int ic[1]
-      , void *ps[1], int *flag)
+void smo_fluid_state_source_pt_(int *n, double *stateIndex
+      , double *flowIndex, double *stateValue1, double *stateValue2
+      , double *pressure, double *temperature, double *temperatureC
+      , double *density, double *enthalpy, double *xx, int ip[1]
+      , int ic[1], void *ps[1], int *flag)
 
 {
    int loop, logi;
@@ -159,9 +159,9 @@ void smo_fluid_source_(int *n, double *stateIndex, double *flowIndex
    *enthalpy /= 1.00000000000000e+003;
 }
 
-extern double smo_fluid_source_macro0_(int *n, double *stateValue1
-      , double *stateValue2, int ip[1], int ic[1], void *ps[1]
-      , int *flag)
+extern double smo_fluid_state_source_pt_macro0_(int *n
+      , double *stateValue1, double *stateValue2, int ip[1], int ic[1]
+      , void *ps[1], int *flag)
 
 {
    double stateIndex;

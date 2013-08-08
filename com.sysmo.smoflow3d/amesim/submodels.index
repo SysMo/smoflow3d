@@ -5,8 +5,8 @@ smo_generic_property_sensor
 &SMO_MEDIUM_PROPERTY_SENSOR SmoFlow3d
 smo_zero_flow
 &SMO_ZERO_FLOW SmoFlow3d
-smo_fluid_source
-&SMO_FLUID_SOURCE SmoFlow3d
+smo_fluid_state_source_pt
+&SMO_FLUID_STATE_SOURCE_PT SmoFlow3d
 smo_flow_sensor
 &SMO_FLOW_SENSOR SmoFlow3d
 smo_heat_source
@@ -30,9 +30,8 @@ smo_simple_heater
 &SMO_HEATEXCHANGER_RC SmoFlow3d
 smo_fluid_chamber_cst_volume_4port
 &SMO_FLUID_CHAMBER_4PORT SmoFlow3d
-smo_thermal_node
-&SMO_THERMAL_NODE SmoFlow3d
-th_conduction
+smo_thermal_material_point
+&SMO_THERMAL_MATERIAL_POINT SmoFlow3d
 smo_thermal_conduction
 &SMO_THERMAL_CONDUCTION SmoFlow3d
 th2signal1

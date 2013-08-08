@@ -24,7 +24,7 @@ public:
 	void setInteractionCoefficient(size_t row, size_t column, double value);
 	void computeExplicit();
 	double getHeatFlow(size_t nodeIndex);
-	void getFlow(size_t nodeIndex, FluidFlow* flow);
+	void getFlow(size_t nodeIndex, HeatFlow* flow);
 protected:
 	int numNodes;
 	std::vector<ThermalNode*> nodes;

@@ -77,49 +77,49 @@
    <PORT>
     <EVAR>
      <SUB_ID>35</SUB_ID>
-     <TITLE>flow index 1</TITLE>
-     <VARNAME>flowIndex1</VARNAME>
+     <TITLE>heat flow index 1</TITLE>
+     <VARNAME>heatFlowIndex1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoHFL</UNITS>
     </EVAR>
     <EVAR>
      <SUB_ID>36</SUB_ID>
-     <TITLE>state index 1</TITLE>
-     <VARNAME>stateIndex1</VARNAME>
+     <TITLE>thermal node index 1</TITLE>
+     <VARNAME>thermalNodeIndex1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoTHN</UNITS>
     </EVAR>
    </PORT>
    <PORT>
     <EVAR>
      <SUB_ID>37</SUB_ID>
-     <TITLE>flow index 2</TITLE>
-     <VARNAME>flowIndex2</VARNAME>
+     <TITLE>heat flow index 2</TITLE>
+     <VARNAME>heatFlowIndex2</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoHFL</UNITS>
     </EVAR>
     <EVAR>
      <SUB_ID>38</SUB_ID>
      <TITLE>state index 2</TITLE>
-     <VARNAME>stateIndex2</VARNAME>
+     <VARNAME>thermalNodeIndex2</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoTHN</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

@@ -5,7 +5,7 @@
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>34</SUB_ID_MAX>
-  <DEFAULT_ICON>thermal_node</DEFAULT_ICON>
+  <DEFAULT_ICON>smo_thermal_node</DEFAULT_ICON>
   <SUB_LABEL>thermal point mass</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <R_STORES_NUMBER>1</R_STORES_NUMBER>
@@ -100,26 +100,26 @@
    <PORT>
     <EVAR>
      <SUB_ID>27</SUB_ID>
-     <TITLE>state index</TITLE>
-     <VARNAME>stateIndex</VARNAME>
+     <TITLE>thermal node index</TITLE>
+     <VARNAME>thermalNodeIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>8</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoTHN</UNITS>
      <EXPRESS2>@_0_2</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>28</SUB_ID>
-     <TITLE>flow index</TITLE>
-     <VARNAME>flowIndex</VARNAME>
+     <TITLE>heat flow index</TITLE>
+     <VARNAME>heatFlowIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoHFL</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

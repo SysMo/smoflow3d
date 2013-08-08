@@ -63,7 +63,7 @@ double ThermalConductionElement::getHeatFlow(size_t nodeIndex) {
 	return heatFlows.at(nodeIndex - 1);
 }
 
-void ThermalConductionElement::getFlow(size_t nodeIndex, FluidFlow* flow) {
+void ThermalConductionElement::getFlow(size_t nodeIndex, HeatFlow* flow) {
 	flow->enthalpyFlowRate = getHeatFlow(nodeIndex);
 }
 

@@ -1,5 +1,5 @@
-/* Submodel SMO_THERMAL_NODE skeleton created by AME Submodel editing utility
-   Wed Aug 7 22:53:42 2013 */
+/* Submodel SMO_THERMAL_MATERIAL_POINT skeleton created by AME Submodel editing utility
+   Thu Aug 8 17:36:38 2013 */
 
 
 
@@ -24,15 +24,15 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_THERMAL_NODE"
+#define _SUBMODELNAME_ "SMO_THERMAL_MATERIAL_POINT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "volumes/ThermalNode.h"
 #include "flow/FlowBase.h"
-#define thermalNode ps[0]
-#define heatFlowObject ps[1]
-#define thermalStateIndex ic[0]
+#define _thermalNode ps[0]
+#define _thermalNodeIndex ic[0]
+#define _heatFlow ps[1]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -49,8 +49,8 @@ REVISIONS :
    materialIndices[] material indices   
 */
 
-void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
-      , int ic[5], void *ps[5], double *temperature)
+void smo_thermal_material_pointin_(int *n, double *rp, int *ip
+      , double c[1], int ic[5], void *ps[5], double *temperature)
 
 {
    int loop, error;
@@ -119,17 +119,14 @@ void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    *temperature = initialTemperature;
-   thermalNode = ThermalNode_new();
+   _thermalNode = ThermalNode_new(sThermalNode_Material);
+   _thermalNodeIndex = ThermalNode_register(_thermalNode);
    for (int i = 0; i < numMaterials; i++) {
 	  Medium* medium = Medium_get(materialIndices[i]);
 	  if (Medium_getConcreteType(medium) != sSolidThermal) {
 		  AME_RAISE_ERROR("Medium concrete type expected to be 'solid thermal'")
 	  }
-	  ThermalNode_addMaterialMass(thermalNode, (Medium_Solid*) medium, materialMasses[i]);
-	  if (i == 0) {
-		  MediumState* state = ThermalNode_getThermalState(thermalNode);
-		  thermalStateIndex = MediumState_index(state);
-	  }
+	  ThermalNode_addMaterialMass(_thermalNode, (Medium_Solid*) medium, materialMasses[i]);
    }
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -138,8 +135,8 @@ void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
 
    Port 1 has 2 variables:
 
-      1 stateIndex     state index [smoTDS] multi line macro 'smo_thermal_node_stateIndex_'  UNPLOTTABLE
-      2 flowIndex      flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 thermalNodeIndex     thermal node index [smoTHN] multi line macro 'smo_thermal_material_point_thermalNodeIndex_'  UNPLOTTABLE
+      2 heatFlowIndex        heat flow index    [smoHFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 3 internal variables.
@@ -149,10 +146,10 @@ void smo_thermal_nodein_(int *n, double *rp, int *ip, double c[1]
       3 heatFlow          heat flow      [W] basic variable
 */
 
-void smo_thermal_node_(int *n, double *stateIndex, double *flowIndex
-      , double *thermalEnergy, double *temperature
-      , double *temperatureDot, double *heatFlow, double *rp, int *ip
-      , double c[1], int ic[5], void *ps[5])
+void smo_thermal_material_point_(int *n, double *thermalNodeIndex
+      , double *heatFlowIndex, double *thermalEnergy
+      , double *temperature, double *temperatureDot, double *heatFlow
+      , double *rp, int *ip, double c[1], int ic[5], void *ps[5])
 
 {
    int loop;
@@ -180,8 +177,8 @@ void smo_thermal_node_(int *n, double *stateIndex, double *flowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
-/*   *flowIndex *= ??; CONVERSION UNKNOWN */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
+/*   *heatFlowIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -195,25 +192,25 @@ void smo_thermal_node_(int *n, double *stateIndex, double *flowIndex
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    if (firstc_()) {
-	   heatFlowObject = FluidFlow_get(*flowIndex);
+	   _heatFlow = HeatFlow_get(*heatFlowIndex);
    }
-   *heatFlow = FluidFlow_getEnthalpyFlowRate(heatFlowObject);
-   ThermalNode_compute(thermalNode, *heatFlow);
-   *temperatureDot = ThermalNode_getTemperatureDerivative(thermalNode);
+   *heatFlow = HeatFlow_getEnthalpyFlowRate(_heatFlow);
+   ThermalNode_compute(_thermalNode, *heatFlow);
+   *temperatureDot = ThermalMaterialNode_getTemperatureDerivative(_thermalNode);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
 }
 
-extern double smo_thermal_node_stateIndex_(int *n, double *temperature
-      , double *rp, int *ip, double c[1], int ic[5], void *ps[5]
-      , int *macindex)
+extern double smo_thermal_material_point_thermalNodeIndex_(int *n
+      , double *temperature, double *rp, int *ip, double c[1]
+      , int ic[5], void *ps[5], int *macindex)
 
 {
-   double stateIndex;
+   double thermalNodeIndex;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -240,17 +237,17 @@ extern double smo_thermal_node_stateIndex_(int *n, double *temperature
 /*
    Define and return the following macro variable:
 
-   stateIndex = ??;
+   thermalNodeIndex = ??;
 */
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   ThermalNode_setTemperature(thermalNode, *temperature);
-   stateIndex = thermalStateIndex;
+   ThermalNode_setTemperature(_thermalNode, *temperature);
+   thermalNodeIndex = _thermalNodeIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 
-   return stateIndex;
+   return thermalNodeIndex;
 }
 

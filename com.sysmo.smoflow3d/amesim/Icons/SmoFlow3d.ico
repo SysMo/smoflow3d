@@ -38,9 +38,9 @@ static unsigned char icon_bits[] = {
 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc0, 0xff, 0xff, 0xff, 0xff,
 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 0xff, 0xff, 0xff, 0xff };
-@smo_fluid_source
-~smo_fluid_source
-%Fluid source
+@smo_fluid_state_source_pt
+~smo_fluid_state_source_pt
+%Fluid state source (P and T)
 #define icon_width 49
 #define icon_height 37
 static unsigned char icon_bits[] = {
@@ -474,9 +474,9 @@ static unsigned char icon_bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^   1  37 hflow
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smo_thermal_node
-~smo_thermal_node
-%thermal node (point mass)
+@smo_thermal_material_point
+~smo_thermal_material_point
+%thermal point mass
 #define icon_width 37
 #define icon_height 37
 static unsigned char icon_bits[] = {
