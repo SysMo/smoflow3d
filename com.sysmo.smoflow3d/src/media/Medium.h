@@ -23,6 +23,7 @@ typedef enum {
 	sSolidThermal
 } MediumKnownTypes;
 
+
 #ifdef __cplusplus
 
 #include <map>
@@ -36,6 +37,7 @@ struct Medium {
 	int numStates;
 	params naturalStates[2];
 	std::string name;
+
 	Medium() {
 		mediumType = sMediumTypeUndefined;
 		phase = sMediumPhaseUndefined;
@@ -43,15 +45,21 @@ struct Medium {
 		composition = sMediumCompositionUndefined;
 		numStates = 0;
 	}
-	virtual ~Medium(){}
+
+	virtual ~Medium(){
+	}
 };
 
 struct Medium_Fluid : public Medium {
-	Medium_Fluid() {phase = sFluid;}
+	Medium_Fluid() {
+		phase = sFluid;
+	}
 };
 
 struct Medium_CompressibleFluid : public Medium_Fluid {
-	Medium_CompressibleFluid() {compressibility = sCompressible;}
+	Medium_CompressibleFluid() {
+		compressibility = sCompressible;
+	}
 };
 
 struct Medium_CompressibleFluid_CoolProp : public Medium_CompressibleFluid {
@@ -67,7 +75,9 @@ struct Medium_CompressibleFluid_CoolProp : public Medium_CompressibleFluid {
 };
 
 struct Medium_IncompressibleLiquid : public Medium_Fluid {
-	Medium_IncompressibleLiquid() {compressibility = sIncompressible;}
+	Medium_IncompressibleLiquid() {
+		compressibility = sIncompressible;
+	}
 };
 
 struct Medium_IncompressibleLiquid_CoolProp : public Medium_IncompressibleLiquid {
@@ -81,10 +91,18 @@ struct Medium_IncompressibleLiquid_CoolProp : public Medium_IncompressibleLiquid
 };
 
 struct Medium_Solid : public Medium {
-	Medium_Solid() {phase = sSolid;}
 	FunctorOneVariable* densityFunction;
 	FunctorOneVariable* thermalConductivityFunction;
 	FunctorOneVariable* heatCapacityFunction;
+	FunctorOneVariable* enthalpyFunction;
+
+	Medium_Solid() {
+		phase = sSolid;
+		densityFunction = NULL;
+		thermalConductivityFunction = NULL;
+		heatCapacityFunction = NULL;
+		enthalpyFunction = NULL;
+	}
 };
 
 #else
