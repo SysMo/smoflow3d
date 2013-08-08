@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_RC skeleton created by AME Submodel editing utility
-   Thu Aug 1 10:26:58 2013 */
+   Thu Aug 8 17:49:18 2013 */
 
 
 
@@ -29,24 +29,25 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/MediumState.h"
 #include "flow/FlowBase.h"
+#include "volumes/ThermalNode.h"
 
-#define fluidFlowIndexInlet ic[1]
-#define fluidFlowInlet ps[1]
+#define _fluidFlowIndexInlet ic[0]
+#define _fluidFlowInlet ps[0]
 
-#define fluidFlowIndexOutlet ic[2]
-#define fluidFlowOutlet ps[2]
+#define _fluidFlowIndexOutlet ic[1]
+#define _fluidFlowOutlet ps[1]
 
-#define fluidStateIndexInlet ic[3]
-#define fluidStateInlet ps[3]
+#define _fluidStateIndexInlet ic[2]
+#define _fluidStateInlet ps[2]
 
-#define fluidStateIndexOutlet ic[4]
-#define fluidStateOutlet ps[4]
+#define _fluidStateIndexOutlet ic[3]
+#define _fluidStateOutlet ps[3]
 
-#define heatStateIndex ic[5]
-#define heatState ps[5]
+#define _thermalNodeIndex ic[4]
+#define _thermalNode ps[4]
 
-#define heatFlowIndex ic[6]
-#define heatFlow ps[6]
+#define _heatFlowIndex ic[5]
+#define _heatFlow ps[5]
 
 /* DELME
 #include "FluidPoint.h"
@@ -70,7 +71,7 @@ REVISIONS :
 */
 
 void smo_heatexchanger_rcin_(int *n, double rp[3], int ip[1]
-      , int ic[7], void *ps[7], double *outletTemperature)
+      , int ic[6], void *ps[6], double *outletTemperature)
 
 {
    int loop, error;
@@ -120,19 +121,6 @@ void smo_heatexchanger_rcin_(int *n, double rp[3], int ip[1]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    *outletTemperature = initialOutletTemperature;
-/* DELME
- 	AME_SET_CURRENT_COMPONENT;
-
-	INLET_NODE = FluidPoint_new(fluidIndex);
-
-	OUTLET_NODE = FluidPoint_new(fluidIndex);
-	FluidPoint* outletNode = (FluidPoint*) OUTLET_NODE;
-
-	*outletTemperature = initialOutletTemperature;
-	outletNode->p = 1e6;
-	outletNode->T = initialOutletTemperature;
-	FluidPoint_init(outletNode, -1, 2);
-	*outletComIndex = outletNode->volumeIndex;*/
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -145,8 +133,8 @@ void smo_heatexchanger_rcin_(int *n, double rp[3], int ip[1]
 
    Port 2 has 2 variables:
 
-      1 flowIndexHeat      heat flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 stateIndexHeat     heat state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
+      2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 
    Port 3 has 2 variables:
 
@@ -164,18 +152,17 @@ void smo_heatexchanger_rcin_(int *n, double rp[3], int ip[1]
 */
 
 void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
-      , double *stateIndexInlet, double *flowIndexHeat
-      , double *stateIndexHeat, double *stateIndexOutlet
+      , double *stateIndexInlet, double *heatFlowIndex
+      , double *thermalNodeIndex, double *stateIndexOutlet
       , double *flowIndexOutlet, double *inletTemperature
       , double *outletTemperature, double *outletTemperatureDot
       , double *wallTemperature, double *wallHeatFlowRate
-      , double *massFlowRateOutlet, double rp[3], int ip[1], int ic[7]
-      , void *ps[7], int *flag)
+      , double *massFlowRateOutlet, double rp[3], int ip[1], int ic[6]
+      , void *ps[6], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
-   double T2;
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int fluidIndex;
    double initialOutletTemperature, efficienccy, tauOutput;
@@ -191,7 +178,7 @@ void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
 /* Common -> SI units conversions. */
 
 /*   *stateIndexInlet *= ??; CONVERSION UNKNOWN */
-/*   *stateIndexHeat *= ??; CONVERSION UNKNOWN */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 /*   *stateIndexOutlet *= ??; CONVERSION UNKNOWN */
 /*   *flowIndexOutlet *= ??; CONVERSION UNKNOWN */
 
@@ -199,7 +186,7 @@ void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
    Set all submodel outputs below:
 
    *flowIndexInlet = ??;
-   *flowIndexHeat = ??;
+   *heatFlowIndex = ??;
    *inletTemperature = ??;
    *outletTemperatureDot = ??;
    *wallTemperature = ??;
@@ -212,90 +199,64 @@ void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
-	   fluidFlowInlet = FluidFlow_new();
-	   fluidFlowIndexInlet = FluidFlow_register(fluidFlowInlet);
+	   _fluidFlowInlet = FluidFlow_new();
+	   _fluidFlowIndexInlet = FluidFlow_register(_fluidFlowInlet);
 
-	   fluidFlowIndexOutlet = *flowIndexOutlet;
-	   fluidFlowOutlet = FluidFlow_get(fluidFlowIndexOutlet);
+	   _fluidFlowIndexOutlet = *flowIndexOutlet;
+	   _fluidFlowOutlet = FluidFlow_get(_fluidFlowIndexOutlet);
 
-	   heatState = MediumState_get(*stateIndexHeat);
-	   heatStateIndex = *stateIndexHeat;
+	   _thermalNode = ThermalNode_get(*thermalNodeIndex);
+	   _thermalNodeIndex = *thermalNodeIndex;
 
-	   heatFlow = FluidFlow_new();
-	   heatFlowIndex = FluidFlow_register(heatFlow);
+	   _heatFlow = HeatFlow_new();
+	   _heatFlowIndex = HeatFlow_register(_heatFlow);
    }
 
-   FluidFlow* fluidFlowObjInlet = (FluidFlow*) fluidFlowInlet;
-   FluidFlow* fluidFlowObjOutlet = (FluidFlow*) fluidFlowOutlet;
+   FluidFlow* fluidFlowObjInlet = (FluidFlow*) _fluidFlowInlet;
+   FluidFlow* fluidFlowObjOutlet = (FluidFlow*) _fluidFlowOutlet;
 
-   if (fluidFlowObjOutlet->massFlowRate > 0) {
+   if (FluidFlow_getMassFlowRate(_fluidFlowOutlet) > 0) {
 	   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
 	   amefprintf(stderr, "\nReverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
 	   AmeExit(1);
    }
 
-   MediumState_update_Tp(fluidStateOutlet, *outletTemperature, MediumState_p(fluidStateInlet)); //:TODO: (MILEN) ??? in macro is aslo called this function
+   MediumState_update_Tp(_fluidStateOutlet, *outletTemperature, MediumState_p(_fluidStateInlet)); //:TODO: (MILEN) ??? in macro is aslo called this function
 
-   double wallT = MediumState_T(heatState);
-   double inletT = MediumState_T(fluidStateInlet);
+   double wallT = MediumState_T(_thermalNode);
+   double inletT = MediumState_T(_fluidStateInlet);
    double outletTemperatureTarget = inletT + (wallT - inletT) * efficienccy;
 
-   fluidFlowObjInlet->massFlowRate = fluidFlowObjOutlet->massFlowRate;
-   fluidFlowObjInlet->enthalpyFlowRate = MediumState_h(fluidStateInlet) * fluidFlowObjInlet->massFlowRate;
+   FluidFlow_setMassFlowRate(_fluidFlowInlet, FluidFlow_getMassFlowRate(_fluidFlowOutlet));
+   FluidFlow_setEnthalpyFlowRate(_fluidFlowInlet, MediumState_h(_fluidStateInlet) * FluidFlow_getMassFlowRate(_fluidFlowInlet));
 
-   FluidFlow* heatFlowObj = (FluidFlow*) heatFlow;
-   heatFlowObj->massFlowRate = 0.0;
-   heatFlowObj->enthalpyFlowRate = fluidFlowObjOutlet->massFlowRate * MediumState_h(fluidStateOutlet) - fluidFlowObjInlet->enthalpyFlowRate; //wall heat flow rate
+   HeatFlow_setEnthalpyFlowRate(_heatFlow,
+		   FluidFlow_getMassFlowRate(_fluidFlowOutlet) * MediumState_h(_fluidStateOutlet) -  FluidFlow_getEnthalpyFlowRate(_fluidFlowInlet));
 
    *outletTemperatureDot = (outletTemperatureTarget - *outletTemperature) / tauOutput;
 
    *wallTemperature = wallT;
-   *wallHeatFlowRate = heatFlowObj->enthalpyFlowRate;
-   *massFlowRateOutlet = fluidFlowObjOutlet->massFlowRate;
+   *wallHeatFlowRate = HeatFlow_getEnthalpyFlowRate(_heatFlow);
+   *massFlowRateOutlet = FluidFlow_getMassFlowRate(_fluidFlowOutlet);
 
    *inletTemperature = inletT;
-   *flowIndexInlet = fluidFlowIndexInlet;
-   *flowIndexHeat = heatFlowIndex;
-/* DELME
-
-   // Initialization at first run
-   if (firstc_()) {
-	   FluidPoint* inletNode = (FluidPoint*) INLET_NODE;
-	   FluidPoint_init(inletNode, (int)(*inletComIndex), -1);
-   }
-   if (*outletMassFlowRate > 0) {
-	   raiseError(OUTLET_NODE, "Reverse flow encouuntered. "
-			   "Restrict the flow direction, e.g. by adding check valve.");
-   }
-   T2 = *wallTemperature + 273.15;
-   FluidPoint* inletNode = (FluidPoint*) INLET_NODE;
-   FluidPoint* outletNode = (FluidPoint*) OUTLET_NODE;
-   FluidPoint_computeState_p_rho(inletNode, *inletPressure, *inletDensity);
-   FluidPoint_computeState_p_T(outletNode, *inletPressure, *outletTemperature);
-   *inletTemperature = inletNode->T;
-   double outletTemperatureTarget = inletNode->T +
-		   (T2 - inletNode->T) * efficienccy;
-
-   *inletEnthalpyFlowRate = inletNode->h * (*outletMassFlowRate);
-   *wallHeatFlowRate = (*outletMassFlowRate) * outletNode->h - (*inletEnthalpyFlowRate);
-   *outletTemperatureDot = (outletTemperatureTarget - *outletTemperature)/tauOutput;
-*/
-
+   *flowIndexInlet = _fluidFlowIndexInlet;
+   *heatFlowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *flowIndexInlet /= ??; CONVERSION UNKNOWN */
 /*   *stateIndexInlet /= ??; CONVERSION UNKNOWN */
-/*   *flowIndexHeat /= ??; CONVERSION UNKNOWN */
-/*   *stateIndexHeat /= ??; CONVERSION UNKNOWN */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *stateIndexOutlet /= ??; CONVERSION UNKNOWN */
 /*   *flowIndexOutlet /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_heatexchanger_rc_macro0_(int *n
       , double *stateIndexInlet, double *outletTemperature
-      , double rp[3], int ip[1], int ic[7], void *ps[7], int *flag)
+      , double rp[3], int ip[1], int ic[6], void *ps[6], int *flag)
 
 {
    double stateIndexOutlet;
@@ -326,23 +287,19 @@ extern double smo_heatexchanger_rc_macro0_(int *n
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    if (firstc_()) {
-	   fluidStateIndexInlet = *stateIndexInlet;
-	   fluidStateInlet = MediumState_get(fluidStateIndexInlet);
+	   _fluidStateIndexInlet = *stateIndexInlet;
+	   _fluidStateInlet = MediumState_get(_fluidStateIndexInlet);
 
-	   int mediumIndexInlet = Medium_index(MediumState_getMedium(fluidStateInlet));
+	   int mediumIndexInlet = Medium_index(MediumState_getMedium(_fluidStateInlet));
 
 	   Medium* fluid = Medium_get(mediumIndexInlet);
-	   fluidStateOutlet = MediumState_new(fluid);
-	   fluidStateIndexOutlet = MediumState_register(fluidStateOutlet);
+	   _fluidStateOutlet = MediumState_new(fluid);
+	   _fluidStateIndexOutlet = MediumState_register(_fluidStateOutlet);
    }
 
-   MediumState_update_Tp(fluidStateOutlet, *outletTemperature, MediumState_p(fluidStateInlet));
+   MediumState_update_Tp(_fluidStateOutlet, *outletTemperature, MediumState_p(_fluidStateInlet));
 
-   stateIndexOutlet = fluidStateIndexOutlet;
-   /* DELME
-      FluidPoint* outletNode = (FluidPoint*) OUTLET_NODE;
-      FluidPoint_computeState_p_T(outletNode, *inletPressure, *outletTemperature);
-      outletDensity = outletNode->rho;*/
+   stateIndexOutlet = _fluidStateIndexOutlet;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
