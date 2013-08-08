@@ -31,6 +31,7 @@ protected:
 	FunctorCache* densityCache;
 	FunctorCache* heatCapacityCache;
 	FunctorCache* thermalConductivityCache;
+	FunctorCache* enthalpyCache;
 };
 
 #else // __cplusplus

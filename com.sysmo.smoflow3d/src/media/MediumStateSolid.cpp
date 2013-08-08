@@ -13,10 +13,10 @@ MediumState_Solid::MediumState_Solid(Medium_Solid* medium) : MediumState (medium
 	densityCache = medium->densityFunction->createCache();
 	heatCapacityCache = medium->heatCapacityFunction->createCache();
 	thermalConductivityCache = medium->thermalConductivityFunction->createCache();
+	enthalpyCache = medium->enthalpyFunction->createCache();
 }
 
 MediumState_Solid::~MediumState_Solid() {
-	// TODO Auto-generated destructor stub
 }
 
 void MediumState_Solid::update_Tp(double T, double p) {
@@ -24,7 +24,7 @@ void MediumState_Solid::update_Tp(double T, double p) {
 	_p = p;
 	_T = T;
 	_rho = (*solid->densityFunction)(_T, densityCache);
-	_h = 0;
+	_h = (*solid->enthalpyFunction)(_T, enthalpyCache);
 }
 
 double MediumState_Solid::u() {

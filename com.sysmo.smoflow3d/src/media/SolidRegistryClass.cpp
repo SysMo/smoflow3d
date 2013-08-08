@@ -15,7 +15,7 @@ using namespace solids;
 SolidRegistryClass SolidRegistry;
 
 SolidRegistryClass::SolidRegistryClass() {
-	addSolid("Aluminium6061", new Aluminium6061());
+	addSolid(new Aluminium6061());
 }
 
 SolidRegistryClass::~SolidRegistryClass() {
@@ -24,9 +24,9 @@ SolidRegistryClass::~SolidRegistryClass() {
 	}
 }
 
-void SolidRegistryClass::addSolid(const char* solidName, Medium_Solid* solidInstance) {
+void SolidRegistryClass::addSolid(Medium_Solid* solidInstance) {
 	solidList.push_back(solidInstance);
-	solidNameMap[solidName] = solidInstance;
+	solidNameMap[solidInstance->name] = solidInstance;
 }
 
 Medium_Solid* SolidRegistryClass::getSolid(const char* solidName) {

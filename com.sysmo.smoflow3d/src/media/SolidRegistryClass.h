@@ -17,11 +17,12 @@ public:
 	SolidRegistryClass();
 	virtual ~SolidRegistryClass();
 	Medium_Solid* getSolid(const char* solidName);
+
 protected:
-	void addSolid(const char* solidName, Medium_Solid* solidInstance);
+	void addSolid(Medium_Solid* solidInstance);
+
 	std::map<std::string, Medium_Solid*> solidNameMap;
 	std::vector <Medium_Solid*> solidList;
-
 };
 
 extern SolidRegistryClass SolidRegistry;
