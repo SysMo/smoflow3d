@@ -126,7 +126,7 @@ void smo_thermal_material_pointin_(int *n, double *rp, int *ip
 	  if (Medium_getConcreteType(medium) != sSolidThermal) {
 		  AME_RAISE_ERROR("Medium concrete type expected to be 'solid thermal'")
 	  }
-	  ThermalNode_addMaterialMass(_thermalNode, (Medium_Solid*) medium, materialMasses[i]);
+	  ThermalMaterialNode_addMaterialMass(_thermalNode, (Medium_Solid*) medium, materialMasses[i]);
    }
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -195,7 +195,7 @@ void smo_thermal_material_point_(int *n, double *thermalNodeIndex
 	   _heatFlow = HeatFlow_get(*heatFlowIndex);
    }
    *heatFlow = HeatFlow_getEnthalpyFlowRate(_heatFlow);
-   ThermalNode_compute(_thermalNode, *heatFlow);
+   ThermalMaterialNode_compute(_thermalNode, *heatFlow);
    *temperatureDot = ThermalMaterialNode_getTemperatureDerivative(_thermalNode);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 

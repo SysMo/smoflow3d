@@ -104,6 +104,6 @@ double ThermalConductionElement_getHeatFlow(
 }
 
 void ThermalConductionElement_getFlow(
-		ThermalConductionElement* element, size_t nodeIndex, FluidFlow* flow) {
+		ThermalConductionElement* element, size_t nodeIndex, HeatFlow* flow) {
 	element->getFlow(nodeIndex, flow);
 }

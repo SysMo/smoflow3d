@@ -404,9 +404,9 @@ static unsigned char icon_bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^   1  25 rshaft
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smo_flow_splitter_3port
-~smo_flow_splitter_3port
-%Flow splitter (3-port)
+@smo_fluid_flow_splitter_3port
+~smo_fluid_flow_splitter_3port
+%Fluid flow splitter (3-port)
 #define icon_width 19
 #define icon_height 21
 static unsigned char icon_bits[] = {
@@ -421,6 +421,24 @@ static unsigned char icon_bits[] = {
 ^  10   1 hflow
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^   1  11 hflow
+&* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
+@smo_heat_flow_splitter_3port
+~smo_heat_flow_splitter_3port
+%Heat flow splitter (3-port)
+#define icon_width 19
+#define icon_height 24
+static unsigned char icon_bits[] = {
+0x00,0x02,0x00,0x00,0x07,0x00,0x00,0x07,0x00,0x00,0x07,0x00,0x00,0x07,0x00,
+0x00,0x07,0x00,0x00,0x07,0x00,0x00,0x07,0x00,0x00,0x07,0x00,0x80,0x0f,0x00,
+0xff,0xff,0x07,0x80,0x0f,0x00,0x00,0x07,0x00,0x00,0x00,0x00,0x3e,0x00,0x00,
+0x08,0x00,0x00,0x08,0x00,0x00,0x08,0x00,0x00,0x08,0x00,0x00,0x08,0x00,0x00,
+0x08,0x00,0x00,0x08,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+};
+^  19  11 thermal
+&* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
+^  10   1 thermal
+&* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
+^   1  11 thermal
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_heat_source
 ~smo_heat_source

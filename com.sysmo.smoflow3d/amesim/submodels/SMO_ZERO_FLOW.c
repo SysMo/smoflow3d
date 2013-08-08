@@ -62,9 +62,9 @@ void smo_zero_flowin_(int *n, double *flowIndex)
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    FluidFlow* fluidFlow = FluidFlow_new();
-   fluidFlow->massFlowRate = 0;
-   fluidFlow->enthalpyFlowRate = 0;
    *flowIndex = FluidFlow_register(fluidFlow);
+   FluidFlow_setMassFlowRate(fluidFlow, 0);
+   FluidFlow_setEnthalpyFlowRate(fluidFlow, 0);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 

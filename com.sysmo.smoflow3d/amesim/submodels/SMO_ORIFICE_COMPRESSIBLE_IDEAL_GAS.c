@@ -196,17 +196,15 @@ void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
 
    // Retrieving the objects from the storage
    Orifice* orificeObj = (Orifice*) orifice;
-   FluidFlow* fluidFlowObj3 = (FluidFlow*) fluidFlow3;
-   FluidFlow* fluidFlowObj1 = (FluidFlow*) fluidFlow1;
 
-   fluidFlowObj3->massFlowRate = orificeObj->massFlowRate;
-   fluidFlowObj3->enthalpyFlowRate = orificeObj->enthalpyFlowRate;
+   FluidFlow_setMassFlowRate(fluidFlow3, orificeObj->massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(fluidFlow3, orificeObj->enthalpyFlowRate);
 
-   fluidFlowObj1->massFlowRate = -fluidFlowObj3->massFlowRate;
-   fluidFlowObj1->enthalpyFlowRate = -fluidFlowObj3->enthalpyFlowRate;
+   FluidFlow_setMassFlowRate(fluidFlow1, -orificeObj->massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(fluidFlow1, -orificeObj->enthalpyFlowRate);
 
-   *massFlowRate = fabs(fluidFlowObj3->massFlowRate);
-   *enthalpyFlowRate = fabs(fluidFlowObj3->enthalpyFlowRate);
+   *massFlowRate = fabs(orificeObj->massFlowRate);
+   *enthalpyFlowRate = fabs(orificeObj->enthalpyFlowRate);
    *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));
 
    *flowIndex1 = fluidFlowIndex1;

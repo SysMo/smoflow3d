@@ -11,8 +11,10 @@ smo_flow_sensor
 &SMO_FLOW_SENSOR SmoFlow3d
 smo_heat_source
 &SMO_HEAT_SOURCE SmoFlow3d
-smo_flow_splitter_3port
-&SMO_FLOW_SPLITTER_3PORT SmoFlow3d
+smo_fluid_flow_splitter_3port
+&SMO_FLUID_FLOW_SPLITTER_3PORT SmoFlow3d
+smo_heat_flow_splitter_3port
+&SMO_HEAT_FLOW_SPLITTER_3PORT SmoFlow3d
 smo_reg_valve_2port
 &SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
 &SMO_VALVE_2PORT_MASS_FLOW SmoFlow3d
@@ -34,6 +36,5 @@ smo_thermal_material_point
 &SMO_THERMAL_MATERIAL_POINT SmoFlow3d
 smo_thermal_conduction
 &SMO_THERMAL_CONDUCTION SmoFlow3d
-th2signal1
 smo_temperature_source
 &SMO_TEMPERATURE_SOURCE SmoFlow3d

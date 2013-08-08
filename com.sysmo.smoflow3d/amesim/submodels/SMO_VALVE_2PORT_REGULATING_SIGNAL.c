@@ -232,17 +232,15 @@ void smo_valve_2port_regulating_signal_(int *n, double *flowIndex1
 
    // Retrieving the objects from the storage
    TwoPortValve* valveObj = (TwoPortValve*) valve;
-   FluidFlow* fluidFlowObj3 = (FluidFlow*) fluidFlow3;
-   FluidFlow* fluidFlowObj1 = (FluidFlow*) fluidFlow1;
 
-   fluidFlowObj3->massFlowRate = valveObj->massFlowRate;
-   fluidFlowObj3->enthalpyFlowRate = valveObj->enthalpyFlowRate;
+   FluidFlow_setMassFlowRate(fluidFlow3, valveObj->massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(fluidFlow3, valveObj->enthalpyFlowRate);
 
-   fluidFlowObj1->massFlowRate = -fluidFlowObj3->massFlowRate;
-   fluidFlowObj1->enthalpyFlowRate = -fluidFlowObj3->enthalpyFlowRate;
+   FluidFlow_setMassFlowRate(fluidFlow1, -valveObj->massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(fluidFlow1, -valveObj->enthalpyFlowRate);
 
-   *massFlowRate = fabs(fluidFlowObj3->massFlowRate);
-   *enthalpyFlowRate = fabs(fluidFlowObj3->enthalpyFlowRate);
+   *massFlowRate = fabs(valveObj->massFlowRate);
+   *enthalpyFlowRate = fabs(valveObj->enthalpyFlowRate);
    *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));
 
    *flowIndex1 = fluidFlowIndex1;

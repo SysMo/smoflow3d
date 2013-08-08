@@ -10,7 +10,8 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_zero_flow" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_generic_property_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_flow_sensor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_reg_valve_2port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pump" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />
@@ -37,7 +38,8 @@
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Flow" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_reg_valve_2port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pump" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />

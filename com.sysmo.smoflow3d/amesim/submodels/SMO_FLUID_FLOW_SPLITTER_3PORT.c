@@ -1,5 +1,5 @@
-/* Submodel SMO_FLOW_SPLITTER_3PORT skeleton created by AME Submodel editing utility
-   Thu Jul 25 22:56:27 2013 */
+/* Submodel SMO_FLUID_FLOW_SPLITTER_3PORT skeleton created by AME Submodel editing utility
+   Thu Aug 8 18:33:50 2013 */
 
 
 
@@ -24,14 +24,14 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_FLOW_SPLITTER_3PORT"
+#define _SUBMODELNAME_ "SMO_FLUID_FLOW_SPLITTER_3PORT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "flow/FlowBase.h"
 #define _flowOutIndex ic[0]
 #define _flowOut ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
+void smo_fluid_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
 
 {
    int loop, error;
@@ -71,7 +71,7 @@ void smo_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
 
    Port 2 has 2 variables:
 
-      1 flowIndexOut     flow index out [smoFFL] multi line macro 'smo_flow_splitter_3port_macro0_'  UNPLOTTABLE
+      1 flowIndexOut     flow index out [smoFFL] multi line macro 'smo_fluid_flow_splitter_3port_macro0_'  UNPLOTTABLE
       2 stateIndex       state index    [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 3 has 2 variables:
@@ -88,7 +88,7 @@ void smo_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
 
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
-void smo_flow_splitter_3port_(int *n, double *flowIndexIn1
+void smo_fluid_flow_splitter_3port_(int *n, double *flowIndexIn1
       , double *flowIndexOut, double *stateIndex, double *flowIndexIn3
       , int ic[1], void *ps[3])
 
@@ -124,7 +124,7 @@ void smo_flow_splitter_3port_(int *n, double *flowIndexIn1
 }
 
 #endif
-extern double smo_flow_splitter_3port_macro0_(int *n
+extern double smo_fluid_flow_splitter_3port_macro0_(int *n
       , double *flowIndexIn1, double *flowIndexIn3, int ic[1]
       , void *ps[3])
 

@@ -5,18 +5,17 @@
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>14</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_flow_splitter_3port</DEFAULT_ICON>
+  <DEFAULT_ICON>smo_heat_flow_splitter_3port</DEFAULT_ICON>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>1</I_STORES_NUMBER>
-  <P_STORES_NUMBER>3</P_STORES_NUMBER>
+  <P_STORES_NUMBER>1</P_STORES_NUMBER>
   <HAS_NO_CALC>1</HAS_NO_CALC>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <EVARS_LIST>
    <PORT>
     <EVAR>
      <SUB_ID>12</SUB_ID>
-     <ORIG_TITLE>state index duplicate 3</ORIG_TITLE>
-     <VARNAME>stateIndexDup1</VARNAME>
+     <VARNAME>thermalNodeIndexDup1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>1</PRIMARY_PORT>
@@ -25,46 +24,45 @@
     </EVAR>
     <EVAR>
      <SUB_ID>8</SUB_ID>
-     <TITLE>flow index in 1</TITLE>
-     <VARNAME>flowIndexIn1</VARNAME>
+     <TITLE>heat flow index at port 1</TITLE>
+     <VARNAME>heatFlowIndex1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoHFL</UNITS>
     </EVAR>
    </PORT>
    <PORT>
     <EVAR>
      <SUB_ID>14</SUB_ID>
-     <TITLE>flow index out</TITLE>
-     <VARNAME>flowIndexOut</VARNAME>
+     <TITLE>heat flow index out</TITLE>
+     <VARNAME>heatFlowIndexOut</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>8</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoHFL</UNITS>
      <EXPRESS2>@_1_2, @_3_2</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>7</SUB_ID>
-     <TITLE>state index</TITLE>
-     <VARNAME>stateIndex</VARNAME>
+     <TITLE>thermal node index</TITLE>
+     <VARNAME>thermalNodeIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoTHN</UNITS>
     </EVAR>
    </PORT>
    <PORT>
     <EVAR>
      <SUB_ID>11</SUB_ID>
-     <ORIG_TITLE>state index duplicate 3</ORIG_TITLE>
-     <VARNAME>stateIndexDup3</VARNAME>
+     <VARNAME>thermalNodeIndexDup3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>1</PRIMARY_PORT>
@@ -73,14 +71,14 @@
     </EVAR>
     <EVAR>
      <SUB_ID>9</SUB_ID>
-     <TITLE>flow index in 3</TITLE>
-     <VARNAME>flowIndexIn3</VARNAME>
+     <TITLE>heat flow index at port 3</TITLE>
+     <VARNAME>heatFlowIndex3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoHFL</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

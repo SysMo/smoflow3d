@@ -149,23 +149,22 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
 	   }
    }
 
-   FluidFlow* fluidFlowObj3 = (FluidFlow*) fluidFlow3;
-   FluidFlow* fluidFlowObj1 = (FluidFlow*) fluidFlow1;
-
-   fluidFlowObj3->massFlowRate = *regulatingSignal;
    double upstreamSpecificEnthalpy = 0.0;
    if (*regulatingSignal > 0) {
 	   upstreamSpecificEnthalpy = MediumState_h(fluidState1);
    } else {
 	   upstreamSpecificEnthalpy = MediumState_h(fluidState3);
    }
-   fluidFlowObj3->enthalpyFlowRate = fluidFlowObj3->massFlowRate * upstreamSpecificEnthalpy;
+   double _massFlowRate = *regulatingSignal;
+   double _enthalpyFlowRate = _massFlowRate * upstreamSpecificEnthalpy;
+   FluidFlow_setMassFlowRate(fluidFlow3, _massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(fluidFlow3, _enthalpyFlowRate);
 
-   fluidFlowObj1->massFlowRate = -fluidFlowObj3->massFlowRate;
-   fluidFlowObj1->enthalpyFlowRate = -fluidFlowObj3->enthalpyFlowRate;
+   FluidFlow_setMassFlowRate(fluidFlow3, -_massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(fluidFlow3, -_enthalpyFlowRate);
 
-   *massFlowRate = fabs(fluidFlowObj3->massFlowRate);
-   *enthalpyFlowRate = fabs(fluidFlowObj3->enthalpyFlowRate);
+   *massFlowRate = fabs(_massFlowRate);
+   *enthalpyFlowRate = fabs(_enthalpyFlowRate);
    *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));
 
    *flowIndex1 = fluidFlowIndex1;

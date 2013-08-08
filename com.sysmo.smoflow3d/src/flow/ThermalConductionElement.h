@@ -12,9 +12,10 @@
 #include "media/Medium.h"
 #include "volumes/ThermalNode.h"
 #include "flow/FlowBase.h"
-#include "Eigen/Core"
 
 #ifdef __cplusplus
+
+#include "Eigen/Core"
 
 class ThermalConductionElement {
 public:
@@ -51,7 +52,7 @@ void ThermalConductionElement_computeExplicit(
 double ThermalConductionElement_getHeatFlow(
 		ThermalConductionElement* element, size_t nodeIndex);
 void ThermalConductionElement_getFlow(
-		ThermalConductionElement* element, size_t nodeIndex, FluidFlow* flow);
+		ThermalConductionElement* element, size_t nodeIndex, HeatFlow* flow);
 END_C_LINKAGE
 
 #endif /* THERMALCONDUCTIONELEMENT_H_ */

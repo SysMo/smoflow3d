@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>14</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_fluid_flow_splitter_3port</DEFAULT_ICON>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>1</I_STORES_NUMBER>
+  <P_STORES_NUMBER>3</P_STORES_NUMBER>
+  <HAS_NO_CALC>1</HAS_NO_CALC>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>12</SUB_ID>
+     <VARNAME>stateIndexDup1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>1</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>8</SUB_ID>
+     <TITLE>flow index in 1</TITLE>
+     <VARNAME>flowIndexIn1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>14</SUB_ID>
+     <TITLE>flow index out</TITLE>
+     <VARNAME>flowIndexOut</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+     <EXPRESS2>@_1_2, @_3_2</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>7</SUB_ID>
+     <TITLE>state index</TITLE>
+     <VARNAME>stateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>11</SUB_ID>
+     <VARNAME>stateIndexDup3</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>1</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>9</SUB_ID>
+     <TITLE>flow index in 3</TITLE>
+     <VARNAME>flowIndexIn3</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>
