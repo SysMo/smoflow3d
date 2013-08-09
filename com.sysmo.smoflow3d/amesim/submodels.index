@@ -38,3 +38,5 @@ smo_thermal_conduction
 &SMO_THERMAL_CONDUCTION SmoFlow3d
 smo_temperature_source
 &SMO_TEMPERATURE_SOURCE SmoFlow3d
+smo_adaptor_fluid_heat
+&SMO_ADAPTOR_FLUID_HEAT SmoFlow3d
