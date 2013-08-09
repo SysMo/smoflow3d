@@ -30,17 +30,17 @@ REVISIONS :
 #include "media/MediumState.h"
 #include "flow/FlowBase.h"
 
-#define fluidFlowIndex1 ic[1]
-#define fluidFlow1 ps[1]
+#define _fluidFlowIndex1 ic[1]
+#define _fluidFlow1 ps[1]
 
-#define fluidFlowIndex3 ic[2]
-#define fluidFlow3 ps[2]
+#define _fluidFlowIndex3 ic[2]
+#define _fluidFlow3 ps[2]
 
-#define fluidStateIndex1 ic[3]
-#define fluidState1 ps[3]
+#define _fluidStateIndex1 ic[3]
+#define _fluidState1 ps[3]
 
-#define fluidStateIndex3 ic[4]
-#define fluidState3 ps[4]
+#define _fluidStateIndex3 ic[4]
+#define _fluidState3 ps[4]
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_valve_2port_mass_flowin_(int *n, int ic[5], void *ps[5])
 
@@ -128,20 +128,20 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
-	   fluidFlow1 = FluidFlow_new();
-	   fluidFlowIndex1 = FluidFlow_register(fluidFlow1);
+	   _fluidFlow1 = FluidFlow_new();
+	   _fluidFlowIndex1 = FluidFlow_register(_fluidFlow1);
 
-	   fluidFlow3 = FluidFlow_new();
-	   fluidFlowIndex3 = FluidFlow_register(fluidFlow3);
+	   _fluidFlow3 = FluidFlow_new();
+	   _fluidFlowIndex3 = FluidFlow_register(_fluidFlow3);
 
-	   fluidStateIndex1 = *stateIndex1;
-	   fluidState1 = MediumState_get(fluidStateIndex1);
+	   _fluidStateIndex1 = *stateIndex1;
+	   _fluidState1 = MediumState_get(_fluidStateIndex1);
 
-	   fluidStateIndex3 = *stateIndex3;
-	   fluidState3 = MediumState_get(fluidStateIndex3);
+	   _fluidStateIndex3 = *stateIndex3;
+	   _fluidState3 = MediumState_get(_fluidStateIndex3);
 
-	   int mediumIndex1 = Medium_index(MediumState_getMedium(fluidState1));
-	   int mediumIndex3 = Medium_index(MediumState_getMedium(fluidState3));
+	   int mediumIndex1 = Medium_index(MediumState_getMedium(_fluidState1));
+	   int mediumIndex3 = Medium_index(MediumState_getMedium(_fluidState3));
 	   if (mediumIndex1 != mediumIndex3) {
 		   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
 		   amefprintf(stderr, "\nThe valve connects two components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
@@ -151,24 +151,24 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
 
    double upstreamSpecificEnthalpy = 0.0;
    if (*regulatingSignal > 0) {
-	   upstreamSpecificEnthalpy = MediumState_h(fluidState1);
+	   upstreamSpecificEnthalpy = MediumState_h(_fluidState1);
    } else {
-	   upstreamSpecificEnthalpy = MediumState_h(fluidState3);
+	   upstreamSpecificEnthalpy = MediumState_h(_fluidState3);
    }
    double _massFlowRate = *regulatingSignal;
    double _enthalpyFlowRate = _massFlowRate * upstreamSpecificEnthalpy;
-   FluidFlow_setMassFlowRate(fluidFlow3, _massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(fluidFlow3, _enthalpyFlowRate);
+   FluidFlow_setMassFlowRate(_fluidFlow3, _massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(_fluidFlow3, _enthalpyFlowRate);
 
-   FluidFlow_setMassFlowRate(fluidFlow3, -_massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(fluidFlow3, -_enthalpyFlowRate);
+   FluidFlow_setMassFlowRate(_fluidFlow3, -_massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(_fluidFlow3, -_enthalpyFlowRate);
 
    *massFlowRate = fabs(_massFlowRate);
    *enthalpyFlowRate = fabs(_enthalpyFlowRate);
-   *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));
+   *pressureLoss = fabs(MediumState_p(_fluidState1) - MediumState_p(_fluidState3));
 
-   *flowIndex1 = fluidFlowIndex1;
-   *flowIndex3 = fluidFlowIndex3;
+   *flowIndex1 = _fluidFlowIndex1;
+   *flowIndex3 = _fluidFlowIndex3;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

@@ -28,6 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "volumes/ThermalNode.h"
+
 #define _thermalNode ps[0]
 #define _thermalNodeIndex ic[0]
 /* <<<<<<<<<<<<End of Private Code. */

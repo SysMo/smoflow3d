@@ -1,5 +1,5 @@
 /* Submodel SMO_THERMAL_CONDUCTION skeleton created by AME Submodel editing utility
-   Thu Aug 8 17:31:52 2013 */
+   Fri Aug 9 12:07:58 2013 */
 
 
 
@@ -29,11 +29,14 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "flow/ThermalConductionElement.h"
+
 #define _conductionObject ps[0]
+
 #define _heatFlow1 ps[1]
+#define _heatFlowIndex1 ic[1]
+
 #define _heatFlow2 ps[2]
-#define _heatFlowIndex1 ic[0]
-#define _heatFlowIndex2 ic[1]
+#define _heatFlowIndex2 ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -51,7 +54,7 @@ REVISIONS :
 */
 
 void smo_thermal_conductionin_(int *n, double rp[2], int ip[2]
-      , int ic[2], void *ps[2])
+      , int ic[3], void *ps[3])
 
 {
    int loop, error;
@@ -144,7 +147,7 @@ void smo_thermal_conductionin_(int *n, double rp[2], int ip[2]
 void smo_thermal_conduction_(int *n, double *heatFlowIndex1
       , double *thermalNodeIndex1, double *heatFlowIndex2
       , double *thermalNodeIndex2, double *qDot2, double rp[2]
-      , int ip[2], int ic[2], void *ps[2])
+      , int ip[2], int ic[3], void *ps[3])
 
 {
    int loop;

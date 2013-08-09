@@ -30,8 +30,10 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "volumes/ThermalNode.h"
 #include "flow/FlowBase.h"
+
 #define _thermalNode ps[0]
 #define _thermalNodeIndex ic[0]
+
 #define _heatFlow ps[1]
 /* <<<<<<<<<<<<End of Private Code. */
 

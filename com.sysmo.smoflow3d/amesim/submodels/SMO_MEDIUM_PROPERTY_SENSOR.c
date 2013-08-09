@@ -29,8 +29,8 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/MediumState.h"
 
-#define fluidStateIndex ic[1]
-#define fluidState ps[1]
+#define _fluidStateIndex ic[0]
+#define _fluidState ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -258,32 +258,32 @@ extern double smo_medium_property_sensor_macro0_(int *n
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    if (firstc_()) {
-	   fluidStateIndex = *stateIndex;
-	   fluidState = MediumState_get(fluidStateIndex);
+	   _fluidStateIndex = *stateIndex;
+	   _fluidState = MediumState_get(_fluidStateIndex);
    }
 
-   c[0] = MediumState_p(fluidState);
-   c[1] = MediumState_T(fluidState);
+   c[0] = MediumState_p(_fluidState);
+   c[1] = MediumState_T(_fluidState);
    c[2] = c[1] - 273.15;
-   c[3] = MediumState_rho(fluidState);
+   c[3] = MediumState_rho(_fluidState);
    c[4] = 1./c[3];
-   c[5] = MediumState_u(fluidState);
-   c[6] = MediumState_h(fluidState);
+   c[5] = MediumState_u(_fluidState);
+   c[6] = MediumState_h(_fluidState);
    //c[7] = MediumState_s(fluidState);
-   c[8] = MediumState_cp(fluidState);
+   c[8] = MediumState_cp(_fluidState);
    //c[9] = MediumState_(fluidState);
    //c[10] = MediumState_(fluidState);
    //c[11] = MediumState_(fluidState);
    //c[12] = MediumState_(fluidState);
    //c[13] = MediumState_(fluidState);
    //c[14] = MediumState_(fluidState);
-   c[15] = MediumState_mu(fluidState);
-   c[16] = MediumState_lambda(fluidState);
-   c[17] = MediumState_Pr(fluidState);
+   c[15] = MediumState_mu(_fluidState);
+   c[16] = MediumState_lambda(_fluidState);
+   c[17] = MediumState_Pr(_fluidState);
    //c[18] = MediumState_(fluidState);
 
    if (propertyIndex == 20) {
-	   measuredValue = fluidStateIndex;
+	   measuredValue = _fluidStateIndex;
    } else {
 	   measuredValue = c[propertyIndex - 1] * gain + offset;
    }

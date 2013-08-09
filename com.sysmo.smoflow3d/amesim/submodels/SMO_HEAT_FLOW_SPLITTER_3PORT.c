@@ -28,8 +28,9 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "flow/FlowBase.h"
-#define _heatFlowOutIndex ic[0]
-#define _heatFlowOut ps[0]
+
+#define _heatFlowIndexOutlet ic[0]
+#define _heatFlowOutlet ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_heat_flow_splitter_3portin_(int *n, int ic[1], void *ps[1])
 
@@ -57,8 +58,8 @@ void smo_heat_flow_splitter_3portin_(int *n, int ic[1], void *ps[1])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _heatFlowOut = HeatFlow_new();
-   _heatFlowOutIndex = HeatFlow_register(_heatFlowOut);
+   _heatFlowOutlet = HeatFlow_new();
+   _heatFlowIndexOutlet = HeatFlow_register(_heatFlowOutlet);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -152,9 +153,9 @@ extern double smo_heat_flow_splitter_3port_macro0_(int *n
    HeatFlow* flowIn3 = HeatFlow_get(*heatFlowIndex3);
 
    double enthalpyFlowIn = HeatFlow_getEnthalpyFlowRate(flowIn1) + HeatFlow_getEnthalpyFlowRate(flowIn3);
-   HeatFlow_setEnthalpyFlowRate(_heatFlowOut, enthalpyFlowIn);
+   HeatFlow_setEnthalpyFlowRate(_heatFlowOutlet, enthalpyFlowIn);
 
-   heatFlowIndexOut = _heatFlowOutIndex;
+   heatFlowIndexOut = _heatFlowIndexOutlet;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */

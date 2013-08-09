@@ -31,19 +31,19 @@ REVISIONS :
 #include "flow/FlowBase.h"
 #include "flow/TwoPortValve.h"
 
-#define valve ps[0]
+#define _valve ps[0]
 
-#define fluidFlowIndex1 ic[1]
-#define fluidFlow1 ps[1]
+#define _fluidFlowIndex1 ic[1]
+#define _fluidFlow1 ps[1]
 
-#define fluidFlowIndex3 ic[2]
-#define fluidFlow3 ps[2]
+#define _fluidFlowIndex3 ic[2]
+#define _fluidFlow3 ps[2]
 
-#define fluidStateIndex1 ic[3]
-#define fluidState1 ps[3]
+#define _fluidStateIndex1 ic[3]
+#define _fluidState1 ps[3]
 
-#define fluidStateIndex3 ic[4]
-#define fluidState3 ps[4]
+#define _fluidStateIndex3 ic[4]
+#define _fluidState3 ps[4]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -124,8 +124,8 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   valve = TwoPortValve_new();
-   TwoPortValve* valveObj = valve;
+   _valve = TwoPortValve_new();
+   TwoPortValve* valveObj = _valve;
 
    valveObj->transitionChoice = transitionChoice;
    valveObj->Kv = Kv;
@@ -204,47 +204,47 @@ void smo_valve_2port_regulating_signal_(int *n, double *flowIndex1
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
-	   fluidFlow1 = (void*) FluidFlow_new();
-	   fluidFlowIndex1 = FluidFlow_register(fluidFlow1);
+	   _fluidFlow1 = (void*) FluidFlow_new();
+	   _fluidFlowIndex1 = FluidFlow_register(_fluidFlow1);
 
-	   fluidFlow3 = (void*) FluidFlow_new();
-	   fluidFlowIndex3 = FluidFlow_register(fluidFlow3);
+	   _fluidFlow3 = (void*) FluidFlow_new();
+	   _fluidFlowIndex3 = FluidFlow_register(_fluidFlow3);
 
-	   fluidStateIndex1 = *stateIndex1;
-	   fluidState1 = MediumState_get(fluidStateIndex1);
+	   _fluidStateIndex1 = *stateIndex1;
+	   _fluidState1 = MediumState_get(_fluidStateIndex1);
 
-	   fluidStateIndex3 = *stateIndex3;
-	   fluidState3 = MediumState_get(fluidStateIndex3);
+	   _fluidStateIndex3 = *stateIndex3;
+	   _fluidState3 = MediumState_get(_fluidStateIndex3);
 
-	   int mediumIndex1 = Medium_index(MediumState_getMedium(fluidState1));
-	   int mediumIndex3 = Medium_index(MediumState_getMedium(fluidState3));
+	   int mediumIndex1 = Medium_index(MediumState_getMedium(_fluidState1));
+	   int mediumIndex3 = Medium_index(MediumState_getMedium(_fluidState3));
 	   if (mediumIndex1 != mediumIndex3) {
 		   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
 		   amefprintf(stderr, "\nThe valve connects two components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
 		   AmeExit(1);
 	   }
 
-	   TwoPortValve_init(valve, fluidState1, fluidState3);
+	   TwoPortValve_init(_valve, _fluidState1, _fluidState3);
    }
 
-   TwoPortValve_computeMassFlow_Kv(valve, *regulatingSignal);
-   TwoPortValve_computeEnthalpyFlow(valve);
+   TwoPortValve_computeMassFlow_Kv(_valve, *regulatingSignal);
+   TwoPortValve_computeEnthalpyFlow(_valve);
 
    // Retrieving the objects from the storage
-   TwoPortValve* valveObj = (TwoPortValve*) valve;
+   TwoPortValve* valveObj = (TwoPortValve*) _valve;
 
-   FluidFlow_setMassFlowRate(fluidFlow3, valveObj->massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(fluidFlow3, valveObj->enthalpyFlowRate);
+   FluidFlow_setMassFlowRate(_fluidFlow3, valveObj->massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(_fluidFlow3, valveObj->enthalpyFlowRate);
 
-   FluidFlow_setMassFlowRate(fluidFlow1, -valveObj->massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(fluidFlow1, -valveObj->enthalpyFlowRate);
+   FluidFlow_setMassFlowRate(_fluidFlow1, -valveObj->massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(_fluidFlow1, -valveObj->enthalpyFlowRate);
 
    *massFlowRate = fabs(valveObj->massFlowRate);
    *enthalpyFlowRate = fabs(valveObj->enthalpyFlowRate);
-   *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));
+   *pressureLoss = fabs(MediumState_p(_fluidState1) - MediumState_p(_fluidState3));
 
-   *flowIndex1 = fluidFlowIndex1;
-   *flowIndex3 = fluidFlowIndex3;
+   *flowIndex1 = _fluidFlowIndex1;
+   *flowIndex3 = _fluidFlowIndex3;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

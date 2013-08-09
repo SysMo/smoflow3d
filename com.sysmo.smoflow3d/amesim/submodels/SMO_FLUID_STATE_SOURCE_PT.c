@@ -29,8 +29,8 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "media/MediumState.h"
 
-#define fluidStateIndex ic[0]
-#define fluidState ps[0]
+#define _fluidStateIndex ic[0]
+#define _fluidState ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 /* There is 1 integer parameter:
@@ -77,8 +77,8 @@ void smo_fluid_state_source_ptin_(int *n, int ip[1], int ic[1]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    Medium *fluid = Medium_get(mediumIndex);
-   fluidState = MediumState_new(fluid);
-   fluidStateIndex = MediumState_register(fluidState);
+   _fluidState = MediumState_new(fluid);
+   _fluidStateIndex = MediumState_register(_fluidState);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -102,7 +102,7 @@ void smo_fluid_state_source_ptin_(int *n, int ip[1], int ic[1]
 
       1 pressure         pressure          [bar -> Pa]     basic variable
       2 temperature      temperature       [K]             basic variable
-      3 temperatureC     temperature (°C)  [degC]          basic variable
+      3 temperatureC     temperature (ï¿½C)  [degC]          basic variable
       4 density          density           [kg/m**3]       basic variable
       5 enthalpy         specific enthalpy [kJ/kg -> J/kg] basic variable
       6 xx               gas mass fraction [null]          basic variable
@@ -143,11 +143,11 @@ void smo_fluid_state_source_pt_(int *n, double *stateIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   *pressure = MediumState_p(fluidState);
-   *temperature = MediumState_T(fluidState);
+   *pressure = MediumState_p(_fluidState);
+   *temperature = MediumState_T(_fluidState);
    *temperatureC = *temperature - 273.15;
-   *density = MediumState_rho(fluidState);
-   *enthalpy = MediumState_h(fluidState);
+   *density = MediumState_rho(_fluidState);
+   *enthalpy = MediumState_h(_fluidState);
    *xx = 0.0; //:TODO: compute gas mass fraction
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -182,8 +182,8 @@ extern double smo_fluid_state_source_pt_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   MediumState_update_Tp(fluidState, *stateValue2, *stateValue1);
-   stateIndex = fluidStateIndex;
+   MediumState_update_Tp(_fluidState, *stateValue2, *stateValue1);
+   stateIndex = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */
