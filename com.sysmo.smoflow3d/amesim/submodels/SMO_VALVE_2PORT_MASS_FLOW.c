@@ -160,8 +160,8 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
    FluidFlow_setMassFlowRate(_fluidFlow3, _massFlowRate);
    FluidFlow_setEnthalpyFlowRate(_fluidFlow3, _enthalpyFlowRate);
 
-   FluidFlow_setMassFlowRate(_fluidFlow3, -_massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(_fluidFlow3, -_enthalpyFlowRate);
+   FluidFlow_setMassFlowRate(_fluidFlow1, -_massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(_fluidFlow1, -_enthalpyFlowRate);
 
    *massFlowRate = fabs(_massFlowRate);
    *enthalpyFlowRate = fabs(_enthalpyFlowRate);

@@ -206,9 +206,6 @@ void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
 	   _heatFlowIndex = HeatFlow_register(_heatFlow);
    }
 
-   FluidFlow* fluidFlowObjInlet = (FluidFlow*) _fluidFlowInlet;
-   FluidFlow* fluidFlowObjOutlet = (FluidFlow*) _fluidFlowOutlet;
-
    if (FluidFlow_getMassFlowRate(_fluidFlowOutlet) > 0) {
 	   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
 	   amefprintf(stderr, "\nReverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
