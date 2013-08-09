@@ -21,7 +21,7 @@ FluidChamber::~FluidChamber() {
 void FluidChamber::selectStates(ThermodynamicVariable state1, ThermodynamicVariable state2) {
 	this->states[0] = state1;
 	this->states[1] = state2;
-	// TODO if P & T are state variables it has to be ensured that the 2-phase region is not entered
+	// TODO (Nasko) if P & T are state variables it has to be ensured that the 2-phase region is not entered
 	if (
 			((state1 == iD && state2 == iT) || (state1 == iT && state2 == iD)) ||
 			((state1 == iP && state2 == iT) || (state1 == iT && state2 == iP)) ||

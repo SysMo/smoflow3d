@@ -215,8 +215,6 @@ void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
 	   AmeExit(1);
    }
 
-   MediumState_update_Tp(_fluidStateOutlet, *outletTemperature, MediumState_p(_fluidStateInlet)); //:TODO: (MILEN) ??? in macro is aslo called this function
-
    double wallT = MediumState_T(_thermalNode);
    double inletT = MediumState_T(_fluidStateInlet);
    double outletTemperatureTarget = inletT + (wallT - inletT) * efficienccy;
