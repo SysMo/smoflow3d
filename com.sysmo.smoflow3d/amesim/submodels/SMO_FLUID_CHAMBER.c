@@ -29,11 +29,14 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "volumes/FluidChamber.h"
 #include "flow/FlowBase.h"
-#define fluidChamberStateIndex ic[0]
-#define fluidChamber ps[0]
-#define fluidState ps[1]
-#define flow1 ps[2]
-#define flow2 ps[3]
+
+#define _fluidChamber ps[0]
+
+#define _fluidChamberStateIndex ic[0]
+#define _fluidChamberState ps[1]
+
+#define _fluidFlow1 ps[2]
+#define _fluidFlow2 ps[3]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -130,19 +133,19 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
 Medium* fluid = Medium_get(fluidIndex);
-fluidChamber = FluidChamber_new(fluid);
-FluidChamber_setVolume(fluidChamber, volume);
-fluidState = FluidChamber_getFluidState(fluidChamber);
-fluidChamberStateIndex = MediumState_index(fluidState);
+_fluidChamber = FluidChamber_new(fluid);
+FluidChamber_setVolume(_fluidChamber, volume);
+_fluidChamberState = FluidChamber_getFluidState(_fluidChamber);
+_fluidChamberStateIndex = MediumState_index(_fluidChamberState);
 
 if (stateVariableSelection == 1) {
-	FluidChamber_selectStates(fluidChamber, iT, iD);
+	FluidChamber_selectStates(_fluidChamber, iT, iD);
 } else if (stateVariableSelection == 2) {
-	FluidChamber_selectStates(fluidChamber, iP, iT);
+	FluidChamber_selectStates(_fluidChamber, iP, iT);
 } else if (stateVariableSelection == 3) {
-	FluidChamber_selectStates(fluidChamber, iP, iD);
+	FluidChamber_selectStates(_fluidChamber, iP, iD);
 } else if (stateVariableSelection == 4) {
-	FluidChamber_selectStates(fluidChamber, iP, iH);
+	FluidChamber_selectStates(_fluidChamber, iP, iH);
 } else {
     amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
     amefprintf(stderr, "Terminating the program.\n");
@@ -150,15 +153,15 @@ if (stateVariableSelection == 1) {
 }
 
 if (initConditionsChoice == 1) {
-	MediumState_update_Tp(fluidState, initialTemperature, initialPressure);
+	MediumState_update_Tp(_fluidChamberState, initialTemperature, initialPressure);
 } else if (initConditionsChoice == 2) {
-	MediumState_update_Tp(fluidState, initialTemperatureC + 273.15, initialPressure);
+	MediumState_update_Tp(_fluidChamberState, initialTemperatureC + 273.15, initialPressure);
 } else {
     amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
     amefprintf(stderr, "Terminating the program.\n");
     AmeExit(1);
 }
-FluidChamber_getStateValues(fluidChamber, state1, state2, 1);
+FluidChamber_getStateValues(_fluidChamber, state1, state2, 1);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -240,21 +243,21 @@ void smo_fluid_chamber_(int *n, double *stateIndex, double *flowIndex1
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    if (firstc_()) {
-	   flow1 = FluidFlow_get(*flowIndex1);
-	   flow2 = FluidFlow_get(*flowIndex2);
+	   _fluidFlow1 = FluidFlow_get(*flowIndex1);
+	   _fluidFlow2 = FluidFlow_get(*flowIndex2);
    }
-   double massFlowRate = FluidFlow_getMassFlowRate(flow1) + FluidFlow_getMassFlowRate(flow2);
-   double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow1) + FluidFlow_getEnthalpyFlowRate(flow2);
-   FluidChamber_computeStateDerivatives(fluidChamber, massFlowRate, enthalpyFlowRate, 0, 0);
-   FluidChamber_getStateDerivatives(fluidChamber, state1Dot, state2Dot);
+   double massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1) + FluidFlow_getMassFlowRate(_fluidFlow2);
+   double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1) + FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
+   FluidChamber_computeStateDerivatives(_fluidChamber, massFlowRate, enthalpyFlowRate, 0, 0);
+   FluidChamber_getStateDerivatives(_fluidChamber, state1Dot, state2Dot);
 
-   *pressure = MediumState_p(fluidState);
-   *temperature = MediumState_T(fluidState);
-   *density = MediumState_rho(fluidState);
-   *specificEnthalpy = MediumState_h(fluidState);
+   *pressure = MediumState_p(_fluidChamberState);
+   *temperature = MediumState_T(_fluidChamberState);
+   *density = MediumState_rho(_fluidChamberState);
+   *specificEnthalpy = MediumState_h(_fluidChamberState);
    //*gasMassFraction = ??;
    //*superHeat  = ??;
-   *totalMass  = FluidChamber_getFluidMass(fluidChamber);
+   *totalMass  = FluidChamber_getFluidMass(_fluidChamber);
 
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -300,8 +303,8 @@ extern double smo_fluid_chamber_macro0_(int *n, double *state1
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   FluidChamber_setStateValues(fluidChamber, *state1, *state2);
-   stateIndex = fluidChamberStateIndex;
+   FluidChamber_setStateValues(_fluidChamber, *state1, *state2);
+   stateIndex = _fluidChamberStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */

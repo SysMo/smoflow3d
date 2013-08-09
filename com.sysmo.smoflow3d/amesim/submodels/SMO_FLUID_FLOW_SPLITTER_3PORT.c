@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_FLOW_SPLITTER_3PORT skeleton created by AME Submodel editing utility
-   Thu Aug 8 18:33:50 2013 */
+   Fri Aug 9 12:14:21 2013 */
 
 
 
@@ -28,10 +28,11 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "flow/FlowBase.h"
+
 #define _flowOutIndex ic[0]
 #define _flowOut ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_fluid_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
+void smo_fluid_flow_splitter_3portin_(int *n, int ic[1], void *ps[1])
 
 {
    int loop, error;
@@ -90,7 +91,7 @@ void smo_fluid_flow_splitter_3portin_(int *n, int ic[1], void *ps[3])
 
 void smo_fluid_flow_splitter_3port_(int *n, double *flowIndexIn1
       , double *flowIndexOut, double *stateIndex, double *flowIndexIn3
-      , int ic[1], void *ps[3])
+      , int ic[1], void *ps[1])
 
 {
    int loop;
@@ -126,7 +127,7 @@ void smo_fluid_flow_splitter_3port_(int *n, double *flowIndexIn1
 #endif
 extern double smo_fluid_flow_splitter_3port_macro0_(int *n
       , double *flowIndexIn1, double *flowIndexIn3, int ic[1]
-      , void *ps[3])
+      , void *ps[1])
 
 {
    double flowIndexOut;

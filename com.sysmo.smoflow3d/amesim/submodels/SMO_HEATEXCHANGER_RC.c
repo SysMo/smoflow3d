@@ -48,12 +48,6 @@ REVISIONS :
 
 #define _heatFlowIndex ic[5]
 #define _heatFlow ps[5]
-
-/* DELME
-#include "FluidPoint.h"
-#define INLET_NODE ps[0]
-#define OUTLET_NODE ps[1]
-*/
 /* <<<<<<<<<<<<End of Private Code. */
 
 

@@ -31,19 +31,19 @@ REVISIONS :
 #include "flow/FlowBase.h"
 #include "flow/Orifice.h"
 
-#define orifice ps[0]
+#define _orifice ps[0]
 
-#define fluidFlowIndex1 ic[1]
-#define fluidFlow1 ps[1]
+#define _fluidFlowIndex1 ic[1]
+#define _fluidFlow1 ps[1]
 
-#define fluidFlowIndex3 ic[2]
-#define fluidFlow3 ps[2]
+#define _fluidFlowIndex3 ic[2]
+#define _fluidFlow3 ps[2]
 
-#define fluidStateIndex1 ic[3]
-#define fluidState1 ps[3]
+#define _fluidStateIndex1 ic[3]
+#define _fluidState1 ps[3]
 
-#define fluidStateIndex3 ic[4]
-#define fluidState3 ps[4]
+#define _fluidStateIndex3 ic[4]
+#define _fluidState3 ps[4]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -100,8 +100,8 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   orifice = Orifice_new();
-   Orifice* orificeObj = orifice;
+   _orifice = Orifice_new();
+   Orifice* orificeObj = _orifice;
    orificeObj->orificeArea = orificeArea;
    orificeObj->flowCoefficient = flowCoefficient;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -168,47 +168,47 @@ void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
-	   fluidFlow1 = (void*) FluidFlow_new();
-	   fluidFlowIndex1 = FluidFlow_register(fluidFlow1);
+	   _fluidFlow1 = (void*) FluidFlow_new();
+	   _fluidFlowIndex1 = FluidFlow_register(_fluidFlow1);
 
-	   fluidFlow3 = (void*) FluidFlow_new();
-	   fluidFlowIndex3 = FluidFlow_register(fluidFlow3);
+	   _fluidFlow3 = (void*) FluidFlow_new();
+	   _fluidFlowIndex3 = FluidFlow_register(_fluidFlow3);
 
-	   fluidStateIndex1 = *stateIndex1;
-	   fluidState1 = MediumState_get(fluidStateIndex1);
+	   _fluidStateIndex1 = *stateIndex1;
+	   _fluidState1 = MediumState_get(_fluidStateIndex1);
 
-	   fluidStateIndex3 = *stateIndex3;
-	   fluidState3 = MediumState_get(fluidStateIndex3);
+	   _fluidStateIndex3 = *stateIndex3;
+	   _fluidState3 = MediumState_get(_fluidStateIndex3);
 
-	   int mediumIndex1 = Medium_index(MediumState_getMedium(fluidState1));
-	   int mediumIndex3 = Medium_index(MediumState_getMedium(fluidState3));
+	   int mediumIndex1 = Medium_index(MediumState_getMedium(_fluidState1));
+	   int mediumIndex3 = Medium_index(MediumState_getMedium(_fluidState3));
 	   if (mediumIndex1 != mediumIndex3) {
 		   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
 		   amefprintf(stderr, "\nThe orifice connects two components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
 		   AmeExit(1);
 	   }
 
-	   Orifice_init(orifice, fluidState1, fluidState3);
+	   Orifice_init(_orifice, _fluidState1, _fluidState3);
    }
 
-   Orifice_computeMassFlow_CompressibleIdealGas(orifice, *regulatingSignal);
-   Orifice_computeEnthalpyFlow(orifice);
+   Orifice_computeMassFlow_CompressibleIdealGas(_orifice, *regulatingSignal);
+   Orifice_computeEnthalpyFlow(_orifice);
 
    // Retrieving the objects from the storage
-   Orifice* orificeObj = (Orifice*) orifice;
+   Orifice* orificeObj = (Orifice*) _orifice;
 
-   FluidFlow_setMassFlowRate(fluidFlow3, orificeObj->massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(fluidFlow3, orificeObj->enthalpyFlowRate);
+   FluidFlow_setMassFlowRate(_fluidFlow3, orificeObj->massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(_fluidFlow3, orificeObj->enthalpyFlowRate);
 
-   FluidFlow_setMassFlowRate(fluidFlow1, -orificeObj->massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(fluidFlow1, -orificeObj->enthalpyFlowRate);
+   FluidFlow_setMassFlowRate(_fluidFlow1, -orificeObj->massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(_fluidFlow1, -orificeObj->enthalpyFlowRate);
 
    *massFlowRate = fabs(orificeObj->massFlowRate);
    *enthalpyFlowRate = fabs(orificeObj->enthalpyFlowRate);
-   *pressureLoss = fabs(MediumState_p(fluidState1) - MediumState_p(fluidState3));
+   *pressureLoss = fabs(MediumState_p(_fluidState1) - MediumState_p(_fluidState3));
 
-   *flowIndex1 = fluidFlowIndex1;
-   *flowIndex3 = fluidFlowIndex3;
+   *flowIndex1 = _fluidFlowIndex1;
+   *flowIndex3 = _fluidFlowIndex3;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
