@@ -5,7 +5,7 @@
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>22</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_fluid_source</DEFAULT_ICON>
+  <DEFAULT_ICON>smo_fluid_state_source_pt</DEFAULT_ICON>
   <SUB_LABEL>modulated pressure and specific enthalpy source</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>1</I_STORES_NUMBER>
@@ -25,24 +25,6 @@
    </IPARAM>
   </IPARAMS_LIST>
   <IVARS_LIST>
-   <IVAR>
-    <SUB_ID>15</SUB_ID>
-    <TITLE>pressure</TITLE>
-    <VARNAME>pressure</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <TYPE>0</TYPE>
-    <DIMENSION>1</DIMENSION>
-    <UNITS>bar</UNITS>
-   </IVAR>
-   <IVAR>
-    <SUB_ID>16</SUB_ID>
-    <TITLE>temperature</TITLE>
-    <VARNAME>temperature</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <TYPE>0</TYPE>
-    <DIMENSION>1</DIMENSION>
-    <UNITS>K</UNITS>
-   </IVAR>
    <IVAR>
     <SUB_ID>18</SUB_ID>
     <TITLE>temperature (°C)</TITLE>
@@ -109,27 +91,25 @@
    <PORT>
     <EVAR>
      <SUB_ID>6</SUB_ID>
-     <TITLE>thermodynamic state value 1</TITLE>
-     <VARNAME>stateValue1</VARNAME>
+     <TITLE>pressure</TITLE>
+     <VARNAME>pressure</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>null</UNITS>
+     <UNITS>bar</UNITS>
     </EVAR>
    </PORT>
    <PORT>
     <EVAR>
      <SUB_ID>7</SUB_ID>
-     <TITLE>thermodynamic state value 2</TITLE>
-     <VARNAME>stateValue2</VARNAME>
+     <TITLE>temperature</TITLE>
+     <VARNAME>temperature</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>null</UNITS>
+     <UNITS>K</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>
