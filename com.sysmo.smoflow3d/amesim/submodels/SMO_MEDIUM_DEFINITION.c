@@ -43,7 +43,7 @@ static const char* liquidNames[] = {
 };
 
 static const char* realFluidNames[] = {
-	"ParaHydrogen",
+	"ParaHydrogenSmoFlow",
 	"Nitrogen",
 	"Water"
 };
