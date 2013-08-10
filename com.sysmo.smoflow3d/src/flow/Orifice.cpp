@@ -46,7 +46,8 @@ void Orifice_computeMassFlow_CompressibleIdealGas(Orifice* orifice, double regul
 			* m::pow((2/(g+1)), 1/(g-1));
 	}
 
-	orifice->massFlowRate = orifice->orificeArea * orifice->flowCoefficient
+	m::limitVariable(regulatingSignal, 0.0, 1.0);
+	orifice->massFlowRate = regulatingSignal * orifice->orificeArea * orifice->flowCoefficient
 		* flowParam * pUp / m::sqrt(tUp);
 }
 
