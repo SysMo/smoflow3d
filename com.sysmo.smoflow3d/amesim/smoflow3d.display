@@ -14,6 +14,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_reg_valve_2port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_reg_orifice" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pump" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
@@ -43,6 +44,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_reg_valve_2port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_reg_orifice" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pump" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
