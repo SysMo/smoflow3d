@@ -23,9 +23,9 @@ class FreeConvection  : public Convection {
 public:
 	FreeConvection(FreeConvectionModel* convectionModel);
 	virtual ~FreeConvection();
-	void init(MediumState* fluidState, ThermalNode* wallNode,
-			FreeConvectionModel* convectionModel);
-	void setConvectionCoefficient(double convectionCoefficient);
+	void init(MediumState* fluidState, ThermalNode* wallNode);
+	void setParametersDirectly(double heatExchangeArea,
+			double convectionCoefficient);
 	void compute();
 	double getGrashofNumber() {return Gr;}
 	double getRayleighNumber() {return Ra;}
@@ -46,8 +46,9 @@ DECLARE_C_STRUCT(FreeConvection)
 
 BEGIN_C_LINKAGE
 FreeConvection* FreeConvection_new(FreeConvectionModel* convectionModel);
-void FreeConvection_setConvectionCoefficient(FreeConvection* convection,
-		double convectionCoefficient);
+void FreeConvection_setParametersDirectly(FreeConvection* convection,
+		double heatExchangeArea, double convectionCoefficient);
+void FreeConvection_setHeatExchangeGain(FreeConvection* convection, double gain);
 void FreeConvection_init(FreeConvection* convection, MediumState* fluidState,
 		ThermalNode* wallNode);
 void FreeConvection_compute(FreeConvection* convection);

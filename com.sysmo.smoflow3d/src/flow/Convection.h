@@ -32,6 +32,7 @@ public:
 	Convection();
 	virtual ~Convection();
 	void init(MediumState* fluidState, ThermalNode* wallNode);
+	void setHeatExchangeGain(double gain) {this->heatExchangeGain = gain;}
 	double getPrandtlNumber() {return Pr;}
 	double getNusseltNumber() {return Nu;}
 	double getConvectionCoefficient() {return convectionCoefficient;}
@@ -42,6 +43,7 @@ protected:
 	// Parameters
 	double characteristicLength;
 	double heatExchangeArea;
+	double heatExchangeGain;
 
 	MediumState* fluidState;
 	ThermalNode* wallNode;

@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Sun Aug 11 17:19:18 2013 */
+   Sun Aug 11 18:31:06 2013 */
 
 
 
@@ -41,7 +41,7 @@ REVISIONS :
 
 /* There are 8 real parameters:
 
-   convectionGain             free convection gain           [null]
+   heatExchangeGain           heat exchange gain             [null]
    convectionCoefficientGiven convection coefficient (given) [W/m**2/K]
    characteristicLength       characteristic length          [m]
    heatExchangeArea           heat exchange area             [m**2]
@@ -71,14 +71,14 @@ void smo_free_convectionin_(int *n, double rp[8], int ip[1]
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int calculationMethod;
-   double convectionGain, convectionCoefficientGiven, 
+   double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, heatExchangeArea, length, height, width, 
       cylinderDiameter;
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
 
-   convectionGain = rp[0];
+   heatExchangeGain = rp[0];
    convectionCoefficientGiven = rp[1];
    characteristicLength = rp[2];
    heatExchangeArea = rp[3];
@@ -152,8 +152,9 @@ void smo_free_convectionin_(int *n, double rp[8], int ip[1]
 
    _freeConvection = FreeConvection_new(convectionModel);
    if (calculationMethod == 1) {
-	   FreeConvection_setConvectionCoefficient(_freeConvection, convectionCoefficientGiven);
+	   FreeConvection_setParametersDirectly(_freeConvection, heatExchangeArea, convectionCoefficientGiven);
    }
+   FreeConvection_setHeatExchangeGain(_freeConvection, heatExchangeGain);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -189,14 +190,14 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int calculationMethod;
-   double convectionGain, convectionCoefficientGiven, 
+   double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, heatExchangeArea, length, height, width, 
       cylinderDiameter;
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
 
-   convectionGain = rp[0];
+   heatExchangeGain = rp[0];
    convectionCoefficientGiven = rp[1];
    characteristicLength = rp[2];
    heatExchangeArea = rp[3];

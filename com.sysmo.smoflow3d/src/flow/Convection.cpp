@@ -14,7 +14,7 @@ ConvectionModel::ConvectionModel() {
 }
 
 Convection::Convection() {
-
+	heatExchangeGain = 1;
 }
 
 Convection::~Convection() {

@@ -12,25 +12,31 @@ using namespace smoflow;
 
 FreeConvection::FreeConvection(FreeConvectionModel* convectionModel) {
 	this->convectionModel = convectionModel;
+	Gr = 0;
+	Pr = 0;
+	Ra = 0;
+	Nu = 0;
 	convectionCoefficient = 0;
 }
 
 FreeConvection::~FreeConvection() {
 }
 
-void FreeConvection::init(MediumState* fluidState, ThermalNode* wallNode,
-		FreeConvectionModel* convectionModel) {
+void FreeConvection::init(MediumState* fluidState, ThermalNode* wallNode) {
 	Convection::init(fluidState, wallNode);
-	characteristicLength = convectionModel->getCharacteristicLength();
-	characteristicLength3 = characteristicLength * characteristicLength * characteristicLength;
-	heatExchangeArea = convectionModel->getHeatExchangeArea();
+	if (convectionModel != NULL) {
+		characteristicLength = convectionModel->getCharacteristicLength();
+		characteristicLength3 = characteristicLength * characteristicLength * characteristicLength;
+		heatExchangeArea = convectionModel->getHeatExchangeArea();
+	}
 }
 
-void FreeConvection::setConvectionCoefficient(double convectionCoefficient) {
+void FreeConvection::setParametersDirectly(double heatExchangeArea, double convectionCoefficient) {
 	if (convectionModel != 0) {
-		RaiseError("Convection coefficient for free convection can be only set if there is no convection model")
+		RaiseError("Convection coefficient / heat exchange area for free convection can be only set if there is no convection model")
 	}
 	this->convectionCoefficient = convectionCoefficient;
+	this->heatExchangeArea = heatExchangeArea;
 }
 
 void FreeConvection::compute() {
@@ -49,23 +55,30 @@ void FreeConvection::compute() {
 		Ra = Gr * Pr;
 		Nu = convectionModel->computeNusseltNumber(Ra, Pr, wallOverheat);
 		convectionCoefficient = Nu * filmState->lambda() / characteristicLength;
-		heatFlowRate = convectionCoefficient * heatExchangeArea * wallOverheat;
+		heatFlowRate = convectionCoefficient * heatExchangeArea * wallOverheat * heatExchangeGain;
 	} else {
-		heatFlowRate = convectionCoefficient * heatExchangeArea * wallOverheat;
+		heatFlowRate = convectionCoefficient * heatExchangeArea * wallOverheat * heatExchangeGain;
 	}
 }
 
 FreeConvection* FreeConvection_new(FreeConvectionModel* convectionModel) {
 	return new FreeConvection(convectionModel);
 }
-void FreeConvection_setConvectionCoefficient(FreeConvection* convection,
-		double convectionCoefficient) {
-	convection->setConvectionCoefficient(convectionCoefficient);
+
+void FreeConvection_setParametersDirectly(FreeConvection* convection,
+		double heatExchangeArea, double convectionCoefficient) {
+	convection->setParametersDirectly(heatExchangeArea, convectionCoefficient);
 }
+
+void FreeConvection_setHeatExchangeGain(FreeConvection* convection, double gain) {
+	convection->setHeatExchangeGain(gain);
+}
+
 void FreeConvection_init(FreeConvection* convection, MediumState* fluidState,
-		ThermalNode* wallNode, FreeConvectionModel* convectionModel) {
-	convection->init(fluidState, wallNode, convectionModel);
+		ThermalNode* wallNode) {
+	convection->init(fluidState, wallNode);
 }
+
 void FreeConvection_compute(FreeConvection* convection) {
 	convection->compute();
 }
@@ -121,9 +134,9 @@ protected:
 	FunctorTwoVariables* nusseltExpression;
 };
 
-class FreeConvection_VerticalSurface : public FreeConvectionModel {
+class FreeConvectionModel_VerticalSurface : public FreeConvectionModel {
 public:
-	FreeConvection_VerticalSurface(double height, double width, double wallOverheat) {
+	FreeConvectionModel_VerticalSurface(double height, double width) {
 		this->heatExchangeArea = height * width;
 		this->characteristicLength = height;
 	}
@@ -139,9 +152,9 @@ public:
 
 #include <math.h>
 
-class FreeConvection_HorizontalSurface : public FreeConvectionModel {
+class FreeConvectionModel_HorizontalSurface : public FreeConvectionModel {
 public:
-	FreeConvection_HorizontalSurface(double length, double width, bool topSide) {
+	FreeConvectionModel_HorizontalSurface(double length, double width, bool topSide) {
 		this->heatExchangeArea = length * width;
 		this->characteristicLength = length * width / 2 / (length + width);
 		this->topSide = topSide;
@@ -169,9 +182,9 @@ protected:
 	bool topSide;
 };
 
-class FreeConvection_CylindricalHorizontalSurface : public FreeConvectionModel {
+class FreeConvectionModel_CylindricalHorizontalSurface : public FreeConvectionModel {
 public:
-	FreeConvection_CylindricalHorizontalSurface(double length, double diameter) {
+	FreeConvectionModel_CylindricalHorizontalSurface(double length, double diameter) {
 		this->heatExchangeArea = length * m::pi * diameter;
 		this->characteristicLength = diameter;
 	}
@@ -193,23 +206,23 @@ FreeConvectionModel* FreeConvectionModel_NusseltExpression_new(
 
 FreeConvectionModel* FreeConvectionModel_VerticalSurface_new(
 		double height, double width) {
-	return FreeConvectionModel_VerticalSurface_new(height, width);
+	return new FreeConvectionModel_VerticalSurface(height, width);
 }
 
 FreeConvectionModel* FreeConvectionModel_HorizontalSurfaceTop_new(
 		double length, double width) {
-	return new FreeConvection_HorizontalSurface(
+	return new FreeConvectionModel_HorizontalSurface(
 			length, width, true);
 }
 
 FreeConvectionModel* FreeConvectionModel_HorizontalSurfaceBottom_new(
 		double length, double width) {
-	return new FreeConvection_HorizontalSurface(
+	return new FreeConvectionModel_HorizontalSurface(
 			length, width, false);
 }
 
 FreeConvectionModel* FreeConvectionModel_CylindricalHorizontalSurface_new(
 		double length, double diameter) {
-	return new FreeConvection_CylindricalHorizontalSurface(
+	return new FreeConvectionModel_CylindricalHorizontalSurface(
 			length, diameter);
 }
