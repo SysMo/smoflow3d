@@ -18,9 +18,13 @@
 
 class ConvectionModel {
 public:
-	virtual double getLengthScale() = 0;
-	virtual double getHeatExchangeArea() = 0;
-	virtual ~ConvectionModel();
+	ConvectionModel();
+	virtual ~ConvectionModel(){};
+	double getCharacteristicLength(){return characteristicLength;}
+	double getHeatExchangeArea(){return heatExchangeArea;}
+protected:
+	double characteristicLength;
+	double heatExchangeArea;
 };
 
 class Convection {
@@ -36,7 +40,7 @@ public:
 	void getFlow_Fluid(FluidFlow* flow);
 protected:
 	// Parameters
-	double lengthScale;
+	double characteristicLength;
 	double heatExchangeArea;
 
 	MediumState* fluidState;

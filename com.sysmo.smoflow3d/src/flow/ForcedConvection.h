@@ -37,6 +37,7 @@ protected:
 };
 
 #else // __cplusplus
+DECLARE_C_STRUCT(ForcedConvectionModel)
 DECLARE_C_STRUCT(ForcedConvection)
 #endif //__cplusplus
 

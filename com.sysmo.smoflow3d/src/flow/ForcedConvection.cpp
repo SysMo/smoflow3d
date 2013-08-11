@@ -22,7 +22,7 @@ void ForcedConvection::init(MediumState* fluidState, ThermalNode* wallNode,
 	Convection::init(fluidState, wallNode);
 	this->convectionModel = convectionModel;
 	this->flow = flow;
-	lengthScale = convectionModel->getLengthScale();
+	characteristicLength = convectionModel->getCharacteristicLength();
 	heatExchangeArea = convectionModel->getHeatExchangeArea();
 	flowArea = convectionModel->getFlowArea();
 }
@@ -37,10 +37,10 @@ void ForcedConvection::compute() {
 
 
 	double v = flow->massFlowRate / filmState->rho() / flowArea;
-	Re = filmState->rho() * v * lengthScale;
+	Re = filmState->rho() * v * characteristicLength;
 	Pr = filmState->Pr();
 	Nu = convectionModel->computeNusseltNumber(Re, Pr);
-	convectionCoefficient = Nu * filmState->lambda() / lengthScale;
+	convectionCoefficient = Nu * filmState->lambda() / characteristicLength;
 	heatFlowRate = convectionCoefficient * heatExchangeArea * wallOverheat;
 }
 

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>36</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_free_convection</DEFAULT_ICON>
+  <SUB_LABEL>adaptor between fluid and heat</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>4</I_STORES_NUMBER>
+  <P_STORES_NUMBER>4</P_STORES_NUMBER>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>15</SUB_ID>
+    <TITLE>free convection gain</TITLE>
+    <VARNAME>convectionGain</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>19</SUB_ID>
+    <TITLE>convection coefficient (given)</TITLE>
+    <VARNAME>convectionCoefficientGiven</VARNAME>
+    <VISIBILITY>calculationMethod==1</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+001</DEF_VALUE>
+    <VALUE>1.00000000000000e+001</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>W/m**2/K</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>16</SUB_ID>
+    <TITLE>characteristic length</TITLE>
+    <VARNAME>characteristicLength</VARNAME>
+    <VISIBILITY>calculationMethod==2</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>17</SUB_ID>
+    <TITLE>heat exchange area</TITLE>
+    <VARNAME>heatExchangeArea</VARNAME>
+    <VISIBILITY>(calculationMethod==1) || ( calculationMethod==2)</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m**2</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>31</SUB_ID>
+    <TITLE>length</TITLE>
+    <VARNAME>length</VARNAME>
+    <VISIBILITY>(calculationMethod==4) || (calculationMethod==5) || (calculationMethod==6)</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>30</SUB_ID>
+    <TITLE>height</TITLE>
+    <VARNAME>height</VARNAME>
+    <VISIBILITY>calculationMethod==3</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>29</SUB_ID>
+    <TITLE>width</TITLE>
+    <VARNAME>width</VARNAME>
+    <VISIBILITY>(calculationMethod==3) || (calculationMethod==4) || (calculationMethod==5)</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>23</SUB_ID>
+    <TITLE>cylinder diameter</TITLE>
+    <VARNAME>cylinderDiameter</VARNAME>
+    <VISIBILITY>calculationMethod==6</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e-002</DEF_VALUE>
+    <VALUE>1.00000000000000e-002</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>20</SUB_ID>
+    <TITLE>covection calculation method</TITLE>
+    <VARNAME>calculationMethod</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>6</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>fixed convection coefficient</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>expression for Nusselt number</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>flat plate (vertical)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>flat plate (horizontal, top side)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>flat plate (horizontal, bottom side)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>cylindrical surface (horizontal)</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <TPARAMS_LIST>
+   <TPARAM>
+    <SUB_ID>24</SUB_ID>
+    <TITLE>nusselt correlation expression Nu=f(Ra, Pr)</TITLE>
+    <VARNAME>nusseltCorrelationExpr</VARNAME>
+    <VISIBILITY>calculationMethod==2</VISIBILITY>
+    <DEF_VALUE>(0.825+0.387*Ra**(1./6))**2</DEF_VALUE>
+    <VALUE>(0.825+0.387*Ra**(1./6))**2</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+  </TPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>32</SUB_ID>
+    <TITLE>Rayleigh number</TITLE>
+    <VARNAME>Ra</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>33</SUB_ID>
+    <TITLE>Nusselt number</TITLE>
+    <VARNAME>Nu</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>34</SUB_ID>
+    <TITLE>convection coefficient</TITLE>
+    <VARNAME>h</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W/m**2/K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>35</SUB_ID>
+    <TITLE>heat flow rate</TITLE>
+    <VARNAME>qDot</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>8</SUB_ID>
+     <TITLE>heat flow index</TITLE>
+     <VARNAME>heatFlowIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoHFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>25</SUB_ID>
+     <TITLE>thermal node index</TITLE>
+     <VARNAME>thermalNodeIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTHN</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>5</SUB_ID>
+     <TITLE>flow index</TITLE>
+     <VARNAME>flowIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>6</SUB_ID>
+     <TITLE>state index</TITLE>
+     <VARNAME>stateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>

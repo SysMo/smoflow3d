@@ -8,6 +8,11 @@
 
 #include "Convection.h"
 
+ConvectionModel::ConvectionModel() {
+		characteristicLength = 0;
+		heatExchangeArea = 0;
+}
+
 Convection::Convection() {
 
 }

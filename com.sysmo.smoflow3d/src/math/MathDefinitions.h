@@ -20,6 +20,10 @@
 
 namespace smoflow {
 namespace m {
+
+	// Constants
+	static const double pi = 3.1415927;
+
 	inline double pow(const double& x, const double& y) {
 		return std::pow(x, y);
 	}

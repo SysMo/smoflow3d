@@ -43,3 +43,5 @@ smo_reg_orifice
 &SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
 smo_fluid_flow_source
 &SMO_FLUID_FLOW_SOURCE SmoFlow3d
+smo_free_convection
+&SMO_FREE_CONVECTION SmoFlow3d
