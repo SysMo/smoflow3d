@@ -16,6 +16,7 @@
 
 #ifdef __cplusplus
 
+/*
 class ConvectionModel {
 public:
 	ConvectionModel();
@@ -26,16 +27,23 @@ protected:
 	double characteristicLength;
 	double heatExchangeArea;
 };
+*/
 
 class Convection {
 public:
 	Convection();
 	virtual ~Convection();
+	double getCharacteristicLength(){return characteristicLength;}
+	double getHeatExchangeArea(){return heatExchangeArea;}
 	void init(MediumState* fluidState, ThermalNode* wallNode);
-	void setHeatExchangeGain(double gain) {this->heatExchangeGain = gain;}
+	void setHeatExchangeGain(double gain) {
+		this->heatExchangeGain = gain;}
 	double getPrandtlNumber() {return Pr;}
 	double getNusseltNumber() {return Nu;}
-	double getConvectionCoefficient() {return convectionCoefficient;}
+	void setConvectionCoefficient(double convectionCoefficient) {
+		this->convectionCoefficient = convectionCoefficient;}
+	double getConvectionCoefficient() {
+		return convectionCoefficient;}
 	double getHeatFlowRate() {return heatFlowRate;}
 	void getFlow_Wall(HeatFlow* flow);
 	void getFlow_Fluid(FluidFlow* flow);

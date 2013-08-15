@@ -13,24 +13,18 @@
 
 #ifdef __cplusplus
 
-class ForcedConvectionModel : public ConvectionModel {
-public:
-	virtual double getFlowArea() = 0;
-	virtual double computeNusseltNumber(double Re, double Pr) = 0;
-	virtual ~ForcedConvectionModel(){};
-};
-
 class ForcedConvection : public Convection {
 public:
 	ForcedConvection();
 	virtual ~ForcedConvection();
-	void init(MediumState* fluidState, ThermalNode* wallNode,
-			ForcedConvectionModel* convectionModel, FluidFlow* flow);
-	void compute();
+	void init(MediumState* fluidState,
+			ThermalNode* wallNode, FluidFlow* flow);
+	virtual void compute();
+	double getReynoldsNumber() {return Re;}
 protected:
+	virtual double computeNusseltNumber(double Re, double Pr) = 0;
 	double flowArea;
 
-	ForcedConvectionModel* convectionModel;
 	FluidFlow* flow;
 
 	double Re;
@@ -42,10 +36,16 @@ DECLARE_C_STRUCT(ForcedConvection)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-ForcedConvection* ForcedConvection_new();
 void ForcedConvection_init(ForcedConvection* convection, MediumState* fluidState,
-		ThermalNode* wallNode, ForcedConvectionModel* convectionModel, FluidFlow* flow);
-void ForcedConvection_compute(ForcedConvection* convection);
-END_C_LINKAGE
+		ThermalNode* wallNode, FluidFlow* flow);
+void ForcedConvection_setHeatExchangeGain(ForcedConvection* convection, double gain);
 
+void ForcedConvection_compute(ForcedConvection* convection);
+double ForcedConvection_getReynoldsNumber(ForcedConvection* convection);
+
+ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(
+		double heatExchangeArea);
+ForcedConvection* ForcedConvection_StraightPipe_new(
+		double hydraulicDiameter, double flowArea, double pipeLength);
+END_C_LINKAGE
 #endif /* FORCEDCONVECTION_H_ */

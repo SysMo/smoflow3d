@@ -40,6 +40,16 @@
 #define DECLARE_C_STRUCT(name) \
 	typedef struct name##Struct name; \
 
+
+#define FULL_FUNC_NAME(a, b) a##_##b
+
+#define KOMPONENT_FUNC(RET_TYPE, FUNC_NAME, ...) \
+		KOMPONENT_FUNC1(KOMPONENT, RET_TYPE, FUNC_NAME, __VA_ARGS__)
+
+#define KOMPONENT_FUNC1(KOMPONENT_NAME, RET_TYPE, FUNC_NAME, ...) \
+		RET_TYPE FULL_FUNC_NAME(KOMPONENT_NAME, FUNC_NAME)(KOMPONENT* component, __VA_ARGS__)
+
+
 #include "CoolProp/GlobalConstants.h"
 typedef enum params ThermodynamicVariable;
 

@@ -8,13 +8,15 @@
 
 #include "Convection.h"
 
+/*
 ConvectionModel::ConvectionModel() {
 		characteristicLength = 0;
 		heatExchangeArea = 0;
 }
+*/
 
 Convection::Convection() {
-	heatExchangeGain = 1;
+	heatExchangeGain = 1.0;
 }
 
 Convection::~Convection() {

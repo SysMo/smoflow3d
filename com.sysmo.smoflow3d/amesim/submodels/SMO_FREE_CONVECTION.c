@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Sun Aug 11 18:31:06 2013 */
+   Thu Aug 15 18:50:47 2013 */
 
 
 
@@ -39,7 +39,7 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 8 real parameters:
+/* There are 12 real parameters:
 
    heatExchangeGain           heat exchange gain             [null]
    convectionCoefficientGiven convection coefficient (given) [W/m**2/K]
@@ -48,7 +48,11 @@ REVISIONS :
    length                     length                         [m]
    height                     height                         [m]
    width                      width                          [m]
-   cylinderDiameter           cylinder diameter              [m]
+   diameter                   diameter                       [m]
+   basePipeDiameter           base pipe diameter             [m]
+   finSpacing                 fin spacing                    [m]
+   finThickness               fin thickness                  [m]
+   finHeight                  fin height                     [m]
 */
 
 
@@ -63,7 +67,7 @@ REVISIONS :
    nusseltCorrelationExpr nusselt correlation expression Nu=f(Ra, Pr)
 */
 
-void smo_free_convectionin_(int *n, double rp[8], int ip[1]
+void smo_free_convectionin_(int *n, double rp[12], int ip[1]
       , char *tp[1], int ic[4], void *ps[4])
 
 {
@@ -73,7 +77,7 @@ void smo_free_convectionin_(int *n, double rp[8], int ip[1]
    int calculationMethod;
    double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, heatExchangeArea, length, height, width, 
-      cylinderDiameter;
+      diameter, basePipeDiameter, finSpacing, finThickness, finHeight;
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
@@ -85,7 +89,11 @@ void smo_free_convectionin_(int *n, double rp[8], int ip[1]
    length     = rp[4];
    height     = rp[5];
    width      = rp[6];
-   cylinderDiameter = rp[7];
+   diameter   = rp[7];
+   basePipeDiameter = rp[8];
+   finSpacing = rp[9];
+   finThickness = rp[10];
+   finHeight  = rp[11];
 
    nusseltCorrelationExpr = tp[0];
    loop = 0;
@@ -94,7 +102,7 @@ void smo_free_convectionin_(int *n, double rp[8], int ip[1]
 /*
    If necessary, check values of the following:
 
-   rp[0..7]
+   rp[0..11]
 */
 
 
@@ -103,9 +111,9 @@ void smo_free_convectionin_(int *n, double rp[8], int ip[1]
 
 /*   Integer parameter checking:   */
 
-   if (calculationMethod < 1 || calculationMethod > 6)
+   if (calculationMethod < 1 || calculationMethod > 9)
    {
-      amefprintf(stderr, "\ncovection calculation method must be in range [1..6].\n");
+      amefprintf(stderr, "\ncovection calculation method must be in range [1..9].\n");
       error = 2;
    }
 
@@ -127,33 +135,42 @@ void smo_free_convectionin_(int *n, double rp[8], int ip[1]
 
    _fluidFlow = FluidFlow_new();
    _fluidFlowIndex = FluidFlow_register(_fluidFlow);
-   FreeConvectionModel* convectionModel = NULL;
 
    if (calculationMethod == 1) {
-
+	   _freeConvection =
+			   FreeConvection_GivenConvectionCoefficient_new(
+					   convectionCoefficientGiven, heatExchangeArea);
    } else if (calculationMethod == 2) {
-	   convectionModel =
-			   FreeConvectionModel_NusseltExpression_new(
+	   _freeConvection =
+			   FreeConvection_NusseltExpression_new(
 					   characteristicLength, heatExchangeArea, nusseltCorrelationExpr);
    } else if (calculationMethod == 3) {
-	   convectionModel =
-			   FreeConvectionModel_VerticalSurface_new(height, width);
+	   _freeConvection =
+			   FreeConvection_VerticalSurface_new(height, width);
    } else if (calculationMethod == 4) {
-	   convectionModel =
-			   FreeConvectionModel_HorizontalSurfaceTop_new(length, width);
+	   _freeConvection =
+			   FreeConvection_HorizontalSurfaceTop_new(length, width);
    } else if (calculationMethod == 5) {
-	   convectionModel =
-			   FreeConvectionModel_HorizontalSurfaceBottom_new(length, width);
+	   _freeConvection =
+			   FreeConvection_HorizontalSurfaceBottom_new(length, width);
    } else if (calculationMethod == 6) {
-	   convectionModel =
-			   FreeConvectionModel_CylindricalHorizontalSurface_new(
-					   length, cylinderDiameter);
+	   _freeConvection =
+			   FreeConvection_CylindricalHorizontalSurface_new(
+					   length, diameter);
+   } else if (calculationMethod == 7) {
+	   _freeConvection =
+			   FreeConvection_CylindricalVerticalSurface_new(
+					   length, diameter);
+   } else if (calculationMethod == 8) {
+	   _freeConvection =
+			   FreeConvection_SphericalSurface_new(
+					   diameter);
+   } else if (calculationMethod == 9) {
+	   _freeConvection =
+			   FreeConvection_FinnedPipe_new(basePipeDiameter, length,
+					   finSpacing, finThickness, finHeight);
    }
 
-   _freeConvection = FreeConvection_new(convectionModel);
-   if (calculationMethod == 1) {
-	   FreeConvection_setParametersDirectly(_freeConvection, heatExchangeArea, convectionCoefficientGiven);
-   }
    FreeConvection_setHeatExchangeGain(_freeConvection, heatExchangeGain);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -182,7 +199,7 @@ void smo_free_convectionin_(int *n, double rp[8], int ip[1]
 void smo_free_convection_(int *n, double *heatFlowIndex
       , double *thermalNodeIndex, double *flowIndex
       , double *stateIndex, double *Ra, double *Nu, double *h
-      , double *qDot, double rp[8], int ip[1], char *tp[1], int ic[4]
+      , double *qDot, double rp[12], int ip[1], char *tp[1], int ic[4]
       , void *ps[4])
 
 {
@@ -192,7 +209,7 @@ void smo_free_convection_(int *n, double *heatFlowIndex
    int calculationMethod;
    double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, heatExchangeArea, length, height, width, 
-      cylinderDiameter;
+      diameter, basePipeDiameter, finSpacing, finThickness, finHeight;
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
@@ -204,7 +221,11 @@ void smo_free_convection_(int *n, double *heatFlowIndex
    length     = rp[4];
    height     = rp[5];
    width      = rp[6];
-   cylinderDiameter = rp[7];
+   diameter   = rp[7];
+   basePipeDiameter = rp[8];
+   finSpacing = rp[9];
+   finThickness = rp[10];
+   finHeight  = rp[11];
 
    nusseltCorrelationExpr = tp[0];
    loop = 0;

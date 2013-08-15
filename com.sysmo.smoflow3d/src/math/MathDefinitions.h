@@ -17,6 +17,7 @@
 #define MATHDECLARATIONS_H_
 
 #include <cmath>
+#include <limits>
 
 namespace smoflow {
 namespace m {
@@ -24,12 +25,28 @@ namespace m {
 	// Constants
 	static const double pi = 3.1415927;
 
+	inline double eps() {
+		return std::numeric_limits<double>::epsilon();
+	}
+
 	inline double pow(const double& x, const double& y) {
+		return std::pow(x, y);
+	}
+
+	inline double pow(const double& x, const int& y) {
 		return std::pow(x, y);
 	}
 
 	inline double sqrt(const double& x) {
 		return std::sqrt((long double) x);
+	}
+
+	inline double log(const double& x) {
+		return std::log((long double) x);
+	}
+
+	inline double log10(const double& x) {
+		return std::log10((long double) x);
 	}
 
 	inline double fabs(const double& x) {

@@ -13,27 +13,26 @@
 
 #ifdef __cplusplus
 
+/*
 class FreeConvectionModel : public ConvectionModel {
 public:
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) = 0;
 	virtual ~FreeConvectionModel(){};
 };
+*/
 
 class FreeConvection  : public Convection {
 public:
-	FreeConvection(FreeConvectionModel* convectionModel);
+	FreeConvection();
 	virtual ~FreeConvection();
 	void init(MediumState* fluidState, ThermalNode* wallNode);
-	void setParametersDirectly(double heatExchangeArea,
-			double convectionCoefficient);
-	void compute();
+	virtual void compute();
+	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) = 0;
 	double getGrashofNumber() {return Gr;}
 	double getRayleighNumber() {return Ra;}
 	double getPrandtlNumber() {return Pr;}
 protected:
 	double characteristicLength3;
-
-	FreeConvectionModel* convectionModel;
 
 	double Gr;
 	double Ra;
@@ -45,7 +44,7 @@ DECLARE_C_STRUCT(FreeConvection)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-FreeConvection* FreeConvection_new(FreeConvectionModel* convectionModel);
+//FreeConvection* FreeConvection_new(FreeConvectionModel* convectionModel);
 void FreeConvection_setParametersDirectly(FreeConvection* convection,
 		double heatExchangeArea, double convectionCoefficient);
 void FreeConvection_setHeatExchangeGain(FreeConvection* convection, double gain);
@@ -61,17 +60,24 @@ double FreeConvection_getHeatFlowRate(FreeConvection* convection);
 void FreeConvection_getFlow_Wall(FreeConvection* convection, HeatFlow* flow);
 void FreeConvection_getFlow_Fluid(FreeConvection* convection, FluidFlow* flow);
 
-FreeConvectionModel* FreeConvectionModel_NusseltExpression_new(
+FreeConvection* FreeConvection_GivenConvectionCoefficient_new(
+		double convectionCoefficient, double heatExchangeArea);
+FreeConvection* FreeConvection_NusseltExpression_new(
 		double characteristicLength, double heatExchangeArea, const char* nusseltExpression);
-FreeConvectionModel* FreeConvectionModel_VerticalSurface_new(
+FreeConvection* FreeConvection_VerticalSurface_new(
 		double height, double width);
-FreeConvectionModel* FreeConvectionModel_HorizontalSurfaceTop_new(
+FreeConvection* FreeConvection_HorizontalSurfaceTop_new(
 		double length, double width);
-FreeConvectionModel* FreeConvectionModel_HorizontalSurfaceBottom_new(
+FreeConvection* FreeConvection_HorizontalSurfaceBottom_new(
 		double length, double width);
-FreeConvectionModel* FreeConvectionModel_CylindricalHorizontalSurface_new(
+FreeConvection* FreeConvection_CylindricalHorizontalSurface_new(
 		double length, double diameter);
-
+FreeConvection* FreeConvection_CylindricalVerticalSurface_new(
+		double height, double diameter);
+FreeConvection* FreeConvection_SphericalSurface_new(
+		double diameter);
+FreeConvection* FreeConvection_FinnedPipe_new(double pipeDiameter, double pipeLength,
+		double finSpacing, double finThickness, double finHeight);
 END_C_LINKAGE
 
 #endif /* FREECONVECTION_H_ */
