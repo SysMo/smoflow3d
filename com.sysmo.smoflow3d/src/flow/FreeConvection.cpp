@@ -16,7 +16,6 @@ FreeConvection::FreeConvection() {
 	Ra = 0;
 	Nu = 0;
 	convectionCoefficient = 0;
-	characteristicLength3 = characteristicLength * characteristicLength * characteristicLength;
 }
 
 FreeConvection::~FreeConvection() {
@@ -37,7 +36,7 @@ void FreeConvection::compute() {
 	filmState->update_Tp(filmTemperature, fluidState->p());
 	// Calculate Rayleigh & Prandtl number
 	double eta = filmState->mu() / filmState->rho();
-	Gr = filmState->beta() * g * characteristicLength3 * m::fabs(wallOverheat) / (eta * eta );
+	Gr = filmState->beta() * g * m::pow(characteristicLength, 3) * m::fabs(wallOverheat) / (eta * eta );
 	Pr = filmState->Pr();
 	Ra = Gr * Pr;
 	Nu = computeNusseltNumber(Ra, Pr, wallOverheat);
@@ -134,6 +133,7 @@ public:
 		this->characteristicLength = height;
 	}
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
+		// Correlation from VDI Heat Atlas F2.1
 		// Valid for 0.001 < Pr < inf
 		double f1 = m::pow(1 + m::pow(0.492 / Pr, 9./16), -16./9);
 		// Valid for 0.1 < Ra < 1e12
@@ -143,7 +143,40 @@ public:
 	}
 };
 
-#include <math.h>
+class FreeConvection_InclinedSurface : public FreeConvection {
+public:
+	FreeConvection_InclinedSurface(double length, double width, double angleOfInclination) {
+		// Positive angle means HE surface on top
+		this->length = length;
+		this->width = width;
+		this->angleOfInclination = angleOfInclination;
+		this->RaCritical = m::pow(10, 8.9 - 0.00178 * m::pow(m::fabs(angleOfInclination), 1.82));
+		this->heatExchangeArea = length * width;
+		this->characteristicLength = length;
+	}
+	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
+		double Nu = 0;
+		// Correlation from VDI Heat Atlas F2.3
+		if (
+				((this->angleOfInclination > 0 && wallOverheat > 0) || (this->angleOfInclination < 0 && wallOverheat < 0))
+				&& (Ra > RaCritical) ) {
+			// Flow separation occurs
+			Nu = 0.56 * m::pow(RaCritical * m::cos(this->angleOfInclination), 0.25)
+			+ 0.13 * (m::pow(Ra, 1./3) - m::pow(RaCritical, 1./3));
+		} else {
+			// No flow separation, use the modified form of vertical wall correlation
+			double f1 = m::pow(1 + m::pow(0.492 / Pr, 9./16), -16./9);
+			double Nu0 = 0.825 + 0.387 * m::pow(Ra * m::cos(this->angleOfInclination) * f1, 1./6);
+			Nu = Nu0 * Nu0;
+		}
+		return Nu;
+	}
+protected:
+	double length;
+	double width;
+	double angleOfInclination;
+	double RaCritical;
+};
 
 class FreeConvection_HorizontalSurface : public FreeConvection {
 public:
@@ -153,6 +186,7 @@ public:
 		this->topSide = topSide;
 	}
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
+		// Correlation from VDI Heat Atlas F2.3
 		// Valid for 0.001 < Pr < inf
 		double f2 = m::pow(1 + m::pow(0.0322 / Pr, 11./20), -20./11);
 		double Nu = 0;
@@ -182,6 +216,7 @@ public:
 		this->characteristicLength = diameter;
 	}
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
+		// Correlation from VDI Heat Atlas F2.4.1
 		// Valid for 0 < Pr < inf
 		double f3 = m::pow(1 + m::pow(0.559 / Pr, 9./16), -16./9);
 		// Valid for 0.1 < Ra < 1e12
@@ -200,6 +235,7 @@ public:
 		this->characteristicLength = height;
 	}
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
+		// Correlation from VDI Heat Atlas F2.1
 		// Valid for 0.001 < Pr < inf
 		double f1 = m::pow(1 + m::pow(0.492 / Pr, 9./16), -16./9);
 		// Valid for 0.1 < Ra < 1e12
@@ -220,6 +256,7 @@ public:
 		this->characteristicLength = diameter;
 	}
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
+		// Correlation from VDI Heat Atlas F2.4.2
 		Nu = 0.56 * m::pow(Pr / (0.846 + Pr) * Ra, 0.25) + 2;
 		return Nu;
 	}
@@ -245,6 +282,7 @@ public:
 		this->characteristicLength = pipeDiameter + finHeight;
 	}
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
+		// Correlation from VDI Heat Atlas F2.4.4
 		Nu = 0.24 * m::pow(Ra * finSpacing / pipeDiameter, 1./3);
 		return Nu;
 	}
@@ -271,6 +309,11 @@ FreeConvection* FreeConvection_NusseltExpression_new(
 FreeConvection* FreeConvection_VerticalSurface_new(
 		double height, double width) {
 	return new FreeConvection_VerticalSurface(height, width);
+}
+
+FreeConvection* FreeConvection_InclinedSurface_new(
+		double length, double width, double angleOfInclination) {
+	return new FreeConvection_InclinedSurface(length, width, angleOfInclination);
 }
 
 FreeConvection* FreeConvection_HorizontalSurfaceTop_new(

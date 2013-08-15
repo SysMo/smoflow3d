@@ -72,6 +72,24 @@ namespace m {
 			variable = maxValue;
 		}
 	}
+
+	/* Trigonometric functions */
+	inline double cos(const double& x) {
+		return std::cos((long double) x);
+	}
+	inline double sin(const double& x) {
+		return std::sin((long double) x);
+	}
+	inline double tan(const double& x) {
+		return std::tan((long double) x);
+	}
+	inline double cosh(const double& x) {
+		return std::cosh((long double) x);
+	}
+	inline double tanh(const double& x) {
+		return std::tanh((long double) x);
+	}
+
 }
 }
 

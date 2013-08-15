@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>44</SUB_ID_MAX>
+  <SUB_ID_MAX>47</SUB_ID_MAX>
   <DEFAULT_ICON>smo_free_convection</DEFAULT_ICON>
   <SUB_LABEL>adaptor between fluid and heat</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -60,7 +60,7 @@
     <SUB_ID>31</SUB_ID>
     <TITLE>length</TITLE>
     <VARNAME>length</VARNAME>
-    <VISIBILITY>(calculationMethod==4) || (calculationMethod==5) || (calculationMethod==6) || calculationMethod == 9</VISIBILITY>
+    <VISIBILITY>(calculationMethod==4) || (calculationMethod==5) || (calculationMethod==6) || calculationMethod == 9 || calculationMethod==10</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
     <VALUE>1.00000000000000e+000</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
@@ -82,7 +82,7 @@
     <SUB_ID>29</SUB_ID>
     <TITLE>width</TITLE>
     <VARNAME>width</VARNAME>
-    <VISIBILITY>(calculationMethod==3) || (calculationMethod==4) || (calculationMethod==5)</VISIBILITY>
+    <VISIBILITY>(calculationMethod==3) || (calculationMethod==4) || (calculationMethod==5) || calculationMethod==10</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
     <VALUE>1.00000000000000e+000</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
@@ -144,6 +144,17 @@
     <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
     <UNITS>m</UNITS>
    </RPARAM>
+   <RPARAM>
+    <SUB_ID>47</SUB_ID>
+    <TITLE>angle of inclination (tup surf >0, bottom <0)</TITLE>
+    <VARNAME>angleOfInclination</VARNAME>
+    <VISIBILITY>calculationMethod==10</VISIBILITY>
+    <DEF_VALUE>3.00000000000000e+001</DEF_VALUE>
+    <VALUE>3.00000000000000e+001</VALUE>
+    <MIN_VALUE>-7.00000000000000e+001</MIN_VALUE>
+    <MAX_VALUE>7.00000000000000e+001</MAX_VALUE>
+    <UNITS>deg</UNITS>
+   </RPARAM>
   </RPARAMS_LIST>
   <IPARAMS_LIST>
    <IPARAM>
@@ -154,7 +165,7 @@
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
     <MIN_VALUE>1</MIN_VALUE>
-    <MAX_VALUE>9</MAX_VALUE>
+    <MAX_VALUE>10</MAX_VALUE>
     <ENUM_LIST>
      <ENUM>
       <ENUM_STRING>fixed convection coefficient</ENUM_STRING>
@@ -182,6 +193,9 @@
      </ENUM>
      <ENUM>
       <ENUM_STRING>finned pipe</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>inclined surface</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>

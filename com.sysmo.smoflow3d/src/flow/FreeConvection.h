@@ -32,8 +32,6 @@ public:
 	double getRayleighNumber() {return Ra;}
 	double getPrandtlNumber() {return Pr;}
 protected:
-	double characteristicLength3;
-
 	double Gr;
 	double Ra;
 };
@@ -66,6 +64,8 @@ FreeConvection* FreeConvection_NusseltExpression_new(
 		double characteristicLength, double heatExchangeArea, const char* nusseltExpression);
 FreeConvection* FreeConvection_VerticalSurface_new(
 		double height, double width);
+FreeConvection* FreeConvection_InclinedSurface_new(
+		double length, double width, double angleOfInclination);
 FreeConvection* FreeConvection_HorizontalSurfaceTop_new(
 		double length, double width);
 FreeConvection* FreeConvection_HorizontalSurfaceBottom_new(

@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Thu Aug 15 18:50:47 2013 */
+   Thu Aug 15 22:06:59 2013 */
 
 
 
@@ -39,20 +39,21 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 12 real parameters:
+/* There are 13 real parameters:
 
-   heatExchangeGain           heat exchange gain             [null]
-   convectionCoefficientGiven convection coefficient (given) [W/m**2/K]
-   characteristicLength       characteristic length          [m]
-   heatExchangeArea           heat exchange area             [m**2]
-   length                     length                         [m]
-   height                     height                         [m]
-   width                      width                          [m]
-   diameter                   diameter                       [m]
-   basePipeDiameter           base pipe diameter             [m]
-   finSpacing                 fin spacing                    [m]
-   finThickness               fin thickness                  [m]
-   finHeight                  fin height                     [m]
+   heatExchangeGain           heat exchange gain                            [null]
+   convectionCoefficientGiven convection coefficient (given)                [W/m**2/K]
+   characteristicLength       characteristic length                         [m]
+   heatExchangeArea           heat exchange area                            [m**2]
+   length                     length                                        [m]
+   height                     height                                        [m]
+   width                      width                                         [m]
+   diameter                   diameter                                      [m]
+   basePipeDiameter           base pipe diameter                            [m]
+   finSpacing                 fin spacing                                   [m]
+   finThickness               fin thickness                                 [m]
+   finHeight                  fin height                                    [m]
+   angleOfInclination         angle of inclination (tup surf >0, bottom <0) [deg]
 */
 
 
@@ -67,7 +68,7 @@ REVISIONS :
    nusseltCorrelationExpr nusselt correlation expression Nu=f(Ra, Pr)
 */
 
-void smo_free_convectionin_(int *n, double rp[12], int ip[1]
+void smo_free_convectionin_(int *n, double rp[13], int ip[1]
       , char *tp[1], int ic[4], void *ps[4])
 
 {
@@ -77,7 +78,8 @@ void smo_free_convectionin_(int *n, double rp[12], int ip[1]
    int calculationMethod;
    double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, heatExchangeArea, length, height, width, 
-      diameter, basePipeDiameter, finSpacing, finThickness, finHeight;
+      diameter, basePipeDiameter, finSpacing, finThickness, finHeight
+      , angleOfInclination;
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
@@ -94,6 +96,7 @@ void smo_free_convectionin_(int *n, double rp[12], int ip[1]
    finSpacing = rp[9];
    finThickness = rp[10];
    finHeight  = rp[11];
+   angleOfInclination = rp[12];
 
    nusseltCorrelationExpr = tp[0];
    loop = 0;
@@ -102,7 +105,7 @@ void smo_free_convectionin_(int *n, double rp[12], int ip[1]
 /*
    If necessary, check values of the following:
 
-   rp[0..11]
+   rp[0..12]
 */
 
 
@@ -111,9 +114,9 @@ void smo_free_convectionin_(int *n, double rp[12], int ip[1]
 
 /*   Integer parameter checking:   */
 
-   if (calculationMethod < 1 || calculationMethod > 9)
+   if (calculationMethod < 1 || calculationMethod > 10)
    {
-      amefprintf(stderr, "\ncovection calculation method must be in range [1..9].\n");
+      amefprintf(stderr, "\ncovection calculation method must be in range [1..10].\n");
       error = 2;
    }
 
@@ -127,6 +130,10 @@ void smo_free_convectionin_(int *n, double rp[12], int ip[1]
       amefprintf(stderr, "Terminating the program.\n");
       AmeExit(1);
    }
+
+/* Common -> SI units conversions. */
+
+/*   *rp[12]   *= ??; CONVERSION UNKNOWN */
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
@@ -169,6 +176,9 @@ void smo_free_convectionin_(int *n, double rp[12], int ip[1]
 	   _freeConvection =
 			   FreeConvection_FinnedPipe_new(basePipeDiameter, length,
 					   finSpacing, finThickness, finHeight);
+   } else if (calculationMethod == 10) {
+	   _freeConvection =
+			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
 
    FreeConvection_setHeatExchangeGain(_freeConvection, heatExchangeGain);
@@ -199,7 +209,7 @@ void smo_free_convectionin_(int *n, double rp[12], int ip[1]
 void smo_free_convection_(int *n, double *heatFlowIndex
       , double *thermalNodeIndex, double *flowIndex
       , double *stateIndex, double *Ra, double *Nu, double *h
-      , double *qDot, double rp[12], int ip[1], char *tp[1], int ic[4]
+      , double *qDot, double rp[13], int ip[1], char *tp[1], int ic[4]
       , void *ps[4])
 
 {
@@ -209,7 +219,8 @@ void smo_free_convection_(int *n, double *heatFlowIndex
    int calculationMethod;
    double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, heatExchangeArea, length, height, width, 
-      diameter, basePipeDiameter, finSpacing, finThickness, finHeight;
+      diameter, basePipeDiameter, finSpacing, finThickness, finHeight
+      , angleOfInclination;
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
@@ -226,6 +237,7 @@ void smo_free_convection_(int *n, double *heatFlowIndex
    finSpacing = rp[9];
    finThickness = rp[10];
    finHeight  = rp[11];
+   angleOfInclination = rp[12];
 
    nusseltCorrelationExpr = tp[0];
    loop = 0;
