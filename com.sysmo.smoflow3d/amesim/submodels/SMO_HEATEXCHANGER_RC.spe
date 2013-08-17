@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>109</SUB_ID_MAX>
+  <SUB_ID_MAX>112</SUB_ID_MAX>
   <DEFAULT_ICON>smo_simple_heater</DEFAULT_ICON>
   <SUB_LABEL>pipe heat exchanger (single phase, no pressure drop, R-C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -39,7 +39,7 @@
     <SUB_ID>109</SUB_ID>
     <TITLE>heat exchange gain</TITLE>
     <VARNAME>heatExchangeGain</VARNAME>
-    <VISIBILITY>heatExchangeCalculationMethod==2 || heatExchangeCalculationMethod==3</VISIBILITY>
+    <VISIBILITY>heatExchangeCalculationMethod!=1</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
     <VALUE>1.00000000000000e+000</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
@@ -50,9 +50,9 @@
     <SUB_ID>104</SUB_ID>
     <TITLE>hydraulic diameter</TITLE>
     <VARNAME>hydraulicDiameter</VARNAME>
-    <VISIBILITY>heatExchangeCalculationMethod==3</VISIBILITY>
-    <DEF_VALUE>1.00000000000000e-001</DEF_VALUE>
-    <VALUE>1.00000000000000e-001</VALUE>
+    <VISIBILITY>heatExchangeCalculationMethod!=1</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e+000</DEF_VALUE>
+    <VALUE>5.00000000000000e+000</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
     <UNITS>mm</UNITS>
@@ -61,7 +61,7 @@
     <SUB_ID>105</SUB_ID>
     <TITLE>pipe length</TITLE>
     <VARNAME>pipeLength</VARNAME>
-    <VISIBILITY>heatExchangeCalculationMethod==3</VISIBILITY>
+    <VISIBILITY>heatExchangeCalculationMethod!=1</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
     <VALUE>1.00000000000000e+000</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
@@ -72,9 +72,9 @@
     <SUB_ID>107</SUB_ID>
     <TITLE>flow (cross sectional) area</TITLE>
     <VARNAME>flowArea</VARNAME>
-    <VISIBILITY>heatExchangeCalculationMethod==3</VISIBILITY>
-    <DEF_VALUE>1.00000000000000e+001</DEF_VALUE>
-    <VALUE>1.00000000000000e+001</VALUE>
+    <VISIBILITY>heatExchangeCalculationMethod!=1 && geometryType !=1</VISIBILITY>
+    <DEF_VALUE>1.96250000000000e+001</DEF_VALUE>
+    <VALUE>1.96250000000000e+001</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
     <UNITS>mm**2</UNITS>
@@ -113,6 +113,24 @@
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
+   <IPARAM>
+    <SUB_ID>112</SUB_ID>
+    <TITLE>geometry type</TITLE>
+    <VARNAME>geometryType</VARNAME>
+    <VISIBILITY>heatExchangeCalculationMethod!=1</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>cylindrical pipe</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>other geometry</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
   </IPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
@@ -125,14 +143,23 @@
     <UNITS>K</UNITS>
    </IVAR>
    <IVAR>
-    <SUB_ID>69</SUB_ID>
+    <SUB_ID>111</SUB_ID>
     <TITLE>outlet temperature</TITLE>
     <VARNAME>outletTemperature</VARNAME>
-    <VARNAME2>outletTemperatureDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>110</SUB_ID>
+    <TITLE>outlet state value</TITLE>
+    <VARNAME>outletStateValue</VARNAME>
+    <VARNAME2>outletStateValueDot</VARNAME2>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>1</TYPE>
     <DIMENSION>1</DIMENSION>
-    <UNITS>K</UNITS>
+    <UNITS>null</UNITS>
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
     <DEF_VALUE>0</DEF_VALUE>
@@ -227,7 +254,7 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoTDS</UNITS>
-     <EXPRESS2>@_1_2, @_0_2</EXPRESS2>
+     <EXPRESS2>@_1_2, @_2_2, @_0_3</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>92</SUB_ID>

@@ -44,9 +44,6 @@ void FreeConvection::compute() {
 	heatFlowRate = heatExchangeGain * convectionCoefficient * heatExchangeArea * wallOverheat;
 }
 
-void FreeConvection_setHeatExchangeGain(FreeConvection* convection, double gain) {
-	convection->setHeatExchangeGain(gain);
-}
 
 void FreeConvection_init(FreeConvection* convection, MediumState* fluidState,
 		ThermalNode* wallNode) {
@@ -63,29 +60,6 @@ double FreeConvection_getGrashofNumber(FreeConvection* convection) {
 
 double FreeConvection_getRayleighNumber(FreeConvection* convection) {
 	return convection->getRayleighNumber();
-}
-
-double FreeConvection_getPrandtlNumber(FreeConvection* convection) {
-	return convection->getPrandtlNumber();
-}
-
-double FreeConvection_getNusseltNumber(FreeConvection* convection) {
-	return convection->getNusseltNumber();
-}
-
-double FreeConvection_getConvectionCoefficient(FreeConvection* convection) {
-	return convection->getConvectionCoefficient();
-}
-
-double FreeConvection_getHeatFlowRate(FreeConvection* convection) {
-	return convection->getHeatFlowRate();
-}
-void FreeConvection_getFlow_Wall(FreeConvection* convection, HeatFlow* flow) {
-	convection->getFlow_Wall(flow);
-}
-
-void FreeConvection_getFlow_Fluid(FreeConvection* convection, FluidFlow* flow) {
-	convection->getFlow_Fluid(flow);
 }
 
 /*************************************************************

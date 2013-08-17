@@ -20,15 +20,16 @@ class Pipe_HeatExch_NoPrDr_NoMassAcc {
 public:
 	Pipe_HeatExch_NoPrDr_NoMassAcc(double stateTimeConstant);
 	virtual ~Pipe_HeatExch_NoPrDr_NoMassAcc();
-	void init(MediumState* inletState, ThermalNode* wallNode,
-			FluidFlow* outletFlow, // inputs
-			int& inletFlowIndex, int& outletStateIndex,
-			int& wallHeatFlowIndex); // outputs
+	void init(FluidFlow* outletFlow);
+	void initOutletState(MediumState* inletState,
+			ThermalNode* wallNode);
 	void updateOutletState(double outletStateValue);
 	virtual void compute() = 0;
 	MediumState* getOutletState() {return outletState;}
-	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
+	double getOutletStateValue() {return outletStateValue;}
 	double getOutletStateDerivative();
+	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
+	FluidFlow* getInletFlow() {return inletFlow;}
 protected:
 	virtual void _init(){}
 	enum {
@@ -59,13 +60,20 @@ DECLARE_C_STRUCT(Pipe_HeatExch_NoPrDr_NoMassAcc)
 
 BEGIN_C_LINKAGE
 #define KOMPONENT Pipe_HeatExch_NoPrDr_NoMassAcc
-KOMPONENT* Pipe_HeatExch_NoPrDr_NoMassAcc_HeEfficiency_new(
+KOMPONENT* Pipe_HeatExch_NoPrDr_NoMassAcc_Efficiency_new(
 		double heatExchEfficiency, double stateTimeConstant);
 KOMPONENT* Pipe_HeatExch_NoPrDr_NoMassAcc_Convection_new(
 		ForcedConvection* convection, double stateTimeConstant);
-KOMPONENT_FUNC(void, init, MediumState* inletState, ThermalNode* wallNode,
-		FluidFlow* outletFlow, int* inletFlowIndex, int* outletStateIndex,
-		int* wallHeatFlowIndex);
+KOMPONENT_FUNC(void, init, FluidFlow* outletFlow);
+KOMPONENT_FUNC(void, initOutletState,
+		MediumState* inletState, ThermalNode* wallNode);
+KOMPONENT_FUNC(void, updateOutletState, double outletStateValue);
+KOMPONENT_FUNC_V(void, compute);
+KOMPONENT_FUNC_V(MediumState*, getOutletState);
+KOMPONENT_FUNC_V(double, getOutletStateValue);
+KOMPONENT_FUNC_V(double, getOutletStateDerivative);
+KOMPONENT_FUNC_V(HeatFlow*, getWallHeatFlow);
+KOMPONENT_FUNC_V(FluidFlow*, getInletFlow);
 #undef KOMPONENT
 END_C_LINKAGE
 

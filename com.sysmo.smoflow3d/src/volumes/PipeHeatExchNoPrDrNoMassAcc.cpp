@@ -17,26 +17,33 @@ Pipe_HeatExch_NoPrDr_NoMassAcc::Pipe_HeatExch_NoPrDr_NoMassAcc(double stateTimeC
 Pipe_HeatExch_NoPrDr_NoMassAcc::~Pipe_HeatExch_NoPrDr_NoMassAcc() {
 }
 
-void Pipe_HeatExch_NoPrDr_NoMassAcc::init(
-		MediumState* inletState, ThermalNode* wallNode,
-		FluidFlow* outletFlow,
-		int& inletFlowIndex, int& outletStateIndex,
-		int& wallHeatFlowIndex) {
-	this->inletState = inletState;
-	this->wallNode = wallNode;
+void Pipe_HeatExch_NoPrDr_NoMassAcc::init(FluidFlow* outletFlow) {
 	this->outletFlow = outletFlow;
-
 	this->inletFlow = FluidFlow_new();
-	inletFlowIndex = FluidFlow_register(this->inletFlow);
-	this->outletState = MediumState_new(inletState->getMedium());
-	outletStateIndex = MediumState_register(outletState);
+	FluidFlow_register(this->inletFlow);
 	this->wallHeatFlow = HeatFlow_new();
-	wallHeatFlowIndex = HeatFlow_register(this->wallHeatFlow);
-
-	outletLimitState = MediumState_new(inletState->getMedium());
-	MediumState_register(outletLimitState);
+	HeatFlow_register(this->wallHeatFlow);
 	_init();
 }
+
+void Pipe_HeatExch_NoPrDr_NoMassAcc::initOutletState(
+		MediumState* inletState, ThermalNode* wallNode) {
+	this->inletState = inletState;
+	this->wallNode = wallNode;
+	this->outletState = MediumState_new(inletState->getMedium());
+	MediumState_register(outletState);
+	this->outletLimitState = MediumState_new(inletState->getMedium());
+	MediumState_register(outletLimitState);
+
+	outletState->update_Tp(wallNode->getTemperature(), inletState->p());
+	if (stateVariable == sTemperature) {
+		this->outletStateValue = outletState->T();
+	} else {
+		this->outletStateValue = outletState->h();
+	}
+
+}
+
 
 void Pipe_HeatExch_NoPrDr_NoMassAcc::updateOutletState(double outletStateValue) {
 	this->outletStateValue = outletStateValue;
@@ -66,10 +73,15 @@ public:
 		this->heatExchEfficiency = heatExchEfficiency;
 	}
 	virtual void compute() {
+		inletFlow->massFlowRate = outletFlow->massFlowRate;
+		inletFlow->enthalpyFlowRate = inletFlow->massFlowRate * inletState->h();
+		wallHeatFlow->enthalpyFlowRate = inletFlow->massFlowRate * (inletState->h() - outletState->h());
+
 		double inletTemperature = inletState->T();
 		double wallTemperature = wallNode->getTemperature();
 		outletStateSetpoint = inletTemperature +
 				(wallTemperature - inletTemperature) * heatExchEfficiency;
+
 	}
 protected:
 	double heatExchEfficiency;
@@ -86,7 +98,10 @@ public:
 	}
 	virtual void compute() {
 		// Compute flows
-		double massFlowRate = outletFlow->massFlowRate;
+		double massFlowRate = - outletFlow->massFlowRate;
+		if (massFlowRate < 0) {
+			RaiseError("Reverse flow encountered");
+		}
 		inletFlow->massFlowRate = outletFlow->massFlowRate;
 		inletFlow->enthalpyFlowRate = inletFlow->massFlowRate * inletState->h();
 		wallHeatFlow->enthalpyFlowRate = inletFlow->massFlowRate * (inletState->h() - outletState->h());
@@ -97,9 +112,7 @@ public:
 		outletLimitState->update_Tp(wallTemperature, inletState->p());
 		if (massFlowRate > minMassFlowRate) {
 			convection->compute();
-			double wallHeatFlowSetpoint = convection->getConvectionCoefficient() *
-					this->heatExchangeArea * (inletTemperature - wallTemperature);
-			outletStateSetpoint = inletState->h() - wallHeatFlowSetpoint / massFlowRate;
+			outletStateSetpoint = inletState->h() + convection->getHeatFlowRate() / massFlowRate;
 			if (wallTemperature > inletTemperature) {
 				// Ensure the outlet temperature is not above wall temperature
 				if (outletStateSetpoint > outletLimitState->h()) {
@@ -124,7 +137,7 @@ protected:
 	double heatExchangeArea;
 };
 
-Pipe_HeatExch_NoPrDr_NoMassAcc* Pipe_HeatExch_NoPrDr_NoMassAcc_HEEfficiency_new(
+Pipe_HeatExch_NoPrDr_NoMassAcc* Pipe_HeatExch_NoPrDr_NoMassAcc_Efficiency_new(
 		double heatExchEfficiency, double stateTimeConstant) {
 	return new Pipe_HeatExch_NoPrDr_NoMassAcc_HEEfficiency(
 			heatExchEfficiency, stateTimeConstant);
@@ -138,11 +151,40 @@ Pipe_HeatExch_NoPrDr_NoMassAcc* Pipe_HeatExch_NoPrDr_NoMassAcc_Convection_new(
 
 #define KOMPONENT Pipe_HeatExch_NoPrDr_NoMassAcc
 
-KOMPONENT_FUNC(void, init, MediumState* inletState, ThermalNode* wallNode,
-		FluidFlow* outletFlow, int* inletFlowIndex, int* outletStateIndex,
-		int* wallHeatFlowIndex) {
-	component->init(inletState, wallNode, outletFlow, *inletFlowIndex,
-			*outletStateIndex, *wallHeatFlowIndex);
+KOMPONENT_FUNC(void, init, FluidFlow* outletFlow) {
+	component->init(outletFlow);
+}
+
+KOMPONENT_FUNC(void, initOutletState, MediumState* inletState, ThermalNode* wallNode) {
+	component->initOutletState(inletState, wallNode);
+}
+
+KOMPONENT_FUNC(void, updateOutletState, double outletStateValue) {
+	component->updateOutletState(outletStateValue);
+}
+
+KOMPONENT_FUNC_V(void, compute) {
+	component->compute();
+}
+
+KOMPONENT_FUNC_V(MediumState*, getOutletState) {
+	return component->getOutletState();
+}
+
+KOMPONENT_FUNC_V(double, getOutletStateValue) {
+	return component->getOutletStateValue();
+}
+
+KOMPONENT_FUNC_V(double, getOutletStateDerivative) {
+	return component->getOutletStateDerivative();
+}
+
+KOMPONENT_FUNC_V(HeatFlow*, getWallHeatFlow) {
+	return component->getWallHeatFlow();
+}
+
+KOMPONENT_FUNC_V(FluidFlow*, getInletFlow) {
+	return component->getInletFlow();
 }
 
 #undef KOMPONENT

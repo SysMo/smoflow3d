@@ -30,7 +30,6 @@ public:
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) = 0;
 	double getGrashofNumber() {return Gr;}
 	double getRayleighNumber() {return Ra;}
-	double getPrandtlNumber() {return Pr;}
 protected:
 	double Gr;
 	double Ra;
@@ -42,21 +41,11 @@ DECLARE_C_STRUCT(FreeConvection)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-//FreeConvection* FreeConvection_new(FreeConvectionModel* convectionModel);
-void FreeConvection_setParametersDirectly(FreeConvection* convection,
-		double heatExchangeArea, double convectionCoefficient);
-void FreeConvection_setHeatExchangeGain(FreeConvection* convection, double gain);
 void FreeConvection_init(FreeConvection* convection, MediumState* fluidState,
 		ThermalNode* wallNode);
 void FreeConvection_compute(FreeConvection* convection);
 double FreeConvection_getGrashofNumber(FreeConvection* convection);
 double FreeConvection_getRayleighNumber(FreeConvection* convection);
-double FreeConvection_getPrandtlNumber(FreeConvection* convection);
-double FreeConvection_getNusseltNumber(FreeConvection* convection);
-double FreeConvection_getConvectionCoefficient(FreeConvection* convection);
-double FreeConvection_getHeatFlowRate(FreeConvection* convection);
-void FreeConvection_getFlow_Wall(FreeConvection* convection, HeatFlow* flow);
-void FreeConvection_getFlow_Fluid(FreeConvection* convection, FluidFlow* flow);
 
 FreeConvection* FreeConvection_GivenConvectionCoefficient_new(
 		double convectionCoefficient, double heatExchangeArea);

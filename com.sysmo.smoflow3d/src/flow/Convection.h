@@ -67,5 +67,16 @@ protected:
 DECLARE_C_STRUCT(Convection)
 #endif //__cplusplus
 
+BEGIN_C_LINKAGE
+void Convection_setHeatExchangeGain(Convection* convection, double gain);
+double Convection_getPrandtlNumber(Convection* convection);
+double Convection_getNusseltNumber(Convection* convection);
+void Convection_setConvectionCoefficient(Convection* convection,
+		double convectionCoefficient);
+double Convection_getConvectionCoefficient(Convection* convection);
+double Convection_getHeatFlowRate(Convection* convection);
+void Convection_getFlow_Wall(Convection* convection, HeatFlow* flow);
+void Convection_getFlow_Fluid(Convection* convection, FluidFlow* flow);
+END_C_LINKAGE
 
 #endif /* CONVECTION_H_ */

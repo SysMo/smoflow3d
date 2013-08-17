@@ -31,15 +31,12 @@ protected:
 };
 
 #else // __cplusplus
-DECLARE_C_STRUCT(ForcedConvectionModel)
 DECLARE_C_STRUCT(ForcedConvection)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
 void ForcedConvection_init(ForcedConvection* convection, MediumState* fluidState,
 		ThermalNode* wallNode, FluidFlow* flow);
-void ForcedConvection_setHeatExchangeGain(ForcedConvection* convection, double gain);
-
 void ForcedConvection_compute(ForcedConvection* convection);
 double ForcedConvection_getReynoldsNumber(ForcedConvection* convection);
 

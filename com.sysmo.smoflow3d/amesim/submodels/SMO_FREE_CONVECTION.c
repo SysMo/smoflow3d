@@ -181,7 +181,7 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
 
-   FreeConvection_setHeatExchangeGain(_freeConvection, heatExchangeGain);
+   Convection_setHeatExchangeGain(_freeConvection, heatExchangeGain);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -268,12 +268,12 @@ void smo_free_convection_(int *n, double *heatFlowIndex
    }
 
    FreeConvection_compute(_freeConvection);
-   FreeConvection_getFlow_Fluid(_freeConvection, _fluidFlow);
-   FreeConvection_getFlow_Wall(_freeConvection, _heatFlow);
+   Convection_getFlow_Fluid(_freeConvection, _fluidFlow);
+   Convection_getFlow_Wall(_freeConvection, _heatFlow);
    *Ra = FreeConvection_getRayleighNumber(_freeConvection);
-   *Nu = FreeConvection_getNusseltNumber(_freeConvection);
-   *h = FreeConvection_getConvectionCoefficient(_freeConvection);
-   *qDot = FreeConvection_getHeatFlowRate(_freeConvection);
+   *Nu = Convection_getNusseltNumber(_freeConvection);
+   *h = Convection_getConvectionCoefficient(_freeConvection);
+   *qDot = Convection_getHeatFlowRate(_freeConvection);
 
    *flowIndex = _fluidFlowIndex;
    *heatFlowIndex = _heatFlowIndex;

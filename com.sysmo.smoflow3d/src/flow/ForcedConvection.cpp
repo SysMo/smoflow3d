@@ -18,10 +18,6 @@ ForcedConvection::~ForcedConvection() {
 	// TODO Auto-generated destructor stub
 }
 
-void ForcedConvection_setHeatExchangeGain(ForcedConvection* convection, double gain) {
-	convection->setHeatExchangeGain(gain);
-}
-
 void ForcedConvection::init(MediumState* fluidState, ThermalNode* wallNode, FluidFlow* flow) {
 	Convection::init(fluidState, wallNode);
 	this->flow = flow;
@@ -37,7 +33,7 @@ void ForcedConvection::compute() {
 
 
 	double v = m::fabs(flow->massFlowRate) / filmState->rho() / flowArea;
-	Re = filmState->rho() * v * characteristicLength;
+	Re = filmState->rho() * v * characteristicLength / filmState->mu();
 	Pr = filmState->Pr();
 	Nu = computeNusseltNumber(Re, Pr);
 	convectionCoefficient = Nu * filmState->lambda() / characteristicLength;
