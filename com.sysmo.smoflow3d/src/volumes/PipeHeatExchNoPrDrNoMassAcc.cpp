@@ -99,7 +99,7 @@ public:
 	virtual void compute() {
 		// Compute flows
 		double massFlowRate = - outletFlow->massFlowRate;
-		if (massFlowRate < 0) {
+		if (massFlowRate < - m::eps()) {
 			RaiseError("Reverse flow encountered");
 		}
 		inletFlow->massFlowRate = outletFlow->massFlowRate;
