@@ -6,6 +6,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_medium_definition" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_source" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_source" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_source" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_zero_flow" />
@@ -32,11 +33,11 @@
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Sources/Sensors/Adaptors" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_source" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_source" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_source" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_zero_flow" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_generic_property_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_flow_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />
