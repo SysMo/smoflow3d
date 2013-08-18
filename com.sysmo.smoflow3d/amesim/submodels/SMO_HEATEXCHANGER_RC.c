@@ -262,11 +262,11 @@ void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
    *inletTemperature = MediumState_T(_inletFluidState);
    *outletTemperature = MediumState_T(_outletFluidState);
    *outletStateValueDot = Pipe_HeatExch_NoPrDr_NoMassAcc_getOutletStateDerivative(_component);
+   *wallHeatFlowRate = HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
 
    if (heatExchangeCalculationMethod != 1) {
 	   *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
 	   *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
-	   *wallHeatFlowRate = Convection_getHeatFlowRate(_convection);
    }
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 

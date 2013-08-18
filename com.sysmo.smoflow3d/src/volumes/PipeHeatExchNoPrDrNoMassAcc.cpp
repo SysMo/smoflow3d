@@ -104,7 +104,7 @@ public:
 		}
 		inletFlow->massFlowRate = outletFlow->massFlowRate;
 		inletFlow->enthalpyFlowRate = inletFlow->massFlowRate * inletState->h();
-		wallHeatFlow->enthalpyFlowRate = inletFlow->massFlowRate * (inletState->h() - outletState->h());
+		wallHeatFlow->enthalpyFlowRate = massFlowRate * (inletState->h() - outletState->h());
 		// Compute outlet setpoint
 		const double minMassFlowRate = 1e-12;
 		double wallTemperature = wallNode->getTemperature();
