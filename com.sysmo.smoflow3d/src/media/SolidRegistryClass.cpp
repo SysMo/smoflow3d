@@ -19,6 +19,7 @@ SolidRegistryClass::SolidRegistryClass() {
 	addSolid(new StainlessSteel304());
 	addSolid(new CarbonFiberComposite());
 	addSolid(new GlassFiberComposite());
+	addSolid(new HighDensityPolyethylene());
 }
 
 SolidRegistryClass::~SolidRegistryClass() {

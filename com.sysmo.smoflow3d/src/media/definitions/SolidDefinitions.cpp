@@ -108,4 +108,30 @@ GlassFiberComposite::GlassFiberComposite() {
 	enthalpyFunction = new Interpolator1D(&TValues, &enthalpyValues);
 }
 
+HighDensityPolyethylene::HighDensityPolyethylene() {
+	name = "HighDensityPolyethylene";
+
+	const double numValues = 15;
+
+	ArrayXd TValues(numValues);
+	TValues << 223.15, 233.15, 243.15, 253.15, 263.15, 273.15, 283.15, 293.15, 303.15, 313.15, 323.15, 333.15, 343.15, 353.15, 363.15;
+
+	double rhoValue = 945.0;
+	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
+
+	double cpValue = 2000.0;
+	heatCapacityFunction = FunctorOneVariable_Constant_new(cpValue);
+
+	ArrayXd lambdaValues(numValues);
+	lambdaValues << 0.76148, 0.75348, 0.74548, 0.73748, 0.72948, 0.72148, 0.71348, 0.70548, 0.69748, 0.68948, 0.68148, 0.67348, 0.66548, 0.65748, 0.64948;
+	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
+
+	ArrayXd TValues_h(2);
+	TValues_h << 0.0, 400.0;
+
+	ArrayXd enthalpyValues(2);
+	enthalpyValues << 0.0, 800000.00;
+	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
+}
+
 }

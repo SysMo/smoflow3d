@@ -28,6 +28,10 @@ struct GlassFiberComposite : public Medium_Solid {
 	GlassFiberComposite();
 };
 
+struct HighDensityPolyethylene : public Medium_Solid {
+	HighDensityPolyethylene();
+};
+
 }
 
 #endif /* SOLIDDEFINITIONS_H_ */
