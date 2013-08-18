@@ -73,9 +73,10 @@ public:
 		this->heatExchEfficiency = heatExchEfficiency;
 	}
 	virtual void compute() {
+		double massFlowRate = - outletFlow->massFlowRate;
 		inletFlow->massFlowRate = outletFlow->massFlowRate;
 		inletFlow->enthalpyFlowRate = inletFlow->massFlowRate * inletState->h();
-		wallHeatFlow->enthalpyFlowRate = inletFlow->massFlowRate * (inletState->h() - outletState->h());
+		wallHeatFlow->enthalpyFlowRate = massFlowRate * (inletState->h() - outletState->h());
 
 		double inletTemperature = inletState->T();
 		double wallTemperature = wallNode->getTemperature();
