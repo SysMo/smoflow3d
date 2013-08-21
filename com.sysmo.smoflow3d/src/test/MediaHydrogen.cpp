@@ -28,11 +28,15 @@ void displayState (MediumState* fp1) {
 void testCoolProp() {
 	Medium* fluid = Medium_get(1);
 	MediumState* fp1 = MediumState_new(fluid);
+	MediumState* fp2 = MediumState_new(fluid);
 
-	MediumState_update_Tp(fp1, 250, 20e5);
+	MediumState_update_Tp(fp1, 288.15, 1e5);
 	std::cout << "entalpy = " << MediumState_h(fp1) << std::endl;
 
-	MediumState_update_Tp(fp1, 250, 20e5);
+	MediumState_update_Trho(fp2, 29.765734268475395, 0.84329344123579586);
+	std::cout << "entalpy = " << MediumState_h(fp2) << std::endl;
+
+	MediumState_update_ph(fp2, 1e5, fp1->h());
 	std::cout << "entalpy = " << MediumState_h(fp1) << std::endl;
 }
 
@@ -103,7 +107,7 @@ void testCoolPropCalculationTiming() {
 }
 
 int main(int argc, char** argv) {
-	const char* fluidName = "parahydrogen";
+	const char* fluidName = "ParaHydrogen";
 	Medium_register(sCompressibleFluidCoolProp, fluidName, 1);
 	//testCoolPropCalculationTiming();
 	testCoolProp();
