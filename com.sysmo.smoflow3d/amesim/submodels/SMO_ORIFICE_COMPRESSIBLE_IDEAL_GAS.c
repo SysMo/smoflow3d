@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Sat Aug 10 15:05:38 2013 */
+   Wed Aug 21 10:50:20 2013 */
 
 
 
@@ -124,18 +124,20 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
       2 stateIndex3     state index3 [smoTDS] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 3 internal variables.
+/*  There are 4 internal variables.
 
-      1 massFlowRate         mass flow rate      [kg/s]        basic variable
-      2 enthalpyFlowRate     enthalpy flow rate  [W]           basic variable
-      3 pressureLoss         total pressure loss [barA -> PaA] basic variable
+      1 massFlowRate         mass flow rate                        [kg/s]        basic variable
+      2 enthalpyFlowRate     enthalpy flow rate                    [W]           basic variable
+      3 pressureLoss         total pressure loss                   [barA -> PaA] basic variable
+      4 flowType             flow type = {0 - subsonic, 1 - sonic} [null]        basic variable
 */
 
 void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
       , double *stateIndex1, double *regulatingSignal
       , double *flowIndex3, double *stateIndex3, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureLoss, double rp[2]
-      , int ic[5], void *ps[5], int *flag)
+      , double *enthalpyFlowRate, double *pressureLoss
+      , double *flowType, double rp[2], int ic[5], void *ps[5]
+      , int *flag)
 
 {
    int loop, logi;
@@ -161,6 +163,7 @@ void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressureLoss = ??;
+   *flowType   = ??;
 */
 
 
@@ -209,6 +212,11 @@ void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
 
    *flowIndex1 = _fluidFlowIndex1;
    *flowIndex3 = _fluidFlowIndex3;
+   if (orificeObj->sonicFlow) {
+	   *flowType = 1.0;
+   } else {
+	   *flowType = 0.0;
+   }
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
