@@ -48,24 +48,19 @@ IDX Coeff:
 
 Model
 -----
-IF (IDX(8) .EQ. 0) THEN
-   PROP(21) = 0.
-ELSE IF (IDX(2).EQ.2) THEN
-   PROP(21) = 1.D-06*VISCW1 (DML,T)
-ELSE 
-   DGC=DML*GMW/1000.D0
-   IF((IDX(4).EQ.2 .OR. IDX(4).EQ.4) .AND. T.GE.TUP) THEN
-      CALL VISDIS (PROP, T, DGC)
-   ELSE
-      PROP(21) = 1.D-06*(DILVIS(T) + VFDC(DGC,T) + EXCSV(DGC,T))
-   ENDIF
-ENDIF
+
+if (T > TUP) {   
+   VISDIS (PROP, T, DGC)
+} else {
+   mu = 1e-6*(DILVIS(T) + VFDC(DGC,T) + EXCSV(DGC,T))
+}
+
+
+void VISDIS (PROP, T, DGC) {
+   mu = 1e-6*(DILVIS(T) + VFDC(DGC,T) + EXCSV(DGC,T))
+}
  
- mu = 1e-6*(DILVIS(T) + VFDC(DGC,T) + EXCSV(DGC,T))
- mu [uPa-s], T[K], D[gm/cm^3]
- 
- 
- 
+mu [uPa-s], T[K], D[gm/cm^3]
  
 DILVIS(T)
 ~~~~~~~~~

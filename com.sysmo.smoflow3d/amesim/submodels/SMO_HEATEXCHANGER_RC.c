@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_RC skeleton created by AME Submodel editing utility
-   Sat Aug 17 17:15:19 2013 */
+   Tue Aug 20 11:35:11 2013 */
 
 
 
@@ -181,12 +181,12 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 
 /*  There are 6 internal variables.
 
-      1 inletTemperature          inlet temperature      [K]        basic variable
-      2 outletTemperature         outlet temperature     [K]        basic variable
-      3 outletStateValue          outlet state value     [null]     explicit state (derivative `outletStateValueDot')
-      4 reynoldsNumber            Reynolds number        [null]     basic variable
-      5 convectionCoefficient     convection coefficient [W/m**2/K] basic variable
-      6 wallHeatFlowRate          heat flow rate at wall [W]        basic variable
+      1 inletTemperature          inlet temperature            [K]        basic variable
+      2 outletTemperature         outlet temperature           [K]        basic variable
+      3 outletStateValue          outlet state value           [null]     explicit state (derivative `outletStateValueDot')
+      4 reynoldsNumber            Reynolds number              [null]     basic variable
+      5 convectionCoefficient     convection coefficient       [W/m**2/K] basic variable
+      6 wallHeatFlowRate          heat flow rate from the wall [W]        basic variable
 */
 
 void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
@@ -262,7 +262,7 @@ void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
    *inletTemperature = MediumState_T(_inletFluidState);
    *outletTemperature = MediumState_T(_outletFluidState);
    *outletStateValueDot = Pipe_HeatExch_NoPrDr_NoMassAcc_getOutletStateDerivative(_component);
-   *wallHeatFlowRate = HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
+   *wallHeatFlowRate = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
 
    if (heatExchangeCalculationMethod != 1) {
 	   *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
