@@ -262,6 +262,13 @@ extern double smo_medium_property_sensor_macro0_(int *n
 	   _fluidState = MediumState_get(_fluidStateIndex);
    }
 
+   static const double outputInternalGain[20] = {
+		   1e-5, 1, 1, 1, 1,
+		   1e-3, 1e-3, 1e-3, 1e-3, 1,
+		   1, 1, 1, 1, 1,
+		   1, 1, 1, 1, 1
+   };
+
    c[0] = MediumState_p(_fluidState);
    c[1] = MediumState_T(_fluidState);
    c[2] = c[1] - 273.15;
@@ -285,7 +292,8 @@ extern double smo_medium_property_sensor_macro0_(int *n
    if (propertyIndex == 20) {
 	   measuredValue = _fluidStateIndex;
    } else {
-	   measuredValue = c[propertyIndex - 1] * gain + offset;
+	   measuredValue = c[propertyIndex - 1]
+		 * outputInternalGain[propertyIndex - 1] * gain + offset;
    }
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

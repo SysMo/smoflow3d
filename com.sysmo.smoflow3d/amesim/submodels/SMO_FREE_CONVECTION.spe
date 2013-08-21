@@ -241,7 +241,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>35</SUB_ID>
-    <TITLE>heat flow rate</TITLE>
+    <TITLE>heat flow rate from the wall</TITLE>
     <VARNAME>qDot</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
