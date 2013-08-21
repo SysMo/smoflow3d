@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_CR skeleton created by AME Submodel editing utility
-   Thu Aug 8 17:42:37 2013 */
+   Wed Aug 21 16:22:50 2013 */
 
 
 
@@ -48,6 +48,7 @@ REVISIONS :
 
 #define _heatFlowIndex ic[5]
 #define _heatFlow ps[5]
+#define _actualFluidStateInlet ps[6]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -57,7 +58,7 @@ REVISIONS :
 */
 
 void smo_heatexchanger_crin_(int *n, double rp[1], int ic[6]
-      , void *ps[6])
+      , void *ps[7])
 
 {
    int loop, error;
@@ -128,7 +129,7 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
       , double *stateIndexOutlet, double *inletTemperature
       , double *outletTemperature, double *wallTemperature
       , double *wallHeatFlowRate, double *massFlowRateInlet
-      , double rp[1], int ic[6], void *ps[6], int *flag)
+      , double rp[1], int ic[6], void *ps[7], int *flag)
 
 {
    int loop, logi;
@@ -187,9 +188,10 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
    *wallTemperature = MediumState_T(_thermalNode);
    if (FluidFlow_getMassFlowRate(_fluidFlowInlet) > 1e-8) {
 	  double inletSpecificEnthalpy = FluidFlow_getEnthalpyFlowRate(_fluidFlowInlet) / FluidFlow_getMassFlowRate(_fluidFlowInlet);
-	  MediumState_update_ph(_fluidStateInlet, MediumState_p(_fluidStateOutlet), inletSpecificEnthalpy);
+	  // TODO (Nasko) This should not be so. Different state should be used
+	  MediumState_update_ph(_actualFluidStateInlet, MediumState_p(_fluidStateOutlet), inletSpecificEnthalpy);
 
-	  *inletTemperature = MediumState_T(_fluidStateInlet);
+	  *inletTemperature = MediumState_T(_actualFluidStateInlet);
 	  *outletTemperature = *inletTemperature + (*wallTemperature - *inletTemperature) * efficienccy;
 	  MediumState_update_Tp(_fluidStateOutlet, *outletTemperature, MediumState_p(_fluidStateOutlet));
    } else {
@@ -219,7 +221,7 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 }
 
 extern double smo_heatexchanger_cr_macro0_(int *n
-      , double *stateIndexOutlet, double rp[1], int ic[6], void *ps[6]
+      , double *stateIndexOutlet, double rp[1], int ic[6], void *ps[7]
       , int *flag)
 
 {
@@ -254,6 +256,9 @@ extern double smo_heatexchanger_cr_macro0_(int *n
   	   Medium* fluid = Medium_get(mediumIndexOutlet);
   	   _fluidStateInlet = MediumState_new(fluid);
   	   _fluidStateIndexInlet = MediumState_register(_fluidStateInlet);
+
+  	   _actualFluidStateInlet = MediumState_new(fluid);
+  	   MediumState_register(_actualFluidStateInlet);
    }
 
    MediumState_update_ph(_fluidStateInlet, MediumState_p(_fluidStateOutlet), MediumState_h(_fluidStateOutlet));

@@ -7,6 +7,7 @@
  */
 
 #include "MediumStateFluidCoolProp.h"
+#include "CoolProp/CPExceptions.h"
 
 MediumState_FluidCoolProp::MediumState_FluidCoolProp(Medium_CompressibleFluid_CoolProp* medium)
 : MediumState(medium), pFluid(medium->fluid), cps(pFluid){
@@ -69,9 +70,17 @@ void MediumState_FluidCoolProp::update_ph(double p, double h) {
 	_p = p;
 	_h = h;
 	if (ValidNumber(_T) && ValidNumber(_rho)) {
-		double rhosatL, rhosatV, TsatL, TsatV;
-		pFluid->temperature_ph(_p, _h, _T, _rho, rhosatL, rhosatV, TsatL, TsatV, _T, _rho);
-		cps.update_Trho(iT, _T, iD, _rho);
+		try {
+			double rhosatL, rhosatV, TsatL, TsatV;
+			pFluid->temperature_ph(_p, _h, _T, _rho, rhosatL, rhosatV, TsatL, TsatV, _T, _rho);
+			cps.update_Trho(iT, _T, iD, _rho);
+		} catch (SolutionError e) {
+			std::cout << "Update_ph(p = " << p << ", h = " << h
+					<< ") failed, trying to calculate without using cache variables\n";
+			cps.update_ph(iP, p, iH, h);
+			_T = cps.T();
+			_rho = cps.rho();
+		}
 	} else {
 		cps.update_ph(iP, p, iH, h);
 		_T = cps.T();
