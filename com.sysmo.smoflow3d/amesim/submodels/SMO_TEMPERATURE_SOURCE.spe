@@ -46,6 +46,7 @@
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoHFL</UNITS>
     </EVAR>
    </PORT>
