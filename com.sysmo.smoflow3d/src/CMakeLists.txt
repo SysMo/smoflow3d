@@ -49,6 +49,7 @@ add_library(SmoFlow SHARED
     flow/Convection.cpp
     flow/FreeConvection.cpp
     flow/ForcedConvection.cpp
+    flow/FrictionFlowPipe.cpp
     volumes/FluidChamber.cpp
     volumes/ThermalNode.cpp
     volumes/PipeHeatExchNoPrDrNoMassAcc.cpp
