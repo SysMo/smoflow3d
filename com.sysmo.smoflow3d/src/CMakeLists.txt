@@ -52,6 +52,8 @@ add_library(SmoFlow SHARED
     flow/FrictionFlowPipe.cpp
     volumes/FluidChamber.cpp
     volumes/ThermalNode.cpp
+    volumes/Component_RC.cpp
+    volumes/PipeHeatExchPrDropRC.cpp
     volumes/PipeHeatExchNoPrDrNoMassAcc.cpp
     ${MU_PARSER_FILES}
 )
