@@ -49,3 +49,5 @@ smo_free_convection
 &SMO_FREE_CONVECTION SmoFlow3d
 smo_heat_flow_sensor
 &SMO_HEAT_FLOW_SENSOR SmoFlow3d
+smo_fluid_state_source_pt_constant
+&SMO_FLUID_STATE_SOURCE_PT_CONSTANT SmoFlow3d
