@@ -29,7 +29,7 @@ $(error Unsupported operating system $(OSNAME). Possibilities are Win32 and Linu
 endif
 
 COMPILER_RELEASE_FLAGS= -O3 $(COMPILER_COMMON_FLAGS) $(OS_COMPILER_FLAG)
-COMPILER_DEBUG_FLAGS= -g -D_DEBUG $(COMPILER_COMMON_FLAGS) $(OS_COMPILER_FLAG)
+COMPILER_DEBUG_FLAGS= -g -gstabs -D_DEBUG $(COMPILER_COMMON_FLAGS) $(OS_COMPILER_FLAG)
 #Set up if it is debug compilation
 ifdef DEBUG
 	export COMPILER_FLAGS= $(COMPILER_DEBUG_FLAGS)

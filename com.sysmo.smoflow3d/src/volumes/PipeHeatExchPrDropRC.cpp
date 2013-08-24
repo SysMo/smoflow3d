@@ -9,13 +9,11 @@
 #include "PipeHeatExchPrDropRC.h"
 
 PipeHeatExchPrDrop_RC::PipeHeatExchPrDrop_RC(
-		double hydraulicDiameter, double flowArea,
-		double length, double surfaceRoughness) {
-	this->hydraulicDiameter = hydraulicDiameter;
-	this->flowArea = flowArea;
-	this->length = length;
-	this->surfaceRoughness = surfaceRoughness;
-	this->volume = flowArea * length;
+		double internalVolume, FrictionFlowPipe* friction,
+		ForcedConvection* convection) {
+	this->volume = internalVolume;
+	this->friction = friction;
+	this->convection = convection;
 }
 
 PipeHeatExchPrDrop_RC::~PipeHeatExchPrDrop_RC() {
@@ -23,11 +21,7 @@ PipeHeatExchPrDrop_RC::~PipeHeatExchPrDrop_RC() {
 
 void PipeHeatExchPrDrop_RC::_init() {
 	// TODO provide for different pressure drop and convection geometries
-	friction = FrictionFlowPipe_StraightPipe_new(
-			hydraulicDiameter, length, surfaceRoughness);
-	friction->init(port1State, port1State);
-	convection = ForcedConvection_StraightPipe_new(
-			hydraulicDiameter, flowArea, length);
+	friction->init(port1State, port2State);
 	convection->init(port2State, port2State, wallNode);
 	convection->setLimitOutput(false);
 }
@@ -36,9 +30,21 @@ void PipeHeatExchPrDrop_RC::_createState() {
 	accFluid = FluidChamber_new(port1State->getMedium());
 	accFluid->setVolume(volume);
 	accFluid->selectStates(iT, iD);
-	// TODO maybe user initialization should be included here
-	accFluid->setStateValues(wallNode->getTemperature(), port1State->p());
+	// TODO fix the user initialization
 	port2State = accFluid->getFluidState();
+	port2State->update_Tp(wallNode->getTemperature(), port1State->p());
+}
+
+void PipeHeatExchPrDrop_RC::getStateValues(double* value1, double* value2) {
+	accFluid->getStateValues(value1, value2, true);
+}
+
+void PipeHeatExchPrDrop_RC::setStateValues(double value1, double value2) {
+	accFluid->setStateValues(value1, value2);
+}
+
+void PipeHeatExchPrDrop_RC::getStateDerivatives(double* value1, double* value2) {
+	accFluid->getStateDerivatives(value1, value2);
 }
 
 void PipeHeatExchPrDrop_RC::compute() {
@@ -57,4 +63,13 @@ void PipeHeatExchPrDrop_RC::compute() {
 	double netMassFlowRate = massFlowRate + port2Flow->massFlowRate;
 	accFluid->computeStateDerivatives(netMassFlowRate, netEnthalpyFlow,
 			netHeatFlowRate, 0);
+}
+
+PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume,
+		FrictionFlowPipe* friction, ForcedConvection* convection) {
+	return new PipeHeatExchPrDrop_RC(internalVolume, friction, convection);
+}
+
+void PipeHeatExchPrDrop_RC_compute(PipeHeatExchPrDrop_RC* component) {
+	component->compute();
 }

@@ -26,6 +26,7 @@ void FrictionFlowPipe::init(MediumState* state1, MediumState* state2) {
 }
 
 double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
+	this->massFlowRate = massFlowRate;
 	MediumState* upstreamState;
 	if (massFlowRate > 0) {
 		upstreamState = state1;
@@ -38,9 +39,9 @@ double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 	double Re = upstreamState->rho() * vFlow
 		* hydraulicDiameter / upstreamState->mu();
 	//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
-	double pressureDrop = frictionFactor(Re)
+	double pressureDrop = pressureDropGain * frictionFactor(Re)
 		* flowFactor * upstreamState->rho() * vFlow * vFlow / 2;
-
+	this->absolutePressureDrop = pressureDrop;
 	if (massFlowRate < 0) {
 		pressureDrop = -pressureDrop;
 	}
@@ -53,8 +54,9 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	static const double minPressureDifference = 1e-12;
 
 	// TODO check if caching the Reynolds number can help speed up convergence
+	this->absolutePressureDrop = m::fabs(pressureDifference);
 
-	if (m::fabs(pressureDifference) < minPressureDifference) {
+	if (this->absolutePressureDrop < minPressureDifference) {
 		return 0;
 	}
 
@@ -65,7 +67,7 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 		upstreamState = state2;
 	}
 
-	double absPressureDifference = m::fabs(pressureDifference);
+	double calcPressureDifference = this->absolutePressureDrop / this->pressureDropGain;
 	double relError = 1;
 	int numIter = 0;
 	double vFlow;
@@ -76,11 +78,11 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	while (m::fabs(relError) > relTolerance && numIter < maxNumIter) {
 		// Compute the friction factor, and the flow velocity
 		double zeta = frictionFactor(Re);
-		vFlow = m::sqrt(2 * absPressureDifference / (upstreamState->rho() * zeta * flowFactor));
+		vFlow = m::sqrt(2 * calcPressureDifference / (upstreamState->rho() * zeta * flowFactor));
 		// Compute the error
 		double dpCalc = frictionFactor(Re) * flowFactor
 				* upstreamState->rho() * vFlow * vFlow / 2;
-		relError = (dpCalc - absPressureDifference) / absPressureDifference;
+		relError = (dpCalc - calcPressureDifference) / calcPressureDifference;
 		numIter++;
 		// New guess for the Reynolds number
 		Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
@@ -90,11 +92,16 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	if (pressureDifference < 0) {
 		mDot *= -mDot;
 	}
+	this->massFlowRate = mDot;
 	return mDot;
 }
 
 void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2) {
 	component->init(state1, state2);
+}
+
+void FrictionFlowPipe_setPressureDropGain(FrictionFlowPipe* component, double gain) {
+	component->setPressureDropGain(gain);
 }
 
 double FrictionFlowPipe_computePressureDrop(FrictionFlowPipe* component, double massFlowRate) {
@@ -104,6 +111,18 @@ double FrictionFlowPipe_computePressureDrop(FrictionFlowPipe* component, double 
 double FrictionFlowPipe_computeMassFlowRate(FrictionFlowPipe* component, double pressureDifference) {
 	return component->computeMassFlowRate(pressureDifference);
 }
+
+double FrictionFlowPipe_getAbsolutePressureDrop(FrictionFlowPipe* component) {
+	return component->getAbsolutePressureDrop();
+}
+
+double FrictionFlowPipe_getMassFlowRate(FrictionFlowPipe* component) {
+	return component->getMassFlowRate();
+}
+
+/**********************************************************************
+ *********************  Implementation classes ************************
+ **********************************************************************/
 
 class FrictionFlowPipe_StraightPipe : public FrictionFlowPipe {
 public:

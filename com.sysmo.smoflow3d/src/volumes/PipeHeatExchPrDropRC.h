@@ -15,18 +15,20 @@
 
 class PipeHeatExchPrDrop_RC : public Component_RC {
 public:
-	PipeHeatExchPrDrop_RC(
-			double hydraulicDiameter, double flowArea,
-			double length, double surfaceRoughness);
+	PipeHeatExchPrDrop_RC(double internalVolume,
+			FrictionFlowPipe* friction, ForcedConvection* convection);
 	virtual ~PipeHeatExchPrDrop_RC();
+	virtual void getStateValues(double* value1, double* value2);
+	virtual void setStateValues(double value1, double value2);
+	virtual void getStateDerivatives(double* value1, double* value2);
 	virtual void compute();
 protected:
 	virtual void _init();
 	virtual void _createState();
-	double hydraulicDiameter;
-	double flowArea;
-	double length;
-	double surfaceRoughness;
+	//double hydraulicDiameter;
+	//double flowArea;
+	//double length;
+	//double surfaceRoughness;
 	double volume;
 	FluidChamber* accFluid;
 
@@ -39,7 +41,8 @@ DECLARE_C_STRUCT(PipeHeatExchPrDrop_RC)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-
+PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume,
+		FrictionFlowPipe* friction, ForcedConvection* convection);
 END_C_LINKAGE
 
 #endif /* PIPEHEATEXCHPRDROPRC_H_ */
