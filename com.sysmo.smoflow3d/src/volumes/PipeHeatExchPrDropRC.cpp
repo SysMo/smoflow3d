@@ -24,6 +24,8 @@ void PipeHeatExchPrDrop_RC::_init() {
 	friction->init(port1State, port2State);
 	convection->init(port2State, port2State, wallNode);
 	convection->setLimitOutput(false);
+	internalFlow = FluidFlow_new();
+	FluidFlow_register(internalFlow);
 }
 
 void PipeHeatExchPrDrop_RC::_createState() {
@@ -50,17 +52,16 @@ void PipeHeatExchPrDrop_RC::getStateDerivatives(double* value1, double* value2) 
 void PipeHeatExchPrDrop_RC::compute() {
 	double dp = port1State->p() - port2State->p();
 	double massFlowRate = friction->computeMassFlowRate(dp);
+	friction->getFluidFlow1(port1Flow);
+	friction->getFluidFlow2(internalFlow);
+
 	convection->compute(massFlowRate);
+	convection->getFlow_Wall(wallHeatFlow);
+
 	double netHeatFlowRate = convection->getHeatFlowRate();
-	double netEnthalpyFlow = 0;
-	if (massFlowRate > 0) {
-		netEnthalpyFlow += massFlowRate * port1State->h();
-		netEnthalpyFlow += port2Flow->massFlowRate * port2State->h();
-	} else {
-		netEnthalpyFlow += massFlowRate * port2State->h();
-		netEnthalpyFlow += port2Flow->enthalpyFlowRate;
-	}
-	double netMassFlowRate = massFlowRate + port2Flow->massFlowRate;
+	double netEnthalpyFlow = internalFlow->enthalpyFlowRate + port2Flow->enthalpyFlowRate;
+	double netMassFlowRate = internalFlow->massFlowRate + port2Flow->massFlowRate;
+
 	accFluid->computeStateDerivatives(netMassFlowRate, netEnthalpyFlow,
 			netHeatFlowRate, 0);
 }

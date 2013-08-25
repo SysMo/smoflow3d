@@ -34,6 +34,7 @@ protected:
 
 	ForcedConvection* convection;
 	FrictionFlowPipe* friction;
+	FluidFlow* internalFlow;
 };
 
 #else //__cplusplus

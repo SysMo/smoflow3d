@@ -32,6 +32,8 @@ public:
 	double getMassFlowRate() {
 		return massFlowRate;
 	}
+	void getFluidFlow1(FluidFlow* flow);
+	void getFluidFlow2(FluidFlow* flow);
 protected:
 	double flowArea;
 	double hydraulicDiameter;

@@ -96,6 +96,28 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	return mDot;
 }
 
+void FrictionFlowPipe::getFluidFlow1(FluidFlow* flow) {
+	MediumState* upstreamState;
+	if (massFlowRate > 0) {
+		upstreamState = state1;
+	} else {
+		upstreamState = state2;
+	}
+	flow->massFlowRate = -massFlowRate;
+	flow->enthalpyFlowRate = -massFlowRate * upstreamState->h();
+}
+
+void FrictionFlowPipe::getFluidFlow2(FluidFlow* flow) {
+	MediumState* upstreamState;
+	if (massFlowRate > 0) {
+		upstreamState = state1;
+	} else {
+		upstreamState = state2;
+	}
+	flow->massFlowRate = massFlowRate;
+	flow->enthalpyFlowRate = massFlowRate * upstreamState->h();
+}
+
 void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2) {
 	component->init(state1, state2);
 }

@@ -154,6 +154,9 @@ protected:
 	}
 	inline double NuTurbulent(double Re, double Pr) {
 		// Friction factor - @see VDI Heat Atlas, page 696, Eq. (26) and (27)
+		// Range of validity: 1e4 < Re < 1e6, 0.1 < Pr < 1000
+		// Limit the Prandtl number, to prevent crashing around the critical point
+		//m::limitVariable(Pr, 0, 100);
 		double xi = m::pow(1.8 * m::log10(Re) - 1.5, -2);
 		double NuNum = (xi / 8) * Re * Pr;
 		double NuDenom = 1 + 12.7 * m::sqrt(xi / 8) * (m::pow(Pr, 2./3) - 1);
