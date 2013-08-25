@@ -111,6 +111,7 @@ int main(int argc, char** argv) {
 	Medium_register(sCompressibleFluidCoolProp, fluidName, 1);
 	//testCoolPropCalculationTiming();
 	testCoolProp();
-
+	std::cout << "eps(double) = " << std::numeric_limits<double>::epsilon() << std::endl;
+	std::cout << "eps(float) = " << std::numeric_limits<float>::epsilon() << std::endl;
 	return 0;
 }

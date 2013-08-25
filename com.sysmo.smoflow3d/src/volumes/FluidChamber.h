@@ -22,7 +22,7 @@ public:
 	void selectStates(ThermodynamicVariable state1, ThermodynamicVariable state2);
 	inline void setVolume(double volume) {this->volume = volume;}
 	inline double getVolume() {return volume;}
-	inline double getFluidMass() {return fluidMass;}
+	inline double getFluidMass() {return fluidState->rho() * volume;}
 	void setStateValues(double stateValue1, double stateValue2);
 	void getStateValues(double* stateValue1, double* stateValue2, bool getFromFluid);
 	void computeStateDerivatives(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
@@ -38,7 +38,6 @@ protected:
 	MediumState* fluidState;
 	BasicState stateTimeDerivatives;
 	double volume;
-	double fluidMass;
 };
 
 #else

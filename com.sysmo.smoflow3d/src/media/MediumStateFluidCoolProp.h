@@ -15,7 +15,11 @@
 
 class MyCoolPropStateClass : public CoolPropStateClassSI {
 	friend class MediumState_FluidCoolProp;
-	MyCoolPropStateClass(Fluid* pFluid) : CoolPropStateClassSI(pFluid){};
+	//double cp() {
+	//	//return 15000;
+	//	return CoolPropStateClassSI::cp();
+	//}
+	MyCoolPropStateClass(Fluid* pFluid) : CoolPropStateClassSI(pFluid) {};
 };
 
 class MediumState_FluidCoolProp : public MediumState {

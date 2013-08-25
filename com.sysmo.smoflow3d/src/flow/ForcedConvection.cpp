@@ -9,45 +9,80 @@
 #include "ForcedConvection.h"
 using namespace smoflow;
 
-ForcedConvection::ForcedConvection() {
-	// TODO Auto-generated constructor stub
-
+void ForcedConvection::init(MediumState* fluidState1, MediumState* fluidState2,
+		ThermalNode* wallNode) {
+	Convection::init(fluidState1, wallNode);
+	this->fluidState2 = fluidState2;
 }
 
-ForcedConvection::~ForcedConvection() {
-	// TODO Auto-generated destructor stub
+void ForcedConvection::setLimitOutput(bool limitOutput) {
+	this->limitOutput = limitOutput;
+	if (limitOutput == true && limitState == NULL) {
+		limitState = MediumState_new(fluidState->getMedium());
+		MediumState_register(limitState);
+	}
 }
 
-void ForcedConvection::init(MediumState* fluidState, ThermalNode* wallNode, FluidFlow* flow) {
-	Convection::init(fluidState, wallNode);
-	this->flow = flow;
-}
+void ForcedConvection::compute(double massFlowRate) {
+	if (m::fabs(massFlowRate) < 1e-12) {
+		Re = 0;
+		Pr = 0;
+		Nu = 0;
+		heatFlowRate = 0;
+		return;
+	}
 
-void ForcedConvection::compute() {
+	MediumState* upstreamFluidState;
+	if (massFlowRate > 0) {
+		upstreamFluidState = fluidState;
+	} else {
+		upstreamFluidState = fluidState2;
+	}
 	// Calculate film state
-	double fluidTemperature = fluidState->T();
+	double fluidTemperature = upstreamFluidState->T();
 	double wallTemperature = wallNode->getTemperature();
 	double filmTemperature = (fluidTemperature + wallTemperature)/2;
 	double wallOverheat = wallTemperature - fluidTemperature;
-	filmState->update_Tp(filmTemperature, fluidState->p());
+	filmState->update_Tp(filmTemperature, upstreamFluidState->p());
 
-
-	double v = m::fabs(flow->massFlowRate) / filmState->rho() / flowArea;
+	double absMassFlowRate = m::fabs(massFlowRate);
+	double v =  massFlowRate / filmState->rho() / flowArea;
 	Re = filmState->rho() * v * characteristicLength / filmState->mu();
 	Pr = filmState->Pr();
 	Nu = computeNusseltNumber(Re, Pr);
 	convectionCoefficient = Nu * filmState->lambda() / characteristicLength;
 	heatFlowRate = heatExchangeGain * convectionCoefficient
 			* heatExchangeArea * wallOverheat;
+	double outletSpecEnthalpy = upstreamFluidState->h()
+			+ heatFlowRate / massFlowRate;
+	if (limitOutput) {
+		limitState->update_Tp(wallTemperature, upstreamFluidState->p());
+		if (wallTemperature > fluidTemperature) {
+			// Ensure the outlet temperature is not above wall temperature
+			outletSpecEnthalpy = m::min(outletSpecEnthalpy, limitState->h());
+		} else {
+			// Ensure the outlet temperature is not below wall temperature
+			outletSpecEnthalpy = m::max(outletSpecEnthalpy, limitState->h());
+		}
+		heatFlowRate = absMassFlowRate
+			* (outletSpecEnthalpy - upstreamFluidState->h());
+	}
 }
 
-void ForcedConvection_init(ForcedConvection* convection, MediumState* fluidState,
-		ThermalNode* wallNode, FluidFlow* flow) {
-	convection->init(fluidState, wallNode, flow);
+void ForcedConvection_init(ForcedConvection* convection,
+		MediumState* fluidState1, MediumState* fluidState2,
+		ThermalNode* wallNode) {
+	convection->init(fluidState1, fluidState2, wallNode);
 }
 
-void ForcedConvection_compute(ForcedConvection* convection) {
-	convection->compute();
+void ForcedConvection_setLimitOutput(
+		ForcedConvection* convection, int limitOutput) {
+	convection->setLimitOutput(limitOutput);
+}
+
+void ForcedConvection_compute(ForcedConvection* convection,
+		double massFlowRate) {
+	convection->compute(massFlowRate);
 }
 
 double ForcedConvection_getReynoldsNumber(ForcedConvection* convection) {
@@ -106,7 +141,9 @@ public:
 		} else {
 			// Interpolation coefficient
 			double gamma = (Re - ReL) / (ReH - ReL);
-			//gamma = -2*m::pow(gamma, 3.0) + 3*m::pow(gamma, 2.0); //TRICKY - this polynomial smooth the interpolation //:TODO: (MILEN) ??? and ReH = 4000 in SmoFlow
+			//gamma = -2*m::pow(gamma, 3.0) + 3*m::pow(gamma, 2.0);
+			//TRICKY - this polynomial smooth the interpolation
+			//:TODO: (MILEN) ??? and ReH = 4000 in SmoFlow
 			Nu = (1 - gamma) * NuLaminar(ReL, Pr) + gamma * NuTurbulent(ReH, Pr);
 		}
 		return Nu;
@@ -117,6 +154,9 @@ protected:
 	}
 	inline double NuTurbulent(double Re, double Pr) {
 		// Friction factor - @see VDI Heat Atlas, page 696, Eq. (26) and (27)
+		// Range of validity: 1e4 < Re < 1e6, 0.1 < Pr < 1000
+		// Limit the Prandtl number, to prevent crashing around the critical point
+		//m::limitVariable(Pr, 0, 100);
 		double xi = m::pow(1.8 * m::log10(Re) - 1.5, -2);
 		double NuNum = (xi / 8) * Re * Pr;
 		double NuDenom = 1 + 12.7 * m::sqrt(xi / 8) * (m::pow(Pr, 2./3) - 1);

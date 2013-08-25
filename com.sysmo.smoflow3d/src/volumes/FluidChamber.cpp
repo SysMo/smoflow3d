@@ -12,7 +12,6 @@ FluidChamber::FluidChamber(Medium *fluid) {
 	fluidState = MediumState_new(fluid);
 	MediumState_register(fluidState);
 	volume = 0;
-	fluidMass = 0;
 }
 
 FluidChamber::~FluidChamber() {
@@ -59,7 +58,6 @@ void FluidChamber::setStateValues(double stateValue1, double stateValue2) {
 		RaiseError("Cannot set state using state variables (enum): "
 				<< states[0] << " and " << states[1]);
 	}
-	fluidMass = fluidState->rho() * volume;
 }
 
 void FluidChamber::getStateValues(double* stateValue1, double* stateValue2, bool getFromFluid) {
@@ -114,6 +112,7 @@ void FluidChamber::getStateDerivatives(double* stateDerivative1, double* stateDe
 }
 
 void FluidChamber::computeStateDerivatives(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate) {
+	double fluidMass = getFluidMass();
 	double c1 = massFlowRate/fluidMass - volumeChangeRate/volume;
 	double UDot = enthalpyFlowRate + heatFlowRate - fluidState->p() * volumeChangeRate;
 	stateTimeDerivatives.rho = fluidState->rho() * c1;
@@ -121,6 +120,7 @@ void FluidChamber::computeStateDerivatives(double massFlowRate, double enthalpyF
 }
 
 void FluidChamber::computeStateDerivatives_cv(double mDot, double UDot, double VDot) {
+	double fluidMass = getFluidMass();
 	double vDot = - stateTimeDerivatives.rho / (fluidState->rho() * fluidState->rho());
 	double uDot = (UDot - mDot * fluidState->u())/fluidMass;
 	double k2 = (fluidState->T() * fluidState->dpdt_v() - fluidState->p()) * vDot;
@@ -131,6 +131,7 @@ void FluidChamber::computeStateDerivatives_cv(double mDot, double UDot, double V
 
 void FluidChamber::computeStateDerivatives_cp(double mDot, double UDot, double VDot) {
 	//stateTimeDerivatives.specificVolume = - specificVolume * c1;
+	double fluidMass = getFluidMass();
 
 	double dvdt_p = fluidState->dvdt_p();
 	double dvdp_T = 1./fluidState->dpdv_t();
