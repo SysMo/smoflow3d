@@ -119,7 +119,7 @@ void smo_fluid_state_source_pt_constantin_(int *n, double rp[2]
 
    MediumState_update_Tp(_fluidState, initTemperature, initPressure);
 
-   *pressure = initPressure;
+   *pressure = initPressure / 1e5;
    *temperature = initTemperature;
    *temperatureC = MediumState_T(_fluidState) - 273.15;
    *density = MediumState_rho(_fluidState);
@@ -142,7 +142,7 @@ void smo_fluid_state_source_pt_constantin_(int *n, double rp[2]
 
       1 pressure         pressure          [bar]     fixed
       2 temperature      temperature       [K]       fixed
-      3 temperatureC     temperature (°C)  [degC]    fixed
+      3 temperatureC     temperature (ï¿½C)  [degC]    fixed
       4 density          density           [kg/m**3] fixed
       5 enthalpy         specific enthalpy [kJ/kg]   fixed
       6 xx               gas mass fraction [null]    fixed
