@@ -610,13 +610,13 @@
    </IVAR>
    <IVAR>
     <SUB_ID>15</SUB_ID>
-    <TITLE>superheat / subcooling</TITLE>
-    <VARNAME>superHeating</VARNAME>
+    <TITLE>superheating</TITLE>
+    <VARNAME>superheating</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <IS_DELTA>1</IS_DELTA>
     <DIMENSION>1</DIMENSION>
-    <UNITS>degC</UNITS>
+    <UNITS>K</UNITS>
    </IVAR>
    <IVAR>
     <SUB_ID>16</SUB_ID>
@@ -626,7 +626,7 @@
     <TYPE>0</TYPE>
     <IS_DELTA>1</IS_DELTA>
     <DIMENSION>1</DIMENSION>
-    <UNITS>barA</UNITS>
+    <UNITS>bar</UNITS>
    </IVAR>
    <IVAR>
     <SUB_ID>17</SUB_ID>

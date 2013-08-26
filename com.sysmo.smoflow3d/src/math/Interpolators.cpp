@@ -89,6 +89,9 @@ size_t Interpolator1D::hunt(double xValue, Interpolator1DCache* cache) {
 }
 
 double Interpolator1D::operator()(double value, FunctorCache* cache) {
+	if (m::isNaN(value)) {
+		RaiseError("Not-a-number value passesd to interpolator");
+	}
 	Interpolator1DCache* cacheObj = (Interpolator1DCache*) cache;
 	double yValue;
 	if (boundaryHandling == ibhConstant && value < (*xValues)(0)) {

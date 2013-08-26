@@ -24,9 +24,24 @@ namespace m {
 
 	// Constants
 	static const double pi = 3.1415927;
+	static const double NaN = NAN;
+	static const double  Inf = INFINITY;
+	static const double eps = std::numeric_limits<double>::epsilon();
 
-	inline double eps() {
-		return std::numeric_limits<double>::epsilon();
+	inline bool isNaN(double value) {
+		return std::isnan(value);
+	}
+	inline bool isPlusInf(double value) {
+		return value == Inf;
+	}
+	inline bool isMinusInf(double value) {
+		return value == -Inf;
+	}
+	inline bool isInf(double value) {
+		return ((value == Inf) || (value == -Inf));
+	}
+	inline bool isNumber(double value) {
+		return !(isNaN(value) || isInf(value));
 	}
 
 	inline double pow(const double& x, const double& y) {

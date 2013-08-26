@@ -9,8 +9,21 @@
 #include "MediumStateFluidCoolProp.h"
 #include "CoolProp/CPExceptions.h"
 
+//double SmoCoolPropStateClass::gamma() {
+//	if (!TwoPhase) {
+//		return cp() / cv();
+//	} else {
+//		double cp = Q();
+//	}
+//}
+//
+//double SmoCoolPropStateClass::Pr() {
+//
+//}
+
 MediumState_FluidCoolProp::MediumState_FluidCoolProp(Medium_CompressibleFluid_CoolProp* medium)
 : MediumState(medium), pFluid(medium->fluid), cps(pFluid){
+	cps.enable_EXTTP();
 }
 
 MediumState_FluidCoolProp::~MediumState_FluidCoolProp() {
@@ -40,6 +53,7 @@ void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 	_h = cps.h();
 }
 
+#include "util/SimulationEnvironment.h"
 void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
 	pre_update();
 	_T = T;
@@ -186,4 +200,52 @@ double MediumState_FluidCoolProp::lambda() {
 
 double MediumState_FluidCoolProp::R() {
 	return pFluid->R();
+}
+
+double MediumState_FluidCoolProp::Pr() {
+	if (!_Pr) {
+		//_Pr = cps.Pr();
+		_Pr = cp() * mu() / lambda();
+	}
+	return _Pr;
+}
+
+double MediumState_FluidCoolProp::gamma() {
+	if (!_gamma) {
+		//_gamma = cps.gamma();
+		_gamma = cp() / cv();
+	}
+	return _gamma;
+}
+
+bool MediumState_FluidCoolProp::isSupercritical() {
+	return _p > pFluid->crit.p.Pa;
+}
+
+bool MediumState_FluidCoolProp::isTwoPhase() {
+	return cps.TwoPhase;
+}
+
+double MediumState_FluidCoolProp::x() {
+	if (isTwoPhase()) {
+		return cps.Q();
+	} else {
+		return -1.0;
+	}
+}
+
+double MediumState_FluidCoolProp::deltaTSat() {
+	return _T - TSat();
+}
+
+double MediumState_FluidCoolProp::TSat() {
+	if (isSupercritical()) {
+		return pFluid->crit.T;
+	} else if (isTwoPhase()) {
+		return _T;
+	} else {
+		double TSatL, TsatV, rhoL, rhov;
+		pFluid->saturation_p(_p, false, TSatL, TsatV, rhoL, rhov);
+		return TSatL;
+	}
 }
