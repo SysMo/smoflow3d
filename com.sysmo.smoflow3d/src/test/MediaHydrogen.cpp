@@ -40,6 +40,18 @@ void testCoolProp() {
 	std::cout << "entalpy = " << MediumState_h(fp1) << std::endl;
 }
 
+void testCriticalPoint() {
+	Medium* fluid = Medium_get(1);
+	MediumState* fp1 = MediumState_new(fluid);
+
+	fp1->update_Trho(32.798321531316866, 38.007425381953652);
+	double gamma = fp1->gamma();
+	double Pr = fp1->Pr();
+	std::cout << gamma << std::endl;
+	std::cout << gamma << std::endl;
+
+}
+
 void testCoolPropCalculationTiming() {
 	int updateCounter ;
 	Timer* timer1 = createTimer();
@@ -110,8 +122,9 @@ int main(int argc, char** argv) {
 	const char* fluidName = "ParaHydrogen";
 	Medium_register(sCompressibleFluidCoolProp, fluidName, 1);
 	//testCoolPropCalculationTiming();
-	testCoolProp();
-	std::cout << "eps(double) = " << std::numeric_limits<double>::epsilon() << std::endl;
-	std::cout << "eps(float) = " << std::numeric_limits<float>::epsilon() << std::endl;
+	//testCoolProp();
+	testCriticalPoint();
+	//std::cout << "eps(double) = " << std::numeric_limits<double>::epsilon() << std::endl;
+	//std::cout << "eps(float) = " << std::numeric_limits<float>::epsilon() << std::endl;
 	return 0;
 }

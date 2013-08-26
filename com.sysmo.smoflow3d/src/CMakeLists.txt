@@ -32,6 +32,7 @@ add_library(SmoFlow SHARED
     util/CodeTiming.cpp
     util/CachedProperty.cpp
     util/SmoComponent.cpp
+    util/SimulationEnvironment.cpp
     math/Functors.cpp
     math/Interpolators.cpp
     media/Medium.cpp

@@ -49,3 +49,5 @@ smo_free_convection
 &SMO_FREE_CONVECTION SmoFlow3d
 smo_heat_flow_sensor
 &SMO_HEAT_FLOW_SENSOR SmoFlow3d
+smiulation_environment
+&SMO_SIMULATION_ENVIRONMENT SmoFlow3d

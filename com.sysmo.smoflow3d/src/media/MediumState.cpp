@@ -10,7 +10,7 @@
 #include <vector>
 
 static std::vector<MediumState*> MediumStateRegistry;
-
+using namespace smoflow;
 
 /**
  * MediumState C++ Class Functions
@@ -48,6 +48,7 @@ void MediumState::clearPropertyCache() {
 	_mu.clear();
 	_lambda.clear();
 	_Pr.clear();
+	_gamma.clear();
 }
 
 void MediumState::update_Tp(double T, double p) {
@@ -139,11 +140,34 @@ double MediumState::Pr() {
 }
 
 double MediumState::gamma() {
-	return cp() / cv();
+	if (!_gamma) {
+		_gamma = cp() / cv();
+	}
+	return _gamma;
 }
 
 double MediumState::R() {
 	RaiseError("Unimplemented virtual method 'MediumState::R()'")
+}
+
+bool MediumState::isSupercritical() {
+	RaiseError("Unimplemented virtual method 'MediumState::isSupercritical()'")
+}
+
+bool MediumState::isTwoPhase() {
+	RaiseError("Unimplemented virtual method 'MediumState::isTwoPhase()'")
+}
+
+double MediumState::x() {
+	RaiseError("Unimplemented virtual method 'MediumState::x()'")
+}
+
+double MediumState::deltaTSat() {
+	RaiseError("Unimplemented virtual method 'MediumState::deltaTSat()'")
+}
+
+double MediumState::TSat() {
+	RaiseError("Unimplemented virtual method 'MediumState::TSat()'")
 }
 
 /**
@@ -279,4 +303,24 @@ double MediumState_gamma(MediumState* mstate) {
 
 double MediumState_R(MediumState* mstate) {
 	return mstate->R();
+}
+
+int MediumState_isSupercritical(MediumState* mstate) {
+	return mstate->isSupercritical();
+}
+
+int MediumState_isTwoPhase(MediumState* mstate) {
+	return mstate->isTwoPhase();
+}
+
+double MediumState_x(MediumState* mstate) {
+	return mstate->x();
+}
+
+double MediumState_deltaTSat(MediumState* mstate) {
+	return mstate->deltaTSat();
+}
+
+double MediumState_TSat(MediumState* mstate) {
+	return mstate->TSat();
 }

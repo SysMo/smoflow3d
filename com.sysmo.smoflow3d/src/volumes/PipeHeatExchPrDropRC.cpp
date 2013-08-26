@@ -8,6 +8,8 @@
 
 #include "PipeHeatExchPrDropRC.h"
 
+using namespace smoflow;
+
 PipeHeatExchPrDrop_RC::PipeHeatExchPrDrop_RC(
 		double internalVolume, FrictionFlowPipe* friction,
 		ForcedConvection* convection) {
@@ -49,6 +51,7 @@ void PipeHeatExchPrDrop_RC::getStateDerivatives(double* value1, double* value2) 
 	accFluid->getStateDerivatives(value1, value2);
 }
 
+#include "util/SimulationEnvironment.h"
 void PipeHeatExchPrDrop_RC::compute() {
 	double dp = port1State->p() - port2State->p();
 	double massFlowRate = friction->computeMassFlowRate(dp);
