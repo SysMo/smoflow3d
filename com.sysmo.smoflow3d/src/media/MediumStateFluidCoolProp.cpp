@@ -9,17 +9,24 @@
 #include "MediumStateFluidCoolProp.h"
 #include "CoolProp/CPExceptions.h"
 
-//double SmoCoolPropStateClass::gamma() {
-//	if (!TwoPhase) {
-//		return cp() / cv();
-//	} else {
-//		double cp = Q();
-//	}
-//}
-//
-//double SmoCoolPropStateClass::Pr() {
-//
-//}
+double SmoCoolPropStateClass::gamma() {
+	if (!TwoPhase) {
+		return cp() / cv();
+	} else {
+		double cp2p = interp_linear(_Q, SatL->cp(), SatV->cp());
+		double cv2p = interp_linear(_Q, SatL->cv(), SatV->cv());
+		return cp2p / cv2p;
+	}
+}
+
+double SmoCoolPropStateClass::Pr() {
+	if (!TwoPhase) {
+		return cp() * viscosity() / conductivity();
+	} else {
+		double cp2p = interp_linear(_Q, SatL->cp(), SatV->cp());
+		return cp2p * viscosity() / conductivity();
+	}
+}
 
 MediumState_FluidCoolProp::MediumState_FluidCoolProp(Medium_CompressibleFluid_CoolProp* medium)
 : MediumState(medium), pFluid(medium->fluid), cps(pFluid){
@@ -53,7 +60,6 @@ void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 	_h = cps.h();
 }
 
-#include "util/SimulationEnvironment.h"
 void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
 	pre_update();
 	_T = T;
@@ -204,16 +210,16 @@ double MediumState_FluidCoolProp::R() {
 
 double MediumState_FluidCoolProp::Pr() {
 	if (!_Pr) {
-		//_Pr = cps.Pr();
-		_Pr = cp() * mu() / lambda();
+		_Pr = cps.Pr();
+		//_Pr = cp() * mu() / lambda();
 	}
 	return _Pr;
 }
 
 double MediumState_FluidCoolProp::gamma() {
 	if (!_gamma) {
-		//_gamma = cps.gamma();
-		_gamma = cp() / cv();
+		_gamma = cps.gamma();
+		//_gamma = cp() / cv();
 	}
 	return _gamma;
 }
@@ -244,8 +250,7 @@ double MediumState_FluidCoolProp::TSat() {
 	} else if (isTwoPhase()) {
 		return _T;
 	} else {
-		double TSatL, TsatV, rhoL, rhov;
-		pFluid->saturation_p(_p, false, TSatL, TsatV, rhoL, rhov);
+		double TSatL = pFluid->Tsat_anc(_p, 1);
 		return TSatL;
 	}
 }
