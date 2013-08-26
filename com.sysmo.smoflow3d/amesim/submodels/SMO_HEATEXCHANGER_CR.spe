@@ -4,11 +4,11 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>113</SUB_ID_MAX>
+  <SUB_ID_MAX>114</SUB_ID_MAX>
   <DEFAULT_ICON>smo_simple_heater</DEFAULT_ICON>
   <SUB_LABEL>pipe heat exchanger (single phase)  (C-R, no state)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>6</I_STORES_NUMBER>
+  <I_STORES_NUMBER>5</I_STORES_NUMBER>
   <P_STORES_NUMBER>7</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
@@ -77,16 +77,14 @@
   <EVARS_LIST>
    <PORT>
     <EVAR>
-     <SUB_ID>107</SUB_ID>
-     <TITLE>state index inlet</TITLE>
-     <VARNAME>stateIndexInlet</VARNAME>
+     <SUB_ID>114</SUB_ID>
+     <ORIG_TITLE>state index inlet</ORIG_TITLE>
+     <VARNAME>stateIndexOutletDup</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>8</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>2</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
-     <EXPRESS2>@_3_2</EXPRESS2>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>2</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
     </EVAR>
     <EVAR>
      <SUB_ID>103</SUB_ID>

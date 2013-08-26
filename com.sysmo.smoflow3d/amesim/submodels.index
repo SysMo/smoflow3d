@@ -7,6 +7,8 @@ smo_zero_flow
 &SMO_ZERO_FLOW SmoFlow3d
 smo_fluid_state_source_pt
 &SMO_FLUID_STATE_SOURCE_PT SmoFlow3d
+smo_fluid_state_source_pt_constant
+&SMO_FLUID_STATE_SOURCE_PT_CONSTANT SmoFlow3d
 smo_flow_sensor
 &SMO_FLOW_SENSOR SmoFlow3d
 smo_heat_source
@@ -37,6 +39,8 @@ smo_thermal_material_point
 &SMO_THERMAL_MATERIAL_POINT SmoFlow3d
 smo_thermal_conduction
 &SMO_THERMAL_CONDUCTION SmoFlow3d
+smo_temperature_source_constant
+&SMO_TEMPERATURE_SOURCE_CONSTANT SmoFlow3d
 smo_temperature_source
 &SMO_TEMPERATURE_SOURCE SmoFlow3d
 smo_adaptor_fluid_heat

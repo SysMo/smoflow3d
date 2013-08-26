@@ -4,8 +4,8 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>34</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_thermal_node</DEFAULT_ICON>
+  <SUB_ID_MAX>35</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_thermal_material_point</DEFAULT_ICON>
   <SUB_LABEL>thermal point mass</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <R_STORES_NUMBER>1</R_STORES_NUMBER>
@@ -94,6 +94,15 @@
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>35</SUB_ID>
+    <TITLE>TDot</TITLE>
+    <VARNAME>tDot</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K/s</UNITS>
    </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
