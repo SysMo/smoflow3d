@@ -39,11 +39,14 @@ public:
 	virtual void update_prho(double p, double rho);
 	virtual void update_ph(double p, double h);
 	virtual void update_ps(double p, double s);
+	virtual void update_px(double p, double x);
+	virtual void update_Tx(double T, double x);
 
 	double T();
 	double p();
 	double rho();
 	double h();
+	virtual double x(); // Gas mass fraction
 	virtual double s();
 	virtual double u();
 	virtual double cp();
@@ -62,9 +65,9 @@ public:
 	// Two-phase related functions
 	virtual bool isSupercritical();
 	virtual bool isTwoPhase();
-	virtual double x(); // Gas mass fraction
 	virtual double deltaTSat();
 	virtual double TSat();
+	virtual double dpdTSat();
 
 protected:
 	MediumState(Medium* medium);

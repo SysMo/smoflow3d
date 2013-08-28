@@ -71,6 +71,14 @@ void MediumState::update_ps(double p, double s) {
 	RaiseError("Unimplemented virtual method 'MediumState::update_ps'")
 }
 
+void MediumState::update_px(double p, double x) {
+	RaiseError("Unimplemented virtual method 'MediumState::update_px'")
+}
+
+void MediumState::update_Tx(double T, double x) {
+	RaiseError("Unimplemented virtual method 'MediumState::update_Tx'")
+}
+
 double MediumState::T() {
 	return _T;
 }
@@ -167,6 +175,10 @@ double MediumState::deltaTSat() {
 }
 
 double MediumState::TSat() {
+	RaiseError("Unimplemented virtual method 'MediumState::TSat()'")
+}
+
+double MediumState::dpdTSat() {
 	RaiseError("Unimplemented virtual method 'MediumState::TSat()'")
 }
 

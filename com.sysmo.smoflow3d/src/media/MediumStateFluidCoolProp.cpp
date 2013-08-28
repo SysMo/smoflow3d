@@ -58,6 +58,7 @@ void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 	}
 	post_update();
 	_h = cps.h();
+	_x = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
@@ -68,6 +69,7 @@ void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
 	post_update();
 	_p = cps.p();
 	_h = cps.h();
+	_x = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_prho(double p, double rho) {
@@ -83,6 +85,7 @@ void MediumState_FluidCoolProp::update_prho(double p, double rho) {
 	}
 	post_update();
 	_h = cps.h();
+	_x = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_ph(double p, double h) {
@@ -107,6 +110,7 @@ void MediumState_FluidCoolProp::update_ph(double p, double h) {
 		_rho = cps.rho();
 	}
 	post_update();
+	_x = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_ps(double p, double s) {
@@ -125,6 +129,37 @@ void MediumState_FluidCoolProp::update_ps(double p, double s) {
 	_T = cps.T();
 	_rho = cps.rho();
 	_h = cps.h();
+	_x = cps.Q();
+}
+
+void MediumState_FluidCoolProp::update_px(double p, double x) {
+	pre_update();
+	_p = p;
+	_x = x;
+	cps.update_twophase(iP, p, iQ, x);
+	post_update();
+	_T = cps.T();
+	_rho = cps.rho();
+	_h = cps.h();
+}
+
+void MediumState_FluidCoolProp::update_Tx(double T, double x) {
+	pre_update();
+	_T = T;
+	_x = x;
+	cps.update_twophase(iT, T, iQ, x);
+	post_update();
+	_p = cps.p();
+	_rho = cps.rho();
+	_h = cps.h();
+}
+
+double MediumState_FluidCoolProp::x() {
+	if (isTwoPhase()) {
+		return cps.Q();
+	} else {
+		return -1.0;
+	}
 }
 
 double MediumState_FluidCoolProp::u() {
@@ -157,35 +192,55 @@ double MediumState_FluidCoolProp::cv() {
 
 double MediumState_FluidCoolProp::dpdt_v() {
 	if (!_dpdt_v) {
-		_dpdt_v = cps.dpdT_constrho();
+		if (isTwoPhase()) {
+			_dpdt_v = dpdTSat();
+		} else {
+			_dpdt_v = cps.dpdT_constrho();
+		}
 	}
 	return _dpdt_v;
 }
 
 double MediumState_FluidCoolProp::dpdv_t() {
 	if (!_dpdv_t) {
-		_dpdv_t = - _rho * _rho * dpdrho_t();
+		if (isTwoPhase()) {
+			_dpdv_t = 0;
+		} else {
+			_dpdv_t = - _rho * _rho * dpdrho_t();
+		}
 	}
 	return _dpdv_t;
 }
 
 double MediumState_FluidCoolProp::dpdrho_t() {
 	if (!_dpdrho_t) {
-		_dpdrho_t = cps.dpdrho_constT();
+		if (isTwoPhase()) {
+			_dpdrho_t = 0;
+		} else {
+			_dpdrho_t = cps.dpdrho_constT();
+		}
 	}
 	return _dpdrho_t;
 }
 
 double MediumState_FluidCoolProp::dvdt_p() {
 	if (!_dvdt_p) {
-		_dvdt_p = cps.dvdT_constp();
+		if (isTwoPhase()) {
+			RaiseError("Cannot calculate dvdt_p in the two-phase region")
+		} else {
+			_dvdt_p = cps.dvdT_constp();
+		}
 	}
 	return _dvdt_p;
 }
 
 double MediumState_FluidCoolProp::beta()  {
 	if (!_beta) {
-		_beta = _rho * cps.dvdT_constp();
+		if (isTwoPhase()) {
+			RaiseError("Cannot calculate 'beta' in the two-phase region")
+		} else {
+			_beta = _rho * cps.dvdT_constp();
+		}
 	}
 	return _beta;
 }
@@ -232,14 +287,6 @@ bool MediumState_FluidCoolProp::isTwoPhase() {
 	return cps.TwoPhase;
 }
 
-double MediumState_FluidCoolProp::x() {
-	if (isTwoPhase()) {
-		return cps.Q();
-	} else {
-		return -1.0;
-	}
-}
-
 double MediumState_FluidCoolProp::deltaTSat() {
 	return _T - TSat();
 }
@@ -253,4 +300,8 @@ double MediumState_FluidCoolProp::TSat() {
 		double TSatL = pFluid->Tsat_anc(_p, 1);
 		return TSatL;
 	}
+}
+
+double MediumState_FluidCoolProp::dpdTSat() {
+	return 1./cps.dTdp_along_sat();
 }
