@@ -48,7 +48,18 @@ void testCriticalPoint() {
 	double gamma = fp1->gamma();
 	double Pr = fp1->Pr();
 	std::cout << gamma << std::endl;
-	std::cout << gamma << std::endl;
+	std::cout << Pr << std::endl;
+
+}
+
+void testTwoPhase() {
+	Medium* fluid = Medium_get(1);
+	MediumState* fp1 = MediumState_new(fluid);
+	fp1->update_px(10.34736e5, 0.7503882);
+	std::cout << "T = " << fp1->T() << std::endl;
+	std::cout << "cv = " << fp1->cv() << std::endl;
+	std::cout << "dp_dT_rho = " << fp1->dpdt_v() << std::endl;
+	std::cout << "dp_drho_T = " << fp1->dpdrho_t() << std::endl;
 
 }
 
@@ -123,7 +134,8 @@ int main(int argc, char** argv) {
 	Medium_register(sCompressibleFluidCoolProp, fluidName, 1);
 	//testCoolPropCalculationTiming();
 	//testCoolProp();
-	testCriticalPoint();
+	//testCriticalPoint();
+	testTwoPhase();
 	//std::cout << "eps(double) = " << std::numeric_limits<double>::epsilon() << std::endl;
 	//std::cout << "eps(float) = " << std::numeric_limits<float>::epsilon() << std::endl;
 	return 0;
