@@ -50,8 +50,15 @@ void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 	_T = T;
 	_p = p;
 	if (ValidNumber(_rho)) {
-		_rho = pFluid->density_Tp(T, p, _rho);
-		cps.update_Trho(iT, T, iD, _rho);
+		try {
+			_rho = pFluid->density_Tp(T, p, _rho);
+			cps.update_Trho(iT, T, iD, _rho);
+		} catch (SolutionError e) {
+			std::cout << "Update_Tp(T = " << T << ", p = " << p
+					<< ") failed, trying to calculate without using cache variables\n";
+			cps.update_Tp(iT, T, iP, p);
+			_rho = cps.rho();
+		}
 	} else {
 		cps.update_Tp(iT, T, iP, p);
 		_rho = cps.rho();

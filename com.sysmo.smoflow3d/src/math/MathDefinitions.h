@@ -18,6 +18,7 @@
 
 #include <cmath>
 #include <limits>
+#include <math.h>
 
 namespace smoflow {
 namespace m {
@@ -42,6 +43,11 @@ namespace m {
 	}
 	inline bool isNumber(double value) {
 		return !(isNaN(value) || isInf(value));
+	}
+
+	inline bool isEqualFloat (double x, double y) {
+		long double diff = x - y;
+		return (std::fabs(diff) < 5 * m::eps);
 	}
 
 	inline double pow(const double& x, const double& y) {
