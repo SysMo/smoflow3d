@@ -19,6 +19,7 @@ public:
 	SmoCoolPropStateClass(Fluid* pFluid) : CoolPropStateClassSI(pFluid) {};
 	double Pr();
 	double gamma();
+	double beta();
 };
 
 class MediumState_FluidCoolProp : public MediumState {
