@@ -28,6 +28,15 @@ double SmoCoolPropStateClass::Pr() {
 	}
 }
 
+double SmoCoolPropStateClass::beta() {
+	if (!TwoPhase) {
+		return _rho * dvdT_constp();
+	} else {
+		std::cout << "Warning: Calculating beta = dv_dt_p in the two-phase region!" << std::endl;
+		return _rho * interp_linear(_Q, SatL->dvdT_constp(), SatV->dvdT_constp());
+	}
+}
+
 MediumState_FluidCoolProp::MediumState_FluidCoolProp(Medium_CompressibleFluid_CoolProp* medium)
 : MediumState(medium), pFluid(medium->fluid), cps(pFluid){
 	cps.enable_EXTTP();
@@ -243,11 +252,7 @@ double MediumState_FluidCoolProp::dvdt_p() {
 
 double MediumState_FluidCoolProp::beta()  {
 	if (!_beta) {
-		if (isTwoPhase()) {
-			RaiseError("Cannot calculate 'beta' in the two-phase region")
-		} else {
-			_beta = _rho * cps.dvdT_constp();
-		}
+		_beta = cps.beta();
 	}
 	return _beta;
 }
