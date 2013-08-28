@@ -36,10 +36,9 @@ public:
 	virtual void update_prho(double p, double rho);
 	virtual void update_ph(double p, double h);
 	virtual void update_ps(double p, double s);
-	virtual void update_px(double p, double x);
-	virtual void update_Tx(double T, double x);
+	virtual void update_pq(double p, double q);
+	virtual void update_Tq(double T, double q);
 
-	virtual double x();
 	virtual double u();
 	virtual double s();
 	virtual double cp();
@@ -56,6 +55,7 @@ public:
 	virtual double Pr();
 	virtual double gamma();
 	// Two-phase functions
+	virtual double q();
 	virtual bool isSupercritical();
 	virtual bool isTwoPhase();
 	virtual double deltaTSat();
@@ -65,7 +65,7 @@ public:
 protected:
 	Fluid* pFluid;
 	SmoCoolPropStateClass cps;
-	double _x;
+	double _q;
 };
 
 #endif /* MEDIUMSTATEFLUIDCOOLPROP_H_ */

@@ -12,29 +12,34 @@
 #include "media/MediumState.h"
 #include "flow/FlowBase.h"
 
+#ifdef __cplusplus
+
 class PhaseSeparator {
 public:
-	enum PhaseSelection {
-		overall,
-		liquid,
-		gas,
-		signalSelect_Discrete,
-		signalSelect_Continuous
-	};
-public:
-	PhaseSeparator();
+	PhaseSeparator(PhaseSelection phaseSelection);
 	virtual ~PhaseSeparator();
-	void init(MediumState* port1State, FluidFlow* fluidFlow);
+	void init(MediumState* port1State);
 	MediumState* getPort2State() {return port2State;}
 	void updateState(double regulatingSignal);
 protected:
 	PhaseSelection phaseSelection;
-	PhaseSelection currentPhase;
+	//PhaseSelection currentPhase;
 	MediumState* port1State;
 	MediumState* port2State;
-	FluidFlow* fluidFlow;
 
 
 };
+
+#else // __cplusplus
+DECLARE_C_STRUCT(PhaseSeparator)
+#endif //__cplusplus
+
+BEGIN_C_LINKAGE
+PhaseSeparator* PhaseSeparator_new(PhaseSelection phaseSelection);
+void PhaseSeparator_init(PhaseSeparator* component,	MediumState* port1State);
+MediumState* PhaseSeparator_getPort2State(PhaseSeparator* component);
+void PhaseSeparator_updateState(PhaseSeparator* component,
+		double regulatingSignal);
+END_C_LINKAGE
 
 #endif /* PHASESEPARATOR_H_ */

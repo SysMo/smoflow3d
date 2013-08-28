@@ -55,7 +55,7 @@ void testCriticalPoint() {
 void testTwoPhase() {
 	Medium* fluid = Medium_get(1);
 	MediumState* fp1 = MediumState_new(fluid);
-	fp1->update_px(10.34736e5, 0.7503882);
+	fp1->update_pq(10.34736e5, 0.7503882);
 	std::cout << "T = " << fp1->T() << std::endl;
 	std::cout << "cv = " << fp1->cv() << std::endl;
 	std::cout << "dp_dT_rho = " << fp1->dpdt_v() << std::endl;

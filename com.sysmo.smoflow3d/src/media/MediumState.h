@@ -19,6 +19,14 @@ typedef struct {
 	double rho;
 	double h;
 } BasicState;
+
+typedef enum {
+	PhaseSelection_Overall,
+	PhaseSelection_Liquid,
+	PhaseSelection_Gas,
+	PhaseSelection_varDiscrete,
+	PhaseSelection_varContinuous
+} PhaseSelection;
 END_C_LINKAGE
 
 
@@ -39,14 +47,13 @@ public:
 	virtual void update_prho(double p, double rho);
 	virtual void update_ph(double p, double h);
 	virtual void update_ps(double p, double s);
-	virtual void update_px(double p, double x);
-	virtual void update_Tx(double T, double x);
+	virtual void update_pq(double p, double q);
+	virtual void update_Tq(double T, double q);
 
 	double T();
 	double p();
 	double rho();
 	double h();
-	virtual double x(); // Gas mass fraction
 	virtual double s();
 	virtual double u();
 	virtual double cp();
@@ -63,6 +70,7 @@ public:
 	virtual double R(); //mass-specific gas constant [J/kg/K]
 
 	// Two-phase related functions
+	virtual double q(); // Gas mass fraction
 	virtual bool isSupercritical();
 	virtual bool isTwoPhase();
 	virtual double deltaTSat();
@@ -135,7 +143,7 @@ double MediumState_R(MediumState* mstate);
 // Two-phase related functions
 int MediumState_isSupercritical(MediumState* mstate);
 int MediumState_isTwoPhase(MediumState* mstate);
-double MediumState_x(MediumState* mstate);
+double MediumState_q(MediumState* mstate);
 double MediumState_deltaTSat(MediumState* mstate);
 double MediumState_TSat(MediumState* mstate);
 

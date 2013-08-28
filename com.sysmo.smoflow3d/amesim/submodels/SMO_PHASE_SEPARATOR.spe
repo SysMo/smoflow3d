@@ -4,18 +4,47 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>10</SUB_ID_MAX>
+  <SUB_ID_MAX>11</SUB_ID_MAX>
   <DEFAULT_ICON>smo_phase_separator</DEFAULT_ICON>
   <SUB_LABEL>phase separator (gas/liquid)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>5</I_STORES_NUMBER>
   <P_STORES_NUMBER>5</P_STORES_NUMBER>
+  <HAS_NO_CALC>1</HAS_NO_CALC>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>11</SUB_ID>
+    <TITLE>phase selection method</TITLE>
+    <VARNAME>phaseSelectionMethod</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>5</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>overall (no phase separation)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>liquid</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>gas</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>selected by input (discrete)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>selected by input (continuous)</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+  </IPARAMS_LIST>
   <EVARS_LIST>
    <PORT>
     <EVAR>
      <SUB_ID>10</SUB_ID>
-     <ORIG_TITLE>flow index at port 1</ORIG_TITLE>
      <VARNAME>port1FlowIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
@@ -68,9 +97,9 @@
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
-     <IO>3</IO>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>null</UNITS>
-     <DEF_VALUE>0</DEF_VALUE>
     </EVAR>
    </PORT>
   </EVARS_LIST>

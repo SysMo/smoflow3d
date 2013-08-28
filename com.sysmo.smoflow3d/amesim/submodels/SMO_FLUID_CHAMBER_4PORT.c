@@ -276,7 +276,7 @@ void smo_fluid_chamber_4port_(int *n, double *stateIndex
    *temperature = MediumState_T(_fluidChamberState);
    *density = MediumState_rho(_fluidChamberState);
    *specificEnthalpy = MediumState_h(_fluidChamberState);
-   *gasMassFraction = MediumState_x(_fluidChamberState);
+   *gasMassFraction = MediumState_q(_fluidChamberState);
    *superHeat  = MediumState_deltaTSat(_fluidChamberState);
    *totalMass  = FluidChamber_getFluidMass(_fluidChamber);
 

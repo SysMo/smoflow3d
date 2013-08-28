@@ -1,5 +1,5 @@
 /* Submodel SMO_PHASE_SEPARATOR skeleton created by AME Submodel editing utility
-   Wed Aug 28 11:46:30 2013 */
+   Wed Aug 28 18:02:52 2013 */
 
 
 
@@ -27,24 +27,40 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_PHASE_SEPARATOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "flow/PhaseSeparator.h"
+
+#define _component ps[0]
+#define _port2StateIndex ic[0]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_phase_separatorin_(int *n, int ic[5], void *ps[5]
-      , double *regSignal)
+
+/* There is 1 integer parameter:
+
+   phaseSelectionMethod phase selection method
+*/
+
+void smo_phase_separatorin_(int *n, int ip[1], int ic[5], void *ps[5])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
+   int phaseSelectionMethod;
+
+   phaseSelectionMethod = ip[0];
    loop = 0;
    error = 0;
-
-/* Assign default values to input(s) with default.  */
-
-   *regSignal =     0.00000000000000e+000;
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
+
+/*   Integer parameter checking:   */
+
+   if (phaseSelectionMethod < 1 || phaseSelectionMethod > 5)
+   {
+      amefprintf(stderr, "\nphase selection method must be in range [1..5].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -59,6 +75,19 @@ void smo_phase_separatorin_(int *n, int ic[5], void *ps[5]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   PhaseSelection phaseSelection;
+   if (phaseSelectionMethod == 1) {
+	   phaseSelection = PhaseSelection_Overall;
+   } else if (phaseSelectionMethod == 2) {
+	   phaseSelection = PhaseSelection_Liquid;
+   } else if (phaseSelectionMethod == 3) {
+	   phaseSelection = PhaseSelection_Gas;
+   } else if (phaseSelectionMethod == 4) {
+	   phaseSelection = PhaseSelection_varDiscrete;
+   } else {
+	   phaseSelection = PhaseSelection_varContinuous;
+   }
+   _component = PhaseSeparator_new(phaseSelection);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -76,21 +105,28 @@ void smo_phase_separatorin_(int *n, int ic[5], void *ps[5]
 
    Port 3 has 1 variable:
 
-      1 regSignal     regulating signal [null] basic variable input with default 0.000000e+000
+      1 regSignal     regulating signal [null] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.
 
 */
 
+#if 0
+
+/* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
+
 void smo_phase_separator_(int *n, double *port1StateIndex
       , double *port2StateIndex, double *port2FlowIndex
-      , double *regSignal, int ic[5], void *ps[5])
+      , double *regSignal, int ip[1], int ic[5], void *ps[5])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
+   int phaseSelectionMethod;
+
+   phaseSelectionMethod = ip[0];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -116,15 +152,19 @@ void smo_phase_separator_(int *n, double *port1StateIndex
 /*   *port2FlowIndex /= ??; CONVERSION UNKNOWN */
 }
 
+#endif
 extern double smo_phase_separator_macro0_(int *n
-      , double *port1StateIndex, double *regSignal, int ic[5]
-      , void *ps[5])
+      , double *port1StateIndex, double *regSignal, int ip[1]
+      , int ic[5], void *ps[5])
 
 {
    double port2StateIndex;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
+   int phaseSelectionMethod;
+
+   phaseSelectionMethod = ip[0];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -139,6 +179,14 @@ extern double smo_phase_separator_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   if (firstc_()) {
+	   MediumState* port1State = MediumState_get(*port1StateIndex);
+	   PhaseSeparator_init(_component, port1State);
+	   MediumState* port2State = PhaseSeparator_getPort2State(_component);
+	   _port2StateIndex = SmoComponent_getInstanceIndex((SmoComponent*)port2State);
+   }
+   PhaseSeparator_updateState(_component, *regSignal);
+   port2StateIndex = _port2StateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
