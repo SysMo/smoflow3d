@@ -139,24 +139,6 @@ extern double smo_phase_separator_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   if (firstc_()) {
-	   // Get the inlet state and wall node
-	   _inletFluidState = MediumState_get(*stateIndexInlet);
-	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
-	   // Initialize outlet
-	   Pipe_HeatExch_NoPrDr_NoMassAcc_initOutletState(
-			   _component, _inletFluidState, wallNode);
-	   _outletFluidState =
-			   Pipe_HeatExch_NoPrDr_NoMassAcc_getOutletState(_component);
-	   _outletFluidStateIndex = SmoComponent_getInstanceIndex(
-			   _outletFluidState);
-	   *outletStateValue = Pipe_HeatExch_NoPrDr_NoMassAcc_getOutletStateValue(
-			   _component);
-   } else {
-	   Pipe_HeatExch_NoPrDr_NoMassAcc_updateOutletState(
-			   _component, *outletStateValue);
-   }
-   stateIndexOutlet = _outletFluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
