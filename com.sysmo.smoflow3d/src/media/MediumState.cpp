@@ -248,6 +248,13 @@ void MediumState_update_ps(MediumState* mstate, double p, double s) {
 	mstate->update_ps(p, s);
 }
 
+void MediumState_update_pq(MediumState* mstate, double p, double q) {
+	mstate->update_pq(p, q);
+}
+
+void MediumState_update_Tq(MediumState* mstate, double T, double q) {
+	mstate->update_Tq(T, q);
+}
 
 double MediumState_T(MediumState* mstate) {
 	return mstate->T();

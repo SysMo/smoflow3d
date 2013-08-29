@@ -121,6 +121,8 @@ void MediumState_update_Trho(MediumState* mstate, double T, double rho);
 void MediumState_update_prho(MediumState* mstate, double p, double rho);
 void MediumState_update_ph(MediumState* mstate, double p, double h);
 void MediumState_update_ps(MediumState* mstate, double p, double s);
+void MediumState_update_pq(MediumState* mstate, double p, double q);
+void MediumState_update_Tq(MediumState* mstate, double T, double q);
 
 double MediumState_T(MediumState* mstate);
 double MediumState_p(MediumState* mstate);

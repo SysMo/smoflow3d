@@ -132,36 +132,38 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-Medium* fluid = Medium_get(fluidIndex);
-_fluidChamber = FluidChamber_new(fluid);
-FluidChamber_setVolume(_fluidChamber, volume);
-_fluidChamberState = FluidChamber_getFluidState(_fluidChamber);
-_fluidChamberStateIndex = MediumState_index(_fluidChamberState);
+   Medium* fluid = Medium_get(fluidIndex);
+   _fluidChamber = FluidChamber_new(fluid);
+   FluidChamber_setVolume(_fluidChamber, volume);
+   _fluidChamberState = FluidChamber_getFluidState(_fluidChamber);
+   _fluidChamberStateIndex = MediumState_index(_fluidChamberState);
 
-if (stateVariableSelection == 1) {
-	FluidChamber_selectStates(_fluidChamber, iT, iD);
-} else if (stateVariableSelection == 2) {
-	FluidChamber_selectStates(_fluidChamber, iP, iT);
-} else if (stateVariableSelection == 3) {
-	FluidChamber_selectStates(_fluidChamber, iP, iD);
-} else if (stateVariableSelection == 4) {
-	FluidChamber_selectStates(_fluidChamber, iP, iH);
-} else {
-    amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-    amefprintf(stderr, "Terminating the program.\n");
-    AmeExit(1);
-}
+   if (stateVariableSelection == 1) {
+	   FluidChamber_selectStates(_fluidChamber, iT, iD);
+   } else if (stateVariableSelection == 2) {
+	   FluidChamber_selectStates(_fluidChamber, iP, iT);
+   } else if (stateVariableSelection == 3) {
+	   FluidChamber_selectStates(_fluidChamber, iP, iD);
+   } else if (stateVariableSelection == 4) {
+	   FluidChamber_selectStates(_fluidChamber, iP, iH);
+   } else {
+	   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
+	   amefprintf(stderr, "Terminating the program.\n");
+	   AmeExit(1);
+   }
 
-if (initConditionsChoice == 1) {
-	MediumState_update_Tp(_fluidChamberState, initialTemperature, initialPressure);
-} else if (initConditionsChoice == 2) {
-	MediumState_update_Tp(_fluidChamberState, initialTemperatureC + 273.15, initialPressure);
-} else {
-    amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-    amefprintf(stderr, "Terminating the program.\n");
-    AmeExit(1);
-}
-FluidChamber_getStateValues(_fluidChamber, state1, state2, 1);
+   if (initConditionsChoice == 1) {
+	   MediumState_update_Tp(_fluidChamberState, initialTemperature, initialPressure);
+   } else if (initConditionsChoice == 2) {
+	   MediumState_update_Tp(_fluidChamberState, initialTemperatureC + 273.15, initialPressure);
+   } else if (initConditionsChoice == 3) {
+   	   MediumState_update_pq(_fluidChamberState, initialPressure, initialGasMassFraction);
+   } else {
+	   amefprintf(stderr, "\nFatal error in %s instance %d.\nUnsupported type of initialization.\n", _SUBMODELNAME_, *n);
+	   amefprintf(stderr, "Terminating the program.\n");
+	   AmeExit(1);
+   }
+   FluidChamber_getStateValues(_fluidChamber, state1, state2, 1);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
