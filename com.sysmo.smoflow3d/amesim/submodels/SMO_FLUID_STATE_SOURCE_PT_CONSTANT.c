@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SOURCE_PT_CONSTANT skeleton created by AME Submodel editing utility
-   Sat Aug 24 14:39:25 2013 */
+   Thu Aug 29 09:25:43 2013 */
 
 
 
@@ -49,7 +49,7 @@ REVISIONS :
 void smo_fluid_state_source_pt_constantin_(int *n, double rp[2]
       , int ip[1], int ic[1], void *ps[1], double *stateIndex
       , double *pressure, double *temperature, double *temperatureC
-      , double *density, double *enthalpy, double *xx)
+      , double *density, double *enthalpy, double *gasMassFraction)
 
 {
    int loop, error;
@@ -80,7 +80,7 @@ void smo_fluid_state_source_pt_constantin_(int *n, double rp[2]
    *temperatureC = ??;
    *density    = ??;
    *enthalpy   = ??;
-   *xx         = ??;
+   *gasMassFraction = ??;
 */
 
 
@@ -124,7 +124,7 @@ void smo_fluid_state_source_pt_constantin_(int *n, double rp[2]
    *temperatureC = MediumState_T(_fluidState) - 273.15;
    *density = MediumState_rho(_fluidState);
    *enthalpy = MediumState_h(_fluidState);
-   *xx = 0.0; //:TODO: (Nasko) compute gas mass fraction
+   *gasMassFraction = MediumState_q(_fluidState);
 
    *stateIndex = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -140,12 +140,12 @@ void smo_fluid_state_source_pt_constantin_(int *n, double rp[2]
 
 /*  There are 6 internal variables.
 
-      1 pressure         pressure          [bar]     fixed
-      2 temperature      temperature       [K]       fixed
-      3 temperatureC     temperature (�C)  [degC]    fixed
-      4 density          density           [kg/m**3] fixed
-      5 enthalpy         specific enthalpy [kJ/kg]   fixed
-      6 xx               gas mass fraction [null]    fixed
+      1 pressure            pressure          [bar]     fixed
+      2 temperature         temperature       [K]       fixed
+      3 temperatureC        temperature (�C)  [degC]    fixed
+      4 density             density           [kg/m**3] fixed
+      5 enthalpy            specific enthalpy [kJ/kg]   fixed
+      6 gasMassFraction     gas mass fraction [null]    fixed
 */
 
 #if 0

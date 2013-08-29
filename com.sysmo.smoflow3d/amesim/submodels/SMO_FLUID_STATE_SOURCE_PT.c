@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SOURCE_PT skeleton created by AME Submodel editing utility
-   Sat Aug 10 16:36:44 2013 */
+   Thu Aug 29 09:30:15 2013 */
 
 
 
@@ -100,16 +100,17 @@ void smo_fluid_state_source_ptin_(int *n, int ip[1], int ic[1]
 
 /*  There are 4 internal variables.
 
-      1 temperatureC     temperature (°C)  [degC]          basic variable
-      2 density          density           [kg/m**3]       basic variable
-      3 enthalpy         specific enthalpy [kJ/kg -> J/kg] basic variable
-      4 xx               gas mass fraction [null]          basic variable
+      1 temperatureC        temperature (°C)  [degC]          basic variable
+      2 density             density           [kg/m**3]       basic variable
+      3 enthalpy            specific enthalpy [kJ/kg -> J/kg] basic variable
+      4 gasMassFraction     gas mass fraction [null]          basic variable
 */
 
 void smo_fluid_state_source_pt_(int *n, double *stateIndex
       , double *flowIndex, double *pressure, double *temperature
       , double *temperatureC, double *density, double *enthalpy
-      , double *xx, int ip[1], int ic[1], void *ps[1], int *flag)
+      , double *gasMassFraction, int ip[1], int ic[1], void *ps[1]
+      , int *flag)
 
 {
    int loop, logi;
@@ -133,7 +134,7 @@ void smo_fluid_state_source_pt_(int *n, double *stateIndex
    *temperatureC = ??;
    *density    = ??;
    *enthalpy   = ??;
-   *xx         = ??;
+   *gasMassFraction = ??;
 */
 
 
@@ -142,7 +143,7 @@ void smo_fluid_state_source_pt_(int *n, double *stateIndex
    *temperatureC = *temperature - 273.15;
    *density = MediumState_rho(_fluidState);
    *enthalpy = MediumState_h(_fluidState);
-   *xx = 0.0; //:TODO: (Nasko) compute gas mass fraction
+   *gasMassFraction = MediumState_q(_fluidState);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

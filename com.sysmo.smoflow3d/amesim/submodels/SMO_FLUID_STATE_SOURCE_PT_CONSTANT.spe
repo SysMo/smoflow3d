@@ -118,7 +118,7 @@
    <IVAR>
     <SUB_ID>43</SUB_ID>
     <TITLE>gas mass fraction</TITLE>
-    <VARNAME>xx</VARNAME>
+    <VARNAME>gasMassFraction</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>5</TYPE>
     <DIMENSION>1</DIMENSION>
