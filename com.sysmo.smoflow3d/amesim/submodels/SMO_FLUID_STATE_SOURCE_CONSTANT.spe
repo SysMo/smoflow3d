@@ -16,7 +16,7 @@
   <RPARAMS_LIST>
    <RPARAM>
     <SUB_ID>49</SUB_ID>
-    <TITLE>initial pressure</TITLE>
+    <TITLE>pressure</TITLE>
     <VARNAME>initialPressure</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>3.00000000000000e+000</DEF_VALUE>
@@ -27,7 +27,7 @@
    </RPARAM>
    <RPARAM>
     <SUB_ID>50</SUB_ID>
-    <TITLE>initial temperature (K)</TITLE>
+    <TITLE>temperature</TITLE>
     <VARNAME>initialTemperature</VARNAME>
     <VISIBILITY>(initConditionsChoice == 1)</VISIBILITY>
     <DEF_VALUE>3.00000000000000e+002</DEF_VALUE>
@@ -38,7 +38,7 @@
    </RPARAM>
    <RPARAM>
     <SUB_ID>54</SUB_ID>
-    <TITLE>initial specific enthalpy</TITLE>
+    <TITLE>specific enthalpy</TITLE>
     <VARNAME>initialSpecificEnthalpy</VARNAME>
     <VISIBILITY>(initConditionsChoice == 2)</VISIBILITY>
     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
@@ -49,7 +49,7 @@
    </RPARAM>
    <RPARAM>
     <SUB_ID>51</SUB_ID>
-    <TITLE>initial gas mass fraction</TITLE>
+    <TITLE>gas mass fraction</TITLE>
     <VARNAME>initialGasMassFraction</VARNAME>
     <VISIBILITY>(initConditionsChoice == 3)</VISIBILITY>
     <DEF_VALUE>5.00000000000000e-001</DEF_VALUE>
@@ -152,7 +152,7 @@
   <IVARS_LIST>
    <IVAR>
     <SUB_ID>38</SUB_ID>
-    <TITLE>pressure</TITLE>
+    <TITLE>pressure </TITLE>
     <VARNAME>pressure</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>5</TYPE>
@@ -165,7 +165,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>39</SUB_ID>
-    <TITLE>temperature</TITLE>
+    <TITLE>temperature </TITLE>
     <VARNAME>temperature</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>5</TYPE>
@@ -204,7 +204,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>55</SUB_ID>
-    <TITLE>specific enthalpy</TITLE>
+    <TITLE>specific enthalpy </TITLE>
     <VARNAME>specificEnthalpy</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>5</TYPE>
@@ -217,7 +217,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>43</SUB_ID>
-    <TITLE>gas mass fraction</TITLE>
+    <TITLE>gas mass fraction </TITLE>
     <VARNAME>gasMassFraction</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>5</TYPE>

@@ -15,7 +15,7 @@
   <RPARAMS_LIST>
    <RPARAM>
     <SUB_ID>9</SUB_ID>
-    <TITLE>initial temperature</TITLE>
+    <TITLE>temperature</TITLE>
     <VARNAME>initTemperature</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>

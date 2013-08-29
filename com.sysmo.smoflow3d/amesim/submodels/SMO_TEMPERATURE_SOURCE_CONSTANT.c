@@ -1,5 +1,5 @@
 /* Submodel SMO_TEMPERATURE_SOURCE_CONSTANT skeleton created by AME Submodel editing utility
-   Sat Aug 24 14:39:08 2013 */
+   Thu Aug 29 14:26:53 2013 */
 
 
 
@@ -36,7 +36,7 @@ REVISIONS :
 
 /* There is 1 real parameter:
 
-   initTemperature initial temperature [K]
+   initTemperature temperature [K]
 */
 
 void smo_temperature_source_constantin_(int *n, double rp[1]
