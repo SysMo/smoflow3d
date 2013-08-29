@@ -40,7 +40,7 @@
     <SUB_ID>54</SUB_ID>
     <TITLE>initial specific enthalpy</TITLE>
     <VARNAME>initialSpecificEnthalpy</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>(initConditionsChoice == 2)</VISIBILITY>
     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
     <VALUE>0.00000000000000e+000</VALUE>
     <MIN_VALUE>-1.00000000000000e+030</MIN_VALUE>
