@@ -11,7 +11,6 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_zero_flow" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_constant" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt_constant" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_source" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_generic_property_sensor" />
@@ -47,7 +46,6 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_zero_flow" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_constant" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt_constant" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_source" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_generic_property_sensor" />
