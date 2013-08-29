@@ -71,11 +71,11 @@ void MediumState::update_ps(double p, double s) {
 	RaiseError("Unimplemented virtual method 'MediumState::update_ps'")
 }
 
-void MediumState::update_px(double p, double x) {
+void MediumState::update_pq(double p, double q) {
 	RaiseError("Unimplemented virtual method 'MediumState::update_px'")
 }
 
-void MediumState::update_Tx(double T, double x) {
+void MediumState::update_Tq(double T, double q) {
 	RaiseError("Unimplemented virtual method 'MediumState::update_Tx'")
 }
 
@@ -166,8 +166,8 @@ bool MediumState::isTwoPhase() {
 	RaiseError("Unimplemented virtual method 'MediumState::isTwoPhase()'")
 }
 
-double MediumState::x() {
-	RaiseError("Unimplemented virtual method 'MediumState::x()'")
+double MediumState::q() {
+	RaiseError("Unimplemented virtual method 'MediumState::q()'")
 }
 
 double MediumState::deltaTSat() {
@@ -325,8 +325,8 @@ int MediumState_isTwoPhase(MediumState* mstate) {
 	return mstate->isTwoPhase();
 }
 
-double MediumState_x(MediumState* mstate) {
-	return mstate->x();
+double MediumState_q(MediumState* mstate) {
+	return mstate->q();
 }
 
 double MediumState_deltaTSat(MediumState* mstate) {

@@ -74,7 +74,7 @@ void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 	}
 	post_update();
 	_h = cps.h();
-	_x = cps.Q();
+	_q = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
@@ -85,7 +85,7 @@ void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
 	post_update();
 	_p = cps.p();
 	_h = cps.h();
-	_x = cps.Q();
+	_q = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_prho(double p, double rho) {
@@ -93,15 +93,22 @@ void MediumState_FluidCoolProp::update_prho(double p, double rho) {
 	_p = p;
 	_rho = rho;
 	if (ValidNumber(_T)) {
-		_T = pFluid->temperature_prho(_p, _rho, _T);
-		cps.update_Trho(iT, _T, iD, _rho);
+		try {
+			_T = pFluid->temperature_prho(_p, _rho, _T);
+			cps.update_Trho(iT, _T, iD, _rho);
+		} catch (SolutionError e) {
+			std::cout << "Update_prho(p = " << p << ", rho = " << rho
+					<< ") failed, trying to calculate without using cache variables\n";
+			cps.update_prho(iP, _p, iD, _rho);
+			_T = cps.T();
+		}
 	} else {
 		cps.update_prho(iP, _p, iD, _rho);
 		_T = cps.T();
 	}
 	post_update();
 	_h = cps.h();
-	_x = cps.Q();
+	_q = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_ph(double p, double h) {
@@ -126,7 +133,7 @@ void MediumState_FluidCoolProp::update_ph(double p, double h) {
 		_rho = cps.rho();
 	}
 	post_update();
-	_x = cps.Q();
+	_q = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_ps(double p, double s) {
@@ -145,32 +152,32 @@ void MediumState_FluidCoolProp::update_ps(double p, double s) {
 	_T = cps.T();
 	_rho = cps.rho();
 	_h = cps.h();
-	_x = cps.Q();
+	_q = cps.Q();
 }
 
-void MediumState_FluidCoolProp::update_px(double p, double x) {
+void MediumState_FluidCoolProp::update_pq(double p, double q) {
 	pre_update();
 	_p = p;
-	_x = x;
-	cps.update_twophase(iP, p, iQ, x);
+	_q = q;
+	cps.update_twophase(iP, p, iQ, q);
 	post_update();
 	_T = cps.T();
 	_rho = cps.rho();
 	_h = cps.h();
 }
 
-void MediumState_FluidCoolProp::update_Tx(double T, double x) {
+void MediumState_FluidCoolProp::update_Tq(double T, double q) {
 	pre_update();
 	_T = T;
-	_x = x;
-	cps.update_twophase(iT, T, iQ, x);
+	_q = q;
+	cps.update_twophase(iT, T, iQ, q);
 	post_update();
 	_p = cps.p();
 	_rho = cps.rho();
 	_h = cps.h();
 }
 
-double MediumState_FluidCoolProp::x() {
+double MediumState_FluidCoolProp::q() {
 	if (isTwoPhase()) {
 		return cps.Q();
 	} else {
@@ -259,14 +266,14 @@ double MediumState_FluidCoolProp::beta()  {
 
 double MediumState_FluidCoolProp::mu() {
 	if (!_mu) {
-		_mu = pFluid->viscosity_Trho(_T,_rho);
+		_mu = cps.viscosity();
 	}
 	return _mu;
 }
 
 double MediumState_FluidCoolProp::lambda() {
 	if (!_lambda) {
-		_lambda = pFluid->conductivity_Trho(_T,_rho);
+		_lambda = cps.conductivity();
 	}
 	return _lambda;
 }
@@ -278,7 +285,6 @@ double MediumState_FluidCoolProp::R() {
 double MediumState_FluidCoolProp::Pr() {
 	if (!_Pr) {
 		_Pr = cps.Pr();
-		//_Pr = cp() * mu() / lambda();
 	}
 	return _Pr;
 }
@@ -286,7 +292,6 @@ double MediumState_FluidCoolProp::Pr() {
 double MediumState_FluidCoolProp::gamma() {
 	if (!_gamma) {
 		_gamma = cps.gamma();
-		//_gamma = cp() / cv();
 	}
 	return _gamma;
 }
