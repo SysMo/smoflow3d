@@ -20,4 +20,4 @@ install(TARGETS SmoFlowC
     ARCHIVE DESTINATION bin    
 )
 
-add_subdirectory(controller/instances)
+add_subdirectory(controller/CcH2DriveCycleController)

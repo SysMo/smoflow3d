@@ -1,5 +1,5 @@
 /*
- * DriveCycleController.h
+ * CcH2DriveCycleController.h
  *
  *  Created on: Oct 24, 2013
  *      Author: Atanas Pavlov
@@ -7,7 +7,7 @@
 
 #include "controller/StateMachineController.h"
 
-#define CONTROLLER_NAME DriveCycleController
+#define CONTROLLER_NAME CcH2DriveCycleController
 #define NUM_INPUTS 3
 #define NUM_OUTPUTS 4
 #define NUM_REAL_PARAMETERS 8

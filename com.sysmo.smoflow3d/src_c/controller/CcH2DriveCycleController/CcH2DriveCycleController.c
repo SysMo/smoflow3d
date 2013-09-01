@@ -1,11 +1,11 @@
 /*
- * DriveCycleController.c
+ * CcH2DriveCycleController.c
  *
  *  Created on: Oct 24, 2013
  *      Author: Atanas Pavlov
  */
 
-#include "DriveCycleController.h"
+#include "CcH2DriveCycleController.h"
 
 static const char *stateNames[NUMBER_OF_STATES] = {
 		"Cold refueling",
