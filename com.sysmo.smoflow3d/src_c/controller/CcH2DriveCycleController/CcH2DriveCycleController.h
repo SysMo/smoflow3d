@@ -79,7 +79,6 @@ typedef struct {
 typedef struct {
 	ControllerStateEnum currentState;
 	ControllerStateEnum nextState;
-	double timeLastTransition;
 } Locals;
 
 void new(StateMachineController* self);

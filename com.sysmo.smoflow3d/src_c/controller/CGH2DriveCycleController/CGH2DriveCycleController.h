@@ -8,9 +8,9 @@
 #include "controller/StateMachineController.h"
 
 #define CONTROLLER_NAME CGH2DriveCycleController
-#define NUM_INPUTS 3
-#define NUM_OUTPUTS 4
-#define NUM_REAL_PARAMETERS 8
+#define NUM_INPUTS 7
+#define NUM_OUTPUTS 3
+#define NUM_REAL_PARAMETERS 5
 #define NUM_INTEGER_PARAMETERS 2
 
 #define LOAD_COMPONENT_VARIABLES \
@@ -21,77 +21,73 @@
 
 typedef enum {
 	UNDEFINED = -1,
-	COLD_REFUELING,
-	WARM_REFUELING,
-	DRIVING_WITHOUT_HEAT_EXCHANGER,
-	DRIVING_WITH_HEAT_EXCHANGER,
-	STOP,
+	REFUELING,
+	DRIVING,
+	FINISH,
+	MIN_PRESSURE_REACHED_DURING_DRIVING,
+	MAX_TEMPERATURE_REACHED_DURING_REFUELING,
+	MIN_TEMPERATURE_REACHED_DURING_DRIVING,
+	TANK_OVERFLOW,
 	NUMBER_OF_STATES
 } ControllerStateEnum;
 
 typedef struct {
 	/** Real parameters */
-	/** Refueling pump speed*/
-	double refuelingPumpSpeed;
-	/** Minimum density in the tank*/
-	double rhoTankMin;
-	/** Minimum pressure in the tank*/
-	double pTankMin;
-	/** Refuelling final pressure (cold)*/
-	double pTankMaxCold;
-	/** Refuelling final pressure (warm)*/
-	double pTankMaxWarm;
-	/** Pressure to turn on permanently the heat exchanger*/
-	double pTankStartHE;
-	/** Pressure to turn off the heat exchanger*/
-	double pTankStopHE;
-	/** Density to turn on the heat exchanger permanently */
-	double rhoTankTurnOnHEPermanently;
+	/** Density for refueling*/
+	double tankMinDensity;
+	/** Maximum allowed density for refueling in the tank*/
+	double tankMaxDensity;
+	/** Minimal allowed temperature in the tank*/
+	double tankMinTemperature;
+	/** Maximal allowed temperature in the tank*/
+	double tankMaxTemperature;
+	/** Minimal allowed pressure in the tank*/
+	double tankMinPressure;
 
 	/** Integer parameters */
-	/** Refueling type (0 - cold, 1 - warm)*/
-	int refuelingType;
-	/** refuel on min pressure (0) or stop on min pressure (1)*/
-	int stopOnMinPressure;
-
+	/** Number refueling*/
+	int numRefuelings;
+	/** Stop after refueling (0 - no, 1 - yes=stop)*/
+	int stopAfterRefueling;
 } Parameters;
 
 typedef struct {
+	/** Simulation time */
+	double simTime;
 	/** Tank pressure*/
-	double pTank;
+	double tankPressure;
 	/** Tank temperature*/
-	double TTank;
+	double tankTemperature;
 	/** Tank density*/
-	double rhoTank;
+	double tankDensity;
+	/** Pressure ramp rate according to the table*/
+	double pressureRampRate;
+	/** Final refueling pressure according to the table*/
+	double finalRefuelingPressure;
+	/** Whether refueling is allowed (0 - no, 1 - yes=allowed) according to the table*/
+	double ifRefuel;
 } Inputs;
 
 typedef struct {
-	/** Refueling pump speed*/
-	double refuelingPumpSpeed;
-	/** CGH2 valve at the refueling station*/
-	double stationValveCGH2;
-	/** Valve for hydrogen extraction without HE*/
-	double extractionValve;
-	/** Valve for hydrogen extraction with HE*/
-	double extractionValveHE;
+	/** Refueling pressure at the beginning of refueling*/
+	double startingRefuelingPressure;
+	/** Desired pressure ramp rate for the station*/
+	double pressureRampRate;
+	/** Extraction valve signal (0 - off, 1 - on)*/
+	double extractionValveSignal;
 } Outputs;
 
 typedef struct {
 	ControllerStateEnum currentState;
 	ControllerStateEnum nextState;
-	double timeLastTransition;
+	double finalRefuelingPressure;
+	int numStartedRefuelings;
 } Locals;
 
 void new(StateMachineController* self);
-void setParameters(StateMachineController* self,
-		double *realParameterValues, int *integerParameterValues);
+void setParameters(StateMachineController* self, double *realParameterValues, int *integerParameterValues);
 void init(StateMachineController* self, int initialState);
 void setInputs(StateMachineController* self, double* inputValues);
 void getOutputs(StateMachineController* self, double* outputValues);
-void eventRefueling(StateMachineController* self);
-Boolean guardTankEmpty(StateMachineController* self);
-Boolean guardTankFull(StateMachineController* self, double maxPressure);
-Boolean guardTurnHeatExchangerOn(StateMachineController* self);
-Boolean guardTurnHeatExchangerOff(StateMachineController* self);
 int checkForTransition(StateMachineController* self);
 void switchState(StateMachineController* self);

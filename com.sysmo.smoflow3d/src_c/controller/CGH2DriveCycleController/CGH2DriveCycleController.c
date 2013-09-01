@@ -8,11 +8,13 @@
 #include "CGH2DriveCycleController.h"
 
 static const char *stateNames[NUMBER_OF_STATES] = {
-		"Cold refueling",
-		"Warm refueling",
-		"Driving without heat exchanger",
-		"Driving with heat exchanger",
-		"Stop"
+	"Refueling",
+	"Driving",
+	"Finish",
+	"Minimal pressure reached during driving",
+	"Maximal temperature reached during refueling",
+	"Minimal temperature reached during driving",
+	"Tank overflow"
 };
 
 void new(StateMachineController* self) {
@@ -30,116 +32,86 @@ void new(StateMachineController* self) {
 void setParameters(StateMachineController* self,
 		double *realParameterValues, int *integerParameterValues) {
 	LOAD_COMPONENT_VARIABLES
-	parameters->refuelingPumpSpeed = realParameterValues[0];
-	parameters->rhoTankMin = realParameterValues[1];
-	parameters->pTankMin = realParameterValues[2];
-	parameters->pTankMaxCold = realParameterValues[3];
-	parameters->pTankMaxWarm = realParameterValues[4];
-	parameters->pTankStartHE = realParameterValues[5];
-	parameters->pTankStopHE = realParameterValues[6];
-	parameters->rhoTankTurnOnHEPermanently = realParameterValues[7];
-	parameters->refuelingType = integerParameterValues[0];
-	parameters->stopOnMinPressure = integerParameterValues[1];
+	parameters->tankMinDensity = realParameterValues[0];
+	parameters->tankMaxDensity = realParameterValues[1];
+	parameters->tankMinTemperature = realParameterValues[2];
+	parameters->tankMaxTemperature = realParameterValues[3];
+	parameters->tankMinPressure = realParameterValues[4];
+
+	parameters->numRefuelings = integerParameterValues[0];
+	parameters->stopAfterRefueling = integerParameterValues[1];
 }
 
 void init(StateMachineController* self, int initialState) {
 	LOAD_COMPONENT_VARIABLES
 	locals->currentState = UNDEFINED;
 	locals->nextState = initialState;
+	locals->finalRefuelingPressure = 0.0;
+	locals->numStartedRefuelings = 0;
 	switchState(self);
 }
 
 void setInputs(StateMachineController* self, double* inputValues) {
 	LOAD_COMPONENT_VARIABLES
-	inputs->pTank = inputValues[0];
-	inputs->TTank = inputValues[1];
-	inputs->rhoTank = inputValues[2];
+	inputs->simTime = inputValues[0];
+	inputs->tankPressure = inputValues[1];
+	inputs->tankTemperature = inputValues[2];
+	inputs->tankDensity = inputValues[3];
+	inputs->pressureRampRate = inputValues[4];
+	inputs->finalRefuelingPressure = inputValues[5];
+	inputs->ifRefuel = inputValues[6];
 }
 
 void getOutputs(StateMachineController* self, double* outputValues) {
 	LOAD_COMPONENT_VARIABLES
-	outputValues[0] = outputs->refuelingPumpSpeed;
-	outputValues[1] = outputs->stationValveCGH2;
-	outputValues[2] = outputs->extractionValve;
-	outputValues[3] = outputs->extractionValveHE;
-
-}
-
-void eventRefueling(StateMachineController* self) {
-	LOAD_COMPONENT_VARIABLES
-	if (parameters->refuelingType == 0) {
-		locals->nextState = COLD_REFUELING;
-	} else {
-		locals->nextState = WARM_REFUELING;
-	}
-}
-
-Boolean guardTankEmpty(StateMachineController* self) {
-	LOAD_COMPONENT_VARIABLES
-	Boolean guard1 = (inputs->pTank < parameters->pTankMin);
-	if  (guard1) {
-		if (parameters->stopOnMinPressure) {
-			locals->nextState = STOP;
-		} else {
-			eventRefueling(self);
-		}
-		return 1;
-	}
-	Boolean guard2 = (inputs->rhoTank < parameters->rhoTankMin);
-	if (guard2) {
-		eventRefueling(self);
-		return 1;
-	}
-	return 0;
-}
-
-Boolean guardTankFull(StateMachineController* self, double maxPressure) {
-	LOAD_COMPONENT_VARIABLES
-	Boolean guard = (inputs->pTank >= maxPressure);
-	if (guard) {
-		locals->nextState = DRIVING_WITHOUT_HEAT_EXCHANGER;
-	}
-	return guard;
-}
-
-Boolean guardTurnHeatExchangerOn(StateMachineController* self) {
-	LOAD_COMPONENT_VARIABLES
-	Boolean guard = (inputs->pTank < parameters->pTankStartHE ||
-			inputs->rhoTank < parameters->rhoTankTurnOnHEPermanently);
-	if (guard) {
-		locals->nextState = DRIVING_WITH_HEAT_EXCHANGER;
-	}
-	return guard;
-}
-Boolean guardTurnHeatExchangerOff(StateMachineController* self) {
-	LOAD_COMPONENT_VARIABLES
-	Boolean guard = (inputs->pTank > parameters->pTankStopHE &&
-			inputs->rhoTank > parameters->rhoTankTurnOnHEPermanently);
-	if (guard) {
-		locals->nextState = DRIVING_WITHOUT_HEAT_EXCHANGER;
-	}
-	return guard;
+	outputValues[0] = outputs->startingRefuelingPressure;
+	outputValues[1] = outputs->pressureRampRate;
+	outputValues[2] = outputs->extractionValveSignal;
 }
 
 int checkForTransition(StateMachineController* self) {
 	LOAD_COMPONENT_VARIABLES
 	locals->nextState = UNDEFINED;
 	switch (locals->currentState) {
-	case COLD_REFUELING:
-		if (guardTankFull(self, parameters->pTankMaxCold)){}
+	case REFUELING:
+		if (inputs->tankDensity > parameters->tankMaxDensity) {
+			locals->nextState = TANK_OVERFLOW;
+		} else if (inputs->tankPressure >= locals->finalRefuelingPressure) {
+			if (locals->numStartedRefuelings == parameters->numRefuelings) {
+				if (parameters->stopAfterRefueling == 1) {
+					locals->nextState = FINISH;
+				} else {
+					locals->nextState = DRIVING;
+				}
+			} else {
+				locals->nextState = DRIVING;
+			}
+		} else if (inputs->tankTemperature > parameters->tankMaxTemperature) {
+			locals->nextState = MAX_TEMPERATURE_REACHED_DURING_REFUELING;
+		}
 		break;
-	case WARM_REFUELING:
-		if (guardTankFull(self, parameters->pTankMaxWarm)){}
+	case DRIVING:
+		if (inputs->tankDensity < parameters->tankMinDensity) {
+			if (locals->numStartedRefuelings == parameters->numRefuelings) {
+				locals->nextState = FINISH;
+			} else {
+				locals->nextState = REFUELING;
+			}
+		} else if (inputs->tankTemperature < parameters->tankMinTemperature) {
+			locals->nextState = MIN_TEMPERATURE_REACHED_DURING_DRIVING;
+		} else if (inputs->tankPressure < parameters->tankMinPressure) {
+			locals->nextState = MIN_PRESSURE_REACHED_DURING_DRIVING;
+		}
 		break;
-	case DRIVING_WITHOUT_HEAT_EXCHANGER:
-		if (guardTurnHeatExchangerOn(self)) {}
-		else if (guardTankEmpty(self)) {}
+	case FINISH:
 		break;
-	case DRIVING_WITH_HEAT_EXCHANGER:
-		if (guardTurnHeatExchangerOff(self)) {}
-		else if (guardTankEmpty(self)) {}
+	case MIN_PRESSURE_REACHED_DURING_DRIVING:
 		break;
-	case STOP:
+	case MAX_TEMPERATURE_REACHED_DURING_REFUELING:
+		break;
+	case MIN_TEMPERATURE_REACHED_DURING_DRIVING:
+		break;
+	case TANK_OVERFLOW:
 		break;
 	default:
 		self->platform->printError("Non existing state #%d", locals->currentState);
@@ -153,15 +125,17 @@ void switchState(StateMachineController* self) {
 	LOAD_COMPONENT_VARIABLES
 
 	if (locals->currentState == UNDEFINED) {
-		self->platform->printMessage("Time: %e: Controller '%s' setting initial state '(%d)%s'\n",
+		self->platform->printMessage(
+				"Time: %e: Controller '%s' setting initial state '(%d)%s'\n",
 				self->time, self->name->chars,
 				locals->nextState, stateNames[locals->nextState]);
-
 	} else {
-		self->platform->printMessage("Time: %e: Controller '%s' switching from state '(%d)%s' to state '(%d)%s'\n",
+		self->platform->printMessage(
+				"Time: %e: Controller '%s' switching from state '(%d)%s' to state '(%d)%s'\n",
 				self->time, self->name->chars,
 				locals->currentState, stateNames[locals->currentState],
 				locals->nextState, stateNames[locals->nextState]);
+
 		//Actions to be performed on state exit
 		switch (locals->currentState) {
 		default:
@@ -172,25 +146,31 @@ void switchState(StateMachineController* self) {
 	locals->nextState = UNDEFINED;
 
 	// Default output values
-	outputs->refuelingPumpSpeed = 0;
-	outputs->stationValveCGH2 = 0;
-	outputs->extractionValve = 0;
-	outputs->extractionValveHE = 0;
+	outputs->startingRefuelingPressure = 0.0;
+	outputs->pressureRampRate = 0.0;
+	outputs->extractionValveSignal = 0.0;
 
+	//Actions to be performed on state enter and set the values of the discrete output variables
 	switch (locals->currentState) {
-	case COLD_REFUELING:
-		outputs->refuelingPumpSpeed = parameters->refuelingPumpSpeed;
+	case REFUELING:
+		locals->finalRefuelingPressure = inputs->finalRefuelingPressure;
+		locals->numStartedRefuelings++;
+
+		outputs->startingRefuelingPressure = inputs->tankPressure;
+		outputs->pressureRampRate = inputs->pressureRampRate;
 		break;
-	case WARM_REFUELING:
-		outputs->stationValveCGH2 = 1;
+	case DRIVING:
+		outputs->extractionValveSignal = 1.0;
 		break;
-	case DRIVING_WITHOUT_HEAT_EXCHANGER:
-		outputs->extractionValve = 1;
+	case FINISH:
 		break;
-	case DRIVING_WITH_HEAT_EXCHANGER:
-		outputs->extractionValveHE = 1;
+	case MIN_PRESSURE_REACHED_DURING_DRIVING:
 		break;
-	case STOP:
+	case MAX_TEMPERATURE_REACHED_DURING_REFUELING:
+		break;
+	case MIN_TEMPERATURE_REACHED_DURING_DRIVING:
+		break;
+	case TANK_OVERFLOW:
 		break;
 	default:
 		self->platform->printError("Non existing state #%d", locals->currentState);
