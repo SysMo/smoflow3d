@@ -162,7 +162,7 @@ public:
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		// Correlation from VDI Heat Atlas F2.3
 		// Valid for 0.001 < Pr < inf
-		double f2 = m::pow(1 + m::pow(0.0322 / Pr, 11./20), -20./11);
+		double f2 = m::pow(1 + m::pow(0.322 / Pr, 11./20), -20./11);
 		double Nu = 0;
 		if ((topSide && (wallOverheat > 0) ) || (!topSide && (wallOverheat < 0))) {
 			if (Ra * f2 < 7e4) {
