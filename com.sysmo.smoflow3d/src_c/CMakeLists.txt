@@ -1,9 +1,6 @@
 #######################################
 # SmoFlowC Lib
 #######################################
-SET(CMAKE_C_FLAGS "-std=c99")
-#add_definitions( -DWINDOWS )
-
 add_library(SmoFlowC SHARED
     util/SmoObject.c 
     util/Common.c 
