@@ -630,7 +630,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>17</SUB_ID>
-    <TITLE>absolute viscosity</TITLE>
+    <TITLE>dynamic viscosity</TITLE>
     <VARNAME>mu</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>

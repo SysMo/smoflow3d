@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_PROPERTY_SENSOR skeleton created by AME Submodel editing utility
-   Mon Aug 26 13:55:41 2013 */
+   Thu Sep 5 10:19:41 2013 */
 
 
 
@@ -118,7 +118,7 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
+      3 temperatureC                temperature (°C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -131,7 +131,7 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
      13 gasMassFraction             gas mass fraction                   [null]              basic variable
      14 superheating                superheating                        [K]                 basic variable
      15 dpc                         (p - pcrit)                         [bar -> Pa]         basic variable
-     16 mu                          absolute viscosity                  [kg/m/s -> Ns/m**2] basic variable
+     16 mu                          dynamic viscosity                   [kg/m/s -> Ns/m**2] basic variable
      17 lambda                      thermal conductivity                [W/m/degC]          basic variable
      18 Pr                          Prandtl number                      [null]              basic variable
      19 sigma                       surface tension                     [N/m]               basic variable
