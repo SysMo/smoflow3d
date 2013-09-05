@@ -1,7 +1,6 @@
 #######################################
 # DriveCycleController Lib
 #######################################
-SET(CMAKE_C_FLAGS "-std=c99")
 SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 
 add_library(CcH2DriveCycleController SHARED

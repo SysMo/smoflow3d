@@ -10,6 +10,7 @@
 #define CODETIMING_H_
 
 #include "util/CommonDefinitions.h"
+#include <stdint.h>
 
 BEGIN_C_LINKAGE
 

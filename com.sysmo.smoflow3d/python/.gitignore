@@ -1,0 +1,6 @@
+*
+!.gitignore
+!*.pyx
+!*.pxd
+!*.py
+!*.cpp
