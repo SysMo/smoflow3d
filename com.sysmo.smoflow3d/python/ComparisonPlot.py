@@ -7,11 +7,14 @@ from matplotlib.ticker import FormatStrFormatter
 import matplotlib as mpl
 import matplotlib.colorbar as CB
 import numpy as np
-
+import os
 
 ############ GasPak #############
-path_GasPak = "/data/SysMo/SoftwareLibs/PyFluid"
-dataPath_GasPak = os.path.join(path_GasPak, 'FluidData')
+#path_GasPak = "/data/SysMo/SoftwareLibs/PyFluid"
+path_GasPak = r"F:\SysMo\SoftwareLibs\PyFluid"
+#os.environ['PATH'] +=";" + path_GasPak
+#print os.environ['PATH']
+#dataPath_GasPak = os.path.join(path_GasPak, 'FluidData')
 sys.path.append(path_GasPak)
 from GaspakFluidState import GaspakFluidState
 ph2_GasPak = GaspakFluidState('pH2', dataPath_GasPak)
