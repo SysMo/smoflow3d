@@ -250,9 +250,9 @@ void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
 			   _component, outletFlow);
 	   _inletFluidFlow = Pipe_HeatExch_NoPrDr_NoMassAcc_getInletFlow(
 			   _component);
-	   _inletFluidFlowIndex = SmoComponent_getInstanceIndex(_inletFluidFlow);
+	   _inletFluidFlowIndex = SmoObject_getInstanceIndex(_inletFluidFlow);
 	   _wallHeatFlow = Pipe_HeatExch_NoPrDr_NoMassAcc_getWallHeatFlow(_component);
-	   _wallHeatFlowIndex = SmoComponent_getInstanceIndex(_wallHeatFlow);
+	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
 
    Pipe_HeatExch_NoPrDr_NoMassAcc_compute(_component);
@@ -330,7 +330,7 @@ extern double smo_heatexchanger_rc_macro0_(int *n
 			   _component, _inletFluidState, wallNode);
 	   _outletFluidState =
 			   Pipe_HeatExch_NoPrDr_NoMassAcc_getOutletState(_component);
-	   _outletFluidStateIndex = SmoComponent_getInstanceIndex(
+	   _outletFluidStateIndex = SmoObject_getInstanceIndex(
 			   _outletFluidState);
 	   *outletStateValue = Pipe_HeatExch_NoPrDr_NoMassAcc_getOutletStateValue(
 			   _component);

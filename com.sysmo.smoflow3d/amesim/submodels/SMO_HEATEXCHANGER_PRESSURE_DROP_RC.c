@@ -238,9 +238,9 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
 	   FluidFlow* port3Flow = FluidFlow_get(*port3FlowIndex);
 	   Component_RC_init(_component, port3Flow);
 	   _port1FluidFlow = Component_RC_getPort1Flow(_component);
-	   _port1FluidFlowIndex = SmoComponent_getInstanceIndex(_port1FluidFlow);
+	   _port1FluidFlowIndex = SmoObject_getInstanceIndex(_port1FluidFlow);
 	   _wallHeatFlow = Component_RC_getWallHeatFlow(_component);
-	   _wallHeatFlowIndex = SmoComponent_getInstanceIndex(_wallHeatFlow);
+	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
 
    Component_RC_compute(_component);
@@ -315,7 +315,7 @@ extern double smo_heatexchanger_pressure_drop_rc_macro0_(int *n
 	   // Initialize outlet
 	   Component_RC_initState(_component, _port1FluidState, wallNode);
 	   _port3FluidState = Component_RC_getPort2State(_component);
-	   _port3FluidStateIndex = SmoComponent_getInstanceIndex(
+	   _port3FluidStateIndex = SmoObject_getInstanceIndex(
 			   _port3FluidState);
 	   MediumState_update_Tp(_port3FluidState, initT, initP);
 	   Component_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);

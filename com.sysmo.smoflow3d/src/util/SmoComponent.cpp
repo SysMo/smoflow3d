@@ -8,6 +8,18 @@
 
 #include "SmoComponent.h"
 
-size_t SmoComponent_getInstanceIndex(SmoComponent* component) {
+void SmoObject_setInstanceIndex(SmoObj* obj, int index) {
+	obj->instanceIndex = index;
+}
+
+int SmoObject_getInstanceIndex(SmoObj* obj) {
+	return obj->instanceIndex;
+}
+
+void SmoComponent_setInstanceIndex(SmoComponent* component, int index) {
+	component->instanceIndex = index;
+}
+
+int SmoComponent_getInstanceIndex(SmoComponent* component) {
 	return component->instanceIndex;
 }

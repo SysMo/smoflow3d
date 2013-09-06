@@ -20,6 +20,9 @@ class MechanicalCompressor : public FlowRComponent {
 public:
 	MechanicalCompressor();
 	virtual ~MechanicalCompressor();
+	virtual const char* getComponentName() {
+		return "SMO_MECHANICAL_COMPRESSOR";
+	}
 	virtual void init(MediumState* state1, MediumState* state2);
 	void setDisplacementVolume(double displacementVolume) {this->displacementVolume = displacementVolume;}
 	void setRotationalSpeed(double rotationalSpeed) {this->rotationalSpeed = rotationalSpeed;};

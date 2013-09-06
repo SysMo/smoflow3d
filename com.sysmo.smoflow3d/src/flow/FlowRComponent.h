@@ -14,7 +14,7 @@
 
 #ifdef __cplusplus
 
-class FlowRComponent {
+class FlowRComponent : public SmoComponent {
 public:
 	FlowRComponent();
 	virtual ~FlowRComponent();

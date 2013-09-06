@@ -14,7 +14,7 @@
 #ifdef __cplusplus
 
 #include "util/SmoComponent.h"
-struct FlowBase : public  SmoComponent {
+struct FlowBase : public  SmoObj {
 };
 
 struct HeatFlow : public FlowBase {
