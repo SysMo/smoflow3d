@@ -54,13 +54,12 @@ void MechanicalCompressor::init(MediumState* state1, MediumState* state2) {
 void MechanicalCompressor::compute() {
 	pressureRatio = state2->p() / state1->p();
 	double rotationalSpeedRPM = rotationalSpeed / (2 * M_PI) * 60;
-	if (pressureRatio < 1) {
-		RaiseError("Outlet pressure is smaller than inlet pressure for the compressor");
-	}
+
 	if (rotationalSpeed < 0) {
 		RaiseError("Compressor is not allowed to operate in reverse");
 	}
 
+	double enthalpyChangeReal = 0.0;
 	double volumetricFlowRate = 0;
 	if (volumetricFlowRateFunction != NULL) {
 		volumetricFlowRate = (*volumetricFlowRateFunction)(rotationalSpeedRPM, pressureRatio);
@@ -76,10 +75,12 @@ void MechanicalCompressor::compute() {
 	isentropicEfficiency = (*isentropicEfficiencyFunction)(rotationalSpeedRPM, pressureRatio);
 	m::limitVariable(isentropicEfficiency, 0, 1);
 
-	double sIn = state1->s();
-	outletFlowStateIdeal->update_ps(state2->p(), sIn);
-	double enthalpyChangeIdeal = outletFlowStateIdeal->h() - state1->h();
-	double enthalpyChangeReal = enthalpyChangeIdeal / isentropicEfficiency;
+	if (pressureRatio > 1) { //:TRICKY: Pin > Pout
+		double sIn = state1->s();
+		outletFlowStateIdeal->update_ps(state2->p(), sIn);
+		double enthalpyChangeIdeal = outletFlowStateIdeal->h() - state1->h();
+		enthalpyChangeReal = enthalpyChangeIdeal / isentropicEfficiency;
+	}
 	outletEnthalpyReal = state1->h() + enthalpyChangeReal;
 
 	compressorWork = massFlowRate * enthalpyChangeReal / mechanicalEfficiency;
