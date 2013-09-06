@@ -1,20 +1,20 @@
 /*
- * FlowRComponent.cpp
+ * FlowComponent_R_2Port.cpp
  *
  *  Created on: Jul 31, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "FlowRComponent.h"
+#include "FlowComponent_R_2Port.h"
 
-FlowRComponent::FlowRComponent() {
+FlowComponent_R_2Port::FlowComponent_R_2Port() {
 }
 
-FlowRComponent::~FlowRComponent() {
+FlowComponent_R_2Port::~FlowComponent_R_2Port() {
 }
 
-void FlowRComponent::init(MediumState* state1, MediumState* state2) {
+void FlowComponent_R_2Port::init(MediumState* state1, MediumState* state2) {
 	if (state1->getMedium() != state2->getMedium()) {
 		RaiseError("Different media connected to the flow component!");
 	}

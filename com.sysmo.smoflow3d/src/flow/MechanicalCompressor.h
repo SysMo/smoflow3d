@@ -11,12 +11,12 @@
 
 #include "math/Functors.h"
 #include "FlowBase.h"
-#include "FlowRComponent.h"
+#include "FlowComponent_R_2Port.h"
 
 #ifdef __cplusplus
 
 
-class MechanicalCompressor : public FlowRComponent {
+class MechanicalCompressor : public FlowComponent_R_2Port {
 public:
 	MechanicalCompressor();
 	virtual ~MechanicalCompressor();

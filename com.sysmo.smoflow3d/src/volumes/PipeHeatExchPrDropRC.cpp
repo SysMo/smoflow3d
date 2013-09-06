@@ -22,7 +22,6 @@ PipeHeatExchPrDrop_RC::~PipeHeatExchPrDrop_RC() {
 }
 
 void PipeHeatExchPrDrop_RC::_init() {
-	// TODO provide for different pressure drop and convection geometries
 	friction->init(port1State, port2State);
 	convection->init(port2State, port2State, wallNode);
 	convection->setLimitOutput(false);

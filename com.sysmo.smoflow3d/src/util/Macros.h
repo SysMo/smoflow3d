@@ -63,7 +63,7 @@
 	throw -1; \
 	} \
 
-#define RaiseComponentError(message, component) \
+#define RaiseComponentError(component, message) \
 	{ \
 		std::stringstream messageStream; \
 		messageStream << "\n" << \
