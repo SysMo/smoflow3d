@@ -19,3 +19,4 @@ install(TARGETS SmoFlowC
 
 add_subdirectory(controller/CcH2DriveCycleController)
 add_subdirectory(controller/CGH2DriveCycleController)
+add_subdirectory(controller/LLNLDriveCycleController)

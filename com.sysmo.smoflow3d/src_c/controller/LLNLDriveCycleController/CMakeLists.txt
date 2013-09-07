@@ -3,11 +3,11 @@
 #######################################
 SET(CMAKE_SHARED_LIBRARY_PREFIX "")
 
-add_library(CGH2DriveCycleController SHARED
-    CGH2DriveCycleController.c
+add_library(LLNLDriveCycleController SHARED
+    LLNLDriveCycleController.c
 )
 
-install(TARGETS CGH2DriveCycleController
+install(TARGETS LLNLDriveCycleController
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION bin    
     ARCHIVE DESTINATION bin    
