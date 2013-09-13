@@ -35,6 +35,8 @@ add_library(SmoFlow SHARED
     util/SimulationEnvironment.cpp
     math/Functors.cpp
     math/Interpolators.cpp
+    io_control/CSVProcessor.cpp
+    io_control/DriveCycleReader.cpp
     media/Medium.cpp
     media/SolidRegistryClass.cpp
     media/MediumState.cpp
@@ -42,7 +44,7 @@ add_library(SmoFlow SHARED
     media/MediumStateSolid.cpp
     media/definitions/SolidDefinitions.cpp
     flow/FlowBase.cpp    
-    flow/FlowRComponent.cpp
+    flow/FlowComponent_R_2Port.cpp
     flow/TwoPortValve.cpp
     flow/Orifice.cpp
     flow/MechanicalCompressor.cpp
@@ -74,3 +76,4 @@ install(TARGETS SmoFlow
 add_smo_test(MediaHydrogenTest "test/MediaHydrogen.cpp;")
 add_smo_test(FunctorsTest "test/Functors.cpp;")
 add_smo_test(MediumSolidTest "test/MediumSolid.cpp;")
+add_smo_test(IOControlTest "test/IOControl.cpp;")

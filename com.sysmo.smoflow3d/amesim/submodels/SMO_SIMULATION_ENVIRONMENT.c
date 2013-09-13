@@ -28,6 +28,9 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "util/SimulationEnvironment.h"
+#include "SmoFlowAme.h"
+#include "SmoFlowAmeFunctions.h"
+int EventModeFlag_amesim;
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_simulation_environmentin_(int *n)
 
@@ -56,6 +59,15 @@ void smo_simulation_environmentin_(int *n)
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    SimulationEnvironment_registerSimEnvComponent();
+
+   SimulationEnvironment_setMessageFunc(message_amesim);
+   SimulationEnvironment_setWarningFunc(warning_amesim);
+   SimulationEnvironment_setErrorFunc(error_amesim);
+   SimulationEnvironment_setExitFunc(exit_amesim);
+   SimulationEnvironment_setUpdateEventIndicatorFunc(updateEventIndicator_amesim);
+   SimulationEnvironment_setIsEventModeFunc(isEventMode_amesim);
+   SimulationEnvironment_setIsFirstTimeStepFunc(isFirstTimeStep_amesim);
+   SimulationEnvironment_setRegisterTimeEventFunc(registerTimeEvent_amesim);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -94,6 +106,7 @@ void smo_simulation_environment_(int *n, int *flag, double *t)
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SimulationEnvironment_setTime(*t);
+   EventModeFlag_amesim = *flag;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 }
 

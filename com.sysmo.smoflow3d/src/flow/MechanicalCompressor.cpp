@@ -46,7 +46,7 @@ void MechanicalCompressor::init(MediumState* state1, MediumState* state2) {
 	if (volumetricFlowRateFunction == NULL && volumetricEfficiencyFunction == NULL) {
 		RaiseError("Neither 'volumetric flow rate' nor 'volumetric efficiency' functions set");
 	}
-	FlowRComponent::init(state1, state2);
+	FlowComponent_R_2Port::init(state1, state2);
 	outletFlowStateIdeal = MediumState_new(state1->getMedium());
 	MediumState_register(outletFlowStateIdeal);
 }
@@ -56,7 +56,7 @@ void MechanicalCompressor::compute() {
 	double rotationalSpeedRPM = rotationalSpeed / (2 * M_PI) * 60;
 
 	if (rotationalSpeed < 0) {
-		RaiseError("Compressor is not allowed to operate in reverse");
+		RaiseComponentError(this, "Compressor is not allowed to operate in reverse" );
 	}
 
 	double enthalpyChangeReal = 0.0;
