@@ -7,9 +7,16 @@
  */
 
 #include "io_control/CSVProcessor.h"
+#include "io_control/DriveCycleReader.h"
+
+
 #define BEGIN_TEST(name) \
 	std::cout << "====================================\n" \
 			  << " Begin test " << name << "\n" \
+			  << "------------------------------------\n"
+
+#define END_TEST \
+	std::cout << "------------------------------------\n"
 
 void testRowReader() {
 	BEGIN_TEST("RowReader");
@@ -29,16 +36,17 @@ void testRowReader() {
 	std::cout << stringVal << "(" << status << ")\n";
 	status = reader.getNextFloat(floatVal);
 	std::cout << floatVal << "(" << status << ")\n";
+	END_TEST;
 }
 
 void testCSVProcessor() {
 	BEGIN_TEST("CSVProcessor");
 	String fileName("src\\test\\CSVExample.csv");
 	CSVProcessor csv;
-	CSVProcessor::VectorString name;
-	CSVProcessor::VectorFloat age;
-	CSVProcessor::VectorFloat salary;
-	CSVProcessor::VectorInt children;
+	VectorString name;
+	VectorFloat age;
+	VectorFloat salary;
+	VectorInt children;
 	csv.addStringColumn(name);
 	csv.addFloatColumn(age);
 	csv.addFloatColumn(salary);
@@ -53,10 +61,20 @@ void testCSVProcessor() {
 			<< ", Children: " << children.at(i)
 			<< std::endl;
 	}
+	END_TEST;
+}
+
+void testDriveCycleReader() {
+	BEGIN_TEST("DriveCycleReader");
+	String fileName("src/test/E149189.csv");
+	DriveCycleReader dcReader(fileName);
+
+	END_TEST;
 }
 
 int main(int argc, char* argv) {
 	testRowReader();
 	testCSVProcessor();
+	testDriveCycleReader();
 	return 0;
 }

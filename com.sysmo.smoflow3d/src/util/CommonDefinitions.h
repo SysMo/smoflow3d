@@ -55,6 +55,10 @@ typedef enum params ThermodynamicVariable;
 
 typedef std::string String;
 
+typedef std::vector<double> VectorFloat;
+typedef std::vector<int> VectorInt;
+typedef std::vector<String> VectorString;
+
 /**
  * Constants
  */

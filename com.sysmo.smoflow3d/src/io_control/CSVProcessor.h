@@ -24,6 +24,7 @@ public:
 	int getNextFloat(double& entry);
 	int getNextInteger(int& entry);
 	int getNextString(String& entry);
+	static bool isRowEmpty(String& rowContent);
 protected:
 	int getNext(String& entry);
 	char delimiter;
@@ -37,10 +38,6 @@ class CSVProcessor {
 		Type_Integer,
 		Type_String
 	} ColumnType ;
-public:
-	typedef std::vector<double> VectorFloat;
-	typedef std::vector<int> VectorInt;
-	typedef std::vector<String> VectorString;
 public:
 	CSVProcessor();
 	void addFloatColumn(VectorFloat& storage);
@@ -56,7 +53,6 @@ protected:
 	std::vector<VectorFloat*> floatStorages;
 	std::vector<VectorInt*> intStorages;
 	std::vector<VectorString*> stringStorages;
-
 };
 
 #else // __cplusplus

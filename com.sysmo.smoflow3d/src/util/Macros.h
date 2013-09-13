@@ -44,6 +44,12 @@
 
 #ifdef __cplusplus
 
+#define ShowMessage(message) \
+	std::stringstream messageStream; \
+	messageStream << "\n" << message; \
+	std::string messageString(messageStream.str()); \
+	SimulationEnvironment_message(messageString.c_str());
+
 #define _RaiseEvent(message, _HANDLER) \
 	std::stringstream messageStream; \
 	messageStream << "\n" << \

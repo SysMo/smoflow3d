@@ -64,6 +64,18 @@ int CSVRowReader::getNextString(String& entry) {
 	return status;
 }
 
+bool CSVRowReader::isRowEmpty(String& rowContent) {
+	bool isEmpty = true;
+	for (size_t i = 0; i < rowContent.size(); i++) {
+		char c = rowContent[i];
+		if (!(c == ' ' || c == '\t' || c == '\n' || c == '\r')) {
+			isEmpty = false;
+			break;
+		}
+	}
+	return isEmpty;
+}
+
 CSVProcessor::CSVProcessor() {
 }
 
@@ -116,7 +128,10 @@ void CSVProcessor::read(String& fileName, char delimiter, int numSkipLines) {
 	    	numSkipLines--;
 	    	continue;
 	    }
-
+	    if (rowContent.length() == 0 ||
+	    		CSVRowReader::isRowEmpty(rowContent)) {
+	    	continue;
+	    }
 	    rowReader.setRowContent(rowContent);
 	    int floatIndex = 0;
 	    int intIndex = 0;

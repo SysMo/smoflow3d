@@ -36,6 +36,7 @@ add_library(SmoFlow SHARED
     math/Functors.cpp
     math/Interpolators.cpp
     io_control/CSVProcessor.cpp
+    io_control/DriveCycleReader.cpp
     media/Medium.cpp
     media/SolidRegistryClass.cpp
     media/MediumState.cpp
