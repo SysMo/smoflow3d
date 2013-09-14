@@ -8,6 +8,9 @@
 
 #include "DriveCycleReader.h"
 
+/**
+ * DriveCycleReader - C++
+ */
 DriveCycleReader::DriveCycleReader(String fileName)
 : fileName(fileName) {
 	CSVProcessor csv;
@@ -32,7 +35,7 @@ void DriveCycleReader::init() {
 	phaseIndex = 0;
 	tReference = 0;
 	// TODO See why this was set to 0 in the original component
-	tRemaining = phaseDuration[0];
+	tRemaining = 0; //phaseDuration[0];
 	loopCounter = 1;
 	isActive   = 0;
 }
@@ -53,7 +56,7 @@ void DriveCycleReader::compute(double t, double activationSignal, double breakCu
 
 		   tReference = t;
 
-		   if (tRemaining < 1 || (mode[phaseIndex-1] != 0 && breakCurrDrivingPhase > 0.5)) {
+		   if (tRemaining < 1e-3 || (mode[phaseIndex-1] != 0 && breakCurrDrivingPhase > 0.5)) {
 			   if (phaseIndex < numDrivingPhases) {
 				   phaseIndex++;
 				   tRemaining = phaseDuration[phaseIndex-1];
@@ -83,11 +86,6 @@ void DriveCycleReader::compute(double t, double activationSignal, double breakCu
 		   eventIndicator = true;
 	   }
 
-	   SimEnv.updateEventIndicator(eventIndicator); //trigger discontinuity
-
-	   // Set the output variables
-	   //*phaseIndexInDriveCycle = (double) phaseIndex;
-
 	   if (isActive) {
 		   mDotExtraction = extractionMassFlowRate[phaseIndex-1];
 		   driveCycleState = mode[phaseIndex-1];
@@ -100,9 +98,76 @@ void DriveCycleReader::compute(double t, double activationSignal, double breakCu
 		   phaseRemainingDuration = tRemaining;
 	   }
 
-
+	   SimEnv.updateEventIndicator(eventIndicator); //trigger discontinuity
 }
 
+bool DriveCycleReader::getIsActive() {
+	return isActive;
+}
+
+int DriveCycleReader::getLoopCounter() {
+	return loopCounter;
+}
+
+double DriveCycleReader::getCurrentPhaseDuration() {
+	return currentPhaseDuration;
+}
+
+double DriveCycleReader::getMDotExtraction() {
+	return mDotExtraction;
+}
+
+double DriveCycleReader::getDriveCycleState() {
+	return driveCycleState;
+}
+
+double DriveCycleReader::getPhaseRemainingDuration() {
+	return phaseRemainingDuration;
+}
+
+int DriveCycleReader::getPhaseIndex() {
+	return phaseIndex;
+}
+
+/**
+ * DriveCycleReader - C
+ */
 DriveCycleReader* DriveCycleReader_new(const char* fileName) {
 	return new DriveCycleReader(fileName);
+}
+
+void DriveCycleReader_init(DriveCycleReader* driveCycleReader) {
+	driveCycleReader->init();
+}
+
+void DriveCycleReader_compute(DriveCycleReader* driveCycleReader, double t, double activationSignal, double breakCurrDrivingPhase) {
+	driveCycleReader->compute(t, activationSignal, breakCurrDrivingPhase);
+}
+
+double DriveCycleReader_getIsActive(DriveCycleReader* driveCycleReader) {
+	return (double) driveCycleReader->getIsActive();
+}
+
+int DriveCycleReader_getLoopCounter(DriveCycleReader* driveCycleReader) {
+	return driveCycleReader->getLoopCounter();
+}
+
+double DriveCycleReader_getCurrentPhaseDuration(DriveCycleReader* driveCycleReader) {
+	return driveCycleReader->getCurrentPhaseDuration();
+}
+
+double DriveCycleReader_getMDotExtraction(DriveCycleReader* driveCycleReader) {
+	return driveCycleReader->getMDotExtraction();
+}
+
+double DriveCycleReader_getDriveCycleState(DriveCycleReader* driveCycleReader) {
+	return driveCycleReader->getDriveCycleState();
+}
+
+double DriveCycleReader_getPhaseRemainingDuration(DriveCycleReader* driveCycleReader) {
+	return driveCycleReader->getPhaseRemainingDuration();
+}
+
+int DriveCycleReader_getPhaseIndex(DriveCycleReader* driveCycleReader) {
+	return driveCycleReader->getPhaseIndex();
 }

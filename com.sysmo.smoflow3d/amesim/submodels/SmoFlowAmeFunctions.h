@@ -35,7 +35,8 @@ void updateEventIndicator_amesim(int indicator) {
 extern int EventModeFlag_amesim;
 
 int isEventMode_amesim() {
-	return EventModeFlag_amesim;
+	int res = (EventModeFlag_amesim == 0);
+	return res;
 }
 
 int isFirstTimeStep_amesim() {

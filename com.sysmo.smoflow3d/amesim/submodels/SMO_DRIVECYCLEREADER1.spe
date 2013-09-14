@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>20</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_drive_cycle_reader</DEFAULT_ICON>
+  <SUB_LABEL>Drive cycle reader</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <R_STORES_NUMBER>2</R_STORES_NUMBER>
+  <I_STORES_NUMBER>1</I_STORES_NUMBER>
+  <P_STORES_NUMBER>1</P_STORES_NUMBER>
+  <DISCONTINUITY>1</DISCONTINUITY>
+  <TIME_REQUIRED>1</TIME_REQUIRED>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <TPARAMS_LIST>
+   <TPARAM>
+    <SUB_ID>16</SUB_ID>
+    <TITLE>file name</TITLE>
+    <VARNAME>fileName</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>DriveCycle.csv</DEF_VALUE>
+    <VALUE>DriveCycle.csv</VALUE>
+    <TEXT_TYPE>1</TEXT_TYPE>
+   </TPARAM>
+  </TPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>19</SUB_ID>
+    <TITLE>activation state (0-unactive; 1-active)</TITLE>
+    <VARNAME>isActive</VARNAME>
+    <VISIBILITY>False</VISIBILITY>
+    <TYPE>10</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+    <DEF_VALUE>0</DEF_VALUE>
+    <VALUE>0</VALUE>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>20</SUB_ID>
+    <TITLE>phase index</TITLE>
+    <VARNAME>phaseIndexInDriveCycle</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>1</SUB_ID>
+     <TITLE>activation signal</TITLE>
+     <VARNAME>activationSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>3</SUB_ID>
+     <TITLE>break the current driving phase (0-don't break; 1-break)</TITLE>
+     <VARNAME>breakCurrDrivingPhase</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>5</SUB_ID>
+     <TITLE>phase duration</TITLE>
+     <VARNAME>phaseDuration</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>10</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>s</UNITS>
+     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
+     <VALUE>0.00000000000000e+000</VALUE>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>7</SUB_ID>
+     <TITLE>extraction mass flow rate</TITLE>
+     <VARNAME>mDotExtraction</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>9</SUB_ID>
+     <TITLE>state (1-driving; 0-parking; -1-unactive)</TITLE>
+     <VARNAME>driveCycleState</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>11</SUB_ID>
+     <TITLE>phase remaining duration</TITLE>
+     <VARNAME>phaseRemainingDuration</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>s</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>13</SUB_ID>
+     <TITLE>loop counter</TITLE>
+     <VARNAME>loopCounter</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>10</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>null</UNITS>
+     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
+     <VALUE>0.00000000000000e+000</VALUE>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>

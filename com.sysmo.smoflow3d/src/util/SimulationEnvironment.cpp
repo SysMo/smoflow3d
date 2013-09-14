@@ -93,15 +93,29 @@ void SimulationEnvironment::exit() {
 }
 
 void SimulationEnvironment::updateEventIndicator(bool indicator) {
-	_updateEventIndicator(indicator);
+	if (indicator) {
+		_updateEventIndicator(1);
+	} else {
+		_updateEventIndicator(0);
+	}
 }
 
 bool SimulationEnvironment::isEventMode() {
-	return _isEventMode();
+	int res = _isEventMode();
+	if (res == 0) {
+		return false;
+	} else {
+		return true;
+	}
 }
 
 bool SimulationEnvironment::isFirstTimeStep() {
-	return _isFirstTimeStep();
+	int res = _isFirstTimeStep();
+	if (res == 0) {
+		return false;
+	} else {
+		return true;
+	}
 }
 
 void SimulationEnvironment::registerTimeEvent(double t) {
