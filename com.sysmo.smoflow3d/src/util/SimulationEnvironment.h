@@ -63,8 +63,6 @@ BEGIN_C_LINKAGE
 void SimulationEnvironment_registerSimEnvComponent();
 void SimulationEnvironment_setTime(double t);
 double SimulationEnvironment_getTime();
-//void SimulationEnvironment_setCurrentComponent(SmoComponent* component);
-//SmoComponent* SimulationEnvironment_getCurrentComponent();
 void SimulationEnvironment_message(const char* message);
 void SimulationEnvironment_warning(const char* message);
 void SimulationEnvironment_error(const char* message);

@@ -50,7 +50,6 @@ protected:
 	FunctorTwoVariables* isentropicEfficiencyFunction;
 	FunctorTwoVariables* mechanicalEfficiencyFunction;
 
-
 	/* Results */
 	double massFlowRate;
 	double pressureRatio;
@@ -65,8 +64,8 @@ protected:
 	/* Intermediate variables */
 	MediumState* outletFlowStateIdeal;
 	double outletEnthalpyReal;
-
 };
+
 #else //_cplusplus
 DECLARE_C_STRUCT(MechanicalCompressor)
 #endif //_cplusplus

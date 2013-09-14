@@ -13,6 +13,12 @@
  */
 DriveCycleReader::DriveCycleReader(String fileName)
 : fileName(fileName) {
+}
+
+DriveCycleReader::~DriveCycleReader() {
+}
+
+void DriveCycleReader::init() {
 	CSVProcessor csv;
 	csv.addFloatColumn(phaseDuration);
 	csv.addFloatColumn(extractionMassFlowRate);
@@ -25,13 +31,6 @@ DriveCycleReader::DriveCycleReader(String fileName)
 		ShowMessage("Drive cycle with " << numDrivingPhases << " driving phases read from drive cycle file " << this->fileName << "\n")
 	}
 
-	loopCounter = 0;
-}
-
-DriveCycleReader::~DriveCycleReader() {
-}
-
-void DriveCycleReader::init() {
 	phaseIndex = 0;
 	tReference = 0;
 	tRemaining = 0;

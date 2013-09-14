@@ -23,6 +23,7 @@ protected:
 	MediumState* state1;
 	MediumState* state2;
 };
+
 #else //_cplusplus
 DECLARE_C_STRUCT(FlowComponent_R_2Port)
 #endif //_cplusplus

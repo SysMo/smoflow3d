@@ -32,10 +32,11 @@ struct SmoComponent {
 	: instanceIndex(-1),
 	  parent(NULL) {
 	}
+	virtual ~SmoComponent(){}
+
 	virtual const char* getComponentName() = 0;
 	int instanceIndex;
 	SmoComponent* parent;
-
 };
 
 #else //__cplusplus
@@ -46,6 +47,7 @@ DECLARE_C_STRUCT(SmoComponent)
 BEGIN_C_LINKAGE
 void SmoObject_setInstanceIndex(SmoObj* obj, int index);
 int SmoObject_getInstanceIndex(SmoObj* obj);
+
 void SmoComponent_setInstanceIndex(SmoComponent* component, int index);
 int SmoComponent_getInstanceIndex(SmoComponent* component);
 END_C_LINKAGE

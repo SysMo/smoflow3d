@@ -137,14 +137,6 @@ double SimulationEnvironment_getTime() {
 	return SimEnv.t;
 }
 
-//void SimulationEnvironment_setCurrentComponent(SmoComponent* component) {
-//	SimEnv.currentComponent = component;
-//}
-//
-//SmoComponent* SimulationEnvironment_getCurrentComponent() {
-//	return SimEnv.currentComponent;
-//}
-
 void SimulationEnvironment_message(const char* text) {
 	SimEnv.message(text);
 }
@@ -161,7 +153,6 @@ void SimulationEnvironment_exit() {
 	SimEnv.exit();
 }
 
-//Fatal error in TPFCH000 instance 1.
 const char* SimulationEnvironment_getComponentId(SmoComponent* component) {
 	std::stringstream resStream;
 	resStream << component->getComponentName()
