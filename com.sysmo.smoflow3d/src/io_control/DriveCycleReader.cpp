@@ -34,8 +34,7 @@ DriveCycleReader::~DriveCycleReader() {
 void DriveCycleReader::init() {
 	phaseIndex = 0;
 	tReference = 0;
-	// TODO See why this was set to 0 in the original component
-	tRemaining = 0; //phaseDuration[0];
+	tRemaining = 0;
 	loopCounter = 1;
 	isActive   = 0;
 }

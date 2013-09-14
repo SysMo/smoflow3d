@@ -27,22 +27,10 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_DRIVECYCLEREADER"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "util/Table.h"
+#include "SmoFlowAme.h"
+#include "io_control/DriveCycleReader.h"
 
-#define phaseIndex ic[0]
-#define tReference c[0]
-#define tRemaining c[1]
-
-#define DRIVE_CYCLE_TABLE ps[0]
-
-#define getPhaseDuration(phaseIndex) \
-	Table_getValue(dataTable, phaseIndex, 0)
-
-#define getExtractionMassFlowRate(phaseIndex) \
-	Table_getValue(dataTable, phaseIndex, 1)
-
-#define getDrivingMode(phaseIndex) \
-	Table_getValue(dataTable, phaseIndex, 2)
+#define _component ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 /* There is 1 text parameter:
@@ -57,7 +45,6 @@ void smo_drivecyclereaderin_(int *n, char *tp[1], double c[2]
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
-   Table* dataTable = NULL;
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    char *fileName;
 
@@ -90,32 +77,8 @@ void smo_drivecyclereaderin_(int *n, char *tp[1], double c[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   AME_SET_CURRENT_COMPONENT;
-
-   // Read drive cycle data from the input csv file
-   String* driveCycleFileName = String_new(fileName);
-   Table_readCSV(driveCycleFileName, &dataTable);
-   String_free(&driveCycleFileName);
-
-
-   // Check the reading data
-   if (dataTable->rowNumber < 1) {
-	   raiseError(getDummyBase(), "The drive cycle file is empty.");
-   }
-   if (dataTable->columnNumber < 3) {
-	   raiseError(getDummyBase(), "The drive cycle file has wrong data (less than 3 columns).");
-   }
-
-
-   // Set some variables
-   phaseIndex = 0;
-   tReference = 0;
-   tRemaining = 0;
-   DRIVE_CYCLE_TABLE = dataTable;
-
-   *phaseDuration = getPhaseDuration(phaseIndex);
-   *loopCounter = 1;
-   *isActive   = 0;
+   _component = DriveCycleReader_new(fileName);
+   DriveCycleReader_init(_component);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -166,7 +129,6 @@ void smo_drivecyclereader_(int *n, double *activationSignal
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
-   Table* dataTable = (Table*)DRIVE_CYCLE_TABLE;
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    char *fileName;
 
@@ -195,70 +157,16 @@ void smo_drivecyclereader_(int *n, double *activationSignal
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   logi = 0; //flag for calling discontinuity (0-no call; 1-call)
+   DriveCycleReader_compute(_component, *t, *activationSignal, *breakCurrDrivingPhase);
 
-   if (*flag == 0) {//in a discontinuity
-	   if (*activationSignal >= 0.5) {
-		   if (*isActive == 1) {
-			   tRemaining -= *t - tReference;
-		   }
-		   *isActive = 1;
-	   } else {
-		   if (*isActive == 1) {
-			   tRemaining -= *t - tReference;
-		   }
-		   *isActive = 0;
-	   }
+   *phaseDuration = DriveCycleReader_getCurrentPhaseDuration(_component);
+   *loopCounter = DriveCycleReader_getLoopCounter(_component);
+   *isActive = DriveCycleReader_getIsActive(_component);
 
-	   tReference = *t;
-
-	   if (tRemaining < 1 || (getDrivingMode(phaseIndex-1) != 0 && *breakCurrDrivingPhase > 0.5)) {
-		   if (phaseIndex < dataTable->rowNumber) {
-			   phaseIndex++;
-			   tRemaining = getPhaseDuration(phaseIndex-1);
-		   } else if (phaseIndex == dataTable->rowNumber) {
-			   (*loopCounter)++;
-			   phaseIndex = 0;
-			   tRemaining = getPhaseDuration(phaseIndex);
-			   phaseIndex++;
-		   }
-	   }
-   }
-
-   // Trigger discontinuity if the activation state of the drive cycle
-   // doesn't correspond to the activation input signal.
-   if ((*isActive > 0.5) != (*activationSignal > 0.5)) {
-	   logi = 1;
-   }
-
-   // Trigger discontinuity if the phase has finished
-   if ((*isActive > 0.5) && (*t - tReference >= tRemaining)) {
-	   logi = 1;
-   }
-
-   // Trigger discontinuity if a break of the current driving phase is requested
-   if (getDrivingMode(phaseIndex-1) != 0 && *breakCurrDrivingPhase > 0.5) {
-	   logi = 1;
-   }
-
-   // Set the output variables
-   *phaseIndexInDriveCycle = (double) phaseIndex;
-
-   if (*isActive > 0.5) {
-	   *mDotExtraction = getExtractionMassFlowRate(phaseIndex-1);
-	   *driveCycleState = getDrivingMode(phaseIndex-1);
-	   *phaseRemainingDuration = tRemaining - (*t - tReference);
-
-	   *phaseDuration = getPhaseDuration(phaseIndex-1);
-   } else {
-	   *mDotExtraction = 0;
-	   *driveCycleState = -1;
-	   *phaseRemainingDuration = tRemaining;
-   }
-
-   if (logi == 1) {
-	   disloc_(&logi); //trigger discontinuity
-   }
+   *mDotExtraction = DriveCycleReader_getMDotExtraction(_component);
+   *driveCycleState = DriveCycleReader_getDriveCycleState(_component);
+   *phaseRemainingDuration = DriveCycleReader_getPhaseRemainingDuration(_component);
+   *phaseIndexInDriveCycle = DriveCycleReader_getPhaseIndex(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 }
 
