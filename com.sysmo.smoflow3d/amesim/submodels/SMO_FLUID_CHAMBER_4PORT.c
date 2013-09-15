@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLUID_CHAMBER_4PORT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "volumes/FluidChamber.h"
 #include "flow/FlowBase.h"
 
@@ -136,8 +137,9 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    Medium* fluid = Medium_get(fluidIndex);
    _fluidChamber = FluidChamber_new(fluid);
-   FluidChamber_setVolume(_fluidChamber, volume);
+   SMOCOMPONEN_SET_PROPS(_fluidChamber)
 
+   FluidChamber_setVolume(_fluidChamber, volume);
    _fluidChamberState = FluidChamber_getFluidState(_fluidChamber);
    _fluidChamberStateIndex = MediumState_index(_fluidChamberState);
 

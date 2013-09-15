@@ -16,7 +16,7 @@
 
 #ifdef __cplusplus
 
-class Convection {
+class Convection : SmoComponent {
 public:
 	Convection();
 	virtual ~Convection();

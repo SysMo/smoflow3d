@@ -17,7 +17,7 @@
 
 #include "Eigen/Core"
 
-class ThermalConductionElement {
+class ThermalConductionElement : SmoComponent {
 public:
 	ThermalConductionElement(Medium* medium, int numNodes);
 	virtual ~ThermalConductionElement();

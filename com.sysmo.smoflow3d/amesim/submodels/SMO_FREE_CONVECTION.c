@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FREE_CONVECTION"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "flow/FreeConvection.h"
 
 #define _heatFlowIndex ic[0]
@@ -180,6 +181,7 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 	   _freeConvection =
 			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
+   SMOCOMPONEN_SET_PROPS(_freeConvection)
 
    Convection_setHeatExchangeGain(_freeConvection, heatExchangeGain);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */

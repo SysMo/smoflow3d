@@ -27,8 +27,8 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_HEATEXCHANGER_RC"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "volumes/PipeHeatExchNoPrDrNoMassAcc.h"
-
 
 #define _inletFluidState ps[0]
 #define _inletFluidStateIndex ic[0]
@@ -158,6 +158,8 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 	   _component = Pipe_HeatExch_NoPrDr_NoMassAcc_Convection_new(
 			   _convection, tauOutput);
    }
+
+   SMOCOMPONEN_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 

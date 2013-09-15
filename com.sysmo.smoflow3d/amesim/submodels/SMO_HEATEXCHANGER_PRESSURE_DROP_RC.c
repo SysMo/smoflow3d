@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_HEATEXCHANGER_PRESSURE_DROP_RC"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "volumes/PipeHeatExchPrDropRC.h"
 
 #define _port1FluidFlow ps[0]
@@ -146,6 +147,7 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
 
    double internalVolume = flowArea * pipeLength;
    _component = PipeHeatExchPrDrop_RC_new(internalVolume, _friction, _convection);
+   SMOCOMPONEN_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 

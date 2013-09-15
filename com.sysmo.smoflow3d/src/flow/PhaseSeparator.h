@@ -14,7 +14,7 @@
 
 #ifdef __cplusplus
 
-class PhaseSeparator {
+class PhaseSeparator : SmoComponent {
 public:
 	PhaseSeparator(PhaseSelection phaseSelection);
 	virtual ~PhaseSeparator();

@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_PHASE_SEPARATOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "flow/PhaseSeparator.h"
 
 #define _component ps[0]
@@ -88,6 +89,7 @@ void smo_phase_separatorin_(int *n, int ip[1], int ic[5], void *ps[5])
 	   phaseSelection = PhaseSelection_varContinuous;
    }
    _component = PhaseSeparator_new(phaseSelection);
+   SMOCOMPONEN_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 

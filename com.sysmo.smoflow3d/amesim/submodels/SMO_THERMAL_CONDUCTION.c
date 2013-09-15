@@ -123,6 +123,7 @@ void smo_thermal_conductionin_(int *n, double rp[2], int ip[2]
    _heatFlow2 = HeatFlow_new();
    _heatFlowIndex2 = HeatFlow_register(_heatFlow2);
    _conductionObject = ThermalConductionElement_Line_new((Medium_Solid*) medium, conductionArea, conductionLength);
+   SMOCOMPONEN_SET_PROPS(_conductionObject)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 

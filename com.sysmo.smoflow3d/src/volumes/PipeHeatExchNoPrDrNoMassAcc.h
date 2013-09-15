@@ -16,7 +16,7 @@
 
 #ifdef __cplusplus
 
-class Pipe_HeatExch_NoPrDr_NoMassAcc {
+class Pipe_HeatExch_NoPrDr_NoMassAcc : SmoComponent {
 public:
 	Pipe_HeatExch_NoPrDr_NoMassAcc(double stateTimeConstant);
 	virtual ~Pipe_HeatExch_NoPrDr_NoMassAcc();
