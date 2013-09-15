@@ -20,9 +20,10 @@ class Pipe_HeatExch_NoPrDr_NoMassAcc {
 public:
 	Pipe_HeatExch_NoPrDr_NoMassAcc(double stateTimeConstant);
 	virtual ~Pipe_HeatExch_NoPrDr_NoMassAcc();
+
 	void init(FluidFlow* outletFlow);
-	void initOutletState(MediumState* inletState,
-			ThermalNode* wallNode);
+
+	void initOutletState(MediumState* inletState, ThermalNode* wallNode);
 	void updateOutletState(double outletStateValue);
 	virtual void compute() = 0;
 	MediumState* getOutletState() {return outletState;}
@@ -30,12 +31,15 @@ public:
 	double getOutletStateDerivative();
 	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
 	FluidFlow* getInletFlow() {return inletFlow;}
+
 protected:
 	virtual void _init(){}
+
 	enum {
 		sTemperature,
 		sEnthalpy
 	} stateVariable;
+
 	double pipeLength;
 	double stateTimeConstant;
 

@@ -7,8 +7,6 @@
  */
 
 #include "TwoPortValve.h"
-
-
 using namespace smoflow;
 
 

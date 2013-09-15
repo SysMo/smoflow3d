@@ -148,7 +148,6 @@ int MediumState_isTwoPhase(MediumState* mstate);
 double MediumState_q(MediumState* mstate);
 double MediumState_deltaTSat(MediumState* mstate);
 double MediumState_TSat(MediumState* mstate);
-
 END_C_LINKAGE
 
 

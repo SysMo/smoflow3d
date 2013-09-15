@@ -26,8 +26,11 @@ public:
 	virtual void setTemperature(double temperature);
 	double getTemperature() {return temperature;}
 	ThermalNodeType getType() {return nodeType;}
+
 protected:
 	ThermalNode(ThermalNodeType nodeType);
+
+protected:
 	const ThermalNodeType nodeType;
 	double temperature;
 };
@@ -40,6 +43,7 @@ public:
 class ThermalMaterialNode : public ThermalNode {
 public:
 	ThermalMaterialNode();
+
 	void addMaterialMass(Medium_Solid* medium, double mass);
 	virtual void setTemperature(double temperature);
 	void compute(double heatFlow);
@@ -49,6 +53,7 @@ public:
 	MediumState* getThermalState(int subnodeIndex = 1) {
 		return subnodeStates.at(subnodeIndex - 1);
 	}
+
 protected:
 	std::vector<MediumState_Solid*> subnodeStates;
 	std::vector<double> subnodeMasses;
@@ -69,7 +74,6 @@ ThermalNode* ThermalNode_get(int nodeIndex);
 
 void ThermalNode_setTemperature(ThermalNode* node, double temperature);
 double ThermalNode_getTemperature(ThermalNode* node);
-
 
 void ThermalMaterialNode_addMaterialMass(ThermalMaterialNode* node, Medium_Solid* medium, double mass);
 void ThermalMaterialNode_compute(ThermalMaterialNode* node, double heatFlow);

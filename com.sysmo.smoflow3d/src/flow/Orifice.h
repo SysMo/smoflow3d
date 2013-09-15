@@ -11,7 +11,6 @@
 
 #include "media/MediumState.h"
 
-
 BEGIN_C_LINKAGE
 typedef struct {
 	MediumState* stateUp;
@@ -25,12 +24,10 @@ typedef struct {
 	int sonicFlow;
 } Orifice;
 
-
 Orifice* Orifice_new();
 void Orifice_init(Orifice* orifice, MediumState* stateUp, MediumState* stateDown);
 void Orifice_computeMassFlow_CompressibleIdealGas(Orifice* orifice, double regulatingSignal);
 void Orifice_computeEnthalpyFlow(Orifice* orifice);
 END_C_LINKAGE
-
 
 #endif /* ORIFICE_H_ */

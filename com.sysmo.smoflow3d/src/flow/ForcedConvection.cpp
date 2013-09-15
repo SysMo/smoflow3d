@@ -9,6 +9,9 @@
 #include "ForcedConvection.h"
 using namespace smoflow;
 
+/**
+ * ForcedConvection - C++
+ */
 void ForcedConvection::init(MediumState* fluidState1, MediumState* fluidState2,
 		ThermalNode* wallNode) {
 	Convection::init(fluidState1, wallNode);
@@ -69,6 +72,9 @@ void ForcedConvection::compute(double massFlowRate) {
 	}
 }
 
+/**
+ * ForcedConvection - C
+ */
 void ForcedConvection_init(ForcedConvection* convection,
 		MediumState* fluidState1, MediumState* fluidState2,
 		ThermalNode* wallNode) {
@@ -88,15 +94,20 @@ void ForcedConvection_compute(ForcedConvection* convection,
 double ForcedConvection_getReynoldsNumber(ForcedConvection* convection) {
 	return convection->getReynoldsNumber();
 }
-/********************************************************
- *** Forced convection models
- ********************************************************/
 
+/*************************************************************
+ ***  Forced convection models
+ *************************************************************/
+
+/**
+ * ForcedConvection 'GivenConvectionCoefficient' model - C++ and C
+ */
 class ForcedConvection_GivenConvectionCoefficient : public ForcedConvection {
 public:
 	ForcedConvection_GivenConvectionCoefficient(double heatExchangeArea) {
 		this->heatExchangeArea = heatExchangeArea;
 	}
+
 	void compute() {
 		double fluidTemperature = fluidState->T();
 		double wallTemperature = wallNode->getTemperature();
@@ -107,28 +118,29 @@ public:
 		heatFlowRate = heatExchangeGain *convectionCoefficient
 				* heatExchangeArea * wallOverheat;
 	}
+
 protected:
 	double computeNusseltNumber(double Re, double Pr) {
 		return 0;
 	}
 };
 
-ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(
-		double heatExchangeArea) {
+ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(double heatExchangeArea) {
 	return new ForcedConvection_GivenConvectionCoefficient(heatExchangeArea);
 }
 
-
-
+/**
+ * ForcedConvection 'StraightPipe' model - C++ and C
+ */
 class ForcedConvection_StraightPipe : public ForcedConvection {
 public:
-	ForcedConvection_StraightPipe(
-			double hydraulicDiameter, double flowArea, double pipeLength) {
+	ForcedConvection_StraightPipe(double hydraulicDiameter, double flowArea, double pipeLength) {
 		this->characteristicLength = hydraulicDiameter;
 		this->flowArea = flowArea;
 		double perimeter = 4 * flowArea / hydraulicDiameter;
 		this->heatExchangeArea = perimeter * pipeLength;
 	}
+
 	double computeNusseltNumber(double Re, double Pr) {
 		double Nu;
 		const double ReL = 2300; //@see VDI Heat Atlas, page 696, Sect. 4.2
@@ -148,10 +160,12 @@ public:
 		}
 		return Nu;
 	}
+
 protected:
 	inline double NuLaminar(double Re, double Pr) {
 		return 3.66; //@see VDI Heat Atlas, page 693, Eq. (1)
 	}
+
 	inline double NuTurbulent(double Re, double Pr) {
 		// Friction factor - @see VDI Heat Atlas, page 696, Eq. (26) and (27)
 		// Range of validity: 1e4 < Re < 1e6, 0.1 < Pr < 1000
@@ -164,9 +178,7 @@ protected:
 	}
 };
 
-ForcedConvection* ForcedConvection_StraightPipe_new(
-		double hydraulicDiameter, double flowArea, double pipeLength) {
-	return new ForcedConvection_StraightPipe(hydraulicDiameter,
-			flowArea, pipeLength);
+ForcedConvection* ForcedConvection_StraightPipe_new(double hydraulicDiameter, double flowArea, double pipeLength) {
+	return new ForcedConvection_StraightPipe(hydraulicDiameter, flowArea, pipeLength);
 }
 

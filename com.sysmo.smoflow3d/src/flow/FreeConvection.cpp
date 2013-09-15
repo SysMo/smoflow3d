@@ -7,9 +7,13 @@
  */
 
 #include "FreeConvection.h"
+#include "math/Functors.h"
 
 using namespace smoflow;
 
+/**
+ * FreeConvection - C++
+ */
 FreeConvection::FreeConvection() {
 	Gr = 0;
 	Pr = 0;
@@ -44,7 +48,9 @@ void FreeConvection::compute() {
 	heatFlowRate = heatExchangeGain * convectionCoefficient * heatExchangeArea * wallOverheat;
 }
 
-
+/**
+ * FreeConvection - C
+ */
 void FreeConvection_init(FreeConvection* convection, MediumState* fluidState,
 		ThermalNode* wallNode) {
 	convection->init(fluidState, wallNode);
@@ -65,8 +71,6 @@ double FreeConvection_getRayleighNumber(FreeConvection* convection) {
 /*************************************************************
  ***  Free convection models
  *************************************************************/
-#include "math/Functors.h"
-
 class FreeConvection_GivenConvectionCoefficient : public FreeConvection {
 public:
 	FreeConvection_GivenConvectionCoefficient(
@@ -74,12 +78,14 @@ public:
 		this->convectionCoefficient = convectionCoefficient;
 		this->heatExchangeArea = heatExchangeArea;
 	}
+
 	virtual void compute() {
 		double fluidTemperature = fluidState->T();
 		double wallTemperature = wallNode->getTemperature();
 		double wallOverheat = wallTemperature - fluidTemperature;
 		heatFlowRate = heatExchangeGain * convectionCoefficient * heatExchangeArea * wallOverheat;
 	}
+
 	virtual double computeNusseltNumber(double Re, double Pr, double wallOverheat) {
 		return 0;
 	}
@@ -93,9 +99,11 @@ public:
 		this->heatExchangeArea = heatExchangeArea;
 		this->nusseltExpression = FunctorTwoVariables_Expression_new(nusseltExpression, "Ra", "Pr");
 	}
+
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		return (*nusseltExpression)(Ra, Pr);
 	}
+
 protected:
 	FunctorTwoVariables* nusseltExpression;
 };
@@ -106,6 +114,7 @@ public:
 		this->heatExchangeArea = height * width;
 		this->characteristicLength = height;
 	}
+
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		// Correlation from VDI Heat Atlas F2.1
 		// Valid for 0.001 < Pr < inf
@@ -128,6 +137,7 @@ public:
 		this->heatExchangeArea = length * width;
 		this->characteristicLength = length;
 	}
+
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		double Nu = 0;
 		// Correlation from VDI Heat Atlas F2.3
@@ -145,6 +155,7 @@ public:
 		}
 		return Nu;
 	}
+
 protected:
 	double length;
 	double width;
@@ -159,6 +170,7 @@ public:
 		this->characteristicLength = length * width / 2 / (length + width);
 		this->topSide = topSide;
 	}
+
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		// Correlation from VDI Heat Atlas F2.3
 		// Valid for 0.001 < Pr < inf
@@ -179,6 +191,7 @@ public:
 		}
 		return Nu;
 	}
+
 protected:
 	bool topSide;
 };
@@ -189,6 +202,7 @@ public:
 		this->heatExchangeArea = length * m::pi * diameter;
 		this->characteristicLength = diameter;
 	}
+
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		// Correlation from VDI Heat Atlas F2.4.1
 		// Valid for 0 < Pr < inf
@@ -208,6 +222,7 @@ public:
 		this->heatExchangeArea = height * m::pi * diameter;
 		this->characteristicLength = height;
 	}
+
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		// Correlation from VDI Heat Atlas F2.1
 		// Valid for 0.001 < Pr < inf
@@ -217,6 +232,7 @@ public:
 		double Nu = Nu0 * Nu0 + 0.97 * height / diameter;
 		return Nu;
 	}
+
 protected:
 	double height;
 	double diameter;
@@ -229,11 +245,13 @@ public:
 		this->heatExchangeArea = m::pi * diameter * diameter;
 		this->characteristicLength = diameter;
 	}
+
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		// Correlation from VDI Heat Atlas F2.4.2
 		Nu = 0.56 * m::pow(Pr / (0.846 + Pr) * Ra, 0.25) + 2;
 		return Nu;
 	}
+
 protected:
 	double diameter;
 };
@@ -255,11 +273,13 @@ public:
 		// halfway between full rib and bare pipe
 		this->characteristicLength = pipeDiameter + finHeight;
 	}
+
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		// Correlation from VDI Heat Atlas F2.4.4
 		Nu = 0.24 * m::pow(Ra * finSpacing / pipeDiameter, 1./3);
 		return Nu;
 	}
+
 protected:
 	double pipeDiameter;
 	double pipeLength;
@@ -268,6 +288,10 @@ protected:
 	double finHeight;
 };
 
+
+/**
+ *  FreeConvection - C
+ */
 FreeConvection* FreeConvection_GivenConvectionCoefficient_new(
 		double convectionCoefficient, double heatExchangeArea) {
 	return new FreeConvection_GivenConvectionCoefficient(

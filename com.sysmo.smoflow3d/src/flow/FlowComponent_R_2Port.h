@@ -18,7 +18,9 @@ class FlowComponent_R_2Port : public SmoComponent {
 public:
 	FlowComponent_R_2Port();
 	virtual ~FlowComponent_R_2Port();
+
 	virtual void init(MediumState* state1, MediumState* state2);
+
 protected:
 	MediumState* state1;
 	MediumState* state2;

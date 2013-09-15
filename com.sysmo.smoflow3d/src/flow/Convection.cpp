@@ -8,15 +8,22 @@
 
 #include "Convection.h"
 
-/*
-ConvectionModel::ConvectionModel() {
-		characteristicLength = 0;
-		heatExchangeArea = 0;
-}
-*/
-
+/**
+ * Convection - C++
+ */
 Convection::Convection() {
+	characteristicLength = 0.0;
+	heatExchangeArea = 0.0;
 	heatExchangeGain = 1.0;
+
+	fluidState = NULL;
+	wallNode = NULL;
+	filmState = NULL;
+
+	Pr = 0.0;
+	Nu = 0.0;
+	convectionCoefficient = 0.0;
+	heatFlowRate = 0.0;
 }
 
 Convection::~Convection() {
@@ -30,7 +37,7 @@ void Convection::init(MediumState* fluidState, ThermalNode* wallNode) {
 }
 
 void Convection::getFlow_Wall(HeatFlow* flow) {
-	flow->enthalpyFlowRate = - heatFlowRate;
+	flow->enthalpyFlowRate = -heatFlowRate;
 }
 
 void Convection::getFlow_Fluid(FluidFlow* flow) {
@@ -38,6 +45,9 @@ void Convection::getFlow_Fluid(FluidFlow* flow) {
 	flow->massFlowRate = 0;
 }
 
+/**
+ * Convection - C
+ */
 void Convection_setHeatExchangeGain(Convection* convection, double gain) {
 	convection->setHeatExchangeGain(gain);
 }

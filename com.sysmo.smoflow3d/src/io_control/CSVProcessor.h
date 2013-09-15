@@ -25,6 +25,7 @@ public:
 	int getNextInteger(int& entry);
 	int getNextString(String& entry);
 	static bool isRowEmpty(String& rowContent);
+
 protected:
 	int getNext(String& entry);
 	char delimiter;
@@ -38,13 +39,16 @@ class CSVProcessor {
 		Type_Integer,
 		Type_String
 	} ColumnType ;
+
 public:
 	CSVProcessor();
+	virtual ~CSVProcessor();
+
 	void addFloatColumn(VectorFloat& storage);
 	void addIntegerColumn(VectorInt& storage);
 	void addStringColumn(VectorString& storage);
 	void read(String& fileName, char delimiter, int numSkipLines);
-	virtual ~CSVProcessor();
+
 protected:
 	String fileName;
 	std::ifstream file;
@@ -58,6 +62,5 @@ protected:
 #else // __cplusplus
 DECLARE_C_STRUCT(CSVProcessor)
 #endif //__cplusplus
-
 
 #endif /* CSVPROCESSOR_H_ */

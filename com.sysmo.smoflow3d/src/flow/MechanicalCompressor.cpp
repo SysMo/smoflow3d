@@ -7,15 +7,34 @@
  */
 
 #include "MechanicalCompressor.h"
-
 using namespace smoflow;
 
+/**
+ * MechanicalCompressor - C++
+ */
 MechanicalCompressor::MechanicalCompressor() {
-	outletFlowStateIdeal = NULL;
+	/* Inputs */
+	displacementVolume = 0.0;
+	rotationalSpeed = 0.0;
 	volumetricEfficiencyFunction = NULL;
 	volumetricFlowRateFunction = NULL;
 	isentropicEfficiencyFunction = NULL;
 	mechanicalEfficiencyFunction = NULL;
+
+	/* Results */
+	massFlowRate = 0.0;
+	pressureRatio = 0.0;
+	isentropicEfficiency = 0.0;
+	mechanicalEfficiency = 0.0;
+	volumetricEfficiency = 0.0;
+	inletEnthalpyFlowRate = 0.0;
+	outletEnthalpyFlowRate = 0.0;
+	compressorWork = 0.0;
+	torque = 0.0;
+
+	/* Intermediate variables */
+	outletFlowStateIdeal = NULL;
+	outletEnthalpyReal = 0.0;
 }
 
 MechanicalCompressor::~MechanicalCompressor() {
@@ -98,6 +117,9 @@ void MechanicalCompressor::getOutletFlowRates(FluidFlow* outletFlow) {
 	outletFlow->enthalpyFlowRate = massFlowRate * outletEnthalpyReal;
 }
 
+/**
+ * MechanicalCompressor - C
+ */
 MechanicalCompressor* MechanicalCompressor_new() {
 	return new MechanicalCompressor;
 }

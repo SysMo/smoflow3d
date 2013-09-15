@@ -7,11 +7,29 @@
  */
 
 #include "PipeHeatExchNoPrDrNoMassAcc.h"
-
 using namespace smoflow;
 
+/**
+ * Pipe_HeatExch_NoPrDr_NoMassAcc
+ */
 Pipe_HeatExch_NoPrDr_NoMassAcc::Pipe_HeatExch_NoPrDr_NoMassAcc(double stateTimeConstant) {
 	this->stateTimeConstant = stateTimeConstant;
+	pipeLength = 0.0;
+	stateVariable = sTemperature;
+
+	// inputs
+	inletState = NULL;
+	wallNode = NULL;
+	outletFlow = NULL;
+ 	// outputs
+	inletFlow = NULL;
+	outletState = NULL;
+	wallHeatFlow = NULL;
+	// internals
+	outletLimitState = NULL;
+
+	outletStateValue = 0.0;
+	outletStateSetpoint = 0.0;
 }
 
 Pipe_HeatExch_NoPrDr_NoMassAcc::~Pipe_HeatExch_NoPrDr_NoMassAcc() {
@@ -64,14 +82,17 @@ double Pipe_HeatExch_NoPrDr_NoMassAcc::getOutletStateDerivative() {
 	return outletStateDerivative;
 }
 
-class Pipe_HeatExch_NoPrDr_NoMassAcc_HEEfficiency
-		: public Pipe_HeatExch_NoPrDr_NoMassAcc {
+/*************************************************************
+ ***   Pipe_HeatExch_NoPrDr_NoMassAcc implementation classes
+ *************************************************************/
+class Pipe_HeatExch_NoPrDr_NoMassAcc_HEEfficiency : public Pipe_HeatExch_NoPrDr_NoMassAcc {
 public:
 	Pipe_HeatExch_NoPrDr_NoMassAcc_HEEfficiency(double heatExchEfficiency,
 			double stateTimeConstant) : Pipe_HeatExch_NoPrDr_NoMassAcc(stateTimeConstant) {
 		stateVariable = sTemperature;
 		this->heatExchEfficiency = heatExchEfficiency;
 	}
+
 	virtual void compute() {
 		double massFlowRate = - outletFlow->massFlowRate;
 		inletFlow->massFlowRate = outletFlow->massFlowRate;
@@ -84,12 +105,12 @@ public:
 				(wallTemperature - inletTemperature) * heatExchEfficiency;
 
 	}
+
 protected:
 	double heatExchEfficiency;
 };
 
-class Pipe_HeatExch_NoPrDr_NoMassAcc_Convection
-		: public Pipe_HeatExch_NoPrDr_NoMassAcc {
+class Pipe_HeatExch_NoPrDr_NoMassAcc_Convection : public Pipe_HeatExch_NoPrDr_NoMassAcc {
 public:
 	Pipe_HeatExch_NoPrDr_NoMassAcc_Convection(ForcedConvection* convection,
 			double stateTimeConstant)  : Pipe_HeatExch_NoPrDr_NoMassAcc(stateTimeConstant){
@@ -97,6 +118,7 @@ public:
 		this->convection = convection;
 		this->heatExchangeArea = convection->getHeatExchangeArea();
 	}
+
 	virtual void compute() {
 		// Compute flows
 		double massFlowRate = - outletFlow->massFlowRate;
@@ -130,14 +152,20 @@ public:
 			outletStateSetpoint = outletLimitState->h();
 		}
 	}
+
 protected:
 	virtual void _init() {
 		convection->init(inletState, outletState, wallNode);
 	}
+
+protected:
 	ForcedConvection* convection;
 	double heatExchangeArea;
 };
 
+/**
+ * Pipe_HeatExch_NoPrDr_NoMassAc_XXX - C
+ */
 Pipe_HeatExch_NoPrDr_NoMassAcc* Pipe_HeatExch_NoPrDr_NoMassAcc_Efficiency_new(
 		double heatExchEfficiency, double stateTimeConstant) {
 	return new Pipe_HeatExch_NoPrDr_NoMassAcc_HEEfficiency(

@@ -21,13 +21,14 @@ class ThermalConductionElement {
 public:
 	ThermalConductionElement(Medium* medium, int numNodes);
 	virtual ~ThermalConductionElement();
+
 	void assignNode(size_t nodeIndex, ThermalNode* node);
 	void setInteractionCoefficient(size_t row, size_t column, double value);
 	void computeExplicit();
 	double getHeatFlow(size_t nodeIndex);
 	void getFlow(size_t nodeIndex, HeatFlow* flow);
+
 protected:
-	int numNodes;
 	std::vector<ThermalNode*> nodes;
 	std::vector<double> heatFlows;
 	MediumState* internalState;
@@ -43,6 +44,7 @@ ThermalConductionElement* ThermalConductionElement_new(
 		Medium* medium, int numNodes);
 ThermalConductionElement* ThermalConductionElement_Line_new(
 		Medium_Solid* medium, double area, double length);
+
 void ThermalConductionElement_assignNode(
 		ThermalConductionElement* element, size_t nodeIndex, ThermalNode* node);
 void ThermalConductionElement_setInteractionCoefficient(

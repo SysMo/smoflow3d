@@ -8,25 +8,29 @@
 
 #include "ThermalNode.h"
 
+/**
+ * ThermalNode, ThermalSourceNode, ThermalMaterialNode - C++
+ */
 std::vector<ThermalNode*> ThermalNodeRegistry;
 
-ThermalNode::ThermalNode(ThermalNodeType nodeType)
-: nodeType(nodeType) {
-
+ThermalNode::ThermalNode(ThermalNodeType nodeType) :
+	nodeType(nodeType) {
+	temperature = 0.0;
 }
 
 void ThermalNode::setTemperature(double temperature) {
 	this->temperature = temperature;
 }
 
-ThermalSourceNode::ThermalSourceNode()
-: ThermalNode(sThermalNode_Source){
+ThermalSourceNode::ThermalSourceNode() :
+	ThermalNode(sThermalNode_Source) {
 
 }
 
-ThermalMaterialNode::ThermalMaterialNode()
-: ThermalNode(sThermalNode_Material){
-
+ThermalMaterialNode::ThermalMaterialNode() :
+	ThermalNode(sThermalNode_Material) {
+	totalHeatCapacity = 0.0;
+	temperatureDerivative = 0.0;
 }
 
 void ThermalMaterialNode::addMaterialMass(Medium_Solid* medium, double mass) {
@@ -62,6 +66,9 @@ void ThermalMaterialNode::compute(double heatFlow) {
 	temperatureDerivative = heatFlow / totalHeatCapacity;
 }
 
+/**
+ * ThermalNode, ThermalSourceNode, ThermalMaterialNode - C
+ */
 ThermalNode* ThermalNode_new(ThermalNodeType nodeType) {
 	if (nodeType == sThermalNode_Source) {
 		return new ThermalSourceNode();
@@ -104,7 +111,6 @@ double ThermalMaterialNode_getTemperatureDerivative(ThermalMaterialNode* node) {
 double ThermalMaterialNode_getTotalHeatCapacity(ThermalMaterialNode* node) {
 	return node->getTotalHeatCapacity();
 }
-
 
 ThermalMaterialNode* ThermalMaterialNode_getFromState(MediumState* state) {
 	ThermalMaterialNode* node = dynamic_cast<ThermalMaterialNode*>(state->parent);

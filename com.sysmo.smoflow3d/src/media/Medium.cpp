@@ -15,6 +15,9 @@ extern FluidsContainer Fluids;
 typedef std::map<int, Medium*> MediumContainer;
 static MediumContainer MediumRegistry;
 
+/**
+ * Medium - C
+ */
 void Medium_register(MediumConcreteTypes mediumType, const char* mediumName, int mediumIndex) {
 	MediumContainer::iterator it = MediumRegistry.find(mediumIndex);
 	if (it != MediumRegistry.end()) {

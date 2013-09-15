@@ -19,9 +19,10 @@ class Component_RC {
 public:
 	Component_RC();
 	virtual ~Component_RC();
+
 	void init(FluidFlow* port2Flow);
-	void createState(MediumState* port1State,
-			ThermalNode* wallNode);
+
+	void createState(MediumState* port1State, ThermalNode* wallNode);
 	virtual void getStateValues(double* value1, double* value2) = 0;
 	virtual void setStateValues(double value1, double value2) = 0;
 	virtual void getStateDerivatives(double* value1, double* value2) = 0;
@@ -37,6 +38,8 @@ public:
 protected:
 	virtual void _init() = 0;
 	virtual void _createState() = 0;
+
+protected:
 	// Port 1 (fluid)
 	MediumState* port1State; 	// input
 	FluidFlow* port1Flow;		// output

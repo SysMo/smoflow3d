@@ -13,7 +13,7 @@ static std::vector<MediumState*> MediumStateRegistry;
 using namespace smoflow;
 
 /**
- * MediumState C++ Class Functions
+ * MediumState - C++
  */
 MediumState::MediumState(Medium* medium) {
 	this->medium = medium;
@@ -183,7 +183,7 @@ double MediumState::dpdTSat() {
 }
 
 /**
- * MediumState C Functions
+ * MediumState - C
  */
 
 /** Medium state subclasses */

@@ -9,6 +9,9 @@
 #include "MediumStateFluidCoolProp.h"
 #include "CoolProp/CPExceptions.h"
 
+/**
+ * SmoCoolPropStateClass - C++
+ */
 double SmoCoolPropStateClass::gamma() {
 	if (!TwoPhase) {
 		return cp() / cv();
@@ -37,9 +40,13 @@ double SmoCoolPropStateClass::beta() {
 	}
 }
 
+/**
+ * MediumState_FluidCoolProp - C++
+ */
 MediumState_FluidCoolProp::MediumState_FluidCoolProp(Medium_CompressibleFluid_CoolProp* medium)
 : MediumState(medium), pFluid(medium->fluid), cps(pFluid){
 	cps.enable_EXTTP();
+	_q = 0.0;
 }
 
 MediumState_FluidCoolProp::~MediumState_FluidCoolProp() {

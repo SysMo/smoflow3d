@@ -30,6 +30,7 @@ public:
 protected:
 	void pre_update();
 	void post_update();
+
 public:
 	virtual void update_Tp(double T, double p);
 	virtual void update_Trho(double T, double rho);
@@ -51,9 +52,11 @@ public:
 	virtual double mu();
 	virtual double lambda();
 	virtual double R();
+
 	// Overwritten to allow working in the two-phase region
 	virtual double Pr();
 	virtual double gamma();
+
 	// Two-phase functions
 	virtual double q();
 	virtual bool isSupercritical();

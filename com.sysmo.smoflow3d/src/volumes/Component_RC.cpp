@@ -8,8 +8,16 @@
 
 #include "Component_RC.h"
 
+/**
+ * Component_RC - C++
+ */
 Component_RC::Component_RC() {
-
+	port1State = NULL;
+	port1Flow = NULL;
+	port2State = NULL;
+	port2Flow = NULL;
+	wallNode = NULL;
+	wallHeatFlow = NULL;
 }
 
 Component_RC::~Component_RC() {
@@ -31,6 +39,9 @@ void Component_RC::createState(MediumState* port1State,
 	_createState();
 }
 
+/**
+ * Component_RC - C
+ */
 MediumState* Component_RC_getPort1State(Component_RC* component) {
 	return component->getPort1State();
 }

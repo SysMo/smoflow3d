@@ -28,10 +28,12 @@ public:
 	void computeStateDerivatives(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
 	void getStateDerivatives(double* stateDerivative1, double* stateDerivative2);
 	MediumState* getFluidState(){return fluidState;}
+
 protected:
 	void computeStateDerivatives_cv(double mDot, double UDot, double VDot);
 	void computeStateDerivatives_cp(double mDot, double UDot, double VDot);
 
+protected:
 	static const int numStateVariables = 2;
 	ThermodynamicVariable states[numStateVariables];
 	double stateValues[numStateVariables];

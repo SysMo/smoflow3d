@@ -11,8 +11,19 @@
 /**
  * DriveCycleReader - C++
  */
-DriveCycleReader::DriveCycleReader(String fileName)
-: fileName(fileName) {
+DriveCycleReader::DriveCycleReader(String fileName) :
+		fileName(fileName) {
+	isActive = false;
+	tRemaining = 0.0;
+	tReference = 0.0;
+	phaseIndex = 0;
+	numDrivingPhases = 0;
+	loopCounter = 0;
+
+	mDotExtraction = 0.0;
+	driveCycleState = 0.0;
+	phaseRemainingDuration = 0.0;
+	currentPhaseDuration = 0.0;
 }
 
 DriveCycleReader::~DriveCycleReader() {

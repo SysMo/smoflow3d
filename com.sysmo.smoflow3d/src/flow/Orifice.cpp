@@ -7,10 +7,7 @@
  */
 
 #include "Orifice.h"
-
-
 using namespace smoflow;
-
 
 BEGIN_C_LINKAGE
 Orifice* Orifice_new() {
@@ -56,5 +53,4 @@ void Orifice_computeMassFlow_CompressibleIdealGas(Orifice* orifice, double regul
 void Orifice_computeEnthalpyFlow(Orifice* orifice) {
 	orifice->enthalpyFlowRate = orifice->massFlowRate * MediumState_h(orifice->stateUp);
 }
-
 END_C_LINKAGE

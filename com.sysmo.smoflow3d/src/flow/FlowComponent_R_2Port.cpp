@@ -8,7 +8,12 @@
 
 #include "FlowComponent_R_2Port.h"
 
+/**
+ * FlowComponent_R_2Port - C++
+ */
 FlowComponent_R_2Port::FlowComponent_R_2Port() {
+	state1 = NULL;
+	state2 = NULL;
 }
 
 FlowComponent_R_2Port::~FlowComponent_R_2Port() {

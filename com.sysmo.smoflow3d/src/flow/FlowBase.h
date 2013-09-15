@@ -14,12 +14,12 @@
 #ifdef __cplusplus
 
 #include "util/SmoComponent.h"
+
 struct FlowBase : public  SmoObj {
 };
 
 struct HeatFlow : public FlowBase {
-	// the heat flow rate
-	double enthalpyFlowRate;
+	double enthalpyFlowRate; // equals of the heat flow rate
 };
 
 struct FluidFlow : public FlowBase {
@@ -27,24 +27,25 @@ struct FluidFlow : public FlowBase {
 	double enthalpyFlowRate;
 	//double volumetricFlowRate; //:NOT_USED:
 };
+
 #else //__cplusplus
 DECLARE_C_STRUCT(HeatFlow)
 DECLARE_C_STRUCT(FluidFlow)
 #endif // __cplusplus
 
 BEGIN_C_LINKAGE
-/* ==============================================
+/**
  * Heat flow
- * ==============================================*/
+ */
 HeatFlow* HeatFlow_new();
 int HeatFlow_register(HeatFlow* flow);
 HeatFlow* HeatFlow_get(int flowIndex);
 void HeatFlow_setEnthalpyFlowRate(HeatFlow* flow, double enthalpyFlowRate);
 double HeatFlow_getEnthalpyFlowRate(HeatFlow* flow);
 
-/* ==============================================
- * Fluid flow
- * ==============================================*/
+/**
+ * Fluid fow
+ */
 FluidFlow* FluidFlow_new();
 int FluidFlow_register(FluidFlow* flow);
 FluidFlow* FluidFlow_get(int flowIndex);
@@ -52,7 +53,6 @@ void FluidFlow_setMassFlowRate(FluidFlow* flow, double massFlowRate);
 double FluidFlow_getMassFlowRate(FluidFlow* flow);
 void FluidFlow_setEnthalpyFlowRate(FluidFlow* flow, double enthalpyFlowRate);
 double FluidFlow_getEnthalpyFlowRate(FluidFlow* flow);
-
 END_C_LINKAGE
 
 #endif /* FLOWBASE_H_ */

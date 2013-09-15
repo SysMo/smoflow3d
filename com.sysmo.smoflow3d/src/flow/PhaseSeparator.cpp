@@ -7,11 +7,15 @@
  */
 
 #include "PhaseSeparator.h"
-
 using namespace smoflow;
 
+/**
+ * PhaseSeparator - C++
+ */
 PhaseSeparator::PhaseSeparator(PhaseSelection phaseSelection) {
 	this->phaseSelection = phaseSelection;
+	port1State = NULL;
+	port2State = NULL;
 }
 
 PhaseSeparator::~PhaseSeparator() {
@@ -52,6 +56,9 @@ void PhaseSeparator::updateState(double regulatingSignal) {
 	}
 }
 
+/**
+ * PhaseSeparator - C
+ */
 PhaseSeparator* PhaseSeparator_new(PhaseSelection phaseSelection) {
 	return new PhaseSeparator(phaseSelection);
 }

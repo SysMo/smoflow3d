@@ -15,15 +15,14 @@
 
 #ifdef __cplusplus
 
-
 class MechanicalCompressor : public FlowComponent_R_2Port {
 public:
 	MechanicalCompressor();
 	virtual ~MechanicalCompressor();
-	virtual const char* getComponentName() {
-		return "SMO_MECHANICAL_COMPRESSOR";
-	}
+	virtual const char* getComponentName() {return "SMO_MECHANICAL_COMPRESSOR";}
+
 	virtual void init(MediumState* state1, MediumState* state2);
+
 	void setDisplacementVolume(double displacementVolume) {this->displacementVolume = displacementVolume;}
 	void setRotationalSpeed(double rotationalSpeed) {this->rotationalSpeed = rotationalSpeed;};
 
@@ -41,6 +40,7 @@ public:
 	double getCompressorWork() {return compressorWork;}
 	double getTorque() {return torque;}
 	double getPressureRatio() {return pressureRatio;}
+
 protected:
 	/* Inputs */
 	double displacementVolume;

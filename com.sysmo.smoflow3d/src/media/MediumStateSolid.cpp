@@ -8,6 +8,9 @@
 
 #include "MediumStateSolid.h"
 
+/**
+ * MediumState_Solid - C++
+ */
 MediumState_Solid::MediumState_Solid(Medium_Solid* medium) : MediumState (medium) {
 	this->solid = medium;
 	densityCache = medium->densityFunction->createCache();
@@ -49,6 +52,9 @@ double MediumState_Solid::mu() {
 	return _HUGE;
 }
 
+/**
+ * MediumState_Solid - C
+ */
 MediumState_Solid* MediumStateSolid_new(Medium_Solid* medium) {
 	return new MediumState_Solid(medium);
 }

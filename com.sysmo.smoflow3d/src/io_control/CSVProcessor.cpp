@@ -8,8 +8,12 @@
 
 #include "CSVProcessor.h"
 
-
+/**
+ * CSVRowReader - C++
+ */
 CSVRowReader::CSVRowReader() {
+	delimiter = ',';
+	currentPosition = 0;
 }
 
 void CSVRowReader::setDelimiter(char delimiter) {
@@ -76,6 +80,9 @@ bool CSVRowReader::isRowEmpty(String& rowContent) {
 	return isEmpty;
 }
 
+/**
+ * CSVProcessor - C++
+ */
 CSVProcessor::CSVProcessor() {
 }
 
@@ -178,5 +185,4 @@ void CSVProcessor::read(String& fileName, char delimiter, int numSkipLines) {
 	}
 
 	file.close();
-
 }

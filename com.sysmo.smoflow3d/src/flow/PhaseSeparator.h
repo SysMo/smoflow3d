@@ -18,16 +18,16 @@ class PhaseSeparator {
 public:
 	PhaseSeparator(PhaseSelection phaseSelection);
 	virtual ~PhaseSeparator();
+
 	void init(MediumState* port1State);
+
 	MediumState* getPort2State() {return port2State;}
 	void updateState(double regulatingSignal);
+
 protected:
 	PhaseSelection phaseSelection;
-	//PhaseSelection currentPhase;
 	MediumState* port1State;
 	MediumState* port2State;
-
-
 };
 
 #else // __cplusplus
@@ -38,8 +38,7 @@ BEGIN_C_LINKAGE
 PhaseSeparator* PhaseSeparator_new(PhaseSelection phaseSelection);
 void PhaseSeparator_init(PhaseSeparator* component,	MediumState* port1State);
 MediumState* PhaseSeparator_getPort2State(PhaseSeparator* component);
-void PhaseSeparator_updateState(PhaseSeparator* component,
-		double regulatingSignal);
+void PhaseSeparator_updateState(PhaseSeparator* component, double regulatingSignal);
 END_C_LINKAGE
 
 #endif /* PHASESEPARATOR_H_ */

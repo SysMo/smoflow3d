@@ -10,11 +10,22 @@
 
 using namespace smoflow;
 
-FrictionFlowPipe::FrictionFlowPipe(double hydraulicDiameter,
-		double flowArea, double flowFactor) {
+/**
+ * FrictionFlowPipe - C++
+ */
+FrictionFlowPipe::FrictionFlowPipe(
+		double hydraulicDiameter,
+		double flowArea,
+		double flowFactor) {
 	this->hydraulicDiameter = hydraulicDiameter;
 	this->flowArea = flowArea;
 	this->flowFactor = flowFactor;
+
+	pressureDropGain = 0.0;
+	massFlowRate = 0.0;
+	absolutePressureDrop = 0.0;
+	state1 = NULL;
+	state2 = NULL;
 }
 
 FrictionFlowPipe::~FrictionFlowPipe() {
@@ -118,6 +129,9 @@ void FrictionFlowPipe::getFluidFlow2(FluidFlow* flow) {
 	flow->enthalpyFlowRate = massFlowRate * upstreamState->h();
 }
 
+/**
+ * FrictionFlowPipe - C
+ */
 void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2) {
 	component->init(state1, state2);
 }
@@ -142,14 +156,13 @@ double FrictionFlowPipe_getMassFlowRate(FrictionFlowPipe* component) {
 	return component->getMassFlowRate();
 }
 
-/**********************************************************************
- *********************  Implementation classes ************************
- **********************************************************************/
-
+/*************************************************************
+ ***   FrictionFlowPipe implementation classes
+ *************************************************************/
 class FrictionFlowPipe_StraightPipe : public FrictionFlowPipe {
 public:
 	FrictionFlowPipe_StraightPipe(double diameter, double length, double surfaceRoughness)
-	: FrictionFlowPipe(diameter, m::pi / 4 * diameter * diameter,
+		: FrictionFlowPipe(diameter, m::pi / 4 * diameter * diameter,
 			length / diameter) {
 		this->surfaceRoughness = surfaceRoughness;
 	}
@@ -165,11 +178,11 @@ public:
 		}
 		return zeta;
 	}
+
 protected:
 	double surfaceRoughness;
 };
 
-FrictionFlowPipe* FrictionFlowPipe_StraightPipe_new(
-		double diameter, double length, double surfaceRoughness) {
+FrictionFlowPipe* FrictionFlowPipe_StraightPipe_new(double diameter, double length, double surfaceRoughness) {
 	return new FrictionFlowPipe_StraightPipe(diameter, length, surfaceRoughness);
 }

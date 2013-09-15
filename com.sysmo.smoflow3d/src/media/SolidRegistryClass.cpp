@@ -7,11 +7,12 @@
  */
 
 #include "SolidRegistryClass.h"
-
 #include "definitions/SolidDefinitions.h"
-
 using namespace solids;
 
+/**
+ * SolidRegistryClass - C++
+ */
 SolidRegistryClass SolidRegistry;
 
 SolidRegistryClass::SolidRegistryClass() {

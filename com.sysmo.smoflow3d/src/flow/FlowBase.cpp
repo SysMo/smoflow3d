@@ -8,9 +8,9 @@
 
 #include "FlowBase.h"
 
-/* ==============================================
- * Heat flow
- * ==============================================*/
+/**
+ * Heat flow - C
+ */
 static std::vector<HeatFlow*> HeatFlowRegistry;
 
 HeatFlow* HeatFlow_new() {
@@ -36,9 +36,9 @@ double HeatFlow_getEnthalpyFlowRate(HeatFlow* flow) {
 	return flow->enthalpyFlowRate;
 }
 
-/* ==============================================
- * Fluid flow
- * ==============================================*/
+/**
+ * Fluid flow - C
+ */
 static std::vector<FluidFlow*> FluidFlowRegistry;
 
 FluidFlow* FluidFlow_new(){

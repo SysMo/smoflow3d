@@ -8,6 +8,9 @@
 
 #include "ThermalConductionElement.h"
 
+/**
+ * ThermalConductionElement - C++
+ */
 ThermalConductionElement::ThermalConductionElement(Medium* medium, int numNodes)
 : nodes(numNodes), heatFlows(numNodes), interactionCoefficients(numNodes, numNodes) {
 	internalState = MediumState_new(medium);
@@ -67,6 +70,9 @@ void ThermalConductionElement::getFlow(size_t nodeIndex, HeatFlow* flow) {
 	flow->enthalpyFlowRate = getHeatFlow(nodeIndex);
 }
 
+/**
+ * ThermalConductionElement - C
+ */
 ThermalConductionElement* ThermalConductionElement_new(
 		Medium* medium, int numNodes) {
 	return new ThermalConductionElement(medium, numNodes);
