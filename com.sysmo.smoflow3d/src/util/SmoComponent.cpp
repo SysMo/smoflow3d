@@ -20,6 +20,6 @@ void SmoComponent_setInstanceIndex(SmoComponent* component, int index) {
 	component->instanceIndex = index;
 }
 
-int SmoComponent_getInstanceIndex(SmoComponent* component) {
-	return component->instanceIndex;
+void SmoComponent_setComponentName(SmoComponent* component, const char* componentName) {
+	component->componentName = componentName;
 }

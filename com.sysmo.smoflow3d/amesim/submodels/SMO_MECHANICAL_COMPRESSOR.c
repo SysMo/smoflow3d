@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_MECHANICAL_COMPRESSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "flow/MechanicalCompressor.h"
 #include "math/Functors.h"
 
@@ -120,7 +121,8 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = MechanicalCompressor_new();
-   SmoComponent_setInstanceIndex(_component, *n);
+   SMOCOMPONEN_SET_PROPS(_component)
+
    _inletFlow = FluidFlow_new();
    _inletFlowIndex = FluidFlow_register(_inletFlow);
    _outletFlow = FluidFlow_new();

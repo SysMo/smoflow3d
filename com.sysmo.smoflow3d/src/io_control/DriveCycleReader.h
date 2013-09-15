@@ -17,7 +17,6 @@ class DriveCycleReader : SmoComponent {
 public:
 	DriveCycleReader(String fileName);
 	virtual ~DriveCycleReader();
-	virtual const char* getComponentName() {return "SMO_DRIVECYCLEREADER";}
 
 	void init();
 	void compute(double t, double activationSignal, double breakCurrDrivingPhase);

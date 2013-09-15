@@ -11,8 +11,7 @@
 /**
  * DriveCycleReader - C++
  */
-DriveCycleReader::DriveCycleReader(String fileName) :
-		fileName(fileName) {
+DriveCycleReader::DriveCycleReader(String fileName) : fileName(fileName) {
 	isActive = false;
 	tRemaining = 0.0;
 	tReference = 0.0;

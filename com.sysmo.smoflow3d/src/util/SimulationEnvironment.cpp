@@ -155,8 +155,7 @@ void SimulationEnvironment_exit() {
 
 const char* SimulationEnvironment_getComponentId(SmoComponent* component) {
 	std::stringstream resStream;
-	resStream << component->getComponentName()
-	<< " instance " << component->instanceIndex;
+	resStream << component->componentName << " instance " << component->instanceIndex;
 	String componentId(resStream.str());
 	return componentId.c_str();
 }

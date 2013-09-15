@@ -19,7 +19,6 @@ class MechanicalCompressor : public FlowComponent_R_2Port {
 public:
 	MechanicalCompressor();
 	virtual ~MechanicalCompressor();
-	virtual const char* getComponentName() {return "SMO_MECHANICAL_COMPRESSOR";}
 
 	virtual void init(MediumState* state1, MediumState* state2);
 
