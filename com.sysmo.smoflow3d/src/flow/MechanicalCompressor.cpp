@@ -57,13 +57,13 @@ MechanicalCompressor::~MechanicalCompressor() {
 void MechanicalCompressor::init(MediumState* state1, MediumState* state2) {
 	// Check parameters
 	if (isentropicEfficiencyFunction == NULL) {
-		RaiseError("Function for evaluating isentropic efficiency not set");
+		RaiseComponentError(this, "Function for evaluating isentropic efficiency not set");
 	}
 	if (mechanicalEfficiencyFunction == NULL) {
-		RaiseError("Function for evaluating mechanical efficiency not set");
+		RaiseComponentError(this, "Function for evaluating mechanical efficiency not set");
 	}
 	if (volumetricFlowRateFunction == NULL && volumetricEfficiencyFunction == NULL) {
-		RaiseError("Neither 'volumetric flow rate' nor 'volumetric efficiency' functions set");
+		RaiseComponentError(this, "Neither 'volumetric flow rate' nor 'volumetric efficiency' functions set");
 	}
 	FlowComponent_R_2Port::init(state1, state2);
 	outletFlowStateIdeal = MediumState_new(state1->getMedium());

@@ -22,21 +22,27 @@ ThermalConductionElement::~ThermalConductionElement() {
 
 void ThermalConductionElement::assignNode(size_t nodeIndex, ThermalNode* node) {
 	if (nodeIndex > nodes.size()) {
-		RaiseError("Illegal node index " << nodeIndex
+		RaiseComponentError(this,
+				"Illegal node index " << nodeIndex
 				<< ", it must be in the interval [1 .. "
-				<< nodes.size() << "]")
+				<< nodes.size() << "]");
 	}
 	nodes[nodeIndex - 1] = node;
 }
 
 void ThermalConductionElement::setInteractionCoefficient(size_t row, size_t column, double value) {
 	if (row > nodes.size()) {
-		RaiseError("Illegal row index " << row
-				<< ", it must be in the interval [1 .. " << nodes.size() << "]")
+		RaiseComponentError(this,
+				"Illegal row index " << row
+				<< ", it must be in the interval [1 .. "
+				<< nodes.size() << "]");
 	}
 	if (column > nodes.size()) {
-		RaiseError("Illegal column index " << column
-				<< ", it must be in the interval [1 .. " << nodes.size() << "]")
+		RaiseComponentError(this,
+				"Illegal column index " << column
+				<< ", it must be in the interval [1 .. "
+				<< nodes.size() << "]")
+
 	}
 	interactionCoefficients(row - 1, column - 1) = value;
 }

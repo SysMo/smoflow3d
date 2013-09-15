@@ -21,7 +21,7 @@ FlowComponent_R_2Port::~FlowComponent_R_2Port() {
 
 void FlowComponent_R_2Port::init(MediumState* state1, MediumState* state2) {
 	if (state1->getMedium() != state2->getMedium()) {
-		RaiseError("Different media connected to the flow component!");
+		RaiseComponentError(this, "Different media connected to the flow component!");
 	}
 	this->state1 = state1;
 	this->state2 = state2;

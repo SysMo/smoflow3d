@@ -33,7 +33,8 @@ void FluidChamber::selectStates(ThermodynamicVariable state1, ThermodynamicVaria
 		) {
 
 	} else {
-		RaiseError("Incorrect combination of states selected (enum): "
+		RaiseComponentError(this,
+				"Incorrect combination of states selected (enum): "
 				<< state1 << " and " << state2);
 	}
 }
@@ -58,7 +59,8 @@ void FluidChamber::setStateValues(double stateValue1, double stateValue2) {
 	} else if (states[0] == iH && states[1] == iP) {
 		fluidState->update_ph(stateValue2, stateValue1);
 	} else {
-		RaiseError("Cannot set state using state variables (enum): "
+		RaiseComponentError(this,
+				"Cannot set state using state variables (enum): "
 				<< states[0] << " and " << states[1]);
 	}
 }
@@ -80,7 +82,7 @@ void FluidChamber::getStateValues(double* stateValue1, double* stateValue2, bool
 				stateValues[i] = fluidState->h();
 				break;
 			default:
-				RaiseError("Incorrect state variable (enum) " << states[i]);
+				RaiseComponentError(this, "Incorrect state variable (enum) " << states[i]);
 			}
 		}
 	}
@@ -105,8 +107,9 @@ void FluidChamber::getStateDerivatives(double* stateDerivative1, double* stateDe
 			stateDerivatives[i] = stateTimeDerivatives.h;
 			break;
 		default:
-			RaiseError("Calculation of time derivative of state (enum) " << states[i]
-			   <<	"not implemented");
+			RaiseComponentError(this,
+					"Calculation of time derivative of state (enum) "
+					<< states[i] << "not implemented");
 		}
 	}
 

@@ -121,9 +121,9 @@ public:
 
 	virtual void compute() {
 		// Compute flows
-		double massFlowRate = - outletFlow->massFlowRate;
-		if (massFlowRate < - m::eps) {
-			RaiseError("Reverse flow encountered");
+		double massFlowRate = -outletFlow->massFlowRate;
+		if (massFlowRate < -m::eps) {
+			RaiseComponentError(this, "Reverse flow encountered");
 		}
 		inletFlow->massFlowRate = outletFlow->massFlowRate;
 		inletFlow->enthalpyFlowRate = inletFlow->massFlowRate * inletState->h();
