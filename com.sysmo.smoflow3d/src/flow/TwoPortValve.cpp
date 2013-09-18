@@ -9,9 +9,6 @@
 #include "TwoPortValve.h"
 using namespace smoflow;
 
-
-BEGIN_C_LINKAGE
-
 TwoPortValve* TwoPortValve_new() {
 	return new TwoPortValve();
 }
@@ -94,4 +91,3 @@ void TwoPortValve_computeEnthalpyFlow(TwoPortValve* valve) {
 	}
 }
 
-END_C_LINKAGE
