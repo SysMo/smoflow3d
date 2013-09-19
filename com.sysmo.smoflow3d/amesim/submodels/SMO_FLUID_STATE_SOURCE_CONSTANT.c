@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SOURCE_CONSTANT skeleton created by AME Submodel editing utility
-   Thu Aug 29 14:28:52 2013 */
+   Thu Sep 19 17:04:12 2013 */
 
 
 
@@ -51,7 +51,7 @@ REVISIONS :
 */
 
 void smo_fluid_state_source_constantin_(int *n, double rp[4]
-      , int ip[2], int ic[1], void *ps[1], double *stateIndex
+      , int ip[2], int ic[1], void *ps[1], double *fluidStateIndex
       , double *pressure, double *temperature, double *temperatureC
       , double *density, double *specificEnthalpy
       , double *gasMassFraction)
@@ -83,7 +83,7 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
 /*
    Check and/or reset the following fixed and/or discrete variables
 
-   *stateIndex = ??;
+   *fluidStateIndex = ??;
    *pressure   = ??;
    *temperature = ??;
    *temperatureC = ??;
@@ -150,7 +150,7 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
    *specificEnthalpy = MediumState_h(_fluidState) / 1e3;
    *gasMassFraction = MediumState_q(_fluidState);
 
-   *stateIndex = _fluidStateIndex;
+   *fluidStateIndex = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -158,8 +158,8 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
 
    Port 1 has 2 variables:
 
-      1 stateIndex     state index [smoTDS] fixed  UNPLOTTABLE
-      2 flowIndex      flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndex     fluid state index [smoTDS] fixed  UNPLOTTABLE
+      2 fluidFlowIndex      fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 6 internal variables.
@@ -176,7 +176,7 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
 
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
-void smo_fluid_state_source_constant_(int *n, double *flowIndex
+void smo_fluid_state_source_constant_(int *n, double *fluidFlowIndex
       , double rp[4], int ip[2], int ic[1], void *ps[1], int *flag)
 
 {
@@ -199,7 +199,7 @@ void smo_fluid_state_source_constant_(int *n, double *flowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *flowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -213,7 +213,7 @@ void smo_fluid_state_source_constant_(int *n, double *flowIndex
 
 /* SI -> Common units conversions. */
 
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
 }
 
 #endif

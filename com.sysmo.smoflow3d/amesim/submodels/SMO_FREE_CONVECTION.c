@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Tue Aug 20 11:35:31 2013 */
+   Thu Sep 19 17:49:35 2013 */
 
 
 
@@ -190,8 +190,8 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 
    Port 2 has 2 variables:
 
-      1 flowIndex      flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 stateIndex     state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndex      fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidStateIndex     fluid state index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 4 internal variables.
@@ -203,8 +203,8 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 */
 
 void smo_free_convection_(int *n, double *heatFlowIndex
-      , double *thermalNodeIndex, double *flowIndex
-      , double *stateIndex, double *Ra, double *Nu, double *h
+      , double *thermalNodeIndex, double *fluidFlowIndex
+      , double *fluidStateIndex, double *Ra, double *Nu, double *h
       , double *qDot, double rp[13], int ip[1], char *tp[1], int ic[4]
       , void *ps[4])
 
@@ -241,13 +241,13 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 /* Common -> SI units conversions. */
 
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
    *heatFlowIndex = ??;
-   *flowIndex  = ??;
+   *fluidFlowIndex = ??;
    *Ra         = ??;
    *Nu         = ??;
    *h          = ??;
@@ -258,7 +258,7 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    if (firstc_()) {
-	   MediumState* fluidState = MediumState_get(*stateIndex);
+	   MediumState* fluidState = MediumState_get(*fluidStateIndex);
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 	   FreeConvection_init(_component, fluidState, wallNode);
    }
@@ -271,7 +271,7 @@ void smo_free_convection_(int *n, double *heatFlowIndex
    *h = Convection_getConvectionCoefficient(_component);
    *qDot = Convection_getHeatFlowRate(_component);
 
-   *flowIndex = _fluidFlowIndex;
+   *fluidFlowIndex = _fluidFlowIndex;
    *heatFlowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -279,7 +279,7 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 
 /*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 }
 

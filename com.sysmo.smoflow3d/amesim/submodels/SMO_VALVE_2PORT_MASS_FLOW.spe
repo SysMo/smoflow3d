@@ -92,8 +92,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>53</SUB_ID>
-     <TITLE>flow1 index</TITLE>
-     <VARNAME>flow1Index</VARNAME>
+     <TITLE>fluid flow1 index</TITLE>
+     <VARNAME>fluidFlow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -103,8 +103,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>54</SUB_ID>
-     <TITLE>state1 index</TITLE>
-     <VARNAME>state1Index</VARNAME>
+     <TITLE>fluid state1 index</TITLE>
+     <VARNAME>fluidState1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -128,8 +128,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>56</SUB_ID>
-     <TITLE>flow2 index</TITLE>
-     <VARNAME>flow2Index</VARNAME>
+     <TITLE>fluid flow2 index</TITLE>
+     <VARNAME>fluidFlow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -139,7 +139,7 @@
     </EVAR>
     <EVAR>
      <SUB_ID>55</SUB_ID>
-     <TITLE>state2 index</TITLE>
+     <TITLE>fluid state2 index</TITLE>
      <VARNAME>state2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>

@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_PRESSURE_DROP_RC skeleton created by AME Submodel editing utility
-   Wed Aug 28 14:55:15 2013 */
+   Thu Sep 19 17:55:22 2013 */
 
 
 
@@ -137,10 +137,9 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
    } else {
 	   flowAreaValue = flowArea;
    }
-	_friction = FrictionFlowPipe_StraightPipe_new(
-			hydraulicDiameter, pipeLength, absoluteRoughness);
-	_convection = ForcedConvection_StraightPipe_new(
-			hydraulicDiameter, flowArea, pipeLength);
+
+   _friction = FrictionFlowPipe_StraightPipe_new(hydraulicDiameter, pipeLength, absoluteRoughness);
+   _convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowArea, pipeLength);
 
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
    FrictionFlowPipe_setPressureDropGain(_friction, pressureDropGain);
@@ -155,8 +154,8 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
 
    Port 1 has 2 variables:
 
-      1 port1FlowIndex      flow index at port 1  [smoFFL] basic variable output  UNPLOTTABLE
-      2 port1StateIndex     state index at port 1 [smoTDS] basic variable input  UNPLOTTABLE
+      1 port1FluidFlowIndex      fluid flow index at port 1  [smoFFL] basic variable output  UNPLOTTABLE
+      2 port1FluidStateIndex     fluid state index at port 1 [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
@@ -165,8 +164,8 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
 
    Port 3 has 2 variables:
 
-      1 port3StateIndex     state index outlet   [smoTDS] multi line macro 'smo_heatexchanger_pressure_drop_rc_macro0_'  UNPLOTTABLE
-      2 port3FlowIndex      flow index at port 3 [smoFFL] basic variable input  UNPLOTTABLE
+      1 port3FluidStateIndex     fluid state index outlet   [smoTDS] multi line macro 'smo_heatexchanger_pressure_drop_rc_macro0_'  UNPLOTTABLE
+      2 port3FluidFlowIndex      fluid flow index at port 3 [smoFFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 7 internal variables.
@@ -181,9 +180,9 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
 */
 
 void smo_heatexchanger_pressure_drop_rc_(int *n
-      , double *port1FlowIndex, double *port1StateIndex
+      , double *port1FluidFlowIndex, double *port1FluidStateIndex
       , double *heatFlowIndex, double *thermalNodeIndex
-      , double *port3StateIndex, double *port3FlowIndex
+      , double *port3FluidStateIndex, double *port3FluidFlowIndex
       , double *port1Temperature, double *port3Temperature
       , double stateValues[2], double stateValuesDot[2]
       , double *reynoldsNumber, double *convectionCoefficient
@@ -213,15 +212,15 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *port1StateIndex *= ??; CONVERSION UNKNOWN */
+/*   *port1FluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *port3StateIndex *= ??; CONVERSION UNKNOWN */
-/*   *port3FlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *port3FluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *port3FluidFlowIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *port1FlowIndex = ??;
+   *port1FluidFlowIndex = ??;
    *heatFlowIndex = ??;
    *port1Temperature = ??;
    *port3Temperature = ??;
@@ -237,17 +236,19 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
   // Initialization at first run
    if (firstc_()) {
-	   FluidFlow* port3Flow = FluidFlow_get(*port3FlowIndex);
+	   FluidFlow* port3Flow = FluidFlow_get(*port3FluidFlowIndex);
 	   Component_RC_init(_component, port3Flow);
+
 	   _port1FluidFlow = Component_RC_getPort1Flow(_component);
 	   _port1FluidFlowIndex = SmoObject_getInstanceIndex(_port1FluidFlow);
+
 	   _wallHeatFlow = Component_RC_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
 
    Component_RC_compute(_component);
 
-   *port1FlowIndex = _port1FluidFlowIndex;
+   *port1FluidFlowIndex = _port1FluidFlowIndex;
    *heatFlowIndex = _wallHeatFlowIndex;
    *port1Temperature = MediumState_T(_port1FluidState);
    *port3Temperature = MediumState_T(_port3FluidState);
@@ -260,22 +261,22 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *port1FlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *port1StateIndex /= ??; CONVERSION UNKNOWN */
+/*   *port1FluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *port1FluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *port3StateIndex /= ??; CONVERSION UNKNOWN */
-/*   *port3FlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *port3FluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN */
    *totalPressureLoss /= 1.00000000000000e+005;
 }
 
 extern double smo_heatexchanger_pressure_drop_rc_macro0_(int *n
-      , double *port1StateIndex, double *thermalNodeIndex
+      , double *port1FluidStateIndex, double *thermalNodeIndex
       , double stateValues[2], double rp[8], int ip[1], int ic[6]
       , void *ps[6], int *flag)
 
 {
-   double port3StateIndex;
+   double port3FluidStateIndex;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -298,41 +299,44 @@ extern double smo_heatexchanger_pressure_drop_rc_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *port1StateIndex *= ??; CONVERSION UNKNOWN */
+/*   *port1FluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Define and return the following macro variable:
 
-   port3StateIndex = ??;
+   port3FluidStateIndex = ??;
 */
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    if (firstc_()) {
 	   // Get the inlet state and wall node
-	   _port1FluidState = MediumState_get(*port1StateIndex);
+	   _port1FluidState = MediumState_get(*port1FluidStateIndex);
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
+
 	   // Initialize outlet
 	   Component_RC_initState(_component, _port1FluidState, wallNode);
+
 	   _port3FluidState = Component_RC_getPort2State(_component);
-	   _port3FluidStateIndex = SmoObject_getInstanceIndex(
-			   _port3FluidState);
+	   _port3FluidStateIndex = SmoObject_getInstanceIndex(_port3FluidState);
+
 	   MediumState_update_Tp(_port3FluidState, initT, initP);
 	   Component_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);
    } else {
 	   Component_RC_setStateValues(_component, stateValues[0], stateValues[1]);
    }
-   port3StateIndex = _port3FluidStateIndex;
+
+   port3FluidStateIndex = _port3FluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *port1StateIndex /= ??; CONVERSION UNKNOWN */
+/*   *port1FluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 
-/*   *port3StateIndex /= ??; CONVERSION UNKNOWN */
+/*   *port3FluidStateIndex /= ??; CONVERSION UNKNOWN */
 
-   return port3StateIndex;
+   return port3FluidStateIndex;
 }
 

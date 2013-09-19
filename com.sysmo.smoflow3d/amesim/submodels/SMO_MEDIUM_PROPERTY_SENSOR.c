@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_PROPERTY_SENSOR skeleton created by AME Submodel editing utility
-   Thu Sep 5 10:19:41 2013 */
+   Thu Sep 19 17:07:48 2013 */
 
 
 
@@ -101,8 +101,8 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 1 has 2 variables:
 
-      1 stateIndexDup     duplicate of stateIndex
-      2 flowIndex         flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup     duplicate of fluidStateIndex
+      2 fluidFlowIndex         fluid flow index [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -110,15 +110,15 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 3 has 2 variables:
 
-      1 flowIndexDup     duplicate of flowIndex
-      2 stateIndex       state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndexDup     duplicate of fluidFlowIndex
+      2 fluidStateIndex       fluid state index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 19 internal variables.
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (°C)                    [degC]              basic variable
+      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -137,16 +137,16 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
      19 sigma                       surface tension                     [N/m]               basic variable
 */
 
-void smo_medium_property_sensor_(int *n, double *flowIndex
-      , double *measuredValue, double *stateIndex, double *pressure
-      , double *temperature, double *temperatureC, double *density
-      , double *specificVolume, double *internalEnergy
-      , double *enthalpy, double *specificEntropy, double *cp
-      , double *cv, double *specificHelmholtzEnergy
-      , double *specificGibbsEnergy, double *gasMassFraction
-      , double *superheating, double *dpc, double *mu, double *lambda
-      , double *Pr, double *sigma, double rp[2], int ip[1]
-      , double c[20], int ic[1], void *ps[1])
+void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
+      , double *measuredValue, double *fluidStateIndex
+      , double *pressure, double *temperature, double *temperatureC
+      , double *density, double *specificVolume
+      , double *internalEnergy, double *enthalpy
+      , double *specificEntropy, double *cp, double *cv
+      , double *specificHelmholtzEnergy, double *specificGibbsEnergy
+      , double *gasMassFraction, double *superheating, double *dpc
+      , double *mu, double *lambda, double *Pr, double *sigma
+      , double rp[2], int ip[1], double c[20], int ic[1], void *ps[1])
 
 {
    int loop;
@@ -163,8 +163,8 @@ void smo_medium_property_sensor_(int *n, double *flowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *flowIndex *= ??; CONVERSION UNKNOWN */
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -216,8 +216,8 @@ void smo_medium_property_sensor_(int *n, double *flowIndex
 
 /* SI -> Common units conversions. */
 
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *internalEnergy /= 1.00000000000000e+003;
    *enthalpy /= 1.00000000000000e+003;
@@ -228,7 +228,7 @@ void smo_medium_property_sensor_(int *n, double *flowIndex
 }
 
 extern double smo_medium_property_sensor_macro0_(int *n
-      , double *stateIndex, double rp[2], int ip[1], double c[20]
+      , double *fluidStateIndex, double rp[2], int ip[1], double c[20]
       , int ic[1], void *ps[1])
 
 {
@@ -247,7 +247,7 @@ extern double smo_medium_property_sensor_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Define and return the following macro variable:
@@ -258,7 +258,7 @@ extern double smo_medium_property_sensor_macro0_(int *n
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    if (firstc_()) {
-	   _fluidStateIndex = *stateIndex;
+	   _fluidStateIndex = *fluidStateIndex;
 	   _fluidState = MediumState_get(_fluidStateIndex);
    }
 
@@ -299,7 +299,7 @@ extern double smo_medium_property_sensor_macro0_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 
 
    return measuredValue;

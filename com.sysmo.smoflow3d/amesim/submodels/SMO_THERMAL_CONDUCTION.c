@@ -1,5 +1,5 @@
 /* Submodel SMO_THERMAL_CONDUCTION skeleton created by AME Submodel editing utility
-   Fri Aug 9 12:07:58 2013 */
+   Thu Sep 19 17:48:19 2013 */
 
 
 
@@ -33,10 +33,10 @@ REVISIONS :
 #define _component ps[0]
 
 #define _heatFlow1 ps[1]
-#define _heatFlowIndex1 ic[1]
+#define _heatFlow1Index ic[1]
 
 #define _heatFlow2 ps[2]
-#define _heatFlowIndex2 ic[2]
+#define _heatFlow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -119,9 +119,9 @@ void smo_thermal_conductionin_(int *n, double rp[2], int ip[2]
 	   AME_RAISE_ERROR("Medium concrete type expected to be 'solid thermal'")
    }
    _heatFlow1 = HeatFlow_new();
-   _heatFlowIndex1 = HeatFlow_register(_heatFlow1);
+   _heatFlow1Index = HeatFlow_register(_heatFlow1);
    _heatFlow2 = HeatFlow_new();
-   _heatFlowIndex2 = HeatFlow_register(_heatFlow2);
+   _heatFlow2Index = HeatFlow_register(_heatFlow2);
    _component = ThermalConductionElement_Line_new((Medium_Solid*) medium, conductionArea, conductionLength);
    SMOCOMPONEN_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -131,13 +131,13 @@ void smo_thermal_conductionin_(int *n, double rp[2], int ip[2]
 
    Port 1 has 2 variables:
 
-      1 heatFlowIndex1        heat flow index 1    [smoHFL] basic variable output  UNPLOTTABLE
-      2 thermalNodeIndex1     thermal node index 1 [smoTHN] basic variable input  UNPLOTTABLE
+      1 heatFlow1Index        heat flow index 1    [smoHFL] basic variable output  UNPLOTTABLE
+      2 thermalNode1Index     thermal node index 1 [smoTHN] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
-      1 heatFlowIndex2        heat flow index 2 [smoHFL] basic variable output  UNPLOTTABLE
-      2 thermalNodeIndex2     state index 2     [smoTHN] basic variable input  UNPLOTTABLE
+      1 heatFlow2Index        heat flow index 2 [smoHFL] basic variable output  UNPLOTTABLE
+      2 thermalNode2Index     state index 2     [smoTHN] basic variable input  UNPLOTTABLE
 */
 
 /*  There is 1 internal variable.
@@ -145,9 +145,9 @@ void smo_thermal_conductionin_(int *n, double rp[2], int ip[2]
       1 qDot2     heat flow rate at port 2 [W] basic variable
 */
 
-void smo_thermal_conduction_(int *n, double *heatFlowIndex1
-      , double *thermalNodeIndex1, double *heatFlowIndex2
-      , double *thermalNodeIndex2, double *qDot2, double rp[2]
+void smo_thermal_conduction_(int *n, double *heatFlow1Index
+      , double *thermalNode1Index, double *heatFlow2Index
+      , double *thermalNode2Index, double *qDot2, double rp[2]
       , int ip[2], int ic[3], void *ps[3])
 
 {
@@ -166,14 +166,14 @@ void smo_thermal_conduction_(int *n, double *heatFlowIndex1
 
 /* Common -> SI units conversions. */
 
-/*   *thermalNodeIndex1 *= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex2 *= ??; CONVERSION UNKNOWN */
+/*   *thermalNode1Index *= ??; CONVERSION UNKNOWN */
+/*   *thermalNode2Index *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *heatFlowIndex1 = ??;
-   *heatFlowIndex2 = ??;
+   *heatFlow1Index = ??;
+   *heatFlow2Index = ??;
    *qDot2      = ??;
 */
 
@@ -181,8 +181,8 @@ void smo_thermal_conduction_(int *n, double *heatFlowIndex1
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    if (firstc_()) {
-	   ThermalNode* node1 = ThermalNode_get(*thermalNodeIndex1);
-	   ThermalNode* node2 = ThermalNode_get(*thermalNodeIndex2);
+	   ThermalNode* node1 = ThermalNode_get(*thermalNode1Index);
+	   ThermalNode* node2 = ThermalNode_get(*thermalNode2Index);
 	   ThermalConductionElement_assignNode(_component, 1, node1);
 	   ThermalConductionElement_assignNode(_component, 2, node2);
    }
@@ -190,15 +190,15 @@ void smo_thermal_conduction_(int *n, double *heatFlowIndex1
    ThermalConductionElement_getFlow(_component, 1, _heatFlow1);
    ThermalConductionElement_getFlow(_component, 2, _heatFlow2);
    *qDot2 = ThermalConductionElement_getHeatFlow(_component, 2);
-   *heatFlowIndex1 = _heatFlowIndex1;
-   *heatFlowIndex2 = _heatFlowIndex2;
+   *heatFlow1Index = _heatFlow1Index;
+   *heatFlow2Index = _heatFlow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *heatFlowIndex1 /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex1 /= ??; CONVERSION UNKNOWN */
-/*   *heatFlowIndex2 /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex2 /= ??; CONVERSION UNKNOWN */
+/*   *heatFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *thermalNode1Index /= ??; CONVERSION UNKNOWN */
+/*   *heatFlow2Index /= ??; CONVERSION UNKNOWN */
+/*   *thermalNode2Index /= ??; CONVERSION UNKNOWN */
 }
 

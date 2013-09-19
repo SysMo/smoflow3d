@@ -26,8 +26,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>4</SUB_ID>
-     <TITLE>flow index</TITLE>
-     <VARNAME>flowIndex</VARNAME>
+     <TITLE>heat flow index</TITLE>
+     <VARNAME>heatFlowIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>

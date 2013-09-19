@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_CHAMBER_4PORT skeleton created by AME Submodel editing utility
-   Sun Aug 4 16:50:13 2013 */
+   Thu Sep 19 17:53:33 2013 */
 
 
 
@@ -173,23 +173,23 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
 
    Port 1 has 2 variables:
 
-      1 stateIndex     state index  [smoTDS] multi line macro 'smo_fluid_chamber_4port_macro0_'  UNPLOTTABLE
-      2 flowIndex1     flow index 1 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndex     fluid state index  [smoTDS] multi line macro 'smo_fluid_chamber_4port_macro0_'  UNPLOTTABLE
+      2 fluidFlow1Index     fluid flow index 1 [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
-      1 stateIndexDup2     duplicate of stateIndex
-      2 flowIndex2         flow index 2 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup2     duplicate of fluidStateIndex
+      2 fluidFlow2Index         fluid flow index 2 [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 3 has 2 variables:
 
-      1 stateIndexDup3     duplicate of stateIndex
-      2 flowIndex3         flow index 3 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup3     duplicate of fluidStateIndex
+      2 fluidFlow3Index         fluid flow index 3 [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 4 has 2 variables:
 
-      1 stateIndexDup4     duplicate of stateIndex
-      2 flowIndex4         flow index 4 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup4     duplicate of fluidStateIndex
+      2 fluidFlow4Index         flow index 4 [smoFFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 9 internal variables.
@@ -205,14 +205,14 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
       9 state2               state variable 2       [null]          explicit state (derivative `state2Dot')
 */
 
-void smo_fluid_chamber_4port_(int *n, double *stateIndex
-      , double *flowIndex1, double *flowIndex2, double *flowIndex3
-      , double *flowIndex4, double *pressure, double *temperature
-      , double *density, double *specificEnthalpy
-      , double *gasMassFraction, double *superHeat, double *totalMass
-      , double *state1, double *state1Dot, double *state2
-      , double *state2Dot, double rp[6], int ip[3], int ic[1]
-      , void *ps[6])
+void smo_fluid_chamber_4port_(int *n, double *fluidStateIndex
+      , double *fluidFlow1Index, double *fluidFlow2Index
+      , double *fluidFlow3Index, double *fluidFlow4Index
+      , double *pressure, double *temperature, double *density
+      , double *specificEnthalpy, double *gasMassFraction
+      , double *superHeat, double *totalMass, double *state1
+      , double *state1Dot, double *state2, double *state2Dot
+      , double rp[6], int ip[3], int ic[1], void *ps[6])
 
 {
    int loop;
@@ -236,11 +236,11 @@ void smo_fluid_chamber_4port_(int *n, double *stateIndex
 
 /* Common -> SI units conversions. */
 
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
-/*   *flowIndex1 *= ??; CONVERSION UNKNOWN */
-/*   *flowIndex2 *= ??; CONVERSION UNKNOWN */
-/*   *flowIndex3 *= ??; CONVERSION UNKNOWN */
-/*   *flowIndex4 *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow3Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow4Index *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -260,10 +260,10 @@ void smo_fluid_chamber_4port_(int *n, double *stateIndex
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    if (firstc_()) {
-	   _fluidFlow1 = FluidFlow_get(*flowIndex1);
-	   _fluidFlow2 = FluidFlow_get(*flowIndex2);
-	   _fluidFlow3 = FluidFlow_get(*flowIndex3);
-	   _fluidFlow4 = FluidFlow_get(*flowIndex4);
+	   _fluidFlow1 = FluidFlow_get(*fluidFlow1Index);
+	   _fluidFlow2 = FluidFlow_get(*fluidFlow2Index);
+	   _fluidFlow3 = FluidFlow_get(*fluidFlow3Index);
+	   _fluidFlow4 = FluidFlow_get(*fluidFlow4Index);
    }
 
    double massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1) + FluidFlow_getMassFlowRate(_fluidFlow2)
@@ -284,11 +284,11 @@ void smo_fluid_chamber_4port_(int *n, double *stateIndex
 
 /* SI -> Common units conversions. */
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex1 /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex2 /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex3 /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex4 /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow3Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow4Index /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
 }
@@ -298,7 +298,7 @@ extern double smo_fluid_chamber_4port_macro0_(int *n, double *state1
       , void *ps[6])
 
 {
-   double stateIndex;
+   double fluidStateIndex;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -321,17 +321,17 @@ extern double smo_fluid_chamber_4port_macro0_(int *n, double *state1
 /*
    Define and return the following macro variable:
 
-   stateIndex = ??;
+   fluidStateIndex = ??;
 */
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    FluidChamber_setStateValues(_component, *state1, *state2);
-   stateIndex = _fluidChamberStateIndex;
+   fluidStateIndex = _fluidChamberStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 
-   return stateIndex;
+   return fluidStateIndex;
 }
 

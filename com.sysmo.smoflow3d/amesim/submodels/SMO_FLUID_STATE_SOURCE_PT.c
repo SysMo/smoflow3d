@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SOURCE_PT skeleton created by AME Submodel editing utility
-   Thu Aug 29 09:30:15 2013 */
+   Thu Sep 19 17:05:11 2013 */
 
 
 
@@ -86,8 +86,8 @@ void smo_fluid_state_source_ptin_(int *n, int ip[1], int ic[1]
 
    Port 1 has 2 variables:
 
-      1 stateIndex     state index [smoTDS] multi line macro 'smo_fluid_state_source_pt_macro0_'  UNPLOTTABLE
-      2 flowIndex      flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndex     fluid state index [smoTDS] multi line macro 'smo_fluid_state_source_pt_macro0_'  UNPLOTTABLE
+      2 fluidFlowIndex      fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -100,14 +100,14 @@ void smo_fluid_state_source_ptin_(int *n, int ip[1], int ic[1]
 
 /*  There are 4 internal variables.
 
-      1 temperatureC        temperature (°C)  [degC]          basic variable
+      1 temperatureC        temperature (ï¿½C)  [degC]          basic variable
       2 density             density           [kg/m**3]       basic variable
       3 enthalpy            specific enthalpy [kJ/kg -> J/kg] basic variable
       4 gasMassFraction     gas mass fraction [null]          basic variable
 */
 
-void smo_fluid_state_source_pt_(int *n, double *stateIndex
-      , double *flowIndex, double *pressure, double *temperature
+void smo_fluid_state_source_pt_(int *n, double *fluidStateIndex
+      , double *fluidFlowIndex, double *pressure, double *temperature
       , double *temperatureC, double *density, double *enthalpy
       , double *gasMassFraction, int ip[1], int ic[1], void *ps[1]
       , int *flag)
@@ -124,8 +124,8 @@ void smo_fluid_state_source_pt_(int *n, double *stateIndex
 
 /* Common -> SI units conversions. */
 
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
-/*   *flowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
    *pressure *= 1.00000000000000e+005;
 
 /*
@@ -148,8 +148,8 @@ void smo_fluid_state_source_pt_(int *n, double *stateIndex
 
 /* SI -> Common units conversions. */
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *enthalpy /= 1.00000000000000e+003;
 }
@@ -159,7 +159,7 @@ extern double smo_fluid_state_source_pt_macro0_(int *n
       , void *ps[1], int *flag)
 
 {
-   double stateIndex;
+   double fluidStateIndex;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -176,21 +176,21 @@ extern double smo_fluid_state_source_pt_macro0_(int *n
 /*
    Define and return the following macro variable:
 
-   stateIndex = ??;
+   fluidStateIndex = ??;
 */
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    MediumState_update_Tp(_fluidState, *temperature, *pressure);
-   stateIndex = _fluidStateIndex;
+   fluidStateIndex = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
    *pressure /= 1.00000000000000e+005;
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 
-   return stateIndex;
+   return fluidStateIndex;
 }
 

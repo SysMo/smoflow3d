@@ -1,5 +1,5 @@
 /* Submodel SMO_ZERO_FLOW skeleton created by AME Submodel editing utility
-   Wed Jul 24 23:20:17 2013 */
+   Thu Sep 19 17:03:19 2013 */
 
 
 
@@ -30,7 +30,7 @@ REVISIONS :
 #include "flow/FlowBase.h"
 
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_zero_flowin_(int *n, double *flowIndex)
+void smo_zero_flowin_(int *n, double *fluidFlowIndex)
 
 {
    int loop, error;
@@ -42,7 +42,7 @@ void smo_zero_flowin_(int *n, double *flowIndex)
 /*
    Check and/or reset the following fixed and/or discrete variable
 
-   *flowIndex  = ??;
+   *fluidFlowIndex = ??;
 */
 
 
@@ -63,7 +63,7 @@ void smo_zero_flowin_(int *n, double *flowIndex)
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    FluidFlow* fluidFlow = FluidFlow_new();
-   *flowIndex = FluidFlow_register(fluidFlow);
+   *fluidFlowIndex = FluidFlow_register(fluidFlow);
    FluidFlow_setMassFlowRate(fluidFlow, 0);
    FluidFlow_setEnthalpyFlowRate(fluidFlow, 0);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -73,8 +73,8 @@ void smo_zero_flowin_(int *n, double *flowIndex)
 
    Port 1 has 2 variables:
 
-      1 flowIndex      flow index  [smoFFL] fixed  UNPLOTTABLE
-      2 stateIndex     state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndex      fluid flow index  [smoFFL] fixed  UNPLOTTABLE
+      2 fluidStateIndex     fluid state index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.
@@ -85,7 +85,7 @@ void smo_zero_flowin_(int *n, double *flowIndex)
 
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
-void smo_zero_flow_(int *n, double *stateIndex)
+void smo_zero_flow_(int *n, double *fluidStateIndex)
 
 {
    int loop;
@@ -95,7 +95,7 @@ void smo_zero_flow_(int *n, double *stateIndex)
 
 /* Common -> SI units conversions. */
 
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -109,7 +109,7 @@ void smo_zero_flow_(int *n, double *stateIndex)
 
 /* SI -> Common units conversions. */
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 }
 
 #endif

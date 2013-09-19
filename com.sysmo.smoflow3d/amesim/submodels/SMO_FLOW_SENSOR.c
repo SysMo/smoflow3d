@@ -1,5 +1,5 @@
 /* Submodel SMO_FLOW_SENSOR skeleton created by AME Submodel editing utility
-   Sun Aug 25 17:28:36 2013 */
+   Thu Sep 19 17:08:53 2013 */
 
 
 
@@ -108,8 +108,8 @@ void smo_flow_sensorin_(int *n, double rp[2], int ip[1], int ic[3]
 
    Port 1 has 2 variables:
 
-      1 flowIndexDup     duplicate of flowIndex
-      2 stateIndex       state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndexDup     duplicate of fluidFlowIndex
+      2 fluidStateIndex       fluid state index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -117,8 +117,8 @@ void smo_flow_sensorin_(int *n, double rp[2], int ip[1], int ic[3]
 
    Port 3 has 2 variables:
 
-      1 stateIndexDup     duplicate of stateIndex
-      2 flowIndex         flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup     duplicate of fluidStateIndex
+      2 fluidFlowIndex         fluid flow index [smoFFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 3 internal variables.
@@ -128,10 +128,11 @@ void smo_flow_sensorin_(int *n, double rp[2], int ip[1], int ic[3]
       3 flowTemperature      flow temperature   [K]    basic variable
 */
 
-void smo_flow_sensor_(int *n, double *stateIndex
-      , double *measuredValue, double *flowIndex, double *massFlowRate
-      , double *enthalpyFlowRate, double *flowTemperature
-      , double rp[2], int ip[1], int ic[3], void *ps[3])
+void smo_flow_sensor_(int *n, double *fluidStateIndex
+      , double *measuredValue, double *fluidFlowIndex
+      , double *massFlowRate, double *enthalpyFlowRate
+      , double *flowTemperature, double rp[2], int ip[1], int ic[3]
+      , void *ps[3])
 
 {
    int loop;
@@ -148,8 +149,8 @@ void smo_flow_sensor_(int *n, double *stateIndex
 
 /* Common -> SI units conversions. */
 
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
-/*   *flowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -164,10 +165,10 @@ void smo_flow_sensor_(int *n, double *stateIndex
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    if (firstc_()) {
-	   _fluidFlowIndex = *flowIndex;
+	   _fluidFlowIndex = *fluidFlowIndex;
 	   _fluidFlow = FluidFlow_get(_fluidFlowIndex);
 
-	   _fluidStateInputIndex = *stateIndex;
+	   _fluidStateInputIndex = *fluidStateIndex;
 	   _fluidStateInput = MediumState_get(_fluidStateInputIndex);
 
 	   int mediumIndex = Medium_index(MediumState_getMedium(_fluidStateInput));
@@ -203,7 +204,7 @@ void smo_flow_sensor_(int *n, double *stateIndex
 
 /* SI -> Common units conversions. */
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
 }
 

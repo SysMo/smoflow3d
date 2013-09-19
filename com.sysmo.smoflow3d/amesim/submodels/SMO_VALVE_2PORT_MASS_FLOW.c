@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_MASS_FLOW skeleton created by AME Submodel editing utility
-   Thu Sep 19 13:10:16 2013 */
+   Thu Sep 19 17:12:44 2013 */
 
 
 
@@ -96,8 +96,8 @@ void smo_valve_2port_mass_flowin_(int *n, int ip[1], int ic[3]
 
    Port 1 has 2 variables:
 
-      1 flow1Index      flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 state1Index     state1 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow1Index      fluid flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidState1Index     fluid state1 index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -105,8 +105,8 @@ void smo_valve_2port_mass_flowin_(int *n, int ip[1], int ic[3]
 
    Port 3 has 2 variables:
 
-      1 flow2Index      flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 state2Index     state2 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow2Index     fluid flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 state2Index         fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 3 internal variables.
@@ -116,11 +116,12 @@ void smo_valve_2port_mass_flowin_(int *n, int ip[1], int ic[3]
       3 pressureLoss         total pressure loss           [barA -> PaA] basic variable
 */
 
-void smo_valve_2port_mass_flow_(int *n, double *flow1Index
-      , double *state1Index, double *regulatingSignal
-      , double *flow2Index, double *state2Index, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureLoss, int ip[1]
-      , int ic[3], void *ps[3], int *flag)
+void smo_valve_2port_mass_flow_(int *n, double *fluidFlow1Index
+      , double *fluidState1Index, double *regulatingSignal
+      , double *fluidFlow2Index, double *state2Index
+      , double *massFlowRate, double *enthalpyFlowRate
+      , double *pressureLoss, int ip[1], int ic[3], void *ps[3]
+      , int *flag)
 
 {
    int loop, logi;
@@ -134,14 +135,14 @@ void smo_valve_2port_mass_flow_(int *n, double *flow1Index
 
 /* Common -> SI units conversions. */
 
-/*   *state1Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
 /*   *state2Index *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *flow1Index = ??;
-   *flow2Index = ??;
+   *fluidFlow1Index = ??;
+   *fluidFlow2Index = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressureLoss = ??;
@@ -152,7 +153,7 @@ void smo_valve_2port_mass_flow_(int *n, double *flow1Index
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
      if (firstc_()) {
-  	   MediumState* state1 = MediumState_get(*state1Index);
+  	   MediumState* state1 = MediumState_get(*fluidState1Index);
   	   MediumState* state2 = MediumState_get(*state2Index);
   	   TwoPortValve_init(_component, state1, state2);
      }
@@ -165,15 +166,15 @@ void smo_valve_2port_mass_flow_(int *n, double *flow1Index
      *enthalpyFlowRate = TwoPortValve_getEnthalpyFlowRate(_component);
      *pressureLoss = TwoPortValve_getPressureLoss(_component);
 
-     *flow1Index = _fluidFlow1Index;
-     *flow2Index = _fluidFlow2Index;
+     *fluidFlow1Index = _fluidFlow1Index;
+     *fluidFlow2Index = _fluidFlow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *flow1Index /= ??; CONVERSION UNKNOWN */
-/*   *state1Index /= ??; CONVERSION UNKNOWN */
-/*   *flow2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *state2Index /= ??; CONVERSION UNKNOWN */
    *pressureLoss /= 1.00000000000000e+005;
 }
