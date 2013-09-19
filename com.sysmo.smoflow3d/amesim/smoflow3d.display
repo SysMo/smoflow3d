@@ -30,9 +30,11 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
    
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_drive_cycle_reader" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smiulation_environment" />
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Media" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
@@ -69,11 +71,13 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
   </GROUP>
 
-  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Control" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Control/Simulations" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_drive_cycle_reader" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smiulation_environment" />
   </GROUP>
   
  </CATEGORY>
