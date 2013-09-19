@@ -16,7 +16,7 @@
 
 #ifdef __cplusplus
 
-class Pipe_HeatExch_NoPrDr_NoMassAcc : public SmoComponent {
+class Pipe_HeatExch_NoPrDr_NoMassAcc : public SmoComponent { //:TODO: (MILEN) rename to Pipe_HeatExch_NoPrDr_NoMassAcc_RC
 public:
 	Pipe_HeatExch_NoPrDr_NoMassAcc(double stateTimeConstant);
 	virtual ~Pipe_HeatExch_NoPrDr_NoMassAcc();
