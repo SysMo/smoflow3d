@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Thu Sep 19 08:36:37 2013 */
+   Thu Sep 19 10:35:01 2013 */
 
 
 
@@ -32,11 +32,11 @@ REVISIONS :
 
 #define _component ps[0]
 
-#define _inletFlow ps[1]
-#define _inletFlowIndex ic[1]
+#define _flow1 ps[1]
+#define _flow1Index ic[1]
 
-#define _outletFlow ps[2]
-#define _outletFlowIndex ic[2]
+#define _flow2 ps[2]
+#define _flow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -99,10 +99,10 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
    Orifice_setOrificeArea(_component, orificeArea);
    Orifice_setFlowCoefficient(_component, flowCoefficient);
 
-   _inletFlow = FluidFlow_new();
-   _inletFlowIndex = FluidFlow_register(_inletFlow);
-   _outletFlow = FluidFlow_new();
-   _outletFlowIndex = FluidFlow_register(_outletFlow);
+   _flow1 = FluidFlow_new();
+   _flow1Index = FluidFlow_register(_flow1);
+   _flow2 = FluidFlow_new();
+   _flow2Index = FluidFlow_register(_flow2);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -110,8 +110,8 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
    Port 1 has 2 variables:
 
-      1 inletFlowIndex      inlet flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 inletStateIndex     inlet state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 flow1Index      flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 state1Index     state1 index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -119,8 +119,8 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
    Port 3 has 2 variables:
 
-      1 outletFlowIndex      outlet flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 outletStateIndex     outlet state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 flow2Index      flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 state2Index     state2 index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 4 internal variables.
@@ -131,10 +131,9 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
       4 flowType             flow type = {0 - subsonic, 1 - sonic} [null]        basic variable
 */
 
-void smo_orifice_compressible_ideal_gas_(int *n
-      , double *inletFlowIndex, double *inletStateIndex
-      , double *regulatingSignal, double *outletFlowIndex
-      , double *outletStateIndex, double *massFlowRate
+void smo_orifice_compressible_ideal_gas_(int *n, double *flow1Index
+      , double *state1Index, double *regulatingSignal
+      , double *flow2Index, double *state2Index, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss
       , double *flowType, double rp[2], int ic[3], void *ps[3]
       , int *flag)
@@ -152,14 +151,14 @@ void smo_orifice_compressible_ideal_gas_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *inletStateIndex *= ??; CONVERSION UNKNOWN */
-/*   *outletStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *state1Index *= ??; CONVERSION UNKNOWN */
+/*   *state2Index *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *inletFlowIndex = ??;
-   *outletFlowIndex = ??;
+   *flow1Index = ??;
+   *flow2Index = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressureLoss = ??;
@@ -171,31 +170,30 @@ void smo_orifice_compressible_ideal_gas_(int *n
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
-	   MediumState* inletState = MediumState_get(*inletStateIndex);
-	   MediumState* outletState = MediumState_get(*outletStateIndex);
+	   MediumState* inletState = MediumState_get(*state1Index);
+	   MediumState* outletState = MediumState_get(*state2Index);
 	   Orifice_init(_component, inletState, outletState);
    }
 
    Orifice_setRegulatingSignal(_component, *regulatingSignal);
    Orifice_compute_CompressibleIdealGas(_component);
-   Orifice_getInletFlowRates(_component, _inletFlow);
-   Orifice_getOutletFlowRates(_component, _outletFlow);
+   Orifice_getFlowRates(_component, _flow1, _flow2);
 
    *massFlowRate = Orifice_getMassFlowRate(_component);
    *enthalpyFlowRate = Orifice_getEnthalpyFlowRate(_component);
    *pressureLoss = Orifice_getPressureLoss(_component);
    *flowType = Orifice_getFlowType(_component);
 
-   *inletFlowIndex = _inletFlowIndex;
-   *outletFlowIndex = _outletFlowIndex;
+   *flow1Index = _flow1Index;
+   *flow2Index = _flow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *inletFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *inletStateIndex /= ??; CONVERSION UNKNOWN */
-/*   *outletFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *outletStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *flow1Index /= ??; CONVERSION UNKNOWN */
+/*   *state1Index /= ??; CONVERSION UNKNOWN */
+/*   *flow2Index /= ??; CONVERSION UNKNOWN */
+/*   *state2Index /= ??; CONVERSION UNKNOWN */
    *pressureLoss /= 1.00000000000000e+005;
 }
 

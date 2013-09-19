@@ -39,8 +39,7 @@ public:
 
 	void compute_CompressibleIdealGas();
 
-	void getInletFlowRates(FluidFlow* inletFlow);
-	void getOutletFlowRates(FluidFlow* outletFlow);
+	void getFlowRates(FluidFlow* flow1, FluidFlow* flow2);
 
 protected:
 	/* Parameters */
@@ -54,8 +53,6 @@ protected:
 	double massFlowRate;
 	double enthalpyFlowRate;
 	double pressureLoss;
-
-	/* Intermediate variables */
 	FlowType flowType;
 };
 
@@ -71,13 +68,15 @@ void Orifice_compute_CompressibleIdealGas(Orifice* orifice);
 
 void Orifice_setOrificeArea(Orifice* orifice, double orificeArea);
 void Orifice_setFlowCoefficient(Orifice* orifice, double flowCoefficient);
+
 void Orifice_setRegulatingSignal(Orifice* orifice, double regulatingSignal);
+
 double Orifice_getMassFlowRate(Orifice* orifice);
 double Orifice_getEnthalpyFlowRate(Orifice* orifice);
 double Orifice_getPressureLoss(Orifice* orifice);
 int Orifice_getFlowType(Orifice* orifice);
-void Orifice_getInletFlowRates(Orifice* orifice, FluidFlow* inletFlow);
-void Orifice_getOutletFlowRates(Orifice* orifice, FluidFlow* outletFlow);
+
+void Orifice_getFlowRates(Orifice* orifice, FluidFlow* flow1, FluidFlow* flow2);
 END_C_LINKAGE
 
 #endif /* ORIFICE_H_ */

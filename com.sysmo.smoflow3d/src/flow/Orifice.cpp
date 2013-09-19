@@ -24,8 +24,6 @@ Orifice::Orifice() {
 	massFlowRate = 0.0;
 	enthalpyFlowRate = 0.0;
 	pressureLoss = 0.0;
-
-	/* Intermediate variables */
 	flowType = sFlowType_Undefine;
 }
 
@@ -33,6 +31,9 @@ Orifice::~Orifice() {
 }
 
 void Orifice::compute_CompressibleIdealGas() {
+	massFlowRate = 0.0;
+	enthalpyFlowRate = 0.0;
+
 	// Compute pressure drop
 	pressureLoss = MediumState_p(state1) - MediumState_p(state2);
 
@@ -69,14 +70,12 @@ void Orifice::compute_CompressibleIdealGas() {
 	enthalpyFlowRate = massFlowRate * MediumState_h(state1);
 }
 
-void Orifice::getInletFlowRates(FluidFlow* inletFlow) {
-	inletFlow->massFlowRate = -massFlowRate;
-	inletFlow->enthalpyFlowRate = -enthalpyFlowRate;
-}
+void Orifice::getFlowRates(FluidFlow* flow1, FluidFlow* flow2) {
+	flow1->massFlowRate = -massFlowRate;
+	flow1->enthalpyFlowRate = -enthalpyFlowRate;
 
-void Orifice::getOutletFlowRates(FluidFlow* outletFlow) {
-	outletFlow->massFlowRate = massFlowRate;
-	outletFlow->enthalpyFlowRate = enthalpyFlowRate;
+	flow2->massFlowRate = massFlowRate;
+	flow2->enthalpyFlowRate = enthalpyFlowRate;
 }
 
 /**
@@ -122,10 +121,7 @@ int Orifice_getFlowType(Orifice* orifice) {
 	return orifice->getFlowType();
 }
 
-void Orifice_getInletFlowRates(Orifice* orifice, FluidFlow* inletFlow) {
-	orifice->getInletFlowRates(inletFlow);
+void Orifice_getFlowRates(Orifice* orifice, FluidFlow* flow1, FluidFlow* flow2) {
+	orifice->getFlowRates(flow1, flow2);
 }
 
-void Orifice_getOutletFlowRates(Orifice* orifice, FluidFlow* outletFlow) {
-	orifice->getOutletFlowRates(outletFlow);
-}
