@@ -57,8 +57,8 @@
    </IVAR>
    <IVAR>
     <SUB_ID>65</SUB_ID>
-    <TITLE>total pressure drop</TITLE>
-    <VARNAME>pressureDrop</VARNAME>
+    <TITLE>total pressure loss</TITLE>
+    <VARNAME>pressureLoss</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <IS_DELTA>1</IS_DELTA>

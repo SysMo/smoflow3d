@@ -23,10 +23,10 @@ Orifice::Orifice() {
 	/* Results */
 	massFlowRate = 0.0;
 	enthalpyFlowRate = 0.0;
-	pressureDrop = 0.0;
+	pressureLoss = 0.0;
 
 	/* Intermediate variables */
-	sonicFlow = 0;
+	flowType = sFlowType_Undefine;
 }
 
 Orifice::~Orifice() {
@@ -34,7 +34,7 @@ Orifice::~Orifice() {
 
 void Orifice::compute_CompressibleIdealGas() {
 	// Compute pressure drop
-	pressureDrop = MediumState_p(state1) - MediumState_p(state2);
+	pressureLoss = MediumState_p(state1) - MediumState_p(state2);
 
 	// Compute mass flow rate - Using AMESim 'pn2rcqfix' function documentation
 	double pDn = MediumState_p(state2);
@@ -54,11 +54,11 @@ void Orifice::compute_CompressibleIdealGas() {
 	if (pDn/pUp > pCr) {//(subsonic)
 		flowParam = m::sqrt(2*g/(r*(g-1)))
 		* m::sqrt(m::pow(pDn/pUp, 2/g) - m::pow(pDn/pUp,(g+1)/g));
-		sonicFlow = 0;
+		flowType = sFlowType_Subsonic;
 	} else { //pDn/pUp <= pCr (sonic)
 		flowParam = m::sqrt(2*g/(r*(g+1)))
 		* m::pow((2/(g+1)), 1/(g-1));
-		sonicFlow = 1;
+		flowType = sFlowType_Sonic;
 	}
 
 	m::limitVariable(regulatingSignal, 0.0, 1.0);
@@ -114,12 +114,12 @@ double Orifice_getEnthalpyFlowRate(Orifice* orifice) {
 	return orifice->getEnthalpyFlowRate();
 }
 
-double Orifice_getPressureDrop(Orifice* orifice) {
-	return orifice->getPressureDrop();
+double Orifice_getPressureLoss(Orifice* orifice) {
+	return orifice->getPressureLoss();
 }
 
-int Orifice_getSonicFlow(Orifice* orifice) {
-	return orifice->getSonicFlow();
+int Orifice_getFlowType(Orifice* orifice) {
+	return orifice->getFlowType();
 }
 
 void Orifice_getInletFlowRates(Orifice* orifice, FluidFlow* inletFlow) {

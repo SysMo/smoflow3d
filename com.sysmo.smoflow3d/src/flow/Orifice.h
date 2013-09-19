@@ -13,6 +13,13 @@
 #include "FlowBase.h"
 #include "FlowComponent_R_2Port.h"
 
+typedef enum {
+	sFlowType_Undefine = -1,
+	sFlowType_Subsonic = 0,
+	sFlowType_Sonic = 1
+} FlowType;
+
+
 #ifdef __cplusplus
 
 class Orifice : public FlowComponent_R_2Port {
@@ -27,8 +34,8 @@ public:
 
 	double getMassFlowRate() {return massFlowRate;}
 	double getEnthalpyFlowRate() {return enthalpyFlowRate;}
-	double getPressureDrop() {return pressureDrop;}
-	int getSonicFlow() {return sonicFlow;}
+	double getPressureLoss() {return pressureLoss;}
+	FlowType getFlowType() {return flowType;}
 
 	void compute_CompressibleIdealGas();
 
@@ -46,10 +53,10 @@ protected:
 	/* Results */
 	double massFlowRate;
 	double enthalpyFlowRate;
-	double pressureDrop;
+	double pressureLoss;
 
 	/* Intermediate variables */
-	int sonicFlow;
+	FlowType flowType;
 };
 
 #else //_cplusplus
@@ -67,8 +74,8 @@ void Orifice_setFlowCoefficient(Orifice* orifice, double flowCoefficient);
 void Orifice_setRegulatingSignal(Orifice* orifice, double regulatingSignal);
 double Orifice_getMassFlowRate(Orifice* orifice);
 double Orifice_getEnthalpyFlowRate(Orifice* orifice);
-double Orifice_getPressureDrop(Orifice* orifice);
-int Orifice_getSonicFlow(Orifice* orifice);
+double Orifice_getPressureLoss(Orifice* orifice);
+int Orifice_getFlowType(Orifice* orifice);
 void Orifice_getInletFlowRates(Orifice* orifice, FluidFlow* inletFlow);
 void Orifice_getOutletFlowRates(Orifice* orifice, FluidFlow* outletFlow);
 END_C_LINKAGE

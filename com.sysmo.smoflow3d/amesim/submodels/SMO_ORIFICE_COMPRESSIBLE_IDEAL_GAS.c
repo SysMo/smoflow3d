@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Wed Sep 18 17:56:39 2013 */
+   Thu Sep 19 08:36:37 2013 */
 
 
 
@@ -127,7 +127,7 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
       1 massFlowRate         mass flow rate                        [kg/s]        basic variable
       2 enthalpyFlowRate     enthalpy flow rate                    [W]           basic variable
-      3 pressureDrop         total pressure drop                   [barA -> PaA] basic variable
+      3 pressureLoss         total pressure loss                   [barA -> PaA] basic variable
       4 flowType             flow type = {0 - subsonic, 1 - sonic} [null]        basic variable
 */
 
@@ -135,7 +135,7 @@ void smo_orifice_compressible_ideal_gas_(int *n
       , double *inletFlowIndex, double *inletStateIndex
       , double *regulatingSignal, double *outletFlowIndex
       , double *outletStateIndex, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureDrop
+      , double *enthalpyFlowRate, double *pressureLoss
       , double *flowType, double rp[2], int ic[3], void *ps[3]
       , int *flag)
 
@@ -162,7 +162,7 @@ void smo_orifice_compressible_ideal_gas_(int *n
    *outletFlowIndex = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
-   *pressureDrop = ??;
+   *pressureLoss = ??;
    *flowType   = ??;
 */
 
@@ -183,8 +183,8 @@ void smo_orifice_compressible_ideal_gas_(int *n
 
    *massFlowRate = Orifice_getMassFlowRate(_component);
    *enthalpyFlowRate = Orifice_getEnthalpyFlowRate(_component);
-   *pressureDrop = Orifice_getPressureDrop(_component);
-   *flowType = Orifice_getSonicFlow(_component);
+   *pressureLoss = Orifice_getPressureLoss(_component);
+   *flowType = Orifice_getFlowType(_component);
 
    *inletFlowIndex = _inletFlowIndex;
    *outletFlowIndex = _outletFlowIndex;
@@ -196,6 +196,6 @@ void smo_orifice_compressible_ideal_gas_(int *n
 /*   *inletStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *outletFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *outletStateIndex /= ??; CONVERSION UNKNOWN */
-   *pressureDrop /= 1.00000000000000e+005;
+   *pressureLoss /= 1.00000000000000e+005;
 }
 
