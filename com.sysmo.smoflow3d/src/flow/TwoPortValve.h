@@ -21,33 +21,17 @@ public:
 	TwoPortValve();
 	virtual ~TwoPortValve();
 
-	void setTransitionChoice(int transitionChoice) {this->transitionChoice = transitionChoice;}
-	void setAllowBidirectionalFlow(int allowBidirectionalFlow) {this->allowBidirectionalFlow = allowBidirectionalFlow;}
-	void setKv(double Kv) {this->Kv = Kv;}
-	void setTransitionMassFlowRate(double transitionMassFlowRate) {this->transitionMassFlowRate = transitionMassFlowRate;}
-	void setTransitionPressureDifference(double transitionPressureDifference) {this->transitionPressureDifference = transitionPressureDifference;}
-	void setMaximumMassFlowRate(double maximumMassFlowRate) {this->maximumMassFlowRate = maximumMassFlowRate;}
-
 	void setRegulatingSignal(double regulatingSignal) {this->regulatingSignal = regulatingSignal;}
 
 	double getMassFlowRate() {return massFlowRate;}
 	double getEnthalpyFlowRate() {return enthalpyFlowRate;}
 	double getPressureLoss() {return pressureLoss;}
 
-	void compute_Kv();
+	virtual void compute() = 0;
 
 	void getFlowRates(FluidFlow* flow1, FluidFlow* flow2);
 
 protected:
-	/* Parameters */
-	int transitionChoice; //choice of transition to linear region: 1 - Minimum mass flow; 2 - Minimum pressure difference
-	int allowBidirectionalFlow; // 0 - no; 1 - yes
-
-	double Kv;
-	double transitionMassFlowRate;
-	double transitionPressureDifference;
-	double maximumMassFlowRate;
-
 	/* Inputs */
 	double regulatingSignal;
 
@@ -63,16 +47,18 @@ DECLARE_C_STRUCT(TwoPortValve)
 
 
 BEGIN_C_LINKAGE
-TwoPortValve* TwoPortValve_new();
-void TwoPortValve_init(TwoPortValve* valve, MediumState* state1, MediumState* state2);
-void TwoPortValve_compute_Kv(TwoPortValve* valve);
+TwoPortValve* TwoPortValve_InputMassFlowRate_new(int allowBidirectionalFlow);
 
-void TwoPortValve_setTransitionChoice(TwoPortValve* valve, int transitionChoice);
-void TwoPortValve_setAllowBidirectionalFlow(TwoPortValve* valve, int allowBidirectionalFlow);
-void TwoPortValve_setKv(TwoPortValve* valve, double Kv);
-void TwoPortValve_setTransitionMassFlowRate(TwoPortValve* valve, double transitionMassFlowRate);
-void TwoPortValve_setTransitionPressureDifference(TwoPortValve* valve, double transitionPressureDifference);
-void TwoPortValve_setMaximumMassFlowRate(TwoPortValve* valve, double maximumMassFlowRate);
+TwoPortValve* TwoPortValve_Kv_new(
+		int transitionChoice,
+		int allowBidirectionalFlow,
+		double Kv,
+		double transitionMassFlowRate,
+		double transitionPressureDifference,
+		double maximumMassFlowRate);
+
+void TwoPortValve_init(TwoPortValve* valve, MediumState* state1, MediumState* state2);
+void TwoPortValve_compute(TwoPortValve* valve);
 
 void TwoPortValve_setRegulatingSignal(TwoPortValve* valve, double regulatingSignal);
 

@@ -35,7 +35,7 @@ void Orifice::compute_CompressibleIdealGas() {
 	enthalpyFlowRate = 0.0;
 
 	// Compute pressure drop
-	pressureLoss = MediumState_p(state1) - MediumState_p(state2);
+	pressureLoss = m::fabs(MediumState_p(state1) - MediumState_p(state2));
 
 	// Compute mass flow rate - Using AMESim 'pn2rcqfix' function documentation
 	double pDn = MediumState_p(state2);

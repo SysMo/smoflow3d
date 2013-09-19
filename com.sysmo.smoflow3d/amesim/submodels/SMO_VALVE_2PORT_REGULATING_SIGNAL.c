@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Thu Sep 19 10:32:28 2013 */
+   Thu Sep 19 13:12:59 2013 */
 
 
 
@@ -117,15 +117,14 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = TwoPortValve_new();
+   _component = TwoPortValve_Kv_new(
+		   transitionChoice,
+		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow = {1-no, 2-yes} - 1 = {0-no, 1-yes}
+		   Kv,
+		   transitionMassFlowRate,
+		   transitionPressureDifference,
+		   maximumMassFlowRate);
    SMOCOMPONEN_SET_PROPS(_component)
-
-   TwoPortValve_setTransitionChoice(_component, transitionChoice);
-   TwoPortValve_setAllowBidirectionalFlow(_component, allowBidirectionalFlow-1); //:TRICKY: allowBidirectionalFlow = {1-no, 2-yes} - 1 = {0-no, 1-yes}
-   TwoPortValve_setKv(_component, Kv);
-   TwoPortValve_setTransitionMassFlowRate(_component, transitionMassFlowRate);
-   TwoPortValve_setTransitionPressureDifference(_component, transitionPressureDifference);
-   TwoPortValve_setMaximumMassFlowRate(_component, maximumMassFlowRate);
 
    _flow1 = FluidFlow_new();
    _flow1Index = FluidFlow_register(_flow1);
@@ -153,9 +152,9 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 /*  There are 3 internal variables.
 
-      1 massFlowRate         mass flow rate      [kg/s]        basic variable
-      2 enthalpyFlowRate     enthalpy flow rate  [W]           basic variable
-      3 pressureLoss         total pressure loss [barA -> PaA] basic variable
+      1 massFlowRate         mass flow rate (at port3)     [kg/s]        basic variable
+      2 enthalpyFlowRate     enthalpy flow rate (at port3) [W]           basic variable
+      3 pressureLoss         total pressure loss           [barA -> PaA] basic variable
 */
 
 void smo_valve_2port_regulating_signal_(int *n, double *flow1Index
@@ -208,7 +207,7 @@ void smo_valve_2port_regulating_signal_(int *n, double *flow1Index
    }
 
    TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
-   TwoPortValve_compute_Kv(_component);
+   TwoPortValve_compute(_component);
    TwoPortValve_getFlowRates(_component, _flow1, _flow2);
 
    *massFlowRate = TwoPortValve_getMassFlowRate(_component);

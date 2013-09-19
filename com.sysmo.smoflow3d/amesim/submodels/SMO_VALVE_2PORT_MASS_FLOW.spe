@@ -8,8 +8,8 @@
   <DEFAULT_ICON>smo_reg_valve_2port</DEFAULT_ICON>
   <SUB_LABEL>Two port valve with direct control of the mass flow rate (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>5</I_STORES_NUMBER>
-  <P_STORES_NUMBER>5</P_STORES_NUMBER>
+  <I_STORES_NUMBER>3</I_STORES_NUMBER>
+  <P_STORES_NUMBER>3</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <IPARAMS_LIST>
@@ -61,7 +61,7 @@
   <IVARS_LIST>
    <IVAR>
     <SUB_ID>58</SUB_ID>
-    <TITLE>mass flow rate</TITLE>
+    <TITLE>mass flow rate (at port3)</TITLE>
     <VARNAME>massFlowRate</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
@@ -70,7 +70,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>57</SUB_ID>
-    <TITLE>enthalpy flow rate</TITLE>
+    <TITLE>enthalpy flow rate (at port3)</TITLE>
     <VARNAME>enthalpyFlowRate</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
@@ -92,8 +92,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>53</SUB_ID>
-     <TITLE>flow index 1</TITLE>
-     <VARNAME>flowIndex1</VARNAME>
+     <TITLE>flow1 index</TITLE>
+     <VARNAME>flow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -103,8 +103,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>54</SUB_ID>
-     <TITLE>state index 1</TITLE>
-     <VARNAME>stateIndex1</VARNAME>
+     <TITLE>state1 index</TITLE>
+     <VARNAME>state1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -128,8 +128,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>56</SUB_ID>
-     <TITLE>flow index 3</TITLE>
-     <VARNAME>flowIndex3</VARNAME>
+     <TITLE>flow2 index</TITLE>
+     <VARNAME>flow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -139,8 +139,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>55</SUB_ID>
-     <TITLE>state index3</TITLE>
-     <VARNAME>stateIndex3</VARNAME>
+     <TITLE>state2 index</TITLE>
+     <VARNAME>state2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
