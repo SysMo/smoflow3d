@@ -256,7 +256,6 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
    *wallHeatFlowRate = HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
    *totalPressureLoss = FrictionFlowPipe_getAbsolutePressureDrop(_friction);
-
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

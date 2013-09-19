@@ -33,10 +33,10 @@ REVISIONS :
 #define _fluidFlowIndex ic[0]
 #define _fluidFlow ps[0]
 
-#define _fluidStateIndexInternal ic[1]
+#define _fluidStateInternalIndex ic[1]
 #define _fluidStateInternal ps[1]
 
-#define _fluidStateIndexInput ic[2]
+#define _fluidStateInputIndex ic[2]
 #define _fluidStateInput ps[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -167,14 +167,14 @@ void smo_flow_sensor_(int *n, double *stateIndex
 	   _fluidFlowIndex = *flowIndex;
 	   _fluidFlow = FluidFlow_get(_fluidFlowIndex);
 
-	   _fluidStateIndexInput = *stateIndex;
-	   _fluidStateInput = MediumState_get(_fluidStateIndexInput);
+	   _fluidStateInputIndex = *stateIndex;
+	   _fluidStateInput = MediumState_get(_fluidStateInputIndex);
 
 	   int mediumIndex = Medium_index(MediumState_getMedium(_fluidStateInput));
 	   Medium* fluid = Medium_get(mediumIndex);
 
 	   _fluidStateInternal = MediumState_new(fluid);
-	   _fluidStateIndexInternal = MediumState_register(_fluidStateInternal);
+	   _fluidStateInternalIndex = MediumState_register(_fluidStateInternal);
    }
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow);;
@@ -199,7 +199,6 @@ void smo_flow_sensor_(int *n, double *stateIndex
    } else {
 	   *measuredValue = 0.0;
    }
-
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

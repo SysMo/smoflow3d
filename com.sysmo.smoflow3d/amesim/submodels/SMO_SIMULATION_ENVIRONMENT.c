@@ -30,6 +30,7 @@ REVISIONS :
 #include "util/SimulationEnvironment.h"
 #include "SmoFlowAme.h"
 #include "SmoFlowAmeFunctions.h"
+
 int EventModeFlag_amesim;
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_simulation_environmentin_(int *n)

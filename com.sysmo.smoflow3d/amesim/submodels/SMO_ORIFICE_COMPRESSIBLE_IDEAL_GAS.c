@@ -32,11 +32,11 @@ REVISIONS :
 
 #define _component ps[0]
 
-#define _flow1 ps[1]
-#define _flow1Index ic[1]
+#define _fluidFlow1 ps[1]
+#define _fluidFlow1Index ic[1]
 
-#define _flow2 ps[2]
-#define _flow2Index ic[2]
+#define _fluidFlow2 ps[2]
+#define _fluidFlow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -99,10 +99,10 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
    Orifice_setOrificeArea(_component, orificeArea);
    Orifice_setFlowCoefficient(_component, flowCoefficient);
 
-   _flow1 = FluidFlow_new();
-   _flow1Index = FluidFlow_register(_flow1);
-   _flow2 = FluidFlow_new();
-   _flow2Index = FluidFlow_register(_flow2);
+   _fluidFlow1 = FluidFlow_new();
+   _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
+   _fluidFlow2 = FluidFlow_new();
+   _fluidFlow2Index = FluidFlow_register(_fluidFlow2);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -177,15 +177,15 @@ void smo_orifice_compressible_ideal_gas_(int *n, double *flow1Index
 
    Orifice_setRegulatingSignal(_component, *regulatingSignal);
    Orifice_compute_CompressibleIdealGas(_component);
-   Orifice_getFlowRates(_component, _flow1, _flow2);
+   Orifice_getFlowRates(_component, _fluidFlow1, _fluidFlow2);
 
    *massFlowRate = Orifice_getMassFlowRate(_component);
    *enthalpyFlowRate = Orifice_getEnthalpyFlowRate(_component);
    *pressureLoss = Orifice_getPressureLoss(_component);
    *flowType = Orifice_getFlowType(_component);
 
-   *flow1Index = _flow1Index;
-   *flow2Index = _flow2Index;
+   *flow1Index = _fluidFlow1Index;
+   *flow2Index = _fluidFlow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

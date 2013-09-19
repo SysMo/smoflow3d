@@ -29,7 +29,7 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "controller/StateMachineController.h"
 
-#define CONTROLLER ps[0]
+#define _component ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -166,7 +166,7 @@ void smo_statemachinecontrollerin_(int *n, double *rp, int *ip
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    AME_SET_CURRENT_COMPONENT;
-   CONTROLLER = StateMachineController_new(
+   _component = StateMachineController_new(
 		   controllerName,
 		   controllerLibrary,
 		   numRealParameters,
@@ -174,7 +174,7 @@ void smo_statemachinecontrollerin_(int *n, double *rp, int *ip
 		   numInputs,
 		   numOutputs);
 
-   StateMachineController* controller = (StateMachineController*)CONTROLLER;
+   StateMachineController* controller = (StateMachineController*)_component;
    controller->setParameters(controller, realParameters, integerParameters);
    controller->time = 0;
    controller->init(controller, initialState);
@@ -227,7 +227,7 @@ void smo_statemachinecontrollerend_(int *n, double *rp, int *ip
 
 
 /* >>>>>>>>>>>>Terminate Function Executable Statements. */
-   StateMachineController* controller = (StateMachineController*)CONTROLLER;
+   StateMachineController* controller = (StateMachineController*)_component;
    StateMachineController_free(&controller);
 /* <<<<<<<<<<<<End of Terminate Executable Statements. */
 }
@@ -311,7 +311,7 @@ void smo_statemachinecontroller_(int *n, double *inputs
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   StateMachineController* controller = (StateMachineController*)CONTROLLER;
+   StateMachineController* controller = (StateMachineController*)_component;
 
    controller->time = *t;
    controller->setInputs(controller, inputs);

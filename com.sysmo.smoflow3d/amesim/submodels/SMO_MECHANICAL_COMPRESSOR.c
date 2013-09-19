@@ -33,11 +33,11 @@ REVISIONS :
 
 #define _component ps[0]
 
-#define _inletFlow ps[1]
-#define _inletFlowIndex ic[1]
+#define _inletFluidFlow ps[1]
+#define _inletFluidFlowIndex ic[1]
 
-#define _outletFlow ps[2]
-#define _outletFlowIndex ic[2]
+#define _outletFluidFlow ps[2]
+#define _outletFluidFlowIndex ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -123,10 +123,10 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
    _component = MechanicalCompressor_new();
    SMOCOMPONEN_SET_PROPS(_component)
 
-   _inletFlow = FluidFlow_new();
-   _inletFlowIndex = FluidFlow_register(_inletFlow);
-   _outletFlow = FluidFlow_new();
-   _outletFlowIndex = FluidFlow_register(_outletFlow);
+   _inletFluidFlow = FluidFlow_new();
+   _inletFluidFlowIndex = FluidFlow_register(_inletFluidFlow);
+   _outletFluidFlow = FluidFlow_new();
+   _outletFluidFlowIndex = FluidFlow_register(_outletFluidFlow);
 
    if (flowRateCalculationMethod == 1) {
 	   MechanicalCompressor_setDisplacementVolume(_component, displacementVolume);
@@ -136,6 +136,7 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
 	   MechanicalCompressor_setVolumetricFlowRateFunction(_component,
 			   FunctorTwoVariables_Expression_new(volumetricFlowRateExpression, "N", "tau"));
    }
+
    MechanicalCompressor_setIsentropicEfficiencyFunction(_component,
 		   FunctorTwoVariables_Expression_new(etaIsentropicExpression, "N", "tau"));
    MechanicalCompressor_setMechanicalEfficiencyFunction(_component,
@@ -230,35 +231,34 @@ void smo_mechanical_compressor_(int *n, double *inletFlowIndex
    if (*rotarySpeed > 1e-12) {
 	   MechanicalCompressor_setRotationalSpeed(_component, *rotarySpeed);
 	   MechanicalCompressor_compute(_component);
-	   MechanicalCompressor_getInletFlowRates(_component, _inletFlow);
-	   MechanicalCompressor_getOutletFlowRates(_component, _outletFlow);
+	   MechanicalCompressor_getInletFlowRates(_component, _inletFluidFlow);
+	   MechanicalCompressor_getOutletFlowRates(_component, _outletFluidFlow);
 
 	   *pressureRatio = MechanicalCompressor_getPressureRatio(_component);
 	   *torque = MechanicalCompressor_getTorque(_component);
 	   *etaVolumetric = MechanicalCompressor_getVolumetricEfficiency(_component);
 	   *etaIsentropic = MechanicalCompressor_getIsentropicEfficiency(_component);
 	   *etaMechanical = MechanicalCompressor_getMechanicalEfficiency(_component);
-	   *massFlowRate = FluidFlow_getMassFlowRate(_outletFlow);
+	   *massFlowRate = FluidFlow_getMassFlowRate(_outletFluidFlow);
 	   *compressorWork = MechanicalCompressor_getCompressorWork(_component);
    } else {
-	   FluidFlow_setMassFlowRate(_inletFlow, 0.0);
-	   FluidFlow_setEnthalpyFlowRate(_inletFlow, 0.0);
+	   FluidFlow_setMassFlowRate(_inletFluidFlow, 0.0);
+	   FluidFlow_setEnthalpyFlowRate(_inletFluidFlow, 0.0);
 
-	   FluidFlow_setMassFlowRate(_outletFlow, 0.0);
-	   FluidFlow_setEnthalpyFlowRate(_outletFlow, 0.0);
+	   FluidFlow_setMassFlowRate(_outletFluidFlow, 0.0);
+	   FluidFlow_setEnthalpyFlowRate(_outletFluidFlow, 0.0);
 
 	   *pressureRatio = 0.0;
 	   *torque = 0.0;
 	   *etaVolumetric = 0.0;
 	   *etaIsentropic = 0.0;
 	   *etaMechanical = 0.0;
-	   *massFlowRate = FluidFlow_getMassFlowRate(_outletFlow);
+	   *massFlowRate = FluidFlow_getMassFlowRate(_outletFluidFlow);
 	   *compressorWork = 0.0;
    }
 
-   *inletFlowIndex = _inletFlowIndex;
-   *outletFlowIndex = _outletFlowIndex;
-
+   *inletFlowIndex = _inletFluidFlowIndex;
+   *outletFlowIndex = _outletFluidFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

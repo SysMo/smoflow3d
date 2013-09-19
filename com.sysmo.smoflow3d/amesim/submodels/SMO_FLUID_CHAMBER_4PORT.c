@@ -31,7 +31,7 @@ REVISIONS :
 #include "volumes/FluidChamber.h"
 #include "flow/FlowBase.h"
 
-#define _fluidChamber ps[0]
+#define _component ps[0]
 
 #define _fluidChamberStateIndex ic[0]
 #define _fluidChamberState ps[1]
@@ -136,25 +136,23 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    Medium* fluid = Medium_get(fluidIndex);
-   _fluidChamber = FluidChamber_new(fluid);
-   SMOCOMPONEN_SET_PROPS(_fluidChamber)
+   _component = FluidChamber_new(fluid);
+   SMOCOMPONEN_SET_PROPS(_component)
 
-   FluidChamber_setVolume(_fluidChamber, volume);
-   _fluidChamberState = FluidChamber_getFluidState(_fluidChamber);
+   FluidChamber_setVolume(_component, volume);
+   _fluidChamberState = FluidChamber_getFluidState(_component);
    _fluidChamberStateIndex = MediumState_index(_fluidChamberState);
 
    if (stateVariableSelection == 1) {
-	   FluidChamber_selectStates(_fluidChamber, iT, iD);
+	   FluidChamber_selectStates(_component, iT, iD);
    } else if (stateVariableSelection == 2) {
-	   FluidChamber_selectStates(_fluidChamber, iP, iT);
+	   FluidChamber_selectStates(_component, iP, iT);
    } else if (stateVariableSelection == 3) {
-	   FluidChamber_selectStates(_fluidChamber, iP, iD);
+	   FluidChamber_selectStates(_component, iP, iD);
    } else if (stateVariableSelection == 4) {
-	   FluidChamber_selectStates(_fluidChamber, iP, iH);
+	   FluidChamber_selectStates(_component, iP, iH);
    } else {
-	   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-	   amefprintf(stderr, "Terminating the program.\n");
-	   AmeExit(1);
+	   AME_RAISE_ERROR("Unsupported type of state variables.")
    }
 
    if (initConditionsChoice == 1) {
@@ -164,12 +162,10 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
    } else if (initConditionsChoice == 3) {
 	   MediumState_update_pq(_fluidChamberState, initialPressure, initialGasMassFraction);
    } else {
-	   amefprintf(stderr, "\nFatal error in %s instance %d. Unsupported type of initialization.\n", _SUBMODELNAME_, *n);
-	   amefprintf(stderr, "Terminating the program.\n");
-	   AmeExit(1);
+	   AME_RAISE_ERROR("Unsupported type of initialization.")
    }
 
-   FluidChamber_getStateValues(_fluidChamber, state1, state2, 1);
+   FluidChamber_getStateValues(_component, state1, state2, 1);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -269,12 +265,13 @@ void smo_fluid_chamber_4port_(int *n, double *stateIndex
 	   _fluidFlow3 = FluidFlow_get(*flowIndex3);
 	   _fluidFlow4 = FluidFlow_get(*flowIndex4);
    }
+
    double massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1) + FluidFlow_getMassFlowRate(_fluidFlow2)
 		   +  FluidFlow_getMassFlowRate(_fluidFlow3) + FluidFlow_getMassFlowRate(_fluidFlow4);
    double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1) + FluidFlow_getEnthalpyFlowRate(_fluidFlow2)
 		   + FluidFlow_getEnthalpyFlowRate(_fluidFlow3) + FluidFlow_getEnthalpyFlowRate(_fluidFlow4);
-   FluidChamber_computeStateDerivatives(_fluidChamber, massFlowRate, enthalpyFlowRate, 0, 0);
-   FluidChamber_getStateDerivatives(_fluidChamber, state1Dot, state2Dot);
+   FluidChamber_computeStateDerivatives(_component, massFlowRate, enthalpyFlowRate, 0, 0);
+   FluidChamber_getStateDerivatives(_component, state1Dot, state2Dot);
 
    *pressure = MediumState_p(_fluidChamberState);
    *temperature = MediumState_T(_fluidChamberState);
@@ -282,8 +279,7 @@ void smo_fluid_chamber_4port_(int *n, double *stateIndex
    *specificEnthalpy = MediumState_h(_fluidChamberState);
    *gasMassFraction = MediumState_q(_fluidChamberState);
    *superHeat  = MediumState_deltaTSat(_fluidChamberState);
-   *totalMass  = FluidChamber_getFluidMass(_fluidChamber);
-
+   *totalMass  = FluidChamber_getFluidMass(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -330,7 +326,7 @@ extern double smo_fluid_chamber_4port_macro0_(int *n, double *state1
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   FluidChamber_setStateValues(_fluidChamber, *state1, *state2);
+   FluidChamber_setStateValues(_component, *state1, *state2);
    stateIndex = _fluidChamberStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

@@ -36,7 +36,7 @@ REVISIONS :
 #define _fluidFlowIndex ic[1]
 #define _fluidFlow ps[1]
 
-#define _freeConvection ps[2]
+#define _component ps[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -145,45 +145,39 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
    _fluidFlowIndex = FluidFlow_register(_fluidFlow);
 
    if (calculationMethod == 1) {
-	   _freeConvection =
-			   FreeConvection_GivenConvectionCoefficient_new(
-					   convectionCoefficientGiven, heatExchangeArea);
+	   _component =
+			   FreeConvection_GivenConvectionCoefficient_new(convectionCoefficientGiven, heatExchangeArea);
    } else if (calculationMethod == 2) {
-	   _freeConvection =
-			   FreeConvection_NusseltExpression_new(
-					   characteristicLength, heatExchangeArea, nusseltCorrelationExpr);
+	   _component =
+			   FreeConvection_NusseltExpression_new(characteristicLength, heatExchangeArea, nusseltCorrelationExpr);
    } else if (calculationMethod == 3) {
-	   _freeConvection =
+	   _component =
 			   FreeConvection_VerticalSurface_new(height, width);
    } else if (calculationMethod == 4) {
-	   _freeConvection =
+	   _component =
 			   FreeConvection_HorizontalSurfaceTop_new(length, width);
    } else if (calculationMethod == 5) {
-	   _freeConvection =
+	   _component =
 			   FreeConvection_HorizontalSurfaceBottom_new(length, width);
    } else if (calculationMethod == 6) {
-	   _freeConvection =
-			   FreeConvection_CylindricalHorizontalSurface_new(
-					   length, diameter);
+	   _component =
+			   FreeConvection_CylindricalHorizontalSurface_new(length, diameter);
    } else if (calculationMethod == 7) {
-	   _freeConvection =
-			   FreeConvection_CylindricalVerticalSurface_new(
-					   length, diameter);
+	   _component =
+			   FreeConvection_CylindricalVerticalSurface_new(length, diameter);
    } else if (calculationMethod == 8) {
-	   _freeConvection =
-			   FreeConvection_SphericalSurface_new(
-					   diameter);
+	   _component =
+			   FreeConvection_SphericalSurface_new(diameter);
    } else if (calculationMethod == 9) {
-	   _freeConvection =
-			   FreeConvection_FinnedPipe_new(basePipeDiameter, length,
-					   finSpacing, finThickness, finHeight);
+	   _component =
+			   FreeConvection_FinnedPipe_new(basePipeDiameter, length, finSpacing, finThickness, finHeight);
    } else if (calculationMethod == 10) {
-	   _freeConvection =
+	   _component =
 			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
-   SMOCOMPONEN_SET_PROPS(_freeConvection)
+   SMOCOMPONEN_SET_PROPS(_component)
 
-   Convection_setHeatExchangeGain(_freeConvection, heatExchangeGain);
+   Convection_setHeatExchangeGain(_component, heatExchangeGain);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -266,16 +260,16 @@ void smo_free_convection_(int *n, double *heatFlowIndex
    if (firstc_()) {
 	   MediumState* fluidState = MediumState_get(*stateIndex);
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
-	   FreeConvection_init(_freeConvection, fluidState, wallNode);
+	   FreeConvection_init(_component, fluidState, wallNode);
    }
 
-   FreeConvection_compute(_freeConvection);
-   Convection_getFlow_Fluid(_freeConvection, _fluidFlow);
-   Convection_getFlow_Wall(_freeConvection, _heatFlow);
-   *Ra = FreeConvection_getRayleighNumber(_freeConvection);
-   *Nu = Convection_getNusseltNumber(_freeConvection);
-   *h = Convection_getConvectionCoefficient(_freeConvection);
-   *qDot = Convection_getHeatFlowRate(_freeConvection);
+   FreeConvection_compute(_component);
+   Convection_getFlow_Fluid(_component, _fluidFlow);
+   Convection_getFlow_Wall(_component, _heatFlow);
+   *Ra = FreeConvection_getRayleighNumber(_component);
+   *Nu = Convection_getNusseltNumber(_component);
+   *h = Convection_getConvectionCoefficient(_component);
+   *qDot = Convection_getHeatFlowRate(_component);
 
    *flowIndex = _fluidFlowIndex;
    *heatFlowIndex = _heatFlowIndex;

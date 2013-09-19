@@ -27,17 +27,18 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_HEATEXCHANGER_CR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "media/MediumState.h"
 #include "flow/FlowBase.h"
 #include "volumes/ThermalNode.h"
 
-#define _fluidFlowIndexInlet ic[0]
+#define _fluidFlowInletIndex ic[0]
 #define _fluidFlowInlet ps[0]
 
-#define _fluidFlowIndexOutlet ic[1]
+#define _fluidFlowOutletIndex ic[1]
 #define _fluidFlowOutlet ps[1]
 
-#define _fluidStateIndexOutlet ic[2]
+#define _fluidStateOutletIndex ic[2]
 #define _fluidStateOutlet ps[2]
 
 #define _thermalNodeIndex ic[3]
@@ -164,8 +165,8 @@ void smo_heatexchanger_cr_(int *n, double *flowIndexInlet
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
-  	   _fluidStateIndexOutlet = *stateIndexOutlet;
-  	   _fluidStateOutlet = MediumState_get(_fluidStateIndexOutlet);
+  	   _fluidStateOutletIndex = *stateIndexOutlet;
+  	   _fluidStateOutlet = MediumState_get(_fluidStateOutletIndex);
 
   	   int mediumIndexOutlet = Medium_index(MediumState_getMedium(_fluidStateOutlet));
   	   Medium* fluid = Medium_get(mediumIndexOutlet);
@@ -178,10 +179,10 @@ void smo_heatexchanger_cr_(int *n, double *flowIndexInlet
 
 
 	   _fluidFlowInlet = FluidFlow_get(*flowIndexInlet);
-	   _fluidFlowIndexInlet = *flowIndexInlet;
+	   _fluidFlowInletIndex = *flowIndexInlet;
 
 	   _fluidFlowOutlet = FluidFlow_new();
-	   _fluidFlowIndexOutlet = FluidFlow_register(_fluidFlowOutlet);
+	   _fluidFlowOutletIndex = FluidFlow_register(_fluidFlowOutlet);
 
 	   _thermalNode = ThermalNode_get(*thermalNodeIndex);
 	   _thermalNodeIndex = *thermalNodeIndex;
@@ -191,9 +192,7 @@ void smo_heatexchanger_cr_(int *n, double *flowIndexInlet
    }
 
    if (FluidFlow_getMassFlowRate(_fluidFlowInlet) < 0.0) {
-	   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-	   amefprintf(stderr, "\nReverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
-	   AmeExit(1);
+	   AME_RAISE_ERROR("Reverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.")
    }
 
    *wallTemperature = MediumState_T(_thermalNode);
@@ -224,7 +223,7 @@ void smo_heatexchanger_cr_(int *n, double *flowIndexInlet
    *massFlowRateInlet = FluidFlow_getMassFlowRate(_fluidFlowInlet);
 
    *heatFlowIndex = _heatFlowIndex;
-   *flowIndexOutlet = _fluidFlowIndexOutlet;
+   *flowIndexOutlet = _fluidFlowOutletIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

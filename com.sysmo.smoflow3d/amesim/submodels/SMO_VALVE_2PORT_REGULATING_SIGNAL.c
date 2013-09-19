@@ -32,11 +32,11 @@ REVISIONS :
 
 #define _component ps[0]
 
-#define _flow1 ps[1]
-#define _flow1Index ic[1]
+#define _fluidFlow1 ps[1]
+#define _fluidFlow1Index ic[1]
 
-#define _flow2 ps[2]
-#define _flow2Index ic[2]
+#define _fluidFlow2 ps[2]
+#define _fluidFlow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -126,10 +126,10 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 		   maximumMassFlowRate);
    SMOCOMPONEN_SET_PROPS(_component)
 
-   _flow1 = FluidFlow_new();
-   _flow1Index = FluidFlow_register(_flow1);
-   _flow2 = FluidFlow_new();
-   _flow2Index = FluidFlow_register(_flow2);
+   _fluidFlow1 = FluidFlow_new();
+   _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
+   _fluidFlow2 = FluidFlow_new();
+   _fluidFlow2Index = FluidFlow_register(_fluidFlow2);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -208,14 +208,14 @@ void smo_valve_2port_regulating_signal_(int *n, double *flow1Index
 
    TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
    TwoPortValve_compute(_component);
-   TwoPortValve_getFlowRates(_component, _flow1, _flow2);
+   TwoPortValve_getFlowRates(_component, _fluidFlow1, _fluidFlow2);
 
    *massFlowRate = TwoPortValve_getMassFlowRate(_component);
    *enthalpyFlowRate = TwoPortValve_getEnthalpyFlowRate(_component);
    *pressureLoss = TwoPortValve_getPressureLoss(_component);
 
-   *flow1Index = _flow1Index;
-   *flow2Index = _flow2Index;
+   *flow1Index = _fluidFlow1Index;
+   *flow2Index = _fluidFlow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

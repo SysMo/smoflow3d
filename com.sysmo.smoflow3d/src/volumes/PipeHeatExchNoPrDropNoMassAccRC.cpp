@@ -1,18 +1,18 @@
 /*
- * PipeHeatExchNoPrDrNoMassAcc.cpp
+ * PipeHeatExchNoPrDropNoMassAcc.cpp
  *
  *  Created on: Aug 13, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "PipeHeatExchNoPrDrNoMassAccRC.h"
+#include "PipeHeatExchNoPrDropNoMassAccRC.h"
 using namespace smoflow;
 
 /**
  * Pipe_HeatExch_NoPrDr_NoMassAcc
  */
-PipeHeatExchNoPrDrNoMassAcc_RC::PipeHeatExchNoPrDrNoMassAcc_RC(double stateTimeConstant) {
+PipeHeatExchNoPrDropNoMassAcc_RC::PipeHeatExchNoPrDropNoMassAcc_RC(double stateTimeConstant) {
 	this->stateTimeConstant = stateTimeConstant;
 	pipeLength = 0.0;
 	stateVariable = sTemperature;
@@ -32,10 +32,10 @@ PipeHeatExchNoPrDrNoMassAcc_RC::PipeHeatExchNoPrDrNoMassAcc_RC(double stateTimeC
 	outletStateSetpoint = 0.0;
 }
 
-PipeHeatExchNoPrDrNoMassAcc_RC::~PipeHeatExchNoPrDrNoMassAcc_RC() {
+PipeHeatExchNoPrDropNoMassAcc_RC::~PipeHeatExchNoPrDropNoMassAcc_RC() {
 }
 
-void PipeHeatExchNoPrDrNoMassAcc_RC::init(FluidFlow* outletFlow) {
+void PipeHeatExchNoPrDropNoMassAcc_RC::init(FluidFlow* outletFlow) {
 	this->outletFlow = outletFlow;
 	this->inletFlow = FluidFlow_new();
 	FluidFlow_register(this->inletFlow);
@@ -44,7 +44,7 @@ void PipeHeatExchNoPrDrNoMassAcc_RC::init(FluidFlow* outletFlow) {
 	_init();
 }
 
-void PipeHeatExchNoPrDrNoMassAcc_RC::initOutletState(
+void PipeHeatExchNoPrDropNoMassAcc_RC::initOutletState(
 		MediumState* inletState, ThermalNode* wallNode) {
 	this->inletState = inletState;
 	this->wallNode = wallNode;
@@ -62,7 +62,7 @@ void PipeHeatExchNoPrDrNoMassAcc_RC::initOutletState(
 
 }
 
-void PipeHeatExchNoPrDrNoMassAcc_RC::updateOutletState(double outletStateValue) {
+void PipeHeatExchNoPrDropNoMassAcc_RC::updateOutletState(double outletStateValue) {
 	this->outletStateValue = outletStateValue;
 	if (stateVariable == sTemperature) {
 		this->outletState->update_Tp(outletStateValue, inletState->p());
@@ -71,7 +71,7 @@ void PipeHeatExchNoPrDrNoMassAcc_RC::updateOutletState(double outletStateValue) 
 	}
 }
 
-double PipeHeatExchNoPrDrNoMassAcc_RC::getOutletStateDerivative() {
+double PipeHeatExchNoPrDropNoMassAcc_RC::getOutletStateDerivative() {
 	double outletStateDerivative;
 	if (stateVariable == sTemperature) {
 		outletStateDerivative = (outletStateSetpoint - outletState->T()) / stateTimeConstant;
@@ -84,12 +84,12 @@ double PipeHeatExchNoPrDrNoMassAcc_RC::getOutletStateDerivative() {
 /*************************************************************
  ***   Pipe_HeatExch_NoPrDr_NoMassAcc implementation classes
  *************************************************************/
-class PipeHeatExchNoPrDrNoMassAcc_RC_HEEfficiency : public PipeHeatExchNoPrDrNoMassAcc_RC {
+class PipeHeatExchNoPrDropNoMassAcc_RC_HEEfficiency : public PipeHeatExchNoPrDropNoMassAcc_RC {
 public:
-	PipeHeatExchNoPrDrNoMassAcc_RC_HEEfficiency(
+	PipeHeatExchNoPrDropNoMassAcc_RC_HEEfficiency(
 			double heatExchEfficiency,
 			double stateTimeConstant) :
-			PipeHeatExchNoPrDrNoMassAcc_RC(stateTimeConstant) {
+			PipeHeatExchNoPrDropNoMassAcc_RC(stateTimeConstant) {
 		stateVariable = sTemperature;
 		this->heatExchEfficiency = heatExchEfficiency;
 	}
@@ -111,12 +111,12 @@ protected:
 	double heatExchEfficiency;
 };
 
-class PipeHeatExchNoPrDrNoMassAcc_RC_Convection : public PipeHeatExchNoPrDrNoMassAcc_RC {
+class PipeHeatExchNoPrDropNoMassAcc_RC_Convection : public PipeHeatExchNoPrDropNoMassAcc_RC {
 public:
-	PipeHeatExchNoPrDrNoMassAcc_RC_Convection(
+	PipeHeatExchNoPrDropNoMassAcc_RC_Convection(
 			ForcedConvection* convection,
 			double stateTimeConstant) :
-			PipeHeatExchNoPrDrNoMassAcc_RC(stateTimeConstant) {
+			PipeHeatExchNoPrDropNoMassAcc_RC(stateTimeConstant) {
 		stateVariable = sEnthalpy;
 		this->convection = convection;
 		this->heatExchangeArea = convection->getHeatExchangeArea();
@@ -169,18 +169,18 @@ protected:
 /**
  * Pipe_HeatExch_NoPrDr_NoMassAc_XXX - C
  */
-PipeHeatExchNoPrDrNoMassAcc_RC* PipeHeatExchNoPrDrNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant) {
-	return new PipeHeatExchNoPrDrNoMassAcc_RC_HEEfficiency(heatExchEfficiency, stateTimeConstant);
+PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant) {
+	return new PipeHeatExchNoPrDropNoMassAcc_RC_HEEfficiency(heatExchEfficiency, stateTimeConstant);
 }
 
-PipeHeatExchNoPrDrNoMassAcc_RC* PipeHeatExchNoPrDrNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant) {
-	return new PipeHeatExchNoPrDrNoMassAcc_RC_Convection(convection, stateTimeConstant);
+PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant) {
+	return new PipeHeatExchNoPrDropNoMassAcc_RC_Convection(convection, stateTimeConstant);
 }
 
 /**
  * Pipe_HeatExch_NoPrDr_NoMassAc - C
  */
-#define KOMPONENT PipeHeatExchNoPrDrNoMassAcc_RC
+#define KOMPONENT PipeHeatExchNoPrDropNoMassAcc_RC
 KOMPONENT_FUNC(void, init, FluidFlow* outletFlow) {
 	component->init(outletFlow);
 }

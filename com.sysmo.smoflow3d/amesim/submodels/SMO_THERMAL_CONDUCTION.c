@@ -30,7 +30,7 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "flow/ThermalConductionElement.h"
 
-#define _conductionObject ps[0]
+#define _component ps[0]
 
 #define _heatFlow1 ps[1]
 #define _heatFlowIndex1 ic[1]
@@ -122,8 +122,8 @@ void smo_thermal_conductionin_(int *n, double rp[2], int ip[2]
    _heatFlowIndex1 = HeatFlow_register(_heatFlow1);
    _heatFlow2 = HeatFlow_new();
    _heatFlowIndex2 = HeatFlow_register(_heatFlow2);
-   _conductionObject = ThermalConductionElement_Line_new((Medium_Solid*) medium, conductionArea, conductionLength);
-   SMOCOMPONEN_SET_PROPS(_conductionObject)
+   _component = ThermalConductionElement_Line_new((Medium_Solid*) medium, conductionArea, conductionLength);
+   SMOCOMPONEN_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -183,13 +183,13 @@ void smo_thermal_conduction_(int *n, double *heatFlowIndex1
    if (firstc_()) {
 	   ThermalNode* node1 = ThermalNode_get(*thermalNodeIndex1);
 	   ThermalNode* node2 = ThermalNode_get(*thermalNodeIndex2);
-	   ThermalConductionElement_assignNode(_conductionObject, 1, node1);
-	   ThermalConductionElement_assignNode(_conductionObject, 2, node2);
+	   ThermalConductionElement_assignNode(_component, 1, node1);
+	   ThermalConductionElement_assignNode(_component, 2, node2);
    }
-   ThermalConductionElement_computeExplicit(_conductionObject);
-   ThermalConductionElement_getFlow(_conductionObject, 1, _heatFlow1);
-   ThermalConductionElement_getFlow(_conductionObject, 2, _heatFlow2);
-   *qDot2 = ThermalConductionElement_getHeatFlow(_conductionObject, 2);
+   ThermalConductionElement_computeExplicit(_component);
+   ThermalConductionElement_getFlow(_component, 1, _heatFlow1);
+   ThermalConductionElement_getFlow(_component, 2, _heatFlow2);
+   *qDot2 = ThermalConductionElement_getHeatFlow(_component, 2);
    *heatFlowIndex1 = _heatFlowIndex1;
    *heatFlowIndex2 = _heatFlowIndex2;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */

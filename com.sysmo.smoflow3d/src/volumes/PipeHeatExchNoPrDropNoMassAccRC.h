@@ -1,13 +1,13 @@
 /*
- * PipeHeatExchNoPrDrNoMassAccRC.h
+ * PipeHeatExchNoPrDropNoMassAccRC.h
  *
  *  Created on: Aug 13, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#ifndef PIPEHEATEXCHNOPRDRNOMASSACC_H_
-#define PIPEHEATEXCHNOPRDRNOMASSACC_H_
+#ifndef PIPEHEATEXCHNOPRDROPNOMASSACC_H_
+#define PIPEHEATEXCHNOPRDROPNOMASSACC_H_
 
 #include "media/MediumState.h"
 #include "flow/FlowBase.h"
@@ -16,10 +16,10 @@
 
 #ifdef __cplusplus
 
-class PipeHeatExchNoPrDrNoMassAcc_RC : public SmoComponent {
+class PipeHeatExchNoPrDropNoMassAcc_RC : public SmoComponent {
 public:
-	PipeHeatExchNoPrDrNoMassAcc_RC(double stateTimeConstant);
-	virtual ~PipeHeatExchNoPrDrNoMassAcc_RC();
+	PipeHeatExchNoPrDropNoMassAcc_RC(double stateTimeConstant);
+	virtual ~PipeHeatExchNoPrDropNoMassAcc_RC();
 
 	void init(FluidFlow* outletFlow);
 
@@ -61,13 +61,13 @@ protected:
 };
 
 #else //__cplusplus
-DECLARE_C_STRUCT(PipeHeatExchNoPrDrNoMassAcc_RC)
+DECLARE_C_STRUCT(PipeHeatExchNoPrDropNoMassAcc_RC)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-#define KOMPONENT PipeHeatExchNoPrDrNoMassAcc_RC
-KOMPONENT* PipeHeatExchNoPrDrNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant);
-KOMPONENT* PipeHeatExchNoPrDrNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant);
+#define KOMPONENT PipeHeatExchNoPrDropNoMassAcc_RC
+KOMPONENT* PipeHeatExchNoPrDropNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant);
+KOMPONENT* PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant);
 
 KOMPONENT_FUNC(void, init, FluidFlow* outletFlow);
 
@@ -84,4 +84,4 @@ KOMPONENT_FUNC_V(FluidFlow*, getInletFlow);
 #undef KOMPONENT
 END_C_LINKAGE
 
-#endif /* PIPEHEATEXCHNOPRDRNOMASSACC_H_ */
+#endif /* PIPEHEATEXCHNOPRDROPNOMASSACC_H_ */

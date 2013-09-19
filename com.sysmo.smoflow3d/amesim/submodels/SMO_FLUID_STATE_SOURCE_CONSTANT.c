@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLUID_STATE_SOURCE_CONSTANT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "media/MediumState.h"
 
 #define _fluidStateIndex ic[0]
@@ -139,9 +140,7 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
    } else if (initConditionsChoice == 3) {
 	   MediumState_update_pq(_fluidState, initialPressure, initialGasMassFraction);
    } else {
-	   amefprintf(stderr, "\nFatal error in %s instance %d.\nUnsupported type of initialization.\n", _SUBMODELNAME_, *n);
-	   amefprintf(stderr, "Terminating the program.\n");
-	   AmeExit(1);
+	   AME_RAISE_ERROR("Unsupported type of initialization.")
    }
 
    *pressure = MediumState_p(_fluidState) / 1e5;
@@ -167,7 +166,7 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
 
       1 pressure             pressure           [bar]     fixed
       2 temperature          temperature        [K]       fixed
-      3 temperatureC         temperature (°C)   [degC]    fixed
+      3 temperatureC         temperature (ï¿½C)   [degC]    fixed
       4 density              density            [kg/m**3] fixed
       5 specificEnthalpy     specific enthalpy  [kJ/kg]   fixed
       6 gasMassFraction      gas mass fraction  [null]    fixed
