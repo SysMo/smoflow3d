@@ -1,5 +1,5 @@
 /*
- * PipeHeatExchNoPrDrNoMassAcc.h
+ * PipeHeatExchNoPrDrNoMassAccRC.h
  *
  *  Created on: Aug 13, 2013
  *      Author: Atanas Pavlov
@@ -16,16 +16,18 @@
 
 #ifdef __cplusplus
 
-class Pipe_HeatExch_NoPrDr_NoMassAcc : public SmoComponent { //:TODO: (MILEN) rename to Pipe_HeatExch_NoPrDr_NoMassAcc_RC
+class PipeHeatExchNoPrDrNoMassAcc_RC : public SmoComponent {
 public:
-	Pipe_HeatExch_NoPrDr_NoMassAcc(double stateTimeConstant);
-	virtual ~Pipe_HeatExch_NoPrDr_NoMassAcc();
+	PipeHeatExchNoPrDrNoMassAcc_RC(double stateTimeConstant);
+	virtual ~PipeHeatExchNoPrDrNoMassAcc_RC();
 
 	void init(FluidFlow* outletFlow);
 
 	void initOutletState(MediumState* inletState, ThermalNode* wallNode);
 	void updateOutletState(double outletStateValue);
+
 	virtual void compute() = 0;
+
 	MediumState* getOutletState() {return outletState;}
 	double getOutletStateValue() {return outletStateValue;}
 	double getOutletStateDerivative();
@@ -59,20 +61,21 @@ protected:
 };
 
 #else //__cplusplus
-DECLARE_C_STRUCT(Pipe_HeatExch_NoPrDr_NoMassAcc)
+DECLARE_C_STRUCT(PipeHeatExchNoPrDrNoMassAcc_RC)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-#define KOMPONENT Pipe_HeatExch_NoPrDr_NoMassAcc
-KOMPONENT* Pipe_HeatExch_NoPrDr_NoMassAcc_Efficiency_new(
-		double heatExchEfficiency, double stateTimeConstant);
-KOMPONENT* Pipe_HeatExch_NoPrDr_NoMassAcc_Convection_new(
-		ForcedConvection* convection, double stateTimeConstant);
+#define KOMPONENT PipeHeatExchNoPrDrNoMassAcc_RC
+KOMPONENT* PipeHeatExchNoPrDrNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant);
+KOMPONENT* PipeHeatExchNoPrDrNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant);
+
 KOMPONENT_FUNC(void, init, FluidFlow* outletFlow);
-KOMPONENT_FUNC(void, initOutletState,
-		MediumState* inletState, ThermalNode* wallNode);
+
+KOMPONENT_FUNC(void, initOutletState, MediumState* inletState, ThermalNode* wallNode);
 KOMPONENT_FUNC(void, updateOutletState, double outletStateValue);
+
 KOMPONENT_FUNC_V(void, compute);
+
 KOMPONENT_FUNC_V(MediumState*, getOutletState);
 KOMPONENT_FUNC_V(double, getOutletStateValue);
 KOMPONENT_FUNC_V(double, getOutletStateDerivative);
