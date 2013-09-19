@@ -244,8 +244,10 @@ void smo_heatexchanger_rc_(int *n, double *flowIndexInlet
    if (firstc_()) {
 	   FluidFlow* outletFlow = FluidFlow_get(*flowIndexOutlet);
 	   PipeHeatExchNoPrDropNoMassAcc_RC_init(_component, outletFlow);
+
 	   _inletFluidFlow = PipeHeatExchNoPrDropNoMassAcc_RC_getInletFlow(_component);
 	   _inletFluidFlowIndex = SmoObject_getInstanceIndex(_inletFluidFlow);
+
 	   _wallHeatFlow = PipeHeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }

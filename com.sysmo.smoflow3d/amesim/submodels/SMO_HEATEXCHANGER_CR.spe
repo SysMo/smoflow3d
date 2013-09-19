@@ -8,15 +8,14 @@
   <DEFAULT_ICON>smo_simple_heater</DEFAULT_ICON>
   <SUB_LABEL>pipe heat exchanger (single phase)  (C-R, no state)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>5</I_STORES_NUMBER>
-  <P_STORES_NUMBER>7</P_STORES_NUMBER>
+  <P_STORES_NUMBER>1</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
    <RPARAM>
     <SUB_ID>73</SUB_ID>
     <TITLE>heat exchanger efficiency</TITLE>
-    <VARNAME>efficienccy</VARNAME>
+    <VARNAME>heatExhcangeEfficienccy</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
     <VALUE>1.00000000000000e+000</VALUE>
@@ -78,7 +77,6 @@
    <PORT>
     <EVAR>
      <SUB_ID>114</SUB_ID>
-     <ORIG_TITLE>state index inlet</ORIG_TITLE>
      <VARNAME>stateIndexOutletDup</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
