@@ -21,14 +21,14 @@ void DynamicLoader::load(const char* libraryPath, const char* methodPrefix) {
 		this->methodPrefix = "";
 	}
 #ifdef WINDOWS
-	libraryHandle = LoadLibrary(self->libraryPath->chars);
+	libraryHandle = LoadLibrary(libraryPath);
 #else
 	libraryHandle = dlopen(libraryPath, RTLD_LAZY);
 #endif
 	if (!libraryHandle) {
 #ifdef WINDOWS
 		DWORD errorCode = GetLastError();
-		RaiseWarning("Dynamic loader returned error code %d", errorCode);
+		RaiseWarning("Dynamic loader returned error code " << errorCode);
 #endif
 		RaiseError("Could not load dynamic library '"<< this->libraryPath << "'");
 	}
