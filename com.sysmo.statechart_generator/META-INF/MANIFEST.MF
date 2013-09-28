@@ -23,7 +23,7 @@ Require-Bundle: org.eclipse.jdt.core;bundle-version="3.5.0",
  org.yakindu.sct.model.sexec;bundle-version="1.0.0",
  org.yakindu.sct.model.stext;bundle-version="1.0.0",
  org.yakindu.sct.model.sgraph;bundle-version="1.0.0",
- com.google.inject.source;bundle-version="3.0.0",
+ com.google.inject,
  org.yakindu.sct.generator.cpp,
  org.yakindu.sct.generator.c;bundle-version="2.2.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

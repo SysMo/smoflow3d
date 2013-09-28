@@ -26,16 +26,19 @@ class StatechartHeader {
 		#ifndef «name.toUpperCase»_H_
 		#define «name.toUpperCase»_H_
 		
-		#include "util/SimulationEnvironment.h"
+		typedef void (*SimEnv_MessageFunc)(const char* text);
+		typedef void (*SimEnv_ErrorFunc)(const char* text);
 
 		class «name» {
 		public:
-			«name»(SimulationEnvironment* simEnv);
+			«name»(SimEnv_MessageFunc messageFunc, SimEnv_ErrorFunc errorFunc);
 			~«name»();
-			int getUUID() {
-				return «UUID.randomUUID().hashCode()»;
+			const char* getName() {
+				return "«name»";
 			}
-			
+			const char* getUUID() {
+				return "«UUID.randomUUID()»";
+			}
 			typedef enum {
 				«FOR ExecutionState state : states»
 					«state.shortName»,
@@ -49,16 +52,19 @@ class StatechartHeader {
 			
 			void getSizes(
 					int& numRealParameters, int& numIntegerParameters,
-					int& numInputs, int& numOutputs) {
+					int& numInputs, int& numOutputs, int& maxNumOrthogonalStates) {
 				numRealParameters = «realParameters.size»;
 				numIntegerParameters = «integerParameters.size»;
 				numInputs = «inputs.size»;
 				numOutputs = «outputs.size»;
+				maxNumOrthogonalStates = «stateVector.size»;
 			}
 			void setParameters(double realParameterValues[],
 				int integerParameterValues[]);
 			void setInputs(double inputValues[]);
+			void setTime(double t);
 			void getOutputs(double outputValues[]);
+			void getState(int stateVector[]);
 			
 			void init();
 			void enter();
@@ -66,44 +72,44 @@ class StatechartHeader {
 			void react();
 		
 		protected:
-			SimulationEnvironment* simEnv;
-			
+			SimEnv_MessageFunc _message;
+			SimEnv_ErrorFunc _error;
+
+			double t;
 			//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 			static const int maxOrthogonalStates = «stateVector.size»;
 			«name»States stateConfVector[maxOrthogonalStates];
 			int stateConfVectorPosition;
-			static const char* stateNames[«states.size»];
-			static const char* parameterNames[«getScope("parameters").variables.size»];
-			static const char* inputNames[«getScope("inputs").variables.size»];
-			static const char* outputNames[«getScope("outputs").variables.size»];
 
-			void enact(){};
+			void enact_SequenceImpl(){};
 			«FOR state : states»
 				«IF state.reactSequence!=null»
 					void «state.reactSequence.shortName»();
 				«ENDIF»
 			«ENDFOR»
-		
+					
 		};
 		
-		BEGIN_C_LINKAGE
-		«module»* createController(SimulationEnvironment* simEnv);
+		extern "C" {
+		«module»* createController(SimEnv_MessageFunc messageFunc, SimEnv_ErrorFunc errorFunc);
 		void getSizes(«module»* controller, 
 					int* numRealParameters, int* numIntegerParameters,
-					int* numInputs, int* numOutputs);
+					int* numInputs, int* numOutputs, int* maxNumOrthogonalStates);
 		void init(«module»* controller);
 
 		void setParameters(«module»* controller,
 				double realParameterValues[],
 				int integerParameterValues[]);
 		void setInputs(«module»* controller, double inputValues[]);
+		void setTime(«module»* controller, double t);
 		void getOutputs(«module»* controller, double outputValues[]);
+		void getState(«module»* controller, int stateVector[]);
 
 		void enter(«module»* controller);
 		int isActionRequested(«module»* controller);
 		void react(«module»* controller);
 		
-		END_C_LINKAGE
+		}
 		
 		#endif // «name.toUpperCase»_H_
 		

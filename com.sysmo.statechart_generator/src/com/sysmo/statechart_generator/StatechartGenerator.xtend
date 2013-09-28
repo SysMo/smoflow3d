@@ -22,12 +22,16 @@ class StatechartGenerator extends AbstractWorkspaceGenerator implements IExecuti
 		refreshTargetProject(entry)
 	}
 	
-	def String generateMakefile(ExecutionFlow flow)'''
-		build : «flow.name».so
-		
-		«flow.name».so: «flow.name».cpp «flow.name».h
-			gcc -o «flow.name».so -shared -fPIC -I../../smoflow3d/com.sysmo.smoflow3d/src «flow.name».cpp			  
+	def String generateMakefile(ExecutionFlow flow){
+		val libExtension = "dll"
 	'''
+		build : «flow.name».«libExtension»
+		clean : 
+			del *.dll
+		
+		«flow.name».«libExtension»: «flow.name».cpp «flow.name».h
+			g++ -o «flow.name».«libExtension» -shared -fPIC «flow.name».cpp			  
+	'''}
 
 	def write(File dir, String filename, String content) {
 		try {

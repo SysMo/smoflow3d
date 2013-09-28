@@ -59,8 +59,14 @@ class StatechartImplementation {
 			«ENDFOR»
 		};
 
-		«name»::«name»(SimulationEnvironment* simEnv) {
-			this->simEnv = simEnv;
+		«name»::«name»(SimEnv_MessageFunc messageFunc, SimEnv_ErrorFunc errorFunc) {
+			this->_message = messageFunc;
+			this->_error = errorFunc;
+			_message("Controller state list:\n");	
+			for (int i = 0; i < «states.size»; i++) {
+				_message(stateNames[i]);
+				_message("\n");
+			}
 		}
 		
 		«name»::~«name»() {
@@ -90,10 +96,19 @@ class StatechartImplementation {
 			«setValuesFromArray(inputs, "inputs", "inputValues")»
 		}
 
+		void «name»::setTime(double t) {
+			this->t = t;	
+		}
+		
 		void «name»::getOutputs(double outputValues[]) {
 			«getValuesToArray(outputs, "outputs", "outputValues")»
 		}
 
+		void «name»::getState(int stateVector[]) {
+			for (int i = 0; i < maxOrthogonalStates; i++) {
+				stateVector[i] = stateConfVector[i];	
+			}
+		}
 		«enterFunction»
 		
 		/* Function which checks if any discrete event is about to occur */
@@ -138,15 +153,15 @@ class StatechartImplementation {
 		«reactFunctions.toImplementation»
 		
 		/* C interface functions */		
-		«name»* createController(SimulationEnvironment* simEnv) {
-			return new «module»(simEnv);
+		«name»* createController(SimEnv_MessageFunc messageFunc, SimEnv_ErrorFunc errorFunc) {
+			return new «module»(messageFunc, errorFunc);
 		}
 		
 		void getSizes(«module»* controller, 
 			int* numRealParameters, int* numIntegerParameters,
-			int* numInputs, int* numOutputs) {
+			int* numInputs, int* numOutputs, int* maxNumOrthogonalStates) {
 				controller->getSizes(*numRealParameters, *numIntegerParameters,
-						*numInputs, *numOutputs);
+						*numInputs, *numOutputs, *maxNumOrthogonalStates);
 		}
 		
 		void init(«module»* controller) {
@@ -163,8 +178,16 @@ class StatechartImplementation {
 			controller->setInputs(inputValues);
 		}
 		
+		void setTime(«module»* controller, double t) {
+			controller->setTime(t);
+		}
+		
 		void getOutputs(«module»* controller, double outputValues[]) {
 			controller->getOutputs(outputValues);
+		}
+		
+		void getState(«module»* controller, int stateVector[]) {
+			controller->getState(stateVector);	
 		}
 		
 		void enter(«module»* controller) {
@@ -273,7 +296,7 @@ class StatechartImplementation {
 		if (this.eventMode) {'''
 			stateConfVector[«state.stateVector.offset»] = «state.shortName»;
 			stateConfVectorPosition = «state.stateVector.offset»;
-			simEnv->message("«execution_flow.name» : Entering state '«state.shortName»'");
+			_message("«execution_flow.name» : Entering state '«state.shortName»'\n");
 		'''} else {
 			this.requestAction
 		}
@@ -283,7 +306,7 @@ class StatechartImplementation {
 		if (this.eventMode) {'''
 			stateConfVector[«state.stateVector.offset»] = «last_state»;
 			stateConfVectorPosition = «state.stateVector.offset»;
-			simEnv->message("«execution_flow.name» : Exiting state '«state.shortName»'");
+			_message("«execution_flow.name» : Exiting state '«state.shortName»'\n");
 		'''} else {
 			this.requestAction
 		}

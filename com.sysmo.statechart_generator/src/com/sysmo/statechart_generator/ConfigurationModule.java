@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.yakindu.sct.generator.c.types.CTypeSystemAccess;
-import org.yakindu.sct.generator.core.IGeneratorBridge;
 import org.yakindu.sct.generator.core.types.ICodegenTypeSystemAccess;
 import org.yakindu.sct.generator.cpp.CppNamingService;
 import org.yakindu.sct.model.sexec.naming.INamingService;
