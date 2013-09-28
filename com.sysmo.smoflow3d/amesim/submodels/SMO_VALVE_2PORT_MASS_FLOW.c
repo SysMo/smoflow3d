@@ -83,7 +83,7 @@ void smo_valve_2port_mass_flowin_(int *n, int ip[1], int ic[3]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = TwoPortValve_InputMassFlowRate_new(allowBidirectionalFlow - 1); //:TRICKY: allowBidirectionalFlow = {1-no, 2-yes} - 1 = {0-no, 1-yes});
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
 
    _fluidFlow1 = FluidFlow_new();
    _fluidFlow1Index = FluidFlow_register(_fluidFlow1);

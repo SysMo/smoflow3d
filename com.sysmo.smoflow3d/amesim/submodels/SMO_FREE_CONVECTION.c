@@ -175,7 +175,7 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 	   _component =
 			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
 
    Convection_setHeatExchangeGain(_component, heatExchangeGain);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */

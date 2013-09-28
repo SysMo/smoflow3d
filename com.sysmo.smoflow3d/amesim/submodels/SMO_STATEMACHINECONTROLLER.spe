@@ -5,8 +5,8 @@
  <SUBMODEL>
   <HAS_TERMINATE>1</HAS_TERMINATE>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>17</SUB_ID_MAX>
-  <DEFAULT_ICON>state_machine_controller</DEFAULT_ICON>
+  <SUB_ID_MAX>18</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_state_machine_controller</DEFAULT_ICON>
   <SUB_UNIT>0</SUB_UNIT>
   <P_STORES_NUMBER>1</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
@@ -72,14 +72,15 @@
     <RECOMPILE>1</RECOMPILE>
    </IPARAM>
    <IPARAM>
-    <SUB_ID>17</SUB_ID>
-    <TITLE>initial state of the controller</TITLE>
-    <VARNAME>initialState</VARNAME>
+    <SUB_ID>18</SUB_ID>
+    <TITLE>max number of orthogonal states</TITLE>
+    <VARNAME>maxNumOrthogonalStates</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
     <MIN_VALUE>0</MIN_VALUE>
-    <MAX_VALUE>1000</MAX_VALUE>
+    <MAX_VALUE>100000</MAX_VALUE>
+    <RECOMPILE>1</RECOMPILE>
    </IPARAM>
    <IPARAM>
     <SUB_ID>15</SUB_ID>
@@ -95,16 +96,6 @@
   </IPARAMS_LIST>
   <TPARAMS_LIST>
    <TPARAM>
-    <SUB_ID>16</SUB_ID>
-    <TITLE>controller name</TITLE>
-    <VARNAME>controllerName</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>State Machine Controller</DEF_VALUE>
-    <VALUE>State Machine Controller</VALUE>
-    <TEXT_TYPE>0</TEXT_TYPE>
-    <TOKEN_LIST>   </TOKEN_LIST>
-   </TPARAM>
-   <TPARAM>
     <SUB_ID>10</SUB_ID>
     <TITLE>controller library (dll)</TITLE>
     <VARNAME>controllerLibrary</VARNAME>
@@ -119,6 +110,7 @@
     <EVAR>
      <SUB_ID>1</SUB_ID>
      <TITLE>input variables</TITLE>
+     <ORIG_TITLE>input variables 1 1 1 1</ORIG_TITLE>
      <NB_IN_GROUP>numInputs</NB_IN_GROUP>
      <VARNAME>inputs</VARNAME>
      <VISIBILITY>True</VISIBILITY>
@@ -132,6 +124,7 @@
     <EVAR>
      <SUB_ID>6</SUB_ID>
      <TITLE>outputs</TITLE>
+     <ORIG_TITLE>outputs 1 1 1 1</ORIG_TITLE>
      <NB_IN_GROUP>numOutputs</NB_IN_GROUP>
      <VARNAME>outputs</VARNAME>
      <VISIBILITY>True</VISIBILITY>
@@ -149,6 +142,7 @@
     <EVAR>
      <SUB_ID>9</SUB_ID>
      <TITLE>controller state</TITLE>
+     <NB_IN_GROUP>maxNumOrthogonalStates</NB_IN_GROUP>
      <VARNAME>controllerState</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>10</TYPE>

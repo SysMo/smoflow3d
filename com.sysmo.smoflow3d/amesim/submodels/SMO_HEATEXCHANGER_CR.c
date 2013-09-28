@@ -75,7 +75,7 @@ void smo_heatexchanger_crin_(int *n, double rp[1], void *ps[1])
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = PipeHeatExchNoPrDropNoMassAcc_CR_new(heatExhcangeEfficienccy);
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 

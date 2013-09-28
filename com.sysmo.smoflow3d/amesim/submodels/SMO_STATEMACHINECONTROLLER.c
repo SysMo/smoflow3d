@@ -1,5 +1,5 @@
 /* Submodel SMO_STATEMACHINECONTROLLER skeleton created by AME Submodel editing utility
-   Mon Jul 29 15:08:35 2013 */
+   Sat Sep 28 16:06:17 2013 */
 
 
 
@@ -27,7 +27,8 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_STATEMACHINECONTROLLER"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "controller/StateMachineController.h"
+#include "io_control/StateMachineController.h"
+#include "SmoFlowAme.h"
 
 #define _component ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -41,18 +42,17 @@ REVISIONS :
 
 /* There are 6 integer parameters:
 
-   numInputs              number of inputs               
-   numOutputs             number of outputs              
-   numRealParameters      number of real parameters      
-   numIntegerParameters   number of integer parameters   
-   initialState           initial state of the controller
-   integerParameters[]    integer parameters             
+   numInputs                number of inputs               
+   numOutputs               number of outputs              
+   numRealParameters        number of real parameters      
+   numIntegerParameters     number of integer parameters   
+   maxNumOrthogonalStates   max number of orthogonal states
+   integerParameters[]      integer parameters             
 */
 
 
-/* There are 2 text parameters:
+/* There is 1 text parameter:
 
-   controllerName    controller name         
    controllerLibrary controller library (dll)
 */
 
@@ -66,20 +66,21 @@ void smo_statemachinecontrollerin_(int *n, double *rp, int *ip
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int inputs_size;
    int outputs_size;
+   int controllerState_size;
    int realParameters_size;
    int integerParameters_size;
    int param_offset;  /* Offset used to assign parameter values. */
    int numInputs, numOutputs, numRealParameters, numIntegerParameters
-      , initialState, *integerParameters;
+      , maxNumOrthogonalStates, *integerParameters;
    double *realParameters;
-   char *controllerName, *controllerLibrary;
+   char *controllerLibrary;
 
    param_offset = 0;
    numInputs  = ip[0];
    numOutputs = ip[1];
    numRealParameters = ip[2];
    numIntegerParameters = ip[3];
-   initialState = ip[4];
+   maxNumOrthogonalStates = ip[4];
    integerParameters = &(ip[5]);
    integerParameters_size = numIntegerParameters;
    param_offset += integerParameters_size-1;
@@ -90,11 +91,11 @@ void smo_statemachinecontrollerin_(int *n, double *rp, int *ip
    param_offset += realParameters_size-1;
 
    param_offset = 0;
-   controllerName = tp[0];
-   controllerLibrary = tp[1];
+   controllerLibrary = tp[0];
    param_offset = 0;
    inputs_size = numInputs;
    outputs_size = numOutputs;
+   controllerState_size = maxNumOrthogonalStates;
    loop = 0;
    error = 0;
 
@@ -108,7 +109,7 @@ void smo_statemachinecontrollerin_(int *n, double *rp, int *ip
    Check and/or reset the following fixed and/or discrete variables
 
    outputs   [] = ??;
-   *controllerState = ??;
+   controllerState[] = ??;
 */
 
 
@@ -137,9 +138,9 @@ void smo_statemachinecontrollerin_(int *n, double *rp, int *ip
       amefprintf(stderr, "\nnumber of integer parameters must be in range [0..100].\n");
       error = 2;
    }
-   if (initialState < 0 || initialState > 1000)
+   if (maxNumOrthogonalStates < 0 || maxNumOrthogonalStates > 100000)
    {
-      amefprintf(stderr, "\ninitial state of the controller must be in range [0..1000].\n");
+      amefprintf(stderr, "\nmax number of orthogonal states must be in range [0..100000].\n");
       error = 2;
    }
    for (loop=0; loop < integerParameters_size; loop++)
@@ -165,21 +166,18 @@ void smo_statemachinecontrollerin_(int *n, double *rp, int *ip
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   AME_SET_CURRENT_COMPONENT;
-   _component = StateMachineController_new(
-		   controllerName,
-		   controllerLibrary,
-		   numRealParameters,
-		   numIntegerParameters,
-		   numInputs,
-		   numOutputs);
+   _component = StateMachineController_new();
+   SMOCOMPONENT_SET_PROPS(_component)
 
-   StateMachineController* controller = (StateMachineController*)_component;
-   controller->setParameters(controller, realParameters, integerParameters);
-   controller->time = 0;
-   controller->init(controller, initialState);
-   *controllerState = initialState;
-   controller->getOutputs(controller, outputs);
+   StateMachineController_loadController(_component, controllerLibrary);
+   StateMachineController_init(_component);
+   StateMachineController_checkSizes(_component,
+		   numRealParameters, numIntegerParameters,
+		   numInputs, numOutputs, maxNumOrthogonalStates);
+   StateMachineController_setParameters(_component, realParameters, integerParameters);
+   StateMachineController_setTime(_component, 0);
+   StateMachineController_enter(_component);
+   // TODO *controllerState = initialState;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -193,20 +191,21 @@ void smo_statemachinecontrollerend_(int *n, double *rp, int *ip
 /* <<<<<<<<<<<<End of Extra Terminate declarations. */
    int inputs_size;
    int outputs_size;
+   int controllerState_size;
    int realParameters_size;
    int integerParameters_size;
    int param_offset;  /* Offset used to assign parameter values. */
    int numInputs, numOutputs, numRealParameters, numIntegerParameters
-      , initialState, *integerParameters;
+      , maxNumOrthogonalStates, *integerParameters;
    double *realParameters;
-   char *controllerName, *controllerLibrary;
+   char *controllerLibrary;
 
    param_offset = 0;
    numInputs  = ip[0];
    numOutputs = ip[1];
    numRealParameters = ip[2];
    numIntegerParameters = ip[3];
-   initialState = ip[4];
+   maxNumOrthogonalStates = ip[4];
    integerParameters = &(ip[5]);
    integerParameters_size = numIntegerParameters;
    param_offset += integerParameters_size-1;
@@ -217,18 +216,16 @@ void smo_statemachinecontrollerend_(int *n, double *rp, int *ip
    param_offset += realParameters_size-1;
 
    param_offset = 0;
-   controllerName = tp[0];
-   controllerLibrary = tp[1];
+   controllerLibrary = tp[0];
    param_offset = 0;
    inputs_size = numInputs;
    outputs_size = numOutputs;
+   controllerState_size = maxNumOrthogonalStates;
    loop = 0;
    error = 0;
 
 
 /* >>>>>>>>>>>>Terminate Function Executable Statements. */
-   StateMachineController* controller = (StateMachineController*)_component;
-   StateMachineController_free(&controller);
 /* <<<<<<<<<<<<End of Terminate Executable Statements. */
 }
 
@@ -246,7 +243,7 @@ void smo_statemachinecontrollerend_(int *n, double *rp, int *ip
 
    Port 3 has 1 variable:
 
-      1 controllerState     controller state [null] discrete
+      1 controllerState[]   controller state [null] discrete
 */
 
 /*  There are 0 internal variables.
@@ -263,20 +260,21 @@ void smo_statemachinecontroller_(int *n, double *inputs
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int inputs_size;
    int outputs_size;
+   int controllerState_size;
    int realParameters_size;
    int integerParameters_size;
    int param_offset;  /* Offset used to assign parameter values. */
    int numInputs, numOutputs, numRealParameters, numIntegerParameters
-      , initialState, *integerParameters;
+      , maxNumOrthogonalStates, *integerParameters;
    double *realParameters;
-   char *controllerName, *controllerLibrary;
+   char *controllerLibrary;
 
    param_offset = 0;
    numInputs  = ip[0];
    numOutputs = ip[1];
    numRealParameters = ip[2];
    numIntegerParameters = ip[3];
-   initialState = ip[4];
+   maxNumOrthogonalStates = ip[4];
    integerParameters = &(ip[5]);
    integerParameters_size = numIntegerParameters;
    param_offset += integerParameters_size-1;
@@ -287,11 +285,11 @@ void smo_statemachinecontroller_(int *n, double *inputs
    param_offset += realParameters_size-1;
 
    param_offset = 0;
-   controllerName = tp[0];
-   controllerLibrary = tp[1];
+   controllerLibrary = tp[0];
    param_offset = 0;
    inputs_size = numInputs;
    outputs_size = numOutputs;
+   controllerState_size = maxNumOrthogonalStates;
    logi = 0;
    loop = 0;
 
@@ -305,29 +303,19 @@ void smo_statemachinecontroller_(int *n, double *inputs
    The following discrete variable(s) can be reset when the discontinuity flag is zero:
 
    outputs   [] = ??;
-   *controllerState = ??;
+   controllerState[] = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   StateMachineController* controller = (StateMachineController*)_component;
 
-   controller->time = *t;
-   controller->setInputs(controller, inputs);
-
-   // Checking for discontinuity
-   int newState = controller->checkForTransition(controller);
-   if (newState != -1) {
-	   logi = 1;
-   }
-   disloc_(&logi);
-
-   // Already found the discontinuity and switching the controller state
-   if (*flag == 0 && newState != -1) {
-	   controller->switchState(controller);
-	   controller->getOutputs(controller, outputs);
-	   *controllerState = newState;
+   StateMachineController_setInputs(_component, inputs);
+   StateMachineController_setTime(_component, *t);
+   StateMachineController_step(_component);
+   if (*flag == 0) {
+	   StateMachineController_getOutputs(_component, outputs);
+	   StateMachineController_getState_ToDouble(_component, controllerState);
    }
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 }

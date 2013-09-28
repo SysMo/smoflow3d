@@ -121,7 +121,7 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = MechanicalCompressor_new();
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
 
    _inletFluidFlow = FluidFlow_new();
    _inletFluidFlowIndex = FluidFlow_register(_inletFluidFlow);

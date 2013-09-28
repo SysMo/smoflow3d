@@ -154,7 +154,7 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 	   _component = PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(_convection, tauOutput);
    }
 
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 

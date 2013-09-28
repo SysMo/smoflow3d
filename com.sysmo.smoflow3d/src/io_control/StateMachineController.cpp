@@ -16,12 +16,14 @@ StateMachineController::~StateMachineController() {
 
 void StateMachineController::loadController(const char* controllerPath) {
 	DynamicLoader* loader = new DynamicLoader();
+
+	ShowMessage("Loading controller instance from " << controllerPath << std::endl);
 	loader->load(controllerPath);
 	CreateControllerFunc createController = (CreateControllerFunc) loader->getMethodAddress("createController");
-	controller = createController(&SimEnv);
+	controller = createController(SimulationEnvironment_message, SimulationEnvironment_error);
 
 	if (controller != NULL) {
-		ShowMessage("Succesfully created controller instance from " << controllerPath);
+		ShowMessage("Succesfully created controller instance\n");
 	} else {
 		RaiseComponentError(this, "Couldn't create controller instance from " << controllerPath);
 	}
@@ -29,7 +31,9 @@ void StateMachineController::loadController(const char* controllerPath) {
 
 	_setParameters = (SetParametersFunc) loader->getMethodAddress("setParameters");
 	_setInputs = (SetInputsFunc) loader->getMethodAddress("setInputs");
+	_setTime = (SetTimeFunc) loader->getMethodAddress("setTime");
 	_getOutputs = (GetOutputsFunc) loader->getMethodAddress("getOutputs");
+	_getState = (GetStateFunc) loader->getMethodAddress("getState");
 
 	_init = (InitFunc) loader->getMethodAddress("init");
 	_enter = (EnterFunc) loader->getMethodAddress("enter");
@@ -39,39 +43,42 @@ void StateMachineController::loadController(const char* controllerPath) {
 	delete loader;
 }
 
-void StateMachineController::init(int numRealParameters, int numIntegerParameters,
-		int numInputs, int numOutputs) {
-	int dll_numRealParameters;
-	int dll_numIntegerParameters;
-	int dll_numInputs;
-	int dll_numOutputs;
+void StateMachineController::init() {
 
-	_getSizes(controller, &dll_numRealParameters, &dll_numIntegerParameters,
-			&dll_numInputs, &dll_numOutputs);
+	_getSizes(controller, &this->numRealParameters, &this->numIntegerParameters,
+			&this->numInputs, &this->numOutputs, &this->maxNumOrthogonalStates);
+	_init(controller);
+}
 
-	if (numRealParameters != dll_numRealParameters) {
-		RaiseComponentError(this, "Controller loaded from dll expects " << dll_numRealParameters
+void StateMachineController::checkSizes(int numRealParameters, int numIntegerParameters,
+		int numInputs, int numOutputs, int maxNumOrthogonalStates) {
+
+	if (numRealParameters != this->numRealParameters) {
+		RaiseComponentError(this, "Controller loaded from dll expects " << this->numRealParameters
 				<< " real parameters, simulation component has " << numRealParameters)
 	}
 
-	if (numIntegerParameters != dll_numIntegerParameters) {
-		RaiseComponentError(this, "Controller loaded from dll expects " << dll_numIntegerParameters
+	if (numIntegerParameters != this->numIntegerParameters) {
+		RaiseComponentError(this, "Controller loaded from dll expects " << this->numIntegerParameters
 				<< " integer parameters, simulation component has " << numIntegerParameters)
 	}
 
-	if (numInputs != dll_numInputs) {
-		RaiseComponentError(this, "Controller loaded from dll expects " << dll_numInputs
+	if (numInputs != this->numInputs) {
+		RaiseComponentError(this, "Controller loaded from dll expects " << this->numInputs
 				<< " inputs, simulation component has " << numInputs)
 	}
 
-	if (numOutputs != dll_numOutputs) {
-		RaiseComponentError(this, "Controller loaded from dll expects " << dll_numOutputs
+	if (numOutputs != this->numOutputs) {
+		RaiseComponentError(this, "Controller loaded from dll expects " << this->numOutputs
 				<< " outputs, simulation component has " << numOutputs)
 	}
 
-
-	_init(controller);
+	if (maxNumOrthogonalStates != this->maxNumOrthogonalStates) {
+		RaiseComponentError(this, "Controller loaded from dll has " << this->maxNumOrthogonalStates
+				<< " max. number of orthogonal states, simulation component has " << maxNumOrthogonalStates)
+	}
 }
+
 
 void StateMachineController::setParameters(double realParameterValues[],
 	int integerParameterValues[]) {
@@ -82,8 +89,26 @@ void StateMachineController::setInputs(double inputValues[]) {
 	_setInputs(controller, inputValues);
 }
 
+void StateMachineController::setTime(double t) {
+	this->t = t;
+	_setTime(controller, t);
+}
+
 void StateMachineController::getOutputs(double outputValues[]) {
 	_getOutputs(controller, outputValues);
+}
+
+void StateMachineController::getState(int stateVector[]) {
+	_getState(controller, stateVector);
+}
+
+void StateMachineController::getState(double stateVector[]) {
+	int* stateVectorInt = new int[maxNumOrthogonalStates];
+	_getState(controller, stateVectorInt);
+	for (int i = 0; i < maxNumOrthogonalStates; i++) {
+		stateVector[i] = (double) stateVectorInt[i];
+	}
+	delete[] stateVectorInt;
 }
 
 void StateMachineController::enter() {
@@ -96,9 +121,10 @@ void StateMachineController::step() {
 		while (_isActionRequested(controller)) {
 			_react(controller);
 		}
+		timeLastEvent = t;
 	} else {
 		bool actionRequested = _isActionRequested(controller);
-		if (actionRequested) {
+		if (actionRequested && (t - timeLastEvent > 1)) {
 			SimEnv.updateEventIndicator(actionRequested);
 		}
 	}
@@ -112,10 +138,15 @@ void StateMachineController_loadController(StateMachineController* component, co
 	component->loadController(controllerPath);
 }
 
-void StateMachineController_init(StateMachineController* component,
+void StateMachineController_init(StateMachineController* component) {
+	component->init();
+}
+
+void StateMachineController_checkSizes(StateMachineController* component,
 		int numRealParameters, int numIntegerParameters,
-		int numInputs, int numOutputs) {
-	component->init(numRealParameters, numIntegerParameters, numInputs, numOutputs);
+		int numInputs, int numOutputs, int maxNumOrthogonalStates) {
+	component->checkSizes(numRealParameters, numIntegerParameters,
+			numInputs, numOutputs, maxNumOrthogonalStates);
 }
 
 void StateMachineController_setParameters(StateMachineController* component,
@@ -128,8 +159,20 @@ void StateMachineController_setInputs(StateMachineController* component, double 
 	component->setInputs(inputValues);
 }
 
+void StateMachineController_setTime(StateMachineController* component, double t) {
+	component->setTime(t);
+}
+
 void StateMachineController_getOutputs(StateMachineController* component, double outputValues[]) {
 	component->getOutputs(outputValues);
+}
+
+void StateMachineController_getState(StateMachineController* component, int stateVector[]) {
+	component->getState(stateVector);
+}
+
+void StateMachineController_getState_ToDouble(StateMachineController* component, double stateVector[]) {
+	component->getState(stateVector);
 }
 
 void StateMachineController_enter(StateMachineController* component) {

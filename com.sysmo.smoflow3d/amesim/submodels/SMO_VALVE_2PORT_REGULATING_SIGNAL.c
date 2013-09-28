@@ -124,7 +124,7 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 		   transitionMassFlowRate,
 		   transitionPressureDifference,
 		   maximumMassFlowRate);
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
 
    _fluidFlow1 = FluidFlow_new();
    _fluidFlow1Index = FluidFlow_register(_fluidFlow1);

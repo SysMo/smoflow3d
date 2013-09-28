@@ -16,7 +16,7 @@
 	AmeExit(1);		  \
 
 
-#define SMOCOMPONEN_SET_PROPS(_component) \
+#define SMOCOMPONENT_SET_PROPS(_component) \
 	SmoComponent_setInstanceIndex(_component, *n); \
 	SmoComponent_setComponentName(_component, _SUBMODELNAME_); \
 

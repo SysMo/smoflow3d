@@ -137,7 +137,7 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    Medium* fluid = Medium_get(fluidIndex);
    _component = FluidChamber_new(fluid);
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
 
    FluidChamber_setVolume(_component, volume);
    _fluidChamberState = FluidChamber_getFluidState(_component);

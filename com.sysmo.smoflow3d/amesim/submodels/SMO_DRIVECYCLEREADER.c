@@ -78,7 +78,7 @@ void smo_drivecyclereaderin_(int *n, char *tp[1], double c[2]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = DriveCycleReader_new(fileName);
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
    DriveCycleReader_init(_component);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }

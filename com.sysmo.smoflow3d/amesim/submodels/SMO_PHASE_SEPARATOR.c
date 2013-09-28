@@ -90,7 +90,7 @@ void smo_phase_separatorin_(int *n, int ip[1], int ic[5], void *ps[5])
    }
 
    _component = PhaseSeparator_new(phaseSelection);
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 

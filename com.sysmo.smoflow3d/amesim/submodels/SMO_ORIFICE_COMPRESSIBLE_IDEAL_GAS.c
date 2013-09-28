@@ -94,7 +94,7 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = Orifice_new();
-   SMOCOMPONEN_SET_PROPS(_component)
+   SMOCOMPONENT_SET_PROPS(_component)
 
    Orifice_setOrificeArea(_component, orificeArea);
    Orifice_setFlowCoefficient(_component, flowCoefficient);

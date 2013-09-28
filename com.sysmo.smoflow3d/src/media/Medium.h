@@ -23,13 +23,13 @@ typedef enum {
 	sSolidThermal
 } MediumConcreteTypes;
 
+#include "CoolProp/GlobalConstants.h"
+typedef enum params ThermodynamicVariable;
 
 #ifdef __cplusplus
 
 #include <map>
 #include "CoolProp/CoolProp.h"
-#include "CoolProp/GlobalConstants.h"
-typedef enum params ThermodynamicVariable;
 
 struct Medium {
 	MediumConcreteTypes concreteType;
