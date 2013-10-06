@@ -12,7 +12,6 @@
 
 #ifdef __cplusplus
 
-// TOOD: getSizes, setTime, getState
 
 class StateMachineController : public SmoComponent {
 public:
