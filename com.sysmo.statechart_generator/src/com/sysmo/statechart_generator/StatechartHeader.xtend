@@ -22,6 +22,12 @@ class StatechartHeader {
 	
 	}
 
+/* 
+	const char* getUUID() {
+		return "«UUID.randomUUID()»";
+	}
+ */
+
 	def generateHeader(ExecutionFlow it) {'''
 		#ifndef «name.toUpperCase»_H_
 		#define «name.toUpperCase»_H_
@@ -45,9 +51,6 @@ class StatechartHeader {
 			~«name»();
 			const char* getName() {
 				return "«name»";
-			}
-			const char* getUUID() {
-				return "«UUID.randomUUID()»";
 			}
 			typedef enum {
 				«FOR ExecutionState state : states»
