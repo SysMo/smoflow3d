@@ -130,9 +130,7 @@ class StatechartHeader {
 	def protected createScope(Scope scope) {
 		switch scope {
 			InterfaceScope: scope.createScope()
-			InternalScope: {
-				
-			}
+			InternalScope: scope.createScope()
 		}
 	}
 	
@@ -143,6 +141,11 @@ class StatechartHeader {
 		
 	'''}
 			
+	def protected createScope(InternalScope scope) {'''
+		«scope.createInterface()»
+		
+	'''}
+
 	def protected createInterface(StatechartScope scope) {'''
 		«FOR Variable variable : scope.variables»
 			«variable.structDeclaration()»
