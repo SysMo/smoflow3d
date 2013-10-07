@@ -177,7 +177,6 @@ void smo_statemachinecontrollerin_(int *n, double *rp, int *ip
    StateMachineController_setParameters(_component, realParameters, integerParameters);
    StateMachineController_setTime(_component, 0);
    StateMachineController_enter(_component);
-   // TODO *controllerState = initialState;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -309,7 +308,6 @@ void smo_statemachinecontroller_(int *n, double *inputs
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-
    StateMachineController_setInputs(_component, inputs);
    StateMachineController_setTime(_component, *t);
    StateMachineController_step(_component);
