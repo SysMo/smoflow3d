@@ -59,6 +59,10 @@ class Util {
 	def getOutputs(ExecutionFlow it) {
 		getScope("outputs").variables
 	}
+	
+	def getInternals(ExecutionFlow it) {
+		getScope("internal").variables;
+	}
 
 	def setValuesFromArray(Iterable<Variable> variables, String groupName, String arrayName) {
 		var i = 0
