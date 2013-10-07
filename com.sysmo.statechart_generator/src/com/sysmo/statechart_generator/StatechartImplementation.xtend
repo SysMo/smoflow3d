@@ -216,11 +216,7 @@ class StatechartImplementation {
 		}
 		
 	'''}
-	
-	def checkForTransitionCase(ExecutionState state) {'''
-	'''			
-	}
-	
+		
 	def toImplementation(List<Step> steps) { 
 		this.eventMode = true
 	'''
@@ -266,18 +262,26 @@ class StatechartImplementation {
 		«ENDFOR»
 	'''	
 
-	def dispatch CharSequence code(If it) '''
-		«IF (this.eventMode)»«stepComment»«ENDIF»
-		if («check.code») { 
-			«thenStep.code»
-		} «IF (elseStep != null)» else {
-			«elseStep.code»
+	def dispatch CharSequence code(If it) {
+		var result = ''''''
+		if (this.eventMode) {
+			result = result + stepComment
 		}
-		«ENDIF»
-	'''
+		this.actionFound = false
+		result = result + '''
+		if («check.code») {
+			«thenStep.code»
+		} '''
+		if (elseStep!=null) {
+			this.actionFound = false
+			result = result + '''
+			else {
+				«elseStep.code»
+			}'''}
+		return result;
+	}
 	
 	def dispatch CharSequence code(Check it) {
-		this.actionFound = false
 	'''
 		«stepComment»
 		«IF condition != null»«condition.code»«ELSE»true«ENDIF»'''		
@@ -296,7 +300,7 @@ class StatechartImplementation {
 		if (this.eventMode) {'''
 			stateConfVector[«state.stateVector.offset»] = «state.shortName»;
 			stateConfVectorPosition = «state.stateVector.offset»;
-			_message("«execution_flow.name» : Entering state '«state.shortName»'\n");
+			ShowMessage("«execution_flow.name» : at time t = " << t << " entering state '«state.shortName»'\n");
 		'''} else {
 			this.requestAction
 		}
@@ -306,7 +310,7 @@ class StatechartImplementation {
 		if (this.eventMode) {'''
 			stateConfVector[«state.stateVector.offset»] = «last_state»;
 			stateConfVectorPosition = «state.stateVector.offset»;
-			_message("«execution_flow.name» : Exiting state '«state.shortName»'\n");
+			ShowMessage("«execution_flow.name» : at time t = " << t << " exiting state '«state.shortName»'\n");
 		'''} else {
 			this.requestAction
 		}
