@@ -26,8 +26,18 @@ class StatechartHeader {
 		#ifndef «name.toUpperCase»_H_
 		#define «name.toUpperCase»_H_
 		
+		#include <string>
+		#include <sstream>
+		
 		typedef void (*SimEnv_MessageFunc)(const char* text);
 		typedef void (*SimEnv_ErrorFunc)(const char* text);
+		
+		#define ShowMessage(message) {\
+			std::stringstream messageStream; \
+			messageStream << "\n" << message; \
+			std::string messageString(messageStream.str()); \
+			_message(messageString.c_str()); \
+			}
 
 		class «name» {
 		public:
