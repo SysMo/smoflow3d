@@ -15,6 +15,7 @@ FluidChamber::FluidChamber(Medium *fluid) {
 	fluidState = MediumState_new(fluid);
 	MediumState_register(fluidState);
 	volume = 0;
+	flagInTwoPhase = false;
 }
 
 FluidChamber::~FluidChamber() {
@@ -156,6 +157,27 @@ void FluidChamber::computeStateDerivatives_cp(double mDot, double UDot, double V
 
 }
 
+bool FluidChamber::isInTwoPhase() {
+	double gasMassFraction = fluidState->q();
+	return gasMassFraction >= 0 && gasMassFraction <= 1;
+}
+
+void FluidChamber::handlePhaseTransition() {
+	if (SimEnv.isEventMode()) { //in a discontinuity
+		flagInTwoPhase = isInTwoPhase();
+	}
+
+	bool eventIndicator = false;
+	if (isInTwoPhase() != flagInTwoPhase) {
+		eventIndicator = true;
+	}
+
+	if (eventIndicator) {
+		//trigger a discontinuity when the fluid in the chamber changes his phase (from single to two phase and vice versa)
+		SimEnv.updateEventIndicator(eventIndicator);
+	}
+}
+
 /**
  * FluidChamber - C
  */
@@ -189,6 +211,10 @@ void FluidChamber_computeStateDerivatives(FluidChamber* chamber, double massFlow
 
 void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDerivative1, double* stateDerivative2) {
 	chamber->getStateDerivatives(stateDerivative1, stateDerivative2);
+}
+
+void FluidChamber_handlePhaseTransition(FluidChamber* chamber) {
+	chamber->handlePhaseTransition();
 }
 
 MediumState* FluidChamber_getFluidState(FluidChamber* chamber) {

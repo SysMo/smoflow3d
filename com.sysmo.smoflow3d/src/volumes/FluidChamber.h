@@ -29,6 +29,9 @@ public:
 	void getStateDerivatives(double* stateDerivative1, double* stateDerivative2);
 	MediumState* getFluidState(){return fluidState;}
 
+	bool isInTwoPhase();
+	void handlePhaseTransition();
+
 protected:
 	void computeStateDerivatives_cv(double mDot, double UDot, double VDot);
 	void computeStateDerivatives_cp(double mDot, double UDot, double VDot);
@@ -40,6 +43,8 @@ protected:
 	MediumState* fluidState;
 	BasicState stateTimeDerivatives;
 	double volume;
+
+	bool flagInTwoPhase;
 };
 
 #else
@@ -55,6 +60,7 @@ void FluidChamber_setStateValues(FluidChamber* chamber, double stateValue1, doub
 void FluidChamber_getStateValues(FluidChamber* chamber, double* stateValue1, double* stateValue2, int getFromFluid);
 void FluidChamber_computeStateDerivatives(FluidChamber* chamber, double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
 void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDerivative1, double* stateDerivative2);
+void FluidChamber_handlePhaseTransition(FluidChamber* chamber);
 MediumState* FluidChamber_getFluidState(FluidChamber* chamber);
 END_C_LINKAGE
 
