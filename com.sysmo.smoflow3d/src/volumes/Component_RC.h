@@ -57,15 +57,12 @@ DECLARE_C_STRUCT(Component_RC)
 
 BEGIN_C_LINKAGE
 void Component_RC_init(Component_RC* component, FluidFlow* port2Flow);
-void Component_RC_initState(Component_RC* component,
-		MediumState* port1State, ThermalNode* wallNode);
-void Component_RC_setStateValues(Component_RC* component,
-		double value1, double value2);
-void Component_RC_getStateValues(Component_RC* component,
-		double* value1, double* value2);
-void Component_RC_getStateDerivatives(Component_RC* component,
-		double* value1, double* value2);
+void Component_RC_initState(Component_RC* component, MediumState* port1State, ThermalNode* wallNode);
+void Component_RC_setStateValues(Component_RC* component, double value1, double value2);
+void Component_RC_getStateValues(Component_RC* component, double* value1, double* value2);
+void Component_RC_getStateDerivatives(Component_RC* component, double* value1, double* value2);
 void Component_RC_compute(Component_RC* component);
+
 MediumState* Component_RC_getPort1State(Component_RC* component);
 FluidFlow* Component_RC_getPort1Flow(Component_RC* component);
 MediumState* Component_RC_getPort2State(Component_RC* component);

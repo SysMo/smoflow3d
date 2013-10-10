@@ -69,8 +69,7 @@ void PipeHeatExchPrDrop_RC::compute() {
 	double netEnthalpyFlow = internalFlow->enthalpyFlowRate + port2Flow->enthalpyFlowRate;
 	double netMassFlowRate = internalFlow->massFlowRate + port2Flow->massFlowRate;
 
-	accFluid->computeStateDerivatives(netMassFlowRate, netEnthalpyFlow,
-			netHeatFlowRate, 0);
+	accFluid->computeStateDerivatives(netMassFlowRate, netEnthalpyFlow, netHeatFlowRate, 0);
 }
 
 /**
@@ -79,8 +78,4 @@ void PipeHeatExchPrDrop_RC::compute() {
 PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume,
 		FrictionFlowPipe* friction, ForcedConvection* convection) {
 	return new PipeHeatExchPrDrop_RC(internalVolume, friction, convection);
-}
-
-void PipeHeatExchPrDrop_RC_compute(PipeHeatExchPrDrop_RC* component) {
-	component->compute();
 }

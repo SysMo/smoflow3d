@@ -40,13 +40,11 @@ DECLARE_C_STRUCT(FunctorTwoVariables)
 BEGIN_C_LINKAGE
 
 FunctorOneVariable* FunctorOneVariable_Constant_new(double constantValue);
-FunctorOneVariable* FunctorOneVariable_Expression_new(const char* expressionString,
-		const char* varName);
+FunctorOneVariable* FunctorOneVariable_Expression_new(const char* expressionString, const char* varName);
 double FunctorOneVariable_evaluate(FunctorOneVariable* functor, double value);
 
 FunctorTwoVariables* FunctorTwoVariables_Constant_new(double constantValue);
-FunctorTwoVariables* FunctorTwoVariables_Expression_new(const char* expressionString,
-		const char* var1Name, const char* var2Name);
+FunctorTwoVariables* FunctorTwoVariables_Expression_new(const char* expressionString, const char* var1Name, const char* var2Name);
 double FunctorTwoVariables_evaluate(FunctorTwoVariables* functor, double value1, double value2);
 
 END_C_LINKAGE

@@ -42,7 +42,6 @@ DECLARE_C_STRUCT(PipeHeatExchPrDrop_RC)
 
 BEGIN_C_LINKAGE
 PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection);
-void PipeHeatExchPrDrop_RC_compute(PipeHeatExchPrDrop_RC* component);
 END_C_LINKAGE
 
 #endif /* PIPEHEATEXCHPRDROPRC_H_ */
