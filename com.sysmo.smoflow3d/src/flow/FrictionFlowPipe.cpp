@@ -64,7 +64,7 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	static const double relTolerance = 1e-10;
 	static const double minPressureDifference = 1e-12;
 
-	// TODO check if caching the Reynolds number can help speed up convergence
+	// TODO (Nasko) check if caching the Reynolds number can help speed up convergence
 	this->absolutePressureDrop = m::fabs(pressureDifference);
 
 	if (this->absolutePressureDrop < minPressureDifference) {
@@ -168,7 +168,7 @@ public:
 	}
 
 	virtual double frictionFactor(double Re) {
-		// TODO The transition from laminar to turbulent is not handled properly
+		// TODO (Nasko) The transition from laminar to turbulent is not handled properly
 		// TRICKY @ the transition the friction factor falls and then rises again
 		double zeta = 1.325 / m::pow(m::log(surfaceRoughness / (3.7 * hydraulicDiameter) + 5.74 * m::pow(Re, -0.9)), 2);
 		double zetaLaminar;

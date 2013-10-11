@@ -153,9 +153,8 @@ public:
 		} else {
 			// Interpolation coefficient
 			double gamma = (Re - ReL) / (ReH - ReL);
-			//gamma = -2*m::pow(gamma, 3.0) + 3*m::pow(gamma, 2.0);
-			//TRICKY - this polynomial smooth the interpolation
-			//:TODO: (MILEN) ??? and ReH = 4000 in SmoFlow
+			//gamma = -2*m::pow(gamma, 3.0) + 3*m::pow(gamma, 2.0); //:TRICKY: - this polynomial smooth the interpolation
+			//:TRICKY: ReH = 4000 in SmoFlow
 			Nu = (1 - gamma) * NuLaminar(ReL, Pr) + gamma * NuTurbulent(ReH, Pr);
 		}
 		return Nu;

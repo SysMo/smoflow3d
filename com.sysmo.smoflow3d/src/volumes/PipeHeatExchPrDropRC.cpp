@@ -38,7 +38,7 @@ void PipeHeatExchPrDrop_RC::_createState() {
 	accFluid = FluidChamber_new(port1State->getMedium());
 	accFluid->setVolume(volume);
 	accFluid->selectStates(iT, iD);
-	// TODO fix the user initialization
+	// TODO (Nasko) fix the user initialization
 	port2State = accFluid->getFluidState();
 	port2State->update_Tp(wallNode->getTemperature(), port1State->p());
 }

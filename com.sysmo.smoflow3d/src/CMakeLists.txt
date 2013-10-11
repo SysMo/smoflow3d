@@ -59,6 +59,7 @@ add_library(SmoFlow SHARED
     volumes/FluidChamber.cpp
     volumes/ThermalNode.cpp
     volumes/Component_RC.cpp
+    volumes/PipeHeatExchC.cpp
     volumes/PipeHeatExchPrDropRC.cpp
     volumes/PipeHeatExchNoPrDropNoMassAccRC.cpp
     volumes/PipeHeatExchNoPrDropNoMassAccCR.cpp

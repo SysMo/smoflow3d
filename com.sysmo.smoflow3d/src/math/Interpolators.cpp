@@ -35,7 +35,7 @@ Interpolator1D::~Interpolator1D() {
 }
 
 FunctorCache* Interpolator1D::createCache() {
-	// TODO (Naasko) delete the cache object in destructor
+	// TODO (Nasko) Delete the cache object in destructor
 	return new Interpolator1DCache();
 }
 
