@@ -13,12 +13,14 @@ using namespace smoflow;
 /**
  * PipeHeatExch_C - C++
  */
-PipeHeatExch_C::PipeHeatExch_C(double internalVolume, ForcedConvection* convection) {
-	this->volume = internalVolume;
+PipeHeatExch_C::PipeHeatExch_C(Medium* fluid, double internalVolume, ForcedConvection* convection) {
 	this->convection = convection;
 
-	this->accFluidState = NULL;
-	this->accFluid = NULL;
+	accFluid = FluidChamber_new(fluid);
+	SMOCOMPONENT_SET_PARENT(accFluid, this);
+	accFluid->setVolume(internalVolume);
+	accFluid->selectStates(iT, iD);
+	accFluidState = accFluid->getFluidState();
 
 	this->port1Flow = NULL;
 	this->port2Flow = NULL;
@@ -31,7 +33,7 @@ PipeHeatExch_C::~PipeHeatExch_C() {
 
 }
 
-void PipeHeatExch_C::initFlows(FluidFlow* port1Flow, FluidFlow* port2Flow) {
+void PipeHeatExch_C::init(FluidFlow* port1Flow, FluidFlow* port2Flow) {
 	this->port1Flow = port1Flow;
 	this->port2Flow = port2Flow;
 
@@ -40,18 +42,6 @@ void PipeHeatExch_C::initFlows(FluidFlow* port1Flow, FluidFlow* port2Flow) {
 
 	convection->init(accFluidState, accFluidState, wallNode); //:TRICKY: the both states of the convection are the internal pipe state
 	convection->setLimitOutput(false);
-}
-
-void PipeHeatExch_C::initStates(Medium* fluid, ThermalNode* wallNode) {
-	this->wallNode = wallNode;
-
-	accFluid = FluidChamber_new(fluid);
-	SMOCOMPONENT_SET_PARENT(accFluid, this);
-
-	accFluid->setVolume(volume);
-	accFluid->selectStates(iT, iD);
-
-	accFluidState = accFluid->getFluidState();
 }
 
 void PipeHeatExch_C::getStateValues(double* value1, double* value2) {
@@ -81,21 +71,22 @@ void PipeHeatExch_C::compute() {
 /**
  * PipeHeatExch_C - C
  */
-PipeHeatExch_C* PipeHeatExch_C_new(double internalVolume, ForcedConvection* convection) {
-	return new PipeHeatExch_C(internalVolume, convection);
+PipeHeatExch_C* PipeHeatExch_C_new(Medium* fluid, double internalVolume, ForcedConvection* convection) {
+	return new PipeHeatExch_C(fluid, internalVolume, convection);
 }
 
-void PipeHeatExch_C_initFlows(PipeHeatExch_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow) {
-	component->initFlows(port1Flow, port2Flow);
-}
-
-void PipeHeatExch_C_initStates(PipeHeatExch_C* component, Medium* fluid, ThermalNode* wallNode) {
-	component->initStates(fluid, wallNode);
+void PipeHeatExch_C_init(PipeHeatExch_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow) {
+	component->init(port1Flow, port2Flow);
 }
 
 void PipeHeatExch_C_compute(PipeHeatExch_C* component) {
 	component->compute();
 }
+
+void PipeHeatExch_C_setWallNode(PipeHeatExch_C* component, ThermalNode* wallNode) {
+	component->setWallNode(wallNode);
+}
+
 
 void PipeHeatExch_C_setStateValues(PipeHeatExch_C* component, double value1, double value2) {
 	component->setStateValues(value1, value2);
@@ -115,4 +106,8 @@ HeatFlow* PipeHeatExch_C_getWallHeatFlow(PipeHeatExch_C* component) {
 
 MediumState* PipeHeatExch_C_getFluidState(PipeHeatExch_C* component) {
 	return component->getFluidState();
+}
+
+double PipeHeatExch_C_getVolume(PipeHeatExch_C* component) {
+	return component->getVolume();
 }

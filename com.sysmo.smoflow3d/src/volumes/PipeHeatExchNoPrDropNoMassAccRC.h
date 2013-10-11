@@ -35,8 +35,6 @@ public:
 	FluidFlow* getInletFlow() {return inletFlow;}
 
 protected:
-	virtual void _init(){}
-
 	enum {
 		sTemperature,
 		sEnthalpy
@@ -45,14 +43,18 @@ protected:
 	double pipeLength;
 	double stateTimeConstant;
 
-	// inputs
-	MediumState* inletState;
-	ThermalNode* wallNode;
-	FluidFlow* outletFlow;
- 	// outputs
-	FluidFlow* inletFlow;
-	MediumState* outletState;
-	HeatFlow* wallHeatFlow;
+	// Port 1 (fluid)
+	MediumState* inletState; // input
+	FluidFlow* inletFlow; // output
+
+	// Port 2 (fluid)
+	MediumState* outletState; // output
+	FluidFlow* outletFlow; // input
+
+	// Port 3 (thermal)
+	ThermalNode* wallNode; // input
+	HeatFlow* wallHeatFlow;	// output
+
 	// internals
 	MediumState* outletLimitState;
 

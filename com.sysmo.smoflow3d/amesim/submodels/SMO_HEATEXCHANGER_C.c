@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_C skeleton created by AME Submodel editing utility
-   Fri Oct 11 15:50:25 2013 */
+   Fri Oct 11 20:48:12 2013 */
 
 
 
@@ -58,8 +58,8 @@ REVISIONS :
    geometryType geometry type
 */
 
-void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[6]
-      , void *ps[6], double stateValues[2])
+void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[2]
+      , void *ps[4], double stateValues[2])
 
 {
    int loop, error;
@@ -138,8 +138,15 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[6]
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
 
    double internalVolume = flowArea * pipeLength;
-   _component = PipeHeatExch_C_new(internalVolume, _convection);
+   Medium* fluid = Medium_get(fluidIndex);
+   _component = PipeHeatExch_C_new(fluid, internalVolume, _convection);
    SMOCOMPONENT_SET_PROPS(_component)
+
+   _pipeState = PipeHeatExch_C_getFluidState(_component);
+   _pipeStateIndex = SmoObject_getInstanceIndex(_pipeState);
+
+   MediumState_update_Tp(_pipeState, initT, initP);
+   PipeHeatExch_C_getStateValues(_component, &stateValues[0], &stateValues[1]);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -161,7 +168,7 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[6]
       2 port3FluidFlowIndex          fluid flow index at port 3 [smoFFL] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 10 internal variables.
+/*  There are 11 internal variables.
 
       1 pressure                  pressure                     [bar -> Pa]     basic variable
       2 temperature               temperature                  [K]             basic variable
@@ -169,10 +176,11 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[6]
       4 specificEnthalpy          specific enthalpy            [kJ/kg -> J/kg] basic variable
       5 gasMassFraction           gas mass fraction            [null]          basic variable
       6 superHeat                 subcooling / superheat       [degC]          basic variable
-      7 stateValues[2]            state values                 [null]          explicit state (derivative `stateValuesDot')
-      8 reynoldsNumber            Reynolds number              [null]          basic variable
-      9 convectionCoefficient     convection coefficient       [W/m**2/K]      basic variable
-     10 wallHeatFlowRate          heat flow rate from the wall [W]             basic variable
+      7 internalVolume            volume                       [L -> m**3]     basic variable
+      8 stateValues[2]            state values                 [null]          explicit state (derivative `stateValuesDot')
+      9 reynoldsNumber            Reynolds number              [null]          basic variable
+     10 convectionCoefficient     convection coefficient       [W/m**2/K]      basic variable
+     11 wallHeatFlowRate          heat flow rate from the wall [W]             basic variable
 */
 
 void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
@@ -180,10 +188,11 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
       , double *thermalNodeIndex, double *port3FluidFlowIndex
       , double *pressure, double *temperature, double *density
       , double *specificEnthalpy, double *gasMassFraction
-      , double *superHeat, double stateValues[2]
-      , double stateValuesDot[2], double *reynoldsNumber
-      , double *convectionCoefficient, double *wallHeatFlowRate
-      , double rp[6], int ip[2], int ic[6], void *ps[6], int *flag)
+      , double *superHeat, double *internalVolume
+      , double stateValues[2], double stateValuesDot[2]
+      , double *reynoldsNumber, double *convectionCoefficient
+      , double *wallHeatFlowRate, double rp[6], int ip[2], int ic[2]
+      , void *ps[4], int *flag)
 
 {
    int loop, logi;
@@ -222,6 +231,7 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
    *specificEnthalpy = ??;
    *gasMassFraction = ??;
    *superHeat  = ??;
+   *internalVolume = ??;
    stateValuesDot[0..1] = ??;
    *reynoldsNumber = ??;
    *convectionCoefficient = ??;
@@ -235,7 +245,7 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
    if (firstc_()) {
 	   FluidFlow* port1Flow = FluidFlow_get(*port1FluidFlowIndex);
 	   FluidFlow* port3Flow = FluidFlow_get(*port3FluidFlowIndex);
-	   PipeHeatExch_C_initFlows(_component, port1Flow, port3Flow);
+	   PipeHeatExch_C_init(_component, port1Flow, port3Flow);
 
 	   _wallHeatFlow = PipeHeatExch_C_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
@@ -255,6 +265,7 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
    *specificEnthalpy = MediumState_h(_pipeState);
    *gasMassFraction = MediumState_q(_pipeState);
    *superHeat  = MediumState_deltaTSat(_pipeState);
+   *internalVolume = PipeHeatExch_C_getVolume(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -266,11 +277,12 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
 /*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
+   *internalVolume /= 1.00000000000000e-003;
 }
 
 extern double smo_heatexchanger_c_macro0_(int *n
       , double *thermalNodeIndex, double stateValues[2], double rp[6]
-      , int ip[2], int ic[6], void *ps[6], int *flag)
+      , int ip[2], int ic[2], void *ps[4], int *flag)
 
 {
    double port1FluidStateIndex;
@@ -306,22 +318,11 @@ extern double smo_heatexchanger_c_macro0_(int *n
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    if (firstc_()) {
-	   // Get the wall node
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
-
-	   // Initialize states
-	   Medium* fluid = Medium_get(fluidIndex);
-	   PipeHeatExch_C_initStates(_component, fluid, wallNode);
-
-	   _pipeState = PipeHeatExch_C_getFluidState(_component);
-	   _pipeStateIndex = SmoObject_getInstanceIndex(_pipeState);
-
-	   MediumState_update_Tp(_pipeState, initT, initP);
-	   PipeHeatExch_C_getStateValues(_component, &stateValues[0], &stateValues[1]);
-   } else {
-	   PipeHeatExch_C_setStateValues(_component, stateValues[0], stateValues[1]);
+	   PipeHeatExch_C_setWallNode(_component, wallNode);
    }
 
+   PipeHeatExch_C_setStateValues(_component, stateValues[0], stateValues[1]);
    port1FluidStateIndex = _pipeStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

@@ -37,19 +37,21 @@ PipeHeatExchNoPrDropNoMassAcc_RC::~PipeHeatExchNoPrDropNoMassAcc_RC() {
 
 void PipeHeatExchNoPrDropNoMassAcc_RC::init(FluidFlow* outletFlow) {
 	this->outletFlow = outletFlow;
+
 	this->inletFlow = FluidFlow_new();
 	FluidFlow_register(this->inletFlow);
+
 	this->wallHeatFlow = HeatFlow_new();
 	HeatFlow_register(this->wallHeatFlow);
-	_init();
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC::initOutletState(
-		MediumState* inletState, ThermalNode* wallNode) {
+void PipeHeatExchNoPrDropNoMassAcc_RC::initOutletState(MediumState* inletState, ThermalNode* wallNode) {
 	this->inletState = inletState;
 	this->wallNode = wallNode;
+
 	this->outletState = MediumState_new(inletState->getMedium());
 	MediumState_register(outletState);
+
 	this->outletLimitState = MediumState_new(inletState->getMedium());
 	MediumState_register(outletLimitState);
 
@@ -59,7 +61,6 @@ void PipeHeatExchNoPrDropNoMassAcc_RC::initOutletState(
 	} else {
 		this->outletStateValue = outletState->h();
 	}
-
 }
 
 void PipeHeatExchNoPrDropNoMassAcc_RC::updateOutletState(double outletStateValue) {

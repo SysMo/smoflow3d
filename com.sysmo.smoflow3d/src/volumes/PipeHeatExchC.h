@@ -16,11 +16,10 @@
 
 class PipeHeatExch_C : public SmoComponent {
 public:
-	PipeHeatExch_C(double internalVolume, ForcedConvection* convection);
+	PipeHeatExch_C(Medium* fluid, double internalVolume, ForcedConvection* convection);
 	virtual ~PipeHeatExch_C();
 
-	void initFlows(FluidFlow* port1Flow, FluidFlow* port2Flow);
-	void initStates(Medium* fluid, ThermalNode* wallNode);
+	void init(FluidFlow* port1Flow, FluidFlow* port2Flow);
 
 	void compute();
 
@@ -30,24 +29,26 @@ public:
 
 	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
 	MediumState* getFluidState() {return accFluidState;}
+	double getVolume() {return accFluid->getVolume();}
+
+	void setWallNode(ThermalNode* wallNode) {this->wallNode = wallNode;}
 
 private:
-	double volume;
 	FluidChamber* accFluid;
 	MediumState* accFluidState;
 	ForcedConvection* convection;
 
 	// Port 1 (fluid)
-	//MediumState* port1State; // output
-	FluidFlow* port1Flow; 	 // input
+	//MediumState* port1State; // output (= accFluidState)
+	FluidFlow* port1Flow; // input
 
 	// Port 2 (fluid)
-	//MediumState* port2State; // output
-	FluidFlow* port2Flow;	 // input
+	//MediumState* port2State; // output (= accFluidState)
+	FluidFlow* port2Flow; // input
 
 	// Port 3 (thermal)
-	ThermalNode* wallNode;	 // input
-	HeatFlow* wallHeatFlow;	 // output
+	ThermalNode* wallNode; // input
+	HeatFlow* wallHeatFlow;	// output
 };
 
 #else //__cplusplus
@@ -55,18 +56,19 @@ DECLARE_C_STRUCT(PipeHeatExch_C)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-PipeHeatExch_C* PipeHeatExch_C_new(double internalVolume, ForcedConvection* convection);
-void PipeHeatExch_C_initFlows(PipeHeatExch_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow);
-void PipeHeatExch_C_initStates(PipeHeatExch_C* component, Medium* fluid, ThermalNode* wallNode);
+PipeHeatExch_C* PipeHeatExch_C_new(Medium* fluid, double internalVolume, ForcedConvection* convection);
+void PipeHeatExch_C_init(PipeHeatExch_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow);
 
 void PipeHeatExch_C_compute(PipeHeatExch_C* component);
 
+void PipeHeatExch_C_setWallNode(PipeHeatExch_C* component, ThermalNode* wallNode);
 void PipeHeatExch_C_setStateValues(PipeHeatExch_C* component, double value1, double value2);
 void PipeHeatExch_C_getStateValues(PipeHeatExch_C* component, double* value1, double* value2);
 void PipeHeatExch_C_getStateDerivatives(PipeHeatExch_C* component, double* value1, double* value2);
 
 HeatFlow* PipeHeatExch_C_getWallHeatFlow(PipeHeatExch_C* component);
 MediumState* PipeHeatExch_C_getFluidState(PipeHeatExch_C* component);
+double PipeHeatExch_C_getVolume(PipeHeatExch_C* component);
 END_C_LINKAGE
 
 #endif /* PIPEHEATEXCHC_H_ */
