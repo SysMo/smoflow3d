@@ -30,9 +30,7 @@ void FluidChamber::selectStates(ThermodynamicVariable state1, ThermodynamicVaria
 			((state1 == iP && state2 == iT) || (state1 == iT && state2 == iP)) ||
 			((state1 == iP && state2 == iD) || (state1 == iD && state2 == iP)) ||
 			((state1 == iP && state2 == iH) || (state1 == iH && state2 == iP))
-
 		) {
-
 	} else {
 		RaiseComponentError(this,
 				"Incorrect combination of states selected (enum): "

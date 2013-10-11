@@ -36,6 +36,8 @@ void PipeHeatExchPrDrop_RC::_init() {
 
 void PipeHeatExchPrDrop_RC::_createState() {
 	accFluid = FluidChamber_new(port1State->getMedium());
+	SMOCOMPONENT_SET_PARENT(accFluid, this);
+
 	accFluid->setVolume(volume);
 	accFluid->selectStates(iT, iD);
 	// TODO (Nasko) fix the user initialization

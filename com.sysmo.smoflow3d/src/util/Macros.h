@@ -114,27 +114,10 @@
 	}
 
 /**
- * File operations
+ * SmoComponent
  */
-#define COPY_FILE(sourceFile, destinationFile) \
-{ \
-	std::ifstream _source(sourceFile, std::ios::binary); \
-	std::ofstream _dest(destinationFile, std::ios::binary); \
-	_dest << _source.rdbuf(); \
-	_source.close(); \
-	_dest.close(); \
-}
-
-/**
- * Strings
- */
-#define str_EndsWith(s, suffix) \
-	s.rfind(suffix) == (s.size()-suffix.size())
-
-/**
- * Asserts
- */
-#define assert_h5(h5_herr) assert(h5_herr >= 0)
+#define SMOCOMPONENT_SET_PARENT(_component, _parent) \
+	_component->parent = _parent
 
 #endif //__cplusplus
 

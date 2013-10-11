@@ -154,10 +154,17 @@ void SimulationEnvironment_exit() {
 }
 
 const char* SimulationEnvironment_getComponentId(SmoComponent* component) {
-	std::stringstream resStream;
-	resStream << component->componentName << " instance " << component->instanceIndex;
-	String componentId(resStream.str());
-	return componentId.c_str();
+	if (component->parent == NULL) {
+		std::stringstream resStream;
+		resStream << component->componentName << " instance " << component->instanceIndex;
+		String componentId(resStream.str());
+		return componentId.c_str();
+	} else {
+		std::stringstream resStream;
+		resStream << component->parent->componentName << " instance " << component->parent->instanceIndex;
+		String componentId(resStream.str());
+		return componentId.c_str();
+	}
 }
 
 void SimulationEnvironment_setMessageFunc(SimEnv_MessageFunc func) {

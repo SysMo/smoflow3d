@@ -86,6 +86,10 @@ namespace m {
 		return (b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));
 	}
 
+	inline double quadratic_mean(const double& a, const double& b) {
+		return sqrt((a*a + b*b)/2.);
+	}
+
 	inline void limitVariable(double& variable, double minValue, double maxValue) {
 		if (variable < minValue) {
 			variable = minValue;

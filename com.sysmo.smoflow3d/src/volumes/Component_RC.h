@@ -15,7 +15,7 @@
 
 #ifdef __cplusplus
 
-class Component_RC : SmoComponent {
+class Component_RC : public SmoComponent {
 public:
 	Component_RC();
 	virtual ~Component_RC();

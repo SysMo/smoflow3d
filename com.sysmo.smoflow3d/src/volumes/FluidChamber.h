@@ -14,7 +14,7 @@
 
 #ifdef __cplusplus
 
-class FluidChamber : SmoComponent {
+class FluidChamber : public SmoComponent {
 public:
 	FluidChamber(Medium *fluid);
 	virtual ~FluidChamber();

@@ -46,6 +46,8 @@ void PipeHeatExch_C::createState(Medium* fluid, ThermalNode* wallNode) {
 	this->wallNode = wallNode;
 
 	accFluid = FluidChamber_new(fluid);
+	SMOCOMPONENT_SET_PARENT(accFluid, this);
+
 	accFluid->setVolume(volume);
 	accFluid->selectStates(iT, iD);
 
@@ -65,7 +67,7 @@ void PipeHeatExch_C::getStateDerivatives(double* value1, double* value2) {
 }
 
 void PipeHeatExch_C::compute() {
-	double massFlowRate = m::fabs((port1Flow->massFlowRate - port2Flow->massFlowRate) / 2.0); //:TODO: (???) (MILEN) massFlowRate = ?
+	double massFlowRate = m::quadratic_mean(port1Flow->massFlowRate, port2Flow->massFlowRate);
 	convection->compute(massFlowRate);
 	convection->getFlow_Wall(wallHeatFlow);
 
