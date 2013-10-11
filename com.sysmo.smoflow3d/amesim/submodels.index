@@ -32,6 +32,7 @@ smo_simple_heater
 &SMO_HEATEXCHANGER_CR SmoFlow3d
 &SMO_HEATEXCHANGER_RC SmoFlow3d
 smo_pipe_heat_exchanger
+&SMO_HEATEXCHANGER_C SmoFlow3d
 &SMO_HEATEXCHANGER_PRESSURE_DROP_RC SmoFlow3d
 smo_fluid_chamber_cst_volume_4port
 &SMO_FLUID_CHAMBER_4PORT SmoFlow3d

@@ -8,6 +8,8 @@
 
 #include "PipeHeatExchC.h"
 
+using namespace smoflow;
+
 /**
  * PipeHeatExch_C - C++
  */
@@ -36,7 +38,7 @@ void PipeHeatExch_C::init(FluidFlow* port1Flow, FluidFlow* port2Flow) {
 	this->wallHeatFlow = HeatFlow_new();
 	HeatFlow_register(this->wallHeatFlow);
 
-	convection->init(accFluidState, accFluidState, wallNode); //:TRICKY: here we have only one state for the convection
+	convection->init(accFluidState, accFluidState, wallNode); //:TRICKY: the both states of the convection are the internal pipe state
 	convection->setLimitOutput(false);
 }
 
@@ -63,8 +65,6 @@ void PipeHeatExch_C::getStateDerivatives(double* value1, double* value2) {
 }
 
 void PipeHeatExch_C::compute() {
-	using namespace smoflow;
-
 	double massFlowRate = m::fabs((port1Flow->massFlowRate - port2Flow->massFlowRate) / 2.0); //:TODO: (???) (MILEN) massFlowRate = ?
 	convection->compute(massFlowRate);
 	convection->getFlow_Wall(wallHeatFlow);

@@ -28,7 +28,7 @@ PipeHeatExchPrDrop_RC::~PipeHeatExchPrDrop_RC() {
 
 void PipeHeatExchPrDrop_RC::_init() {
 	friction->init(port1State, port2State);
-	convection->init(port1State, port2State, wallNode);
+	convection->init(port2State, port2State, wallNode); //:TRICKY: the both states of the convection are the internal pipe state
 	convection->setLimitOutput(false);
 	internalFlow = FluidFlow_new();
 	FluidFlow_register(internalFlow);

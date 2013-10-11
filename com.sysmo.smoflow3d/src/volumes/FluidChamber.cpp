@@ -173,7 +173,7 @@ void FluidChamber::handlePhaseTransition() {
 	}
 
 	if (eventIndicator) {
-		//trigger a discontinuity when the fluid in the chamber changes his phase (from single to two phase and vice versa)
+		//trigger a discontinuity when the fluid in the chamber changes its phase (from single to two phase and vice versa)
 		SimEnv.updateEventIndicator(eventIndicator);
 	}
 }
