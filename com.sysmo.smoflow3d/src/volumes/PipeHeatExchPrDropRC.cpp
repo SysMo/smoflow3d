@@ -8,7 +8,6 @@
 
 #include "PipeHeatExchPrDropRC.h"
 
-using namespace smoflow;
 
 /**
  * PipeHeatExchPrDrop_RC - C++
@@ -29,7 +28,7 @@ PipeHeatExchPrDrop_RC::~PipeHeatExchPrDrop_RC() {
 
 void PipeHeatExchPrDrop_RC::_init() {
 	friction->init(port1State, port2State);
-	convection->init(port2State, port2State, wallNode);
+	convection->init(port1State, port2State, wallNode);
 	convection->setLimitOutput(false);
 	internalFlow = FluidFlow_new();
 	FluidFlow_register(internalFlow);
@@ -75,7 +74,6 @@ void PipeHeatExchPrDrop_RC::compute() {
 /**
  * PipeHeatExchPrDrop_RC - C
  */
-PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume,
-		FrictionFlowPipe* friction, ForcedConvection* convection) {
+PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection) {
 	return new PipeHeatExchPrDrop_RC(internalVolume, friction, convection);
 }
