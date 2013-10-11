@@ -118,12 +118,14 @@ void FluidChamber::getStateDerivatives(double* stateDerivative1, double* stateDe
 	*stateDerivative2 = stateDerivatives[1];
 }
 
-void FluidChamber::computeStateDerivatives(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate) {
+void FluidChamber::compute(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate) { //:TODO: rename 'compute' and add handlePhaseTransition
 	double fluidMass = getFluidMass();
 	double c1 = massFlowRate/fluidMass - volumeChangeRate/volume;
 	double UDot = enthalpyFlowRate + heatFlowRate - fluidState->p() * volumeChangeRate;
 	stateTimeDerivatives.rho = fluidState->rho() * c1;
 	computeStateDerivatives_cv(massFlowRate, UDot, volumeChangeRate);
+
+	handlePhaseTransition();
 }
 
 void FluidChamber::computeStateDerivatives_cv(double mDot, double UDot, double VDot) {
@@ -157,18 +159,13 @@ void FluidChamber::computeStateDerivatives_cp(double mDot, double UDot, double V
 
 }
 
-bool FluidChamber::isInTwoPhase() {
-	double gasMassFraction = fluidState->q();
-	return gasMassFraction >= 0 && gasMassFraction <= 1;
-}
-
 void FluidChamber::handlePhaseTransition() {
 	if (SimEnv.isEventMode()) { //in a discontinuity
-		flagInTwoPhase = isInTwoPhase();
+		flagInTwoPhase = fluidState->isTwoPhase();
 	}
 
 	bool eventIndicator = false;
-	if (isInTwoPhase() != flagInTwoPhase) {
+	if (fluidState->isTwoPhase() != flagInTwoPhase) {
 		eventIndicator = true;
 	}
 
@@ -205,16 +202,12 @@ void FluidChamber_getStateValues(FluidChamber* chamber, double* stateValue1, dou
 	chamber->getStateValues(stateValue1, stateValue2, getFromFluid);
 }
 
-void FluidChamber_computeStateDerivatives(FluidChamber* chamber, double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate) {
-	chamber->computeStateDerivatives(massFlowRate, enthalpyFlowRate, heatFlowRate, volumeChangeRate);
+void FluidChamber_compute(FluidChamber* chamber, double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate) {
+	chamber->compute(massFlowRate, enthalpyFlowRate, heatFlowRate, volumeChangeRate);
 }
 
 void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDerivative1, double* stateDerivative2) {
 	chamber->getStateDerivatives(stateDerivative1, stateDerivative2);
-}
-
-void FluidChamber_handlePhaseTransition(FluidChamber* chamber) {
-	chamber->handlePhaseTransition();
 }
 
 MediumState* FluidChamber_getFluidState(FluidChamber* chamber) {

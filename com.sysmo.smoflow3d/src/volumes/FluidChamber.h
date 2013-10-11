@@ -20,29 +20,33 @@ public:
 	virtual ~FluidChamber();
 
 	void selectStates(ThermodynamicVariable state1, ThermodynamicVariable state2);
-	inline void setVolume(double volume) {this->volume = volume;}
-	inline double getVolume() {return volume;}
-	inline double getFluidMass() {return fluidState->rho() * volume;}
-	void setStateValues(double stateValue1, double stateValue2);
-	void getStateValues(double* stateValue1, double* stateValue2, bool getFromFluid);
-	void computeStateDerivatives(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
-	void getStateDerivatives(double* stateDerivative1, double* stateDerivative2);
+
+	void setVolume(double volume) {this->volume = volume;}
+	double getVolume() {return volume;}
+	double getFluidMass() {return fluidState->rho() * volume;}
 	MediumState* getFluidState(){return fluidState;}
 
-	bool isInTwoPhase();
-	void handlePhaseTransition();
+	void setStateValues(double stateValue1, double stateValue2);
+	void getStateValues(double* stateValue1, double* stateValue2, bool getFromFluid);
+
+	void compute(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
+	void getStateDerivatives(double* stateDerivative1, double* stateDerivative2);
 
 protected:
 	void computeStateDerivatives_cv(double mDot, double UDot, double VDot);
 	void computeStateDerivatives_cp(double mDot, double UDot, double VDot);
 
+	void handlePhaseTransition();
+
 protected:
+	double volume;
+
 	static const int numStateVariables = 2;
 	ThermodynamicVariable states[numStateVariables];
 	double stateValues[numStateVariables];
+
 	MediumState* fluidState;
 	BasicState stateTimeDerivatives;
-	double volume;
 
 	bool flagInTwoPhase;
 };
@@ -58,9 +62,8 @@ void FluidChamber_setVolume(FluidChamber* chamber, double volume);
 double FluidChamber_getFluidMass(FluidChamber* chamber);
 void FluidChamber_setStateValues(FluidChamber* chamber, double stateValue1, double stateValue2);
 void FluidChamber_getStateValues(FluidChamber* chamber, double* stateValue1, double* stateValue2, int getFromFluid);
-void FluidChamber_computeStateDerivatives(FluidChamber* chamber, double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
+void FluidChamber_compute(FluidChamber* chamber, double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
 void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDerivative1, double* stateDerivative2);
-void FluidChamber_handlePhaseTransition(FluidChamber* chamber);
 MediumState* FluidChamber_getFluidState(FluidChamber* chamber);
 END_C_LINKAGE
 

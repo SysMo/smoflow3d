@@ -270,9 +270,8 @@ void smo_fluid_chamber_4port_(int *n, double *fluidStateIndex
 		   +  FluidFlow_getMassFlowRate(_fluidFlow3) + FluidFlow_getMassFlowRate(_fluidFlow4);
    double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1) + FluidFlow_getEnthalpyFlowRate(_fluidFlow2)
 		   + FluidFlow_getEnthalpyFlowRate(_fluidFlow3) + FluidFlow_getEnthalpyFlowRate(_fluidFlow4);
-   FluidChamber_computeStateDerivatives(_component, massFlowRate, enthalpyFlowRate, 0, 0);
+   FluidChamber_compute(_component, massFlowRate, enthalpyFlowRate, 0, 0);
    FluidChamber_getStateDerivatives(_component, state1Dot, state2Dot);
-   FluidChamber_handlePhaseTransition(_component);
 
    *pressure = MediumState_p(_fluidChamberState);
    *temperature = MediumState_T(_fluidChamberState);
