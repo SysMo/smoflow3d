@@ -31,18 +31,18 @@ PipeHeatExch_C::~PipeHeatExch_C() {
 
 }
 
-void PipeHeatExch_C::init(FluidFlow* port1Flow, FluidFlow* port2Flow) {
+void PipeHeatExch_C::initFlows(FluidFlow* port1Flow, FluidFlow* port2Flow) {
 	this->port1Flow = port1Flow;
 	this->port2Flow = port2Flow;
 
-	this->wallHeatFlow = HeatFlow_new();
+	wallHeatFlow = HeatFlow_new();
 	HeatFlow_register(this->wallHeatFlow);
 
 	convection->init(accFluidState, accFluidState, wallNode); //:TRICKY: the both states of the convection are the internal pipe state
 	convection->setLimitOutput(false);
 }
 
-void PipeHeatExch_C::createState(Medium* fluid, ThermalNode* wallNode) {
+void PipeHeatExch_C::initStates(Medium* fluid, ThermalNode* wallNode) {
 	this->wallNode = wallNode;
 
 	accFluid = FluidChamber_new(fluid);
@@ -83,4 +83,36 @@ void PipeHeatExch_C::compute() {
  */
 PipeHeatExch_C* PipeHeatExch_C_new(double internalVolume, ForcedConvection* convection) {
 	return new PipeHeatExch_C(internalVolume, convection);
+}
+
+void PipeHeatExch_C_initFlows(PipeHeatExch_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow) {
+	component->initFlows(port1Flow, port2Flow);
+}
+
+void PipeHeatExch_C_initStates(PipeHeatExch_C* component, Medium* fluid, ThermalNode* wallNode) {
+	component->initStates(fluid, wallNode);
+}
+
+void PipeHeatExch_C_compute(PipeHeatExch_C* component) {
+	component->compute();
+}
+
+void PipeHeatExch_C_setStateValues(PipeHeatExch_C* component, double value1, double value2) {
+	component->setStateValues(value1, value2);
+}
+
+void PipeHeatExch_C_getStateValues(PipeHeatExch_C* component, double* value1, double* value2) {
+	component->getStateValues(value1, value2);
+}
+
+void PipeHeatExch_C_getStateDerivatives(PipeHeatExch_C* component, double* value1, double* value2) {
+	component->getStateDerivatives(value1, value2);
+}
+
+HeatFlow* PipeHeatExch_C_getWallHeatFlow(PipeHeatExch_C* component) {
+	return component->getWallHeatFlow();
+}
+
+MediumState* PipeHeatExch_C_getFluidState(PipeHeatExch_C* component) {
+	return component->getFluidState();
 }
