@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "volumes/PipeHeatExchPrDropRC.h"
+#include "volumes/PipeHeatExchPrDrop_RC.h"
 
 #define _port1FluidFlow ps[0]
 #define _port1FluidFlowIndex ic[0]
@@ -316,7 +316,7 @@ extern double smo_heatexchanger_pressure_drop_rc_macro0_(int *n
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 
 	   // Initialize outlet
-	   Component_RC_initState(_component, _port1FluidState, wallNode);
+	   Component_RC_initStates(_component, _port1FluidState, wallNode);
 
 	   _port3FluidState = Component_RC_getPort2State(_component);
 	   _port3FluidStateIndex = SmoObject_getInstanceIndex(_port3FluidState);

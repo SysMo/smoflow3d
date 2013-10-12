@@ -6,7 +6,7 @@
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "PipeHeatExchC.h"
+#include "PipeHeatExch_C.h"
 
 using namespace smoflow;
 

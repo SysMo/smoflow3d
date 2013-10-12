@@ -59,10 +59,10 @@ add_library(SmoFlow SHARED
     volumes/FluidChamber.cpp
     volumes/ThermalNode.cpp
     volumes/Component_RC.cpp
-    volumes/PipeHeatExchC.cpp
-    volumes/PipeHeatExchPrDropRC.cpp
-    volumes/PipeHeatExchNoPrDropNoMassAccRC.cpp
-    volumes/PipeHeatExchNoPrDropNoMassAccCR.cpp
+    volumes/PipeHeatExch_C.cpp
+    volumes/PipeHeatExchPrDrop_RC.cpp
+    volumes/PipeHeatExchNoPrDropNoMassAcc_RC.cpp
+    volumes/PipeHeatExchNoPrDropNoMassAcc_CR.cpp
     ${MU_PARSER_FILES}
 )
 

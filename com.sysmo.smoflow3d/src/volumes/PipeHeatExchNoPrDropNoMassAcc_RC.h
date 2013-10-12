@@ -22,11 +22,10 @@ public:
 	virtual ~PipeHeatExchNoPrDropNoMassAcc_RC();
 
 	void init(FluidFlow* outletFlow);
-
-	void initOutletState(MediumState* inletState, ThermalNode* wallNode);
-	void updateOutletState(double outletStateValue);
+	void initStates(MediumState* inletState, ThermalNode* wallNode);
 
 	virtual void compute() = 0;
+	void setOutletStateValue(double outletStateValue);
 
 	MediumState* getOutletState() {return outletState;}
 	double getOutletStateValue() {return outletStateValue;}
@@ -40,6 +39,7 @@ protected:
 		sEnthalpy
 	} stateVariable;
 
+	// Parameters
 	double pipeLength;
 	double stateTimeConstant;
 
@@ -67,23 +67,21 @@ DECLARE_C_STRUCT(PipeHeatExchNoPrDropNoMassAcc_RC)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-#define KOMPONENT PipeHeatExchNoPrDropNoMassAcc_RC
-KOMPONENT* PipeHeatExchNoPrDropNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant);
-KOMPONENT* PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant);
+PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant);
+PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant);
 
-KOMPONENT_FUNC(void, init, FluidFlow* outletFlow);
+void PipeHeatExchNoPrDropNoMassAcc_RC_init(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, FluidFlow* outletFlow);
+void PipeHeatExchNoPrDropNoMassAcc_RC_initStates(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, MediumState* inletState, ThermalNode* wallNode);
 
-KOMPONENT_FUNC(void, initOutletState, MediumState* inletState, ThermalNode* wallNode);
-KOMPONENT_FUNC(void, updateOutletState, double outletStateValue);
+void PipeHeatExchNoPrDropNoMassAcc_RC_compute(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
+void PipeHeatExchNoPrDropNoMassAcc_RC_setOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe,  double outletStateValue);
 
-KOMPONENT_FUNC_V(void, compute);
+MediumState* PipeHeatExchNoPrDropNoMassAcc_RC_getOutletState(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
+double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
+double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateDerivative(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
 
-KOMPONENT_FUNC_V(MediumState*, getOutletState);
-KOMPONENT_FUNC_V(double, getOutletStateValue);
-KOMPONENT_FUNC_V(double, getOutletStateDerivative);
-KOMPONENT_FUNC_V(HeatFlow*, getWallHeatFlow);
-KOMPONENT_FUNC_V(FluidFlow*, getInletFlow);
-#undef KOMPONENT
+HeatFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
+FluidFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getInletFlow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
 END_C_LINKAGE
 
 #endif /* PIPEHEATEXCHNOPRDROPNOMASSACC_H_ */

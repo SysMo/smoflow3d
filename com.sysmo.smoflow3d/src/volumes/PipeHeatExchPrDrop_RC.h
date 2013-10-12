@@ -25,14 +25,16 @@ public:
 
 protected:
 	virtual void _init();
-	virtual void _createState();
+	virtual void _initStates();
 
 protected:
+	// Parameters
 	double volume;
-	FluidChamber* accFluid;
-
 	ForcedConvection* convection;
 	FrictionFlowPipe* friction;
+
+	// Internals
+	FluidChamber* accFluid;
 	FluidFlow* internalFlow;
 };
 

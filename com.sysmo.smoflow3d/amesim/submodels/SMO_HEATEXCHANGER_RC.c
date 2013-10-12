@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "volumes/PipeHeatExchNoPrDropNoMassAccRC.h"
+#include "volumes/PipeHeatExchNoPrDropNoMassAcc_RC.h"
 
 #define _inletFluidState ps[0]
 #define _inletFluidStateIndex ic[0]
@@ -324,12 +324,12 @@ extern double smo_heatexchanger_rc_macro0_(int *n
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 
 	   // Initialize outlet
-	   PipeHeatExchNoPrDropNoMassAcc_RC_initOutletState(_component, _inletFluidState, wallNode);
+	   PipeHeatExchNoPrDropNoMassAcc_RC_initStates(_component, _inletFluidState, wallNode);
 	   _outletFluidState = PipeHeatExchNoPrDropNoMassAcc_RC_getOutletState(_component);
 	   _outletFluidStateIndex = SmoObject_getInstanceIndex(_outletFluidState);
 	   *outletStateValue = PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateValue(_component);
    } else {
-	   PipeHeatExchNoPrDropNoMassAcc_RC_updateOutletState(_component, *outletStateValue);
+	   PipeHeatExchNoPrDropNoMassAcc_RC_setOutletStateValue(_component, *outletStateValue);
    }
 
    outletFluidStateIndex = _outletFluidStateIndex;

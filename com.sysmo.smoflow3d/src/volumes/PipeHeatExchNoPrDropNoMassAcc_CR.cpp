@@ -6,7 +6,7 @@
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "PipeHeatExchNoPrDropNoMassAccCR.h"
+#include "PipeHeatExchNoPrDropNoMassAcc_CR.h"
 using namespace smoflow;
 
 /**

@@ -6,7 +6,7 @@
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "PipeHeatExchNoPrDropNoMassAccRC.h"
+#include "PipeHeatExchNoPrDropNoMassAcc_RC.h"
 using namespace smoflow;
 
 /**
@@ -45,7 +45,7 @@ void PipeHeatExchNoPrDropNoMassAcc_RC::init(FluidFlow* outletFlow) {
 	HeatFlow_register(this->wallHeatFlow);
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC::initOutletState(MediumState* inletState, ThermalNode* wallNode) {
+void PipeHeatExchNoPrDropNoMassAcc_RC::initStates(MediumState* inletState, ThermalNode* wallNode) {
 	this->inletState = inletState;
 	this->wallNode = wallNode;
 
@@ -63,7 +63,7 @@ void PipeHeatExchNoPrDropNoMassAcc_RC::initOutletState(MediumState* inletState, 
 	}
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC::updateOutletState(double outletStateValue) {
+void PipeHeatExchNoPrDropNoMassAcc_RC::setOutletStateValue(double outletStateValue) {
 	this->outletStateValue = outletStateValue;
 	if (stateVariable == sTemperature) {
 		this->outletState->update_Tp(outletStateValue, inletState->p());
@@ -181,41 +181,39 @@ PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Convection_ne
 /**
  * Pipe_HeatExch_NoPrDr_NoMassAc - C
  */
-#define KOMPONENT PipeHeatExchNoPrDropNoMassAcc_RC
-KOMPONENT_FUNC(void, init, FluidFlow* outletFlow) {
-	component->init(outletFlow);
+void PipeHeatExchNoPrDropNoMassAcc_RC_init(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, FluidFlow* outletFlow) {
+	pipe->init(outletFlow);
 }
 
-KOMPONENT_FUNC(void, initOutletState, MediumState* inletState, ThermalNode* wallNode) {
-	component->initOutletState(inletState, wallNode);
+void PipeHeatExchNoPrDropNoMassAcc_RC_initStates(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, MediumState* inletState, ThermalNode* wallNode) {
+	pipe->initStates(inletState, wallNode);
 }
 
-KOMPONENT_FUNC(void, updateOutletState, double outletStateValue) {
-	component->updateOutletState(outletStateValue);
+void PipeHeatExchNoPrDropNoMassAcc_RC_compute(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
+	pipe->compute();
 }
 
-KOMPONENT_FUNC_V(void, compute) {
-	component->compute();
+void PipeHeatExchNoPrDropNoMassAcc_RC_setOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe,  double outletStateValue) {
+	pipe->setOutletStateValue(outletStateValue);
 }
 
-KOMPONENT_FUNC_V(MediumState*, getOutletState) {
-	return component->getOutletState();
+MediumState* PipeHeatExchNoPrDropNoMassAcc_RC_getOutletState(PipeHeatExchNoPrDropNoMassAcc_RC* pipe)
+{
+	return pipe->getOutletState();
 }
 
-KOMPONENT_FUNC_V(double, getOutletStateValue) {
-	return component->getOutletStateValue();
+double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
+	return pipe->getOutletStateValue();
 }
 
-KOMPONENT_FUNC_V(double, getOutletStateDerivative) {
-	return component->getOutletStateDerivative();
+double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateDerivative(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
+	return pipe->getOutletStateDerivative();
 }
 
-KOMPONENT_FUNC_V(HeatFlow*, getWallHeatFlow) {
-	return component->getWallHeatFlow();
+HeatFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe)  {
+	return pipe->getWallHeatFlow();
 }
 
-KOMPONENT_FUNC_V(FluidFlow*, getInletFlow) {
-	return component->getInletFlow();
+FluidFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getInletFlow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
+	return pipe->getInletFlow();
 }
-
-#undef KOMPONENT

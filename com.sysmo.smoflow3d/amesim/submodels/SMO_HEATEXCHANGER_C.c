@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "volumes/PipeHeatExchC.h"
+#include "volumes/PipeHeatExch_C.h"
 
 #define _wallHeatFlow ps[0]
 #define _wallHeatFlowIndex ic[0]

@@ -6,7 +6,7 @@
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "PipeHeatExchPrDropRC.h"
+#include "PipeHeatExchPrDrop_RC.h"
 
 
 /**
@@ -34,7 +34,7 @@ void PipeHeatExchPrDrop_RC::_init() {
 	FluidFlow_register(internalFlow);
 }
 
-void PipeHeatExchPrDrop_RC::_createState() {
+void PipeHeatExchPrDrop_RC::_initStates() {
 	accFluid = FluidChamber_new(port1State->getMedium());
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
 

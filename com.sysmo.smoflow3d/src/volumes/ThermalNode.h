@@ -50,9 +50,7 @@ public:
 	double getTemperatureDerivative() {return temperatureDerivative;}
 	double getTotalHeatCapacity() {return totalHeatCapacity;}
 	int getNumSubnodes() {return subnodeStates.size();}
-	MediumState* getThermalState(int subnodeIndex = 1) {
-		return subnodeStates.at(subnodeIndex - 1);
-	}
+	MediumState* getThermalState(int subnodeIndex = 1) {return subnodeStates.at(subnodeIndex - 1);	}
 
 protected:
 	std::vector<MediumState_Solid*> subnodeStates;
