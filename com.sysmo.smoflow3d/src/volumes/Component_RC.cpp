@@ -31,20 +31,28 @@ void Component_RC::init(FluidFlow* port2Flow) {
 
 	this->wallHeatFlow = HeatFlow_new();
 	HeatFlow_register(this->wallHeatFlow);
-
-	_init();
 }
 
 void Component_RC::initStates(MediumState* port1State, ThermalNode* wallNode) {
 	this->port1State = port1State;
 	this->wallNode = wallNode;
-
-	_initStates();
 }
 
 /**
  * Component_RC - C
  */
+void Component_RC_init(Component_RC* component, FluidFlow* port2Flow) {
+	component->init(port2Flow);
+}
+void Component_RC_initStates(Component_RC* component, MediumState* port1State, ThermalNode* wallNode) {
+	component->initStates(port1State, wallNode);
+}
+
+void Component_RC_compute(Component_RC* component) {
+	component->compute();
+}
+
+
 MediumState* Component_RC_getPort1State(Component_RC* component) {
 	return component->getPort1State();
 }
@@ -67,27 +75,4 @@ ThermalNode* Component_RC_getWallNode(Component_RC* component) {
 
 HeatFlow* Component_RC_getWallHeatFlow(Component_RC* component) {
 	return component->getWallHeatFlow();
-}
-
-void Component_RC_init(Component_RC* component, FluidFlow* port2Flow) {
-	component->init(port2Flow);
-}
-void Component_RC_initStates(Component_RC* component, MediumState* port1State, ThermalNode* wallNode) {
-	component->initStates(port1State, wallNode);
-}
-
-void Component_RC_setStateValues(Component_RC* component, double value1, double value2) {
-	component->setStateValues(value1, value2);
-}
-
-void Component_RC_getStateValues(Component_RC* component, double* value1, double* value2) {
-	component->getStateValues(value1, value2);
-}
-
-void Component_RC_getStateDerivatives(Component_RC* component, double* value1, double* value2) {
-	component->getStateDerivatives(value1, value2);
-}
-
-void Component_RC_compute(Component_RC* component) {
-	component->compute();
 }

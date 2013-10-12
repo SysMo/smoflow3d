@@ -18,66 +18,61 @@ PipeHeatExchNoPrDropNoMassAcc_RC::PipeHeatExchNoPrDropNoMassAcc_RC(double stateT
 	stateVariable = sTemperature;
 
 	// inputs
-	inletState = NULL;
+	port1State = NULL;
 	wallNode = NULL;
-	outletFlow = NULL;
+	port2Flow = NULL;
  	// outputs
-	inletFlow = NULL;
-	outletState = NULL;
+	port1Flow = NULL;
+	port2State = NULL;
 	wallHeatFlow = NULL;
 	// internals
-	outletLimitState = NULL;
+	port2LimitState = NULL;
 
-	outletStateValue = 0.0;
-	outletStateSetpoint = 0.0;
+	port2StateValue = 0.0;
+	port2StateSetpoint = 0.0;
 }
 
 PipeHeatExchNoPrDropNoMassAcc_RC::~PipeHeatExchNoPrDropNoMassAcc_RC() {
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC::init(FluidFlow* outletFlow) {
-	this->outletFlow = outletFlow;
+void PipeHeatExchNoPrDropNoMassAcc_RC::init(FluidFlow* port2Flow) {
+	 Component_RC::init(port2Flow);
 
-	this->inletFlow = FluidFlow_new();
-	FluidFlow_register(this->inletFlow);
-
-	this->wallHeatFlow = HeatFlow_new();
-	HeatFlow_register(this->wallHeatFlow);
+	_init();
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC::initStates(MediumState* inletState, ThermalNode* wallNode) {
-	this->inletState = inletState;
-	this->wallNode = wallNode;
+void PipeHeatExchNoPrDropNoMassAcc_RC::initStates(MediumState* port1State, ThermalNode* wallNode) {
+	Component_RC::initStates(port1State, wallNode);
 
-	this->outletState = MediumState_new(inletState->getMedium());
-	MediumState_register(outletState);
+	this->port2State = MediumState_new(port1State->getMedium());
+	MediumState_register(port2State);
 
-	this->outletLimitState = MediumState_new(inletState->getMedium());
-	MediumState_register(outletLimitState);
+	this->port2LimitState = MediumState_new(port1State->getMedium());
+	MediumState_register(port2LimitState);
 
-	outletState->update_Tp(wallNode->getTemperature(), inletState->p());
+	port2State->update_Tp(wallNode->getTemperature(), port1State->p());
 	if (stateVariable == sTemperature) {
-		this->outletStateValue = outletState->T();
+		this->port2StateValue = port2State->T();
 	} else {
-		this->outletStateValue = outletState->h();
+		this->port2StateValue = port2State->h();
 	}
 }
 
 void PipeHeatExchNoPrDropNoMassAcc_RC::setOutletStateValue(double outletStateValue) {
-	this->outletStateValue = outletStateValue;
+	this->port2StateValue = outletStateValue;
 	if (stateVariable == sTemperature) {
-		this->outletState->update_Tp(outletStateValue, inletState->p());
+		this->port2State->update_Tp(outletStateValue, port1State->p());
 	} else {
-		this->outletState->update_ph(inletState->p(), outletStateValue);
+		this->port2State->update_ph(port1State->p(), outletStateValue);
 	}
 }
 
 double PipeHeatExchNoPrDropNoMassAcc_RC::getOutletStateDerivative() {
 	double outletStateDerivative;
 	if (stateVariable == sTemperature) {
-		outletStateDerivative = (outletStateSetpoint - outletState->T()) / stateTimeConstant;
+		outletStateDerivative = (port2StateSetpoint - port2State->T()) / stateTimeConstant;
 	} else {
-		outletStateDerivative = (outletStateSetpoint - outletState->h()) / stateTimeConstant;
+		outletStateDerivative = (port2StateSetpoint - port2State->h()) / stateTimeConstant;
 	}
 	return outletStateDerivative;
 }
@@ -96,14 +91,14 @@ public:
 	}
 
 	virtual void compute() {
-		double massFlowRate = - outletFlow->massFlowRate;
-		inletFlow->massFlowRate = outletFlow->massFlowRate;
-		inletFlow->enthalpyFlowRate = inletFlow->massFlowRate * inletState->h();
-		wallHeatFlow->enthalpyFlowRate = massFlowRate * (inletState->h() - outletState->h());
+		double massFlowRate = - port2Flow->massFlowRate;
+		port1Flow->massFlowRate = port2Flow->massFlowRate;
+		port1Flow->enthalpyFlowRate = port1Flow->massFlowRate * port1State->h();
+		wallHeatFlow->enthalpyFlowRate = massFlowRate * (port1State->h() - port2State->h());
 
-		double inletTemperature = inletState->T();
+		double inletTemperature = port1State->T();
 		double wallTemperature = wallNode->getTemperature();
-		outletStateSetpoint = inletTemperature +
+		port2StateSetpoint = inletTemperature +
 				(wallTemperature - inletTemperature) * heatExchEfficiency;
 
 	}
@@ -125,41 +120,42 @@ public:
 
 	virtual void compute() {
 		// Compute flows
-		double massFlowRate = -outletFlow->massFlowRate;
+		double massFlowRate = -port2Flow->massFlowRate;
 		if (massFlowRate < -m::eps) {
 			RaiseComponentError(this, "Reverse flow encountered");
 		}
-		inletFlow->massFlowRate = outletFlow->massFlowRate;
-		inletFlow->enthalpyFlowRate = inletFlow->massFlowRate * inletState->h();
-		wallHeatFlow->enthalpyFlowRate = massFlowRate * (inletState->h() - outletState->h());
+		port1Flow->massFlowRate = port2Flow->massFlowRate;
+		port1Flow->enthalpyFlowRate = port1Flow->massFlowRate * port1State->h();
+		wallHeatFlow->enthalpyFlowRate = massFlowRate * (port1State->h() - port2State->h());
+
 		// Compute outlet setpoint
 		const double minMassFlowRate = 1e-12;
 		double wallTemperature = wallNode->getTemperature();
-		double inletTemperature = inletState->T();
-		outletLimitState->update_Tp(wallTemperature, inletState->p());
+		double inletTemperature = port1State->T();
+		port2LimitState->update_Tp(wallTemperature, port1State->p());
 		if (massFlowRate > minMassFlowRate) {
 			convection->compute(massFlowRate);
-			outletStateSetpoint = inletState->h() + convection->getHeatFlowRate() / massFlowRate;
+			port2StateSetpoint = port1State->h() + convection->getHeatFlowRate() / massFlowRate;
 			if (wallTemperature > inletTemperature) {
 				// Ensure the outlet temperature is not above wall temperature
-				if (outletStateSetpoint > outletLimitState->h()) {
-					outletStateSetpoint = outletLimitState->h();
+				if (port2StateSetpoint > port2LimitState->h()) {
+					port2StateSetpoint = port2LimitState->h();
 				}
 			} else {
 				// Ensure the outlet temperature is not below wall temperature
-				if (outletStateSetpoint < outletLimitState->h()) {
-					outletStateSetpoint = outletLimitState->h();
+				if (port2StateSetpoint < port2LimitState->h()) {
+					port2StateSetpoint = port2LimitState->h();
 				}
 			}
 
 		} else {
-			outletStateSetpoint = outletLimitState->h();
+			port2StateSetpoint = port2LimitState->h();
 		}
 	}
 
 protected:
 	virtual void _init() {
-		convection->init(inletState, outletState, wallNode);
+		convection->init(port1State, port2State, wallNode);
 	}
 
 protected:
@@ -181,14 +177,6 @@ PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Convection_ne
 /**
  * Pipe_HeatExch_NoPrDr_NoMassAc - C
  */
-void PipeHeatExchNoPrDropNoMassAcc_RC_init(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, FluidFlow* outletFlow) {
-	pipe->init(outletFlow);
-}
-
-void PipeHeatExchNoPrDropNoMassAcc_RC_initStates(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, MediumState* inletState, ThermalNode* wallNode) {
-	pipe->initStates(inletState, wallNode);
-}
-
 void PipeHeatExchNoPrDropNoMassAcc_RC_compute(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
 	pipe->compute();
 }
@@ -197,23 +185,10 @@ void PipeHeatExchNoPrDropNoMassAcc_RC_setOutletStateValue(PipeHeatExchNoPrDropNo
 	pipe->setOutletStateValue(outletStateValue);
 }
 
-MediumState* PipeHeatExchNoPrDropNoMassAcc_RC_getOutletState(PipeHeatExchNoPrDropNoMassAcc_RC* pipe)
-{
-	return pipe->getOutletState();
-}
-
 double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
 	return pipe->getOutletStateValue();
 }
 
 double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateDerivative(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
 	return pipe->getOutletStateDerivative();
-}
-
-HeatFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe)  {
-	return pipe->getWallHeatFlow();
-}
-
-FluidFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getInletFlow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
-	return pipe->getInletFlow();
 }

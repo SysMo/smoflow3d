@@ -20,12 +20,9 @@ public:
 	Component_RC();
 	virtual ~Component_RC();
 
-	void init(FluidFlow* port2Flow);
-	void initStates(MediumState* port1State, ThermalNode* wallNode);
+	virtual void init(FluidFlow* port2Flow);
+	virtual void initStates(MediumState* port1State, ThermalNode* wallNode);
 
-	virtual void getStateValues(double* value1, double* value2) = 0;
-	virtual void setStateValues(double value1, double value2) = 0;
-	virtual void getStateDerivatives(double* value1, double* value2) = 0;
 	virtual void compute() = 0;
 
 	MediumState* getPort1State() {return port1State;}
@@ -34,10 +31,6 @@ public:
 	FluidFlow* getPort2Flow() {return port2Flow;}
 	ThermalNode* getWallNode() {return wallNode;}
 	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
-
-protected:
-	virtual void _init() = 0;
-	virtual void _initStates() = 0;
 
 protected:
 	// Port 1 (fluid)
@@ -60,10 +53,6 @@ DECLARE_C_STRUCT(Component_RC)
 BEGIN_C_LINKAGE
 void Component_RC_init(Component_RC* component, FluidFlow* port2Flow);
 void Component_RC_initStates(Component_RC* component, MediumState* port1State, ThermalNode* wallNode);
-
-void Component_RC_setStateValues(Component_RC* component, double value1, double value2);
-void Component_RC_getStateValues(Component_RC* component, double* value1, double* value2);
-void Component_RC_getStateDerivatives(Component_RC* component, double* value1, double* value2);
 
 void Component_RC_compute(Component_RC* component);
 

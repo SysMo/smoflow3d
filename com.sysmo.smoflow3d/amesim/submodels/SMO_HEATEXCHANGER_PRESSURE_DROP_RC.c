@@ -252,7 +252,7 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
    *heatFlowIndex = _wallHeatFlowIndex;
    *port1Temperature = MediumState_T(_port1FluidState);
    *port3Temperature = MediumState_T(_port3FluidState);
-   Component_RC_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
+   PipeHeatExchPrDrop_RC_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
    *wallHeatFlowRate = HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
@@ -322,9 +322,9 @@ extern double smo_heatexchanger_pressure_drop_rc_macro0_(int *n
 	   _port3FluidStateIndex = SmoObject_getInstanceIndex(_port3FluidState);
 
 	   MediumState_update_Tp(_port3FluidState, initT, initP);
-	   Component_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);
+	   PipeHeatExchPrDrop_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);
    } else {
-	   Component_RC_setStateValues(_component, stateValues[0], stateValues[1]);
+	   PipeHeatExchPrDrop_RC_setStateValues(_component, stateValues[0], stateValues[1]);
    }
 
    port3FluidStateIndex = _port3FluidStateIndex;

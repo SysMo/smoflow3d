@@ -18,14 +18,14 @@ public:
 	PipeHeatExchPrDrop_RC(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection);
 	virtual ~PipeHeatExchPrDrop_RC();
 
-	virtual void getStateValues(double* value1, double* value2);
-	virtual void setStateValues(double value1, double value2);
-	virtual void getStateDerivatives(double* value1, double* value2);
+	virtual void init(FluidFlow* port2Flow);
+	virtual void initStates(MediumState* port1State, ThermalNode* wallNode);
+
 	virtual void compute();
 
-protected:
-	virtual void _init();
-	virtual void _initStates();
+	void setStateValues(double value1, double value2);
+	void getStateValues(double* value1, double* value2);
+	void getStateDerivatives(double* value1, double* value2);
 
 protected:
 	// Parameters
@@ -44,6 +44,11 @@ DECLARE_C_STRUCT(PipeHeatExchPrDrop_RC)
 
 BEGIN_C_LINKAGE
 PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection);
+
+void PipeHeatExchPrDrop_RC_setStateValues(PipeHeatExchPrDrop_RC* pipe, double value1, double value2);
+void PipeHeatExchPrDrop_RC_getStateValues(PipeHeatExchPrDrop_RC* pipe, double* value1, double* value2);
+void PipeHeatExchPrDrop_RC_getStateDerivatives(PipeHeatExchPrDrop_RC* pipe, double* value1, double* value2);
+
 END_C_LINKAGE
 
 #endif /* PIPEHEATEXCHPRDROPRC_H_ */

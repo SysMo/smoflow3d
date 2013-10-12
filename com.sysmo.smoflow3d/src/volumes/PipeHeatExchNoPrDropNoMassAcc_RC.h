@@ -11,27 +11,28 @@
 
 #include "media/MediumState.h"
 #include "flow/FlowBase.h"
-#include "volumes/ThermalNode.h"
 #include "flow/ForcedConvection.h"
+#include "volumes/ThermalNode.h"
+#include "volumes/Component_RC.h"
 
 #ifdef __cplusplus
 
-class PipeHeatExchNoPrDropNoMassAcc_RC : public SmoComponent {
+class PipeHeatExchNoPrDropNoMassAcc_RC : public Component_RC {
 public:
 	PipeHeatExchNoPrDropNoMassAcc_RC(double stateTimeConstant);
 	virtual ~PipeHeatExchNoPrDropNoMassAcc_RC();
 
-	void init(FluidFlow* outletFlow);
-	void initStates(MediumState* inletState, ThermalNode* wallNode);
+	virtual void init(FluidFlow* port2Flow);
+	virtual void initStates(MediumState* port1State, ThermalNode* wallNode);
 
 	virtual void compute() = 0;
-	void setOutletStateValue(double outletStateValue);
 
-	MediumState* getOutletState() {return outletState;}
-	double getOutletStateValue() {return outletStateValue;}
+	void setOutletStateValue(double outletStateValue);
+	double getOutletStateValue() {return port2StateValue;}
 	double getOutletStateDerivative();
-	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
-	FluidFlow* getInletFlow() {return inletFlow;}
+
+protected:
+	virtual void _init() {}
 
 protected:
 	enum {
@@ -43,23 +44,11 @@ protected:
 	double pipeLength;
 	double stateTimeConstant;
 
-	// Port 1 (fluid)
-	MediumState* inletState; // input
-	FluidFlow* inletFlow; // output
-
-	// Port 2 (fluid)
-	MediumState* outletState; // output
-	FluidFlow* outletFlow; // input
-
-	// Port 3 (thermal)
-	ThermalNode* wallNode; // input
-	HeatFlow* wallHeatFlow;	// output
-
 	// internals
-	MediumState* outletLimitState;
+	MediumState* port2LimitState;
 
-	double outletStateValue;
-	double outletStateSetpoint;
+	double port2StateValue;
+	double port2StateSetpoint;
 };
 
 #else //__cplusplus
@@ -70,18 +59,11 @@ BEGIN_C_LINKAGE
 PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant);
 PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant);
 
-void PipeHeatExchNoPrDropNoMassAcc_RC_init(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, FluidFlow* outletFlow);
-void PipeHeatExchNoPrDropNoMassAcc_RC_initStates(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, MediumState* inletState, ThermalNode* wallNode);
-
 void PipeHeatExchNoPrDropNoMassAcc_RC_compute(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
-void PipeHeatExchNoPrDropNoMassAcc_RC_setOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe,  double outletStateValue);
 
-MediumState* PipeHeatExchNoPrDropNoMassAcc_RC_getOutletState(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
+void PipeHeatExchNoPrDropNoMassAcc_RC_setOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe,  double outletStateValue);
 double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
 double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateDerivative(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
-
-HeatFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
-FluidFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getInletFlow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
 END_C_LINKAGE
 
 #endif /* PIPEHEATEXCHNOPRDROPNOMASSACC_H_ */

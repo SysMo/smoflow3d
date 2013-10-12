@@ -26,15 +26,20 @@ PipeHeatExchPrDrop_RC::PipeHeatExchPrDrop_RC(
 PipeHeatExchPrDrop_RC::~PipeHeatExchPrDrop_RC() {
 }
 
-void PipeHeatExchPrDrop_RC::_init() {
+void PipeHeatExchPrDrop_RC::init(FluidFlow* port2Flow) {
+	Component_RC::init(port2Flow);
+
 	friction->init(port1State, port2State);
 	convection->init(port2State, port2State, wallNode); //:TRICKY: the both states of the convection are the internal pipe state
 	convection->setLimitOutput(false);
+
 	internalFlow = FluidFlow_new();
 	FluidFlow_register(internalFlow);
 }
 
-void PipeHeatExchPrDrop_RC::_initStates() {
+void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State, ThermalNode* wallNode) {
+	Component_RC::initStates(port1State, wallNode);
+
 	accFluid = FluidChamber_new(port1State->getMedium());
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
 
@@ -78,4 +83,14 @@ void PipeHeatExchPrDrop_RC::compute() {
  */
 PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection) {
 	return new PipeHeatExchPrDrop_RC(internalVolume, friction, convection);
+}
+
+void PipeHeatExchPrDrop_RC_setStateValues(PipeHeatExchPrDrop_RC* pipe, double value1, double value2) {
+	pipe->setStateValues(value1, value2);
+}
+void PipeHeatExchPrDrop_RC_getStateValues(PipeHeatExchPrDrop_RC* pipe, double* value1, double* value2) {
+	pipe->getStateValues(value1, value2);
+}
+void PipeHeatExchPrDrop_RC_getStateDerivatives(PipeHeatExchPrDrop_RC* pipe, double* value1, double* value2) {
+	pipe->getStateDerivatives(value1, value2);
 }
