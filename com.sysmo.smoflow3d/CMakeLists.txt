@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 enable_testing()
 
-
 project(com.sysmo.smoflow3d)
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}")
-#message("Boost root: $ENV{BOOST_ROOT}")
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX )
     if(WIN32)
@@ -22,6 +20,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX )
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall") # -m32 for 32 bit compilation
 endif()
 
+
 ##########################################
 # User functions
 ##########################################
@@ -35,8 +34,9 @@ function (add_smo_test TEST_NAME TEST_SOURCES)
     )
 endfunction()
 
-
-
+##########################################
+# Add include folders and subdirectories
+##########################################
 include_directories(src)
 include_directories(src/third-party/eigen)
 add_subdirectory(src)
