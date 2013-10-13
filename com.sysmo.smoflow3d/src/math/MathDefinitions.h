@@ -62,6 +62,10 @@ namespace m {
 		return std::sqrt((long double) x);
 	}
 
+	inline double exp(const double& x) {
+		return std::exp((long double) x);
+	}
+
 	inline double log(const double& x) {
 		return std::log((long double) x);
 	}
