@@ -64,7 +64,6 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	static const double relTolerance = 1e-10;
 	static const double minPressureDifference = 1e-12;
 
-	// TODO (Nasko) check if caching the Reynolds number can help speed up convergence
 	this->absolutePressureDrop = m::fabs(pressureDifference);
 
 	if (this->absolutePressureDrop < minPressureDifference) {
@@ -84,7 +83,7 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	double vFlow;
 
 	// Initial guess for the Reynolds number
-	double Re = 1e6;
+	double Re = 1e6; // TODO check if caching the Reynolds number can help speed up convergence
 
 	while (m::fabs(relError) > relTolerance && numIter < maxNumIter) {
 		// Compute the friction factor, and the flow velocity
@@ -98,7 +97,7 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 		// New guess for the Reynolds number
 		Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
 	}
-	// compute mass flow rate, accounting for the flow direction
+	// Compute mass flow rate, accounting for the flow direction
 	double mDot = upstreamState->rho() * vFlow * flowArea;
 	if (pressureDifference < 0) {
 		mDot *= -mDot;
