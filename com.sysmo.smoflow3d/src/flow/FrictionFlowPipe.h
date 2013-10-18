@@ -39,6 +39,8 @@ protected:
 	double absolutePressureDrop;
 	MediumState* state1;
 	MediumState* state2;
+
+	double Re_cache;
 };
 
 #else //__cplusplus

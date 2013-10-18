@@ -26,6 +26,8 @@ FrictionFlowPipe::FrictionFlowPipe(
 	absolutePressureDrop = 0.0;
 	state1 = NULL;
 	state2 = NULL;
+
+	Re_cache = 1e5;
 }
 
 FrictionFlowPipe::~FrictionFlowPipe() {
@@ -60,13 +62,13 @@ double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 }
 
 double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
-	static const int maxNumIter = 20;
-	static const double relTolerance = 1e-10;
-	static const double minPressureDifference = 1e-12;
+	static const int maxNumIter = 100;
+	static const double relTolerance = 1e-08;
+	static const double minPressureDifference = 1e-06;
 
 	this->absolutePressureDrop = m::fabs(pressureDifference);
-
 	if (this->absolutePressureDrop < minPressureDifference) {
+		this->massFlowRate = 0.0;
 		return 0;
 	}
 
@@ -78,30 +80,35 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	}
 
 	double calcPressureDifference = this->absolutePressureDrop / this->pressureDropGain;
-	double relError = 1;
+
+	// Calculate vFlow (i.e. mDot) by pressure drop using an iteration
 	int numIter = 0;
+	double relError = 1.0;
 	double vFlow;
 
-	// Initial guess for the Reynolds number
-	double Re = 1e6; // TODO check if caching the Reynolds number can help speed up convergence
-
-	while (m::fabs(relError) > relTolerance && numIter < maxNumIter) {
+	double Re = Re_cache;
+	while ((m::fabs(relError) > relTolerance) && (numIter < maxNumIter)) {
 		// Compute the friction factor, and the flow velocity
 		double zeta = frictionFactor(Re);
 		vFlow = m::sqrt(2 * calcPressureDifference / (upstreamState->rho() * zeta * flowFactor));
-		// Compute the error
-		double dpCalc = frictionFactor(Re) * flowFactor
-				* upstreamState->rho() * vFlow * vFlow / 2;
-		relError = (dpCalc - calcPressureDifference) / calcPressureDifference;
-		numIter++;
+
 		// New guess for the Reynolds number
 		Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
+
+		// Compute the error
+		double dpCalc = frictionFactor(Re) * flowFactor * upstreamState->rho() * vFlow * vFlow / 2;
+		relError = (dpCalc - calcPressureDifference) / calcPressureDifference;
+		numIter++;
 	}
+	Re_cache = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
+	//m::limitVariable(Re_cache, 10, 1e8); //:TRICKY:
+
 	// Compute mass flow rate, accounting for the flow direction
 	double mDot = upstreamState->rho() * vFlow * flowArea;
 	if (pressureDifference < 0) {
-		mDot *= -mDot;
+		mDot = -mDot;
 	}
+
 	this->massFlowRate = mDot;
 	return mDot;
 }
@@ -161,8 +168,7 @@ double FrictionFlowPipe_getMassFlowRate(FrictionFlowPipe* component) {
 class FrictionFlowPipe_StraightPipe : public FrictionFlowPipe {
 public:
 	FrictionFlowPipe_StraightPipe(double diameter, double length, double surfaceRoughness)
-		: FrictionFlowPipe(diameter, m::pi / 4 * diameter * diameter,
-			length / diameter) {
+		: FrictionFlowPipe(diameter, m::pi / 4 * diameter * diameter, length / diameter) {
 		this->surfaceRoughness = surfaceRoughness;
 	}
 
