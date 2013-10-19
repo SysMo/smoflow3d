@@ -49,8 +49,8 @@ void ForcedConvection::compute(double massFlowRate) {
 	filmState->update_Tp(filmTemperature, upstreamFluidState->p());
 
 	double absMassFlowRate = m::fabs(massFlowRate);
-	double v =  massFlowRate / filmState->rho() / flowArea;
-	Re = filmState->rho() * v * characteristicLength / filmState->mu();
+	double vFlow =  absMassFlowRate / filmState->rho() / flowArea;
+	Re = filmState->rho() * vFlow * characteristicLength / filmState->mu();
 	Pr = filmState->Pr();
 	Nu = computeNusseltNumber(Re, Pr);
 	convectionCoefficient = Nu * filmState->lambda() / characteristicLength;
@@ -67,8 +67,8 @@ void ForcedConvection::compute(double massFlowRate) {
 			// Ensure the outlet temperature is not below wall temperature
 			outletSpecEnthalpy = m::max(outletSpecEnthalpy, limitState->h());
 		}
-		heatFlowRate = absMassFlowRate
-			* (outletSpecEnthalpy - upstreamFluidState->h());
+
+		heatFlowRate = absMassFlowRate * (outletSpecEnthalpy - upstreamFluidState->h());
 	}
 }
 

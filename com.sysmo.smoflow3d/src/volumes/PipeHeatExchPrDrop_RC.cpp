@@ -44,8 +44,8 @@ void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State, ThermalNode* wal
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
 
 	accFluid->setVolume(volume);
-	accFluid->selectStates(iT, iD);
-	// TODO (Nasko) fix the user initialization
+	accFluid->selectStates(iP, iD);
+
 	port2State = accFluid->getFluidState();
 	port2State->update_Tp(wallNode->getTemperature(), port1State->p());
 }
