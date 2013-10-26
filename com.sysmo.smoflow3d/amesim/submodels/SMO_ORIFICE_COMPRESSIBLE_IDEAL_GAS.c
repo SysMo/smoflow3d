@@ -93,7 +93,7 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = Orifice_new();
+   _component = Orifice_CompressibleIdealGas_new();
    SMOCOMPONENT_SET_PROPS(_component)
 
    Orifice_setOrificeArea(_component, orificeArea);
@@ -177,7 +177,7 @@ void smo_orifice_compressible_ideal_gas_(int *n
    }
 
    Orifice_setRegulatingSignal(_component, *regulatingSignal);
-   Orifice_compute_CompressibleIdealGas(_component);
+   Orifice_compute(_component);
    Orifice_getFlowRates(_component, _fluidFlow1, _fluidFlow2);
 
    *massFlowRate = Orifice_getMassFlowRate(_component);

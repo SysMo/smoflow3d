@@ -37,7 +37,7 @@ public:
 	double getPressureLoss() {return pressureLoss;}
 	FlowType getFlowType() {return flowType;}
 
-	void compute_CompressibleIdealGas();
+	virtual void compute() = 0;
 
 	void getFlowRates(FluidFlow* flow1, FluidFlow* flow2);
 
@@ -62,9 +62,10 @@ DECLARE_C_STRUCT(Orifice)
 
 
 BEGIN_C_LINKAGE
-Orifice* Orifice_new();
+Orifice* Orifice_CompressibleIdealGas_new();
+
 void Orifice_init(Orifice* orifice, MediumState* state1, MediumState* state2);
-void Orifice_compute_CompressibleIdealGas(Orifice* orifice);
+void Orifice_compute(Orifice* orifice);
 
 void Orifice_setOrificeArea(Orifice* orifice, double orificeArea);
 void Orifice_setFlowCoefficient(Orifice* orifice, double flowCoefficient);
