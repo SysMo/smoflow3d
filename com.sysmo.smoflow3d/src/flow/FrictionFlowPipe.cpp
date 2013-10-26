@@ -40,20 +40,24 @@ void FrictionFlowPipe::init(MediumState* state1, MediumState* state2) {
 
 double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 	this->massFlowRate = massFlowRate;
+
 	MediumState* upstreamState;
 	if (massFlowRate > 0) {
 		upstreamState = state1;
 	} else {
 		upstreamState = state2;
 	}
+
 	//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (2)
 	double vFlow = m::fabs(massFlowRate)
 		/ (upstreamState->rho() * flowArea);
 	double Re = upstreamState->rho() * vFlow
 		* hydraulicDiameter / upstreamState->mu();
+
 	//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
 	double pressureDrop = pressureDropGain * frictionFactor(Re)
 		* flowFactor * upstreamState->rho() * vFlow * vFlow / 2;
+
 	this->absolutePressureDrop = pressureDrop;
 	if (massFlowRate < 0) {
 		pressureDrop = -pressureDrop;
