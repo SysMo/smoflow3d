@@ -27,8 +27,6 @@ public:
 	double getEnthalpyFlowRate() {return enthalpyFlowRate;}
 	double getPressureLoss() {return pressureLoss;}
 
-	virtual void compute() = 0;
-
 	void getFlowRates(FluidFlow* flow1, FluidFlow* flow2);
 
 protected:

@@ -20,6 +20,7 @@ public:
 	virtual ~FlowComponent_R_2Port();
 
 	virtual void init(MediumState* state1, MediumState* state2);
+	virtual void compute() = 0;
 
 protected:
 	MediumState* state1;
