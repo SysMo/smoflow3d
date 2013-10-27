@@ -24,7 +24,7 @@ void Pipe_R::init(MediumState* state1, MediumState* state2) {
 	friction->init(state1, state2);
 }
 
-bool Pipe_R::compute(const double& massFlowRate, const double& minDownstreamPressure) {
+bool Pipe_R::compute(double massFlowRate, double minDownstreamPressure) {
 	// Compute absolute pressure drop
 	friction->computePressureDrop(massFlowRate);
 	double absPressureDrop = friction->getAbsolutePressureDrop();

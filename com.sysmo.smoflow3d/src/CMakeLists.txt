@@ -58,6 +58,7 @@ add_library(SmoFlow SHARED
     flow/PhaseSeparator.cpp
     flow_R/Component_R.cpp
     flow_R/Pipe_R.cpp
+    flow_R/Valve_R.cpp
     volumes/FluidChamber.cpp
     volumes/ThermalNode.cpp
     volumes/Component_RC.cpp

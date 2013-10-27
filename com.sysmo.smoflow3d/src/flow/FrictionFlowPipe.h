@@ -25,7 +25,7 @@ public:
 	double computePressureDrop(double massFlowRate);
 	double computeMassFlowRate(double pressureDifference);
 	virtual double frictionFactor(double Re) = 0;
-	double getAbsolutePressureDrop() {return absolutePressureDrop;	}
+	double getAbsolutePressureDrop() {return absPressureDrop;}
 	double getMassFlowRate() {return massFlowRate;}
 	void getFluidFlow1(FluidFlow* flow);
 	void getFluidFlow2(FluidFlow* flow);
@@ -36,7 +36,7 @@ protected:
 	double flowFactor;
 	double pressureDropGain;
 	double massFlowRate;
-	double absolutePressureDrop;
+	double absPressureDrop;
 	MediumState* state1;
 	MediumState* state2;
 

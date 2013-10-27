@@ -21,10 +21,10 @@ public:
 	virtual ~Component_R();
 
 	virtual void init(MediumState* state1, MediumState* state2);
-	virtual bool compute(const double& massFlowRate, const double& minDownstreamPressure) = 0;
+	virtual bool compute(double massFlowRate, double minDownstreamPressure) = 0;
 
-	MediumState* getUpstreamState(const double& massFlowRate);
-	MediumState* getDownstreamState(const double& massFlowRate);
+	MediumState* getUpstreamState(double massFlowRate);
+	MediumState* getDownstreamState(double massFlowRate);
 
 protected:
 	MediumState* state1;

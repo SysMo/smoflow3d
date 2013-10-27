@@ -21,8 +21,8 @@ public:
 	Pipe_R(FrictionFlowPipe* friction);
 	virtual ~Pipe_R();
 
-	void init(MediumState* state1, MediumState* state2);
-	bool compute(const double& massFlowRate, const double& minDownstreamPressure);
+	virtual void init(MediumState* state1, MediumState* state2);
+	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
 protected:
 	FrictionFlowPipe* friction;

@@ -27,7 +27,7 @@ void Component_R::init(MediumState* state1, MediumState* state2) {
 	this->state2 = state2;
 }
 
-MediumState* Component_R::getUpstreamState(const double& massFlowRate) {
+MediumState* Component_R::getUpstreamState(double massFlowRate) {
 	if (massFlowRate >= 0) {
 		return state1;
 	} else {
@@ -35,7 +35,7 @@ MediumState* Component_R::getUpstreamState(const double& massFlowRate) {
 	}
 }
 
-MediumState* Component_R::getDownstreamState(const double& massFlowRate) {
+MediumState* Component_R::getDownstreamState(double massFlowRate) {
 	if (massFlowRate >= 0) {
 		return state2;
 	} else {

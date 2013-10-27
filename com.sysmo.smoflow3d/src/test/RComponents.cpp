@@ -9,6 +9,7 @@
 #include <iostream>
 #include "media/MediumState.h"
 #include "flow_R/Pipe_R.h"
+#include "flow_R/Valve_R.h"
 
 using namespace smoflow;
 
@@ -55,27 +56,36 @@ void testRComponents() {
 	MediumState* mainState1 = MediumState_new(fluid);
 	MediumState* mainState2 = MediumState_new(fluid);
 
-	mainState1->update_Tp(60, 300e5); //[K], [Pa]
-	mainState2->update_Tp(300, 10e5);
+	mainState2->update_Tp( 60, 300e5); //[K], [Pa]
+	mainState1->update_Tp(300,   1e5);
 
 
-	// Create pipes
+	// Create pipes and valves
 	Pipe_R* pipe1 = createStraightPipe(
-					0.005, //diameter [m]
-					0.5,   //length [m]
-					0.025  //surfaceRoughness
+			5*1e-3, 	//diameter [m]
+			0.5,   		//length [m]
+			0.025*1e-3  //surfaceRoughness [m]
 	);
 
 	Pipe_R* pipe2 = createStraightPipe(
-					0.005, //diameter [m]
-					0.5,   //length [m]
-					0.025  //surfaceRoughness
+			5*1e-3, 	//diameter [m]
+			0.5,   		//length [m]
+			0.025*1e-3	//surfaceRoughness [m]
 	);
+
+	Valve_R* valve1 = ValveKv_R_new(
+			1.0, 		// Kv
+			2, 			// transitionChoice;
+			0.0001, 	// transitionMassFlowRate;
+			0.001*1e5 	// transitionPressureDifference
+	);
+	valve1->setRegulationgSignal(1.0);
 
 	// Create components vector
 	std::vector<Component_R*> components;
 	components.push_back(pipe1);
 	components.push_back(pipe2);
+	components.push_back(valve1);
 	int numComponents = (int) components.size();
 
 	// Create and set virtual states of the components
@@ -128,14 +138,18 @@ void testRComponents() {
 	double minDownstreamPressure = m::max(1e-5, downstreamPressure - 1e5); // m::min(1.0*1e5, 0.5*downstreamPressure); //:TODO: (???)
 	std::cout << "numIter, massFlowRate, calcDownstreamPressure, relError, down_MassFlowRate, up_MassFlowRate" << std::endl;
 	for (int numIter = 1; numIter < maxNumIter; numIter++) {
+		double tmpMDot = massFlowRate;
 		bool succ;
+		std::cout << "Downstream pressure = ";
 		for (int i = 0; i < numComponents; i++) {
 			int componentIndex = (reverseStream) ? numComponents - i - 1 : i;
 			succ = components[componentIndex]->compute(massFlowRate, minDownstreamPressure);
 			if (!succ) {
 				break;
 			}
+			std::cout << components[componentIndex]->getDownstreamState(massFlowRate)->p() << ", ";
 		}
+		std::cout << std::endl;
 
 		if (!succ) {
 			up_MassFlowRate = massFlowRate; //:TODO: check that massFlowRate < up_MassFlowRate
@@ -145,7 +159,7 @@ void testRComponents() {
 			} else {
 				massFlowRate /= stepCoeff;
 			}
-			std::cout << "UP1: " << numIter << ", " << massFlowRate << ", " << 0.0 << ", " << 1.0 << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
+			std::cout << "UP1: " << numIter << ", " << tmpMDot << ", " << 0.0 << ", " << 1.0 << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
 			continue;
 		}
 
@@ -153,7 +167,7 @@ void testRComponents() {
 		double calcDownstreamPressure = lastComponent->getDownstreamState(massFlowRate)->p();
 		double relError = (calcDownstreamPressure - downstreamPressure) / downstreamPressure;
 		if (m::fabs(relError) < relTolerance) {
-			std::cout << "END: " << numIter << ", " << massFlowRate << ", " << calcDownstreamPressure << ", " << relError << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
+			std::cout << "END: " << numIter << ", " << tmpMDot << ", " << calcDownstreamPressure << ", " << relError << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
 			break;
 		}
 
@@ -169,7 +183,7 @@ void testRComponents() {
 			} else {
 				massFlowRate /= stepCoeff;
 			}
-			std::cout << "UP0: " << numIter << ", " << massFlowRate << ", " << calcDownstreamPressure << ", " << relError << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
+			std::cout << "UP0: " << numIter << ", " << tmpMDot << ", " << calcDownstreamPressure << ", " << relError << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
 		} else {
 			down_MassFlowRate = massFlowRate; //:TODO: check that massFlowRate > down_MassFlowRate
 			down_MassFlowRate_isInit = true;
@@ -183,7 +197,7 @@ void testRComponents() {
 			} else {
 				massFlowRate *= stepCoeff;
 			}
-			std::cout << "DN0: " << numIter << ", " << massFlowRate << ", " << calcDownstreamPressure << ", " << relError << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
+			std::cout << "DN0: " << numIter << ", " << tmpMDot << ", " << calcDownstreamPressure << ", " << relError << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
 		}
 	}
 

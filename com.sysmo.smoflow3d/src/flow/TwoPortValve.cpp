@@ -161,7 +161,6 @@ public:
 			transitionPressureDifference = m::pow((transitionMassFlowRate / rho_inlet)
 					/ (N1 * Kv), 2.0) * relativeDensity;
 		} else { //2 - Minimum pressure difference
-			//:TRICKY: the user have been set the transitionPressureDifference yet
 		}
 
 		double volumetricFlowRateMagnitude;

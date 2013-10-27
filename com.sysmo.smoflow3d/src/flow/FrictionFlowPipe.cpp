@@ -23,7 +23,7 @@ FrictionFlowPipe::FrictionFlowPipe(
 
 	pressureDropGain = 0.0;
 	massFlowRate = 0.0;
-	absolutePressureDrop = 0.0;
+	absPressureDrop = 0.0;
 	state1 = NULL;
 	state2 = NULL;
 
@@ -58,7 +58,7 @@ double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 	double pressureDrop = pressureDropGain * frictionFactor(Re)
 		* flowFactor * upstreamState->rho() * vFlow * vFlow / 2;
 
-	this->absolutePressureDrop = pressureDrop;
+	absPressureDrop = pressureDrop;
 	if (massFlowRate < 0) {
 		pressureDrop = -pressureDrop;
 	}
@@ -70,9 +70,9 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	static const double relTolerance = 1e-08;
 	static const double minPressureDifference = 1e-06;
 
-	this->absolutePressureDrop = m::fabs(pressureDifference);
-	if (this->absolutePressureDrop < minPressureDifference) {
-		this->massFlowRate = 0.0;
+	absPressureDrop = m::fabs(pressureDifference);
+	if (absPressureDrop < minPressureDifference) {
+		massFlowRate = 0.0;
 		return 0;
 	}
 
@@ -83,7 +83,7 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 		upstreamState = state2;
 	}
 
-	double calcPressureDifference = this->absolutePressureDrop / this->pressureDropGain;
+	double calcPressureDifference = this->absPressureDrop / this->pressureDropGain;
 
 	// Calculate vFlow (i.e. mDot) by pressure drop using an iteration
 	int numIter = 0;
@@ -113,7 +113,7 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 		mDot = -mDot;
 	}
 
-	this->massFlowRate = mDot;
+	massFlowRate = mDot;
 	return mDot;
 }
 
