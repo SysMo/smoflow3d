@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_PRESSURE_DROP_RC skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:55:22 2013 */
+   Thu Oct 31 11:24:44 2013 */
 
 
 
@@ -139,12 +139,12 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
    }
 
    _friction = FrictionFlowPipe_StraightPipe_new(hydraulicDiameter, pipeLength, absoluteRoughness);
-   _convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowArea, pipeLength);
+   _convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowAreaValue, pipeLength);
 
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
    FrictionFlowPipe_setPressureDropGain(_friction, pressureDropGain);
 
-   double internalVolume = flowArea * pipeLength;
+   double internalVolume = flowAreaValue * pipeLength;
    _component = PipeHeatExchPrDrop_RC_new(internalVolume, _friction, _convection);
    SMOCOMPONENT_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -255,7 +255,7 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
    PipeHeatExchPrDrop_RC_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
-   *wallHeatFlowRate = HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
+   *wallHeatFlowRate = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
    *totalPressureLoss = FrictionFlowPipe_getAbsolutePressureDrop(_friction);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 

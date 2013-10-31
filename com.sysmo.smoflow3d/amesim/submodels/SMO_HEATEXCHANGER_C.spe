@@ -209,7 +209,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>97</SUB_ID>
-    <TITLE>heat flow rate from the wall</TITLE>
+    <TITLE>heat flow rate to the wall</TITLE>
     <VARNAME>wallHeatFlowRate</VARNAME>
     <VARNAME2>outletTemperatureDot</VARNAME2>
     <VISIBILITY>True</VISIBILITY>

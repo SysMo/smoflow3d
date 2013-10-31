@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_C skeleton created by AME Submodel editing utility
-   Fri Oct 11 20:48:12 2013 */
+   Thu Oct 31 11:23:36 2013 */
 
 
 
@@ -170,17 +170,17 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[2]
 
 /*  There are 11 internal variables.
 
-      1 pressure                  pressure                     [bar -> Pa]     basic variable
-      2 temperature               temperature                  [K]             basic variable
-      3 density                   density                      [kg/m**3]       basic variable
-      4 specificEnthalpy          specific enthalpy            [kJ/kg -> J/kg] basic variable
-      5 gasMassFraction           gas mass fraction            [null]          basic variable
-      6 superHeat                 subcooling / superheat       [degC]          basic variable
-      7 internalVolume            volume                       [L -> m**3]     basic variable
-      8 stateValues[2]            state values                 [null]          explicit state (derivative `stateValuesDot')
-      9 reynoldsNumber            Reynolds number              [null]          basic variable
-     10 convectionCoefficient     convection coefficient       [W/m**2/K]      basic variable
-     11 wallHeatFlowRate          heat flow rate from the wall [W]             basic variable
+      1 pressure                  pressure                   [bar -> Pa]     basic variable
+      2 temperature               temperature                [K]             basic variable
+      3 density                   density                    [kg/m**3]       basic variable
+      4 specificEnthalpy          specific enthalpy          [kJ/kg -> J/kg] basic variable
+      5 gasMassFraction           gas mass fraction          [null]          basic variable
+      6 superHeat                 subcooling / superheat     [degC]          basic variable
+      7 internalVolume            volume                     [L -> m**3]     basic variable
+      8 stateValues[2]            state values               [null]          explicit state (derivative `stateValuesDot')
+      9 reynoldsNumber            Reynolds number            [null]          basic variable
+     10 convectionCoefficient     convection coefficient     [W/m**2/K]      basic variable
+     11 wallHeatFlowRate          heat flow rate to the wall [W]             basic variable
 */
 
 void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
@@ -257,7 +257,7 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
    *heatFlowIndex = _wallHeatFlowIndex;
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
-   *wallHeatFlowRate = HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
+   *wallHeatFlowRate = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
 
    *pressure = MediumState_p(_pipeState);
    *temperature = MediumState_T(_pipeState);
