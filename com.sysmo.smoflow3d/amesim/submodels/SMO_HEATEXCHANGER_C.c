@@ -134,10 +134,10 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[2]
 	   flowAreaValue = flowArea;
    }
 
-   _convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowArea, pipeLength);
+   _convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowAreaValue, pipeLength);
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
 
-   double internalVolume = flowArea * pipeLength;
+   double internalVolume = flowAreaValue * pipeLength;
    Medium* fluid = Medium_get(fluidIndex);
    _component = PipeHeatExch_C_new(fluid, internalVolume, _convection);
    SMOCOMPONENT_SET_PROPS(_component)
