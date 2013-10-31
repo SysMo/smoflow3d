@@ -38,65 +38,25 @@ void initMediums() {
 	Medium_register(sCompressibleFluidCoolProp, fluidName, 1);
 }
 
-Pipe_R* createStraightPipe(double diameter, double length, double surfaceRoughness) {
-	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(diameter, length, surfaceRoughness);
-	friction->setPressureDropGain(1.0); //???
-	return Pipe_R_new(friction);
-}
-
 
 /**
  * Test R components
  */
-
-
-void testRComponents() {
-	// Create inlet and outlet states of the RComponents chain
-	Medium* fluid = Medium_get(1);
-	MediumState* mainState1 = MediumState_new(fluid);
-	MediumState* mainState2 = MediumState_new(fluid);
-
-	mainState2->update_Tp( 60, 300e5); //[K], [Pa]
-	mainState1->update_Tp(300,   1e5);
-
-
-	// Create pipes and valves
-	Pipe_R* pipe1 = createStraightPipe(
-			5*1e-3, 	//diameter [m]
-			0.5,   		//length [m]
-			0.025*1e-3  //surfaceRoughness [m]
-	);
-
-	Pipe_R* pipe2 = createStraightPipe(
-			5*1e-3, 	//diameter [m]
-			0.5,   		//length [m]
-			0.025*1e-3	//surfaceRoughness [m]
-	);
-
-	Valve_R* valve1 = ValveKv_R_new(
-			1.0, 		// Kv
-			2, 			// transitionChoice;
-			0.0001, 	// transitionMassFlowRate;
-			0.001*1e5 	// transitionPressureDifference
-	);
-	valve1->setRegulationgSignal(1.0);
-
-	// Create components vector
-	std::vector<Component_R*> components;
-	components.push_back(pipe1);
-	components.push_back(pipe2);
-	components.push_back(valve1);
-	int numComponents = (int) components.size();
+void testComputeMassFlowRate(
+		MediumState* mainState1,
+		MediumState* mainState2,
+		std::vector<Component_R*>& components) {
+	// Get fluid
+	Medium* fluid = mainState1->getMedium();
 
 	// Create and set virtual states of the components
-	MediumState* state1 = MediumState_new(fluid);;
+	int numComponents = (int) components.size();
+	MediumState* virtualState1 = MediumState_new(fluid);
 	for (int i = 0; i < numComponents; i++) {
-		MediumState* state2 = MediumState_new(fluid);
-		components[i]->init(state1, state2);
-		state1 = state2;
+		MediumState* virtualState2 = MediumState_new(fluid);
+		components[i]->init(virtualState1, virtualState2);
+		virtualState1 = virtualState2;
 	}
-
-
 
 	// Get first and last components
 	MediumState* mainUpstreamState = mainState1;
@@ -140,14 +100,14 @@ void testRComponents() {
 	for (int numIter = 1; numIter < maxNumIter; numIter++) {
 		double tmpMDot = massFlowRate;
 		bool succ;
-		std::cout << "Downstream pressure = ";
+		std::cout << "Downstream pressures, temperature = ";
 		for (int i = 0; i < numComponents; i++) {
 			int componentIndex = (reverseStream) ? numComponents - i - 1 : i;
 			succ = components[componentIndex]->compute(massFlowRate, minDownstreamPressure);
 			if (!succ) {
 				break;
 			}
-			std::cout << components[componentIndex]->getDownstreamState(massFlowRate)->p() << ", ";
+			std::cout << "(" << components[componentIndex]->getDownstreamState(massFlowRate)->p() << ", " << components[componentIndex]->getDownstreamState(massFlowRate)->T() << "), " ;
 		}
 		std::cout << std::endl;
 
@@ -205,6 +165,77 @@ void testRComponents() {
 	std::cout << "state1 = "; displayState(mainState1); std::cout << std::endl;
 	std::cout << "state2 = "; displayState(mainState2); std::cout << std::endl;
 	std::cout << "mass flow rate (state1->state2) = " << massFlowRate << " [kg/s]" << std::endl;
+}
+
+void testRComponents() {
+	// Create inlet and outlet states of the RComponents chain
+	Medium* fluid = Medium_get(1);
+	MediumState* mainState1 = MediumState_new(fluid);
+	MediumState* mainState2 = MediumState_new(fluid);
+
+	mainState1->update_Tp( 60, 300e5); //[K], [Pa]
+	mainState2->update_Tp(300,   1e5);
+
+
+	// Create pipes and valves
+	Pipe_R* pipe1 = StraightPipe_R_new(
+			5*1e-3, 	//diameter [m]
+			0.5,   		//length [m]
+			0.025*1e-3, //surfaceRoughness [m]
+			1.0			//pressureDropGain
+	);
+
+	Pipe_R* pipe2 = StraightPipe_R_new(
+			5*1e-3, 	//diameter [m]
+			0.5,   		//length [m]
+			0.025*1e-3, //surfaceRoughness [m]
+			1.0			//pressureDropGain
+	);
+
+	Valve_R* valve1 = ValveKv_R_new(
+			1.0, 		// Kv
+			2, 			// transitionChoice;
+			0.0001, 	// transitionMassFlowRate;
+			0.001*1e5 	// transitionPressureDifference
+	);
+	valve1->setRegulationgSignal(1.0);
+
+	Pipe_R* pipeHE1 = StraightPipeHeatExchanger_R_new(
+			5*1e-3, 	//diameter [m]
+			0.5,   		//length [m]
+			0.025*1e-3, //surfaceRoughness [m]
+			1.0,		//pressureDropGain
+			1.0, 		//heatExchangeGain
+			false		//heatExchangerLimitOutput
+	);
+
+	ThermalNode* thermalNode1 = ThermalNode_new(sThermalNode_Source);
+	thermalNode1->setTemperature(300);
+	pipeHE1->setHeatExchangerThermalNode(thermalNode1);
+
+	Pipe_R* pipeHE2 = StraightPipeHeatExchanger_R_new(
+			5*1e-3, 	//diameter [m]
+			0.5,   		//length [m]
+			0.025*1e-3, //surfaceRoughness [m]
+			1.0,		//pressureDropGain
+			1.0, 		//heatExchangeGain
+			false		//heatExchangerLimitOutput
+	);
+
+	ThermalNode* thermalNode2 = ThermalNode_new(sThermalNode_Source);
+	thermalNode2->setTemperature(300);
+	pipeHE2->setHeatExchangerThermalNode(thermalNode1);
+
+
+	// Create components vector
+	std::vector<Component_R*> components;
+	components.push_back(pipe1);
+	components.push_back(pipe2);
+	components.push_back(valve1);
+
+
+	// Compute mass flow rate
+	testComputeMassFlowRate(mainState1, mainState2, components);
 }
 
 

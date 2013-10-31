@@ -65,27 +65,27 @@ double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 	return pressureDrop;
 }
 
-double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
+double FrictionFlowPipe::computeMassFlowRate(double pressureDrop) {
 	static const int maxNumIter = 100;
 	static const double relTolerance = 1e-08;
 	static const double minPressureDifference = 1e-06;
 
-	absPressureDrop = m::fabs(pressureDifference);
+	absPressureDrop = m::fabs(pressureDrop);
 	if (absPressureDrop < minPressureDifference) {
 		massFlowRate = 0.0;
 		return 0;
 	}
 
 	MediumState* upstreamState;
-	if (pressureDifference > 0) {
+	if (pressureDrop > 0) {
 		upstreamState = state1;
 	} else {
 		upstreamState = state2;
 	}
 
-	double calcPressureDifference = this->absPressureDrop / this->pressureDropGain;
+	double calcPressureDrop = this->absPressureDrop / this->pressureDropGain;
 
-	// Calculate vFlow (i.e. mDot) by pressure drop using an iteration
+	// Calculate vFlow (i.e. mass flow rate) by pressure drop using iterations
 	int numIter = 0;
 	double relError = 1.0;
 	double vFlow;
@@ -94,27 +94,26 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDifference) {
 	while ((m::fabs(relError) > relTolerance) && (numIter < maxNumIter)) {
 		// Compute the friction factor, and the flow velocity
 		double zeta = frictionFactor(Re);
-		vFlow = m::sqrt(2 * calcPressureDifference / (upstreamState->rho() * zeta * flowFactor));
+		vFlow = m::sqrt(2 * calcPressureDrop / (upstreamState->rho() * zeta * flowFactor));
 
 		// New guess for the Reynolds number
 		Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
 
 		// Compute the error
 		double dpCalc = frictionFactor(Re) * flowFactor * upstreamState->rho() * vFlow * vFlow / 2;
-		relError = (dpCalc - calcPressureDifference) / calcPressureDifference;
+		relError = (dpCalc - calcPressureDrop) / calcPressureDrop;
 		numIter++;
 	}
 	Re_cache = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
 	//m::limitVariable(Re_cache, 10, 1e8); //:TRICKY:
 
 	// Compute mass flow rate, accounting for the flow direction
-	double mDot = upstreamState->rho() * vFlow * flowArea;
-	if (pressureDifference < 0) {
-		mDot = -mDot;
+	massFlowRate = upstreamState->rho() * vFlow * flowArea;
+	if (pressureDrop < 0) {
+		massFlowRate = -massFlowRate;
 	}
 
-	massFlowRate = mDot;
-	return mDot;
+	return massFlowRate;
 }
 
 void FrictionFlowPipe::getFluidFlow1(FluidFlow* flow) {
@@ -139,9 +138,43 @@ void FrictionFlowPipe::getFluidFlow2(FluidFlow* flow) {
 	flow->enthalpyFlowRate = massFlowRate * upstreamState->h();
 }
 
+/*************************************************************
+ ***   FrictionFlowPipe implementation classes
+ *************************************************************/
+/**
+ * FrictionFlowPipe_StraightPipe - C++
+ */
+class FrictionFlowPipe_StraightPipe : public FrictionFlowPipe {
+public:
+	FrictionFlowPipe_StraightPipe(double diameter, double length, double surfaceRoughness)
+		: FrictionFlowPipe(diameter, m::pi / 4 * diameter * diameter, length / diameter) {
+		this->surfaceRoughness = surfaceRoughness;
+	}
+
+protected:
+	virtual double frictionFactor(double Re) {
+		// TODO (Nasko) The transition from laminar to turbulent is not handled properly
+		// TRICKY @ the transition the friction factor falls and then rises again
+		double zeta = 1.325 / m::pow(m::log(surfaceRoughness / (3.7 * hydraulicDiameter) + 5.74 * m::pow(Re, -0.9)), 2);
+		double zetaLaminar;
+		if (Re < 2320) {
+			zetaLaminar = 64 / Re;
+			zeta = m::max(zeta, zetaLaminar);
+		}
+		return zeta;
+	}
+
+protected:
+	double surfaceRoughness;
+};
+
 /**
  * FrictionFlowPipe - C
  */
+FrictionFlowPipe* FrictionFlowPipe_StraightPipe_new(double diameter, double length, double surfaceRoughness) {
+	return new FrictionFlowPipe_StraightPipe(diameter, length, surfaceRoughness);
+}
+
 void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2) {
 	component->init(state1, state2);
 }
@@ -164,34 +197,4 @@ double FrictionFlowPipe_getAbsolutePressureDrop(FrictionFlowPipe* component) {
 
 double FrictionFlowPipe_getMassFlowRate(FrictionFlowPipe* component) {
 	return component->getMassFlowRate();
-}
-
-/*************************************************************
- ***   FrictionFlowPipe implementation classes
- *************************************************************/
-class FrictionFlowPipe_StraightPipe : public FrictionFlowPipe {
-public:
-	FrictionFlowPipe_StraightPipe(double diameter, double length, double surfaceRoughness)
-		: FrictionFlowPipe(diameter, m::pi / 4 * diameter * diameter, length / diameter) {
-		this->surfaceRoughness = surfaceRoughness;
-	}
-
-	virtual double frictionFactor(double Re) {
-		// TODO (Nasko) The transition from laminar to turbulent is not handled properly
-		// TRICKY @ the transition the friction factor falls and then rises again
-		double zeta = 1.325 / m::pow(m::log(surfaceRoughness / (3.7 * hydraulicDiameter) + 5.74 * m::pow(Re, -0.9)), 2);
-		double zetaLaminar;
-		if (Re < 2320) {
-			zetaLaminar = 64 / Re;
-			zeta = m::max(zeta, zetaLaminar);
-		}
-		return zeta;
-	}
-
-protected:
-	double surfaceRoughness;
-};
-
-FrictionFlowPipe* FrictionFlowPipe_StraightPipe_new(double diameter, double length, double surfaceRoughness) {
-	return new FrictionFlowPipe_StraightPipe(diameter, length, surfaceRoughness);
 }

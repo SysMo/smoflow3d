@@ -22,17 +22,16 @@ Valve_R::~Valve_R() {
 
 bool Valve_R::compute(double massFlowRate, double minDownstreamPressure) {
 	computePressureDrop(massFlowRate);
-	double absPressureDrop = getAbsolutePressureDrop();
-
-	// Compute downstream enthalpy
-	MediumState* upstreamState = getUpstreamState(massFlowRate);
-	double downstreamEnthalpy = upstreamState->h();
 
 	// Try to compute downstream pressure
-	double downstreamPressure = upstreamState->p() - absPressureDrop;
+	MediumState* upstreamState = getUpstreamState(massFlowRate);
+	double downstreamPressure = upstreamState->p() - getAbsolutePressureDrop();
 	if (downstreamPressure < minDownstreamPressure or downstreamPressure <= 0.0) {
 		return false;
 	}
+
+	// Compute downstream enthalpy
+	double downstreamEnthalpy = upstreamState->h();
 
 	// Set downstream state
 	MediumState* downstreamState = getDownstreamState(massFlowRate);
