@@ -35,7 +35,7 @@ double SmoCoolPropStateClass::beta() {
 	if (!TwoPhase) {
 		return _rho * dvdT_constp();
 	} else {
-		std::cout << "Warning: Calculating beta = dv_dt_p in the two-phase region!" << std::endl;
+		//std::cout << "Warning: Calculating beta = dv_dt_p in the two-phase region!" << std::endl;
 		return _rho * interp_linear(_Q, SatL->dvdT_constp(), SatV->dvdT_constp());
 	}
 }
@@ -46,32 +46,44 @@ double SmoCoolPropStateClass::beta() {
 MediumState_FluidCoolProp::MediumState_FluidCoolProp(Medium_CompressibleFluid_CoolProp* medium)
 : MediumState(medium), pFluid(medium->fluid), cps(pFluid){
 	cps.enable_EXTTP();
-	_q = 0.0;
 }
 
 MediumState_FluidCoolProp::~MediumState_FluidCoolProp() {
 }
 
 void MediumState_FluidCoolProp::pre_update() {
-	clearPropertyCache();
 	cps._pre_update();
+	prevState.p = _p;
+	prevState.T = _T;
+	prevState.rho = _rho;
+	prevState.h = _h;
+	prevState.q = _q;
+	this->clearState();
+	this->clearPropertyCache();
 }
 
 void MediumState_FluidCoolProp::post_update() {
 	cps._post_update();
+	if (!ValidNumber(_q)) {
+		if (isTwoPhase()) {
+			_q = cps.Q();
+		} else {
+			_q = -1.0;
+		}
+	}
 }
 
 void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 	pre_update();
 	_T = T;
 	_p = p;
-	if (ValidNumber(_rho)) {
+	if (ValidNumber(prevState.rho) && cacheStateVariables) {
 		try {
-			_rho = pFluid->density_Tp(T, p, _rho);
+			_rho = pFluid->density_Tp(T, p, prevState.rho);
 			cps.update_Trho(iT, T, iD, _rho);
 		} catch (SolutionError e) {
-			std::cout << "Update_Tp(T = " << T << ", p = " << p
-					<< ") failed, trying to calculate without using cache variables\n";
+			RaiseWarning("MediumState_FluidCoolProp::update_Tp(T = " << T << ", p = " << p
+					<< ") failed, trying to calculate without using cache variables\n");
 			cps.update_Tp(iT, T, iP, p);
 			_rho = cps.rho();
 		}
@@ -81,7 +93,6 @@ void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 	}
 	post_update();
 	_h = cps.h();
-	_q = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
@@ -92,20 +103,19 @@ void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
 	post_update();
 	_p = cps.p();
 	_h = cps.h();
-	_q = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_prho(double p, double rho) {
 	pre_update();
 	_p = p;
 	_rho = rho;
-	if (ValidNumber(_T)) {
+	if (ValidNumber(prevState.T) && cacheStateVariables) {
 		try {
-			_T = pFluid->temperature_prho(_p, _rho, _T);
+			_T = pFluid->temperature_prho(_p, _rho, prevState.T);
 			cps.update_Trho(iT, _T, iD, _rho);
 		} catch (SolutionError e) {
-			std::cout << "Update_prho(p = " << p << ", rho = " << rho
-					<< ") failed, trying to calculate without using cache variables\n";
+			RaiseWarning("MediumState_FluidCoolProp::update_prho(p = " << p << ", rho = " << rho
+					<< ") failed, trying to calculate without using cache variables\n");
 			cps.update_prho(iP, _p, iD, _rho);
 			_T = cps.T();
 		}
@@ -115,21 +125,21 @@ void MediumState_FluidCoolProp::update_prho(double p, double rho) {
 	}
 	post_update();
 	_h = cps.h();
-	_q = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_ph(double p, double h) {
 	pre_update();
 	_p = p;
 	_h = h;
-	if (ValidNumber(_T) && ValidNumber(_rho)) {
+	if (ValidNumber(prevState.T) && ValidNumber(prevState.rho) && cacheStateVariables) {
 		try {
 			double rhosatL, rhosatV, TsatL, TsatV;
-			pFluid->temperature_ph(_p, _h, _T, _rho, rhosatL, rhosatV, TsatL, TsatV, _T, _rho);
+			pFluid->temperature_ph(_p, _h, _T, _rho,
+					rhosatL, rhosatV, TsatL, TsatV, prevState.T, prevState.rho);
 			cps.update_Trho(iT, _T, iD, _rho);
 		} catch (SolutionError e) {
-			std::cout << "Update_ph(p = " << p << ", h = " << h
-					<< ") failed, trying to calculate without using cache variables\n";
+			RaiseWarning ("MediumState_FluidCoolProp::update_ph(p = " << p << ", h = " << h
+					<< ") failed, trying to calculate without using cache variables\n");
 			cps.update_ph(iP, p, iH, h);
 			_T = cps.T();
 			_rho = cps.rho();
@@ -140,7 +150,6 @@ void MediumState_FluidCoolProp::update_ph(double p, double h) {
 		_rho = cps.rho();
 	}
 	post_update();
-	_q = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_ps(double p, double s) {
@@ -152,14 +161,13 @@ void MediumState_FluidCoolProp::update_ps(double p, double s) {
 //		cps.update_Trho(iT, _T, iD, _rho);
 //	} else {
 //	}
-	// TODO (Nasko) Currently no function temperature_ps() with supplyied guess
+	// TODO (Nasko) Currently no function temperature_ps() with supplied guess
 	// values for T and rho is available for coolprop Fluid class
 	cps.update_ps(iP, p, iS, s);
 	post_update();
 	_T = cps.T();
 	_rho = cps.rho();
 	_h = cps.h();
-	_q = cps.Q();
 }
 
 void MediumState_FluidCoolProp::update_pq(double p, double q) {
@@ -182,14 +190,6 @@ void MediumState_FluidCoolProp::update_Tq(double T, double q) {
 	_p = cps.p();
 	_rho = cps.rho();
 	_h = cps.h();
-}
-
-double MediumState_FluidCoolProp::q() {
-	if (isTwoPhase()) {
-		return cps.Q();
-	} else {
-		return -1.0;
-	}
 }
 
 double MediumState_FluidCoolProp::u() {
@@ -312,7 +312,7 @@ bool MediumState_FluidCoolProp::isTwoPhase() {
 }
 
 double MediumState_FluidCoolProp::deltaTSat() {
-	return _T - TSat();
+	return cps.superheat();
 }
 
 double MediumState_FluidCoolProp::TSat() {
@@ -321,8 +321,7 @@ double MediumState_FluidCoolProp::TSat() {
 	} else if (isTwoPhase()) {
 		return _T;
 	} else {
-		double TSatL = pFluid->Tsat_anc(_p, 1);
-		return TSatL;
+		return cps.Tsat(0.0);
 	}
 }
 

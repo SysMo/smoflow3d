@@ -37,8 +37,9 @@ void PipeHeatExchPrDrop_RC::init(FluidFlow* port2Flow) {
 	FluidFlow_register(internalFlow);
 }
 
-void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State, ThermalNode* wallNode) {
-	Component_RC::initStates(port1State, wallNode);
+void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State,
+		ThermalNode* wallNode, StateVariableSet& innerStateInitializer) {
+	Component_RC::initStates(port1State, wallNode, innerStateInitializer);
 
 	accFluid = FluidChamber_new(port1State->getMedium());
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
@@ -47,7 +48,8 @@ void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State, ThermalNode* wal
 	accFluid->selectStates(iP, iD);
 
 	port2State = accFluid->getFluidState();
-	port2State->update_Tp(wallNode->getTemperature(), port1State->p());
+	//port2State->update_Tp(wallNode->getTemperature(), port1State->p());
+	port2State->init(innerStateInitializer);
 }
 
 void PipeHeatExchPrDrop_RC::getStateValues(double* value1, double* value2) {

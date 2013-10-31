@@ -324,7 +324,9 @@ extern double smo_heatexchanger_rc_macro0_(int *n
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 
 	   // Initialize outlet
-	   Component_RC_initStates(_component, _inletFluidState, wallNode);
+	   // internalStateInit is not used but has to be passed
+	   StateVariableSet internalStateInit;
+	   Component_RC_initStates(_component, _inletFluidState, wallNode, internalStateInit);
 	   _outletFluidState =Component_RC_getPort2State(_component);
 	   _outletFluidStateIndex = SmoObject_getInstanceIndex(_outletFluidState);
 	   *outletStateValue = PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateValue(_component);

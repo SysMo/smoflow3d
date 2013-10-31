@@ -41,8 +41,9 @@ void PipeHeatExchNoPrDropNoMassAcc_RC::init(FluidFlow* port2Flow) {
 	_init();
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC::initStates(MediumState* port1State, ThermalNode* wallNode) {
-	Component_RC::initStates(port1State, wallNode);
+void PipeHeatExchNoPrDropNoMassAcc_RC::initStates(MediumState* port1State,
+		ThermalNode* wallNode, StateVariableSet& innerStateInitializer) {
+	Component_RC::initStates(port1State, wallNode, innerStateInitializer);
 
 	this->port2State = MediumState_new(port1State->getMedium());
 	MediumState_register(port2State);
@@ -50,7 +51,7 @@ void PipeHeatExchNoPrDropNoMassAcc_RC::initStates(MediumState* port1State, Therm
 	this->port2LimitState = MediumState_new(port1State->getMedium());
 	MediumState_register(port2LimitState);
 
-	port2State->update_Tp(wallNode->getTemperature(), port1State->p());
+	port2State->init(iT, wallNode->getTemperature(), iP, port1State->p());
 	if (stateVariable == sTemperature) {
 		this->port2StateValue = port2State->T();
 	} else {

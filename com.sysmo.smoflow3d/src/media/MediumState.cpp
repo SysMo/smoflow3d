@@ -11,13 +11,14 @@
 
 static std::vector<MediumState*> MediumStateRegistry;
 using namespace smoflow;
-
+bool MediumState_cacheStateVariables = true;
 /**
  * MediumState - C++
  */
 MediumState::MediumState(Medium* medium) {
 	this->medium = medium;
 	clearState();
+	this->cacheStateVariables = MediumState_cacheStateVariables;
 }
 
 MediumState::~MediumState() {
@@ -27,12 +28,52 @@ Medium* MediumState::getMedium() {
 	return medium;
 }
 
+void MediumState::init(
+		ThermodynamicVariable state1, double state1Value,
+		ThermodynamicVariable state2, double state2Value) {
+	this->clearState();
+		   if (state1 == iT && state2 == iD) {
+		update_Trho(state1Value, state2Value);
+	} else if (state1 == iD && state2 == iT) {
+		update_Trho(state2Value, state1Value);
+	} else if (state1 == iT && state2 == iP) {
+		update_Tp(state1Value, state2Value);
+	} else if (state1 == iP && state2 == iT) {
+		update_Tp(state2Value, state1Value);
+	} else if (state1 == iP && state2 == iD) {
+		update_prho(state1Value, state2Value);
+	} else if (state1 == iD && state2 == iP) {
+		update_prho(state2Value, state1Value);
+	} else if (state1 == iP && state2 == iH) {
+		update_ph(state1Value, state2Value);
+	} else if (state1 == iH && state2 == iP) {
+		update_ph(state2Value, state1Value);
+	} else if (state1 == iP && state2 == iQ) {
+		update_pq(state1Value, state2Value);
+	} else if (state1 == iQ && state2 == iP) {
+		update_pq(state2Value, state1Value);
+	} else if (state1 == iT && state2 == iQ) {
+		update_Tq(state1Value, state2Value);
+	} else if (state1 == iQ && state2 == iT) {
+		update_Tq(state2Value, state1Value);
+	} else {
+		RaiseError("Cannot set state using state variables (enum): "
+				<< state1 << " and " << state2);
+	}
+}
+
+void MediumState::init(StateVariableSet& stateStruct) {
+	this->init(stateStruct.state1, stateStruct.state1Value,
+			stateStruct.state2, stateStruct.state2Value);
+}
+
 void MediumState::clearState() {
 	// Reset all the internal variables to _HUGE
 	_T = _HUGE;
 	_p = _HUGE;
 	_h = _HUGE;
 	_rho = _HUGE;
+	_q = _HUGE;
 }
 
 void MediumState::clearPropertyCache() {
@@ -95,6 +136,11 @@ double MediumState::rho() {
 double MediumState::h() {
 	return _h;
 }
+
+double MediumState::q() {
+	return _q;
+}
+
 
 double MediumState::u() {
 	RaiseError("Unimplemented virtual method 'MediumState::u()'")
@@ -166,10 +212,6 @@ bool MediumState::isTwoPhase() {
 	RaiseError("Unimplemented virtual method 'MediumState::isTwoPhase()'")
 }
 
-double MediumState::q() {
-	RaiseError("Unimplemented virtual method 'MediumState::q()'")
-}
-
 double MediumState::deltaTSat() {
 	RaiseError("Unimplemented virtual method 'MediumState::deltaTSat()'")
 }
@@ -180,6 +222,10 @@ double MediumState::TSat() {
 
 double MediumState::dpdTSat() {
 	RaiseError("Unimplemented virtual method 'MediumState::TSat()'")
+}
+
+void MediumState::setCacheStateVariables(bool ifCache) {
+	this->cacheStateVariables = ifCache;
 }
 
 /**
@@ -223,6 +269,17 @@ int MediumState_index(MediumState* mstate) {
 	}
 	return -1;
 }
+
+void MediumState_init(MediumState* mstate,
+		ThermodynamicVariable state1, double state1Value,
+		ThermodynamicVariable state2, double state2Value) {
+	mstate->init(state1, state1Value, state2, state2Value);
+}
+
+void MediumState_initStruct(MediumState* mstate, StateVariableSet stateStruct) {
+	mstate->init(stateStruct);
+}
+
 
 Medium* MediumState_getMedium(MediumState* mstate) {
 	return mstate->getMedium();

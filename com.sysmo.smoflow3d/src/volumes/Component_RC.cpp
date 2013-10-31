@@ -33,7 +33,8 @@ void Component_RC::init(FluidFlow* port2Flow) {
 	HeatFlow_register(this->wallHeatFlow);
 }
 
-void Component_RC::initStates(MediumState* port1State, ThermalNode* wallNode) {
+void Component_RC::initStates(MediumState* port1State, ThermalNode* wallNode,
+		StateVariableSet& innerStateInitializer) {
 	this->port1State = port1State;
 	this->wallNode = wallNode;
 }
@@ -44,8 +45,10 @@ void Component_RC::initStates(MediumState* port1State, ThermalNode* wallNode) {
 void Component_RC_init(Component_RC* component, FluidFlow* port2Flow) {
 	component->init(port2Flow);
 }
-void Component_RC_initStates(Component_RC* component, MediumState* port1State, ThermalNode* wallNode) {
-	component->initStates(port1State, wallNode);
+
+void Component_RC_initStates(Component_RC* component, MediumState* port1State,
+		ThermalNode* wallNode, StateVariableSet innerStateInitializer) {
+	component->initStates(port1State, wallNode, innerStateInitializer);
 }
 
 void Component_RC_compute(Component_RC* component) {

@@ -21,7 +21,8 @@ public:
 	virtual ~Component_RC();
 
 	virtual void init(FluidFlow* port2Flow);
-	virtual void initStates(MediumState* port1State, ThermalNode* wallNode);
+	virtual void initStates(MediumState* port1State, ThermalNode* wallNode,
+			StateVariableSet& innerStateInitializer);
 
 	virtual void compute() = 0;
 
@@ -52,7 +53,8 @@ DECLARE_C_STRUCT(Component_RC)
 
 BEGIN_C_LINKAGE
 void Component_RC_init(Component_RC* component, FluidFlow* port2Flow);
-void Component_RC_initStates(Component_RC* component, MediumState* port1State, ThermalNode* wallNode);
+void Component_RC_initStates(Component_RC* component, MediumState* port1State,
+		ThermalNode* wallNode, StateVariableSet innerStateInitializer);
 
 void Component_RC_compute(Component_RC* component);
 

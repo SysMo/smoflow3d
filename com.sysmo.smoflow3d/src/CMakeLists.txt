@@ -1,7 +1,7 @@
 #######################################
 # CoolProp Import
 #######################################
-SET(COOLPROP_LOCATION ${CMAKE_SOURCE_DIR}/../../coolprop)
+set(COOLPROP_LOCATION ${CMAKE_SOURCE_DIR}/../../coolprop)
 message("Coolprop location: ${COOLPROP_LOCATION}")
 add_library(CoolProp STATIC IMPORTED)
 set_property(TARGET CoolProp PROPERTY IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/bin/libCoolProp.a")
@@ -13,7 +13,7 @@ include_directories(${COOLPROP_LOCATION})
 # in source
 #######################################
 
-SET (MU_PARSER_FILES
+set(MU_PARSER_FILES
 third-party/mu-parser/muParser.cpp
 third-party/mu-parser/muParserBase.cpp
 third-party/mu-parser/muParserBytecode.cpp

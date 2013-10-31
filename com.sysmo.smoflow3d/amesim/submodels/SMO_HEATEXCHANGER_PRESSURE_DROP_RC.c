@@ -316,12 +316,12 @@ extern double smo_heatexchanger_pressure_drop_rc_macro0_(int *n
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 
 	   // Initialize outlet
-	   Component_RC_initStates(_component, _port1FluidState, wallNode);
+	   StateVariableSet internalStateInit = {iT, initT, iP, initP};
+	   Component_RC_initStates(_component, _port1FluidState, wallNode, internalStateInit);
 
 	   _port3FluidState = Component_RC_getPort2State(_component);
 	   _port3FluidStateIndex = SmoObject_getInstanceIndex(_port3FluidState);
 
-	   MediumState_update_Tp(_port3FluidState, initT, initP);
 	   PipeHeatExchPrDrop_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);
    } else {
 	   PipeHeatExchPrDrop_RC_setStateValues(_component, stateValues[0], stateValues[1]);

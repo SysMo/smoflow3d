@@ -18,7 +18,15 @@ typedef struct {
 	double T;
 	double rho;
 	double h;
+	double q;
 } BasicState;
+
+typedef struct {
+	ThermodynamicVariable state1;
+	double state1Value;
+	ThermodynamicVariable state2;
+	double state2Value;
+} StateVariableSet;
 
 typedef enum {
 	PhaseSelection_Overall,
@@ -29,7 +37,6 @@ typedef enum {
 } PhaseSelection;
 END_C_LINKAGE
 
-
 #ifdef __cplusplus
 
 #include "util/CachedProperty.h"
@@ -39,8 +46,12 @@ public:
 	virtual ~MediumState();
 
 	Medium* getMedium();
+	void init(ThermodynamicVariable state1, double state1Value,
+			ThermodynamicVariable state2, double state2Value);
+	void init(StateVariableSet& stateStruct);
 	virtual void clearState();
 	virtual void clearPropertyCache();
+
 
 	virtual void update_Tp(double T, double p);
 	virtual void update_Trho(double T, double rho);
@@ -77,6 +88,8 @@ public:
 	virtual double TSat();
 	virtual double dpdTSat();
 
+	void setCacheStateVariables(bool ifCache);
+
 protected:
 	MediumState(Medium* medium);
 
@@ -85,6 +98,7 @@ protected:
 	double _p;
 	double _rho;
 	double _h;
+	double _q;
 	CachedProperty _u;
 	CachedProperty _s;
 	CachedProperty _cp;
@@ -99,6 +113,8 @@ protected:
 	CachedProperty _Pr;
 	CachedProperty _gamma;
 
+	bool cacheStateVariables;
+	BasicState prevState;
 };
 
 #else //no __cplusplus
@@ -116,6 +132,11 @@ MediumState* MediumState_get(int mstateIndex);
 int MediumState_index(MediumState* mstate);
 Medium* MediumState_getMedium(MediumState* mstate);
 
+void MediumState_init(MediumState* mstate,
+		ThermodynamicVariable state1, double state1Value,
+		ThermodynamicVariable state2, double state2Value);
+void MediumState_initStruct(MediumState* mstate, StateVariableSet stateStruct);
+
 void MediumState_update_Tp(MediumState* mstate, double T, double p);
 void MediumState_update_Trho(MediumState* mstate, double T, double rho);
 void MediumState_update_prho(MediumState* mstate, double p, double rho);
@@ -128,6 +149,8 @@ double MediumState_T(MediumState* mstate);
 double MediumState_p(MediumState* mstate);
 double MediumState_rho(MediumState* mstate);
 double MediumState_h(MediumState* mstate);
+double MediumState_q(MediumState* mstate);
+
 double MediumState_u(MediumState* mstate);
 double MediumState_cp(MediumState* mstate);
 double MediumState_cv(MediumState* mstate);
@@ -145,7 +168,6 @@ double MediumState_R(MediumState* mstate);
 // Two-phase related functions
 int MediumState_isSupercritical(MediumState* mstate);
 int MediumState_isTwoPhase(MediumState* mstate);
-double MediumState_q(MediumState* mstate);
 double MediumState_deltaTSat(MediumState* mstate);
 double MediumState_TSat(MediumState* mstate);
 END_C_LINKAGE

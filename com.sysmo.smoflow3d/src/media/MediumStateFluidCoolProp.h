@@ -58,7 +58,6 @@ public:
 	virtual double gamma();
 
 	// Two-phase functions
-	virtual double q();
 	virtual bool isSupercritical();
 	virtual bool isTwoPhase();
 	virtual double deltaTSat();
@@ -68,7 +67,6 @@ public:
 protected:
 	Fluid* pFluid;
 	SmoCoolPropStateClass cps;
-	double _q;
 };
 
 #endif /* MEDIUMSTATEFLUIDCOOLPROP_H_ */
