@@ -39,6 +39,15 @@ bool Valve_R::compute(double massFlowRate, double minDownstreamPressure) {
 	return true;
 }
 
+void Valve_R::setRegulationgSignal(double regulatingSignal) {
+	this->regulatingSignal = regulatingSignal;
+	if (regulatingSignal > 0) {
+		openFlow();
+	} else {
+		closeFlow();
+	}
+}
+
 /*************************************************************
  *** Valve_R implementation classes
  *************************************************************/

@@ -25,8 +25,7 @@ public:
 	virtual double computePressureDrop(double massFlowRat) = 0;
 
 	double getAbsolutePressureDrop() {return absPressureDrop;}
-	double getRegulatingSignal() {return regulatingSignal;}
-	void setRegulationgSignal(double regulatingSignal) {this->regulatingSignal = regulatingSignal;}
+	void setRegulationgSignal(double regulatingSignal);
 
 protected:
 	double regulatingSignal;

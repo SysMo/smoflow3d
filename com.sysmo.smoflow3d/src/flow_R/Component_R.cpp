@@ -14,6 +14,8 @@
 Component_R::Component_R() {
 	state1 = NULL;
 	state2 = NULL;
+
+	flagIsFlowOpen = true;
 }
 
 Component_R::~Component_R() {

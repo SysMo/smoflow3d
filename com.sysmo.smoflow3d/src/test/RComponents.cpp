@@ -58,6 +58,19 @@ void testComputeMassFlowRate(
 		virtualState1 = virtualState2;
 	}
 
+	// Check - the components chain is open
+	for (int i = 0; i < numComponents; i++) {
+		if (components[i]->isFlowClosed()) {
+			std::cout << std::endl;
+			std::cout << "state1 = "; displayState(mainState1); std::cout << std::endl;
+			std::cout << "state2 = "; displayState(mainState2); std::cout << std::endl;
+			std::cout << std::endl;
+			std::cout << "The flow is closed!" << std::endl;
+			std::cout << "mass flow rate (state1->state2) = " << 0.0 << " [kg/s]" << std::endl;
+			return;
+		}
+	}
+
 	// Get first and last components
 	MediumState* mainUpstreamState = mainState1;
 	MediumState* mainDownstreamState = mainState2;

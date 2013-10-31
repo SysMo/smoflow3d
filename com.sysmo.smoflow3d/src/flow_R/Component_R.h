@@ -26,9 +26,17 @@ public:
 	MediumState* getUpstreamState(double massFlowRate);
 	MediumState* getDownstreamState(double massFlowRate);
 
+	bool isFlowClosed() {return !flagIsFlowOpen;}
+	bool isFlowOpen() {return flagIsFlowOpen;}
+	void closeFlow() {flagIsFlowOpen = false;}
+	void openFlow() {flagIsFlowOpen = true;}
+
 protected:
 	MediumState* state1;
 	MediumState* state2;
+
+private:
+	bool flagIsFlowOpen;
 };
 
 #else //_cplusplus
