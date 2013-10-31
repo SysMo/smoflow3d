@@ -23,7 +23,8 @@ public:
 	virtual ~PipeHeatExchNoPrDropNoMassAcc_RC();
 
 	virtual void init(FluidFlow* port2Flow);
-	virtual void initStates(MediumState* port1State, ThermalNode* wallNode);
+	virtual void initStates(MediumState* port1State,
+			ThermalNode* wallNode, StateVariableSet& innerStateInitializer);
 
 	virtual void compute() = 0;
 

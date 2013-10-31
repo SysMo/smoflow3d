@@ -63,6 +63,13 @@ void testTwoPhase() {
 
 }
 
+void test_updateprho() {
+	Medium* fluid = Medium_get(1);
+	MediumState* fp1 = MediumState_new(fluid);
+	fp1->update_prho(206584, 2.57367);
+	std::cout << "T = " << fp1->T() << std::endl;
+}
+
 void testCoolPropCalculationTiming() {
 	int updateCounter ;
 	Timer* timer1 = createTimer();
@@ -135,7 +142,8 @@ int main(int argc, char** argv) {
 	//testCoolPropCalculationTiming();
 	//testCoolProp();
 	//testCriticalPoint();
-	testTwoPhase();
+	//testTwoPhase();
+	test_updateprho();
 	//std::cout << "eps(double) = " << std::numeric_limits<double>::epsilon() << std::endl;
 	//std::cout << "eps(float) = " << std::numeric_limits<float>::epsilon() << std::endl;
 	return 0;
