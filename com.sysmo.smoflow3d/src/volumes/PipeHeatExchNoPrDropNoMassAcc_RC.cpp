@@ -116,6 +116,8 @@ public:
 			PipeHeatExchNoPrDropNoMassAcc_RC(stateTimeConstant) {
 		stateVariable = sEnthalpy;
 		this->convection = convection;
+		SMOCOMPONENT_SET_PARENT(this->convection, this);
+
 		this->heatExchangeArea = convection->getHeatExchangeArea();
 	}
 

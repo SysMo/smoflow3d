@@ -15,6 +15,7 @@ using namespace smoflow;
  */
 PipeHeatExch_C::PipeHeatExch_C(Medium* fluid, double internalVolume, ForcedConvection* convection) {
 	this->convection = convection;
+	SMOCOMPONENT_SET_PARENT(this->convection, this);
 
 	accFluid = FluidChamber_new(fluid);
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
@@ -59,7 +60,7 @@ void PipeHeatExch_C::getStateDerivatives(double* value1, double* value2) {
 void PipeHeatExch_C::compute() {
 	double massFlowRate = m::quadratic_mean(port1Flow->massFlowRate, port2Flow->massFlowRate);
 	convection->compute(massFlowRate);
-	convection->getFlow_Wall(wallHeatFlow);
+	convection->updateHeatFlow(wallHeatFlow);
 
 	double netHeatFlowRate = convection->getHeatFlowRate();
 	double netEnthalpyFlow = port1Flow->enthalpyFlowRate + port2Flow->enthalpyFlowRate;

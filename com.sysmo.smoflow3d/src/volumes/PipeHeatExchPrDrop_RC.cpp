@@ -13,11 +13,13 @@
  * PipeHeatExchPrDrop_RC - C++
  */
 PipeHeatExchPrDrop_RC::PipeHeatExchPrDrop_RC(
-		double internalVolume, FrictionFlowPipe* friction,
+		double internalVolume,
+		FrictionFlowPipe* friction,
 		ForcedConvection* convection) {
 	this->volume = internalVolume;
 	this->friction = friction;
 	this->convection = convection;
+	SMOCOMPONENT_SET_PARENT(this->convection, this);
 
 	accFluid = NULL;
 	internalFlow = NULL;
@@ -71,7 +73,7 @@ void PipeHeatExchPrDrop_RC::compute() {
 	friction->getFluidFlow2(internalFlow);
 
 	convection->compute(massFlowRate);
-	convection->getFlow_Wall(wallHeatFlow);
+	convection->updateHeatFlow(wallHeatFlow);
 
 	double netHeatFlowRate = convection->getHeatFlowRate();
 	double netEnthalpyFlow = internalFlow->enthalpyFlowRate + port2Flow->enthalpyFlowRate;
