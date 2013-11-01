@@ -49,10 +49,8 @@ double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 	}
 
 	//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (2)
-	double vFlow = m::fabs(massFlowRate)
-		/ (upstreamState->rho() * flowArea);
-	double Re = upstreamState->rho() * vFlow
-		* hydraulicDiameter / upstreamState->mu();
+	double vFlow = m::fabs(massFlowRate) / (upstreamState->rho() * flowArea);
+	double Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
 
 	//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
 	double pressureDrop = pressureDropGain * frictionFactor(Re)

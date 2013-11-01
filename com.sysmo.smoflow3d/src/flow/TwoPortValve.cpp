@@ -163,17 +163,17 @@ public:
 		} else { //2 - Minimum pressure difference
 		}
 
-		double volumetricFlowRateMagnitude;
+		double vFlow; //volumetric flow rate magnitude
 		if (m::fabs(pressureDrop12) < transitionPressureDifference) {
-			volumetricFlowRateMagnitude = regulatingSignal * N1 * Kv
+			vFlow = regulatingSignal * N1 * Kv
 					* m::pow(transitionPressureDifference / relativeDensity, 0.5)
 					* (m::fabs(pressureDrop12) / transitionPressureDifference);
 		} else {
-			volumetricFlowRateMagnitude = regulatingSignal * N1 * Kv
+			vFlow = regulatingSignal * N1 * Kv
 					* m::pow(m::fabs(pressureDrop12) / relativeDensity, 0.5);
 		}
 
-		massFlowRate = volumetricFlowRateMagnitude * flowDirection * rho_inlet;
+		massFlowRate = vFlow * flowDirection * rho_inlet;
 		if (m::fabs(massFlowRate) > maximumMassFlowRate) {
 			massFlowRate = maximumMassFlowRate * flowDirection;
 		}

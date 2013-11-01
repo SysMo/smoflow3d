@@ -84,7 +84,10 @@ public:
 		// Calculate transition mass flow rate if necessary
 		if (transitionChoice == 1) { //1 - Minimum mass flow
 			//:TRICKY: transitionMassFlowRate is set from the user
+			transitionPressureDifference = m::pow((transitionMassFlowRate / upstreamDensity)
+					/ (N1 * Kv), 2.0) * relativeDensity;
 		} else { //2 - Minimum pressure difference
+			//:TRICKY: transitionPressureDifference is set from the user
 			transitionMassFlowRate = m::sqrt((transitionPressureDifference/relativeDensity))
 					* upstreamDensity * N1 * Kv;
 		}

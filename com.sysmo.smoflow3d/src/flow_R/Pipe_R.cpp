@@ -15,7 +15,9 @@ using namespace smoflow;
 Pipe_R::Pipe_R(FrictionFlowPipe* friction, ForcedConvection* convection) {
 	this->friction = friction;
 	this->convection = convection;
-	SMOCOMPONENT_SET_PARENT(this->convection, this);
+	if (this->convection != NULL) {
+		SMOCOMPONENT_SET_PARENT(this->convection, this);
+	}
 
 	this->wallNode = NULL;
 }

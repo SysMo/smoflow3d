@@ -207,7 +207,7 @@ void testRComponents() {
 
 	Valve_R* valve1 = ValveKv_R_new(
 			1.0, 		// Kv
-			2, 			// transitionChoice;
+			1, 			// transitionChoice;
 			0.0001, 	// transitionMassFlowRate;
 			0.001*1e5 	// transitionPressureDifference
 	);
