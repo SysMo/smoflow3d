@@ -67,8 +67,8 @@ void PipeHeatExchPrDrop_RC::getStateDerivatives(double* value1, double* value2) 
 }
 
 void PipeHeatExchPrDrop_RC::compute() {
-	double dp = port1State->p() - port2State->p();
-	double massFlowRate = friction->computeMassFlowRate(dp);
+	double pressureDrop = port1State->p() - port2State->p();
+	double massFlowRate = friction->computeMassFlowRate(pressureDrop);
 	friction->getFluidFlow1(port1Flow);
 	friction->getFluidFlow2(internalFlow);
 
