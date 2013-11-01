@@ -162,9 +162,9 @@ void smo_valve_2port_mass_flow_(int *n, double *fluidFlow1Index
      TwoPortValve_compute(_component);
      TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
-     *massFlowRate = TwoPortValve_getMassFlowRate(_component);
-     *enthalpyFlowRate = TwoPortValve_getEnthalpyFlowRate(_component);
-     *pressureLoss = TwoPortValve_getPressureDrop(_component);
+     *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
+     *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
+     *pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
 
      *fluidFlow1Index = _fluidFlow1Index;
      *fluidFlow2Index = _fluidFlow2Index;

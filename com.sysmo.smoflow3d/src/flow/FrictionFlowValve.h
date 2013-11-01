@@ -20,7 +20,7 @@ public:
 	virtual ~FrictionFlowValve();
 
 	void init(MediumState* state1, MediumState* state2);
-	void setRegulationSignal(double regulatingSignal) {this->regulatingSignal = regulatingSignal;}
+	void setRegulatingSignal(double regulatingSignal) {this->regulatingSignal = regulatingSignal;}
 
 	virtual double computePressureDrop(double massFlowRate) = 0;
 	virtual double computeMassFlowRate(double pressureDrop) = 0;

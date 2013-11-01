@@ -12,31 +12,26 @@
 #include "media/MediumState.h"
 #include "FlowBase.h"
 #include "FlowComponent_R_2Port.h"
+#include "flow/FrictionFlowValve.h"
 
 
 #ifdef __cplusplus
 
 class TwoPortValve : public FlowComponent_R_2Port {
 public:
-	TwoPortValve();
+	TwoPortValve(FrictionFlowValve* friction);
 	virtual ~TwoPortValve();
 
-	void setRegulatingSignal(double regulatingSignal) {this->regulatingSignal = regulatingSignal;}
+	virtual void init(MediumState* state1, MediumState* state2);
+	virtual void compute();
 
-	double getMassFlowRate() {return massFlowRate;}
-	double getEnthalpyFlowRate() {return enthalpyFlowRate;}
-	double getPressureDrop() {return pressureDrop;}
+	void setRegulatingSignal(double regulatingSignal) {friction->setRegulatingSignal(regulatingSignal);}
 
-	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
+	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2) {friction->updateFluidFlows(flow1, flow2);}
+	double getAbsolutePressureDrop() {return friction->getAbsolutePressureDrop();}
 
 protected:
-	/* Inputs */
-	double regulatingSignal;
-
-	/* Results */
-	double massFlowRate;
-	double enthalpyFlowRate;
-	double pressureDrop;
+	FrictionFlowValve* friction;
 };
 
 #else //_cplusplus
@@ -48,9 +43,9 @@ BEGIN_C_LINKAGE
 TwoPortValve* TwoPortValve_InputMassFlowRate_new(int allowBidirectionalFlow);
 
 TwoPortValve* TwoPortValve_Kv_new(
-		int transitionChoice,
 		int allowBidirectionalFlow,
 		double Kv,
+		int transitionChoice,
 		double transitionMassFlowRate,
 		double transitionPressureDifference,
 		double maximumMassFlowRate);
@@ -60,11 +55,8 @@ void TwoPortValve_compute(TwoPortValve* valve);
 
 void TwoPortValve_setRegulatingSignal(TwoPortValve* valve, double regulatingSignal);
 
-double TwoPortValve_getMassFlowRate(TwoPortValve* valve);
-double TwoPortValve_getEnthalpyFlowRate(TwoPortValve* valve);
-double TwoPortValve_getPressureDrop(TwoPortValve* valve);
-
 void TwoPortValve_updateFluidFlows(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2);
+double TwoPortValve_getAbsolutePressureDrop(TwoPortValve* valve);
 END_C_LINKAGE
 
 

@@ -44,7 +44,7 @@ bool Valve_R::compute(double massFlowRate, double minDownstreamPressure) {
 }
 
 void Valve_R::setRegulationgSignal(double regulatingSignal) {
-	friction->setRegulationSignal(regulatingSignal);
+	friction->setRegulatingSignal(regulatingSignal);
 	if (regulatingSignal > 0) {
 		openFlow();
 	} else {
