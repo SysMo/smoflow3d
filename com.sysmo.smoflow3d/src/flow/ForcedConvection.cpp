@@ -98,9 +98,8 @@ double ForcedConvection_getReynoldsNumber(ForcedConvection* convection) {
 /*************************************************************
  ***  Forced convection models
  *************************************************************/
-
 /**
- * ForcedConvection 'GivenConvectionCoefficient' model - C++ and C
+ * ForcedConvection 'GivenConvectionCoefficient' model - C++
  */
 class ForcedConvection_GivenConvectionCoefficient : public ForcedConvection {
 public:
@@ -125,12 +124,8 @@ protected:
 	}
 };
 
-ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(double heatExchangeArea) {
-	return new ForcedConvection_GivenConvectionCoefficient(heatExchangeArea);
-}
-
 /**
- * ForcedConvection 'StraightPipe' model - C++ and C
+ * ForcedConvection 'StraightPipe' model - C++
  */
 class ForcedConvection_StraightPipe : public ForcedConvection {
 public:
@@ -176,6 +171,14 @@ protected:
 		return NuNum/NuDenom;
 	}
 };
+
+
+/**
+ * ForcedConvection - C
+ */
+ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(double heatExchangeArea) {
+	return new ForcedConvection_GivenConvectionCoefficient(heatExchangeArea);
+}
 
 ForcedConvection* ForcedConvection_StraightPipe_new(double hydraulicDiameter, double flowArea, double pipeLength) {
 	return new ForcedConvection_StraightPipe(hydraulicDiameter, flowArea, pipeLength);

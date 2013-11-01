@@ -264,8 +264,8 @@ void smo_free_convection_(int *n, double *heatFlowIndex
    }
 
    FreeConvection_compute(_component);
-   Convection_getFlow_Fluid(_component, _fluidFlow);
-   Convection_getFlow_Wall(_component, _heatFlow);
+   Convection_updateFluidFlow(_component, _fluidFlow);
+   Convection_updateHeatFlow(_component, _heatFlow);
    *Ra = FreeConvection_getRayleighNumber(_component);
    *Nu = Convection_getNusseltNumber(_component);
    *h = Convection_getConvectionCoefficient(_component);

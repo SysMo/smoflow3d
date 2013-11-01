@@ -32,15 +32,16 @@ Convection::~Convection() {
 void Convection::init(MediumState* fluidState, ThermalNode* wallNode) {
 	this->fluidState = fluidState;
 	this->wallNode = wallNode;
+
 	this->filmState = MediumState_new(fluidState->getMedium());
 	MediumState_register(this->filmState);
 }
 
-void Convection::getFlow_Wall(HeatFlow* flow) {
+void Convection::updateHeatFlow(HeatFlow* flow) {
 	flow->enthalpyFlowRate = -heatFlowRate;
 }
 
-void Convection::getFlow_Fluid(FluidFlow* flow) {
+void Convection::updateFluidFlow(FluidFlow* flow) {
 	flow->enthalpyFlowRate = heatFlowRate;
 	flow->massFlowRate = 0;
 }
@@ -72,11 +73,11 @@ double Convection_getConvectionCoefficient(Convection* convection) {
 double Convection_getHeatFlowRate(Convection* convection) {
 	return convection->getHeatFlowRate();
 }
-void Convection_getFlow_Wall(Convection* convection, HeatFlow* flow) {
-	convection->getFlow_Wall(flow);
+void Convection_updateHeatFlow(Convection* convection, HeatFlow* flow) {
+	convection->updateHeatFlow(flow);
 }
 
-void Convection_getFlow_Fluid(Convection* convection, FluidFlow* flow) {
-	convection->getFlow_Fluid(flow);
+void Convection_updateFluidFlow(Convection* convection, FluidFlow* flow) {
+	convection->updateFluidFlow(flow);
 }
 
