@@ -20,7 +20,7 @@ public:
 	virtual ~FrictionFlowValve();
 
 	void init(MediumState* state1, MediumState* state2);
-	void setRegulationgSignal(double regulatingSignal);
+	void setRegulationSignal(double regulatingSignal) {this->regulatingSignal = regulatingSignal;}
 
 	virtual double computePressureDrop(double massFlowRate) = 0;
 	virtual double computeMassFlowRate(double pressureDrop) = 0;
@@ -54,7 +54,14 @@ DECLARE_C_STRUCT(FrictionFlowValve)
 
 BEGIN_C_LINKAGE
 FrictionFlowValve* FrictionFlowValve_InputMassFlowRate_new(int allowBidirectionalFlow);
-FrictionFlowValve* FrictionFlowValve_Kv_new(int allowBidirectionalFlow);
+
+FrictionFlowValve* FrictionFlowValve_Kv_new(
+		int allowBidirectionalFlow,
+		double Kv,
+		int transitionChoice,
+		double transitionMassFlowRate,
+		double transitionPressureDifference,
+		double maximumMassFlowRate);
 END_C_LINKAGE
 
 #endif /* FRICTIONFLOWVALVE_H_ */

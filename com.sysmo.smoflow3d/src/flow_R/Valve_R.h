@@ -10,7 +10,7 @@
 #define VALVE_R_H_
 
 #include "media/MediumState.h"
-#include "flow/FrictionFlowPipe.h"
+#include "flow/FrictionFlowValve.h"
 #include "Component_R.h"
 
 
@@ -18,18 +18,16 @@
 
 class Valve_R : public Component_R {
 public:
-	Valve_R();
+	Valve_R(FrictionFlowValve* friction);
 	virtual ~Valve_R();
 
+	virtual void init(MediumState* state1, MediumState* state2);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
-	virtual double computePressureDrop(double massFlowRat) = 0;
 
-	double getAbsolutePressureDrop() {return absPressureDrop;}
 	void setRegulationgSignal(double regulatingSignal);
 
 protected:
-	double regulatingSignal;
-	double absPressureDrop;
+	FrictionFlowValve* friction;
 };
 
 #else //_cplusplus
