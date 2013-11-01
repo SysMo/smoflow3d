@@ -11,16 +11,16 @@
 
 #include "math/Functors.h"
 #include "FlowBase.h"
-#include "FlowComponent_R_2Port.h"
+#include "media/MediumState.h"
 
 #ifdef __cplusplus
 
-class MechanicalCompressor : public FlowComponent_R_2Port {
+class MechanicalCompressor : public SmoComponent {
 public:
 	MechanicalCompressor();
 	virtual ~MechanicalCompressor();
 
-	virtual void init(MediumState* state1, MediumState* state2);
+	virtual void init(MediumState* inletState, MediumState* outletState);
 
 	void setDisplacementVolume(double displacementVolume) {this->displacementVolume = displacementVolume;}
 	void setRotationalSpeed(double rotationalSpeed) {this->rotationalSpeed = rotationalSpeed;};
@@ -30,7 +30,7 @@ public:
 	void setIsentropicEfficiencyFunction(FunctorTwoVariables* isentropicEfficiencyFunction){this->isentropicEfficiencyFunction = isentropicEfficiencyFunction;}
 	void setMechanicalEfficiencyFunction(FunctorTwoVariables* mechanicalEfficiencyFunction){this->mechanicalEfficiencyFunction = mechanicalEfficiencyFunction;}
 
-	void compute();
+	virtual void compute();
 	void updateFluidFlows(FluidFlow* inletFlow, FluidFlow* outletFlow);
 
 	double getIsentropicEfficiency(){return isentropicEfficiency;}
@@ -55,14 +55,16 @@ protected:
 	double isentropicEfficiency;
 	double mechanicalEfficiency;
 	double volumetricEfficiency;
-	double inletEnthalpyFlowRate;
-	double outletEnthalpyFlowRate;
 	double compressorWork;
 	double torque;
 
 	/* Intermediate variables */
 	MediumState* outletFlowStateIdeal;
 	double outletEnthalpyReal;
+
+	/* States */
+	MediumState* inletState;
+	MediumState* outletState;
 };
 
 #else //_cplusplus
@@ -71,8 +73,7 @@ DECLARE_C_STRUCT(MechanicalCompressor)
 
 BEGIN_C_LINKAGE
 MechanicalCompressor* MechanicalCompressor_new();
-void MechanicalCompressor_init(MechanicalCompressor* compressor,
-		MediumState* state1, MediumState* state2);
+void MechanicalCompressor_init(MechanicalCompressor* compressor, MediumState* inletState, MediumState* outletState);
 
 void MechanicalCompressor_setDisplacementVolume(MechanicalCompressor* compressor, double displacementVolume);
 void MechanicalCompressor_setVolumetricEfficiencyFunction(MechanicalCompressor* compressor,

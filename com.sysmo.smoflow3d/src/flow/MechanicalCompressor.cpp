@@ -27,14 +27,16 @@ MechanicalCompressor::MechanicalCompressor() {
 	isentropicEfficiency = 0.0;
 	mechanicalEfficiency = 0.0;
 	volumetricEfficiency = 0.0;
-	inletEnthalpyFlowRate = 0.0;
-	outletEnthalpyFlowRate = 0.0;
 	compressorWork = 0.0;
 	torque = 0.0;
 
 	/* Intermediate variables */
 	outletFlowStateIdeal = NULL;
 	outletEnthalpyReal = 0.0;
+
+	/* States */
+	inletState = NULL;
+	outletState = NULL;
 }
 
 MechanicalCompressor::~MechanicalCompressor() {
@@ -54,7 +56,7 @@ MechanicalCompressor::~MechanicalCompressor() {
 	}
 }
 
-void MechanicalCompressor::init(MediumState* state1, MediumState* state2) {
+void MechanicalCompressor::init(MediumState* inletState, MediumState* outletState) {
 	// Check parameters
 	if (isentropicEfficiencyFunction == NULL) {
 		RaiseComponentError(this, "Function for evaluating isentropic efficiency not set");
@@ -65,13 +67,19 @@ void MechanicalCompressor::init(MediumState* state1, MediumState* state2) {
 	if (volumetricFlowRateFunction == NULL && volumetricEfficiencyFunction == NULL) {
 		RaiseComponentError(this, "Neither 'volumetric flow rate' nor 'volumetric efficiency' functions set");
 	}
-	FlowComponent_R_2Port::init(state1, state2);
-	outletFlowStateIdeal = MediumState_new(state1->getMedium());
+
+	if (inletState->getMedium() != outletState->getMedium()) {
+		RaiseComponentError(this, "Different media connected to the compressor!");
+	}
+	this->inletState = inletState;
+	this->outletState = outletState;
+
+	outletFlowStateIdeal = MediumState_new(inletState->getMedium());
 	MediumState_register(outletFlowStateIdeal);
 }
 
 void MechanicalCompressor::compute() {
-	pressureRatio = state2->p() / state1->p();
+	pressureRatio = outletState->p() / inletState->p();
 	double rotationalSpeedRPM = rotationalSpeed / (2 * M_PI) * 60;
 
 	if (rotationalSpeed < 0) {
@@ -87,7 +95,7 @@ void MechanicalCompressor::compute() {
 		m::limitVariable(volumetricEfficiency, 0, 1);
 		volumetricFlowRate = volumetricEfficiency * rotationalSpeed / (2 * M_PI) * displacementVolume;
 	}
-	massFlowRate = volumetricFlowRate * state1->rho();
+	massFlowRate = volumetricFlowRate * inletState->rho();
 
 	mechanicalEfficiency = (*mechanicalEfficiencyFunction)(rotationalSpeedRPM, pressureRatio);
 	m::limitVariable(mechanicalEfficiency, 0, 1);
@@ -95,12 +103,12 @@ void MechanicalCompressor::compute() {
 	m::limitVariable(isentropicEfficiency, 0, 1);
 
 	if (pressureRatio > 1) { //:TRICKY: Pin > Pout
-		double sIn = state1->s();
-		outletFlowStateIdeal->update_ps(state2->p(), sIn);
-		double enthalpyChangeIdeal = outletFlowStateIdeal->h() - state1->h();
+		double sIn = inletState->s();
+		outletFlowStateIdeal->update_ps(outletState->p(), sIn);
+		double enthalpyChangeIdeal = outletFlowStateIdeal->h() - inletState->h();
 		enthalpyChangeReal = enthalpyChangeIdeal / isentropicEfficiency;
 	}
-	outletEnthalpyReal = state1->h() + enthalpyChangeReal;
+	outletEnthalpyReal = inletState->h() + enthalpyChangeReal;
 
 	compressorWork = massFlowRate * enthalpyChangeReal / mechanicalEfficiency;
 	torque = compressorWork / rotationalSpeed;
@@ -109,7 +117,7 @@ void MechanicalCompressor::compute() {
 
 void MechanicalCompressor::updateFluidFlows(FluidFlow* inletFlow, FluidFlow* outletFlow) {
 	inletFlow->massFlowRate = -massFlowRate;
-	inletFlow->enthalpyFlowRate = -massFlowRate * state1->h();
+	inletFlow->enthalpyFlowRate = -massFlowRate * inletState->h();
 
 	outletFlow->massFlowRate = massFlowRate;
 	outletFlow->enthalpyFlowRate = massFlowRate * outletEnthalpyReal;
@@ -122,8 +130,8 @@ MechanicalCompressor* MechanicalCompressor_new() {
 	return new MechanicalCompressor;
 }
 
-void MechanicalCompressor_init(MechanicalCompressor* compressor, MediumState* state1, MediumState* state2) {
-	compressor->init(state1, state2);
+void MechanicalCompressor_init(MechanicalCompressor* compressor, MediumState* inletState, MediumState* outletState) {
+	compressor->init(inletState, outletState);
 }
 
 void MechanicalCompressor_setDisplacementVolume(MechanicalCompressor* compressor, double displacementVolume) {
