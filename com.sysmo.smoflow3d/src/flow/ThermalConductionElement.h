@@ -24,9 +24,11 @@ public:
 
 	void assignNode(size_t nodeIndex, ThermalNode* node);
 	void setInteractionCoefficient(size_t row, size_t column, double value);
+
 	void computeExplicit();
-	double getHeatFlow(size_t nodeIndex);
-	void getFlow(size_t nodeIndex, HeatFlow* flow);
+
+	double getHeatFlowRate(size_t nodeIndex);
+	void updateHeatFlow(size_t nodeIndex, HeatFlow* flow);
 
 protected:
 	std::vector<ThermalNode*> nodes;
@@ -49,11 +51,13 @@ void ThermalConductionElement_assignNode(
 		ThermalConductionElement* element, size_t nodeIndex, ThermalNode* node);
 void ThermalConductionElement_setInteractionCoefficient(
 		ThermalConductionElement* element, size_t row, size_t column, double value);
+
 void ThermalConductionElement_computeExplicit(
 		ThermalConductionElement* element);
-double ThermalConductionElement_getHeatFlow(
+
+double ThermalConductionElement_getHeatFlowRate(
 		ThermalConductionElement* element, size_t nodeIndex);
-void ThermalConductionElement_getFlow(
+void ThermalConductionElement_updateHeatFlow(
 		ThermalConductionElement* element, size_t nodeIndex, HeatFlow* flow);
 END_C_LINKAGE
 

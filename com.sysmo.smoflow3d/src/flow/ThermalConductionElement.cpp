@@ -68,12 +68,12 @@ void ThermalConductionElement::computeExplicit() {
 	}
 }
 
-double ThermalConductionElement::getHeatFlow(size_t nodeIndex) {
+double ThermalConductionElement::getHeatFlowRate(size_t nodeIndex) {
 	return heatFlows.at(nodeIndex - 1);
 }
 
-void ThermalConductionElement::getFlow(size_t nodeIndex, HeatFlow* flow) {
-	flow->enthalpyFlowRate = getHeatFlow(nodeIndex);
+void ThermalConductionElement::updateHeatFlow(size_t nodeIndex, HeatFlow* flow) {
+	flow->enthalpyFlowRate = getHeatFlowRate(nodeIndex);
 }
 
 /**
@@ -110,12 +110,12 @@ void ThermalConductionElement_computeExplicit(
 	element->computeExplicit();
 }
 
-double ThermalConductionElement_getHeatFlow(
+double ThermalConductionElement_getHeatFlowRate(
 		ThermalConductionElement* element, size_t nodeIndex) {
-	return element->getHeatFlow(nodeIndex);
+	return element->getHeatFlowRate(nodeIndex);
 }
 
-void ThermalConductionElement_getFlow(
+void ThermalConductionElement_updateHeatFlow(
 		ThermalConductionElement* element, size_t nodeIndex, HeatFlow* flow) {
-	element->getFlow(nodeIndex, flow);
+	element->updateHeatFlow(nodeIndex, flow);
 }

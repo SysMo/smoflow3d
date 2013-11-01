@@ -116,26 +116,19 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDrop) {
 	return massFlowRate;
 }
 
-void FrictionFlowPipe::getFluidFlow1(FluidFlow* flow) {
+void FrictionFlowPipe::updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2) {
 	MediumState* upstreamState;
 	if (massFlowRate > 0) {
 		upstreamState = state1;
 	} else {
 		upstreamState = state2;
 	}
-	flow->massFlowRate = -massFlowRate;
-	flow->enthalpyFlowRate = -massFlowRate * upstreamState->h();
-}
 
-void FrictionFlowPipe::getFluidFlow2(FluidFlow* flow) {
-	MediumState* upstreamState;
-	if (massFlowRate > 0) {
-		upstreamState = state1;
-	} else {
-		upstreamState = state2;
-	}
-	flow->massFlowRate = massFlowRate;
-	flow->enthalpyFlowRate = massFlowRate * upstreamState->h();
+	flow1->massFlowRate = -massFlowRate;
+	flow1->enthalpyFlowRate = -massFlowRate * upstreamState->h();
+
+	flow2->massFlowRate = massFlowRate;
+	flow2->enthalpyFlowRate = massFlowRate * upstreamState->h();
 }
 
 /*************************************************************

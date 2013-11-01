@@ -37,7 +37,7 @@ public:
 	double getPressureLoss() {return pressureLoss;}
 	FlowType getFlowType() {return flowType;}
 
-	void getFlowRates(FluidFlow* flow1, FluidFlow* flow2);
+	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
 
 protected:
 	/* Parameters */
@@ -75,7 +75,7 @@ double Orifice_getEnthalpyFlowRate(Orifice* orifice);
 double Orifice_getPressureLoss(Orifice* orifice);
 int Orifice_getFlowType(Orifice* orifice);
 
-void Orifice_getFlowRates(Orifice* orifice, FluidFlow* flow1, FluidFlow* flow2);
+void Orifice_updateFluidFlows(Orifice* orifice, FluidFlow* flow1, FluidFlow* flow2);
 END_C_LINKAGE
 
 #endif /* ORIFICE_H_ */

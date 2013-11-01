@@ -27,8 +27,8 @@ public:
 
 	double getAbsolutePressureDrop() {return absPressureDrop;}
 	double getMassFlowRate() {return massFlowRate;}
-	void getFluidFlow1(FluidFlow* flow);
-	void getFluidFlow2(FluidFlow* flow);
+
+	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
 
 protected:
 	virtual double frictionFactor(double Re) = 0;

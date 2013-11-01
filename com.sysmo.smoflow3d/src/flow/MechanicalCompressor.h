@@ -31,8 +31,8 @@ public:
 	void setMechanicalEfficiencyFunction(FunctorTwoVariables* mechanicalEfficiencyFunction){this->mechanicalEfficiencyFunction = mechanicalEfficiencyFunction;}
 
 	void compute();
-	void getInletFlowRates(FluidFlow* inletFlow);
-	void getOutletFlowRates(FluidFlow* outletFlow);
+	void updateFluidFlows(FluidFlow* inletFlow, FluidFlow* outletFlow);
+
 	double getIsentropicEfficiency(){return isentropicEfficiency;}
 	double getMechanicalEfficiency(){return mechanicalEfficiency;}
 	double getVolumetricEfficiency(){return volumetricEfficiency;}
@@ -73,6 +73,7 @@ BEGIN_C_LINKAGE
 MechanicalCompressor* MechanicalCompressor_new();
 void MechanicalCompressor_init(MechanicalCompressor* compressor,
 		MediumState* state1, MediumState* state2);
+
 void MechanicalCompressor_setDisplacementVolume(MechanicalCompressor* compressor, double displacementVolume);
 void MechanicalCompressor_setVolumetricEfficiencyFunction(MechanicalCompressor* compressor,
 		FunctorTwoVariables* volumetricEfficiencyFunction);
@@ -83,9 +84,10 @@ void MechanicalCompressor_setIsentropicEfficiencyFunction(MechanicalCompressor* 
 void MechanicalCompressor_setMechanicalEfficiencyFunction(MechanicalCompressor* compressor,
 		FunctorTwoVariables* mechanicalEfficiencyFunction);
 void MechanicalCompressor_setRotationalSpeed(MechanicalCompressor* compressor, double rotationalSpeed);
+
 void MechanicalCompressor_compute(MechanicalCompressor* compressor);
-void MechanicalCompressor_getInletFlowRates(MechanicalCompressor* compressor, FluidFlow* inletFlow);
-void MechanicalCompressor_getOutletFlowRates(MechanicalCompressor* compressor, FluidFlow* outletFlow);
+void MechanicalCompressor_updateFluidFlows(MechanicalCompressor* compressor, FluidFlow* inletFlow, FluidFlow* outletFlow);
+
 double MechanicalCompressor_getPressureRatio(MechanicalCompressor* compressor);
 double MechanicalCompressor_getIsentropicEfficiency(MechanicalCompressor* compressor);
 double MechanicalCompressor_getMechanicalEfficiency(MechanicalCompressor* compressor);

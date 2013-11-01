@@ -232,8 +232,7 @@ void smo_mechanical_compressor_(int *n, double *inletFluidFlowIndex
    if (*rotarySpeed > 1e-12) {
 	   MechanicalCompressor_setRotationalSpeed(_component, *rotarySpeed);
 	   MechanicalCompressor_compute(_component);
-	   MechanicalCompressor_getInletFlowRates(_component, _inletFluidFlow);
-	   MechanicalCompressor_getOutletFlowRates(_component, _outletFluidFlow);
+	   MechanicalCompressor_updateFluidFlows(_component, _inletFluidFlow, _outletFluidFlow);
 
 	   *pressureRatio = MechanicalCompressor_getPressureRatio(_component);
 	   *torque = MechanicalCompressor_getTorque(_component);

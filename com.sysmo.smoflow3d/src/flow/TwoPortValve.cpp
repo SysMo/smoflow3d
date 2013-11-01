@@ -25,7 +25,7 @@ TwoPortValve::TwoPortValve() {
 TwoPortValve::~TwoPortValve() {
 }
 
-void TwoPortValve::getFlowRates(FluidFlow* flow1, FluidFlow* flow2) {
+void TwoPortValve::updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2) {
 	flow1->massFlowRate = -massFlowRate;
 	flow1->enthalpyFlowRate = -enthalpyFlowRate;
 
@@ -251,6 +251,6 @@ double TwoPortValve_getPressureLoss(TwoPortValve* valve) {
 	return valve->getPressureLoss();
 }
 
-void TwoPortValve_getFlowRates(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2) {
-	valve->getFlowRates(flow1, flow2);
+void TwoPortValve_updateFluidFlows(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2) {
+	valve->updateFluidFlows(flow1, flow2);
 }

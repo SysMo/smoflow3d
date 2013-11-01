@@ -160,7 +160,7 @@ void smo_valve_2port_mass_flow_(int *n, double *fluidFlow1Index
 
      TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
      TwoPortValve_compute(_component);
-     TwoPortValve_getFlowRates(_component, _fluidFlow1, _fluidFlow2);
+     TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
      *massFlowRate = TwoPortValve_getMassFlowRate(_component);
      *enthalpyFlowRate = TwoPortValve_getEnthalpyFlowRate(_component);

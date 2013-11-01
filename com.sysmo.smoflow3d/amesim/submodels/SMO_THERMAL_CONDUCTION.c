@@ -187,9 +187,9 @@ void smo_thermal_conduction_(int *n, double *heatFlow1Index
 	   ThermalConductionElement_assignNode(_component, 2, node2);
    }
    ThermalConductionElement_computeExplicit(_component);
-   ThermalConductionElement_getFlow(_component, 1, _heatFlow1);
-   ThermalConductionElement_getFlow(_component, 2, _heatFlow2);
-   *qDot2 = ThermalConductionElement_getHeatFlow(_component, 2);
+   ThermalConductionElement_updateHeatFlow(_component, 1, _heatFlow1);
+   ThermalConductionElement_updateHeatFlow(_component, 2, _heatFlow2);
+   *qDot2 = ThermalConductionElement_getHeatFlowRate(_component, 2);
    *heatFlow1Index = _heatFlow1Index;
    *heatFlow2Index = _heatFlow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */

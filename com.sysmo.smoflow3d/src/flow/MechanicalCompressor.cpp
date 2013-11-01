@@ -107,12 +107,10 @@ void MechanicalCompressor::compute() {
 
 }
 
-void MechanicalCompressor::getInletFlowRates(FluidFlow* inletFlow) {
+void MechanicalCompressor::updateFluidFlows(FluidFlow* inletFlow, FluidFlow* outletFlow) {
 	inletFlow->massFlowRate = -massFlowRate;
 	inletFlow->enthalpyFlowRate = -massFlowRate * state1->h();
-}
 
-void MechanicalCompressor::getOutletFlowRates(FluidFlow* outletFlow) {
 	outletFlow->massFlowRate = massFlowRate;
 	outletFlow->enthalpyFlowRate = massFlowRate * outletEnthalpyReal;
 }
@@ -161,12 +159,8 @@ void MechanicalCompressor_compute(MechanicalCompressor* compressor) {
 	compressor->compute();
 }
 
-void MechanicalCompressor_getInletFlowRates(MechanicalCompressor* compressor, FluidFlow* inletFlow) {
-	compressor->getInletFlowRates(inletFlow);
-}
-
-void MechanicalCompressor_getOutletFlowRates(MechanicalCompressor* compressor, FluidFlow* outletFlow) {
-	compressor->getOutletFlowRates(outletFlow);
+void MechanicalCompressor_updateFluidFlows(MechanicalCompressor* compressor, FluidFlow* inletFlow, FluidFlow* outletFlow) {
+	compressor->updateFluidFlows(inletFlow, outletFlow);
 }
 
 double MechanicalCompressor_getPressureRatio(MechanicalCompressor* compressor) {

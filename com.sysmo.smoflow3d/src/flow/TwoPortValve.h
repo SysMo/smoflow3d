@@ -27,7 +27,7 @@ public:
 	double getEnthalpyFlowRate() {return enthalpyFlowRate;}
 	double getPressureLoss() {return pressureLoss;}
 
-	void getFlowRates(FluidFlow* flow1, FluidFlow* flow2);
+	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
 
 protected:
 	/* Inputs */
@@ -64,7 +64,7 @@ double TwoPortValve_getMassFlowRate(TwoPortValve* valve);
 double TwoPortValve_getEnthalpyFlowRate(TwoPortValve* valve);
 double TwoPortValve_getPressureLoss(TwoPortValve* valve);
 
-void TwoPortValve_getFlowRates(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2);
+void TwoPortValve_updateFluidFlows(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2);
 END_C_LINKAGE
 
 

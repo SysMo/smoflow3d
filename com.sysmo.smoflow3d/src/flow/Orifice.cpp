@@ -30,7 +30,7 @@ Orifice::Orifice() {
 Orifice::~Orifice() {
 }
 
-void Orifice::getFlowRates(FluidFlow* flow1, FluidFlow* flow2) {
+void Orifice::updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2) {
 	flow1->massFlowRate = -massFlowRate;
 	flow1->enthalpyFlowRate = -enthalpyFlowRate;
 
@@ -130,7 +130,7 @@ int Orifice_getFlowType(Orifice* orifice) {
 	return orifice->getFlowType();
 }
 
-void Orifice_getFlowRates(Orifice* orifice, FluidFlow* flow1, FluidFlow* flow2) {
-	orifice->getFlowRates(flow1, flow2);
+void Orifice_updateFluidFlows(Orifice* orifice, FluidFlow* flow1, FluidFlow* flow2) {
+	orifice->updateFluidFlows(flow1, flow2);
 }
 

@@ -178,7 +178,7 @@ void smo_orifice_compressible_ideal_gas_(int *n
 
    Orifice_setRegulatingSignal(_component, *regulatingSignal);
    Orifice_compute(_component);
-   Orifice_getFlowRates(_component, _fluidFlow1, _fluidFlow2);
+   Orifice_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
    *massFlowRate = Orifice_getMassFlowRate(_component);
    *enthalpyFlowRate = Orifice_getEnthalpyFlowRate(_component);

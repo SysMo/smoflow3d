@@ -88,8 +88,8 @@
    </IVAR>
    <IVAR>
     <SUB_ID>32</SUB_ID>
-    <TITLE>heat flow</TITLE>
-    <VARNAME>heatFlow</VARNAME>
+    <TITLE>heat flow rate</TITLE>
+    <VARNAME>heatFlowRate</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
@@ -98,7 +98,7 @@
    <IVAR>
     <SUB_ID>35</SUB_ID>
     <TITLE>TDot</TITLE>
-    <VARNAME>tDot</VARNAME>
+    <VARNAME>temperatureDotInternal</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
