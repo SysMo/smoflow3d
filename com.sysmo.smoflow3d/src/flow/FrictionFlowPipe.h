@@ -25,13 +25,14 @@ public:
 	double computePressureDrop(double massFlowRate);
 	double computeMassFlowRate(double pressureDrop);
 
+	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
+
 	double getAbsolutePressureDrop() {return absPressureDrop;}
 	double getMassFlowRate() {return massFlowRate;}
 
-	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
-
 protected:
 	virtual double frictionFactor(double Re) = 0;
+	MediumState* getUpstreamState(double massFlowRate);
 
 protected:
 	double flowArea;
