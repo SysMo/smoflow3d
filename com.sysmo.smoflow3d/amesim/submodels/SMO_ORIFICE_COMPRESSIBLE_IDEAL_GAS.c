@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:15:34 2013 */
+   Fri Nov 1 18:45:06 2013 */
 
 
 
@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "flow/Orifice.h"
+#include "flow/TwoPortValve.h"
 
 #define _component ps[0]
 
@@ -46,14 +46,23 @@ REVISIONS :
    flowCoefficient flow coefficient [null]
 */
 
+
+/* There is 1 integer parameter:
+
+   allowBidirectionalFlow allow bi-directional flow
+*/
+
 void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
-      , int ic[3], void *ps[3])
+      , int ip[1], int ic[3], void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
+   int allowBidirectionalFlow;
    double orificeArea, flowCoefficient;
+
+   allowBidirectionalFlow = ip[0];
 
    orificeArea = rp[0];
    flowCoefficient = rp[1];
@@ -75,6 +84,14 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
    }
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
 
+/*   Integer parameter checking:   */
+
+   if (allowBidirectionalFlow < 1 || allowBidirectionalFlow > 2)
+   {
+      amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
+      error = 2;
+   }
+
    if(error == 1)
    {
       amefprintf(stderr, "\nWarning in %s instance %d.\n", _SUBMODELNAME_, *n);
@@ -93,11 +110,11 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = Orifice_CompressibleIdealGas_new();
+   _component = TwoPortValve_OrificeCompressibleIdealGas_new(
+		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow = {1-no, 2-yes} - 1 = {0-no, 1-yes});
+		   orificeArea,
+		   flowCoefficient);
    SMOCOMPONENT_SET_PROPS(_component)
-
-   Orifice_setOrificeArea(_component, orificeArea);
-   Orifice_setFlowCoefficient(_component, flowCoefficient);
 
    _fluidFlow1 = FluidFlow_new();
    _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
@@ -136,14 +153,17 @@ void smo_orifice_compressible_ideal_gas_(int *n
       , double *regulatingSignal, double *fluidFlow2Index
       , double *fluidState2Index, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss
-      , double *flowType, double rp[2], int ic[3], void *ps[3]
-      , int *flag)
+      , double *flowType, double rp[2], int ip[1], int ic[3]
+      , void *ps[3], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
+   int allowBidirectionalFlow;
    double orificeArea, flowCoefficient;
+
+   allowBidirectionalFlow = ip[0];
 
    orificeArea = rp[0];
    flowCoefficient = rp[1];
@@ -171,19 +191,19 @@ void smo_orifice_compressible_ideal_gas_(int *n
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
-	   MediumState* inletState = MediumState_get(*fluidState1Index);
-	   MediumState* outletState = MediumState_get(*fluidState2Index);
-	   Orifice_init(_component, inletState, outletState);
+	   MediumState* state1 = MediumState_get(*fluidState1Index);
+	   MediumState* state2 = MediumState_get(*fluidState2Index);
+	   TwoPortValve_init(_component, state1, state2);
    }
 
-   Orifice_setRegulatingSignal(_component, *regulatingSignal);
-   Orifice_compute(_component);
-   Orifice_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
+   TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
+   TwoPortValve_compute(_component);
+   TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
-   *massFlowRate = Orifice_getMassFlowRate(_component);
-   *enthalpyFlowRate = Orifice_getEnthalpyFlowRate(_component);
-   *pressureLoss = Orifice_getPressureDrop(_component);
-   *flowType = Orifice_getFlowType(_component);
+   *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
+   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
+   *pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
+   *flowType = TwoPortValve_getFlowType(_component);
 
    *fluidFlow1Index = _fluidFlow1Index;
    *fluidFlow2Index = _fluidFlow2Index;

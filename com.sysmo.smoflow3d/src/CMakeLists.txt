@@ -48,7 +48,6 @@ add_library(SmoFlow SHARED
     flow/FlowBase.cpp    
     flow/FlowComponent_R_2Port.cpp
     flow/TwoPortValve.cpp
-    flow/Orifice.cpp
     flow/MechanicalCompressor.cpp
     flow/ThermalConductionElement.cpp
     flow/Convection.cpp

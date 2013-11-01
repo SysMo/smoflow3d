@@ -55,6 +55,18 @@ TwoPortValve* TwoPortValve_Kv_new(
 	return new TwoPortValve(friction);
 }
 
+TwoPortValve* TwoPortValve_OrificeCompressibleIdealGas_new(
+		int allowBidirectionalFlow,
+		double orificeArea,
+		double flowCoefficient) {
+	FrictionFlowValve* friction = FrictionFlowValve_OrificeCompressibleIdealGas_new(
+			allowBidirectionalFlow,
+			orificeArea,
+			flowCoefficient);
+
+	return new TwoPortValve(friction);
+}
+
 void TwoPortValve_init(TwoPortValve* valve, MediumState* state1, MediumState* state2) {
 	valve->init(state1, state2);
 }
@@ -73,5 +85,9 @@ void TwoPortValve_updateFluidFlows(TwoPortValve* valve, FluidFlow* flow1, FluidF
 
 double TwoPortValve_getAbsolutePressureDrop(TwoPortValve* valve) {
 	return valve->getAbsolutePressureDrop();
+}
+
+int TwoPortValve_getFlowType(TwoPortValve* valve) {
+	return (int) valve->getFlowType();
 }
 

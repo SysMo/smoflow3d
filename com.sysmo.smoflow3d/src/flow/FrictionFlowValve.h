@@ -14,6 +14,12 @@
 
 #ifdef __cplusplus
 
+typedef enum {
+	sFlowType_Undefine = -1,
+	sFlowType_Subsonic = 0,
+	sFlowType_Sonic = 1
+} FlowType;
+
 class FrictionFlowValve {
 public:
 	FrictionFlowValve(int allowBidirectionalFlow);
@@ -29,17 +35,21 @@ public:
 
 	double getAbsolutePressureDrop() {return absPressureDrop;}
 	double getMassFlowRate() {return massFlowRate;}
+	FlowType getFlowType() {return flowType;}
 
 protected:
 	bool isBidirectionalFlowAllowed() {return allowBidirectionalFlow == 1;}
 	MediumState* getUpstreamState(double massFlowRate);
 	MediumState* getUpstreamState(int flowDirection);
+	MediumState* getDownstreamState(int flowDirection);
 
 protected:
 	double regulatingSignal;
 
 	double massFlowRate;
 	double absPressureDrop;
+
+	FlowType flowType;
 
 private:
 	int allowBidirectionalFlow; //0 - no; 1 - yes
@@ -62,6 +72,11 @@ FrictionFlowValve* FrictionFlowValve_Kv_new(
 		double transitionMassFlowRate,
 		double transitionPressureDifference,
 		double maximumMassFlowRate);
+
+FrictionFlowValve* FrictionFlowValve_OrificeCompressibleIdealGas_new(
+		int allowBidirectionalFlow,
+		double orificeArea,
+		double flowCoefficient);
 END_C_LINKAGE
 
 #endif /* FRICTIONFLOWVALVE_H_ */

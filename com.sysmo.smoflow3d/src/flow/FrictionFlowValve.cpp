@@ -14,6 +14,7 @@ using namespace smoflow;
  * FrictionFlowValve - C++
  */
 FrictionFlowValve::FrictionFlowValve(int allowBidirectionalFlow) {
+	flowType = sFlowType_Undefine;
 	this->allowBidirectionalFlow = allowBidirectionalFlow;
 	regulatingSignal = 0.0;
 
@@ -64,11 +65,22 @@ MediumState* FrictionFlowValve::getUpstreamState(int flowDirection) {
 	return upstreamState;
 }
 
+MediumState* FrictionFlowValve::getDownstreamState(int flowDirection) {
+	MediumState* downstreamState;
+	if (flowDirection == 1) {
+		downstreamState = state2;
+	} else {
+		downstreamState = state1;
+	}
+
+	return downstreamState;
+}
+
 /*************************************************************
  ***   FrictionFlowValve implementation classes
  *************************************************************/
 /**
- * FrictionFlowValve_Kv - C++
+ * FrictionFlowValve_InputMassFlowRate - C++
  */
 class FrictionFlowValve_InputMassFlowRate : public FrictionFlowValve {
 public:
@@ -249,6 +261,89 @@ private:
 };
 
 /**
+ * FrictionFlowValve_OrificeCompressibleIdealGas - C++
+ */
+class FrictionFlowValve_OrificeCompressibleIdealGas : public FrictionFlowValve {
+public:
+	FrictionFlowValve_OrificeCompressibleIdealGas(
+			int allowBidirectionalFlow,
+			double orificeArea,
+			double flowCoefficient) :
+			FrictionFlowValve(allowBidirectionalFlow) {
+		this->orificeArea = orificeArea;
+		this->flowCoefficient = flowCoefficient;
+	}
+
+	virtual double computePressureDrop(double massFlowRate) {
+		RaiseError_UnimplementedFunction();
+		return 0.0;
+	}
+
+	virtual double computeMassFlowRate(double pressureDrop) {
+		// Set absolute pressure drop
+		absPressureDrop = m::fabs(pressureDrop);
+		static const double minPressureDifference = 1e-06;
+		if (absPressureDrop < minPressureDifference) { //No flow
+			massFlowRate = 0.0;
+			return massFlowRate;
+		}
+
+		// Compute mass flow rate
+		m::limitVariable(regulatingSignal, 0.0, 1.0);
+
+		int flowDirection = 0;
+		if (regulatingSignal <= 0) {
+			flowDirection = 0;
+		} else if (pressureDrop > 0) {
+			flowDirection = 1;
+		} else if (pressureDrop < 0 && isBidirectionalFlowAllowed()) {
+			flowDirection = -1;
+		} else {
+			flowDirection = 0;
+		}
+
+		if (flowDirection == 0) {//No flow
+			massFlowRate = 0.0;
+			return massFlowRate;
+		}
+
+		MediumState* upstreamState = getUpstreamState(flowDirection);
+		MediumState* downstreamState = getDownstreamState(flowDirection);
+
+
+		// Compute mass flow rate - Using AMESim 'pn2rcqfix' function documentation
+		double pDn = downstreamState->p();
+		double pUp = upstreamState->p();
+		double tUp = upstreamState->T();
+		double r = upstreamState->R();
+		double g = upstreamState->gamma();
+
+		double pCr = m::pow(2/(g+1) , g/(g-1)); // critical pressure
+
+		double flowParam = 0.0; //flow parameter
+		if (pDn/pUp > pCr) {//(subsonic)
+			flowParam = m::sqrt(2*g/(r*(g-1)))
+			* m::sqrt(m::pow(pDn/pUp, 2/g) - m::pow(pDn/pUp,(g+1)/g));
+			flowType = sFlowType_Subsonic;
+		} else { //pDn/pUp <= pCr (sonic)
+			flowParam = m::sqrt(2*g/(r*(g+1)))
+			* m::pow((2/(g+1)), 1/(g-1));
+			flowType = sFlowType_Sonic;
+		}
+
+		massFlowRate = flowDirection
+				* regulatingSignal * orificeArea * flowCoefficient
+				* flowParam * pUp / m::sqrt(tUp);
+
+		return massFlowRate;
+	}
+
+protected:
+	double orificeArea;
+	double flowCoefficient;
+};
+
+/**
  * FrictionFlowValve - C
  */
 FrictionFlowValve* FrictionFlowValve_InputMassFlowRate_new(int allowBidirectionalFlow) {
@@ -269,6 +364,16 @@ FrictionFlowValve* FrictionFlowValve_Kv_new(
 			transitionMassFlowRate,
 			transitionPressureDifference,
 			maximumMassFlowRate);
+}
+
+FrictionFlowValve* FrictionFlowValve_OrificeCompressibleIdealGas_new(
+		int allowBidirectionalFlow,
+		double orificeArea,
+		double flowCoefficient) {
+	return new FrictionFlowValve_OrificeCompressibleIdealGas(
+			allowBidirectionalFlow,
+			orificeArea,
+			flowCoefficient);
 }
 
 
