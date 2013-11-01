@@ -34,7 +34,7 @@ public:
 
 	double getMassFlowRate() {return massFlowRate;}
 	double getEnthalpyFlowRate() {return enthalpyFlowRate;}
-	double getPressureLoss() {return pressureLoss;}
+	double getPressureDrop() {return pressureDrop;}
 	FlowType getFlowType() {return flowType;}
 
 	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
@@ -50,7 +50,7 @@ protected:
 	/* Results */
 	double massFlowRate;
 	double enthalpyFlowRate;
-	double pressureLoss;
+	double pressureDrop;
 	FlowType flowType;
 };
 
@@ -72,7 +72,7 @@ void Orifice_setRegulatingSignal(Orifice* orifice, double regulatingSignal);
 
 double Orifice_getMassFlowRate(Orifice* orifice);
 double Orifice_getEnthalpyFlowRate(Orifice* orifice);
-double Orifice_getPressureLoss(Orifice* orifice);
+double Orifice_getPressureDrop(Orifice* orifice);
 int Orifice_getFlowType(Orifice* orifice);
 
 void Orifice_updateFluidFlows(Orifice* orifice, FluidFlow* flow1, FluidFlow* flow2);

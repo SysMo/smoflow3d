@@ -213,7 +213,7 @@ void smo_valve_2port_regulating_signal_(int *n
 
    *massFlowRate = TwoPortValve_getMassFlowRate(_component);
    *enthalpyFlowRate = TwoPortValve_getEnthalpyFlowRate(_component);
-   *pressureLoss = TwoPortValve_getPressureLoss(_component);
+   *pressureLoss = TwoPortValve_getPressureDrop(_component);
 
    *fluidFlow1Index = _fluidFlow1Index;
    *fluidFlow2Index = _fluidFlow2Index;

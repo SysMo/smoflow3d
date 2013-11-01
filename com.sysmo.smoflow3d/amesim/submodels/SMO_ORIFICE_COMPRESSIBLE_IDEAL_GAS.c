@@ -182,7 +182,7 @@ void smo_orifice_compressible_ideal_gas_(int *n
 
    *massFlowRate = Orifice_getMassFlowRate(_component);
    *enthalpyFlowRate = Orifice_getEnthalpyFlowRate(_component);
-   *pressureLoss = Orifice_getPressureLoss(_component);
+   *pressureLoss = Orifice_getPressureDrop(_component);
    *flowType = Orifice_getFlowType(_component);
 
    *fluidFlow1Index = _fluidFlow1Index;

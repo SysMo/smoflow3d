@@ -19,7 +19,7 @@ TwoPortValve::TwoPortValve() {
 	/* Results */
 	massFlowRate = 0.0;
 	enthalpyFlowRate = 0.0;
-	pressureLoss = 0.0;
+	pressureDrop = 0.0;
 }
 
 TwoPortValve::~TwoPortValve() {
@@ -90,7 +90,7 @@ public:
 		}
 
 		// Compute pressure loss
-		pressureLoss = m::fabs(pressureDrop12);
+		pressureDrop = m::fabs(pressureDrop12);
 	}
 
 protected:
@@ -190,7 +190,7 @@ public:
 		}
 
 		// Compute pressure loss
-		pressureLoss = m::fabs(pressureDrop12);
+		pressureDrop = m::fabs(pressureDrop12);
 	}
 
 protected:
@@ -247,8 +247,8 @@ double TwoPortValve_getEnthalpyFlowRate(TwoPortValve* valve) {
 	return valve->getEnthalpyFlowRate();
 }
 
-double TwoPortValve_getPressureLoss(TwoPortValve* valve) {
-	return valve->getPressureLoss();
+double TwoPortValve_getPressureDrop(TwoPortValve* valve) {
+	return valve->getPressureDrop();
 }
 
 void TwoPortValve_updateFluidFlows(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2) {

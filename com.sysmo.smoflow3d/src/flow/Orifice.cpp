@@ -23,7 +23,7 @@ Orifice::Orifice() {
 	/* Results */
 	massFlowRate = 0.0;
 	enthalpyFlowRate = 0.0;
-	pressureLoss = 0.0;
+	pressureDrop = 0.0;
 	flowType = sFlowType_Undefine;
 }
 
@@ -50,7 +50,7 @@ class Orifice_CompressibleIdealGas : public Orifice {
 		enthalpyFlowRate = 0.0;
 
 		// Compute pressure drop
-		pressureLoss = m::fabs(MediumState_p(state1) - MediumState_p(state2));
+		pressureDrop = m::fabs(MediumState_p(state1) - MediumState_p(state2));
 
 		// Compute mass flow rate - Using AMESim 'pn2rcqfix' function documentation
 		double pDn = MediumState_p(state2);
@@ -122,8 +122,8 @@ double Orifice_getEnthalpyFlowRate(Orifice* orifice) {
 	return orifice->getEnthalpyFlowRate();
 }
 
-double Orifice_getPressureLoss(Orifice* orifice) {
-	return orifice->getPressureLoss();
+double Orifice_getPressureDrop(Orifice* orifice) {
+	return orifice->getPressureDrop();
 }
 
 int Orifice_getFlowType(Orifice* orifice) {

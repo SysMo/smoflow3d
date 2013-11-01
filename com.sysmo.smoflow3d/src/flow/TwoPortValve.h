@@ -25,7 +25,7 @@ public:
 
 	double getMassFlowRate() {return massFlowRate;}
 	double getEnthalpyFlowRate() {return enthalpyFlowRate;}
-	double getPressureLoss() {return pressureLoss;}
+	double getPressureDrop() {return pressureDrop;}
 
 	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
 
@@ -36,7 +36,7 @@ protected:
 	/* Results */
 	double massFlowRate;
 	double enthalpyFlowRate;
-	double pressureLoss;
+	double pressureDrop;
 };
 
 #else //_cplusplus
@@ -62,7 +62,7 @@ void TwoPortValve_setRegulatingSignal(TwoPortValve* valve, double regulatingSign
 
 double TwoPortValve_getMassFlowRate(TwoPortValve* valve);
 double TwoPortValve_getEnthalpyFlowRate(TwoPortValve* valve);
-double TwoPortValve_getPressureLoss(TwoPortValve* valve);
+double TwoPortValve_getPressureDrop(TwoPortValve* valve);
 
 void TwoPortValve_updateFluidFlows(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2);
 END_C_LINKAGE
