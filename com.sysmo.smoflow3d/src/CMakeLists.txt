@@ -46,7 +46,6 @@ add_library(SmoFlow SHARED
     media/MediumStateSolid.cpp
     media/definitions/SolidDefinitions.cpp
     flow/FlowBase.cpp    
-    flow/FlowComponent_R_2Port.cpp
     flow/TwoPortValve.cpp
     flow/MechanicalCompressor.cpp
     flow/ThermalConductionElement.cpp

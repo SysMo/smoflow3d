@@ -14,13 +14,21 @@ using namespace smoflow;
  */
 TwoPortValve::TwoPortValve(FrictionFlowValve* friction) {
 	this->friction = friction;
+
+	state1 = NULL;
+	state2 = NULL;
 }
 
 TwoPortValve::~TwoPortValve() {
 }
 
 void TwoPortValve::init(MediumState* state1, MediumState* state2) {
-	FlowComponent_R_2Port::init(state1, state2);
+	if (state1->getMedium() != state2->getMedium()) {
+		RaiseComponentError(this, "Different media connected to the valve component!");
+	}
+
+	this->state1 = state1;
+	this->state2 = state2;
 	friction->init(state1, state2);
 }
 

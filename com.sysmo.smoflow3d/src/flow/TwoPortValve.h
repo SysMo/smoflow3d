@@ -10,20 +10,19 @@
 #define TWOPORTVALVE_H_
 
 #include "media/MediumState.h"
-#include "FlowBase.h"
-#include "FlowComponent_R_2Port.h"
+#include "flow/FlowBase.h"
 #include "flow/FrictionFlowValve.h"
 
 
 #ifdef __cplusplus
 
-class TwoPortValve : public FlowComponent_R_2Port {
+class TwoPortValve : public SmoComponent {
 public:
 	TwoPortValve(FrictionFlowValve* friction);
 	virtual ~TwoPortValve();
 
-	virtual void init(MediumState* state1, MediumState* state2);
-	virtual void compute();
+	void init(MediumState* state1, MediumState* state2);
+	void compute();
 
 	void setRegulatingSignal(double regulatingSignal) {friction->setRegulatingSignal(regulatingSignal);}
 
@@ -33,6 +32,9 @@ public:
 
 protected:
 	FrictionFlowValve* friction;
+
+	MediumState* state1;
+	MediumState* state2;
 };
 
 #else //_cplusplus
