@@ -48,7 +48,8 @@ void ThermalMaterialNode::addMaterialMass(Medium_Solid* medium, double mass) {
 	if (i == subnodeStates.size()) {
 		MediumState_Solid* state = MediumStateSolid_new(medium);
 		MediumState_register(state);
-		state->parent = this;
+		SMOOBJECT_SET_PARENT(state, this);
+
 		subnodeStates.push_back(state);
 		subnodeMasses.push_back(mass);
 	}

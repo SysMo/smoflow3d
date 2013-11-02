@@ -119,6 +119,9 @@
 #define SMOCOMPONENT_SET_PARENT(_component, _parent) \
 	_component->parent = _parent
 
+#define SMOOBJECT_SET_PARENT(_object, _parent) \
+	_object->parent = _parent
+
 #endif //__cplusplus
 
 
