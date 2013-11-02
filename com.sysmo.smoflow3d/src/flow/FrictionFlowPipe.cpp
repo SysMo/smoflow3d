@@ -42,7 +42,7 @@ double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 	this->massFlowRate = massFlowRate;
 
 	MediumState* upstreamState;
-	if (massFlowRate > 0) {
+	if (massFlowRate >= 0) {
 		upstreamState = state1;
 	} else {
 		upstreamState = state2;
@@ -66,10 +66,9 @@ double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 double FrictionFlowPipe::computeMassFlowRate(double pressureDrop) {
 	static const int maxNumIter = 100;
 	static const double relTolerance = 1e-08;
-	static const double minPressureDifference = 1e-06;
 
 	absPressureDrop = m::fabs(pressureDrop);
-	if (absPressureDrop < minPressureDifference) {
+	if (absPressureDrop < cst::MinPressureDifference) {
 		massFlowRate = 0.0;
 		return 0.0;
 	}

@@ -8,6 +8,8 @@
 
 #include "ThermalConductionElement.h"
 
+using namespace smoflow;
+
 /**
  * ThermalConductionElement - C++
  */

@@ -8,6 +8,7 @@
 
 #include "FreeConvection.h"
 #include "math/Functors.h"
+#include "util/CommonDefinitions.h"
 
 using namespace smoflow;
 
@@ -34,13 +35,12 @@ void FreeConvection::compute() {
 	double wallTemperature = wallNode->getTemperature();
 	double wallOverheat = wallTemperature - fluidTemperature;
 
-	const double g = 9.81; // m/s**2
 	// Calculate film state
 	double filmTemperature = (fluidTemperature + wallTemperature)/2;
 	filmState->update_Tp(filmTemperature, fluidState->p());
 	// Calculate Rayleigh & Prandtl number
 	double eta = filmState->mu() / filmState->rho();
-	Gr = filmState->beta() * g * m::pow(characteristicLength, 3) * m::fabs(wallOverheat) / (eta * eta );
+	Gr = filmState->beta() * cst::earthAcceleration * m::pow(characteristicLength, 3) * m::fabs(wallOverheat) / (eta * eta );
 	Pr = filmState->Pr();
 	Ra = Gr * Pr;
 	Nu = computeNusseltNumber(Ra, Pr, wallOverheat);

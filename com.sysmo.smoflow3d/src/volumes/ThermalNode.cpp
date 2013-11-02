@@ -7,6 +7,9 @@
  */
 
 #include "ThermalNode.h"
+#include "util/CommonDefinitions.h"
+
+using namespace smoflow;
 
 /**
  * ThermalNode, ThermalSourceNode, ThermalMaterialNode - C++

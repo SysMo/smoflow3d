@@ -57,19 +57,6 @@ typedef std::vector<double> VectorFloat;
 typedef std::vector<int> VectorInt;
 typedef std::vector<String> VectorString;
 
-/**
- * Constants
- */
-namespace cst {
-	const double RGas = 8.3144621; // J/mol-K
-	const double N_a = 6.02e23; // Particles per mole
-	const double StandardPressure = 1e5; // Pa
-	const double StandardTemperature = 288.15; // K
-
-	const double StefanBoltzmannConstant = 5.67e-8; // Stefan Boltzmann Constant [W/(m^2*K^4)]
-	const double earthAcceleration = 9.81; // [m/s^2]
-}
-
 #include "math/MathDefinitions.h"
 
 

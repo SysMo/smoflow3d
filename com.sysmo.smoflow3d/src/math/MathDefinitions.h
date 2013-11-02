@@ -21,12 +21,25 @@
 #include <math.h>
 
 namespace smoflow {
-namespace m {
 
+namespace cst {
+	const double StandardPressure = 1e5; // [Pa]
+	const double StandardTemperature = 288.15; // [K]
+
+	const double MinPressureDifference = 1e-06; // [Pa]
+	const double MinMassFlowRate = 1e-12; // [kg/s]
+
+	const double RGas = 8.3144621; // [J/mol-K]
+	const double N_a = 6.02e23; // Particles per mole
+	const double StefanBoltzmannConstant = 5.67e-8; // Stefan Boltzmann Constant [W/(m^2*K^4)]
+	const double earthAcceleration = 9.81; // [m/s^2]
+} /* end namespace cst */
+
+namespace m {
 	// Constants
 	static const double pi = 3.1415927;
 	static const double NaN = NAN;
-	static const double  Inf = INFINITY;
+	static const double Inf = INFINITY;
 	static const double eps = std::numeric_limits<double>::epsilon();
 
 	inline bool isNaN(double value) {
@@ -45,7 +58,7 @@ namespace m {
 		return !(isNaN(value) || isInf(value));
 	}
 
-	inline bool isEqualFloat (double x, double y) {
+	inline bool isEqualFloat(double x, double y) {
 		long double diff = x - y;
 		return (std::fabs(diff) < 5 * m::eps);
 	}
@@ -118,8 +131,7 @@ namespace m {
 	inline double tanh(const double& x) {
 		return std::tanh((long double) x);
 	}
-
-}
-}
+} /* end namespace m */
+} /* end namespace smoflow */
 
 #endif /* MATHDECLARATIONS_H_ */

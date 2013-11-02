@@ -7,6 +7,7 @@
  */
 
 #include "PipeHeatExchNoPrDropNoMassAcc_RC.h"
+
 using namespace smoflow;
 
 /**
@@ -130,18 +131,17 @@ public:
 		// Compute flows
 		double massFlowRate = -port2Flow->massFlowRate;
 		if (massFlowRate < -m::eps) {
-			RaiseComponentError(this, "Reverse flow encountered");
+			RaiseComponentError(this, "Reverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
 		}
 		port1Flow->massFlowRate = port2Flow->massFlowRate;
 		port1Flow->enthalpyFlowRate = port1Flow->massFlowRate * port1State->h();
 		wallHeatFlow->enthalpyFlowRate = massFlowRate * (port1State->h() - port2State->h());
 
 		// Compute outlet setpoint
-		const double minMassFlowRate = 1e-12;
 		double wallTemperature = wallNode->getTemperature();
 		double inletTemperature = port1State->T();
 		port2LimitState->update_Tp(wallTemperature, port1State->p());
-		if (massFlowRate > minMassFlowRate) {
+		if (massFlowRate > cst::MinMassFlowRate) {
 			convection->compute(massFlowRate);
 			stateSetpoint = port1State->h() + convection->getHeatFlowRate() / massFlowRate;
 			if (wallTemperature > inletTemperature) {

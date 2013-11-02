@@ -61,12 +61,12 @@ void PipeHeatExchNoPrDropNoMassAcc_CR::init(
 }
 
 void PipeHeatExchNoPrDropNoMassAcc_CR::compute() {
-	if (fluidFlowInlet->massFlowRate < 0.0) {
+	if (fluidFlowInlet->massFlowRate < m::eps) {
 		RaiseComponentError(this, "Reverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
 	}
 
 	wallTemperature =  wallNode->getTemperature();
-	if (fluidFlowInlet->massFlowRate > 1e-8) {
+	if (fluidFlowInlet->massFlowRate > cst::MinMassFlowRate) {
 		double inletSpecificEnthalpy = fluidFlowInlet->enthalpyFlowRate / fluidFlowInlet->massFlowRate;
 		fluidStateInletInternal->update_ph(fluidStateOutlet->p(), inletSpecificEnthalpy);
 

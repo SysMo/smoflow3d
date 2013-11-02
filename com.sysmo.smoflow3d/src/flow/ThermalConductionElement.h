@@ -42,23 +42,16 @@ DECLARE_C_STRUCT(ThermalConductionElement)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-ThermalConductionElement* ThermalConductionElement_new(
-		Medium* medium, int numNodes);
-ThermalConductionElement* ThermalConductionElement_Line_new(
-		Medium_Solid* medium, double area, double length);
+ThermalConductionElement* ThermalConductionElement_new(Medium* medium, int numNodes);
+ThermalConductionElement* ThermalConductionElement_Line_new(Medium_Solid* medium, double area, double length);
 
-void ThermalConductionElement_assignNode(
-		ThermalConductionElement* element, size_t nodeIndex, ThermalNode* node);
-void ThermalConductionElement_setInteractionCoefficient(
-		ThermalConductionElement* element, size_t row, size_t column, double value);
+void ThermalConductionElement_assignNode(ThermalConductionElement* element, size_t nodeIndex, ThermalNode* node);
+void ThermalConductionElement_setInteractionCoefficient(ThermalConductionElement* element, size_t row, size_t column, double value);
 
-void ThermalConductionElement_computeExplicit(
-		ThermalConductionElement* element);
+void ThermalConductionElement_computeExplicit(ThermalConductionElement* element);
 
-double ThermalConductionElement_getHeatFlowRate(
-		ThermalConductionElement* element, size_t nodeIndex);
-void ThermalConductionElement_updateHeatFlow(
-		ThermalConductionElement* element, size_t nodeIndex, HeatFlow* flow);
+double ThermalConductionElement_getHeatFlowRate(ThermalConductionElement* element, size_t nodeIndex);
+void ThermalConductionElement_updateHeatFlow(ThermalConductionElement* element, size_t nodeIndex, HeatFlow* flow);
 END_C_LINKAGE
 
 #endif /* THERMALCONDUCTIONELEMENT_H_ */

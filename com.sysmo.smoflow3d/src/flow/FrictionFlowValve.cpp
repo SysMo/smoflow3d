@@ -96,8 +96,7 @@ public:
 	virtual double computeMassFlowRate(double pressureDrop) {
 		// Set absolute pressure drop
 		absPressureDrop = m::fabs(pressureDrop);
-		static const double minPressureDifference = 1e-06;
-		if (absPressureDrop < minPressureDifference) { //No flow
+		if (absPressureDrop < cst::MinPressureDifference) { //No flow
 			massFlowRate = 0.0;
 			return massFlowRate;
 		}
@@ -153,11 +152,6 @@ public:
 			return 0.0;
 		}
 
-		// Set some constants
-		const double N1 = 8.784e-07; //2.403e-5;
-		const double referenceLiquidDensity = 1000;
-
-		m::limitVariable(regulatingSignal, 0.0, 1.0);
 		double absMassFlowRate = m::fabs(massFlowRate);
 
 		// Get upstream state
@@ -177,6 +171,8 @@ public:
 		}
 
 		// Calculate pressure drop
+		m::limitVariable(regulatingSignal, 0.0, 1.0);
+
 		double vFlow = absMassFlowRate / upstreamDensity;
 		double pressureDrop = 0.0;
 		if (absMassFlowRate < transitionMassFlowRate) {
@@ -196,15 +192,12 @@ public:
 	virtual double computeMassFlowRate(double pressureDrop) {
 		// Set absolute pressure drop
 		absPressureDrop = m::fabs(pressureDrop);
-		static const double minPressureDifference = 1e-06;
-		if (absPressureDrop < minPressureDifference) { //No flow
+		if (absPressureDrop < cst::MinPressureDifference) { //No flow
 			massFlowRate = 0.0;
 			return massFlowRate;
 		}
 
 		// Compute mass flow rate
-		const double N1 = 8.784e-07; //2.403e-5;
-		const double referenceLiquidDensity = 1000;
 		m::limitVariable(regulatingSignal, 0.0, 1.0);
 
 		int flowDirection = 0;
@@ -258,6 +251,9 @@ private:
 	double transitionPressureDifference;
 	double Kv;
 	double maximumMassFlowRate;
+
+	static const double N1 = 8.784e-07; //2.403e-5;
+	static const double referenceLiquidDensity = 1000;
 };
 
 /**
@@ -282,8 +278,7 @@ public:
 	virtual double computeMassFlowRate(double pressureDrop) {
 		// Set absolute pressure drop
 		absPressureDrop = m::fabs(pressureDrop);
-		static const double minPressureDifference = 1e-06;
-		if (absPressureDrop < minPressureDifference) { //No flow
+		if (absPressureDrop < cst::MinPressureDifference) { //No flow
 			massFlowRate = 0.0;
 			return massFlowRate;
 		}

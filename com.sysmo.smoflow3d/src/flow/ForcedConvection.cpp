@@ -27,7 +27,7 @@ void ForcedConvection::setLimitOutput(bool limitOutput) {
 }
 
 void ForcedConvection::compute(double massFlowRate) {
-	if (m::fabs(massFlowRate) < 1e-12) {
+	if (m::fabs(massFlowRate) < cst::MinMassFlowRate) {
 		Re = 0;
 		Pr = 0;
 		Nu = 0;
@@ -36,7 +36,7 @@ void ForcedConvection::compute(double massFlowRate) {
 	}
 
 	MediumState* upstreamFluidState;
-	if (massFlowRate > 0) {
+	if (massFlowRate >= 0) {
 		upstreamFluidState = fluidState;
 	} else {
 		upstreamFluidState = fluidState2;
@@ -137,10 +137,10 @@ public:
 	}
 
 	double computeNusseltNumber(double Re, double Pr) {
-		double Nu;
-		const double ReL = 2300; //@see VDI Heat Atlas, page 696, Sect. 4.2
-		const double ReH = 1e4;
+		static const double ReL = 2300; //@see VDI Heat Atlas, page 696, Sect. 4.2
+		static const double ReH = 1e4;
 
+		double Nu;
 		if (Re < ReL) {
 			Nu = NuLaminar(Re, Pr);
 		} else if (Re > ReH) {
