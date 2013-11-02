@@ -23,19 +23,16 @@ public:
 	virtual ~PipeHeatExchNoPrDropNoMassAcc_RC();
 
 	virtual void init(FluidFlow* port2Flow);
-	virtual void initStates(MediumState* port1State, ThermalNode* wallNode, StateVariableSet& innerStateInitializer);
+	virtual void initStates(MediumState* port1State, ThermalNode* wallNode);
 	virtual void compute() = 0;
 
-	void setOutletStateValue(double outletStateValue); //:TODO: (MILEN) remove outlet from the name
-	double getOutletStateValue() {return port2StateValue;}
-	double getOutletStateDerivative();
+	void setStateValue(double stateValue);
+	double getStateValue() {return stateValue;}
+	double getStateDerivative();
 
 	FluidFlow* getPort1Flow() {return port1Flow;}
 	MediumState* getPort2State() {return port2State;}
 	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
-
-protected:
-	virtual void _init() {}
 
 protected:
 	typedef enum {
@@ -48,9 +45,8 @@ protected:
 	double stateTimeConstant;
 
 	// internals
-	MediumState* port2LimitState; //:TODO: (MILEN) move to child class; check virtual functions in this class
-	double port2StateValue;
-	double port2StateSetpoint;
+	double stateValue;
+	double stateSetpoint;
 
 	// Port 1 (fluid)
 	MediumState* port1State; 	// input
@@ -74,12 +70,12 @@ PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Efficiency_ne
 PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant);
 
 void PipeHeatExchNoPrDropNoMassAcc_RC_init(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, FluidFlow* port2Flow);
-void PipeHeatExchNoPrDropNoMassAcc_RC_initStates(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode, StateVariableSet innerStateInitializer);
+void PipeHeatExchNoPrDropNoMassAcc_RC_initStates(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode);
 void PipeHeatExchNoPrDropNoMassAcc_RC_compute(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
 
-void PipeHeatExchNoPrDropNoMassAcc_RC_setOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe,  double outletStateValue);
-double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
-double PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateDerivative(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
+void PipeHeatExchNoPrDropNoMassAcc_RC_setStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe,  double stateValue);
+double PipeHeatExchNoPrDropNoMassAcc_RC_getStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
+double PipeHeatExchNoPrDropNoMassAcc_RC_getStateDerivative(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
 
 MediumState* PipeHeatExchNoPrDropNoMassAcc_RC_getPort2State(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
 FluidFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getPort1Flow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe);
