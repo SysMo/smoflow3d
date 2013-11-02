@@ -62,8 +62,10 @@ void FluidChamber_setVolume(FluidChamber* chamber, double volume);
 double FluidChamber_getFluidMass(FluidChamber* chamber);
 void FluidChamber_setStateValues(FluidChamber* chamber, double stateValue1, double stateValue2);
 void FluidChamber_getStateValues(FluidChamber* chamber, double* stateValue1, double* stateValue2, int getFromFluid);
+
 void FluidChamber_compute(FluidChamber* chamber, double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate);
 void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDerivative1, double* stateDerivative2);
+
 MediumState* FluidChamber_getFluidState(FluidChamber* chamber);
 END_C_LINKAGE
 

@@ -23,13 +23,28 @@ PipeHeatExchPrDrop_RC::PipeHeatExchPrDrop_RC(
 
 	accFluid = NULL;
 	internalFlow = NULL;
+
+	port1State = NULL;
+	port1Flow = NULL;
+
+	port2State = NULL;
+	port2Flow = NULL;
+
+	wallNode = NULL;
+	wallHeatFlow = NULL;
 }
 
 PipeHeatExchPrDrop_RC::~PipeHeatExchPrDrop_RC() {
 }
 
 void PipeHeatExchPrDrop_RC::init(FluidFlow* port2Flow) {
-	Component_RC::init(port2Flow);
+	this->port2Flow = port2Flow;
+
+	this->port1Flow = FluidFlow_new();
+	FluidFlow_register(this->port1Flow);
+
+	this->wallHeatFlow = HeatFlow_new();
+	HeatFlow_register(this->wallHeatFlow);
 
 	friction->init(port1State, port2State);
 	convection->init(port2State, port2State, wallNode); //:TRICKY: the both states of the convection are the internal pipe state
@@ -39,9 +54,9 @@ void PipeHeatExchPrDrop_RC::init(FluidFlow* port2Flow) {
 	FluidFlow_register(internalFlow);
 }
 
-void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State,
-		ThermalNode* wallNode, StateVariableSet& innerStateInitializer) {
-	Component_RC::initStates(port1State, wallNode, innerStateInitializer);
+void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State, ThermalNode* wallNode, StateVariableSet& innerStateInitializer) {
+	this->port1State = port1State;
+	this->wallNode = wallNode;
 
 	accFluid = FluidChamber_new(port1State->getMedium());
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
@@ -50,7 +65,6 @@ void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State,
 	accFluid->selectStates(iP, iD);
 
 	port2State = accFluid->getFluidState();
-	//port2State->update_Tp(wallNode->getTemperature(), port1State->p());
 	port2State->init(innerStateInitializer);
 }
 
@@ -88,6 +102,18 @@ PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume, Friction
 	return new PipeHeatExchPrDrop_RC(internalVolume, friction, convection);
 }
 
+void PipeHeatExchPrDrop_RC_init(PipeHeatExchPrDrop_RC* pipe, FluidFlow* port2Flow) {
+	pipe->init(port2Flow);
+}
+
+void PipeHeatExchPrDrop_RC_initStates(PipeHeatExchPrDrop_RC* pipe, MediumState* port1State, ThermalNode* wallNode, StateVariableSet innerStateInitializer) {
+	pipe->initStates(port1State, wallNode, innerStateInitializer);
+}
+
+void PipeHeatExchPrDrop_RC_compute(PipeHeatExchPrDrop_RC* pipe) {
+	pipe->compute();
+}
+
 void PipeHeatExchPrDrop_RC_setStateValues(PipeHeatExchPrDrop_RC* pipe, double value1, double value2) {
 	pipe->setStateValues(value1, value2);
 }
@@ -96,4 +122,16 @@ void PipeHeatExchPrDrop_RC_getStateValues(PipeHeatExchPrDrop_RC* pipe, double* v
 }
 void PipeHeatExchPrDrop_RC_getStateDerivatives(PipeHeatExchPrDrop_RC* pipe, double* value1, double* value2) {
 	pipe->getStateDerivatives(value1, value2);
+}
+
+MediumState* PipeHeatExchPrDrop_RC_getPort2State(PipeHeatExchPrDrop_RC* pipe) {
+	return pipe->getPort2State();
+}
+
+FluidFlow* PipeHeatExchPrDrop_RC_getPort1Flow(PipeHeatExchPrDrop_RC* pipe) {
+	return pipe->getPort1Flow();
+}
+
+HeatFlow* PipeHeatExchPrDrop_RC_getWallHeatFlow(PipeHeatExchPrDrop_RC* pipe) {
+	return pipe->getWallHeatFlow();
 }

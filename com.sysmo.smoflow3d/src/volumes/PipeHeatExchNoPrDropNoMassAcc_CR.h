@@ -21,7 +21,6 @@ public:
 	virtual ~PipeHeatExchNoPrDropNoMassAcc_CR();
 
 	void init(ThermalNode* wallNode, MediumState* fluidStateOutlet, FluidFlow* fluidFlowInlet);
-
 	void compute();
 
 	int getFluidFlowOutletIndex() {return fluidFlowOutletIndex;}
@@ -62,6 +61,7 @@ DECLARE_C_STRUCT(PipeHeatExchNoPrDropNoMassAcc_CR)
 
 BEGIN_C_LINKAGE
 PipeHeatExchNoPrDropNoMassAcc_CR* PipeHeatExchNoPrDropNoMassAcc_CR_new(double heatExhcangeEfficienccy);
+
 void PipeHeatExchNoPrDropNoMassAcc_CR_init(PipeHeatExchNoPrDropNoMassAcc_CR* pipe,
 		ThermalNode* wallNode, MediumState* fluidStateOutlet, FluidFlow* fluidFlowInlet);
 void PipeHeatExchNoPrDropNoMassAcc_CR_compute(PipeHeatExchNoPrDropNoMassAcc_CR* pipe);

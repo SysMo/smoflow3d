@@ -243,12 +243,12 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
    // Initialization at first run
    if (firstc_()) {
 	   FluidFlow* outletFlow = FluidFlow_get(*outletFluidFlowIndex);
-	   Component_RC_init(_component, outletFlow);
+	   PipeHeatExchNoPrDropNoMassAcc_RC_init(_component, outletFlow);
 
-	   _inletFluidFlow = Component_RC_getPort1Flow(_component);
+	   _inletFluidFlow = PipeHeatExchNoPrDropNoMassAcc_RC_getPort1Flow(_component);
 	   _inletFluidFlowIndex = SmoObject_getInstanceIndex(_inletFluidFlow);
 
-	   _wallHeatFlow = Component_RC_getWallHeatFlow(_component);
+	   _wallHeatFlow = PipeHeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
 
@@ -326,8 +326,8 @@ extern double smo_heatexchanger_rc_macro0_(int *n
 	   // Initialize outlet
 	   // internalStateInit is not used but has to be passed
 	   StateVariableSet internalStateInit;
-	   Component_RC_initStates(_component, _inletFluidState, wallNode, internalStateInit);
-	   _outletFluidState =Component_RC_getPort2State(_component);
+	   PipeHeatExchNoPrDropNoMassAcc_RC_initStates(_component, _inletFluidState, wallNode, internalStateInit);
+	   _outletFluidState = PipeHeatExchNoPrDropNoMassAcc_RC_getPort2State(_component);
 	   _outletFluidStateIndex = SmoObject_getInstanceIndex(_outletFluidState);
 	   *outletStateValue = PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateValue(_component);
    } else {

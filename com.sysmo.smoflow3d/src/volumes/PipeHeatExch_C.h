@@ -20,7 +20,6 @@ public:
 	virtual ~PipeHeatExch_C();
 
 	void init(FluidFlow* port1Flow, FluidFlow* port2Flow);
-
 	void compute();
 
 	void getStateValues(double* value1, double* value2);
@@ -39,11 +38,11 @@ private:
 	ForcedConvection* convection;
 
 	// Port 1 (fluid)
-	//MediumState* port1State; // output (= accFluidState)
+	//MediumState* port1State; // output (Note: port1State = accFluidState)
 	FluidFlow* port1Flow; // input
 
 	// Port 2 (fluid)
-	//MediumState* port2State; // output (= accFluidState)
+	//MediumState* port2State; // output (Note: port2State = accFluidState)
 	FluidFlow* port2Flow; // input
 
 	// Port 3 (thermal)
@@ -57,8 +56,8 @@ DECLARE_C_STRUCT(PipeHeatExch_C)
 
 BEGIN_C_LINKAGE
 PipeHeatExch_C* PipeHeatExch_C_new(Medium* fluid, double internalVolume, ForcedConvection* convection);
-void PipeHeatExch_C_init(PipeHeatExch_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow);
 
+void PipeHeatExch_C_init(PipeHeatExch_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow);
 void PipeHeatExch_C_compute(PipeHeatExch_C* component);
 
 void PipeHeatExch_C_setWallNode(PipeHeatExch_C* component, ThermalNode* wallNode);
