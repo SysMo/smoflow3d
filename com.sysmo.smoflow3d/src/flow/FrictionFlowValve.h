@@ -37,8 +37,9 @@ public:
 	double getMassFlowRate() {return massFlowRate;}
 	FlowType getFlowType() {return flowType;}
 
-protected:
 	bool isBidirectionalFlowAllowed() {return allowBidirectionalFlow == 1;}
+
+protected:
 	MediumState* getUpstreamState(double massFlowRate);
 	MediumState* getUpstreamState(int flowDirection);
 	MediumState* getDownstreamState(int flowDirection);

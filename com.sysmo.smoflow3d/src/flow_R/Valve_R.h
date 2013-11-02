@@ -25,6 +25,7 @@ public:
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
 	void setRegulationgSignal(double regulatingSignal);
+	virtual bool isFlowClosed(double massFlowRate);
 
 protected:
 	FrictionFlowValve* friction;
@@ -37,6 +38,7 @@ DECLARE_C_STRUCT(Valve_R)
 
 BEGIN_C_LINKAGE
 Valve_R* ValveKv_R_new(
+		int allowBidirectionalFlow,
 		double Kv,
 		int transitionChoice,
 		double transitionMassFlowRate,

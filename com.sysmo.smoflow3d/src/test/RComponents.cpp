@@ -58,19 +58,6 @@ void testComputeMassFlowRate(
 		virtualState1 = virtualState2;
 	}
 
-	// Check - the components chain is open
-	for (int i = 0; i < numComponents; i++) {
-		if (components[i]->isFlowClosed()) {
-			std::cout << std::endl;
-			std::cout << "state1 = "; displayState(mainState1); std::cout << std::endl;
-			std::cout << "state2 = "; displayState(mainState2); std::cout << std::endl;
-			std::cout << std::endl;
-			std::cout << "The flow is closed!" << std::endl;
-			std::cout << "mass flow rate (state1->state2) = " << 0.0 << " [kg/s]" << std::endl;
-			return;
-		}
-	}
-
 	// Get first and last components
 	MediumState* mainUpstreamState = mainState1;
 	MediumState* mainDownstreamState = mainState2;
@@ -86,15 +73,30 @@ void testComputeMassFlowRate(
 		reverseStream = true;
 	}
 
+	// Initialize mass flow rate
+	double massFlowRate = 0.001;
+	if (reverseStream) {
+		massFlowRate = -massFlowRate;
+	}
+
+	// Check - is the components chain open
+	for (int i = 0; i < numComponents; i++) {
+		if (components[i]->isFlowClosed(massFlowRate)) {
+			std::cout << std::endl;
+			std::cout << "state1 = "; displayState(mainState1); std::cout << std::endl;
+			std::cout << "state2 = "; displayState(mainState2); std::cout << std::endl;
+			std::cout << std::endl;
+			std::cout << "The flow is closed!" << std::endl;
+			std::cout << "mass flow rate (state1->state2) = " << 0.0 << " [kg/s]" << std::endl;
+			return;
+		}
+	}
+
 	// Initialize
 	double up_MassFlowRate = 0.0;
 	bool up_MassFlowRate_isInit = false;
 	double down_MassFlowRate = 0.0;
 	bool down_MassFlowRate_isInit = false;
-	double massFlowRate = 0.001;
-	if (reverseStream) {
-		massFlowRate = -massFlowRate;
-	}
 
 	double down_downstreamPressure = 0.0;
 	double up_downstreamPressure = 0.0;
@@ -206,6 +208,7 @@ void testRComponents() {
 	);
 
 	Valve_R* valve1 = ValveKv_R_new(
+			1,			// allowBidirectionalFlow: 0 - no; 1 - yes
 			1.0, 		// Kv
 			1, 			// transitionChoice;
 			0.0001, 	// transitionMassFlowRate;

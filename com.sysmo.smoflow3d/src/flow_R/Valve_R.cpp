@@ -52,16 +52,29 @@ void Valve_R::setRegulationgSignal(double regulatingSignal) {
 	}
 }
 
+bool Valve_R::isFlowClosed(double massFlowRate) {
+	if (Component_R::isFlowClosed(massFlowRate)) {
+		return true;
+	}
+
+	if (massFlowRate < 0 && !friction->isBidirectionalFlowAllowed()) {
+		return true;
+	}
+
+	return false;
+}
+
 /**
  * Valve_R - C
  */
 Valve_R* ValveKv_R_new(
+		int allowBidirectionalFlow,
 		double Kv,
 		int transitionChoice,
 		double transitionMassFlowRate,
 		double transitionPressureDifference) {
 	FrictionFlowValve* friction = FrictionFlowValve_Kv_new(
-			true, //allowBidirectionalFlow,
+			allowBidirectionalFlow,
 			Kv,
 			transitionChoice,
 			transitionMassFlowRate,

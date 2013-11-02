@@ -6,7 +6,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>65</SUB_ID_MAX>
   <DEFAULT_ICON>smo_reg_valve_2port</DEFAULT_ICON>
-  <SUB_LABEL>Two port valve with a regulating signan input (R)</SUB_LABEL>
+  <SUB_LABEL>Two port valve with a regulating signal input (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>3</I_STORES_NUMBER>
   <P_STORES_NUMBER>3</P_STORES_NUMBER>
