@@ -187,7 +187,7 @@ extern double smo_phase_separator_macro0_(int *n
 	   PhaseSeparator_init(_component, port1State);
 
 	   MediumState* port2State = PhaseSeparator_getPort2State(_component);
-	   _port2FluidStateIndex = SmoObject_getInstanceIndex((SmoObj*)port2State);
+	   _port2FluidStateIndex = SmoObject_getInstanceIndex((SmoObject*)port2State);
    }
 
    PhaseSeparator_updateState(_component, *regSignal);

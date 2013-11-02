@@ -17,19 +17,17 @@
 #include <string>
 typedef std::string String;
 
-struct SmoObj {
-	SmoObj()
-	: instanceIndex(-1),
-	  parent(NULL) {
-	}
-	virtual ~SmoObj(){}
+struct SmoObject {
+	SmoObject()	: instanceIndex(-1), parent(NULL) {}
+	virtual ~SmoObject() {}
+
 	int instanceIndex;
-	SmoObj* parent;
+	SmoObject* parent;
 };
 
 struct SmoComponent {
 	SmoComponent() : instanceIndex(-1), componentName(""), parent(NULL) {}
-	virtual ~SmoComponent(){}
+	virtual ~SmoComponent() {}
 
 	int instanceIndex;
 	String componentName;
@@ -37,13 +35,13 @@ struct SmoComponent {
 };
 
 #else //__cplusplus
-DECLARE_C_STRUCT(SmoObj)
+DECLARE_C_STRUCT(SmoObject)
 DECLARE_C_STRUCT(SmoComponent)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-void SmoObject_setInstanceIndex(SmoObj* obj, int index);
-int SmoObject_getInstanceIndex(SmoObj* obj);
+void SmoObject_setInstanceIndex(SmoObject* obj, int index);
+int SmoObject_getInstanceIndex(SmoObject* obj);
 
 void SmoComponent_setInstanceIndex(SmoComponent* component, int index);
 void SmoComponent_setComponentName(SmoComponent* component, const char* componentName);

@@ -8,11 +8,11 @@
 
 #include "SmoComponent.h"
 
-void SmoObject_setInstanceIndex(SmoObj* obj, int index) {
+void SmoObject_setInstanceIndex(SmoObject* obj, int index) {
 	obj->instanceIndex = index;
 }
 
-int SmoObject_getInstanceIndex(SmoObj* obj) {
+int SmoObject_getInstanceIndex(SmoObject* obj) {
 	return obj->instanceIndex;
 }
 

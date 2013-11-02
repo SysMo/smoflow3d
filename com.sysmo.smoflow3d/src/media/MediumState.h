@@ -41,7 +41,7 @@ END_C_LINKAGE
 
 #include "util/CachedProperty.h"
 
-class MediumState : public SmoObj {
+class MediumState : public SmoObject {
 public:
 	virtual ~MediumState();
 

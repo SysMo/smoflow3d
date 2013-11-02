@@ -21,7 +21,7 @@ typedef enum {
 
 #include <vector>
 
-class ThermalNode : public SmoObj {
+class ThermalNode : public SmoObject {
 public:
 	virtual void setTemperature(double temperature);
 	double getTemperature() {return temperature;}
