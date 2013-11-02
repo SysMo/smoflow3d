@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_RC skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:45:04 2013 */
+   Sat Nov 2 11:57:42 2013 */
 
 
 
@@ -183,7 +183,7 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
       3 outletStateValue          outlet state value           [null]     explicit state (derivative `outletStateValueDot')
       4 reynoldsNumber            Reynolds number              [null]     basic variable
       5 convectionCoefficient     convection coefficient       [W/m**2/K] basic variable
-      6 wallHeatFlowRate          heat flow rate from the wall [W]        basic variable
+      6 heatFlowRateFromWall      heat flow rate from the wall [W]        basic variable
 */
 
 void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
@@ -192,7 +192,7 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
       , double *outletFluidFlowIndex, double *inletTemperature
       , double *outletTemperature, double *outletStateValue
       , double *outletStateValueDot, double *reynoldsNumber
-      , double *convectionCoefficient, double *wallHeatFlowRate
+      , double *convectionCoefficient, double *heatFlowRateFromWall
       , double rp[7], int ip[2], int ic[6], void *ps[6], int *flag)
 
 {
@@ -234,7 +234,7 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
    *outletStateValueDot = ??;
    *reynoldsNumber = ??;
    *convectionCoefficient = ??;
-   *wallHeatFlowRate = ??;
+   *heatFlowRateFromWall = ??;
 */
 
 
@@ -259,7 +259,7 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
    *inletTemperature = MediumState_T(_inletFluidState);
    *outletTemperature = MediumState_T(_outletFluidState);
    *outletStateValueDot = PipeHeatExchNoPrDropNoMassAcc_RC_getOutletStateDerivative(_component);
-   *wallHeatFlowRate = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
+   *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
 
    if (heatExchangeCalculationMethod != 1) {
 	   *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);

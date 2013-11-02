@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_CR skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:42:30 2013 */
+   Sat Nov 2 11:54:17 2013 */
 
 
 
@@ -99,18 +99,18 @@ void smo_heatexchanger_crin_(int *n, double rp[1], void *ps[1])
 
 /*  There are 5 internal variables.
 
-      1 inletTemperature      inlet temperature       [K]    basic variable
-      2 outletTemperature     outlet temperature      [K]    basic variable
-      3 wallTemperature       temperature of the wall [K]    basic variable
-      4 wallHeatFlowRate      heat flow rate at wall  [W]    basic variable
-      5 massFlowRateInlet     mass flow rate at inlet [kg/s] basic variable
+      1 inletTemperature         inlet temperature       [K]    basic variable
+      2 outletTemperature        outlet temperature      [K]    basic variable
+      3 wallTemperature          temperature of the wall [K]    basic variable
+      4 heatFlowRateFromWall     heat flow rate          [W]    basic variable
+      5 massFlowRateInlet        mass flow rate at inlet [kg/s] basic variable
 */
 
 void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
       , double *heatFlowIndex, double *thermalNodeIndex
       , double *outletFluidFlowIndex, double *outletFluidStateIndex
       , double *inletTemperature, double *outletTemperature
-      , double *wallTemperature, double *wallHeatFlowRate
+      , double *wallTemperature, double *heatFlowRateFromWall
       , double *massFlowRateInlet, double rp[1], void *ps[1]
       , int *flag)
 
@@ -139,7 +139,7 @@ void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
    *inletTemperature = ??;
    *outletTemperature = ??;
    *wallTemperature = ??;
-   *wallHeatFlowRate = ??;
+   *heatFlowRateFromWall = ??;
    *massFlowRateInlet = ??;
 */
 
@@ -159,7 +159,7 @@ void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
    *inletTemperature = PipeHeatExchNoPrDropNoMassAcc_CR_getInletTemperature(_component);
    *outletTemperature = PipeHeatExchNoPrDropNoMassAcc_CR_getOutletTemperature(_component);
    *wallTemperature = PipeHeatExchNoPrDropNoMassAcc_CR_getWallTemperature(_component);
-   *wallHeatFlowRate = PipeHeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowRate(_component);
+   *heatFlowRateFromWall = -PipeHeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowRate(_component);
    *massFlowRateInlet = PipeHeatExchNoPrDropNoMassAcc_CR_getMassFlowRateInlet(_component);
 
    *outletFluidFlowIndex = PipeHeatExchNoPrDropNoMassAcc_CR_getFluidFlowOutletIndex(_component);

@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_PRESSURE_DROP_RC skeleton created by AME Submodel editing utility
-   Thu Oct 31 11:24:44 2013 */
+   Sat Nov 2 11:53:42 2013 */
 
 
 
@@ -170,13 +170,13 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
 
 /*  There are 7 internal variables.
 
-      1 port1Temperature          port 1 temperature           [K]         basic variable
-      2 port3Temperature          port 3 temperature           [K]         basic variable
-      3 stateValues[2]            state values                 [null]      explicit state (derivative `stateValuesDot')
-      4 reynoldsNumber            Reynolds number              [null]      basic variable
-      5 convectionCoefficient     convection coefficient       [W/m**2/K]  basic variable
-      6 wallHeatFlowRate          heat flow rate from the wall [W]         basic variable
-      7 totalPressureLoss         total pressure loss          [bar -> Pa] basic variable
+      1 port1Temperature          port 1 temperature     [K]         basic variable
+      2 port3Temperature          port 3 temperature     [K]         basic variable
+      3 stateValues[2]            state values           [null]      explicit state (derivative `stateValuesDot')
+      4 reynoldsNumber            Reynolds number        [null]      basic variable
+      5 convectionCoefficient     convection coefficient [W/m**2/K]  basic variable
+      6 heatFlowRateFromWall      heat flow rate         [W]         basic variable
+      7 totalPressureLoss         total pressure loss    [bar -> Pa] basic variable
 */
 
 void smo_heatexchanger_pressure_drop_rc_(int *n
@@ -186,7 +186,7 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
       , double *port1Temperature, double *port3Temperature
       , double stateValues[2], double stateValuesDot[2]
       , double *reynoldsNumber, double *convectionCoefficient
-      , double *wallHeatFlowRate, double *totalPressureLoss
+      , double *heatFlowRateFromWall, double *totalPressureLoss
       , double rp[8], int ip[1], int ic[6], void *ps[6], int *flag)
 
 {
@@ -227,7 +227,7 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
    stateValuesDot[0..1] = ??;
    *reynoldsNumber = ??;
    *convectionCoefficient = ??;
-   *wallHeatFlowRate = ??;
+   *heatFlowRateFromWall = ??;
    *totalPressureLoss = ??;
 */
 
@@ -255,7 +255,7 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
    PipeHeatExchPrDrop_RC_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
-   *wallHeatFlowRate = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
+   *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
    *totalPressureLoss = FrictionFlowPipe_getAbsolutePressureDrop(_friction);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
