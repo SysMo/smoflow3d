@@ -55,9 +55,11 @@ add_library(SmoFlow SHARED
     flow/FrictionFlowPipe.cpp
     flow/FrictionFlowValve.cpp
     flow/PhaseSeparator.cpp
+    flow_R/VirtualCapacity_R.cpp
     flow_R/Component_R.cpp
     flow_R/Pipe_R.cpp
     flow_R/Valve_R.cpp
+    flow_R/ManagerComponents_R.cpp
     volumes/FluidChamber.cpp
     volumes/ThermalNode.cpp
     volumes/PipeHeatExch_C.cpp

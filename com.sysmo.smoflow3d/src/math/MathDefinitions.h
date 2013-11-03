@@ -28,6 +28,7 @@ namespace cst {
 
 	const double MinPressureDifference = 1e-06; // [Pa]
 	const double MinMassFlowRate = 1e-12; // [kg/s]
+	const double zeroMassFlowRate = 0.0; // [kg/s]
 
 	const double RGas = 8.3144621; // [J/mol-K]
 	const double N_a = 6.02e23; // Particles per mole

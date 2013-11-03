@@ -1,5 +1,5 @@
-/* Submodel SMO_VALVE_2PORT_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Sat Nov 2 16:33:46 2013 */
+/* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
+   Sun Nov 3 10:05:21 2013 */
 
 
 
@@ -24,28 +24,30 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_VALVE_2PORT_REGULATING_SIGNAL"
+#define _SUBMODELNAME_ "SMO_R_VALVE_KV"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "flow/TwoPortValve.h"
+#include "flow_R/Valve_R.h"
+#include "flow_R/ManagerComponents_R.h"
 
 #define _component ps[0]
 
+/*//:TODO: (MILEN) DELME
 #define _fluidFlow1 ps[1]
 #define _fluidFlow1Index ic[1]
 
 #define _fluidFlow2 ps[2]
 #define _fluidFlow2Index ic[2]
+*/
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 4 real parameters:
+/* There are 3 real parameters:
 
    Kv                           flow coefficient Kv            [null]
    transitionMassFlowRate       transition mass flow rate      [kg/s]
    transitionPressureDifference transition pressure difference [bar -> Pa]
-   maximumMassFlowRate          maximum mass flow              [kg/s]
 */
 
 
@@ -55,16 +57,15 @@ REVISIONS :
    allowBidirectionalFlow allow bi-directional flow            
 */
 
-void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
-      , int ip[2], int ic[3], void *ps[3])
+void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[3]
+      , void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int transitionChoice, allowBidirectionalFlow;
-   double Kv, transitionMassFlowRate, transitionPressureDifference, 
-      maximumMassFlowRate;
+   double Kv, transitionMassFlowRate, transitionPressureDifference;
 
    transitionChoice = ip[0];
    allowBidirectionalFlow = ip[1];
@@ -72,14 +73,13 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
    Kv         = rp[0];
    transitionMassFlowRate = rp[1];
    transitionPressureDifference = rp[2];
-   maximumMassFlowRate = rp[3];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..3]
+   rp[0..2]
 */
 
 
@@ -117,19 +117,13 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = TwoPortValve_Kv_new(
+   _component = ValveKv_R_new(
 		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
 		   Kv,
 		   transitionChoice,
 		   transitionMassFlowRate,
-		   transitionPressureDifference,
-		   maximumMassFlowRate);
+		   transitionPressureDifference);
    SMOCOMPONENT_SET_PROPS(_component)
-
-   _fluidFlow1 = FluidFlow_new();
-   _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
-   _fluidFlow2 = FluidFlow_new();
-   _fluidFlow2Index = FluidFlow_register(_fluidFlow2);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -157,20 +151,19 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
       3 pressureLoss         total pressure loss           [barA -> PaA] basic variable
 */
 
-void smo_valve_2port_regulating_signal_(int *n
-      , double *fluidFlow1Index, double *fluidState1Index
-      , double *regulatingSignal, double *fluidFlow2Index
-      , double *fluidState2Index, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureLoss, double rp[4]
-      , int ip[2], int ic[3], void *ps[3], int *flag)
+void smo_r_valve_kv_(int *n, double *fluidFlow1Index
+      , double *fluidState1Index, double *regulatingSignal
+      , double *fluidFlow2Index, double *fluidState2Index
+      , double *massFlowRate, double *enthalpyFlowRate
+      , double *pressureLoss, double rp[3], int ip[2], int ic[3]
+      , void *ps[3], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int transitionChoice, allowBidirectionalFlow;
-   double Kv, transitionMassFlowRate, transitionPressureDifference, 
-      maximumMassFlowRate;
+   double Kv, transitionMassFlowRate, transitionPressureDifference;
 
    transitionChoice = ip[0];
    allowBidirectionalFlow = ip[1];
@@ -178,7 +171,6 @@ void smo_valve_2port_regulating_signal_(int *n
    Kv         = rp[0];
    transitionMassFlowRate = rp[1];
    transitionPressureDifference = rp[2];
-   maximumMassFlowRate = rp[3];
    logi = 0;
    loop = 0;
 
@@ -202,21 +194,26 @@ void smo_valve_2port_regulating_signal_(int *n
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
+	   /*
 	   MediumState* state1 = MediumState_get(*fluidState1Index);
 	   MediumState* state2 = MediumState_get(*fluidState2Index);
-	   TwoPortValve_init(_component, state1, state2);
+	   TwoPortValve_init(_component, state1, state2); //:TODO:
+	   */
+	   ManagerComponents_R_add(_component, *fluidState1Index, *fluidState2Index);
    }
+   amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
 
-   TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
-   TwoPortValve_compute(_component);
-   TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
+   Valve_R_setRegulatingSignal(_component, *regulatingSignal);
+   ManagerComponents_R_compute(_component);
+   //TwoPortValve_compute(_component);
+   //TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
-   *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
-   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
-   *pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
+   //*massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
+   //*enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
+   //*pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
 
-   *fluidFlow1Index = _fluidFlow1Index;
-   *fluidFlow2Index = _fluidFlow2Index;
+   *fluidFlow1Index = Component_R_getFlow1Index(_component);
+   *fluidFlow2Index = Component_R_getFlow2Index(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

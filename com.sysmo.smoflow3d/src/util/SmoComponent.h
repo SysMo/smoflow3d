@@ -17,14 +17,6 @@
 #include <string>
 typedef std::string String;
 
-struct SmoObject {
-	SmoObject()	: instanceIndex(-1), parent(NULL) {}
-	virtual ~SmoObject() {}
-
-	int instanceIndex;
-	SmoObject* parent;
-};
-
 struct SmoComponent {
 	SmoComponent() : instanceIndex(-1), componentName(""), parent(NULL) {}
 	virtual ~SmoComponent() {}
@@ -32,6 +24,15 @@ struct SmoComponent {
 	int instanceIndex;
 	String componentName;
 	SmoComponent* parent;
+};
+
+struct SmoObject {
+	SmoObject()	: instanceIndex(-1), parent(NULL), parentComponent(NULL) {}
+	virtual ~SmoObject() {}
+
+	int instanceIndex;
+	SmoObject* parent;
+	SmoComponent* parentComponent;
 };
 
 #else //__cplusplus

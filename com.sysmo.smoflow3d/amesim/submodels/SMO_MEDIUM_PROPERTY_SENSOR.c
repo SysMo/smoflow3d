@@ -193,6 +193,8 @@ void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
+
    *pressure = c[0];
    *temperature = c[1];
    *temperatureC = c[2];
@@ -295,6 +297,8 @@ extern double smo_medium_property_sensor_macro0_(int *n
 	   measuredValue = c[propertyIndex - 1]
 		 * outputInternalGain[propertyIndex - 1] * gain + offset;
    }
+
+   amefprintf(stderr, "\n%s instance %d - macro \n", _SUBMODELNAME_, *n);
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */

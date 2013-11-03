@@ -24,7 +24,7 @@ public:
 	virtual void init(MediumState* state1, MediumState* state2);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
-	void setRegulationgSignal(double regulatingSignal);
+	void setRegulatingSignal(double regulatingSignal);
 	virtual bool isFlowClosed(double massFlowRate);
 
 protected:
@@ -43,6 +43,8 @@ Valve_R* ValveKv_R_new(
 		int transitionChoice,
 		double transitionMassFlowRate,
 		double transitionPressureDifference);
+
+void Valve_R_setRegulatingSignal(Valve_R* valve, double regulatingSignal);
 END_C_LINKAGE
 
 

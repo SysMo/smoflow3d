@@ -177,6 +177,7 @@ void smo_flow_sensor_(int *n, double *fluidStateIndex
 	   _fluidStateInternal = MediumState_new(fluid);
 	   _fluidStateInternalIndex = MediumState_register(_fluidStateInternal);
    }
+   amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow);;
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow);

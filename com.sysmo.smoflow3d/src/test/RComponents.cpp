@@ -58,18 +58,18 @@ void testComputeMassFlowRate(
 		virtualState1 = virtualState2;
 	}
 
-	// Get first and last components
+	// Get upstream and downstream components
 	MediumState* mainUpstreamState = mainState1;
 	MediumState* mainDownstreamState = mainState2;
-	Component_R* firstComponent = components.front();
-	Component_R* lastComponent = components.back();
+	Component_R* upstreamComponent = components.front();
+	Component_R* downstreamComponent = components.back();
 	bool reverseStream = false;
 
 	if (mainState1->p() < mainState2->p()) { //reverse stream
 		mainUpstreamState = mainState2;
 		mainDownstreamState = mainState1;
-		firstComponent = components.back();
-		lastComponent = components.front();
+		upstreamComponent = components.back();
+		downstreamComponent = components.front();
 		reverseStream = true;
 	}
 
@@ -102,7 +102,7 @@ void testComputeMassFlowRate(
 	double up_downstreamPressure = 0.0;
 	bool up_downstreamPressure_isInit = false;
 
-	firstComponent->getUpstreamState(massFlowRate)->update_Tp(mainUpstreamState->T(), mainUpstreamState->p());
+	upstreamComponent->getUpstreamState(massFlowRate)->update_Tp(mainUpstreamState->T(), mainUpstreamState->p());
 
 	// Compute mass flow rate using iteration
 	double stepCoeff = 2.0;
@@ -139,7 +139,7 @@ void testComputeMassFlowRate(
 		}
 
 
-		double calcDownstreamPressure = lastComponent->getDownstreamState(massFlowRate)->p();
+		double calcDownstreamPressure = downstreamComponent->getDownstreamState(massFlowRate)->p();
 		double relError = (calcDownstreamPressure - downstreamPressure) / downstreamPressure;
 		if (m::fabs(relError) < relTolerance) {
 			std::cout << "END: " << numIter << ", " << tmpMDot << ", " << calcDownstreamPressure << ", " << relError << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
@@ -176,6 +176,12 @@ void testComputeMassFlowRate(
 		}
 	}
 
+
+	// Update fluid flows
+	for (int i = 0; i < numComponents; i++) {
+		components[i]->updateFlows(massFlowRate);
+	}
+
 	std::cout << std::endl;
 	std::cout << "state1 = "; displayState(mainState1); std::cout << std::endl;
 	std::cout << "state2 = "; displayState(mainState2); std::cout << std::endl;
@@ -188,9 +194,8 @@ void testRComponents() {
 	MediumState* mainState1 = MediumState_new(fluid);
 	MediumState* mainState2 = MediumState_new(fluid);
 
-	mainState2->update_Tp( 60, 300e5); //[K], [Pa]
-	mainState1->update_Tp(300,   1e5);
-
+	mainState1->update_Tp( 60, 300e5); //[K], [Pa]
+	mainState2->update_Tp(300,   1e5); //[K], [Pa]
 
 	// Create pipes and valves
 	Pipe_R* pipe1 = StraightPipe_R_new(
@@ -214,7 +219,16 @@ void testRComponents() {
 			0.0001, 	// transitionMassFlowRate;
 			0.001*1e5 	// transitionPressureDifference
 	);
-	valve1->setRegulationgSignal(1.0);
+	valve1->setRegulatingSignal(1.0);
+
+	Valve_R* valve2 = ValveKv_R_new(
+			1,			// allowBidirectionalFlow: 0 - no; 1 - yes
+			1.0, 		// Kv
+			1, 			// transitionChoice;
+			0.0001, 	// transitionMassFlowRate;
+			0.001*1e5 	// transitionPressureDifference
+	);
+	valve2->setRegulatingSignal(1.0);
 
 	Pipe_R* pipeHE1 = StraightPipeHeatExchanger_R_new(
 			5*1e-3, 	//diameter [m]
@@ -245,9 +259,10 @@ void testRComponents() {
 
 	// Create components vector
 	std::vector<Component_R*> components;
-	components.push_back(pipe1);
-	components.push_back(pipe2);
+	//components.push_back(pipe1);
+	//components.push_back(pipe2);
 	components.push_back(valve1);
+	components.push_back(valve2);
 
 
 	// Compute mass flow rate

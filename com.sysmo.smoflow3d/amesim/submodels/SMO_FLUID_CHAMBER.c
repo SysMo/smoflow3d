@@ -33,8 +33,8 @@ REVISIONS :
 
 #define _component ps[0]
 
-#define _fluidChamberStateIndex ic[0]
-#define _fluidChamberState ps[1]
+#define _fluidStateIndex ic[0]
+#define _fluidState ps[1]
 
 #define _fluidFlow1 ps[2]
 #define _fluidFlow2 ps[3]
@@ -138,8 +138,8 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
    SMOCOMPONENT_SET_PROPS(_component)
 
    FluidChamber_setVolume(_component, volume);
-   _fluidChamberState = FluidChamber_getFluidState(_component);
-   _fluidChamberStateIndex = MediumState_index(_fluidChamberState);
+   _fluidState = FluidChamber_getFluidState(_component);
+   _fluidStateIndex = MediumState_index(_fluidState);
 
    if (stateVariableSelection == 1) {
 	   FluidChamber_selectStates(_component, iT, iD);
@@ -154,11 +154,11 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
    }
 
    if (initConditionsChoice == 1) {
-	   MediumState_update_Tp(_fluidChamberState, initialTemperature, initialPressure);
+	   MediumState_update_Tp(_fluidState, initialTemperature, initialPressure);
    } else if (initConditionsChoice == 2) {
-	   MediumState_update_Tp(_fluidChamberState, initialTemperatureC + 273.15, initialPressure);
+	   MediumState_update_Tp(_fluidState, initialTemperatureC + 273.15, initialPressure);
    } else if (initConditionsChoice == 3) {
-   	   MediumState_update_pq(_fluidChamberState, initialPressure, initialGasMassFraction);
+   	   MediumState_update_pq(_fluidState, initialPressure, initialGasMassFraction);
    } else {
 	   AME_RAISE_ERROR("Unsupported type of initialization.")
    }
@@ -248,18 +248,19 @@ void smo_fluid_chamber_(int *n, double *fluidStateIndex
 	   _fluidFlow1 = FluidFlow_get(*fluidFlow1Index);
 	   _fluidFlow2 = FluidFlow_get(*fluidFlow2Index);
    }
+   amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
 
    double massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1) + FluidFlow_getMassFlowRate(_fluidFlow2);
    double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1) + FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    FluidChamber_compute(_component, massFlowRate, enthalpyFlowRate, 0, 0);
    FluidChamber_getStateDerivatives(_component, state1Dot, state2Dot);
 
-   *pressure = MediumState_p(_fluidChamberState);
-   *temperature = MediumState_T(_fluidChamberState);
-   *density = MediumState_rho(_fluidChamberState);
-   *specificEnthalpy = MediumState_h(_fluidChamberState);
-   *gasMassFraction = MediumState_q(_fluidChamberState);
-   *superHeat  = MediumState_deltaTSat(_fluidChamberState);
+   *pressure = MediumState_p(_fluidState);
+   *temperature = MediumState_T(_fluidState);
+   *density = MediumState_rho(_fluidState);
+   *specificEnthalpy = MediumState_h(_fluidState);
+   *gasMassFraction = MediumState_q(_fluidState);
+   *superHeat  = MediumState_deltaTSat(_fluidState);
    *totalMass  = FluidChamber_getFluidMass(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -305,8 +306,9 @@ extern double smo_fluid_chamber_macro0_(int *n, double *state1
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   amefprintf(stderr, "\n%s instance %d - macro \n", _SUBMODELNAME_, *n);
    FluidChamber_setStateValues(_component, *state1, *state2);
-   fluidStateIndex = _fluidChamberStateIndex;
+   fluidStateIndex = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */

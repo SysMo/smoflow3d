@@ -58,3 +58,8 @@ smiulation_environment
 &SMO_SIMULATION_ENVIRONMENT SmoFlow3d
 smo_phase_separator
 &SMO_PHASE_SEPARATOR SmoFlow3d
+smo_r_virtual_capacity
+&SMO_R_VIRTUAL_CAPACITY SmoFlow3d
+smo_r_valve
+&SMO_R_VALVE_KV SmoFlow3d
+

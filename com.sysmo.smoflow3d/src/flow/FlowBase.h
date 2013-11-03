@@ -19,10 +19,14 @@ struct FlowBase : public  SmoObject {
 };
 
 struct HeatFlow : public FlowBase {
+	HeatFlow () : enthalpyFlowRate(0.0) {}
+
 	double enthalpyFlowRate; // equals of the heat flow rate
 };
 
 struct FluidFlow : public FlowBase {
+	FluidFlow () : massFlowRate(0.0), enthalpyFlowRate(0.0) {}
+
 	double massFlowRate;
 	double enthalpyFlowRate;
 	//double volumetricFlowRate; //:NOT_USED:

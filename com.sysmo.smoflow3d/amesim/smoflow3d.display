@@ -35,6 +35,9 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_drive_cycle_reader" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smiulation_environment" />
+   
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_virtual_capacity" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_valve" />
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Media" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
@@ -78,6 +81,11 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_drive_cycle_reader" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smiulation_environment" />
+  </GROUP>
+  
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="R Components" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_virtual_capacity" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_valve" />
   </GROUP>
   
  </CATEGORY>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>44</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_r_virtual_capacity</DEFAULT_ICON>
+  <SUB_LABEL>virtual capacity (C)</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>4</I_STORES_NUMBER>
+  <P_STORES_NUMBER>4</P_STORES_NUMBER>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>22</SUB_ID>
+    <TITLE>fluid index</TITLE>
+    <VARNAME>fluidIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>39</SUB_ID>
+    <TITLE>pressure</TITLE>
+    <VARNAME>pressure</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>11</SUB_ID>
+    <TITLE>temperature</TITLE>
+    <VARNAME>temperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>40</SUB_ID>
+    <TITLE>density</TITLE>
+    <VARNAME>density</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/m**3</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>12</SUB_ID>
+    <TITLE>specific enthalpy</TITLE>
+    <VARNAME>specificEnthalpy</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kJ/kg</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>13</SUB_ID>
+    <TITLE>gas mass fraction</TITLE>
+    <VARNAME>gasMassFraction</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>14</SUB_ID>
+    <TITLE>subcooling / superheat</TITLE>
+    <VARNAME>superHeat</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <IS_DELTA>1</IS_DELTA>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>degC</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>44</SUB_ID>
+     <TITLE>fluid state index</TITLE>
+     <VARNAME>fluidStateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>5</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
+     <VALUE>0.00000000000000e+000</VALUE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>26</SUB_ID>
+     <TITLE>fluid flow index 1</TITLE>
+     <VARNAME>fluidFlow1Index</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>6</SUB_ID>
+     <VARNAME>stateIndexDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>0</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>27</SUB_ID>
+     <TITLE>fluid flow index 2</TITLE>
+     <VARNAME>fluidFlow2Index</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>
