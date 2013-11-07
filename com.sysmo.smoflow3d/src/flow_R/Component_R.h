@@ -26,14 +26,8 @@ public:
 	virtual bool compute(double massFlowRate, double minDownstreamPressure) = 0;
 	void updateFlows(double massFlow);
 
-	MediumState* getState1() {return state1;}
-	MediumState* getState2() {return state1;}
-
 	MediumState* getUpstreamState(double massFlowRate);
 	MediumState* getDownstreamState(double massFlowRate);
-
-	FluidFlow* getUpstreamFlow(double massFlowRate);
-	FluidFlow* getDownstreamFlow(double massFlowRate);
 
 	int getFlow1Index() {return flow1Index;}
 	int getFlow2Index() {return flow2Index;}

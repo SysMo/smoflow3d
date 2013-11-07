@@ -43,15 +43,11 @@ void Component_R::init(MediumState* state1, MediumState* state2) {
 }
 
 void Component_R::updateFlows(double massFlowRate) {
-	MediumState* upstreamState = getUpstreamState(massFlowRate);
-	FluidFlow* upstreamFlow = getUpstreamFlow(massFlowRate);
-	upstreamFlow->massFlowRate = -massFlowRate;
-	upstreamFlow->enthalpyFlowRate = upstreamFlow->massFlowRate * upstreamState->h();
+	flow1->massFlowRate = -massFlowRate;
+	flow1->enthalpyFlowRate = flow1->massFlowRate * state1->h();
 
-	MediumState* downstreamState = getDownstreamState(massFlowRate);
-	FluidFlow* downstreamFlow = getDownstreamFlow(massFlowRate);
-	downstreamFlow->massFlowRate = massFlowRate;
-	downstreamFlow->enthalpyFlowRate = downstreamFlow->massFlowRate * downstreamState->h();
+	flow2->massFlowRate = massFlowRate;
+	flow2->enthalpyFlowRate = flow2->massFlowRate * state2->h();
 }
 
 MediumState* Component_R::getUpstreamState(double massFlowRate) {
@@ -67,22 +63,6 @@ MediumState* Component_R::getDownstreamState(double massFlowRate) {
 		return state2;
 	} else {
 		return state1;
-	}
-}
-
-FluidFlow* Component_R::getUpstreamFlow(double massFlowRate) {
-	if (massFlowRate >= 0) {
-		return flow1;
-	} else {
-		return flow2;
-	}
-}
-
-FluidFlow* Component_R::getDownstreamFlow(double massFlowRate) {
-	if (massFlowRate >= 0) {
-		return flow2;
-	} else {
-		return flow1;
 	}
 }
 

@@ -215,9 +215,9 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
    *fluidFlow1Index = Component_R_getFlow1Index(_component);
    *fluidFlow2Index = Component_R_getFlow2Index(_component);
 
-   //FluidFlow* flow2 = FluidFlow_get(*fluidFlow2Index);
-   //*massFlowRate = FluidFlow_getMassFlowRate(flow2);
-   //*enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow2);
+   FluidFlow* flow2 = FluidFlow_get(*fluidFlow2Index);
+   *massFlowRate = FluidFlow_getMassFlowRate(flow2);
+   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow2);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

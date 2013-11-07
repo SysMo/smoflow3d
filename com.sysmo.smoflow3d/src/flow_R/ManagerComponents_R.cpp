@@ -93,23 +93,32 @@ void ManagerComponents_R::constructComponentsChain() {
 
 	Component_R* component_R = componentMainState1;
 	VirtualCapacity_R* virtualCapacity = component_R->getOtherVirtualCapacity(NULL); //:TRICKY: get the first virtual capacity
+
+
+	// Create R-components chain that contains only one R-component  (i.e. componentMainState1 which is the same as componentMainState2)
 	if (virtualCapacity == NULL) {
-		//:TRICKY: R-components chain contains only one R-component (i.e. componentMainState1 which is the same as componentMainState2)
 		components.push_back(componentMainState1);
 
 		// Initialize states of the input component_R
 		MediumState* componentState1 = MediumState_new(fluid);
 		MediumState_register(componentState1);
+		componentState1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
 
 		MediumState* componentState2 = MediumState_new(fluid);
 		MediumState_register(componentState2);
+		componentState2->update_Tp(cst::StandardTemperature, cst::StandardPressure);
+
 		componentMainState1->init(componentState1, componentState2);
 		isComponentsChainContructed = true;
 		return;
 	}
 
+
+	// Create R-components chain that contains more than two R-component)
 	MediumState* componentState1 = MediumState_new(fluid);
 	MediumState_register(componentState1);
+	componentState1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
+
 	do {
 		MediumState* componentState2 = virtualCapacity->getState();
 		component_R->init(componentState1, componentState2);
@@ -123,8 +132,11 @@ void ManagerComponents_R::constructComponentsChain() {
 
 		virtualCapacity = component_R->getOtherVirtualCapacity(virtualCapacity);
 	} while (virtualCapacity != NULL);
+
 	MediumState* componentState2 = MediumState_new(fluid);
 	MediumState_register(componentState2);
+	componentState2->update_Tp(cst::StandardTemperature, cst::StandardPressure);
+
 	component_R->init(componentState1, componentState2);
 	components.push_back(component_R);
 
@@ -148,7 +160,6 @@ void ManagerComponents_R::compute(Component_R* component_R) {
 	if (massFlowRate != cst::zeroMassFlowRate) {
 		cache_massFlowRate = massFlowRate;
 	}
-	std::cout << "mass flow rate = " << massFlowRate << std::endl;
 
 	// Set all components that are not computed
 	setAllComponentsNoComputed();
@@ -182,7 +193,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 	}
 
 	// Initialize mass flow rate
-	double massFlowRate = cache_massFlowRate;
+	double massFlowRate = m::fabs(cache_massFlowRate); //:TRICKY: (MILEN) ???
 	if (reverseStream) {
 		massFlowRate = -massFlowRate;
 	}
