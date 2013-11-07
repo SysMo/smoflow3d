@@ -57,7 +57,7 @@ bool Valve_R::isFlowClosed(double massFlowRate) {
 		return true;
 	}
 
-	if (massFlowRate < 0 && !friction->isBidirectionalFlowAllowed()) {
+	if (massFlowRate < 0.0 && !friction->isBidirectionalFlowAllowed()) {
 		return true;
 	}
 
