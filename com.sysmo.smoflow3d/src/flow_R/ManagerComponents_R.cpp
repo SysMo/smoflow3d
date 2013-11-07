@@ -47,18 +47,18 @@ void ManagerComponents_R::add(Component_R* component_R, int state1Index, int sta
 		addMainState(state2, component_R);
 	} else if (state1_hasVirtualCapacityParent && state2_hasVirtualCapacityParent) {
 		VirtualCapacity_R* state1VirtualCapacityParent = getVirtualCapacityParent(state1);
-		connectVirtualCapacityToComponent(state1VirtualCapacityParent, component_R);
+		connectVirtualCapacityAndComponent(state1VirtualCapacityParent, component_R);
 
 		VirtualCapacity_R* state2VirtualCapacityParent = getVirtualCapacityParent(state2);
-		connectVirtualCapacityToComponent(state2VirtualCapacityParent, component_R);
+		connectVirtualCapacityAndComponent(state2VirtualCapacityParent, component_R);
 	} else if (!state1_hasVirtualCapacityParent && state2_hasVirtualCapacityParent) {
 		VirtualCapacity_R* state2VirtualCapacityParent = getVirtualCapacityParent(state2);
-		connectVirtualCapacityToComponent(state2VirtualCapacityParent, component_R);
+		connectVirtualCapacityAndComponent(state2VirtualCapacityParent, component_R);
 
 		addMainState(state1, component_R);
 	} else if (state1_hasVirtualCapacityParent && !state2_hasVirtualCapacityParent) {
 		VirtualCapacity_R* state1VirtualCapacityParent = getVirtualCapacityParent(state1);
-		connectVirtualCapacityToComponent(state1VirtualCapacityParent, component_R);
+		connectVirtualCapacityAndComponent(state1VirtualCapacityParent, component_R);
 
 		addMainState(state2, component_R);
 	} else {
@@ -66,7 +66,7 @@ void ManagerComponents_R::add(Component_R* component_R, int state1Index, int sta
 	}
 }
 
-void ManagerComponents_R::connectVirtualCapacityToComponent(VirtualCapacity_R* virtualCapacity, Component_R* component_R) {
+void ManagerComponents_R::connectVirtualCapacityAndComponent(VirtualCapacity_R* virtualCapacity, Component_R* component_R) {
 	virtualCapacity->addComponent(component_R);
 	component_R->addVirtualCapacity(virtualCapacity);
 }
@@ -113,7 +113,6 @@ void ManagerComponents_R::constructComponentsChain() {
 	do {
 		MediumState* componentState2 = virtualCapacity->getState();
 		component_R->init(componentState1, componentState2);
-		component_R->isComputed = true; //:TRICKY:
 		components.push_back(component_R);
 
 		componentState1 = componentState2;
@@ -138,7 +137,7 @@ void ManagerComponents_R::constructComponentsChain() {
 
 void ManagerComponents_R::compute(Component_R* component_R) {
 	// Check
-	component_R->isComputed = true;
+	component_R->setIsComputed(true);
 	if (!areAllComponentsComputed()) {
 		//:TRICKY: the compute method is called only once
 		return;
@@ -149,6 +148,7 @@ void ManagerComponents_R::compute(Component_R* component_R) {
 	if (massFlowRate != cst::zeroMassFlowRate) {
 		cache_massFlowRate = massFlowRate;
 	}
+	std::cout << "mass flow rate = " << massFlowRate << std::endl;
 
 	// Set all components that are not computed
 	setAllComponentsNoComputed();
@@ -290,7 +290,7 @@ bool ManagerComponents_R::areAllComponentsComputed() {
 	}
 
 	for (int i = 0; i < getNumComponents(); i++) {
-		if (!components[i]->isComputed) {
+		if (!components[i]->isComputed()) {
 			return false;
 		}
 	}
@@ -300,13 +300,7 @@ bool ManagerComponents_R::areAllComponentsComputed() {
 
 void ManagerComponents_R::setAllComponentsNoComputed() {
 	for (int i = 0; i < getNumComponents(); i++) {
-		components[i]->isComputed = false;
-	}
-}
-
-void ManagerComponents_R::setAllComponentsComputed() {
-	for (int i = 0; i < getNumComponents(); i++) {
-		components[i]->isComputed = true;
+		components[i]->setIsComputed(false);
 	}
 }
 

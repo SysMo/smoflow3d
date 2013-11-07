@@ -45,8 +45,8 @@ public:
 	void addVirtualCapacity(VirtualCapacity_R* virtualCapacity);
 	VirtualCapacity_R* getOtherVirtualCapacity(VirtualCapacity_R* virtualCapacity);
 
-public: //computational properties
-	bool isComputed;
+	bool isComputed() {return flagIsComputed;}
+	void setIsComputed(bool isComputed) {this->flagIsComputed = isComputed;}
 
 private:
 	FluidFlow* flow1;
@@ -61,6 +61,8 @@ private:
 
 	VirtualCapacity_R* virtualCapacity1;
 	VirtualCapacity_R* virtualCapacity2;
+
+	bool flagIsComputed;
 };
 
 #else //_cplusplus

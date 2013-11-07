@@ -25,8 +25,7 @@ Component_R::Component_R() {
 	SMOOBJECT_SET_PARENT_COMPONENT(flow2, this);
 
 	flagIsFlowOpen = true;
-
-	isComputed = false;
+	flagIsComputed = false;
 
 	virtualCapacity1 = NULL;
 	virtualCapacity2 = NULL;

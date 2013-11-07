@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>44</SUB_ID_MAX>
+  <SUB_ID_MAX>48</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_virtual_capacity</DEFAULT_ICON>
   <SUB_LABEL>virtual capacity (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -108,6 +108,17 @@
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
     </EVAR>
+    <EVAR>
+     <SUB_ID>47</SUB_ID>
+     <TITLE>R-component indentification (port 1)</TITLE>
+     <VARNAME>port1R</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>R</UNITS>
+    </EVAR>
    </PORT>
    <PORT>
     <EVAR>
@@ -129,6 +140,17 @@
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>48</SUB_ID>
+     <TITLE>R-component indentification (port 2)</TITLE>
+     <VARNAME>port2R</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>R</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

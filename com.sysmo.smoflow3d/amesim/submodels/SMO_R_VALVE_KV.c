@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Sun Nov 3 10:05:21 2013 */
+   Thu Nov 7 13:09:42 2013 */
 
 
 
@@ -58,7 +58,7 @@ REVISIONS :
 */
 
 void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[3]
-      , void *ps[3])
+      , void *ps[3], double *port1R)
 
 {
    int loop, error;
@@ -80,6 +80,12 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[3]
    If necessary, check values of the following:
 
    rp[0..2]
+*/
+
+/*
+   Check and/or reset the following fixed and/or discrete variable
+
+   *port1R     = ??;
 */
 
 
@@ -129,19 +135,21 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[3]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidFlow1Index      fluid flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidState1Index     fluid state1 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow1Index      fluid flow1 index                    [smoFFL] basic variable output  UNPLOTTABLE
+      2 port1R               R-component indentification (port 1) [R]      fixed  UNPLOTTABLE
+      3 fluidState1Index     fluid state1 index                   [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
       1 regulatingSignal     regulating signal [null] basic variable input
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 fluidFlow2Index      fluid flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidState2Index     fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow2Index      fluid flow2 index                    [smoFFL] basic variable output  UNPLOTTABLE
+      2 port1RDup            duplicate of port1R                 
+      3 fluidState2Index     fluid state2 index                   [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 3 internal variables.
@@ -207,9 +215,9 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
    *fluidFlow1Index = Component_R_getFlow1Index(_component);
    *fluidFlow2Index = Component_R_getFlow2Index(_component);
 
-   FluidFlow* flow2 = FluidFlow_get(*fluidFlow2Index);
+   //FluidFlow* flow2 = FluidFlow_get(*fluidFlow2Index);
    //*massFlowRate = FluidFlow_getMassFlowRate(flow2);
-   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow2);
+   //*enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow2);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

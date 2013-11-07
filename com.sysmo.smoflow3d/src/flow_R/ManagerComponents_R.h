@@ -27,9 +27,8 @@ private:
 	void updateFlows(double massFlowRate);
 	bool areAllComponentsComputed();
 	void setAllComponentsNoComputed();
-	void setAllComponentsComputed();
 
-	void connectVirtualCapacityToComponent(VirtualCapacity_R* virtualCapacity, Component_R* component_R);
+	void connectVirtualCapacityAndComponent(VirtualCapacity_R* virtualCapacity, Component_R* component_R);
 	void addMainState(MediumState* state, Component_R* component_R);
 	void constructComponentsChain();
 

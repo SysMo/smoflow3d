@@ -4,8 +4,8 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>65</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_valve_r</DEFAULT_ICON>
+  <SUB_ID_MAX>70</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_r_valve</DEFAULT_ICON>
   <SUB_LABEL>Valve with a regulating signal input (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>3</I_STORES_NUMBER>
@@ -155,6 +155,21 @@
      <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
+     <SUB_ID>68</SUB_ID>
+     <TITLE>R-component indentification (port 1)</TITLE>
+     <VARNAME>port1R</VARNAME>
+     <VISIBILITY>False</VISIBILITY>
+     <TYPE>5</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>R</UNITS>
+     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+     <VALUE>1.00000000000000e+000</VALUE>
+    </EVAR>
+    <EVAR>
      <SUB_ID>58</SUB_ID>
      <TITLE>fluid state1 index</TITLE>
      <VARNAME>fluidState1Index</VARNAME>
@@ -189,6 +204,15 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>70</SUB_ID>
+     <VARNAME>port1RDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
     </EVAR>
     <EVAR>
      <SUB_ID>60</SUB_ID>

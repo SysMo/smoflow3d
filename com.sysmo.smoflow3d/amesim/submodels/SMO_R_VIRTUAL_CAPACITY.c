@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY skeleton created by AME Submodel editing utility
-   Sun Nov 3 11:18:31 2013 */
+   Thu Nov 7 11:52:33 2013 */
 
 
 
@@ -103,15 +103,17 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], int ic[4]
 
 /*  There are 2 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidStateIndex     fluid state index  [smoTDS] fixed  UNPLOTTABLE
-      2 fluidFlow1Index     fluid flow index 1 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndex     fluid state index                    [smoTDS] fixed  UNPLOTTABLE
+      2 fluidFlow1Index     fluid flow index 1                   [smoFFL] basic variable input  UNPLOTTABLE
+      3 port1R              R-component indentification (port 1) [R]      basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 stateIndexDup       duplicate of fluidStateIndex
-      2 fluidFlow2Index     fluid flow index 2 [smoFFL] basic variable input  UNPLOTTABLE
+      1 stateIndexDup       duplicate of fluidStateIndex        
+      2 fluidFlow2Index     fluid flow index 2                   [smoFFL] basic variable input  UNPLOTTABLE
+      3 port2R              R-component indentification (port 2) [R]      basic variable input  UNPLOTTABLE
 */
 
 /*  There are 6 internal variables.
@@ -125,10 +127,10 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], int ic[4]
 */
 
 void smo_r_virtual_capacity_(int *n, double *fluidFlow1Index
-      , double *fluidFlow2Index, double *pressure, double *temperature
-      , double *density, double *specificEnthalpy
-      , double *gasMassFraction, double *superHeat, int ip[1]
-      , int ic[4], void *ps[4])
+      , double *port1R, double *fluidFlow2Index, double *port2R
+      , double *pressure, double *temperature, double *density
+      , double *specificEnthalpy, double *gasMassFraction
+      , double *superHeat, int ip[1], int ic[4], void *ps[4])
 
 {
    int loop;
@@ -142,7 +144,9 @@ void smo_r_virtual_capacity_(int *n, double *fluidFlow1Index
 /* Common -> SI units conversions. */
 
 /*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *port1R   *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
+/*   *port2R   *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -171,7 +175,9 @@ void smo_r_virtual_capacity_(int *n, double *fluidFlow1Index
 /* SI -> Common units conversions. */
 
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *port1R   /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+/*   *port2R   /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
 }
