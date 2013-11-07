@@ -57,7 +57,7 @@ double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 		* flowFactor * upstreamState->rho() * vFlow * vFlow / 2;
 
 	absPressureDrop = pressureDrop;
-	if (massFlowRate < 0) {
+	if (massFlowRate < 0.0) {
 		pressureDrop = -pressureDrop;
 	}
 	return pressureDrop;

@@ -61,7 +61,7 @@ void PipeHeatExchNoPrDropNoMassAcc_CR::init(
 }
 
 void PipeHeatExchNoPrDropNoMassAcc_CR::compute() {
-	if (fluidFlowInlet->massFlowRate < m::eps) {
+	if (fluidFlowInlet->massFlowRate < 0.0) {
 		RaiseComponentError(this, "Reverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
 	}
 

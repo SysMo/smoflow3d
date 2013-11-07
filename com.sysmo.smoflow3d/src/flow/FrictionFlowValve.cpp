@@ -147,7 +147,7 @@ public:
 	virtual double computePressureDrop(double massFlowRate) {
 		// Set mass flow rate
 		this->massFlowRate = massFlowRate;
-		if (massFlowRate < 0 && !isBidirectionalFlowAllowed()) {
+		if (massFlowRate < 0.0 && !isBidirectionalFlowAllowed()) {
 			absPressureDrop = 0.0;
 			return 0.0;
 		}
@@ -183,7 +183,7 @@ public:
 		}
 
 		absPressureDrop = pressureDrop;
-		if (massFlowRate < 0) {
+		if (massFlowRate < 0.0) {
 			pressureDrop = -pressureDrop;
 		}
 		return pressureDrop;

@@ -130,7 +130,7 @@ public:
 	virtual void compute() {
 		// Compute flows
 		double massFlowRate = -port2Flow->massFlowRate;
-		if (massFlowRate < -m::eps) {
+		if (massFlowRate < 0.0) {
 			RaiseComponentError(this, "Reverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
 		}
 		port1Flow->massFlowRate = port2Flow->massFlowRate;
