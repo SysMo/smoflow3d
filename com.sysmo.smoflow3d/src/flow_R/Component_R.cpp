@@ -25,10 +25,15 @@ Component_R::Component_R() {
 	SMOOBJECT_SET_PARENT_COMPONENT(flow2, this);
 
 	flagIsFlowOpen = true;
+	flagIsBidirectionalFlowAllowed = true;
 	flagIsComputed = false;
+	flagIsReversed = false;
 
 	virtualCapacity1 = NULL;
 	virtualCapacity2 = NULL;
+
+	port1StateIndex = -1;
+	port2StateIndex = -1;
 }
 
 Component_R::~Component_R() {
@@ -43,6 +48,8 @@ void Component_R::init(MediumState* state1, MediumState* state2) {
 }
 
 void Component_R::updateFlows(double massFlowRate) {
+	correctMassFlowRate(massFlowRate);
+
 	flow1->massFlowRate = -massFlowRate;
 	flow1->enthalpyFlowRate = flow1->massFlowRate * state1->h();
 
@@ -51,6 +58,8 @@ void Component_R::updateFlows(double massFlowRate) {
 }
 
 MediumState* Component_R::getUpstreamState(double massFlowRate) {
+	correctMassFlowRate(massFlowRate);
+
 	if (massFlowRate >= 0) {
 		return state1;
 	} else {
@@ -59,6 +68,8 @@ MediumState* Component_R::getUpstreamState(double massFlowRate) {
 }
 
 MediumState* Component_R::getDownstreamState(double massFlowRate) {
+	correctMassFlowRate(massFlowRate);
+
 	if (massFlowRate >= 0) {
 		return state2;
 	} else {
@@ -90,6 +101,34 @@ VirtualCapacity_R* Component_R::getOtherVirtualCapacity(VirtualCapacity_R* virtu
 	}
 
 	return NULL;
+}
+
+bool Component_R::isFlowClosed(double massFlowRate) {
+	if (flagIsFlowOpen == false) {
+		return true;
+	}
+
+	correctMassFlowRate(massFlowRate);
+	if (massFlowRate < 0.0 && !isBidirectionalFlowAllowed()) {
+		return true;
+	}
+
+	return false;
+}
+
+void Component_R::correctMassFlowRate(double& massFlowRate) {
+	if (isReversed()) {
+		massFlowRate = -massFlowRate;
+	}
+}
+
+double Component_R::getCorrectedMassFlowRate(const double& massFlowRate) {
+	if (isReversed()) {
+		return -massFlowRate;
+	}
+	else {
+		return massFlowRate;
+	}
 }
 
 /**

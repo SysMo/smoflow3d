@@ -26,35 +26,56 @@ public:
 	virtual bool compute(double massFlowRate, double minDownstreamPressure) = 0;
 	void updateFlows(double massFlow);
 
-	MediumState* getUpstreamState(double massFlowRate);
-	MediumState* getDownstreamState(double massFlowRate);
-
 	int getFlow1Index() {return flow1Index;}
 	int getFlow2Index() {return flow2Index;}
 
-	virtual bool isFlowClosed(double massFlowRate) {return !flagIsFlowOpen;}
-	void closeFlow() {flagIsFlowOpen = false;}
-	void openFlow() {flagIsFlowOpen = true;}
+	MediumState* getUpstreamState(double massFlowRate);
+	MediumState* getDownstreamState(double massFlowRate);
 
 	void addVirtualCapacity(VirtualCapacity_R* virtualCapacity);
 	VirtualCapacity_R* getOtherVirtualCapacity(VirtualCapacity_R* virtualCapacity);
 
+	int getPort1StateIndex() {return port1StateIndex;}
+	int getPort2StateIndex() {return port2StateIndex;}
+	void setPort1StateIndex(int port1StateIndex) {this->port1StateIndex = port1StateIndex;}
+	void setPort2StateIndex(int port2StateIndex) {this->port2StateIndex = port2StateIndex;}
+
+	bool isFlowClosed(double massFlowRate);
+	void closeFlow() {flagIsFlowOpen = false;}
+	void openFlow() {flagIsFlowOpen = true;}
+
+	bool isBidirectionalFlowAllowed() {return flagIsBidirectionalFlowAllowed;}
+	void setIsBidirectionalFlowAllowed(bool isBidirectionalFlowAllowed) {this->flagIsBidirectionalFlowAllowed = isBidirectionalFlowAllowed;}
+
 	bool isComputed() {return flagIsComputed;}
 	void setIsComputed(bool isComputed) {this->flagIsComputed = isComputed;}
 
+	bool isReversed() {return flagIsReversed;}
+	void setIsReversed(bool isReversed) {flagIsReversed = isReversed;}
+
+	double getCorrectedMassFlowRate(const double& massFlowRate);
+	void correctMassFlowRate(double& massFlowRate);
+
 private:
-	FluidFlow* flow1;
 	int flow1Index;
-	FluidFlow* flow2;
 	int flow2Index;
+
+	FluidFlow* flow1;
+	FluidFlow* flow2;
 
 	MediumState* state1;
 	MediumState* state2;
 
-	bool flagIsFlowOpen;
-
 	VirtualCapacity_R* virtualCapacity1;
 	VirtualCapacity_R* virtualCapacity2;
+
+	int port1StateIndex;
+	int port2StateIndex;
+
+	bool flagIsFlowOpen;
+	bool flagIsBidirectionalFlowAllowed;
+	bool flagIsReversed; //:TRICKY: the flag is true when the component ports are reversed in the R-components chain
+						 //(e.g. [mainComponent1.port]->...->[port2.Component_R.port1]->...->[port.mainComponent2])
 
 	bool flagIsComputed;
 };

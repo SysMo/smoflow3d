@@ -25,7 +25,6 @@ public:
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
 	void setRegulatingSignal(double regulatingSignal);
-	virtual bool isFlowClosed(double massFlowRate);
 
 protected:
 	FrictionFlowValve* friction;

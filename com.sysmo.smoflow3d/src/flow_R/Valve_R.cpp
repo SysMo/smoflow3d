@@ -25,7 +25,8 @@ void Valve_R::init(MediumState* state1, MediumState* state2) {
 }
 
 bool Valve_R::compute(double massFlowRate, double minDownstreamPressure) {
-	friction->computePressureDrop(massFlowRate);
+	double corrMassFlowRate = getCorrectedMassFlowRate(massFlowRate);
+	friction->computePressureDrop(corrMassFlowRate);
 
 	// Try to compute downstream pressure
 	MediumState* upstreamState = getUpstreamState(massFlowRate);
@@ -52,18 +53,6 @@ void Valve_R::setRegulatingSignal(double regulatingSignal) {
 	}
 }
 
-bool Valve_R::isFlowClosed(double massFlowRate) {
-	if (Component_R::isFlowClosed(massFlowRate)) {
-		return true;
-	}
-
-	if (massFlowRate < 0.0 && !friction->isBidirectionalFlowAllowed()) {
-		return true;
-	}
-
-	return false;
-}
-
 /**
  * Valve_R - C
  */
@@ -82,7 +71,11 @@ Valve_R* ValveKv_R_new(
 			1.0e4 //maximumMassFlowRate
 	);
 
-	return new Valve_R(friction);
+	Valve_R* valve = new Valve_R(friction);
+	if (allowBidirectionalFlow == 0) {
+		valve->setIsBidirectionalFlowAllowed(false);
+	}
+	return valve;
 }
 
 void Valve_R_setRegulatingSignal(Valve_R* valve, double regulatingSignal) {

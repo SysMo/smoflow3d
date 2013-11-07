@@ -194,8 +194,8 @@ void testRComponents() {
 	MediumState* mainState1 = MediumState_new(fluid);
 	MediumState* mainState2 = MediumState_new(fluid);
 
-	mainState1->update_Tp( 60, 300e5); //[K], [Pa]
-	mainState2->update_Tp(300,   1e5); //[K], [Pa]
+	mainState1->update_Tp(300, 300e5); //[K], [Pa]
+	mainState2->update_Tp(300,   3e5); //[K], [Pa]
 
 	// Create pipes and valves
 	Pipe_R* pipe1 = StraightPipe_R_new(

@@ -35,8 +35,10 @@ void Pipe_R::init(MediumState* state1, MediumState* state2) {
 }
 
 bool Pipe_R::compute(double massFlowRate, double minDownstreamPressure) {
+	double corrMassFlowRate = getCorrectedMassFlowRate(massFlowRate);
+
 	// Compute pressure drop
-	friction->computePressureDrop(massFlowRate);
+	friction->computePressureDrop(corrMassFlowRate);
 
 	// Try to compute downstream pressure
 	MediumState* upstreamState = getUpstreamState(massFlowRate);
@@ -47,13 +49,12 @@ bool Pipe_R::compute(double massFlowRate, double minDownstreamPressure) {
 
 	// Compute heat flow rate
 	if (hasHeatExhcanger()) {
-		convection->compute(massFlowRate);
+		convection->compute(corrMassFlowRate);
 	}
 
 	// Compute downstream enthalpy
 	double downstreamEnthalpy = upstreamState->h();
 	if (hasHeatExhcanger()) {
-		std::cout << "  |heat flow rate = " << convection->getHeatFlowRate() << ", convCoeff = " << convection->getConvectionCoefficient() << "|  ";
 		downstreamEnthalpy += convection->getHeatFlowRate() / m::fabs(massFlowRate);
 	}
 

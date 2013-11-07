@@ -33,6 +33,9 @@ void ManagerComponents_R::add(Component_R* component_R, int state1Index, int sta
 		RaiseComponentError(component_R, "Try to add R-component to R-components chain that is already constructed.");
 	}
 
+	component_R->setPort1StateIndex(state1Index);
+	component_R->setPort2StateIndex(state2Index);
+
 	MediumState* state1 = MediumState_get(state1Index);
 	MediumState* state2 = MediumState_get(state2Index);
 	if (state1->getMedium() != state2->getMedium()) {
@@ -119,30 +122,46 @@ void ManagerComponents_R::constructComponentsChain() {
 	MediumState_register(componentState1);
 	componentState1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
 
+
+	VirtualCapacity_R* prevVirtualCapacity = NULL;
 	do {
 		MediumState* componentState2 = virtualCapacity->getState();
-		component_R->init(componentState1, componentState2);
+		if (component_R->getPort2StateIndex() != virtualCapacity->getStateIndex()) {
+			component_R->setIsReversed(true);
+			component_R->init(componentState2, componentState1);
+		} else {
+			component_R->init(componentState1, componentState2);
+		}
+		componentState1 = componentState2;
 		components.push_back(component_R);
 
-		componentState1 = componentState2;
 		component_R = virtualCapacity->getOtherComponent(component_R);
 		if (component_R == NULL) {
 			RaiseComponentError(component_R, "Could not construct R-components chain - there is a bad (R-C-R) connection.");
 		}
 
+		prevVirtualCapacity = virtualCapacity;
 		virtualCapacity = component_R->getOtherVirtualCapacity(virtualCapacity);
 	} while (virtualCapacity != NULL);
+
 
 	MediumState* componentState2 = MediumState_new(fluid);
 	MediumState_register(componentState2);
 	componentState2->update_Tp(cst::StandardTemperature, cst::StandardPressure);
 
-	component_R->init(componentState1, componentState2);
+	if (component_R->getPort1StateIndex() != prevVirtualCapacity->getStateIndex()) {
+		component_R->setIsReversed(true);
+		component_R->init(componentState2, componentState1);
+	} else {
+		component_R->init(componentState1, componentState2);
+	}
 	components.push_back(component_R);
+
 
 	if (component_R != componentMainState2) {
 		RaiseComponentError(component_R, "Could not construct R-components chain - there are two end R-components.");
 	}
+
 
 	isComponentsChainContructed = true;
 }
