@@ -44,7 +44,6 @@ public:
 
 	void addVirtualCapacity(VirtualCapacity_R* virtualCapacity);
 	VirtualCapacity_R* getOtherVirtualCapacity(VirtualCapacity_R* virtualCapacity);
-	bool hasTwoVirtualCapacity() {return virtualCapacity1 != NULL && virtualCapacity2 != NULL;}
 
 public: //computational properties
 	bool isComputed;

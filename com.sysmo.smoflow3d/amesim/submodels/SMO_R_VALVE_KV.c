@@ -193,20 +193,12 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
+   amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
    if (firstc_()) {
-	   /*
-	   MediumState* state1 = MediumState_get(*fluidState1Index);
-	   MediumState* state2 = MediumState_get(*fluidState2Index);
-	   TwoPortValve_init(_component, state1, state2); //:TODO:
-	   */
 	   ManagerComponents_R_add(_component, *fluidState1Index, *fluidState2Index);
    }
-   amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
-
    Valve_R_setRegulatingSignal(_component, *regulatingSignal);
    ManagerComponents_R_compute(_component);
-   //TwoPortValve_compute(_component);
-   //TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
    //*massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    //*enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
@@ -214,6 +206,10 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 
    *fluidFlow1Index = Component_R_getFlow1Index(_component);
    *fluidFlow2Index = Component_R_getFlow2Index(_component);
+
+   FluidFlow* flow2 = FluidFlow_get(*fluidFlow2Index);
+   //*massFlowRate = FluidFlow_getMassFlowRate(flow2);
+   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow2);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

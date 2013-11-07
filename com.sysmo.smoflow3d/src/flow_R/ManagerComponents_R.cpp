@@ -304,6 +304,12 @@ void ManagerComponents_R::setAllComponentsNoComputed() {
 	}
 }
 
+void ManagerComponents_R::setAllComponentsComputed() {
+	for (int i = 0; i < getNumComponents(); i++) {
+		components[i]->isComputed = true;
+	}
+}
+
 bool ManagerComponents_R::hasVirtualCapacityParent(MediumState* state) {
 	if (getVirtualCapacityParent(state) != NULL) {
 		return true;

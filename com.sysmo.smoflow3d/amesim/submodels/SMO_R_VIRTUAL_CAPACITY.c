@@ -36,7 +36,7 @@ REVISIONS :
 
 #define _fluidState ps[1]
 
-/*
+/*//:TODO: (MILEN) DELME
 #define _fluidFlow1 ps[2]
 #define _fluidFlow2 ps[3]
 */
@@ -158,10 +158,6 @@ void smo_r_virtual_capacity_(int *n, double *fluidFlow1Index
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-/*   if (firstc_()) {
-	   _fluidFlow1 = FluidFlow_get(*fluidFlow1Index);
-	   _fluidFlow2 = FluidFlow_get(*fluidFlow2Index);
-   }*/
    amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
 
    *pressure = MediumState_p(_fluidState);
