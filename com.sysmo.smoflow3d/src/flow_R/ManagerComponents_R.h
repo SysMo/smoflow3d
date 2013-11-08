@@ -30,7 +30,11 @@ private:
 
 	void connectVirtualCapacityAndComponent(VirtualCapacity_R* virtualCapacity, Component_R* component_R);
 	void addMainState(MediumState* state, Component_R* component_R);
-	void constructComponentsChain();
+
+	void constructComponentsChain_OneComponent();
+	void constructComponentsChain_ManyComponents();
+	bool isComponentsChainReadyForConstructing_ManyComponents();
+
 
 	inline int getNumComponents() {return (int) components.size();}
 

@@ -48,22 +48,27 @@ void ManagerComponents_R::add(Component_R* component_R, int state1Index, int sta
 		//:TRICKY: R-components chain contains only one R-component (i.e. the input component_R)
 		addMainState(state1, component_R);
 		addMainState(state2, component_R);
+		constructComponentsChain_OneComponent();
 	} else if (state1_hasVirtualCapacityParent && state2_hasVirtualCapacityParent) {
 		VirtualCapacity_R* state1VirtualCapacityParent = getVirtualCapacityParent(state1);
 		connectVirtualCapacityAndComponent(state1VirtualCapacityParent, component_R);
 
 		VirtualCapacity_R* state2VirtualCapacityParent = getVirtualCapacityParent(state2);
 		connectVirtualCapacityAndComponent(state2VirtualCapacityParent, component_R);
+
+		constructComponentsChain_ManyComponents();
 	} else if (!state1_hasVirtualCapacityParent && state2_hasVirtualCapacityParent) {
 		VirtualCapacity_R* state2VirtualCapacityParent = getVirtualCapacityParent(state2);
 		connectVirtualCapacityAndComponent(state2VirtualCapacityParent, component_R);
 
 		addMainState(state1, component_R);
+		constructComponentsChain_ManyComponents();
 	} else if (state1_hasVirtualCapacityParent && !state2_hasVirtualCapacityParent) {
 		VirtualCapacity_R* state1VirtualCapacityParent = getVirtualCapacityParent(state1);
 		connectVirtualCapacityAndComponent(state1VirtualCapacityParent, component_R);
 
 		addMainState(state2, component_R);
+		constructComponentsChain_ManyComponents();
 	} else {
 		RaiseComponentError(component_R, "Unreachable source code!");
 	}
@@ -84,40 +89,72 @@ void ManagerComponents_R::addMainState(MediumState* state, Component_R* componen
 	if (mainState1 != NULL && mainState2 == NULL) {
 		mainState2 = state;
 		componentMainState2 = component_R;
-		constructComponentsChain();
 		return;
 	}
 
 	RaiseComponentError(component_R, "R-components chain has more than two ends.");
 }
 
-void ManagerComponents_R::constructComponentsChain() {
+void ManagerComponents_R::constructComponentsChain_OneComponent() {
+	components.push_back(componentMainState1);
+
+	// Initialize states of the input component_R
 	Medium* fluid = mainState1->getMedium();
+	MediumState* componentState1 = MediumState_new(fluid);
+	MediumState_register(componentState1);
+	componentState1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
+
+	MediumState* componentState2 = MediumState_new(fluid);
+	MediumState_register(componentState2);
+	componentState2->update_Tp(cst::StandardTemperature, cst::StandardPressure);
+
+	componentMainState1->init(componentState1, componentState2);
+	isComponentsChainContructed = true;
+}
+
+bool ManagerComponents_R::isComponentsChainReadyForConstructing_ManyComponents() {
+	if (componentMainState1 == NULL) {
+		return false;
+	}
 
 	Component_R* component_R = componentMainState1;
 	VirtualCapacity_R* virtualCapacity = component_R->getOtherVirtualCapacity(NULL); //:TRICKY: get the first virtual capacity
-
-
-	// Create R-components chain that contains only one R-component  (i.e. componentMainState1 which is the same as componentMainState2)
 	if (virtualCapacity == NULL) {
-		components.push_back(componentMainState1);
+		return false;
+	}
 
-		// Initialize states of the input component_R
-		MediumState* componentState1 = MediumState_new(fluid);
-		MediumState_register(componentState1);
-		componentState1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
+	do {
+		component_R = virtualCapacity->getOtherComponent(component_R);
+		if (component_R == NULL) {
+			return false;
+		}
 
-		MediumState* componentState2 = MediumState_new(fluid);
-		MediumState_register(componentState2);
-		componentState2->update_Tp(cst::StandardTemperature, cst::StandardPressure);
+		virtualCapacity = component_R->getOtherVirtualCapacity(virtualCapacity);
+	} while (virtualCapacity != NULL);
 
-		componentMainState1->init(componentState1, componentState2);
-		isComponentsChainContructed = true;
+	if (component_R != componentMainState2) {
+		return false;
+	}
+
+	return true;
+}
+
+void ManagerComponents_R::constructComponentsChain_ManyComponents() {
+	// Check
+	if (!isComponentsChainReadyForConstructing_ManyComponents()) {
 		return;
+	}
+
+	// Start construction of the R-components chain
+	Component_R* component_R = componentMainState1;
+	VirtualCapacity_R* virtualCapacity = component_R->getOtherVirtualCapacity(NULL); //:TRICKY: get the first virtual capacity
+	if (virtualCapacity == NULL) {
+		RaiseComponentError(component_R, "Could not construct R-components chain - the first R-component is not connected to the 'Virtual Capacity'-component.");
 	}
 
 
 	// Create R-components chain that contains more than two R-component)
+	Medium* fluid = mainState1->getMedium();
 	MediumState* componentState1 = MediumState_new(fluid);
 	MediumState_register(componentState1);
 	componentState1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
