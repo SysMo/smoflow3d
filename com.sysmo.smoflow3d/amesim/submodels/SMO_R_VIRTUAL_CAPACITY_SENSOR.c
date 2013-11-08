@@ -1,5 +1,5 @@
-/* Submodel SMO_MEDIUM_PROPERTY_SENSOR skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:07:48 2013 */
+/* Submodel SMO_R_VIRTUAL_CAPACITY_SENSOR skeleton created by AME Submodel editing utility
+   Fri Nov 8 13:46:46 2013 */
 
 
 
@@ -24,12 +24,12 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_MEDIUM_PROPERTY_SENSOR"
+#define _SUBMODELNAME_ "SMO_R_VIRTUAL_CAPACITY_SENSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "media/MediumState.h"
 
-#define _fluidStateIndex ic[0]
 #define _fluidState ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -46,8 +46,8 @@ REVISIONS :
    propertyIndex measured fluid property
 */
 
-void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
-      , double c[20], int ic[1], void *ps[1])
+void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
+      , double c[19], void *ps[1], double *port1R)
 
 {
    int loop, error;
@@ -69,15 +69,21 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
    rp[0..1]
 */
 
+/*
+   Check and/or reset the following fixed and/or discrete variable
+
+   *port1R     = ??;
+*/
+
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
 
 /*   Integer parameter checking:   */
 
-   if (propertyIndex < 1 || propertyIndex > 20)
+   if (propertyIndex < 1 || propertyIndex > 19)
    {
-      amefprintf(stderr, "\nmeasured fluid property must be in range [1..20].\n");
+      amefprintf(stderr, "\nmeasured fluid property must be in range [1..19].\n");
       error = 2;
    }
 
@@ -102,16 +108,17 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
    Port 1 has 2 variables:
 
       1 fluidStateIndexDup     duplicate of fluidStateIndex
-      2 fluidFlowIndex         fluid flow index [smoFFL] basic variable input  UNPLOTTABLE
+      2 fluidFlowIndex         fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
-      1 measuredValue     measured value [null] multi line macro 'smo_medium_property_sensor_macro0_'
+      1 measuredValue     measured value [null] basic variable output
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 fluidFlowIndexDup     duplicate of fluidFlowIndex
-      2 fluidStateIndex       fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndexDup     duplicate of fluidFlowIndex         
+      2 port1R                R-component indentification (port 1) [R]      fixed  UNPLOTTABLE
+      3 fluidStateIndex       fluid state index                    [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 19 internal variables.
@@ -137,7 +144,7 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
      19 sigma                       surface tension                     [N/m]               basic variable
 */
 
-void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
+void smo_r_virtual_capacity_sensor_(int *n, double *fluidFlowIndex
       , double *measuredValue, double *fluidStateIndex
       , double *pressure, double *temperature, double *temperatureC
       , double *density, double *specificVolume
@@ -146,7 +153,7 @@ void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
       , double *specificHelmholtzEnergy, double *specificGibbsEnergy
       , double *gasMassFraction, double *superheating, double *dpc
       , double *mu, double *lambda, double *Pr, double *sigma
-      , double rp[2], int ip[1], double c[20], int ic[1], void *ps[1])
+      , double rp[2], int ip[1], double c[19], void *ps[1])
 
 {
    int loop;
@@ -169,6 +176,7 @@ void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
 /*
    Set all submodel outputs below:
 
+   *measuredValue = ??;
    *pressure   = ??;
    *temperature = ??;
    *temperatureC = ??;
@@ -193,6 +201,40 @@ void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
+   if (firstc_()) {
+	   _fluidState = MediumState_get(*fluidStateIndex);
+   }
+
+   static const double outputInternalGain[19] = {
+		   1e-5, 1, 1, 1, 1,
+		   1e-3, 1e-3, 1e-3, 1e-3, 1,
+		   1, 1, 1, 1, 1,
+		   1, 1, 1, 1
+   };
+
+   c[0] = MediumState_p(_fluidState);
+   c[1] = MediumState_T(_fluidState);
+   c[2] = c[1] - 273.15;
+   c[3] = MediumState_rho(_fluidState);
+   c[4] = 1./c[3];
+   c[5] = MediumState_u(_fluidState);
+   c[6] = MediumState_h(_fluidState);
+   //c[7] = MediumState_s(fluidState);
+   c[8] = MediumState_cp(_fluidState);
+   c[9] = MediumState_cv(_fluidState);
+   //c[10] = MediumState_(fluidState);
+   //c[11] = MediumState_(fluidState);
+   c[12] = MediumState_q(_fluidState);
+   c[13] = MediumState_deltaTSat(_fluidState);
+   //c[14] = MediumState_(fluidState);
+   c[15] = MediumState_mu(_fluidState);
+   c[16] = MediumState_lambda(_fluidState);
+   c[17] = MediumState_Pr(_fluidState);
+   //c[18] = MediumState_(fluidState);
+
+
+   *measuredValue = c[propertyIndex - 1] * outputInternalGain[propertyIndex - 1] * gain + offset;
    *pressure = c[0];
    *temperature = c[1];
    *temperatureC = c[2];
@@ -225,83 +267,5 @@ void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
    *specificHelmholtzEnergy /= 1.00000000000000e+003;
    *specificGibbsEnergy /= 1.00000000000000e+003;
    *dpc      /= 1.00000000000000e+005;
-}
-
-extern double smo_medium_property_sensor_macro0_(int *n
-      , double *fluidStateIndex, double rp[2], int ip[1], double c[20]
-      , int ic[1], void *ps[1])
-
-{
-   double measuredValue;
-   int loop;
-/* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
-/* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int propertyIndex;
-   double offset, gain;
-
-   propertyIndex = ip[0];
-
-   offset     = rp[0];
-   gain       = rp[1];
-   loop = 0;
-
-/* Common -> SI units conversions. */
-
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
-
-/*
-   Define and return the following macro variable:
-
-   measuredValue = ??;
-*/
-
-
-/* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   if (firstc_()) {
-	   _fluidStateIndex = *fluidStateIndex;
-	   _fluidState = MediumState_get(_fluidStateIndex);
-   }
-
-   static const double outputInternalGain[20] = {
-		   1e-5, 1, 1, 1, 1,
-		   1e-3, 1e-3, 1e-3, 1e-3, 1,
-		   1, 1, 1, 1, 1,
-		   1, 1, 1, 1, 1
-   };
-
-   c[0] = MediumState_p(_fluidState);
-   c[1] = MediumState_T(_fluidState);
-   c[2] = c[1] - 273.15;
-   c[3] = MediumState_rho(_fluidState);
-   c[4] = 1./c[3];
-   c[5] = MediumState_u(_fluidState);
-   c[6] = MediumState_h(_fluidState);
-   //c[7] = MediumState_s(fluidState);
-   c[8] = MediumState_cp(_fluidState);
-   c[9] = MediumState_cv(_fluidState);
-   //c[10] = MediumState_(fluidState);
-   //c[11] = MediumState_(fluidState);
-   c[12] = MediumState_q(_fluidState);
-   c[13] = MediumState_deltaTSat(_fluidState);
-   //c[14] = MediumState_(fluidState);
-   c[15] = MediumState_mu(_fluidState);
-   c[16] = MediumState_lambda(_fluidState);
-   c[17] = MediumState_Pr(_fluidState);
-   //c[18] = MediumState_(fluidState);
-
-   if (propertyIndex == 20) {
-	   measuredValue = _fluidStateIndex;
-   } else {
-	   measuredValue = c[propertyIndex - 1]
-		 * outputInternalGain[propertyIndex - 1] * gain + offset;
-   }
-/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
-
-/* SI -> Common units conversions. */
-
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
-
-
-   return measuredValue;
 }
 
