@@ -43,7 +43,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>39</SUB_ID>
-    <TITLE>flow pressure</TITLE>
+    <TITLE>pressure</TITLE>
     <VARNAME>pressure</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
@@ -52,7 +52,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>11</SUB_ID>
-    <TITLE>flow temperature</TITLE>
+    <TITLE>temperature</TITLE>
     <VARNAME>temperature</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>

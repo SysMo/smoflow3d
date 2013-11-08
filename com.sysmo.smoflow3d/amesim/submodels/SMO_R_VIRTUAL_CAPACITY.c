@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY skeleton created by AME Submodel editing utility
-   Fri Nov 8 11:22:48 2013 */
+   Fri Nov 8 13:13:05 2013 */
 
 
 
@@ -114,8 +114,8 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], void *ps[3]
 
       1 massFlowRate         mass flow rate (at port2)     [kg/s]          basic variable
       2 enthalpyFlowRate     enthalpy flow rate (at port2) [W]             basic variable
-      3 pressure             flow pressure                 [bar -> Pa]     basic variable
-      4 temperature          flow temperature              [K]             basic variable
+      3 pressure             pressure                      [bar -> Pa]     basic variable
+      4 temperature          temperature                   [K]             basic variable
       5 density              density                       [kg/m**3]       basic variable
       6 specificEnthalpy     specific enthalpy             [kJ/kg -> J/kg] basic variable
       7 gasMassFraction      gas mass fraction             [null]          basic variable
