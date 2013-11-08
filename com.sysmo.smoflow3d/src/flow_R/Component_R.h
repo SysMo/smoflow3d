@@ -53,8 +53,11 @@ public:
 	bool isReversed() {return flagIsReversed;}
 	void setIsReversed(bool isReversed) {flagIsReversed = isReversed;}
 
-	double getCorrectedMassFlowRate(const double& massFlowRate);
+protected:
 	void correctMassFlowRate(double& massFlowRate);
+
+	MediumState* _getUpstreamState(double massFlowRate);
+	MediumState* _getDownstreamState(double massFlowRate);
 
 private:
 	int flow1Index;

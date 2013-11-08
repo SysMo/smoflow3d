@@ -20,4 +20,10 @@
 	SmoComponent_setInstanceIndex(_component, *n); \
 	SmoComponent_setComponentName(_component, _SUBMODELNAME_); \
 
+#define SMOCOMPONENT_PRINT_MAIN_CALC \
+	amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
+
+#define SMOCOMPONENt_PRINT_MACRO \
+	amefprintf(stderr, "\n%s instance %d - macro \n", _SUBMODELNAME_, *n);
+
 #endif /* SMOFLOWAME_H_ */

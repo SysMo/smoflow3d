@@ -59,7 +59,15 @@ void Component_R::updateFlows(double massFlowRate) {
 
 MediumState* Component_R::getUpstreamState(double massFlowRate) {
 	correctMassFlowRate(massFlowRate);
+	return _getUpstreamState(massFlowRate);
+}
 
+MediumState* Component_R::getDownstreamState(double massFlowRate) {
+	correctMassFlowRate(massFlowRate);
+	return _getDownstreamState(massFlowRate);
+}
+
+MediumState* Component_R::_getUpstreamState(double massFlowRate) {
 	if (massFlowRate >= 0) {
 		return state1;
 	} else {
@@ -67,9 +75,7 @@ MediumState* Component_R::getUpstreamState(double massFlowRate) {
 	}
 }
 
-MediumState* Component_R::getDownstreamState(double massFlowRate) {
-	correctMassFlowRate(massFlowRate);
-
+MediumState* Component_R::_getDownstreamState(double massFlowRate) {
 	if (massFlowRate >= 0) {
 		return state2;
 	} else {
@@ -119,15 +125,6 @@ bool Component_R::isFlowClosed(double massFlowRate) {
 void Component_R::correctMassFlowRate(double& massFlowRate) {
 	if (isReversed()) {
 		massFlowRate = -massFlowRate;
-	}
-}
-
-double Component_R::getCorrectedMassFlowRate(const double& massFlowRate) {
-	if (isReversed()) {
-		return -massFlowRate;
-	}
-	else {
-		return massFlowRate;
 	}
 }
 

@@ -244,11 +244,11 @@ void smo_fluid_chamber_(int *n, double *fluidStateIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   _fluidFlow1 = FluidFlow_get(*fluidFlow1Index);
 	   _fluidFlow2 = FluidFlow_get(*fluidFlow2Index);
    }
-   amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
 
    double massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1) + FluidFlow_getMassFlowRate(_fluidFlow2);
    double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1) + FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
@@ -306,7 +306,7 @@ extern double smo_fluid_chamber_macro0_(int *n, double *state1
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   amefprintf(stderr, "\n%s instance %d - macro \n", _SUBMODELNAME_, *n);
+   SMOCOMPONENt_PRINT_MACRO
    FluidChamber_setStateValues(_component, *state1, *state2);
    fluidStateIndex = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */

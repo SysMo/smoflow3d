@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Thu Nov 7 13:09:42 2013 */
+   Fri Nov 8 11:06:40 2013 */
 
 
 
@@ -33,13 +33,8 @@ REVISIONS :
 
 #define _component ps[0]
 
-/*//:TODO: (MILEN) DELME
-#define _fluidFlow1 ps[1]
 #define _fluidFlow1Index ic[1]
-
-#define _fluidFlow2 ps[2]
 #define _fluidFlow2Index ic[2]
-*/
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -57,8 +52,8 @@ REVISIONS :
    allowBidirectionalFlow allow bi-directional flow            
 */
 
-void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[3]
-      , void *ps[3], double *port1R)
+void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[2]
+      , void *ps[1], double *port1R)
 
 {
    int loop, error;
@@ -130,6 +125,9 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[3]
 		   transitionMassFlowRate,
 		   transitionPressureDifference);
    SMOCOMPONENT_SET_PROPS(_component)
+
+   _fluidFlow1Index = Component_R_getFlow1Index(_component);
+   _fluidFlow2Index = Component_R_getFlow2Index(_component);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -152,19 +150,14 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[3]
       3 fluidState2Index     fluid state2 index                   [smoTDS] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 3 internal variables.
+/*  There are 0 internal variables.
 
-      1 massFlowRate         mass flow rate (at port3)     [kg/s]        basic variable
-      2 enthalpyFlowRate     enthalpy flow rate (at port3) [W]           basic variable
-      3 pressureLoss         total pressure loss           [barA -> PaA] basic variable
 */
 
 void smo_r_valve_kv_(int *n, double *fluidFlow1Index
       , double *fluidState1Index, double *regulatingSignal
       , double *fluidFlow2Index, double *fluidState2Index
-      , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressureLoss, double rp[3], int ip[2], int ic[3]
-      , void *ps[3], int *flag)
+      , double rp[3], int ip[2], int ic[2], void *ps[1], int *flag)
 
 {
    int loop, logi;
@@ -192,32 +185,21 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 
    *fluidFlow1Index = ??;
    *fluidFlow2Index = ??;
-   *massFlowRate = ??;
-   *enthalpyFlowRate = ??;
-   *pressureLoss = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
-   amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   ManagerComponents_R_add(_component, *fluidState1Index, *fluidState2Index);
    }
    Valve_R_setRegulatingSignal(_component, *regulatingSignal);
    ManagerComponents_R_compute(_component);
 
-   //*massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
-   //*enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
-   //*pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
-
-   *fluidFlow1Index = Component_R_getFlow1Index(_component);
-   *fluidFlow2Index = Component_R_getFlow2Index(_component);
-
-   FluidFlow* flow2 = FluidFlow_get(*fluidFlow2Index);
-   *massFlowRate = FluidFlow_getMassFlowRate(flow2);
-   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(flow2);
+   *fluidFlow1Index = _fluidFlow1Index;
+   *fluidFlow2Index = _fluidFlow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -226,6 +208,5 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
-   *pressureLoss /= 1.00000000000000e+005;
 }
 
