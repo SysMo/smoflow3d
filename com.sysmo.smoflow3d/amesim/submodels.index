@@ -64,3 +64,7 @@ smo_r_virtual_capacity_sensor
 &SMO_R_VIRTUAL_CAPACITY_SENSOR SmoFlow3d
 smo_r_valve
 &SMO_R_VALVE_KV SmoFlow3d
+smo_r_adaptor_begin
+&SMO_R_ADAPTOR_BEGIN SmoFlow3d
+smo_r_adaptor_end
+&SMO_R_ADAPTOR_END SmoFlow3d

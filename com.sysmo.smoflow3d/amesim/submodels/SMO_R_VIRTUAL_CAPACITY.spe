@@ -4,10 +4,11 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>58</SUB_ID_MAX>
+  <SUB_ID_MAX>64</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_virtual_capacity</DEFAULT_ICON>
-  <SUB_LABEL>virtual capacity (C)</SUB_LABEL>
+  <SUB_LABEL>R-virtual capacity (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>1</I_STORES_NUMBER>
   <P_STORES_NUMBER>3</P_STORES_NUMBER>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <IPARAMS_LIST>
@@ -90,23 +91,19 @@
   <EVARS_LIST>
    <PORT>
     <EVAR>
-     <SUB_ID>44</SUB_ID>
-     <TITLE>fluid state index</TITLE>
-     <VARNAME>fluidStateIndex</VARNAME>
+     <SUB_ID>61</SUB_ID>
+     <TITLE>fluid state1  index</TITLE>
+     <VARNAME>fluidState1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>5</TYPE>
+     <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoTDS</UNITS>
-     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
-     <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
-     <VALUE>0.00000000000000e+000</VALUE>
     </EVAR>
     <EVAR>
      <SUB_ID>26</SUB_ID>
-     <TITLE>fluid flow index 1</TITLE>
+     <TITLE>fluid flow1 index</TITLE>
      <VARNAME>fluidFlow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
@@ -115,31 +112,23 @@
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
     </EVAR>
-    <EVAR>
-     <SUB_ID>47</SUB_ID>
-     <TITLE>R-component indentification (port 1)</TITLE>
-     <VARNAME>port1R</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>R</UNITS>
-    </EVAR>
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>6</SUB_ID>
-     <VARNAME>stateIndexDup</VARNAME>
+     <SUB_ID>64</SUB_ID>
+     <TITLE>fluid state2 index</TITLE>
+     <VARNAME>fluidState2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>4</TYPE>
-     <PRIMARY_PORT>0</PRIMARY_PORT>
-     <PRIMARY_VAR>0</PRIMARY_VAR>
-     <DUP_TYPE>0</DUP_TYPE>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+     <EXPRESS2>@_1_2</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>27</SUB_ID>
-     <TITLE>fluid flow index 2</TITLE>
+     <TITLE>fluid flow2 index</TITLE>
      <VARNAME>fluidFlow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
@@ -147,17 +136,6 @@
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>48</SUB_ID>
-     <TITLE>R-component indentification (port 2)</TITLE>
-     <VARNAME>port2R</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>0</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>1</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>R</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

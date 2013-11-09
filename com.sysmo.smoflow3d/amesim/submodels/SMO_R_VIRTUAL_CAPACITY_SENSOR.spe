@@ -665,11 +665,11 @@
    <PORT>
     <EVAR>
      <SUB_ID>3</SUB_ID>
-     <VARNAME>fluidStateIndexDup</VARNAME>
+     <VARNAME>fluidStateIndexDupl</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>2</PRIMARY_PORT>
-     <PRIMARY_VAR>2</PRIMARY_VAR>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
      <DUP_TYPE>0</DUP_TYPE>
     </EVAR>
     <EVAR>
@@ -699,27 +699,12 @@
    <PORT>
     <EVAR>
      <SUB_ID>7</SUB_ID>
-     <VARNAME>fluidFlowIndexDup</VARNAME>
+     <VARNAME>fluidFlowIndexDupl</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>0</PRIMARY_PORT>
      <PRIMARY_VAR>1</PRIMARY_VAR>
      <DUP_TYPE>0</DUP_TYPE>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>53</SUB_ID>
-     <TITLE>R-component indentification (port 1)</TITLE>
-     <VARNAME>port1R</VARNAME>
-     <VISIBILITY>False</VISIBILITY>
-     <TYPE>5</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>2</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>R</UNITS>
-     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
-     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
-     <VALUE>1.00000000000000e+000</VALUE>
     </EVAR>
     <EVAR>
      <SUB_ID>44</SUB_ID>

@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Fri Nov 8 11:06:40 2013 */
+   Sat Nov 9 14:28:37 2013 */
 
 
 
@@ -53,7 +53,7 @@ REVISIONS :
 */
 
 void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[2]
-      , void *ps[1], double *port1R)
+      , void *ps[1])
 
 {
    int loop, error;
@@ -75,12 +75,6 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[2]
    If necessary, check values of the following:
 
    rp[0..2]
-*/
-
-/*
-   Check and/or reset the following fixed and/or discrete variable
-
-   *port1R     = ??;
 */
 
 
@@ -133,21 +127,19 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[2]
 
 /*  There are 3 ports.
 
-   Port 1 has 3 variables:
+   Port 1 has 2 variables:
 
-      1 fluidFlow1Index      fluid flow1 index                    [smoFFL] basic variable output  UNPLOTTABLE
-      2 port1R               R-component indentification (port 1) [R]      fixed  UNPLOTTABLE
-      3 fluidState1Index     fluid state1 index                   [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow1Index      fluid flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidState1Index     fluid state1 index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
       1 regulatingSignal     regulating signal [null] basic variable input
 
-   Port 3 has 3 variables:
+   Port 3 has 2 variables:
 
-      1 fluidFlow2Index      fluid flow2 index                    [smoFFL] basic variable output  UNPLOTTABLE
-      2 port1RDup            duplicate of port1R                 
-      3 fluidState2Index     fluid state2 index                   [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow2Index      fluid flow2 index  [smoFFL] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
+      2 fluidState2Index     fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.
@@ -178,13 +170,13 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 /* Common -> SI units conversions. */
 
 /*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
    *fluidFlow1Index = ??;
-   *fluidFlow2Index = ??;
 */
 
 
@@ -199,7 +191,6 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
    ManagerComponents_R_compute(_component);
 
    *fluidFlow1Index = _fluidFlow1Index;
-   *fluidFlow2Index = _fluidFlow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -208,5 +199,51 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
+}
+
+extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
+      , double *regulatingSignal, double rp[3], int ip[2], int ic[2]
+      , void *ps[1], int *flag)
+
+{
+   double fluidFlow2Index;
+   int loop, logi;
+/* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
+/* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
+   int transitionChoice, allowBidirectionalFlow;
+   double Kv, transitionMassFlowRate, transitionPressureDifference;
+
+   transitionChoice = ip[0];
+   allowBidirectionalFlow = ip[1];
+
+   Kv         = rp[0];
+   transitionMassFlowRate = rp[1];
+   transitionPressureDifference = rp[2];
+   logi = 0;
+   loop = 0;
+
+/* Common -> SI units conversions. */
+
+/*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
+
+/*
+   Define and return the following macro variable:
+
+   fluidFlow2Index = ??;
+*/
+
+
+/* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
+   fluidFlow2Index = _fluidFlow2Index;
+/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
+
+/* SI -> Common units conversions. */
+
+/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
+
+/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+
+   return fluidFlow2Index;
 }
 

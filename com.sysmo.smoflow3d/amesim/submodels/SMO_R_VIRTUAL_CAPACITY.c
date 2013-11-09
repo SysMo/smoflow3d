@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY skeleton created by AME Submodel editing utility
-   Fri Nov 8 13:13:05 2013 */
+   Sat Nov 9 14:31:59 2013 */
 
 
 
@@ -33,7 +33,10 @@ REVISIONS :
 #include "flow_R/VirtualCapacity_R.h"
 
 #define _component ps[0]
+
 #define _fluidState ps[1]
+#define _fluidStateIndex ic[0]
+
 #define _fluidFlow1 ps[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -42,8 +45,8 @@ REVISIONS :
    fluidIndex fluid index
 */
 
-void smo_r_virtual_capacityin_(int *n, int ip[1], void *ps[3]
-      , double *fluidStateIndex)
+void smo_r_virtual_capacityin_(int *n, int ip[1], int ic[1]
+      , void *ps[3])
 
 {
    int loop, error;
@@ -54,12 +57,6 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], void *ps[3]
    fluidIndex = ip[0];
    loop = 0;
    error = 0;
-
-/*
-   Check and/or reset the following fixed and/or discrete variable
-
-   *fluidStateIndex = ??;
-*/
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
@@ -91,23 +88,22 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], void *ps[3]
    SMOCOMPONENT_SET_PROPS(_component);
 
    _fluidState = VirtualCapacity_R_getState(_component);
-   *fluidStateIndex = VirtualCapacity_R_getStateIndex(_component);
+   _fluidStateIndex = VirtualCapacity_R_getStateIndex(_component);
+   //*fluidState2Index = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
 /*  There are 2 ports.
 
-   Port 1 has 3 variables:
+   Port 1 has 2 variables:
 
-      1 fluidStateIndex     fluid state index                    [smoTDS] fixed  UNPLOTTABLE
-      2 fluidFlow1Index     fluid flow index 1                   [smoFFL] basic variable input  UNPLOTTABLE
-      3 port1R              R-component indentification (port 1) [R]      basic variable input  UNPLOTTABLE
+      1 fluidState1Index     fluid state1  index [smoTDS] basic variable output  UNPLOTTABLE
+      2 fluidFlow1Index      fluid flow1 index   [smoFFL] basic variable input  UNPLOTTABLE
 
-   Port 2 has 3 variables:
+   Port 2 has 2 variables:
 
-      1 stateIndexDup       duplicate of fluidStateIndex        
-      2 fluidFlow2Index     fluid flow index 2                   [smoFFL] basic variable input  UNPLOTTABLE
-      3 port2R              R-component indentification (port 2) [R]      basic variable input  UNPLOTTABLE
+      1 fluidState2Index     fluid state2 index [smoTDS] multi line macro 'smo_r_virtual_capacity_macro0_'  UNPLOTTABLE
+      2 fluidFlow2Index      fluid flow2 index  [smoFFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 7 internal variables.
@@ -121,12 +117,12 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], void *ps[3]
       7 gasMassFraction      gas mass fraction             [null]          basic variable
 */
 
-void smo_r_virtual_capacity_(int *n, double *fluidFlow1Index
-      , double *port1R, double *fluidFlow2Index, double *port2R
-      , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressure, double *temperature, double *density
-      , double *specificEnthalpy, double *gasMassFraction, int ip[1]
-      , void *ps[3])
+void smo_r_virtual_capacity_(int *n, double *fluidState1Index
+      , double *fluidFlow1Index, double *fluidState2Index
+      , double *fluidFlow2Index, double *massFlowRate
+      , double *enthalpyFlowRate, double *pressure
+      , double *temperature, double *density, double *specificEnthalpy
+      , double *gasMassFraction, int ip[1], int ic[1], void *ps[3])
 
 {
    int loop;
@@ -140,13 +136,13 @@ void smo_r_virtual_capacity_(int *n, double *fluidFlow1Index
 /* Common -> SI units conversions. */
 
 /*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
-/*   *port1R   *= ??; CONVERSION UNKNOWN */
+/*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
-/*   *port2R   *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
+   *fluidState1Index = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressure   = ??;
@@ -164,6 +160,8 @@ void smo_r_virtual_capacity_(int *n, double *fluidFlow1Index
    	   _fluidFlow1 = FluidFlow_get(*fluidFlow1Index);
    }
 
+   *fluidState1Index = _fluidStateIndex;
+
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1);
 
@@ -176,11 +174,49 @@ void smo_r_virtual_capacity_(int *n, double *fluidFlow1Index
 
 /* SI -> Common units conversions. */
 
+/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
-/*   *port1R   /= ??; CONVERSION UNKNOWN */
+/*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
-/*   *port2R   /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
+}
+
+extern double smo_r_virtual_capacity_macro0_(int *n
+      , double *fluidFlow1Index, int ip[1], int ic[1], void *ps[3])
+
+{
+   double fluidState2Index;
+   int loop;
+/* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
+/* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
+   int fluidIndex;
+
+   fluidIndex = ip[0];
+   loop = 0;
+
+/* Common -> SI units conversions. */
+
+/*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+
+/*
+   Define and return the following macro variable:
+
+   fluidState2Index = ??;
+*/
+
+
+/* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
+   fluidState2Index = _fluidStateIndex;
+/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
+
+/* SI -> Common units conversions. */
+
+/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+
+/*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
+
+   return fluidState2Index;
 }
 

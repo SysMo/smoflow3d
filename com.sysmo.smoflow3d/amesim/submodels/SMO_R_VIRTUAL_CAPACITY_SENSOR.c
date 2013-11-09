@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY_SENSOR skeleton created by AME Submodel editing utility
-   Fri Nov 8 13:46:46 2013 */
+   Sat Nov 9 13:33:09 2013 */
 
 
 
@@ -47,7 +47,7 @@ REVISIONS :
 */
 
 void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
-      , double c[19], void *ps[1], double *port1R)
+      , double c[19], void *ps[1])
 
 {
    int loop, error;
@@ -67,12 +67,6 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
    If necessary, check values of the following:
 
    rp[0..1]
-*/
-
-/*
-   Check and/or reset the following fixed and/or discrete variable
-
-   *port1R     = ??;
 */
 
 
@@ -107,25 +101,24 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 1 has 2 variables:
 
-      1 fluidStateIndexDup     duplicate of fluidStateIndex
-      2 fluidFlowIndex         fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDupl     duplicate of fluidStateIndex
+      2 fluidFlowIndex          fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
       1 measuredValue     measured value [null] basic variable output
 
-   Port 3 has 3 variables:
+   Port 3 has 2 variables:
 
-      1 fluidFlowIndexDup     duplicate of fluidFlowIndex         
-      2 port1R                R-component indentification (port 1) [R]      fixed  UNPLOTTABLE
-      3 fluidStateIndex       fluid state index                    [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndexDupl     duplicate of fluidFlowIndex
+      2 fluidStateIndex        fluid state index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 19 internal variables.
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
+      3 temperatureC                temperature (°C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable

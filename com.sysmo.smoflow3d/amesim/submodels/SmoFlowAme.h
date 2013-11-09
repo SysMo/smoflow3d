@@ -26,4 +26,7 @@
 #define SMOCOMPONENt_PRINT_MACRO \
 	amefprintf(stderr, "\n%s instance %d - macro \n", _SUBMODELNAME_, *n);
 
+#define SMOCOMPONENt_PRINT_MACRO_MSG(message) \
+	amefprintf(stderr, "\n%s instance %d - macro (%s)\n", _SUBMODELNAME_, *n, message);
+
 #endif /* SMOFLOWAME_H_ */
