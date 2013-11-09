@@ -31,6 +31,7 @@ REVISIONS :
 #include "flow/FlowBase.h"
 #include "media/MediumState.h"
 #include "flow_R/VirtualCapacity_R.h"
+#include "flow_R/ManagerComponents_R.h"
 
 #define _component ps[0]
 
@@ -89,7 +90,6 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], int ic[1]
 
    _fluidState = VirtualCapacity_R_getState(_component);
    _fluidStateIndex = VirtualCapacity_R_getStateIndex(_component);
-   //*fluidState2Index = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -207,7 +207,11 @@ extern double smo_r_virtual_capacity_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   SMOCOMPONENt_PRINT_MACRO
+   SMOCOMPONENt_PRINT_MACRO_MSG("state2")
+   if (firstc_()) {
+	   ManagerComponents_R_addVirtualCapacity(_component, *fluidFlow1Index);
+   }
+
    fluidState2Index = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

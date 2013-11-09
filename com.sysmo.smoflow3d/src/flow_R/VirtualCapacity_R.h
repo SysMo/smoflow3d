@@ -24,8 +24,9 @@ public:
 	MediumState* getState() {return state;}
 	int getStateIndex() {return stateIndex;}
 
-	void addComponent(Component_R* component_R);
-	Component_R* getOtherComponent(Component_R* component_R);
+	void addComponent1(Component_R* component_R);
+	void addComponent2(Component_R* component_R);
+	Component_R* getComponent2() {return component2;}
 
 private:
 	MediumState* state;

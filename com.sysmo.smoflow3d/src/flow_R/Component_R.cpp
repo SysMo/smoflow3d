@@ -26,14 +26,9 @@ Component_R::Component_R() {
 
 	flagIsFlowOpen = true;
 	flagIsBidirectionalFlowAllowed = true;
-	flagIsComputed = false;
-	flagIsReversed = false;
 
 	virtualCapacity1 = NULL;
 	virtualCapacity2 = NULL;
-
-	port1StateIndex = -1;
-	port2StateIndex = -1;
 }
 
 Component_R::~Component_R() {
@@ -48,8 +43,6 @@ void Component_R::init(MediumState* state1, MediumState* state2) {
 }
 
 void Component_R::updateFlows(double massFlowRate) {
-	correctMassFlowRate(massFlowRate);
-
 	flow1->massFlowRate = -massFlowRate;
 	flow1->enthalpyFlowRate = flow1->massFlowRate * state1->h();
 
@@ -58,24 +51,14 @@ void Component_R::updateFlows(double massFlowRate) {
 }
 
 MediumState* Component_R::getUpstreamState(double massFlowRate) {
-	correctMassFlowRate(massFlowRate);
-	return _getUpstreamState(massFlowRate);
+	if (massFlowRate >= 0) {
+		return state1;
+	} else {
+		return state2;
+	}
 }
 
 MediumState* Component_R::getDownstreamState(double massFlowRate) {
-	correctMassFlowRate(massFlowRate);
-	return _getDownstreamState(massFlowRate);
-}
-
-MediumState* Component_R::_getUpstreamState(double massFlowRate) {
-	if (massFlowRate >= 0) {
-		return state1;
-	} else {
-		return state2;
-	}
-}
-
-MediumState* Component_R::_getDownstreamState(double massFlowRate) {
 	if (massFlowRate >= 0) {
 		return state2;
 	} else {
@@ -83,30 +66,22 @@ MediumState* Component_R::_getDownstreamState(double massFlowRate) {
 	}
 }
 
-void Component_R::addVirtualCapacity(VirtualCapacity_R* virtualCapacity) {
+void Component_R::addVirtualCapacity1(VirtualCapacity_R* virtualCapacity) {
 	if (virtualCapacity1 == NULL) {
 		virtualCapacity1 = virtualCapacity;
 		return;
 	}
 
+	RaiseComponentError(this, "Try to connect 'Virtual Capacity'-component to port1 of the 'R-Component' which already has other 'Virtual Capacity'-components on this port!");
+}
+
+void Component_R::addVirtualCapacity2(VirtualCapacity_R* virtualCapacity) {
 	if (virtualCapacity2 == NULL) {
 		virtualCapacity2 = virtualCapacity;
 		return;
 	}
 
-	RaiseComponentError(this, "Try to connect 'Virtual Capacity'-component to 'R-Component' which already has two 'Virtual Capacity'-components connected to it!");
-}
-
-VirtualCapacity_R* Component_R::getOtherVirtualCapacity(VirtualCapacity_R* virtualCapacity) {
-	if (virtualCapacity1 == virtualCapacity) {
-		return virtualCapacity2;
-	}
-
-	if (virtualCapacity2 == virtualCapacity) {
-			return virtualCapacity1;
-	}
-
-	return NULL;
+	RaiseComponentError(this, "Try to connect 'Virtual Capacity'-component to port2 of the 'R-Component' which already has other 'Virtual Capacity'-components on this port!");
 }
 
 bool Component_R::isFlowClosed(double massFlowRate) {
@@ -114,18 +89,11 @@ bool Component_R::isFlowClosed(double massFlowRate) {
 		return true;
 	}
 
-	correctMassFlowRate(massFlowRate);
 	if (massFlowRate < 0.0 && !isBidirectionalFlowAllowed()) {
 		return true;
 	}
 
 	return false;
-}
-
-void Component_R::correctMassFlowRate(double& massFlowRate) {
-	if (isReversed()) {
-		massFlowRate = -massFlowRate;
-	}
 }
 
 /**

@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END skeleton created by AME Submodel editing utility
-   Sat Nov 9 15:05:02 2013 */
+   Sat Nov 9 17:35:46 2013 */
 
 
 
@@ -28,8 +28,15 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
+#include "flow_R/ManagerComponents_R.h"
+#include "flow_R/Adaptor_R.h"
+
+#define _component ps[0]
+
+#define _stateMacroIsCalled ic[0]
+#define _flowMacroIsCalled ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_r_adaptor_endin_(int *n)
+void smo_r_adaptor_endin_(int *n, int ic[2], void *ps[1])
 
 {
    int loop, error;
@@ -55,6 +62,11 @@ void smo_r_adaptor_endin_(int *n)
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   _component = EndAdaptor_R_new();
+   SMOCOMPONENT_SET_PROPS(_component);
+
+   _stateMacroIsCalled = 0;
+   _flowMacroIsCalled = 0;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -67,7 +79,7 @@ void smo_r_adaptor_endin_(int *n)
 
    Port 2 has 2 variables:
 
-      1 fluidFlow2Index      fluid flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
+      1 fluidFlow2Index      fluid flow2 index  [smoFFL] multi line macro 'smo_r_adaptor_end_macro1_'  UNPLOTTABLE
       2 fluidState2Index     fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 3 has 1 variable:
@@ -81,7 +93,8 @@ void smo_r_adaptor_endin_(int *n)
 
 void smo_r_adaptor_end_(int *n, double *fluidState1Index
       , double *fluidFlow1Index, double *fluidFlow2Index
-      , double *fluidState2Index, double *RAdaptorSignal)
+      , double *fluidState2Index, double *RAdaptorSignal, int ic[2]
+      , void *ps[1])
 
 {
    int loop;
@@ -93,13 +106,13 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 
 /*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
 /*   *RAdaptorSignal *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *fluidFlow2Index = ??;
 */
 
 
@@ -107,6 +120,9 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
    *fluidFlow2Index = *fluidFlow1Index;
+
+   _stateMacroIsCalled = 0;
+   _flowMacroIsCalled = 0;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -119,7 +135,7 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 }
 
 extern double smo_r_adaptor_end_macro0_(int *n
-      , double *fluidState2Index)
+      , double *fluidState2Index, int ic[2], void *ps[1])
 
 {
    double fluidState1Index;
@@ -141,6 +157,15 @@ extern double smo_r_adaptor_end_macro0_(int *n
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO_MSG("state1")
+   if (firstc_()) {
+	   ManagerComponents_R_addMainState2(_component, *fluidState2Index);
+   }
+
+   if (_flowMacroIsCalled == 1) {
+	   ManagerComponents_R_compute(_component);
+   }
+   _stateMacroIsCalled = 1;
+
    fluidState1Index = *fluidState2Index;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
@@ -151,5 +176,47 @@ extern double smo_r_adaptor_end_macro0_(int *n
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 
    return fluidState1Index;
+}
+
+extern double smo_r_adaptor_end_macro1_(int *n
+      , double *fluidFlow1Index, int ic[2], void *ps[1])
+
+{
+   double fluidFlow2Index;
+   int loop;
+/* >>>>>>>>>>>>Extra Macro Function macro1 Declarations Here. */
+/* <<<<<<<<<<<<End of Extra Macro macro1 declarations. */
+   loop = 0;
+
+/* Common -> SI units conversions. */
+
+/*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+
+/*
+   Define and return the following macro variable:
+
+   fluidFlow2Index = ??;
+*/
+
+
+/* >>>>>>>>>>>>Macro Function macro1 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO_MSG("flow2")
+   if (_stateMacroIsCalled == 1) {
+	   ManagerComponents_R_addComponentMainState2(_component, *fluidFlow1Index);
+	   ManagerComponents_R_compute(_component);
+   }
+   _flowMacroIsCalled = 1;
+
+
+   fluidFlow2Index = *fluidFlow1Index;
+/* <<<<<<<<<<<<End of Macro macro1 Executable Statements. */
+
+/* SI -> Common units conversions. */
+
+/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+
+/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+
+   return fluidFlow2Index;
 }
 

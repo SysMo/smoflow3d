@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_BEGIN skeleton created by AME Submodel editing utility
-   Sat Nov 9 14:14:44 2013 */
+   Sat Nov 9 17:14:26 2013 */
 
 
 
@@ -28,8 +28,12 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
+#include "flow_R/ManagerComponents_R.h"
+#include "flow_R/Adaptor_R.h"
+
+#define _component ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_r_adaptor_beginin_(int *n)
+void smo_r_adaptor_beginin_(int *n, void *ps[1])
 
 {
    int loop, error;
@@ -55,6 +59,8 @@ void smo_r_adaptor_beginin_(int *n)
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   _component = BeginAdaptor_R_new();
+   SMOCOMPONENT_SET_PROPS(_component);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -81,7 +87,7 @@ void smo_r_adaptor_beginin_(int *n)
 
 void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
       , double *fluidState1Index, double *fluidState2Index
-      , double *fluidFlow2Index, double *RAdaptorSignal)
+      , double *fluidFlow2Index, double *RAdaptorSignal, void *ps[1])
 
 {
    int loop;
@@ -119,7 +125,7 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
 }
 
 extern double smo_r_adaptor_begin_macro0_(int *n
-      , double *fluidState1Index)
+      , double *fluidState1Index, void *ps[1])
 
 {
    double fluidState2Index;
@@ -140,7 +146,11 @@ extern double smo_r_adaptor_begin_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   SMOCOMPONENt_PRINT_MACRO
+   SMOCOMPONENt_PRINT_MACRO_MSG("state2")
+   if (firstc_()) {
+	   ManagerComponents_R_addMainState1(_component, *fluidState1Index);
+   }
+
    fluidState2Index = *fluidState1Index;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

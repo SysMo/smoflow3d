@@ -184,11 +184,6 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    SMOCOMPONENT_PRINT_MAIN_CALC
-   if (firstc_()) {
-	   ManagerComponents_R_add(_component, *fluidState1Index, *fluidState2Index);
-   }
-   Valve_R_setRegulatingSignal(_component, *regulatingSignal);
-   ManagerComponents_R_compute(_component);
 
    *fluidFlow1Index = _fluidFlow1Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
@@ -234,7 +229,12 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   SMOCOMPONENt_PRINT_MACRO
+   SMOCOMPONENt_PRINT_MACRO_MSG("flow2")
+   if (firstc_()) {
+	   ManagerComponents_R_addComponent(_component, *fluidState1Index);
+   }
+   Valve_R_setRegulatingSignal(_component, *regulatingSignal);
+
    fluidFlow2Index = _fluidFlow2Index;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

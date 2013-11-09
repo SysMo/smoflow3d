@@ -32,13 +32,9 @@ public:
 	MediumState* getUpstreamState(double massFlowRate);
 	MediumState* getDownstreamState(double massFlowRate);
 
-	void addVirtualCapacity(VirtualCapacity_R* virtualCapacity);
-	VirtualCapacity_R* getOtherVirtualCapacity(VirtualCapacity_R* virtualCapacity);
-
-	int getPort1StateIndex() {return port1StateIndex;}
-	int getPort2StateIndex() {return port2StateIndex;}
-	void setPort1StateIndex(int port1StateIndex) {this->port1StateIndex = port1StateIndex;}
-	void setPort2StateIndex(int port2StateIndex) {this->port2StateIndex = port2StateIndex;}
+	void addVirtualCapacity1(VirtualCapacity_R* virtualCapacity);
+	void addVirtualCapacity2(VirtualCapacity_R* virtualCapacity);
+	VirtualCapacity_R* getVirtualCapacity2() {return virtualCapacity2;}
 
 	bool isFlowClosed(double massFlowRate);
 	void closeFlow() {flagIsFlowOpen = false;}
@@ -46,18 +42,6 @@ public:
 
 	bool isBidirectionalFlowAllowed() {return flagIsBidirectionalFlowAllowed;}
 	void setIsBidirectionalFlowAllowed(bool isBidirectionalFlowAllowed) {this->flagIsBidirectionalFlowAllowed = isBidirectionalFlowAllowed;}
-
-	bool isComputed() {return flagIsComputed;}
-	void setIsComputed(bool isComputed) {this->flagIsComputed = isComputed;}
-
-	bool isReversed() {return flagIsReversed;}
-	void setIsReversed(bool isReversed) {flagIsReversed = isReversed;}
-
-protected:
-	void correctMassFlowRate(double& massFlowRate);
-
-	MediumState* _getUpstreamState(double massFlowRate);
-	MediumState* _getDownstreamState(double massFlowRate);
 
 private:
 	int flow1Index;
@@ -72,15 +56,8 @@ private:
 	VirtualCapacity_R* virtualCapacity1;
 	VirtualCapacity_R* virtualCapacity2;
 
-	int port1StateIndex;
-	int port2StateIndex;
-
 	bool flagIsFlowOpen;
 	bool flagIsBidirectionalFlowAllowed;
-	bool flagIsReversed; //:TRICKY: the flag is true when the component ports are reversed in the R-components chain
-						 //(e.g. [mainComponent1.port]->...->[port2.Component_R.port1]->...->[port.mainComponent2])
-
-	bool flagIsComputed;
 };
 
 #else //_cplusplus

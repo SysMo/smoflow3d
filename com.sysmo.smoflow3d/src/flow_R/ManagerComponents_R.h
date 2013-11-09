@@ -9,8 +9,10 @@
 #ifndef MANAGERCOMPONENTS_R_H_
 #define MANAGERCOMPONENTS_R_H_
 
+#include "flow_R/Adaptor_R.h"
 #include "flow_R/Component_R.h"
 #include "flow_R/VirtualCapacity_R.h"
+#include "flow_R/Adaptor_R.h"
 
 #ifdef __cplusplus
 
@@ -19,28 +21,24 @@ public:
 	ManagerComponents_R();
 	virtual ~ManagerComponents_R();
 
-	void add(Component_R* component_R, int state1Index, int state2Index);
-	void compute(Component_R* component_R);
+	void addMainState1(int state1Index);
+	void addMainState2(int state2Index);
+	void addComponent(Component_R* component_R, int state1Index);
+	void addVirtualCapacity(VirtualCapacity_R* virtualCapacity, int flow1Index);
+	void addComponentMainState2(EndAdaptor_R* endAdaptor, int flow1Index);
+
+	void compute();
 
 private:
 	double computeMassFlowRate();
 	void updateFlows(double massFlowRate);
-	bool areAllComponentsComputed();
-	void setAllComponentsNoComputed();
 
-	void connectVirtualCapacityAndComponent(VirtualCapacity_R* virtualCapacity, Component_R* component_R);
-	void addMainState1(MediumState* state, Component_R* component_R);
-	void addMainState2(MediumState* state, Component_R* component_R);
+	void constructComponentsChain();
 
-	void constructComponentsChain_OneComponent();
-	void constructComponentsChain_ManyComponents();
-	bool isComponentsChainReadyForConstructing_ManyComponents();
-
+	VirtualCapacity_R* getParent_VirtualCapacity(MediumState* state);
+	Component_R* getParent_Component(FluidFlow* flow);
 
 	inline int getNumComponents() {return (int) components.size();}
-
-	bool hasVirtualCapacityParent(MediumState* state);
-	VirtualCapacity_R* getVirtualCapacityParent(MediumState* state);
 
 private:
 	std::vector<Component_R*> components;
@@ -59,8 +57,13 @@ DECLARE_C_STRUCT(ManagerComponents_R)
 #endif //_cplusplus
 
 BEGIN_C_LINKAGE
-void ManagerComponents_R_add(Component_R* component_R, int state1Index, int state2Index);
-void ManagerComponents_R_compute(Component_R* component_R);
+void ManagerComponents_R_addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index);
+void ManagerComponents_R_addMainState2(EndAdaptor_R* endAdaptor, int state2Index);
+void ManagerComponents_R_addComponent(Component_R* component_R, int state1Index);
+void ManagerComponents_R_addVirtualCapacity(VirtualCapacity_R* virtualCapacity, int flow1Index);
+void ManagerComponents_R_addComponentMainState2(EndAdaptor_R* endAdaptor, int flow1Index);
+
+void ManagerComponents_R_compute(EndAdaptor_R* endAdaptor);
 END_C_LINKAGE
 
 #endif /* MANAGERCOMPONENTS_R_H_ */

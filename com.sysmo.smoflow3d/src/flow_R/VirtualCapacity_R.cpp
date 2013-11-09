@@ -27,33 +27,23 @@ VirtualCapacity_R::VirtualCapacity_R(Medium* fluid) {
 VirtualCapacity_R::~VirtualCapacity_R() {
 }
 
-void VirtualCapacity_R::addComponent(Component_R* component_R) {
+void VirtualCapacity_R::addComponent1(Component_R* component_R) {
 	if (component1 == NULL) {
 		component1 = component_R;
 		return;
 	}
 
+	RaiseComponentError(this, "Try to connect 'R-Component' to port1 of the 'Virtual Capacity'-component which already has other 'R-components' on this port!");
+}
+
+void VirtualCapacity_R::addComponent2(Component_R* component_R) {
 	if (component2 == NULL) {
 		component2 = component_R;
 		return;
 	}
 
-	RaiseComponentError(this, "Try to connect 'R-Component' to 'Virtual Capacity'-component which already has two 'R-components' connected to it!");
+	RaiseComponentError(this, "Try to connect 'R-Component' to port2 of the 'Virtual Capacity'-component which already has other 'R-components' on this port!");
 }
-
-Component_R* VirtualCapacity_R::getOtherComponent(Component_R* component_R) {
-	if (component1 == component_R) {
-		return component2;
-	}
-
-	if (component2 == component_R) {
-			return component1;
-	}
-
-	return NULL;
-}
-
-
 
 /**
  * VirtualCapacity_C - C

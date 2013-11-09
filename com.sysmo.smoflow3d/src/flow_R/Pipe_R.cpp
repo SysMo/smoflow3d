@@ -35,13 +35,11 @@ void Pipe_R::init(MediumState* state1, MediumState* state2) {
 }
 
 bool Pipe_R::compute(double massFlowRate, double minDownstreamPressure) {
-	correctMassFlowRate(massFlowRate);
-
 	// Compute pressure drop
 	friction->computePressureDrop(massFlowRate);
 
 	// Try to compute downstream pressure
-	MediumState* upstreamState = _getUpstreamState(massFlowRate);
+	MediumState* upstreamState = getUpstreamState(massFlowRate);
 	double downstreamPressure = upstreamState->p() - friction->getAbsolutePressureDrop();
 	if (downstreamPressure < minDownstreamPressure or downstreamPressure <= 0.0) {
 		return false;
@@ -59,7 +57,7 @@ bool Pipe_R::compute(double massFlowRate, double minDownstreamPressure) {
 	}
 
 	// Set downstream state
-	MediumState* downstreamState = _getDownstreamState(massFlowRate);
+	MediumState* downstreamState = getDownstreamState(massFlowRate);
 	downstreamState->update_ph(downstreamPressure, downstreamEnthalpy);
 	return true;
 }
@@ -74,7 +72,7 @@ bool Pipe_R::hasHeatExhcanger() {
 
 
 /**
- * TwoPortValve - C
+ * Pipe_R - C
  */
 Pipe_R* Pipe_R_new(FrictionFlowPipe* friction) {
 	return new Pipe_R(friction);

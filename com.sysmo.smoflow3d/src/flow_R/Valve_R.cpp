@@ -25,11 +25,10 @@ void Valve_R::init(MediumState* state1, MediumState* state2) {
 }
 
 bool Valve_R::compute(double massFlowRate, double minDownstreamPressure) {
-	correctMassFlowRate(massFlowRate);
 	friction->computePressureDrop(massFlowRate);
 
 	// Try to compute downstream pressure
-	MediumState* upstreamState = _getUpstreamState(massFlowRate);
+	MediumState* upstreamState = getUpstreamState(massFlowRate);
 	double downstreamPressure = upstreamState->p() - friction->getAbsolutePressureDrop();
 	if (downstreamPressure < minDownstreamPressure or downstreamPressure <= 0.0) {
 		return false;
@@ -39,7 +38,7 @@ bool Valve_R::compute(double massFlowRate, double minDownstreamPressure) {
 	double downstreamEnthalpy = upstreamState->h();
 
 	// Set downstream state
-	MediumState* downstreamState = _getDownstreamState(massFlowRate);
+	MediumState* downstreamState = getDownstreamState(massFlowRate);
 	downstreamState->update_ph(downstreamPressure, downstreamEnthalpy);
 	return true;
 }

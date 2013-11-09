@@ -36,7 +36,7 @@ protected:
 };
 
 #else //_cplusplus
-DECLARE_C_STRUCT(Pipe_R_new)
+DECLARE_C_STRUCT(Pipe_R)
 #endif //_cplusplus
 
 
