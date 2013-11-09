@@ -29,7 +29,8 @@ private:
 	void setAllComponentsNoComputed();
 
 	void connectVirtualCapacityAndComponent(VirtualCapacity_R* virtualCapacity, Component_R* component_R);
-	void addMainState(MediumState* state, Component_R* component_R);
+	void addMainState1(MediumState* state, Component_R* component_R);
+	void addMainState2(MediumState* state, Component_R* component_R);
 
 	void constructComponentsChain_OneComponent();
 	void constructComponentsChain_ManyComponents();

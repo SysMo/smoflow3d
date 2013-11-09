@@ -46,8 +46,8 @@ void ManagerComponents_R::add(Component_R* component_R, int state1Index, int sta
 	bool state2_hasVirtualCapacityParent = hasVirtualCapacityParent(state2);
 	if (!state1_hasVirtualCapacityParent && !state2_hasVirtualCapacityParent) {
 		//:TRICKY: R-components chain contains only one R-component (i.e. the input component_R)
-		addMainState(state1, component_R);
-		addMainState(state2, component_R);
+		addMainState1(state1, component_R);
+		addMainState2(state2, component_R);
 		constructComponentsChain_OneComponent();
 	} else if (state1_hasVirtualCapacityParent && state2_hasVirtualCapacityParent) {
 		VirtualCapacity_R* state1VirtualCapacityParent = getVirtualCapacityParent(state1);
@@ -61,13 +61,13 @@ void ManagerComponents_R::add(Component_R* component_R, int state1Index, int sta
 		VirtualCapacity_R* state2VirtualCapacityParent = getVirtualCapacityParent(state2);
 		connectVirtualCapacityAndComponent(state2VirtualCapacityParent, component_R);
 
-		addMainState(state1, component_R);
+		addMainState1(state1, component_R);
 		constructComponentsChain_ManyComponents();
 	} else if (state1_hasVirtualCapacityParent && !state2_hasVirtualCapacityParent) {
 		VirtualCapacity_R* state1VirtualCapacityParent = getVirtualCapacityParent(state1);
 		connectVirtualCapacityAndComponent(state1VirtualCapacityParent, component_R);
 
-		addMainState(state2, component_R);
+		addMainState2(state2, component_R);
 		constructComponentsChain_ManyComponents();
 	} else {
 		RaiseComponentError(component_R, "Unreachable source code!");
@@ -79,7 +79,8 @@ void ManagerComponents_R::connectVirtualCapacityAndComponent(VirtualCapacity_R* 
 	component_R->addVirtualCapacity(virtualCapacity);
 }
 
-void ManagerComponents_R::addMainState(MediumState* state, Component_R* component_R) {
+void ManagerComponents_R::addMainState1(MediumState* state, Component_R* component_R) {
+	//:TRICKY: the functions addMainState1 and addMainState2 minimize the number of the reversed R-components in the chains
 	if (mainState1 == NULL) {
 		mainState1 = state;
 		componentMainState1 = component_R;
@@ -87,8 +88,24 @@ void ManagerComponents_R::addMainState(MediumState* state, Component_R* componen
 	}
 
 	if (mainState1 != NULL && mainState2 == NULL) {
+			mainState2 = state;
+			componentMainState2 = component_R;
+			return;
+	}
+
+	RaiseComponentError(component_R, "R-components chain has more than two ends.");
+}
+
+void ManagerComponents_R::addMainState2(MediumState* state, Component_R* component_R) {
+	if (mainState2 == NULL) {
 		mainState2 = state;
 		componentMainState2 = component_R;
+		return;
+	}
+
+	if (mainState2 != NULL && mainState1 == NULL) {
+		mainState1 = state;
+		componentMainState1 = component_R;
 		return;
 	}
 
