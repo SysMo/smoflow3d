@@ -21,8 +21,8 @@ public:
 	ManagerComponents_R();
 	virtual ~ManagerComponents_R();
 
-	void addMainState1(int state1Index);
-	void addMainState2(int state2Index);
+	void addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index);
+	void addMainState2(EndAdaptor_R* endAdaptor, int state2Index);
 	void addComponent(Component_R* component_R, int state1Index);
 	void addVirtualCapacity(VirtualCapacity_R* virtualCapacity, int flow1Index);
 	void addComponentMainState2(EndAdaptor_R* endAdaptor, int flow1Index);
@@ -47,6 +47,10 @@ private:
 
 	Component_R* componentMainState1;
 	Component_R* componentMainState2;
+
+	BeginAdaptor_R* beginAdaptor;
+	EndAdaptor_R* endAdaptor;
+
 	bool isComponentsChainContructed;
 
 	double cache_massFlowRate;

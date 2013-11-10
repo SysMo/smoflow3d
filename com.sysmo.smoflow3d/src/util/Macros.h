@@ -92,6 +92,16 @@
 		throw -1; \
 	} \
 
+// Assert macros
+#define AssertInComponent(assert_statement, component) \
+	if (!(assert_statement)) { \
+		RaiseComponentError(component, "ASSERT FAIL: " << #assert_statement);\
+	} \
+
+#define Assert(assert_statement) \
+	if (!(assert_statement)) { \
+		RaiseError("ASSERT FAIL: " << #assert_statement);\
+	} \
 
 // Macro for defining an exception object for a unimplemented function.
 #define RaiseError_UnimplementedFunction() \

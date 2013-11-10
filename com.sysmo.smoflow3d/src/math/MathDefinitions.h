@@ -59,6 +59,14 @@ namespace m {
 		return !(isNaN(value) || isInf(value));
 	}
 
+	inline bool isValueInsideInterval(const double& value, double intervalEnd1, double intervalEnd2) {
+		if (intervalEnd1 > intervalEnd2) {
+			std::swap<double>(intervalEnd1, intervalEnd2);
+		}
+
+		return intervalEnd1 < value && value < intervalEnd2;
+	}
+
 	inline bool isEqualFloat(double x, double y) {
 		long double diff = x - y;
 		return (std::fabs(diff) < 5 * m::eps);

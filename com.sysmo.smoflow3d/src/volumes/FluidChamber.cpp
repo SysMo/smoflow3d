@@ -116,7 +116,7 @@ void FluidChamber::getStateDerivatives(double* stateDerivative1, double* stateDe
 	*stateDerivative2 = stateDerivatives[1];
 }
 
-void FluidChamber::compute(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate) { //:TODO: rename 'compute' and add handlePhaseTransition
+void FluidChamber::compute(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate) {
 	double fluidMass = getFluidMass();
 	double c1 = massFlowRate/fluidMass - volumeChangeRate/volume;
 	double UDot = enthalpyFlowRate + heatFlowRate - fluidState->p() * volumeChangeRate;

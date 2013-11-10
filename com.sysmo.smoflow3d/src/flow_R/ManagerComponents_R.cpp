@@ -22,9 +22,12 @@ ManagerComponents_R::ManagerComponents_R() {
 	componentMainState1 = NULL;
 	componentMainState2 = NULL;
 
+	beginAdaptor = NULL;
+	endAdaptor = NULL;
+
 	isComponentsChainContructed = false;
 
-	cache_massFlowRate = 0.001; //:TODO: (???)
+	cache_massFlowRate = 0.001; //:SMO_TODO: (???) cache_massFlowRate
 }
 
 ManagerComponents_R::~ManagerComponents_R() {
@@ -33,12 +36,14 @@ ManagerComponents_R::~ManagerComponents_R() {
 /**
  * Construct R-components chain (NEW)
  */
-void ManagerComponents_R::addMainState1(int state1Index) {
+void ManagerComponents_R::addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index) {
 	mainState1 = MediumState_get(state1Index);
+	this->beginAdaptor = beginAdaptor;
 }
 
-void ManagerComponents_R::addMainState2(int state2Index) {
+void ManagerComponents_R::addMainState2(EndAdaptor_R* endAdaptor, int state2Index) {
 	mainState2 = MediumState_get(state2Index);
+	this->endAdaptor = endAdaptor;
 }
 
 void ManagerComponents_R::addComponent(Component_R* component_R, int state1Index) {
@@ -143,6 +148,13 @@ void ManagerComponents_R::constructComponentsChain() {
 	isComponentsChainContructed = true;
 }
 
+VirtualCapacity_R* ManagerComponents_R::getParent_VirtualCapacity(MediumState* state) {
+	return dynamic_cast<VirtualCapacity_R*>(state->parentComponent);
+}
+
+Component_R* ManagerComponents_R::getParent_Component(FluidFlow* flow) {
+	return dynamic_cast<Component_R*>(flow->parentComponent);
+}
 
 /**
  * Compute R-components chain
@@ -169,9 +181,12 @@ double ManagerComponents_R::computeMassFlowRate() {
 	int numComponents = getNumComponents();
 
 	// Check for pressure difference
-	/*if (m::fabs(mainState1->p() - mainState2->p()) < 10) { //[Pa] //:TODO: (MILEN) (???)
+	//:SMO_FIXME: there is an oscillation of the mass flow rate in a model with two volumes and a valve bettwen them
+	/*
+	if (m::fabs(mainState1->p() - mainState2->p()) < 10) { //[Pa]
 		return cst::zeroMassFlowRate;
-	}*/
+	}
+	//*/
 
 
 	// Get upstream and downstream (i.e. first and last component)
@@ -216,11 +231,11 @@ double ManagerComponents_R::computeMassFlowRate() {
 
 	// Compute mass flow rate using iteration
 	double stepCoeff = 2.0;
-	static const int maxNumIter = 100; //:TODO: (???)
+	static const int maxNumIter = 100; //:SMO_TODO: (???) maxNumIter
 	static const double relTolerance = 1e-08;
 
 	double downstreamPressure = mainDownstreamState->p();
-	double minDownstreamPressure = m::max(1e-5, downstreamPressure - 1e5); // m::min(1.0*1e5, 0.5*downstreamPressure); //:TODO: (???)
+	double minDownstreamPressure = m::max(1e-5, downstreamPressure - 1e5); //:SMO_TODO: (???) m::min(1.0*1e5, 0.5*downstreamPressure);
 	int numIter;
 	for (numIter = 1; numIter < maxNumIter; numIter++) {
 		bool succ;
@@ -233,8 +248,9 @@ double ManagerComponents_R::computeMassFlowRate() {
 		}
 
 		if (!succ) {
-			up_MassFlowRate = massFlowRate; //:TODO: check that massFlowRate < up_MassFlowRate
+			up_MassFlowRate = massFlowRate;
 			up_MassFlowRate_isInit = true;
+
 			if (down_MassFlowRate_isInit) {
 				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
 			} else {
@@ -251,25 +267,40 @@ double ManagerComponents_R::computeMassFlowRate() {
 		}
 
 		if (calcDownstreamPressure < downstreamPressure) {
-			up_MassFlowRate = massFlowRate; //:TODO: check that massFlowRate < up_MassFlowRate
+			up_MassFlowRate = massFlowRate;
 			up_MassFlowRate_isInit = true;
+
 			up_downstreamPressure = calcDownstreamPressure;
 			up_downstreamPressure_isInit = true;
-			if (down_MassFlowRate_isInit) { //:TRICKY: when 'down_MassFlowRate_isInit = true' than and 'down_downstreamPressure_isInit = true'
+
+			if (down_MassFlowRate_isInit) { //:TRICKY: when 'down_MassFlowRate_isInit' is true than and 'down_downstreamPressure_isInit' is also true
+				// Find massFlowRate using bisection method
 				//massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
+
+				// Find massFlowRate using Newton method
 				double slope = (down_downstreamPressure - up_downstreamPressure) / (down_MassFlowRate - up_MassFlowRate);
-				massFlowRate = down_MassFlowRate + (downstreamPressure - down_downstreamPressure) / slope; //:TODO: check down_MassFlowRate < massFlowRate < up_MassFlowRate
+				massFlowRate = down_MassFlowRate + (downstreamPressure - down_downstreamPressure) / slope;
+
+				AssertInComponent(m::isValueInsideInterval(massFlowRate, down_MassFlowRate, up_MassFlowRate), beginAdaptor);
 			} else {
 				massFlowRate /= stepCoeff;
 			}
 		} else {
-			down_MassFlowRate = massFlowRate; //:TODO: check that massFlowRate > down_MassFlowRate
+			down_MassFlowRate = massFlowRate;
 			down_MassFlowRate_isInit = true;
+
+			//AssertInComponent(!down_MassFlowRate_isInit || (down_downstreamPressure < calcDownstreamPressure), beginAdaptor);
 			down_downstreamPressure = calcDownstreamPressure;
+
 			if (up_downstreamPressure_isInit) {
+				// Find massFlowRate using bisection method
 				//massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
+
+				// Find massFlowRate using Newton method
 				double slope = (down_downstreamPressure - up_downstreamPressure) / (down_MassFlowRate - up_MassFlowRate);
-				massFlowRate = down_MassFlowRate + (downstreamPressure - down_downstreamPressure) / slope; //:TODO: check down_MassFlowRate < massFlowRate < up_MassFlowRate
+				massFlowRate = down_MassFlowRate + (downstreamPressure - down_downstreamPressure) / slope;
+
+				AssertInComponent(m::isValueInsideInterval(massFlowRate, down_MassFlowRate, up_MassFlowRate), beginAdaptor);
 			} else if (up_MassFlowRate_isInit) {
 				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / stepCoeff;
 			} else {
@@ -293,25 +324,14 @@ void ManagerComponents_R::updateFlows(double massFlowRate) {
 }
 
 /**
- * Helpful functions
- */
-VirtualCapacity_R* ManagerComponents_R::getParent_VirtualCapacity(MediumState* state) {
-	return dynamic_cast<VirtualCapacity_R*>(state->parentComponent);
-}
-
-Component_R* ManagerComponents_R::getParent_Component(FluidFlow* flow) {
-	return dynamic_cast<Component_R*>(flow->parentComponent);
-}
-
-/**
  * ManagerRComponents - C
  */
 void ManagerComponents_R_addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index) {
-	manager.addMainState1(state1Index);
+	manager.addMainState1(beginAdaptor, state1Index);
 }
 
 void ManagerComponents_R_addMainState2(EndAdaptor_R* endAdaptor, int state2Index) {
-	manager.addMainState2(state2Index);
+	manager.addMainState2(endAdaptor, state2Index);
 }
 
 void ManagerComponents_R_addComponent(Component_R* component_R, int state1Index) {
