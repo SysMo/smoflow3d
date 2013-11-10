@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Sun Nov 10 14:09:49 2013 */
+   Sun Nov 10 18:44:22 2013 */
 
 
 
@@ -33,11 +33,14 @@ REVISIONS :
 
 #define _component ps[0]
 
-#define _fluidFlow1 ps[1]
-#define _fluidFlow1Index ic[1]
+#define _manager ps[1]
+#define _managerIndex ic[1]
 
-#define _fluidFlow2 ps[2]
-#define _fluidFlow2Index ic[2]
+#define _fluidFlow1 ps[2]
+#define _fluidFlow1Index ic[2]
+
+#define _fluidFlow2 ps[3]
+#define _fluidFlow2Index ic[3]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -55,8 +58,8 @@ REVISIONS :
    allowBidirectionalFlow allow bi-directional flow            
 */
 
-void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[3]
-      , void *ps[3])
+void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
+      , void *ps[4])
 
 {
    int loop, error;
@@ -162,7 +165,7 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
       , double *regulatingSignal, double *fluidFlow2Index
       , double *fluidState2Index, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss, double rp[3]
-      , int ip[2], int ic[3], void *ps[3], int *flag)
+      , int ip[2], int ic[4], void *ps[4], int *flag)
 
 {
    int loop, logi;
@@ -219,8 +222,8 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 }
 
 extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
-      , double *regulatingSignal, double rp[3], int ip[2], int ic[3]
-      , void *ps[3], int *flag)
+      , double *smoRChainID, double *regulatingSignal, double rp[3]
+      , int ip[2], int ic[4], void *ps[4], int *flag)
 
 {
    double fluidFlow2Index;
@@ -242,6 +245,7 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
 /* Common -> SI units conversions. */
 
 /*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 
 /*
    Define and return the following macro variable:
@@ -253,7 +257,10 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO_MSG("flow2")
    if (firstc_()) {
-	   ManagerComponents_R_addComponent(_component, *fluidState1Index);
+	   _managerIndex = *smoRChainID;
+	   _manager = ManagerComponents_R_get(_managerIndex);
+
+	   ManagerComponents_R_addComponent(_manager, _component, *fluidState1Index);
    }
    Valve_R_setRegulatingSignal(_component, *regulatingSignal);
 
@@ -263,6 +270,7 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
 /* SI -> Common units conversions. */
 
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 

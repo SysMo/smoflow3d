@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY_SENSOR skeleton created by AME Submodel editing utility
-   Sun Nov 10 13:50:56 2013 */
+   Sun Nov 10 18:47:09 2013 */
 
 
 

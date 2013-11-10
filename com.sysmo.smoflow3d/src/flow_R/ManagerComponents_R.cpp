@@ -10,8 +10,6 @@
 
 using namespace smoflow;
 
-static ManagerComponents_R manager;
-
 /**
  * ManagerRComponents - C++
  */
@@ -325,26 +323,45 @@ void ManagerComponents_R::updateFlows(double massFlowRate) {
 /**
  * ManagerRComponents - C
  */
-void ManagerComponents_R_addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index) {
-	manager.addMainState1(beginAdaptor, state1Index);
+static std::vector<ManagerComponents_R*> ManagerComponentsRegistry;
+
+ManagerComponents_R* ManagerComponents_R_new() {
+	return new ManagerComponents_R();
 }
 
-void ManagerComponents_R_addMainState2(EndAdaptor_R* endAdaptor, int state2Index) {
-	manager.addMainState2(endAdaptor, state2Index);
+int ManagerComponents_R_register(ManagerComponents_R* manager) {
+	ManagerComponentsRegistry.push_back(manager);
+	size_t instanceIndex = ManagerComponentsRegistry.size();
+	manager->instanceIndex = instanceIndex;
+	return instanceIndex;
 }
 
-void ManagerComponents_R_addComponent(Component_R* component_R, int state1Index) {
-	manager.addComponent(component_R, state1Index);
+ManagerComponents_R* ManagerComponents_R_get(int managerIndex) {
+	return ManagerComponentsRegistry.at(managerIndex - 1);
 }
 
-void ManagerComponents_R_addVirtualCapacity(VirtualCapacity_R* virtualCapacity, int flow1Index) {
-	manager.addVirtualCapacity(virtualCapacity, flow1Index);
+
+
+void ManagerComponents_R_addMainState1(ManagerComponents_R* manager, BeginAdaptor_R* beginAdaptor, int state1Index) {
+	manager->addMainState1(beginAdaptor, state1Index);
 }
 
-void ManagerComponents_R_addComponentMainState2(EndAdaptor_R* endAdaptor, int flow1Index) {
-	manager.addComponentMainState2(endAdaptor, flow1Index);
+void ManagerComponents_R_addMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int state2Index) {
+	manager->addMainState2(endAdaptor, state2Index);
 }
 
-void ManagerComponents_R_compute(EndAdaptor_R* endAdaptor) {
-	manager.compute();
+void ManagerComponents_R_addComponent(ManagerComponents_R* manager, Component_R* component_R, int state1Index) {
+	manager->addComponent(component_R, state1Index);
+}
+
+void ManagerComponents_R_addVirtualCapacity(ManagerComponents_R* manager, VirtualCapacity_R* virtualCapacity, int flow1Index) {
+	manager->addVirtualCapacity(virtualCapacity, flow1Index);
+}
+
+void ManagerComponents_R_addComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int flow1Index) {
+	manager->addComponentMainState2(endAdaptor, flow1Index);
+}
+
+void ManagerComponents_R_compute(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor) {
+	manager->compute();
 }

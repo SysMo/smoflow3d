@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_BEGIN skeleton created by AME Submodel editing utility
-   Sun Nov 10 12:44:15 2013 */
+   Sun Nov 10 18:43:12 2013 */
 
 
 
@@ -32,8 +32,11 @@ REVISIONS :
 #include "flow_R/Adaptor_R.h"
 
 #define _component ps[0]
+
+#define _manager ps[1]
+#define _managerIndex ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_r_adaptor_beginin_(int *n, void *ps[1])
+void smo_r_adaptor_beginin_(int *n, int ic[2], void *ps[2])
 
 {
    int loop, error;
@@ -61,6 +64,9 @@ void smo_r_adaptor_beginin_(int *n, void *ps[1])
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = BeginAdaptor_R_new();
    SMOCOMPONENT_SET_PROPS(_component);
+
+   _manager = ManagerComponents_R_new();
+   _managerIndex = ManagerComponents_R_register(_manager);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -74,7 +80,7 @@ void smo_r_adaptor_beginin_(int *n, void *ps[1])
    Port 2 has 3 variables:
 
       1 fluidState2Index     fluid state2 index            [smoTDS]      multi line macro 'smo_r_adaptor_begin_macro0_'  UNPLOTTABLE
-      2 smoRChainIDPort2     R-components chain ID (port2) [smoRChainID] multi line macro 'smo_r_adaptor_begin_macro1_'
+      2 smoRChainID          R-components chain ID (port2) [smoRChainID] multi line macro 'smo_r_adaptor_begin_macro1_'
       3 fluidFlow2Index      fluid flow2 index             [smoFFL]      basic variable input  UNPLOTTABLE
 
    Port 3 has 1 variable:
@@ -88,8 +94,8 @@ void smo_r_adaptor_beginin_(int *n, void *ps[1])
 
 void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
       , double *fluidState1Index, double *fluidState2Index
-      , double *smoRChainIDPort2, double *fluidFlow2Index
-      , double *smoRChainIDToEndAdaptor, void *ps[1])
+      , double *smoRChainID, double *fluidFlow2Index
+      , double *smoRChainIDToEndAdaptor, int ic[2], void *ps[2])
 
 {
    int loop;
@@ -101,7 +107,7 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
 
 /*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainIDPort2 *= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 
 /*
@@ -116,8 +122,7 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
    *fluidFlow1Index = *fluidFlow2Index;
-
-   *smoRChainIDToEndAdaptor = 1; //:SMO_WORK: *RChainID = 1;
+   *smoRChainIDToEndAdaptor = _managerIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -125,13 +130,13 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainIDPort2 /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainIDToEndAdaptor /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_r_adaptor_begin_macro0_(int *n
-      , double *fluidState1Index, void *ps[1])
+      , double *fluidState1Index, int ic[2], void *ps[2])
 
 {
    double fluidState2Index;
@@ -154,7 +159,7 @@ extern double smo_r_adaptor_begin_macro0_(int *n
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO_MSG("state2")
    if (firstc_()) {
-	   ManagerComponents_R_addMainState1(_component, *fluidState1Index);
+	   ManagerComponents_R_addMainState1(_manager, _component, *fluidState1Index);
    }
 
    fluidState2Index = *fluidState1Index;
@@ -170,10 +175,10 @@ extern double smo_r_adaptor_begin_macro0_(int *n
 }
 
 extern double smo_r_adaptor_begin_macro1_(int *n
-      , double *fluidState1Index, void *ps[1])
+      , double *fluidState1Index, int ic[2], void *ps[2])
 
 {
-   double smoRChainIDPort2;
+   double smoRChainID;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro1 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro1 declarations. */
@@ -186,21 +191,21 @@ extern double smo_r_adaptor_begin_macro1_(int *n
 /*
    Define and return the following macro variable:
 
-   smoRChainIDPort2 = ??;
+   smoRChainID = ??;
 */
 
 
 /* >>>>>>>>>>>>Macro Function macro1 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO_MSG("smoRChainIDPort2")
-   smoRChainIDPort2 = 1;
+   smoRChainID = _managerIndex;
 /* <<<<<<<<<<<<End of Macro macro1 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 
-/*   *smoRChainIDPort2 /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 
-   return smoRChainIDPort2;
+   return smoRChainID;
 }
 

@@ -16,7 +16,7 @@
 
 #ifdef __cplusplus
 
-class ManagerComponents_R {
+class ManagerComponents_R : public SmoObject {
 public:
 	ManagerComponents_R();
 	virtual ~ManagerComponents_R();
@@ -61,13 +61,17 @@ DECLARE_C_STRUCT(ManagerComponents_R)
 #endif //_cplusplus
 
 BEGIN_C_LINKAGE
-void ManagerComponents_R_addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index);
-void ManagerComponents_R_addMainState2(EndAdaptor_R* endAdaptor, int state2Index);
-void ManagerComponents_R_addComponent(Component_R* component_R, int state1Index);
-void ManagerComponents_R_addVirtualCapacity(VirtualCapacity_R* virtualCapacity, int flow1Index);
-void ManagerComponents_R_addComponentMainState2(EndAdaptor_R* endAdaptor, int flow1Index);
+ManagerComponents_R* ManagerComponents_R_new();
+int ManagerComponents_R_register(ManagerComponents_R* manager);
+ManagerComponents_R* ManagerComponents_R_get(int managerIndex);
 
-void ManagerComponents_R_compute(EndAdaptor_R* endAdaptor);
+void ManagerComponents_R_addMainState1(ManagerComponents_R* manager, BeginAdaptor_R* beginAdaptor, int state1Index);
+void ManagerComponents_R_addMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int state2Index);
+void ManagerComponents_R_addComponent(ManagerComponents_R* manager, Component_R* component_R, int state1Index);
+void ManagerComponents_R_addVirtualCapacity(ManagerComponents_R* manager, VirtualCapacity_R* virtualCapacity, int flow1Index);
+void ManagerComponents_R_addComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int flow1Index);
+
+void ManagerComponents_R_compute(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor);
 END_C_LINKAGE
 
 #endif /* MANAGERCOMPONENTS_R_H_ */

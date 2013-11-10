@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY skeleton created by AME Submodel editing utility
-   Sun Nov 10 14:11:48 2013 */
+   Sun Nov 10 18:46:38 2013 */
 
 
 
@@ -35,8 +35,11 @@ REVISIONS :
 
 #define _component ps[0]
 
-#define _fluidState ps[1]
-#define _fluidStateIndex ic[0]
+#define _manager ps[1]
+#define _managerIndex ic[1]
+
+#define _fluidState ps[2]
+#define _fluidStateIndex ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 /* There is 1 integer parameter:
@@ -44,7 +47,7 @@ REVISIONS :
    fluidIndex fluid index
 */
 
-void smo_r_virtual_capacityin_(int *n, int ip[1], int ic[1]
+void smo_r_virtual_capacityin_(int *n, int ip[1], int ic[3]
       , void *ps[3])
 
 {
@@ -120,7 +123,7 @@ void smo_r_virtual_capacity_(int *n, double *fluidState1Index
       , double *fluidState2Index, double *fluidFlow2Index
       , double *pressure, double *temperature, double *density
       , double *specificEnthalpy, double *gasMassFraction, int ip[1]
-      , int ic[1], void *ps[3])
+      , int ic[3], void *ps[3])
 
 {
    int loop;
@@ -174,7 +177,8 @@ void smo_r_virtual_capacity_(int *n, double *fluidState1Index
 }
 
 extern double smo_r_virtual_capacity_macro0_(int *n
-      , double *fluidFlow1Index, int ip[1], int ic[1], void *ps[3])
+      , double *fluidFlow1Index, double *smoRChainID, int ip[1]
+      , int ic[3], void *ps[3])
 
 {
    double fluidState2Index;
@@ -189,6 +193,7 @@ extern double smo_r_virtual_capacity_macro0_(int *n
 /* Common -> SI units conversions. */
 
 /*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 
 /*
    Define and return the following macro variable:
@@ -200,7 +205,10 @@ extern double smo_r_virtual_capacity_macro0_(int *n
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO_MSG("state2")
    if (firstc_()) {
-	   ManagerComponents_R_addVirtualCapacity(_component, *fluidFlow1Index);
+	   _managerIndex = *smoRChainID;
+	   _manager = ManagerComponents_R_get(_managerIndex);
+
+	   ManagerComponents_R_addVirtualCapacity(_manager, _component, *fluidFlow1Index);
    }
 
    fluidState2Index = _fluidStateIndex;
@@ -209,6 +217,7 @@ extern double smo_r_virtual_capacity_macro0_(int *n
 /* SI -> Common units conversions. */
 
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
 

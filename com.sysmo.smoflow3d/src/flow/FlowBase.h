@@ -15,7 +15,7 @@
 
 #include "util/SmoComponent.h"
 
-struct FlowBase : public  SmoObject {
+struct FlowBase : public SmoObject {
 };
 
 struct HeatFlow : public FlowBase {
