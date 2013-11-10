@@ -25,24 +25,6 @@
   </IPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
-    <SUB_ID>50</SUB_ID>
-    <TITLE>mass flow rate (at port2)</TITLE>
-    <VARNAME>massFlowRate</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <TYPE>0</TYPE>
-    <DIMENSION>1</DIMENSION>
-    <UNITS>kg/s</UNITS>
-   </IVAR>
-   <IVAR>
-    <SUB_ID>52</SUB_ID>
-    <TITLE>enthalpy flow rate (at port2)</TITLE>
-    <VARNAME>enthalpyFlowRate</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <TYPE>0</TYPE>
-    <DIMENSION>1</DIMENSION>
-    <UNITS>W</UNITS>
-   </IVAR>
-   <IVAR>
     <SUB_ID>39</SUB_ID>
     <TITLE>pressure</TITLE>
     <VARNAME>pressure</VARNAME>

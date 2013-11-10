@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY_SENSOR skeleton created by AME Submodel editing utility
-   Sat Nov 9 13:33:09 2013 */
+   Sun Nov 10 13:50:56 2013 */
 
 
 
@@ -99,19 +99,21 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
       1 fluidStateIndexDupl     duplicate of fluidStateIndex
-      2 fluidFlowIndex          fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      2 smoRChainIDDupl         duplicate of smoRChainID
+      3 fluidFlowIndex          fluid flow index      [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
       1 measuredValue     measured value [null] basic variable output
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
       1 fluidFlowIndexDupl     duplicate of fluidFlowIndex
-      2 fluidStateIndex        fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      2 fluidStateIndex        fluid state index     [smoTDS]      basic variable input  UNPLOTTABLE
+      3 smoRChainID            R-components chain ID [smoRChainID] basic variable input
 */
 
 /*  There are 19 internal variables.
@@ -139,8 +141,8 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
 
 void smo_r_virtual_capacity_sensor_(int *n, double *fluidFlowIndex
       , double *measuredValue, double *fluidStateIndex
-      , double *pressure, double *temperature, double *temperatureC
-      , double *density, double *specificVolume
+      , double *smoRChainID, double *pressure, double *temperature
+      , double *temperatureC, double *density, double *specificVolume
       , double *internalEnergy, double *enthalpy
       , double *specificEntropy, double *cp, double *cv
       , double *specificHelmholtzEnergy, double *specificGibbsEnergy
@@ -165,6 +167,7 @@ void smo_r_virtual_capacity_sensor_(int *n, double *fluidFlowIndex
 
 /*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
 /*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -253,6 +256,7 @@ void smo_r_virtual_capacity_sensor_(int *n, double *fluidFlowIndex
 
 /*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *internalEnergy /= 1.00000000000000e+003;
    *enthalpy /= 1.00000000000000e+003;

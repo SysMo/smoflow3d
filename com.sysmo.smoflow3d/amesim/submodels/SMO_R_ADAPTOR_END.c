@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END skeleton created by AME Submodel editing utility
-   Sun Nov 10 12:15:21 2013 */
+   Sun Nov 10 12:48:27 2013 */
 
 
 
@@ -85,7 +85,7 @@ void smo_r_adaptor_endin_(int *n, int ic[2], void *ps[1])
 
    Port 3 has 1 variable:
 
-      1 smoRChainIDFromBeginAdaptor     R-components chain ID (port3) [smoRChainID] basic variable output
+      1 smoRChainIDFromBeginAdaptor     R-components chain ID (port3) [smoRChainID] basic variable input
 */
 
 /*  There are 0 internal variables.
@@ -110,11 +110,11 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 /*   *smoRChainIDPort1 *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
+/*   *smoRChainIDFromBeginAdaptor *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *smoRChainIDFromBeginAdaptor = ??;
 */
 
 
@@ -208,8 +208,11 @@ extern double smo_r_adaptor_end_macro1_(int *n
 
 /* >>>>>>>>>>>>Macro Function macro1 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO_MSG("flow2")
-   if (_stateMacroIsCalled == 1) {
+   if (firstc_()) {
 	   ManagerComponents_R_addComponentMainState2(_component, *fluidFlow1Index);
+   }
+
+   if (_stateMacroIsCalled == 1) {
 	   ManagerComponents_R_compute(_component);
    }
    _flowMacroIsCalled = 1;

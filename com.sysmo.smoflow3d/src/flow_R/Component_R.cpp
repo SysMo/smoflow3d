@@ -9,6 +9,8 @@
 #include "Component_R.h"
 #include "flow_R/VirtualCapacity_R.h"
 
+using namespace smoflow;
+
 /**
  * Component_R - C++
  */
@@ -96,6 +98,10 @@ bool Component_R::isFlowClosed(double massFlowRate) {
 	return false;
 }
 
+double Component_R::getAbsolutePressureDrop() {
+	return m::fabs(state1->p() - state2->p());
+}
+
 /**
  * Component_R - C
  */
@@ -105,4 +111,8 @@ int Component_R_getFlow1Index(Component_R* component) {
 
 int Component_R_getFlow2Index(Component_R* component) {
 	return component->getFlow2Index();
+}
+
+double Component_R_getAbsolutePressureDrop(Component_R* component) {
+	return component->getAbsolutePressureDrop();
 }

@@ -4,12 +4,12 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>77</SUB_ID_MAX>
+  <SUB_ID_MAX>83</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_valve</DEFAULT_ICON>
   <SUB_LABEL>R-valve with a regulating signal input (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>2</I_STORES_NUMBER>
-  <P_STORES_NUMBER>1</P_STORES_NUMBER>
+  <I_STORES_NUMBER>3</I_STORES_NUMBER>
+  <P_STORES_NUMBER>3</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
@@ -111,6 +111,36 @@
     </ENUM_LIST>
    </IPARAM>
   </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>81</SUB_ID>
+    <TITLE>mass flow rate (at port3)</TITLE>
+    <VARNAME>massFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/s</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>82</SUB_ID>
+    <TITLE>enthalpy flow rate (at port3)</TITLE>
+    <VARNAME>enthalpyFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>83</SUB_ID>
+    <TITLE>total pressure loss</TITLE>
+    <VARNAME>pressureLoss</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <IS_DELTA>1</IS_DELTA>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
+   </IVAR>
+  </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
     <EVAR>

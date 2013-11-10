@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Fri Nov 1 18:45:06 2013 */
+   Sun Nov 10 14:09:34 2013 */
 
 
 
@@ -142,10 +142,10 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 /*  There are 4 internal variables.
 
-      1 massFlowRate         mass flow rate                        [kg/s]        basic variable
-      2 enthalpyFlowRate     enthalpy flow rate                    [W]           basic variable
-      3 pressureLoss         total pressure loss                   [barA -> PaA] basic variable
-      4 flowType             flow type = {0 - subsonic, 1 - sonic} [null]        basic variable
+      1 massFlowRate         mass flow rate                        [kg/s]      basic variable
+      2 enthalpyFlowRate     enthalpy flow rate                    [W]         basic variable
+      3 pressureLoss         total pressure loss                   [bar -> Pa] basic variable
+      4 flowType             flow type = {0 - subsonic, 1 - sonic} [null]      basic variable
 */
 
 void smo_orifice_compressible_ideal_gas_(int *n

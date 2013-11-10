@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY skeleton created by AME Submodel editing utility
-   Sun Nov 10 12:15:33 2013 */
+   Sun Nov 10 14:11:48 2013 */
 
 
 
@@ -37,8 +37,6 @@ REVISIONS :
 
 #define _fluidState ps[1]
 #define _fluidStateIndex ic[0]
-
-#define _fluidFlow1 ps[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 /* There is 1 integer parameter:
@@ -108,21 +106,18 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], int ic[1]
       3 fluidFlow2Index      fluid flow2 index     [smoFFL] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 7 internal variables.
+/*  There are 5 internal variables.
 
-      1 massFlowRate         mass flow rate (at port2)     [kg/s]          basic variable
-      2 enthalpyFlowRate     enthalpy flow rate (at port2) [W]             basic variable
-      3 pressure             pressure                      [bar -> Pa]     basic variable
-      4 temperature          temperature                   [K]             basic variable
-      5 density              density                       [kg/m**3]       basic variable
-      6 specificEnthalpy     specific enthalpy             [kJ/kg -> J/kg] basic variable
-      7 gasMassFraction      gas mass fraction             [null]          basic variable
+      1 pressure             pressure          [bar -> Pa]     basic variable
+      2 temperature          temperature       [K]             basic variable
+      3 density              density           [kg/m**3]       basic variable
+      4 specificEnthalpy     specific enthalpy [kJ/kg -> J/kg] basic variable
+      5 gasMassFraction      gas mass fraction [null]          basic variable
 */
 
 void smo_r_virtual_capacity_(int *n, double *fluidState1Index
       , double *fluidFlow1Index, double *smoRChainID
       , double *fluidState2Index, double *fluidFlow2Index
-      , double *massFlowRate, double *enthalpyFlowRate
       , double *pressure, double *temperature, double *density
       , double *specificEnthalpy, double *gasMassFraction, int ip[1]
       , int ic[1], void *ps[3])
@@ -147,8 +142,6 @@ void smo_r_virtual_capacity_(int *n, double *fluidState1Index
    Set all submodel outputs below:
 
    *fluidState1Index = ??;
-   *massFlowRate = ??;
-   *enthalpyFlowRate = ??;
    *pressure   = ??;
    *temperature = ??;
    *density    = ??;
@@ -160,14 +153,7 @@ void smo_r_virtual_capacity_(int *n, double *fluidState1Index
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
-   if (firstc_()) {
-   	   _fluidFlow1 = FluidFlow_get(*fluidFlow1Index);
-   }
-
    *fluidState1Index = _fluidStateIndex;
-
-   *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1);
-   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1);
 
    *pressure = MediumState_p(_fluidState);
    *temperature = MediumState_T(_fluidState);

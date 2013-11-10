@@ -43,6 +43,8 @@ public:
 	bool isBidirectionalFlowAllowed() {return flagIsBidirectionalFlowAllowed;}
 	void setIsBidirectionalFlowAllowed(bool isBidirectionalFlowAllowed) {this->flagIsBidirectionalFlowAllowed = isBidirectionalFlowAllowed;}
 
+	double getAbsolutePressureDrop();
+
 private:
 	int flow1Index;
 	int flow2Index;
@@ -67,6 +69,8 @@ DECLARE_C_STRUCT(Component_R)
 BEGIN_C_LINKAGE
 int Component_R_getFlow1Index(Component_R* component);
 int Component_R_getFlow2Index(Component_R* component);
+
+double Component_R_getAbsolutePressureDrop(Component_R* component);
 END_C_LINKAGE
 
 #endif /* COMPONENT_R_H_ */

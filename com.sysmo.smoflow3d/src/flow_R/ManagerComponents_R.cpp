@@ -163,7 +163,6 @@ void ManagerComponents_R::compute() {
 	// Check - the R-components chain is constructed
 	if (!isComponentsChainContructed) {
 		constructComponentsChain();
-		return;
 	}
 
 

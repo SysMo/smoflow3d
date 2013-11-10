@@ -85,7 +85,7 @@
     <TYPE>0</TYPE>
     <IS_DELTA>1</IS_DELTA>
     <DIMENSION>1</DIMENSION>
-    <UNITS>barA</UNITS>
+    <UNITS>bar</UNITS>
    </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>

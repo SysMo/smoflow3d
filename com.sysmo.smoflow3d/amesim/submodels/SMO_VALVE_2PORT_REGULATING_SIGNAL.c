@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Sat Nov 2 16:33:46 2013 */
+   Sun Nov 10 14:09:31 2013 */
 
 
 
@@ -152,9 +152,9 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
 
 /*  There are 3 internal variables.
 
-      1 massFlowRate         mass flow rate (at port3)     [kg/s]        basic variable
-      2 enthalpyFlowRate     enthalpy flow rate (at port3) [W]           basic variable
-      3 pressureLoss         total pressure loss           [barA -> PaA] basic variable
+      1 massFlowRate         mass flow rate (at port3)     [kg/s]      basic variable
+      2 enthalpyFlowRate     enthalpy flow rate (at port3) [W]         basic variable
+      3 pressureLoss         total pressure loss           [bar -> Pa] basic variable
 */
 
 void smo_valve_2port_regulating_signal_(int *n

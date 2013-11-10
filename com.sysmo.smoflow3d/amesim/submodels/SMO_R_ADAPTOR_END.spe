@@ -80,7 +80,7 @@
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
-     <IO>2</IO>
+     <IO>1</IO>
      <UNITS>smoRChainID</UNITS>
     </EVAR>
    </PORT>
