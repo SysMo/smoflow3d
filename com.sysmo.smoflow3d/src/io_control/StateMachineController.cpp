@@ -9,6 +9,30 @@
 #include "util/DynamicLoader.h"
 
 StateMachineController::StateMachineController() {
+	t = 0.0;
+	timeLastEvent = 0.0;
+
+	numRealParameters = 0;
+	numIntegerParameters = 0;
+	numInputs = 0;
+	numOutputs = 0;
+	maxNumOrthogonalStates = 0;
+
+
+	controller = NULL;
+
+	_getSizes = NULL;
+
+	_setParameters = NULL;
+	_setInputs = NULL;
+	_setTime = NULL;
+	_getOutputs = NULL;
+	_getState = NULL;
+
+	_init = NULL;
+	_enter = NULL;
+	_isActionRequested = NULL;
+	_react = NULL;
 }
 
 StateMachineController::~StateMachineController() {

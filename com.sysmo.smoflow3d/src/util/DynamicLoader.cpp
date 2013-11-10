@@ -8,6 +8,7 @@
 #include "DynamicLoader.h"
 
 DynamicLoader::DynamicLoader() {
+	libraryHandle = NULL;
 }
 
 DynamicLoader::~DynamicLoader() {
