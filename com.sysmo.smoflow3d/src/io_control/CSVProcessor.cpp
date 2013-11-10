@@ -28,7 +28,7 @@ void CSVRowReader::reset() {
 	currentPosition = 0;
 }
 int CSVRowReader::getNext(String& entry) {
-	// TODO (Nasko) Check what happens at the end of the line
+	// :SMO_TODO: (Nasko) Check what happens at the end of the line
 	if (currentPosition >= rowContent.size()) {
 		return -1;
 	}

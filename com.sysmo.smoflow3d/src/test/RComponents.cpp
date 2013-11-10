@@ -110,7 +110,7 @@ void testComputeMassFlowRate(
 	static const double relTolerance = 1e-08;
 
 	double downstreamPressure = mainDownstreamState->p();
-	double minDownstreamPressure = m::max(1e-5, downstreamPressure - 1e5); // m::min(1.0*1e5, 0.5*downstreamPressure); //:TODO: (???)
+	double minDownstreamPressure = m::max(1e-5, downstreamPressure - 1e5); // m::min(1.0*1e5, 0.5*downstreamPressure);
 	std::cout << "numIter, massFlowRate, calcDownstreamPressure, relError, down_MassFlowRate, up_MassFlowRate" << std::endl;
 	for (int numIter = 1; numIter < maxNumIter; numIter++) {
 		double tmpMDot = massFlowRate;
@@ -127,7 +127,7 @@ void testComputeMassFlowRate(
 		std::cout << std::endl;
 
 		if (!succ) {
-			up_MassFlowRate = massFlowRate; //:TODO: check that massFlowRate < up_MassFlowRate
+			up_MassFlowRate = massFlowRate;
 			up_MassFlowRate_isInit = true;
 			if (down_MassFlowRate_isInit) {
 				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
@@ -147,26 +147,26 @@ void testComputeMassFlowRate(
 		}
 
 		if (calcDownstreamPressure < downstreamPressure) {
-			up_MassFlowRate = massFlowRate; //:TODO: check that massFlowRate < up_MassFlowRate
+			up_MassFlowRate = massFlowRate;
 			up_MassFlowRate_isInit = true;
 			up_downstreamPressure = calcDownstreamPressure;
 			up_downstreamPressure_isInit = true;
 			if (down_MassFlowRate_isInit) { //:TRICKY: when 'down_MassFlowRate_isInit = true' than and 'down_downstreamPressure_isInit = true'
 				//massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
 				double slope = (down_downstreamPressure - up_downstreamPressure) / (down_MassFlowRate - up_MassFlowRate);
-				massFlowRate = down_MassFlowRate + (downstreamPressure - down_downstreamPressure) / slope; //:TODO: check down_MassFlowRate < massFlowRate < up_MassFlowRate
+				massFlowRate = down_MassFlowRate + (downstreamPressure - down_downstreamPressure) / slope;
 			} else {
 				massFlowRate /= stepCoeff;
 			}
 			std::cout << "UP0: " << numIter << ", " << tmpMDot << ", " << calcDownstreamPressure << ", " << relError << ", " << down_MassFlowRate << ", " << up_MassFlowRate << std::endl;
 		} else {
-			down_MassFlowRate = massFlowRate; //:TODO: check that massFlowRate > down_MassFlowRate
+			down_MassFlowRate = massFlowRate;
 			down_MassFlowRate_isInit = true;
 			down_downstreamPressure = calcDownstreamPressure;
 			if (up_downstreamPressure_isInit) {
 				//massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
 				double slope = (down_downstreamPressure - up_downstreamPressure) / (down_MassFlowRate - up_MassFlowRate);
-				massFlowRate = down_MassFlowRate + (downstreamPressure - down_downstreamPressure) / slope; //:TODO: check down_MassFlowRate < massFlowRate < up_MassFlowRate
+				massFlowRate = down_MassFlowRate + (downstreamPressure - down_downstreamPressure) / slope;
 			} else if (up_MassFlowRate_isInit) {
 				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / stepCoeff;
 			} else {

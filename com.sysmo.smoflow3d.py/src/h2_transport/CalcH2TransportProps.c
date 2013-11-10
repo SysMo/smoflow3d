@@ -125,7 +125,7 @@ double ParaHydrogen_thermalConductivity_Trho (double T, double rho) {
 		lambda += computeExcessContribution(THigh, rho, ec);
 	}
 
-	// TODO critical enhancement for thermal conductivity
+	// :SMO_TODO: (Nasko) critical enhancement for thermal conductivity
 	//double criticalEnhancement = 0;
 
 	return lambda;

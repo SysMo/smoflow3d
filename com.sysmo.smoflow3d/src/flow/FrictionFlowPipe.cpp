@@ -149,7 +149,7 @@ public:
 
 protected:
 	virtual double frictionFactor(double Re) {
-		// TODO (Nasko) The transition from laminar to turbulent is not handled properly
+		// :SMO_TODO: (Nasko) The transition from laminar to turbulent is not handled properly
 		// TRICKY @ the transition the friction factor falls and then rises again
 		double zeta = 1.325 / m::pow(m::log(surfaceRoughness / (3.7 * hydraulicDiameter) + 5.74 * m::pow(Re, -0.9)), 2);
 		double zetaLaminar;
