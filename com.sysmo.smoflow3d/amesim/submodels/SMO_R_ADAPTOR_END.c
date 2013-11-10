@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END skeleton created by AME Submodel editing utility
-   Sat Nov 9 17:35:46 2013 */
+   Sun Nov 10 12:15:21 2013 */
 
 
 
@@ -72,10 +72,11 @@ void smo_r_adaptor_endin_(int *n, int ic[2], void *ps[1])
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidState1Index     fluid state1 index [smoTDS] multi line macro 'smo_r_adaptor_end_macro0_'  UNPLOTTABLE
-      2 fluidFlow1Index      fluid flow1 index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidState1Index     fluid state1 index            [smoTDS]      multi line macro 'smo_r_adaptor_end_macro0_'  UNPLOTTABLE
+      2 fluidFlow1Index      fluid flow1 index             [smoFFL]      basic variable input  UNPLOTTABLE
+      3 smoRChainIDPort1     R-components chain ID (port1) [smoRChainID] basic variable input
 
    Port 2 has 2 variables:
 
@@ -84,7 +85,7 @@ void smo_r_adaptor_endin_(int *n, int ic[2], void *ps[1])
 
    Port 3 has 1 variable:
 
-      1 RAdaptorSignal     R-adaptor signal (input) [R-adaptor signal] basic variable input
+      1 smoRChainIDFromBeginAdaptor     R-components chain ID (port3) [smoRChainID] basic variable output
 */
 
 /*  There are 0 internal variables.
@@ -92,9 +93,9 @@ void smo_r_adaptor_endin_(int *n, int ic[2], void *ps[1])
 */
 
 void smo_r_adaptor_end_(int *n, double *fluidState1Index
-      , double *fluidFlow1Index, double *fluidFlow2Index
-      , double *fluidState2Index, double *RAdaptorSignal, int ic[2]
-      , void *ps[1])
+      , double *fluidFlow1Index, double *smoRChainIDPort1
+      , double *fluidFlow2Index, double *fluidState2Index
+      , double *smoRChainIDFromBeginAdaptor, int ic[2], void *ps[1])
 
 {
    int loop;
@@ -106,13 +107,14 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 
 /*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *smoRChainIDPort1 *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
-/*   *RAdaptorSignal *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
+   *smoRChainIDFromBeginAdaptor = ??;
 */
 
 
@@ -120,6 +122,10 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
    *fluidFlow2Index = *fluidFlow1Index;
+
+   if (*smoRChainIDPort1 != *smoRChainIDFromBeginAdaptor) {
+	   AME_RAISE_ERROR("The two end adaptors of the R-components chain are not connected with each other.")
+   }
 
    _stateMacroIsCalled = 0;
    _flowMacroIsCalled = 0;
@@ -129,9 +135,10 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainIDPort1 /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
-/*   *RAdaptorSignal /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainIDFromBeginAdaptor /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_r_adaptor_end_macro0_(int *n

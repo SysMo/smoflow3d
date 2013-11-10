@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY skeleton created by AME Submodel editing utility
-   Sat Nov 9 14:31:59 2013 */
+   Sun Nov 10 12:15:33 2013 */
 
 
 
@@ -95,15 +95,17 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], int ic[1]
 
 /*  There are 2 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidState1Index     fluid state1  index [smoTDS] basic variable output  UNPLOTTABLE
-      2 fluidFlow1Index      fluid flow1 index   [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidState1Index     fluid state1  index   [smoTDS]      basic variable output  UNPLOTTABLE
+      2 fluidFlow1Index      fluid flow1 index     [smoFFL]      basic variable input  UNPLOTTABLE
+      3 smoRChainID          R-components chain ID [smoRChainID] basic variable input
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 fluidState2Index     fluid state2 index [smoTDS] multi line macro 'smo_r_virtual_capacity_macro0_'  UNPLOTTABLE
-      2 fluidFlow2Index      fluid flow2 index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidState2Index     fluid state2 index    [smoTDS] multi line macro 'smo_r_virtual_capacity_macro0_'  UNPLOTTABLE
+      2 smoRChainIDDupl      duplicate of smoRChainID
+      3 fluidFlow2Index      fluid flow2 index     [smoFFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 7 internal variables.
@@ -118,11 +120,12 @@ void smo_r_virtual_capacityin_(int *n, int ip[1], int ic[1]
 */
 
 void smo_r_virtual_capacity_(int *n, double *fluidState1Index
-      , double *fluidFlow1Index, double *fluidState2Index
-      , double *fluidFlow2Index, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressure
-      , double *temperature, double *density, double *specificEnthalpy
-      , double *gasMassFraction, int ip[1], int ic[1], void *ps[3])
+      , double *fluidFlow1Index, double *smoRChainID
+      , double *fluidState2Index, double *fluidFlow2Index
+      , double *massFlowRate, double *enthalpyFlowRate
+      , double *pressure, double *temperature, double *density
+      , double *specificEnthalpy, double *gasMassFraction, int ip[1]
+      , int ic[1], void *ps[3])
 
 {
    int loop;
@@ -136,6 +139,7 @@ void smo_r_virtual_capacity_(int *n, double *fluidState1Index
 /* Common -> SI units conversions. */
 
 /*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 
@@ -176,6 +180,7 @@ void smo_r_virtual_capacity_(int *n, double *fluidState1Index
 
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;

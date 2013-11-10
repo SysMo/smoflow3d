@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Sun Nov 10 10:30:49 2013 */
+   Sun Nov 10 12:15:02 2013 */
 
 
 
@@ -127,19 +127,21 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[2]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidFlow1Index      fluid flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidState1Index     fluid state1 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow1Index      fluid flow1 index     [smoFFL]      basic variable output  UNPLOTTABLE
+      2 fluidState1Index     fluid state1 index    [smoTDS]      basic variable input  UNPLOTTABLE
+      3 smoRChainID          R-components chain ID [smoRChainID] basic variable input
 
    Port 2 has 1 variable:
 
       1 regulatingSignal     regulating signal [null] basic variable input
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 fluidFlow2Index      fluid flow2 index  [smoFFL] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
-      2 fluidState2Index     fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow2Index      fluid flow2 index     [smoFFL] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
+      2 smoRChainIDDupl      duplicate of smoRChainID
+      3 fluidState2Index     fluid state2 index    [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.
@@ -147,9 +149,10 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[2]
 */
 
 void smo_r_valve_kv_(int *n, double *fluidFlow1Index
-      , double *fluidState1Index, double *regulatingSignal
-      , double *fluidFlow2Index, double *fluidState2Index
-      , double rp[3], int ip[2], int ic[2], void *ps[1], int *flag)
+      , double *fluidState1Index, double *smoRChainID
+      , double *regulatingSignal, double *fluidFlow2Index
+      , double *fluidState2Index, double rp[3], int ip[2], int ic[2]
+      , void *ps[1], int *flag)
 
 {
    int loop, logi;
@@ -170,6 +173,7 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 /* Common -> SI units conversions. */
 
 /*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
 
@@ -192,6 +196,7 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
 }

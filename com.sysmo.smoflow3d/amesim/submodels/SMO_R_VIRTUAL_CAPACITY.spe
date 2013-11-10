@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>64</SUB_ID_MAX>
+  <SUB_ID_MAX>68</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_virtual_capacity</DEFAULT_ICON>
   <SUB_LABEL>R-virtual capacity (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -112,6 +112,16 @@
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
     </EVAR>
+    <EVAR>
+     <SUB_ID>67</SUB_ID>
+     <TITLE>R-components chain ID</TITLE>
+     <VARNAME>smoRChainID</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>smoRChainID</UNITS>
+    </EVAR>
    </PORT>
    <PORT>
     <EVAR>
@@ -125,6 +135,15 @@
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoTDS</UNITS>
      <EXPRESS2>@_1_2</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>68</SUB_ID>
+     <VARNAME>smoRChainIDDupl</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
     </EVAR>
     <EVAR>
      <SUB_ID>27</SUB_ID>

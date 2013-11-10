@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_BEGIN skeleton created by AME Submodel editing utility
-   Sat Nov 9 17:14:26 2013 */
+   Sun Nov 10 12:19:28 2013 */
 
 
 
@@ -33,7 +33,8 @@ REVISIONS :
 
 #define _component ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_r_adaptor_beginin_(int *n, void *ps[1])
+void smo_r_adaptor_beginin_(int *n, void *ps[1]
+      , double *smoRChainIDPort2)
 
 {
    int loop, error;
@@ -41,6 +42,12 @@ void smo_r_adaptor_beginin_(int *n, void *ps[1])
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    loop = 0;
    error = 0;
+
+/*
+   Check and/or reset the following fixed and/or discrete variable
+
+   *smoRChainIDPort2 = ??;
+*/
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
@@ -61,6 +68,8 @@ void smo_r_adaptor_beginin_(int *n, void *ps[1])
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = BeginAdaptor_R_new();
    SMOCOMPONENT_SET_PROPS(_component);
+
+   *smoRChainIDPort2 = 1;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -71,14 +80,15 @@ void smo_r_adaptor_beginin_(int *n, void *ps[1])
       1 fluidFlow1Index      fluid flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
       2 fluidState1Index     fluid state1 index [smoTDS] basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 fluidState2Index     fluid state2 index [smoTDS] multi line macro 'smo_r_adaptor_begin_macro0_'  UNPLOTTABLE
-      2 fluidFlow2Index      fluid flow2 index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidState2Index     fluid state2 index            [smoTDS]      multi line macro 'smo_r_adaptor_begin_macro0_'  UNPLOTTABLE
+      2 smoRChainIDPort2     R-components chain ID (port2) [smoRChainID] fixed
+      3 fluidFlow2Index      fluid flow2 index             [smoFFL]      basic variable input  UNPLOTTABLE
 
    Port 3 has 1 variable:
 
-      1 RAdaptorSignal     R-adaptor signal (output) [R-adaptor signal] basic variable output
+      1 smoRChainIDToEndAdaptor     R-components chain ID (port3) [smoRChainID] basic variable output
 */
 
 /*  There are 0 internal variables.
@@ -87,7 +97,8 @@ void smo_r_adaptor_beginin_(int *n, void *ps[1])
 
 void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
       , double *fluidState1Index, double *fluidState2Index
-      , double *fluidFlow2Index, double *RAdaptorSignal, void *ps[1])
+      , double *fluidFlow2Index, double *smoRChainIDToEndAdaptor
+      , void *ps[1])
 
 {
    int loop;
@@ -105,7 +116,7 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
    Set all submodel outputs below:
 
    *fluidFlow1Index = ??;
-   *RAdaptorSignal = ??;
+   *smoRChainIDToEndAdaptor = ??;
 */
 
 
@@ -113,6 +124,8 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
    *fluidFlow1Index = *fluidFlow2Index;
+
+   *smoRChainIDToEndAdaptor = 1; //:SMO_WORK: *RChainID = 1;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -121,7 +134,7 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
-/*   *RAdaptorSignal /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainIDToEndAdaptor /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_r_adaptor_begin_macro0_(int *n
