@@ -71,8 +71,8 @@
     <TITLE>allow bi-directional flow</TITLE>
     <VARNAME>allowBidirectionalFlow</VARNAME>
     <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>1</DEF_VALUE>
-    <VALUE>1</VALUE>
+    <DEF_VALUE>2</DEF_VALUE>
+    <VALUE>2</VALUE>
     <MIN_VALUE>1</MIN_VALUE>
     <MAX_VALUE>2</MAX_VALUE>
     <ENUM_LIST>
