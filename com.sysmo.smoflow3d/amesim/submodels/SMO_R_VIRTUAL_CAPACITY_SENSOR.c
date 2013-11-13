@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VIRTUAL_CAPACITY_SENSOR skeleton created by AME Submodel editing utility
-   Sun Nov 10 19:58:43 2013 */
+   Wed Nov 13 17:09:14 2013 */
 
 
 
@@ -29,6 +29,8 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "media/MediumState.h"
+#include "Flow_R/FlowComponent_R.h"
+#include "Flow_R/Adaptor_R.h"
 
 #define _fluidState ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -101,9 +103,9 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 1 has 3 variables:
 
-      1 fluidStateIndexDupl     duplicate of fluidStateIndex
-      2 smoRChainIDDupl         duplicate of smoRChainID
-      3 fluidFlowIndex          fluid flow index      [smoFFL] basic variable input  UNPLOTTABLE
+      1 outputRCompID1      R-component ID (output, port1) [smoRCompID] multi line macro 'smo_r_virtual_capacity_sensor_macro0_'  UNPLOTTABLE
+      2 smoRChainIDDupl     duplicate of smoRChainID      
+      3 inputRCompID1       R-component ID (input, port1)  [smoRCompID] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -111,16 +113,16 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 3 has 3 variables:
 
-      1 fluidFlowIndexDupl     duplicate of fluidFlowIndex
-      2 fluidStateIndex        fluid state index     [smoTDS]      basic variable input  UNPLOTTABLE
-      3 smoRChainID            R-components chain ID [smoRChainID] basic variable input
+      1 inputRCompID1Dupl     duplicate of inputRCompID1   
+      2 inputRCompID3         R-component ID (input, port3) [smoRCompID]  basic variable input  UNPLOTTABLE
+      3 smoRChainID           R-components chain ID         [smoRChainID] basic variable input
 */
 
 /*  There are 19 internal variables.
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (°C)                    [degC]              basic variable
+      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -139,16 +141,17 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
      19 sigma                       surface tension                     [N/m]               basic variable
 */
 
-void smo_r_virtual_capacity_sensor_(int *n, double *fluidFlowIndex
-      , double *measuredValue, double *fluidStateIndex
-      , double *smoRChainID, double *pressure, double *temperature
-      , double *temperatureC, double *density, double *specificVolume
-      , double *internalEnergy, double *enthalpy
-      , double *specificEntropy, double *cp, double *cv
-      , double *specificHelmholtzEnergy, double *specificGibbsEnergy
-      , double *gasMassFraction, double *superheating, double *dpc
-      , double *mu, double *lambda, double *Pr, double *sigma
-      , double rp[2], int ip[1], double c[19], void *ps[1])
+void smo_r_virtual_capacity_sensor_(int *n, double *outputRCompID1
+      , double *inputRCompID1, double *measuredValue
+      , double *inputRCompID3, double *smoRChainID, double *pressure
+      , double *temperature, double *temperatureC, double *density
+      , double *specificVolume, double *internalEnergy
+      , double *enthalpy, double *specificEntropy, double *cp
+      , double *cv, double *specificHelmholtzEnergy
+      , double *specificGibbsEnergy, double *gasMassFraction
+      , double *superheating, double *dpc, double *mu, double *lambda
+      , double *Pr, double *sigma, double rp[2], int ip[1]
+      , double c[19], void *ps[1])
 
 {
    int loop;
@@ -165,8 +168,9 @@ void smo_r_virtual_capacity_sensor_(int *n, double *fluidFlowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 
 /*
@@ -199,7 +203,15 @@ void smo_r_virtual_capacity_sensor_(int *n, double *fluidFlowIndex
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
-	   _fluidState = MediumState_get(*fluidStateIndex);
+	   Component_R* component_R =  Component_R_get(*inputRCompID3);
+	   if (Component_R_isFlowComponent(component_R) == 1) {
+		   FlowComponent_R* component = (FlowComponent_R*) component_R;
+		   int fluidStateIndex = FlowComponent_R_getState2Index(component);
+		   _fluidState = MediumState_get(fluidStateIndex);
+	   } else if (Component_R_isBeginAdaptor(component_R) == 1) {
+		   BeginAdaptor_R* beginAdaptor = (BeginAdaptor_R*) component_R;
+		   _fluidState = BeginAdaptor_R_getBeginState(beginAdaptor);
+	   }
    }
 
    static const double outputInternalGain[19] = {
@@ -254,8 +266,9 @@ void smo_r_virtual_capacity_sensor_(int *n, double *fluidFlowIndex
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *internalEnergy /= 1.00000000000000e+003;
@@ -264,5 +277,48 @@ void smo_r_virtual_capacity_sensor_(int *n, double *fluidFlowIndex
    *specificHelmholtzEnergy /= 1.00000000000000e+003;
    *specificGibbsEnergy /= 1.00000000000000e+003;
    *dpc      /= 1.00000000000000e+005;
+}
+
+extern double smo_r_virtual_capacity_sensor_macro0_(int *n
+      , double *inputRCompID3, double rp[2], int ip[1], double c[19]
+      , void *ps[1])
+
+{
+   double outputRCompID1;
+   int loop;
+/* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
+/* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
+   int propertyIndex;
+   double offset, gain;
+
+   propertyIndex = ip[0];
+
+   offset     = rp[0];
+   gain       = rp[1];
+   loop = 0;
+
+/* Common -> SI units conversions. */
+
+/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN */
+
+/*
+   Define and return the following macro variable:
+
+   outputRCompID1 = ??;
+*/
+
+
+/* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID1")
+   outputRCompID1 = *inputRCompID3;
+/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
+
+/* SI -> Common units conversions. */
+
+/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
+
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
+
+   return outputRCompID1;
 }
 

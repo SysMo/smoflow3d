@@ -26,7 +26,7 @@ Pipe_R::~Pipe_R() {
 }
 
 void Pipe_R::init(MediumState* state1Input) {
-	Component_R::init(state1Input);
+	FlowComponent_R::init(state1Input);
 	friction->init(state1, state2);
 
 	if (hasHeatExhcanger()) {

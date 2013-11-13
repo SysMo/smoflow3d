@@ -145,25 +145,25 @@
    <PORT>
     <EVAR>
      <SUB_ID>73</SUB_ID>
-     <TITLE>fluid flow1 index</TITLE>
-     <VARNAME>fluidFlow1Index</VARNAME>
+     <TITLE>R-component ID (ouput, port1)</TITLE>
+     <VARNAME>outputRCompID1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoRCompID</UNITS>
     </EVAR>
     <EVAR>
      <SUB_ID>58</SUB_ID>
-     <TITLE>fluid state1 index</TITLE>
-     <VARNAME>fluidState1Index</VARNAME>
+     <TITLE>R-component ID (input, port1)</TITLE>
+     <VARNAME>inputRCompID1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoRCompID</UNITS>
     </EVAR>
     <EVAR>
      <SUB_ID>76</SUB_ID>
@@ -191,14 +191,14 @@
    <PORT>
     <EVAR>
      <SUB_ID>87</SUB_ID>
-     <TITLE>fluid state2 index</TITLE>
-     <VARNAME>fluidState2Index</VARNAME>
+     <TITLE>R-component ID (output, port3)</TITLE>
+     <VARNAME>outputRCompID2</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>8</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoRCompID</UNITS>
      <EXPRESS2>@_2_1, @_1_2, @_1_3</EXPRESS2>
     </EVAR>
     <EVAR>
@@ -212,14 +212,14 @@
     </EVAR>
     <EVAR>
      <SUB_ID>89</SUB_ID>
-     <TITLE>fluid flow2 index</TITLE>
-     <VARNAME>fluidFlow2Index</VARNAME>
+     <TITLE>R-component ID (input, port3)</TITLE>
+     <VARNAME>inputRCompID2</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoRCompID</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

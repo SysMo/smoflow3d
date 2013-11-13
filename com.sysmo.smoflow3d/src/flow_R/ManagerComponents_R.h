@@ -10,8 +10,7 @@
 #define MANAGERCOMPONENTS_R_H_
 
 #include "flow_R/Adaptor_R.h"
-#include "flow_R/Component_R.h"
-#include "flow_R/Adaptor_R.h"
+#include "flow_R/FlowComponent_R.h"
 
 #ifdef __cplusplus
 
@@ -22,9 +21,10 @@ public:
 
 	void addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index);
 	void addMainState2(EndAdaptor_R* endAdaptor, int state2Index);
-	void addComponent(Component_R* component, int state1Index);
-	void setComponentMainState2(EndAdaptor_R* endAdaptor, int state1Index);
+	void addComponent(FlowComponent_R* component, int prevComponentID);
+	void setComponentMainState2(EndAdaptor_R* endAdaptor, int componentMainState2ID);
 
+	int getFlow1Index() {return componentMainState1->getFlow1Index();}
 	int getFlow2Index() {return componentMainState2->getFlow2Index();}
 
 	void compute();
@@ -34,17 +34,15 @@ private:
 	void updateFlows(double massFlowRate);
 
 	void constructComponentsChain();
-	Component_R* getParent_Component(SmoObject* smoObject);
-
 	inline int getNumComponents() {return (int) components.size();}
 
 private:
-	std::vector<Component_R*> components;
+	std::vector<FlowComponent_R*> components;
 	MediumState* mainState1;
 	MediumState* mainState2;
 
-	Component_R* componentMainState1;
-	Component_R* componentMainState2;
+	FlowComponent_R* componentMainState1;
+	FlowComponent_R* componentMainState2;
 
 	BeginAdaptor_R* beginAdaptor;
 	EndAdaptor_R* endAdaptor;
@@ -65,9 +63,10 @@ ManagerComponents_R* ManagerComponents_R_get(int managerIndex);
 
 void ManagerComponents_R_addMainState1(ManagerComponents_R* manager, BeginAdaptor_R* beginAdaptor, int state1Index);
 void ManagerComponents_R_addMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int state2Index);
-void ManagerComponents_R_addComponent(ManagerComponents_R* manager, Component_R* component, int state1Index);
+void ManagerComponents_R_addComponent(ManagerComponents_R* manager, FlowComponent_R* component, int prevComponentID);
 void ManagerComponents_R_setComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int state1Index);
 
+int ManagerComponents_R_getFlow1Index(ManagerComponents_R* manager);
 int ManagerComponents_R_getFlow2Index(ManagerComponents_R* manager);
 
 void ManagerComponents_R_compute(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor);

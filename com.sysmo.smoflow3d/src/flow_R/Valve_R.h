@@ -11,12 +11,12 @@
 
 #include "media/MediumState.h"
 #include "flow/FrictionFlowValve.h"
-#include "Component_R.h"
+#include "flow_R/FlowComponent_R.h"
 
 
 #ifdef __cplusplus
 
-class Valve_R : public Component_R {
+class Valve_R : public FlowComponent_R {
 public:
 	Valve_R(FrictionFlowValve* friction);
 	virtual ~Valve_R();

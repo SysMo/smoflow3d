@@ -20,7 +20,7 @@ Valve_R::~Valve_R() {
 }
 
 void Valve_R::init(MediumState* state1Input) {
-	Component_R::init(state1Input);
+	FlowComponent_R::init(state1Input);
 	friction->init(state1, state2);
 }
 

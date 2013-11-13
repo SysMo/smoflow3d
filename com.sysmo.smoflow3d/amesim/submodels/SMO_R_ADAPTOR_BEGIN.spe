@@ -8,7 +8,7 @@
   <DEFAULT_ICON>smo_r_adaptor_begin</DEFAULT_ICON>
   <SUB_LABEL>R-adaptor (begin)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>2</I_STORES_NUMBER>
+  <I_STORES_NUMBER>3</I_STORES_NUMBER>
   <P_STORES_NUMBER>2</P_STORES_NUMBER>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <EVARS_LIST>
@@ -39,14 +39,14 @@
    <PORT>
     <EVAR>
      <SUB_ID>18</SUB_ID>
-     <TITLE>fluid state2 index</TITLE>
-     <VARNAME>fluidState2Index</VARNAME>
+     <TITLE>R-component ID (output, port2)</TITLE>
+     <VARNAME>outputRCompID2</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>8</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoRCompID</UNITS>
      <EXPRESS2>@_1_2</EXPRESS2>
     </EVAR>
     <EVAR>
@@ -62,14 +62,14 @@
     </EVAR>
     <EVAR>
      <SUB_ID>12</SUB_ID>
-     <TITLE>fluid flow2 index</TITLE>
-     <VARNAME>fluidFlow2Index</VARNAME>
+     <TITLE>R-component ID (input, port2)</TITLE>
+     <VARNAME>inputRCompID2</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoRCompID</UNITS>
     </EVAR>
    </PORT>
    <PORT>

@@ -13,12 +13,12 @@
 #include "flow/FrictionFlowPipe.h"
 #include "flow/ForcedConvection.h"
 #include "volumes/ThermalNode.h"
-#include "Component_R.h"
+#include "flow_R/FlowComponent_R.h"
 
 
 #ifdef __cplusplus
 
-class Pipe_R : public Component_R {
+class Pipe_R : public FlowComponent_R {
 public:
 	Pipe_R(FrictionFlowPipe* friction, ForcedConvection* convection = NULL);
 	virtual ~Pipe_R();

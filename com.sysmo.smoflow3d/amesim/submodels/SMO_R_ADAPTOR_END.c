@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END skeleton created by AME Submodel editing utility
-   Wed Nov 13 13:59:51 2013 */
+   Wed Nov 13 16:08:00 2013 */
 
 
 
@@ -32,6 +32,7 @@ REVISIONS :
 #include "flow_R/Adaptor_R.h"
 
 #define _component ps[0]
+#define _componentIndex ic[0]
 
 #define _manager ps[1]
 #define _managerIndex ic[1]
@@ -69,6 +70,7 @@ void smo_r_adaptor_endin_(int *n, int ic[6], void *ps[2])
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = EndAdaptor_R_new();
+   _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component);
 
    _manager = NULL;
@@ -83,9 +85,9 @@ void smo_r_adaptor_endin_(int *n, int ic[6], void *ps[2])
 
    Port 1 has 3 variables:
 
-      1 fluidState1Index     fluid state1 index            [smoFFL]      multi line macro 'smo_r_adaptor_end_macro0_'  UNPLOTTABLE
-      2 fluidFlow1Index      fluid flow1 index             [smoTDS]      basic variable input  UNPLOTTABLE
-      3 smoRChainID          R-components chain ID (port1) [smoRChainID] basic variable input
+      1 outputRCompID1     R-component ID (output, port1) [smoRCompID]  multi line macro 'smo_r_adaptor_end_macro0_'  UNPLOTTABLE
+      2 inputRCompID1      R-component ID (input, port1)  [smoRCompID]  basic variable input  UNPLOTTABLE
+      3 smoRChainID        R-components chain ID (port1)  [smoRChainID] basic variable input
 
    Port 2 has 2 variables:
 
@@ -101,8 +103,8 @@ void smo_r_adaptor_endin_(int *n, int ic[6], void *ps[2])
 
 */
 
-void smo_r_adaptor_end_(int *n, double *fluidState1Index
-      , double *fluidFlow1Index, double *smoRChainID
+void smo_r_adaptor_end_(int *n, double *outputRCompID1
+      , double *inputRCompID1, double *smoRChainID
       , double *fluidFlow2Index, double *fluidState2Index
       , double *smoRChainIDFromBeginAdaptor, int ic[6], void *ps[2])
 
@@ -114,8 +116,8 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 
 /* Common -> SI units conversions. */
 
-/*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
@@ -130,8 +132,6 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
-   *fluidFlow2Index = *fluidFlow1Index;
-
    if (*smoRChainID != *smoRChainIDFromBeginAdaptor) {
 	   AME_RAISE_ERROR("The two end adaptors of the R-components chain are not connected with each other.")
    }
@@ -142,8 +142,8 @@ void smo_r_adaptor_end_(int *n, double *fluidState1Index
 
 /* SI -> Common units conversions. */
 
-/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
@@ -154,7 +154,7 @@ extern double smo_r_adaptor_end_macro0_(int *n
       , double *fluidState2Index, int ic[6], void *ps[2])
 
 {
-   double fluidState1Index;
+   double outputRCompID1;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -167,7 +167,7 @@ extern double smo_r_adaptor_end_macro0_(int *n
 /*
    Define and return the following macro variable:
 
-   fluidState1Index = ??;
+   outputRCompID1 = ??;
 */
 
 
@@ -186,21 +186,20 @@ extern double smo_r_adaptor_end_macro0_(int *n
    }
    _stateMacroIsCalled = 1;
 
-   fluidState1Index = *fluidState2Index;
+   outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
 
-/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
 
-   return fluidState1Index;
+   return outputRCompID1;
 }
 
-extern double smo_r_adaptor_end_macro1_(int *n
-      , double *fluidFlow1Index, double *smoRChainID, int ic[6]
-      , void *ps[2])
+extern double smo_r_adaptor_end_macro1_(int *n, double *inputRCompID1
+      , double *smoRChainID, int ic[6], void *ps[2])
 
 {
    double fluidFlow2Index;
@@ -211,7 +210,7 @@ extern double smo_r_adaptor_end_macro1_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 
 /*
@@ -230,7 +229,8 @@ extern double smo_r_adaptor_end_macro1_(int *n
 	   if (_stateMacroIsCalled == 1) { //i.e. _fluidState2Index != -1
 		   ManagerComponents_R_addMainState2(_manager, _component, _fluidState2Index);
 	   }
-	   ManagerComponents_R_setComponentMainState2(_manager, _component, *fluidFlow1Index);
+
+	   ManagerComponents_R_setComponentMainState2(_manager, _component, *inputRCompID1);
    }
 
    if (_stateMacroIsCalled == 1) {
@@ -244,7 +244,7 @@ extern double smo_r_adaptor_end_macro1_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */

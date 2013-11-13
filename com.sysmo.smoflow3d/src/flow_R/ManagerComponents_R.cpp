@@ -37,6 +37,7 @@ ManagerComponents_R::~ManagerComponents_R() {
 void ManagerComponents_R::addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index) {
 	mainState1 = MediumState_get(state1Index);
 	this->beginAdaptor = beginAdaptor;
+	this->beginAdaptor->setBeginState(mainState1);
 }
 
 void ManagerComponents_R::addMainState2(EndAdaptor_R* endAdaptor, int state2Index) {
@@ -44,25 +45,27 @@ void ManagerComponents_R::addMainState2(EndAdaptor_R* endAdaptor, int state2Inde
 	this->endAdaptor = endAdaptor;
 }
 
-void ManagerComponents_R::addComponent(Component_R* component, int state1Index) {
-	MediumState* state1 = MediumState_get(state1Index);
-	if (state1 == mainState1) {
+void ManagerComponents_R::addComponent(FlowComponent_R* component, int prevComponentID) {
+	Component_R* prevComponentR = Component_R_get(prevComponentID);
+
+	BeginAdaptor_R* prevComponent_BebinAdaptor = dynamic_cast<BeginAdaptor_R*>(prevComponentR);
+	if (prevComponent_BebinAdaptor != NULL) {
 		componentMainState1 = component;
-	} else {
-		Component_R* prevComponent = getParent_Component(state1);
+		return;
+	}
+
+	FlowComponent_R* prevComponent = dynamic_cast<FlowComponent_R*>(prevComponentR);
+	if (prevComponent) {
 		component->setComponent1(prevComponent);
 		prevComponent->setComponent2(component);
+		return;
 	}
+
+	RaiseError("Could not construct the R-components chain - unexpected type of R-component.");
 }
 
-void ManagerComponents_R::setComponentMainState2(EndAdaptor_R* endAdaptor, int state1Index) {
-	MediumState* state1 = MediumState_get(state1Index);
-	Component_R* component_R = getParent_Component(state1);
-	if (component_R == NULL) {
-		RaiseComponentError(endAdaptor, "Could not construct R-components chain - the R-component on port1 is NULL.");
-	}
-
-	componentMainState2 = component_R;
+void ManagerComponents_R::setComponentMainState2(EndAdaptor_R* endAdaptor, int componentMainState2ID) {
+	componentMainState2 = (FlowComponent_R*) Component_R_get(componentMainState2ID);
 }
 
 void ManagerComponents_R::constructComponentsChain() {
@@ -78,24 +81,22 @@ void ManagerComponents_R::constructComponentsChain() {
 	state1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
 
 	// Start construction of the R-components chain
-	Component_R* component_R = componentMainState1;
+	FlowComponent_R* component = componentMainState1;
+	FlowComponent_R* prevComponent;
 	do {
-		component_R->init(state1);
-		components.push_back(component_R);
-		state1 = component_R->getState2();
+		component->init(state1);
+		components.push_back(component);
+		state1 = component->getState2();
 
-		component_R = component_R->getComponent2();
-	} while (component_R != NULL);
+		prevComponent = component;
+		component = component->getComponent2();
+	} while (component != NULL);
 
-	if (component_R != componentMainState2) {
-		RaiseComponentError(component_R, "Could not construct R-components chain - there are two end R-components.");
+	if (prevComponent != componentMainState2) {
+		RaiseComponentError(endAdaptor, "Could not construct R-components chain - there are two end R-components.");
 	}
 
 	isComponentsChainContructed = true;
-}
-
-Component_R* ManagerComponents_R::getParent_Component(SmoObject* smoObject) {
-	return dynamic_cast<Component_R*>(smoObject->parentComponent);
 }
 
 /**
@@ -133,8 +134,8 @@ double ManagerComponents_R::computeMassFlowRate() {
 	// Get upstream and downstream (i.e. first and last component)
 	MediumState* mainUpstreamState = mainState1;
 	MediumState* mainDownstreamState = mainState2;
-	Component_R* upstreamComponent = components.front();
-	Component_R* downstreamComponent = components.back();
+	FlowComponent_R* upstreamComponent = components.front();
+	FlowComponent_R* downstreamComponent = components.back();
 	bool reverseStream = false;
 
 	if (mainState1->p() < mainState2->p()) { //reverse stream
@@ -294,16 +295,20 @@ void ManagerComponents_R_addMainState2(ManagerComponents_R* manager, EndAdaptor_
 	manager->addMainState2(endAdaptor, state2Index);
 }
 
-void ManagerComponents_R_addComponent(ManagerComponents_R* manager, Component_R* component, int state1Index) {
-	manager->addComponent(component, state1Index);
+void ManagerComponents_R_addComponent(ManagerComponents_R* manager, FlowComponent_R* component, int prevComponentID) {
+	manager->addComponent(component, prevComponentID);
 }
 
-void ManagerComponents_R_setComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int state1Index) {
-	manager->setComponentMainState2(endAdaptor, state1Index);
+void ManagerComponents_R_setComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int componentMainState2ID) {
+	manager->setComponentMainState2(endAdaptor, componentMainState2ID);
+}
+
+int ManagerComponents_R_getFlow1Index(ManagerComponents_R* manager) {
+	return manager->getFlow1Index();
 }
 
 int ManagerComponents_R_getFlow2Index(ManagerComponents_R* manager) {
-	manager->getFlow2Index();
+	return manager->getFlow2Index();
 }
 
 void ManagerComponents_R_compute(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor) {

@@ -45,7 +45,7 @@ void initMediums() {
 void testComputeMassFlowRate(
 		MediumState* mainState1,
 		MediumState* mainState2,
-		std::vector<Component_R*>& components) {
+		std::vector<FlowComponent_R*>& components) {
 	// Get fluid
 	Medium* fluid = mainState1->getMedium();
 
@@ -61,8 +61,8 @@ void testComputeMassFlowRate(
 	// Get upstream and downstream components
 	MediumState* mainUpstreamState = mainState1;
 	MediumState* mainDownstreamState = mainState2;
-	Component_R* upstreamComponent = components.front();
-	Component_R* downstreamComponent = components.back();
+	FlowComponent_R* upstreamComponent = components.front();
+	FlowComponent_R* downstreamComponent = components.back();
 	bool reverseStream = false;
 
 	if (mainState1->p() < mainState2->p()) { //reverse stream
@@ -258,7 +258,7 @@ void testRComponents() {
 
 
 	// Create components vector
-	std::vector<Component_R*> components;
+	std::vector<FlowComponent_R*> components;
 	//components.push_back(pipe1);
 	//components.push_back(pipe2);
 	components.push_back(valve1);

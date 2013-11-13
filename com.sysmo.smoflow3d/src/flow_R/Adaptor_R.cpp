@@ -12,7 +12,13 @@ using namespace smoflow;
 /**
  * Adaptor_R - C++
  */
+BeginAdaptor_R::BeginAdaptor_R() {
+	beginState = NULL;
+}
 
+BeginAdaptor_R::~BeginAdaptor_R() {
+
+}
 
 /**
  * Adaptor_R - C
@@ -23,4 +29,16 @@ BeginAdaptor_R* BeginAdaptor_R_new() {
 
 EndAdaptor_R* EndAdaptor_R_new() {
 	return new EndAdaptor_R();
+}
+
+int Component_R_isBeginAdaptor(Component_R* component) {
+	if (dynamic_cast<BeginAdaptor_R*>(component) != NULL) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+MediumState* BeginAdaptor_R_getBeginState(BeginAdaptor_R* beginAdaptor) {
+	return beginAdaptor->getBeginState();
 }

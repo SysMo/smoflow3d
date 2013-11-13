@@ -9,11 +9,12 @@
 #ifndef ADAPTOR_R_H_
 #define ADAPTOR_R_H_
 
-#include "util/CommonDefinitions.h"
+#include "flow_R/Component_R.h"
+#include "media/MediumState.h"
 
 #ifdef __cplusplus
 
-class Adaptor_R : public SmoComponent {
+class Adaptor_R : public Component_R {
 public:
 	Adaptor_R() {}
 	virtual ~Adaptor_R() {}
@@ -21,8 +22,14 @@ public:
 
 class BeginAdaptor_R : public Adaptor_R {
 public:
-	BeginAdaptor_R() {}
-	virtual ~BeginAdaptor_R() {}
+	BeginAdaptor_R();
+	virtual ~BeginAdaptor_R();
+
+	void setBeginState(MediumState* state) {beginState = state;}
+	MediumState* getBeginState() {return beginState;}
+
+private:
+	MediumState* beginState;
 };
 
 class EndAdaptor_R : public Adaptor_R {
@@ -41,6 +48,9 @@ DECLARE_C_STRUCT(EndAdaptor_R)
 BEGIN_C_LINKAGE
 BeginAdaptor_R* BeginAdaptor_R_new();
 EndAdaptor_R* EndAdaptor_R_new();
+
+int Component_R_isBeginAdaptor(Component_R* component);
+MediumState* BeginAdaptor_R_getBeginState(BeginAdaptor_R* beginAdaptor);
 END_C_LINKAGE
 
 

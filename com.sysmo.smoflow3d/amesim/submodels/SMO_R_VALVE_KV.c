@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Wed Nov 13 13:37:19 2013 */
+   Wed Nov 13 16:55:56 2013 */
 
 
 
@@ -32,6 +32,7 @@ REVISIONS :
 #include "flow_R/ManagerComponents_R.h"
 
 #define _component ps[0]
+#define _componentIndex ic[0]
 
 #define _manager ps[1]
 #define _managerIndex ic[1]
@@ -124,12 +125,10 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 		   transitionChoice,
 		   transitionMassFlowRate,
 		   transitionPressureDifference);
+   _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
 
-   _fluidFlow1Index = Component_R_getFlow1Index(_component);
-   _fluidFlow1 = FluidFlow_get(_fluidFlow1Index);
-
-   _fluidFlow2Index = Component_R_getFlow2Index(_component);
+   _fluidFlow2Index = FlowComponent_R_getFlow2Index(_component);
    _fluidFlow2 = FluidFlow_get(_fluidFlow2Index);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -138,9 +137,9 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 
    Port 1 has 3 variables:
 
-      1 fluidFlow1Index      fluid flow1 index     [smoFFL]      basic variable output  UNPLOTTABLE
-      2 fluidState1Index     fluid state1 index    [smoTDS]      basic variable input  UNPLOTTABLE
-      3 smoRChainID          R-components chain ID [smoRChainID] basic variable input
+      1 outputRCompID1     R-component ID (ouput, port1) [smoRCompID]  basic variable output  UNPLOTTABLE
+      2 inputRCompID1      R-component ID (input, port1) [smoRCompID]  basic variable input  UNPLOTTABLE
+      3 smoRChainID        R-components chain ID         [smoRChainID] basic variable input
 
    Port 2 has 1 variable:
 
@@ -148,9 +147,9 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 
    Port 3 has 3 variables:
 
-      1 fluidState2Index     fluid state2 index    [smoTDS] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
-      2 smoRChainIDDupl      duplicate of smoRChainID
-      3 fluidFlow2Index      fluid flow2 index     [smoFFL] basic variable input  UNPLOTTABLE
+      1 outputRCompID2      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
+      2 smoRChainIDDupl     duplicate of smoRChainID      
+      3 inputRCompID2       R-component ID (input, port3)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 3 internal variables.
@@ -160,10 +159,10 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
       3 pressureLoss         total pressure loss           [bar -> Pa] basic variable
 */
 
-void smo_r_valve_kv_(int *n, double *fluidFlow1Index
-      , double *fluidState1Index, double *smoRChainID
-      , double *regulatingSignal, double *fluidState2Index
-      , double *fluidFlow2Index, double *massFlowRate
+void smo_r_valve_kv_(int *n, double *outputRCompID1
+      , double *inputRCompID1, double *smoRChainID
+      , double *regulatingSignal, double *outputRCompID2
+      , double *inputRCompID2, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss, double rp[3]
       , int ip[2], int ic[4], void *ps[4], int *flag)
 
@@ -185,15 +184,15 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 
 /* Common -> SI units conversions. */
 
-/*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID2 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID2 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *fluidFlow1Index = ??;
+   *outputRCompID1 = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressureLoss = ??;
@@ -206,27 +205,27 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
-   *pressureLoss = Component_R_getAbsolutePressureDrop(_component);
+   *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
 
-   *fluidFlow1Index = _fluidFlow1Index;
+   *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID2 /= ??; CONVERSION UNKNOWN */
    *pressureLoss /= 1.00000000000000e+005;
 }
 
-extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
+extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
       , double *smoRChainID, double *regulatingSignal, double rp[3]
       , int ip[2], int ic[4], void *ps[4], int *flag)
 
 {
-   double fluidState2Index;
+   double outputRCompID2;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -244,13 +243,13 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
 
 /* Common -> SI units conversions. */
 
-/*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
 
 /*
    Define and return the following macro variable:
 
-   fluidState2Index = ??;
+   outputRCompID2 = ??;
 */
 
 
@@ -260,20 +259,20 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
 
-	   ManagerComponents_R_addComponent(_manager, _component, *fluidState1Index);
+	   ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
    }
    Valve_R_setRegulatingSignal(_component, *regulatingSignal);
 
-   fluidState2Index = Component_R_getState2Index(_component);
+   outputRCompID2 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 
-/*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
 
-   return fluidState2Index;
+   return outputRCompID2;
 }
 
