@@ -22,19 +22,27 @@ public:
 	Component_R();
 	virtual ~Component_R();
 
-	virtual void init(MediumState* state1, MediumState* state2);
+	virtual void init(MediumState* state1);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure) = 0;
 	void updateFlows(double massFlow);
 
 	int getFlow1Index() {return flow1Index;}
 	int getFlow2Index() {return flow2Index;}
 
+	int getState1Index() {return state1Index;}
+	int getState2Index() {return state2Index;}
+
+	MediumState* getState2() {return state2;}
+	MediumState* getState1() {return state1;}
+
 	MediumState* getUpstreamState(double massFlowRate);
 	MediumState* getDownstreamState(double massFlowRate);
 
-	void addVirtualCapacity1(VirtualCapacity_R* virtualCapacity);
-	void addVirtualCapacity2(VirtualCapacity_R* virtualCapacity);
-	VirtualCapacity_R* getVirtualCapacity2() {return virtualCapacity2;}
+	Component_R* getComponent1() {return component1;}
+	Component_R* getComponent2() {return component2;}
+
+	void setComponent1(Component_R* component) {component1 = component;}
+	void setComponent2(Component_R* component) {component2 = component;}
 
 	bool isFlowClosed(double massFlowRate);
 	void closeFlow() {flagIsFlowOpen = false;}
@@ -45,18 +53,19 @@ public:
 
 	double getAbsolutePressureDrop();
 
-private:
+protected:
 	int flow1Index;
 	int flow2Index;
-
 	FluidFlow* flow1;
 	FluidFlow* flow2;
 
+	int state1Index;
+	int state2Index;
 	MediumState* state1;
 	MediumState* state2;
 
-	VirtualCapacity_R* virtualCapacity1;
-	VirtualCapacity_R* virtualCapacity2;
+	Component_R* component1;
+	Component_R* component2;
 
 	bool flagIsFlowOpen;
 	bool flagIsBidirectionalFlowAllowed;
@@ -68,7 +77,8 @@ DECLARE_C_STRUCT(Component_R)
 
 BEGIN_C_LINKAGE
 int Component_R_getFlow1Index(Component_R* component);
-int Component_R_getFlow2Index(Component_R* component);
+int Component_R_getFlow2Index(Component_R* component); //SMO_DELME
+int Component_R_getState2Index(Component_R* component);
 
 double Component_R_getAbsolutePressureDrop(Component_R* component);
 END_C_LINKAGE

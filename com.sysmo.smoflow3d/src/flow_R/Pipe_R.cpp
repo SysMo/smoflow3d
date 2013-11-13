@@ -25,8 +25,8 @@ Pipe_R::Pipe_R(FrictionFlowPipe* friction, ForcedConvection* convection) {
 Pipe_R::~Pipe_R() {
 }
 
-void Pipe_R::init(MediumState* state1, MediumState* state2) {
-	Component_R::init(state1, state2);
+void Pipe_R::init(MediumState* state1Input) {
+	Component_R::init(state1Input);
 	friction->init(state1, state2);
 
 	if (hasHeatExhcanger()) {

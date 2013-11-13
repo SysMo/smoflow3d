@@ -11,7 +11,6 @@
 
 #include "flow_R/Adaptor_R.h"
 #include "flow_R/Component_R.h"
-#include "flow_R/VirtualCapacity_R.h"
 #include "flow_R/Adaptor_R.h"
 
 #ifdef __cplusplus
@@ -23,9 +22,10 @@ public:
 
 	void addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index);
 	void addMainState2(EndAdaptor_R* endAdaptor, int state2Index);
-	void addComponent(Component_R* component_R, int state1Index);
-	void addVirtualCapacity(VirtualCapacity_R* virtualCapacity, int flow1Index);
-	void addComponentMainState2(EndAdaptor_R* endAdaptor, int flow1Index);
+	void addComponent(Component_R* component, int state1Index);
+	void setComponentMainState2(EndAdaptor_R* endAdaptor, int state1Index);
+
+	int getFlow2Index() {return componentMainState2->getFlow2Index();}
 
 	void compute();
 
@@ -34,9 +34,7 @@ private:
 	void updateFlows(double massFlowRate);
 
 	void constructComponentsChain();
-
-	VirtualCapacity_R* getParent_VirtualCapacity(MediumState* state);
-	Component_R* getParent_Component(FluidFlow* flow);
+	Component_R* getParent_Component(SmoObject* smoObject);
 
 	inline int getNumComponents() {return (int) components.size();}
 
@@ -67,9 +65,10 @@ ManagerComponents_R* ManagerComponents_R_get(int managerIndex);
 
 void ManagerComponents_R_addMainState1(ManagerComponents_R* manager, BeginAdaptor_R* beginAdaptor, int state1Index);
 void ManagerComponents_R_addMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int state2Index);
-void ManagerComponents_R_addComponent(ManagerComponents_R* manager, Component_R* component_R, int state1Index);
-void ManagerComponents_R_addVirtualCapacity(ManagerComponents_R* manager, VirtualCapacity_R* virtualCapacity, int flow1Index);
-void ManagerComponents_R_addComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int flow1Index);
+void ManagerComponents_R_addComponent(ManagerComponents_R* manager, Component_R* component, int state1Index);
+void ManagerComponents_R_setComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int state1Index);
+
+int ManagerComponents_R_getFlow2Index(ManagerComponents_R* manager);
 
 void ManagerComponents_R_compute(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor);
 END_C_LINKAGE

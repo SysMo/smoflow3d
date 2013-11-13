@@ -38,9 +38,8 @@
    
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_begin" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_virtual_capacity_sensor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_virtual_capacity" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_valve" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_virtual_capacity_sensor" />
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Media" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
@@ -89,9 +88,8 @@
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="R Components" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_begin" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end" />	
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_virtual_capacity_sensor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_virtual_capacity" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_valve" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_virtual_capacity_sensor" />
   </GROUP>
   
  </CATEGORY>

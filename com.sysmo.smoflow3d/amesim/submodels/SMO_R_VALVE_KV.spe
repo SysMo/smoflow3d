@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>83</SUB_ID_MAX>
+  <SUB_ID_MAX>89</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_valve</DEFAULT_ICON>
   <SUB_LABEL>R-valve with a regulating signal input (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -190,19 +190,19 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>71</SUB_ID>
-     <TITLE>fluid flow2 index</TITLE>
-     <VARNAME>fluidFlow2Index</VARNAME>
+     <SUB_ID>87</SUB_ID>
+     <TITLE>fluid state2 index</TITLE>
+     <VARNAME>fluidState2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>8</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoFFL</UNITS>
+     <UNITS>smoTDS</UNITS>
      <EXPRESS2>@_2_1, @_1_2, @_1_3</EXPRESS2>
     </EVAR>
     <EVAR>
-     <SUB_ID>77</SUB_ID>
+     <SUB_ID>88</SUB_ID>
      <VARNAME>smoRChainIDDupl</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
@@ -211,15 +211,15 @@
      <DUP_TYPE>0</DUP_TYPE>
     </EVAR>
     <EVAR>
-     <SUB_ID>60</SUB_ID>
-     <TITLE>fluid state2 index</TITLE>
-     <VARNAME>fluidState2Index</VARNAME>
+     <SUB_ID>89</SUB_ID>
+     <TITLE>fluid flow2 index</TITLE>
+     <VARNAME>fluidFlow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoFFL</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

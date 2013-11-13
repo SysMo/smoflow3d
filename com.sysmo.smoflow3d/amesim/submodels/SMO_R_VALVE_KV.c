@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Sun Nov 10 18:44:22 2013 */
+   Wed Nov 13 13:37:19 2013 */
 
 
 
@@ -148,9 +148,9 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 
    Port 3 has 3 variables:
 
-      1 fluidFlow2Index      fluid flow2 index     [smoFFL] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
+      1 fluidState2Index     fluid state2 index    [smoTDS] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
       2 smoRChainIDDupl      duplicate of smoRChainID
-      3 fluidState2Index     fluid state2 index    [smoTDS] basic variable input  UNPLOTTABLE
+      3 fluidFlow2Index      fluid flow2 index     [smoFFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 3 internal variables.
@@ -162,8 +162,8 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 
 void smo_r_valve_kv_(int *n, double *fluidFlow1Index
       , double *fluidState1Index, double *smoRChainID
-      , double *regulatingSignal, double *fluidFlow2Index
-      , double *fluidState2Index, double *massFlowRate
+      , double *regulatingSignal, double *fluidState2Index
+      , double *fluidFlow2Index, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss, double rp[3]
       , int ip[2], int ic[4], void *ps[4], int *flag)
 
@@ -187,8 +187,8 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 
 /*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -216,8 +216,8 @@ void smo_r_valve_kv_(int *n, double *fluidFlow1Index
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
    *pressureLoss /= 1.00000000000000e+005;
 }
 
@@ -226,7 +226,7 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
       , int ip[2], int ic[4], void *ps[4], int *flag)
 
 {
-   double fluidFlow2Index;
+   double fluidState2Index;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -250,12 +250,12 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
 /*
    Define and return the following macro variable:
 
-   fluidFlow2Index = ??;
+   fluidState2Index = ??;
 */
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   SMOCOMPONENt_PRINT_MACRO_MSG("flow2")
+   SMOCOMPONENt_PRINT_MACRO_MSG("state2")
    if (firstc_()) {
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
@@ -264,7 +264,7 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
    }
    Valve_R_setRegulatingSignal(_component, *regulatingSignal);
 
-   fluidFlow2Index = _fluidFlow2Index;
+   fluidState2Index = Component_R_getState2Index(_component);
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -272,8 +272,8 @@ extern double smo_r_valve_kv_macro0_(int *n, double *fluidState1Index
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 
-/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
 
-   return fluidFlow2Index;
+   return fluidState2Index;
 }
 

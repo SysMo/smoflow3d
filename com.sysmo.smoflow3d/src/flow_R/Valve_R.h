@@ -21,7 +21,7 @@ public:
 	Valve_R(FrictionFlowValve* friction);
 	virtual ~Valve_R();
 
-	virtual void init(MediumState* state1, MediumState* state2);
+	virtual void init(MediumState* state1);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
 	void setRegulatingSignal(double regulatingSignal);

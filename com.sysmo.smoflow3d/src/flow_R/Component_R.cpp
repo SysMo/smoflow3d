@@ -7,7 +7,6 @@
  */
 
 #include "Component_R.h"
-#include "flow_R/VirtualCapacity_R.h"
 
 using namespace smoflow;
 
@@ -15,6 +14,11 @@ using namespace smoflow;
  * Component_R - C++
  */
 Component_R::Component_R() {
+	component1 = NULL;
+	component2 = NULL;
+
+	state1Index = -1;
+	state2Index = -1;
 	state1 = NULL;
 	state2 = NULL;
 
@@ -28,20 +32,20 @@ Component_R::Component_R() {
 
 	flagIsFlowOpen = true;
 	flagIsBidirectionalFlowAllowed = true;
-
-	virtualCapacity1 = NULL;
-	virtualCapacity2 = NULL;
 }
 
 Component_R::~Component_R() {
 }
 
-void Component_R::init(MediumState* state1, MediumState* state2) {
-	if (state1->getMedium() != state2->getMedium()) {
-		RaiseComponentError(this, "Different media connected to the flow component!");
-	}
+void Component_R::init(MediumState* state1) {
 	this->state1 = state1;
-	this->state2 = state2;
+	state1Index = state1->instanceIndex;
+
+	Medium* fluid = state1->getMedium();
+	state2 = MediumState_new(fluid);
+	state2Index = MediumState_register(state2);
+	SMOOBJECT_SET_PARENT_COMPONENT(state2, this);
+	state2->update_Tp(cst::StandardTemperature, cst::StandardPressure);
 }
 
 void Component_R::updateFlows(double massFlowRate) {
@@ -66,24 +70,6 @@ MediumState* Component_R::getDownstreamState(double massFlowRate) {
 	} else {
 		return state1;
 	}
-}
-
-void Component_R::addVirtualCapacity1(VirtualCapacity_R* virtualCapacity) {
-	if (virtualCapacity1 == NULL) {
-		virtualCapacity1 = virtualCapacity;
-		return;
-	}
-
-	RaiseComponentError(this, "Try to connect 'Virtual Capacity'-component to port1 of the 'R-Component' which already has other 'Virtual Capacity'-components on this port!");
-}
-
-void Component_R::addVirtualCapacity2(VirtualCapacity_R* virtualCapacity) {
-	if (virtualCapacity2 == NULL) {
-		virtualCapacity2 = virtualCapacity;
-		return;
-	}
-
-	RaiseComponentError(this, "Try to connect 'Virtual Capacity'-component to port2 of the 'R-Component' which already has other 'Virtual Capacity'-components on this port!");
 }
 
 bool Component_R::isFlowClosed(double massFlowRate) {
@@ -111,6 +97,10 @@ int Component_R_getFlow1Index(Component_R* component) {
 
 int Component_R_getFlow2Index(Component_R* component) {
 	return component->getFlow2Index();
+}
+
+int Component_R_getState2Index(Component_R* component) {
+	return component->getState2Index();
 }
 
 double Component_R_getAbsolutePressureDrop(Component_R* component) {

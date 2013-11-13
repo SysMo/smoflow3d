@@ -44,35 +44,20 @@ void ManagerComponents_R::addMainState2(EndAdaptor_R* endAdaptor, int state2Inde
 	this->endAdaptor = endAdaptor;
 }
 
-void ManagerComponents_R::addComponent(Component_R* component_R, int state1Index) {
+void ManagerComponents_R::addComponent(Component_R* component, int state1Index) {
 	MediumState* state1 = MediumState_get(state1Index);
 	if (state1 == mainState1) {
-		componentMainState1 = component_R;
+		componentMainState1 = component;
 	} else {
-		VirtualCapacity_R* virtualCapacity = getParent_VirtualCapacity(state1);
-		if (virtualCapacity == NULL) {
-			RaiseComponentError(component_R, "Could not construct R-components chain - the 'Virtual Capacity'-component on port1 is NULL.");
-		}
-
-		virtualCapacity->addComponent2(component_R);
-		component_R->addVirtualCapacity1(virtualCapacity);
+		Component_R* prevComponent = getParent_Component(state1);
+		component->setComponent1(prevComponent);
+		prevComponent->setComponent2(component);
 	}
 }
 
-void ManagerComponents_R::addVirtualCapacity(VirtualCapacity_R* virtualCapacity, int flow1Index) {
-	FluidFlow* flow1 = FluidFlow_get(flow1Index);
-	Component_R* component_R = getParent_Component(flow1);
-	if (component_R == NULL) {
-		RaiseComponentError(virtualCapacity, "Could not construct R-components chain - the R-component on port1 is NULL.");
-	}
-
-	component_R->addVirtualCapacity2(virtualCapacity);
-	virtualCapacity->addComponent1(component_R);
-}
-
-void ManagerComponents_R::addComponentMainState2(EndAdaptor_R* endAdaptor, int flow1Index) {
-	FluidFlow* flow1 = FluidFlow_get(flow1Index);
-	Component_R* component_R = getParent_Component(flow1);
+void ManagerComponents_R::setComponentMainState2(EndAdaptor_R* endAdaptor, int state1Index) {
+	MediumState* state1 = MediumState_get(state1Index);
+	Component_R* component_R = getParent_Component(state1);
 	if (component_R == NULL) {
 		RaiseComponentError(endAdaptor, "Could not construct R-components chain - the R-component on port1 is NULL.");
 	}
@@ -85,73 +70,32 @@ void ManagerComponents_R::constructComponentsChain() {
 		RaiseError("Try to construct for the second time the R-components chain.");
 	}
 
+	// Create the internal begin state
+	Medium* fluid = mainState1->getMedium();
+	MediumState* state1 = MediumState_new(fluid);
+	MediumState_register(state1);
+	SMOOBJECT_SET_PARENT_COMPONENT(state1, beginAdaptor);
+	state1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
+
 	// Start construction of the R-components chain
 	Component_R* component_R = componentMainState1;
-	VirtualCapacity_R* virtualCapacity = component_R->getVirtualCapacity2();
-	if (virtualCapacity == NULL) {
-		//:TRICKY: R-components chain contains only one R-component
-		Medium* fluid = mainState1->getMedium();
-		MediumState* componentState1 = MediumState_new(fluid);
-		MediumState_register(componentState1);
-		componentState1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
-
-		MediumState* componentState2 = MediumState_new(fluid);
-		MediumState_register(componentState2);
-		componentState2->update_Tp(cst::StandardTemperature, cst::StandardPressure);
-
-		componentMainState1->init(componentState1, componentState2);
-		components.push_back(componentMainState1);
-
-		isComponentsChainContructed = true;
-		return;
-	}
-
-
-	// Create R-components chain that contains more than two R-component
-	Medium* fluid = mainState1->getMedium();
-	MediumState* componentState1 = MediumState_new(fluid);
-	MediumState_register(componentState1);
-	componentState1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
-
-
 	do {
-		MediumState* componentState2 = virtualCapacity->getState();
-		component_R->init(componentState1, componentState2);
+		component_R->init(state1);
 		components.push_back(component_R);
-		componentState1 = componentState2;
+		state1 = component_R->getState2();
 
-
-		component_R = virtualCapacity->getComponent2();
-		if (component_R == NULL) {
-			RaiseComponentError(component_R, "Could not construct R-components chain - there is a bad (R-C-R) connection.");
-		}
-
-		virtualCapacity = component_R->getVirtualCapacity2();
-	} while (virtualCapacity != NULL);
-
-
-	MediumState* componentState2 = MediumState_new(fluid);
-	MediumState_register(componentState2);
-	componentState2->update_Tp(cst::StandardTemperature, cst::StandardPressure);
-
-	component_R->init(componentState1, componentState2);
-	components.push_back(component_R);
-
+		component_R = component_R->getComponent2();
+	} while (component_R != NULL);
 
 	if (component_R != componentMainState2) {
 		RaiseComponentError(component_R, "Could not construct R-components chain - there are two end R-components.");
 	}
 
-
 	isComponentsChainContructed = true;
 }
 
-VirtualCapacity_R* ManagerComponents_R::getParent_VirtualCapacity(MediumState* state) {
-	return dynamic_cast<VirtualCapacity_R*>(state->parentComponent);
-}
-
-Component_R* ManagerComponents_R::getParent_Component(FluidFlow* flow) {
-	return dynamic_cast<Component_R*>(flow->parentComponent);
+Component_R* ManagerComponents_R::getParent_Component(SmoObject* smoObject) {
+	return dynamic_cast<Component_R*>(smoObject->parentComponent);
 }
 
 /**
@@ -350,16 +294,16 @@ void ManagerComponents_R_addMainState2(ManagerComponents_R* manager, EndAdaptor_
 	manager->addMainState2(endAdaptor, state2Index);
 }
 
-void ManagerComponents_R_addComponent(ManagerComponents_R* manager, Component_R* component_R, int state1Index) {
-	manager->addComponent(component_R, state1Index);
+void ManagerComponents_R_addComponent(ManagerComponents_R* manager, Component_R* component, int state1Index) {
+	manager->addComponent(component, state1Index);
 }
 
-void ManagerComponents_R_addVirtualCapacity(ManagerComponents_R* manager, VirtualCapacity_R* virtualCapacity, int flow1Index) {
-	manager->addVirtualCapacity(virtualCapacity, flow1Index);
+void ManagerComponents_R_setComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int state1Index) {
+	manager->setComponentMainState2(endAdaptor, state1Index);
 }
 
-void ManagerComponents_R_addComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int flow1Index) {
-	manager->addComponentMainState2(endAdaptor, flow1Index);
+int ManagerComponents_R_getFlow2Index(ManagerComponents_R* manager) {
+	manager->getFlow2Index();
 }
 
 void ManagerComponents_R_compute(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor) {

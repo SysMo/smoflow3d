@@ -55,7 +55,6 @@ add_library(SmoFlow SHARED
     flow/FrictionFlowPipe.cpp
     flow/FrictionFlowValve.cpp
     flow/PhaseSeparator.cpp
-    flow_R/VirtualCapacity_R.cpp
     flow_R/Component_R.cpp
     flow_R/Pipe_R.cpp
     flow_R/Valve_R.cpp
@@ -85,4 +84,4 @@ add_smo_test(MediaHydrogenTest "test/MediaHydrogen.cpp;")
 add_smo_test(FunctorsTest "test/Functors.cpp;")
 add_smo_test(MediumSolidTest "test/MediumSolid.cpp;")
 add_smo_test(IOControlTest "test/IOControl.cpp;")
-add_smo_test(RComponents "test/RComponents.cpp;")
+#add_smo_test(RComponents "test/RComponents.cpp;")

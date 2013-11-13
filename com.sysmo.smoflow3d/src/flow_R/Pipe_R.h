@@ -23,7 +23,7 @@ public:
 	Pipe_R(FrictionFlowPipe* friction, ForcedConvection* convection = NULL);
 	virtual ~Pipe_R();
 
-	virtual void init(MediumState* state1, MediumState* state2);
+	virtual void init(MediumState* state1);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
 	bool hasHeatExhcanger();
