@@ -128,6 +128,8 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
    if (firstc_()) {
 	   _fluidFlow1Index = ManagerComponents_R_getFlow1Index(_manager);
    }
+   ManagerComponents_R_clearIsComputed(_manager);
+
    *fluidFlow1Index =  _fluidFlow1Index;
    *smoRChainIDToEndAdaptor = _managerIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */

@@ -24,6 +24,7 @@ ManagerComponents_R::ManagerComponents_R() {
 	endAdaptor = NULL;
 
 	isComponentsChainContructed = false;
+	isComputed = false;
 
 	cache_massFlowRate = 0.001; //:SMO_TODO: (???) cache_massFlowRate
 }
@@ -65,7 +66,10 @@ void ManagerComponents_R::addComponent(FlowComponent_R* component, int prevCompo
 }
 
 void ManagerComponents_R::setComponentMainState2(EndAdaptor_R* endAdaptor, int componentMainState2ID) {
-	componentMainState2 = (FlowComponent_R*) Component_R_get(componentMainState2ID);
+	FlowComponent_R* inputComponentMainState2 = (FlowComponent_R*) Component_R_get(componentMainState2ID);
+	if (inputComponentMainState2 != componentMainState2) {
+		RaiseComponentError(endAdaptor, "Could not construct R-components chain - there are two end R-components.");
+	}
 }
 
 void ManagerComponents_R::constructComponentsChain() {
@@ -91,10 +95,7 @@ void ManagerComponents_R::constructComponentsChain() {
 		prevComponent = component;
 		component = component->getComponent2();
 	} while (component != NULL);
-
-	if (prevComponent != componentMainState2) {
-		RaiseComponentError(endAdaptor, "Could not construct R-components chain - there are two end R-components.");
-	}
+	componentMainState2 = prevComponent;
 
 	isComponentsChainContructed = true;
 }
@@ -103,9 +104,14 @@ void ManagerComponents_R::constructComponentsChain() {
  * Compute R-components chain
  */
 void ManagerComponents_R::compute() {
-	// Check - the R-components chain is constructed
+	// Check - R-components chain is constructed
 	if (!isComponentsChainContructed) {
 		constructComponentsChain();
+	}
+
+	// Check
+	if (isComputed) {
+		return;
 	}
 
 	// Compute the mass flow rate
@@ -122,6 +128,10 @@ void ManagerComponents_R::compute() {
 
 	// Update flows of the all components
 	updateFlows(massFlowRate);
+
+
+	// Set isComputed flag
+	isComputed = true;
 }
 
 double ManagerComponents_R::computeMassFlowRate() {
@@ -316,6 +326,10 @@ int ManagerComponents_R_getFlow2Index(ManagerComponents_R* manager) {
 	return manager->getFlow2Index();
 }
 
-void ManagerComponents_R_compute(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor) {
+void ManagerComponents_R_compute(ManagerComponents_R* manager) {
 	manager->compute();
+}
+
+void ManagerComponents_R_clearIsComputed(ManagerComponents_R* manager) {
+	manager->clearIsComputed();
 }

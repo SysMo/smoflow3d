@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END skeleton created by AME Submodel editing utility
-   Thu Nov 14 11:02:02 2013 */
+   Thu Nov 14 14:39:58 2013 */
 
 
 
@@ -174,17 +174,9 @@ extern double smo_r_adaptor_end_macro0_(int *n
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID1")
    if (firstc_()) {
-	   _fluidState2Index = *fluidState2Index;
-
-	   if (_flowMacroIsCalled == 1) { //i.e. _manager != NULL
-		   ManagerComponents_R_addMainState2(_manager, _component, _fluidState2Index);
-	   }
+	   MediumState* endState = MediumState_get(*fluidState2Index);
+	   EndAdaptor_R_setEndState(_component, endState);
    }
-
-   if (_flowMacroIsCalled == 1) {
-	   ManagerComponents_R_compute(_manager, _component);
-   }
-   _stateMacroIsCalled = 1;
 
    outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
@@ -199,7 +191,8 @@ extern double smo_r_adaptor_end_macro0_(int *n
 }
 
 extern double smo_r_adaptor_end_macro1_(int *n, double *inputRCompID1
-      , double *smoRChainID, int ic[6], void *ps[2])
+      , double *smoRChainID, double *smoRChainIDFromBeginAdaptor
+      , int ic[6], void *ps[2])
 
 {
    double fluidFlow2Index;
@@ -212,6 +205,7 @@ extern double smo_r_adaptor_end_macro1_(int *n, double *inputRCompID1
 
 /*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
+/*   *smoRChainIDFromBeginAdaptor *= ??; CONVERSION UNKNOWN */
 
 /*
    Define and return the following macro variable:
@@ -226,18 +220,8 @@ extern double smo_r_adaptor_end_macro1_(int *n, double *inputRCompID1
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
 
-	   if (_stateMacroIsCalled == 1) { //i.e. _fluidState2Index != -1
-		   ManagerComponents_R_addMainState2(_manager, _component, _fluidState2Index);
-	   }
-
 	   ManagerComponents_R_setComponentMainState2(_manager, _component, *inputRCompID1);
    }
-
-   if (_stateMacroIsCalled == 1) {
-	   ManagerComponents_R_compute(_manager, _component);
-   }
-   _flowMacroIsCalled = 1;
-
 
    fluidFlow2Index = ManagerComponents_R_getFlow2Index(_manager);
 /* <<<<<<<<<<<<End of Macro macro1 Executable Statements. */
@@ -246,6 +230,7 @@ extern double smo_r_adaptor_end_macro1_(int *n, double *inputRCompID1
 
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
+/*   *smoRChainIDFromBeginAdaptor /= ??; CONVERSION UNKNOWN */
 
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 

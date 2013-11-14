@@ -28,6 +28,7 @@ public:
 	int getFlow2Index() {return componentMainState2->getFlow2Index();}
 
 	void compute();
+	void clearIsComputed() {isComputed = false;}
 
 private:
 	double computeMassFlowRate();
@@ -48,6 +49,7 @@ private:
 	EndAdaptor_R* endAdaptor;
 
 	bool isComponentsChainContructed;
+	bool isComputed;
 
 	double cache_massFlowRate;
 };
@@ -69,7 +71,8 @@ void ManagerComponents_R_setComponentMainState2(ManagerComponents_R* manager, En
 int ManagerComponents_R_getFlow1Index(ManagerComponents_R* manager);
 int ManagerComponents_R_getFlow2Index(ManagerComponents_R* manager);
 
-void ManagerComponents_R_compute(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor);
+void ManagerComponents_R_compute(ManagerComponents_R* manager);
+void ManagerComponents_R_clearIsComputed(ManagerComponents_R* manager);
 END_C_LINKAGE
 
 #endif /* MANAGERCOMPONENTS_R_H_ */

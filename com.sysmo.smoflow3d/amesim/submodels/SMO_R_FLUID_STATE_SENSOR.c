@@ -1,5 +1,5 @@
 /* Submodel SMO_R_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
-   Thu Nov 14 12:31:45 2013 */
+   Thu Nov 14 14:09:43 2013 */
 
 
 
@@ -30,9 +30,13 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "media/MediumState.h"
 #include "Flow_R/FlowComponent_R.h"
+#include "flow_R/ManagerComponents_R.h"
 #include "Flow_R/Adaptor_R.h"
 
-#define _fluidState ps[0]
+#define _manager ps[0]
+#define _managerIndex ic[0]
+
+#define _fluidState ps[1]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -49,7 +53,7 @@ REVISIONS :
 */
 
 void smo_r_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
-      , double c[19], void *ps[1])
+      , double c[19], int ic[2], void *ps[2])
 
 {
    int loop, error;
@@ -151,7 +155,7 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
       , double *specificHelmholtzEnergy, double *specificGibbsEnergy
       , double *gasMassFraction, double *superheating, double *dpc
       , double *mu, double *lambda, double *Pr, double *sigma
-      , double rp[2], int ip[1], double c[19], void *ps[1])
+      , double rp[2], int ip[1], double c[19], int ic[2], void *ps[2])
 
 {
    int loop;
@@ -203,6 +207,12 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
+   if (firstc_()) {
+	   _managerIndex = *smoRChainID;
+	   _manager = ManagerComponents_R_get(_managerIndex);
+   }
+   ManagerComponents_R_compute(_manager);
+
    if (firstc_()) {
 	   Component_R* component_R =  Component_R_get(*inputRCompID3);
 	   if (Component_R_isFlowComponent(component_R) == 1) {
@@ -284,7 +294,7 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
 
 extern double smo_r_fluid_state_sensor_macro0_(int *n
       , double *inputRCompID3, double rp[2], int ip[1], double c[19]
-      , void *ps[1])
+      , int ic[2], void *ps[2])
 
 {
    double outputRCompID1;

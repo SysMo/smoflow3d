@@ -42,7 +42,12 @@ public:
 	void closeFlow() {flagIsFlowOpen = false;}
 	void openFlow() {flagIsFlowOpen = true;}
 
+	void setEndState(MediumState* state) {endState = state;}
+	MediumState* getEndState() {return endState;}
+
 private:
+	MediumState* endState;
+
 	bool flagIsFlowOpen;
 };
 
@@ -60,6 +65,10 @@ EndAdaptor_R* EndAdaptor_R_new();
 int Component_R_isBeginAdaptor(Component_R* component);
 MediumState* BeginAdaptor_R_getBeginState(BeginAdaptor_R* beginAdaptor);
 
+
+int Component_R_isEndAdaptor(Component_R* component);
+MediumState* EndAdaptor_R_getEndState(EndAdaptor_R* endAdaptor);
+void EndAdaptor_R_setEndState(EndAdaptor_R* endAdaptor, MediumState* state);
 void EndAdaptor_R_setRegulatingSignal(EndAdaptor_R* endAdaptor, double regulatingSignal);
 END_C_LINKAGE
 

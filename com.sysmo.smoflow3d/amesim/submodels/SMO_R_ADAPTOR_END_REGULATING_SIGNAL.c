@@ -203,7 +203,7 @@ extern double smo_r_adaptor_end_regulating_signal_macro0_(int *n
    }
 
    if (_flowMacroIsCalled == 1) {
-	   ManagerComponents_R_compute(_manager, _component);
+	   ManagerComponents_R_compute(_manager);
    }
    _stateMacroIsCalled = 1;
 
@@ -258,7 +258,7 @@ extern double smo_r_adaptor_end_regulating_signal_macro1_(int *n
    EndAdaptor_R_setRegulatingSignal(_component, *regulatingSignal);
 
    if (_stateMacroIsCalled == 1) {
-	   ManagerComponents_R_compute(_manager, _component);
+	   ManagerComponents_R_compute(_manager);
    }
    _flowMacroIsCalled = 1;
 

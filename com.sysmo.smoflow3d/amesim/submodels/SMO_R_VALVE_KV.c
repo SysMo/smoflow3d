@@ -202,6 +202,7 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
+   ManagerComponents_R_compute(_manager);
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);

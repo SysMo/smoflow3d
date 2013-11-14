@@ -59,7 +59,7 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
-     <EXPRESS2>@_1_2, @_1_3</EXPRESS2>
+     <EXPRESS2>@_1_2, @_1_3, @_3_1</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>5</SUB_ID>

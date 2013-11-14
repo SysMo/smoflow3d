@@ -1,5 +1,5 @@
 /* Submodel SMO_R_FLUID_FLOW_SENSOR skeleton created by AME Submodel editing utility
-   Thu Nov 14 12:32:31 2013 */
+   Thu Nov 14 14:10:02 2013 */
 
 
 
@@ -30,10 +30,14 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "media/MediumState.h"
 #include "Flow_R/FlowComponent_R.h"
+#include "flow_R/ManagerComponents_R.h"
 #include "Flow_R/Adaptor_R.h"
 
-#define _fluidFlow ps[0]
-#define _fluidFlowDirection ic[0]
+#define _manager ps[0]
+#define _managerIndex ic[0]
+
+#define _fluidFlow ps[1]
+#define _fluidFlowDirection ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -50,7 +54,7 @@ REVISIONS :
 */
 
 void smo_r_fluid_flow_sensorin_(int *n, double rp[2], int ip[1]
-      , int ic[3], void *ps[3])
+      , int ic[2], void *ps[2])
 
 {
    int loop, error;
@@ -129,8 +133,8 @@ void smo_r_fluid_flow_sensor_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *measuredValue
       , double *outputRCompID3, double *inputRCompID3
       , double *smoRChainID, double *massFlowRate
-      , double *enthalpyFlowRate, double rp[2], int ip[1], int ic[3]
-      , void *ps[3])
+      , double *enthalpyFlowRate, double rp[2], int ip[1], int ic[2]
+      , void *ps[2])
 
 {
    int loop;
@@ -165,6 +169,20 @@ void smo_r_fluid_flow_sensor_(int *n, double *outputRCompID1
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
+   if (firstc_()) {
+	   _managerIndex = *smoRChainID;
+	   _manager = ManagerComponents_R_get(_managerIndex);
+
+	   Component_R* inputComponent1 = Component_R_get(*inputRCompID1);
+	   if (Component_R_isEndAdaptor(inputComponent1)) {
+		   EndAdaptor_R* endAdaptor = (EndAdaptor_R*) inputComponent1;
+		   MediumState* endState = EndAdaptor_R_getEndState(endAdaptor);
+		   int endStateIndex = MediumState_index(endState);
+		   ManagerComponents_R_addMainState2(_manager, endAdaptor, endStateIndex);
+	   }
+   }
+   ManagerComponents_R_compute(_manager);
+
    if (firstc_()) {
 	   Component_R* component_R = Component_R_get(*inputRCompID3);
 	   if (Component_R_isFlowComponent(component_R) == 1) {
@@ -206,8 +224,8 @@ void smo_r_fluid_flow_sensor_(int *n, double *outputRCompID1
 }
 
 extern double smo_r_fluid_flow_sensor_macro0_(int *n
-      , double *inputRCompID3, double rp[2], int ip[1], int ic[3]
-      , void *ps[3])
+      , double *inputRCompID3, double rp[2], int ip[1], int ic[2]
+      , void *ps[2])
 
 {
    double outputRCompID1;
