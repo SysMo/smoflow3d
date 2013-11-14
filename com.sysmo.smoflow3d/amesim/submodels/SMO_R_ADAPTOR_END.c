@@ -172,7 +172,7 @@ extern double smo_r_adaptor_end_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   SMOCOMPONENt_PRINT_MACRO_MSG("state1")
+   SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID1")
    if (firstc_()) {
 	   _fluidState2Index = *fluidState2Index;
 

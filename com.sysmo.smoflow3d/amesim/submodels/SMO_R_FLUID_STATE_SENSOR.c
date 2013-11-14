@@ -1,5 +1,5 @@
 /* Submodel SMO_R_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
-   Thu Nov 14 11:01:38 2013 */
+   Thu Nov 14 12:31:45 2013 */
 
 
 
@@ -113,9 +113,9 @@ void smo_r_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 3 has 3 variables:
 
-      1 inputRCompID1Dupl     duplicate of inputRCompID1   
-      2 inputRCompID3         R-component ID (input, port3) [smoRCompID]  basic variable input  UNPLOTTABLE
-      3 smoRChainID           R-components chain ID         [smoRChainID] basic variable input  UNPLOTTABLE
+      1 outputRCompID3     R-component ID (ouput, port3) [smoRCompID]  basic variable output  UNPLOTTABLE
+      2 inputRCompID3      R-component ID (input, port3) [smoRCompID]  basic variable input  UNPLOTTABLE
+      3 smoRChainID        R-components chain ID         [smoRChainID] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 19 internal variables.
@@ -143,15 +143,15 @@ void smo_r_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
 
 void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *measuredValue
-      , double *inputRCompID3, double *smoRChainID, double *pressure
-      , double *temperature, double *temperatureC, double *density
-      , double *specificVolume, double *internalEnergy
-      , double *enthalpy, double *specificEntropy, double *cp
-      , double *cv, double *specificHelmholtzEnergy
-      , double *specificGibbsEnergy, double *gasMassFraction
-      , double *superheating, double *dpc, double *mu, double *lambda
-      , double *Pr, double *sigma, double rp[2], int ip[1]
-      , double c[19], void *ps[1])
+      , double *outputRCompID3, double *inputRCompID3
+      , double *smoRChainID, double *pressure, double *temperature
+      , double *temperatureC, double *density, double *specificVolume
+      , double *internalEnergy, double *enthalpy
+      , double *specificEntropy, double *cp, double *cv
+      , double *specificHelmholtzEnergy, double *specificGibbsEnergy
+      , double *gasMassFraction, double *superheating, double *dpc
+      , double *mu, double *lambda, double *Pr, double *sigma
+      , double rp[2], int ip[1], double c[19], void *ps[1])
 
 {
    int loop;
@@ -177,6 +177,7 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
    Set all submodel outputs below:
 
    *measuredValue = ??;
+   *outputRCompID3 = ??;
    *pressure   = ??;
    *temperature = ??;
    *temperatureC = ??;
@@ -213,6 +214,7 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
 		   _fluidState = BeginAdaptor_R_getBeginState(beginAdaptor);
 	   }
    }
+   *outputRCompID3 = *inputRCompID1;
 
    static const double outputInternalGain[19] = {
 		   1e-5, 1, 1, 1, 1,
@@ -268,6 +270,7 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
 
 /*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
 /*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;

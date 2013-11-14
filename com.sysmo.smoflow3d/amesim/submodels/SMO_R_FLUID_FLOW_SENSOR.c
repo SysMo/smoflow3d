@@ -1,5 +1,5 @@
 /* Submodel SMO_R_FLUID_FLOW_SENSOR skeleton created by AME Submodel editing utility
-   Thu Nov 14 11:01:31 2013 */
+   Thu Nov 14 12:32:31 2013 */
 
 
 
@@ -114,9 +114,9 @@ void smo_r_fluid_flow_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 3 has 3 variables:
 
-      1 inputRCompID1Dupl     duplicate of inputRCompID1   
-      2 inputRCompID3         R-component ID (input, port3) [smoRCompID]  basic variable input  UNPLOTTABLE
-      3 smoRChainID           R-components chain ID         [smoRChainID] basic variable input  UNPLOTTABLE
+      1 outputRCompID3     R-component ID (ouput, port3) [smoRCompID]  basic variable output  UNPLOTTABLE
+      2 inputRCompID3      R-component ID (input, port3) [smoRCompID]  basic variable input  UNPLOTTABLE
+      3 smoRChainID        R-components chain ID         [smoRChainID] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 2 internal variables.
@@ -127,9 +127,10 @@ void smo_r_fluid_flow_sensorin_(int *n, double rp[2], int ip[1]
 
 void smo_r_fluid_flow_sensor_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *measuredValue
-      , double *inputRCompID3, double *smoRChainID
-      , double *massFlowRate, double *enthalpyFlowRate, double rp[2]
-      , int ip[1], int ic[3], void *ps[3])
+      , double *outputRCompID3, double *inputRCompID3
+      , double *smoRChainID, double *massFlowRate
+      , double *enthalpyFlowRate, double rp[2], int ip[1], int ic[3]
+      , void *ps[3])
 
 {
    int loop;
@@ -155,6 +156,7 @@ void smo_r_fluid_flow_sensor_(int *n, double *outputRCompID1
    Set all submodel outputs below:
 
    *measuredValue = ??;
+   *outputRCompID3 = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
 */
@@ -180,6 +182,7 @@ void smo_r_fluid_flow_sensor_(int *n, double *outputRCompID1
 		   _fluidFlowDirection = -1;
 	   }
    }
+   *outputRCompID3 = *inputRCompID1;
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow) * _fluidFlowDirection;
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow) * _fluidFlowDirection;
@@ -197,6 +200,7 @@ void smo_r_fluid_flow_sensor_(int *n, double *outputRCompID1
 
 /*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
 /*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 }

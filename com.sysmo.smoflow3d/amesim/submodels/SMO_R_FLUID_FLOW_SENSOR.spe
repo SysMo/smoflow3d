@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>49</SUB_ID_MAX>
+  <SUB_ID_MAX>50</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_fluid_flow_sensor</DEFAULT_ICON>
   <SUB_LABEL>mass flow rate sensor</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -164,13 +164,15 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>48</SUB_ID>
-     <VARNAME>inputRCompID1Dupl</VARNAME>
+     <SUB_ID>50</SUB_ID>
+     <TITLE>R-component ID (ouput, port3)</TITLE>
+     <VARNAME>outputRCompID3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>4</TYPE>
-     <PRIMARY_PORT>0</PRIMARY_PORT>
-     <PRIMARY_VAR>2</PRIMARY_VAR>
-     <DUP_TYPE>0</DUP_TYPE>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRCompID</UNITS>
     </EVAR>
     <EVAR>
      <SUB_ID>46</SUB_ID>
