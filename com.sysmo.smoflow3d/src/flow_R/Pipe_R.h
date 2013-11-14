@@ -44,19 +44,28 @@ BEGIN_C_LINKAGE
 Pipe_R* Pipe_R_new(FrictionFlowPipe* friction);
 Pipe_R* PipeHeatExhcanger_R_new(FrictionFlowPipe* friction, ForcedConvection* convection);
 
-Pipe_R* StraightPipe_R_new(
+Pipe_R* CylindricalStraightPipe_R_new(
 		double diameter,
 		double length,
 		double surfaceRoughness,
 		double pressureDropGain);
 
-Pipe_R* StraightPipeHeatExchanger_R_new(
+Pipe_R* CylindricalStraightPipeHeatExchanger_R_new(
 		double diameter,
 		double length,
 		double surfaceRoughness,
 		double pressureDropGain,
 		double heatExchangeGain,
-		bool heatExchangerLimitOutput);
+		int heatExchangerLimitOutput);
+
+Pipe_R* NonCylindricalStraightPipeHeatExchanger_R_new(
+		double hydraulicDiameter,
+		double length,
+		double flowArea,
+		double surfaceRoughness,
+		double pressureDropGain,
+		double heatExchangeGain,
+		int heatExchangerLimitOutput);
 END_C_LINKAGE
 
 

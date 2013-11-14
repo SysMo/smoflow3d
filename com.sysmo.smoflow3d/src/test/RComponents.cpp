@@ -198,14 +198,14 @@ void testRComponents() {
 	mainState2->update_Tp(300,   3e5); //[K], [Pa]
 
 	// Create pipes and valves
-	Pipe_R* pipe1 = StraightPipe_R_new(
+	Pipe_R* pipe1 = CylindricalStraightPipe_R_new(
 			5*1e-3, 	//diameter [m]
 			0.5,   		//length [m]
 			0.025*1e-3, //surfaceRoughness [m]
 			1.0			//pressureDropGain
 	);
 
-	Pipe_R* pipe2 = StraightPipe_R_new(
+	Pipe_R* pipe2 = CylindricalStraightPipe_R_new(
 			5*1e-3, 	//diameter [m]
 			0.5,   		//length [m]
 			0.025*1e-3, //surfaceRoughness [m]
@@ -230,7 +230,7 @@ void testRComponents() {
 	);
 	valve2->setRegulatingSignal(1.0);
 
-	Pipe_R* pipeHE1 = StraightPipeHeatExchanger_R_new(
+	Pipe_R* pipeHE1 = CylindricalStraightPipeHeatExchanger_R_new(
 			5*1e-3, 	//diameter [m]
 			0.5,   		//length [m]
 			0.025*1e-3, //surfaceRoughness [m]
@@ -243,7 +243,7 @@ void testRComponents() {
 	thermalNode1->setTemperature(300);
 	pipeHE1->setHeatExchangerThermalNode(thermalNode1);
 
-	Pipe_R* pipeHE2 = StraightPipeHeatExchanger_R_new(
+	Pipe_R* pipeHE2 = CylindricalStraightPipeHeatExchanger_R_new(
 			5*1e-3, 	//diameter [m]
 			0.5,   		//length [m]
 			0.025*1e-3, //surfaceRoughness [m]
