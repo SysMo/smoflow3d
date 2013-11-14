@@ -99,6 +99,10 @@ int Component_R_isFlowComponent(Component_R* component) {
 	}
 }
 
+int FlowComponent_R_getFlow1Index(FlowComponent_R* component) {
+	return component->getFlow1Index();
+}
+
 int FlowComponent_R_getFlow2Index(FlowComponent_R* component) {
 	return component->getFlow2Index();
 }

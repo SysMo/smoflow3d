@@ -60,6 +60,8 @@ smo_phase_separator
 &SMO_PHASE_SEPARATOR SmoFlow3d
 smo_r_fluid_state_sensor
 &SMO_R_FLUID_STATE_SENSOR SmoFlow3d
+smo_r_fluid_flow_sensor
+&SMO_R_FLUID_FLOW_SENSOR SmoFlow3d
 smo_r_valve
 &SMO_R_VALVE_KV SmoFlow3d
 smo_r_adaptor_begin

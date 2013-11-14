@@ -1,5 +1,5 @@
 /* Submodel SMO_R_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
-   Thu Nov 14 09:47:24 2013 */
+   Thu Nov 14 11:01:38 2013 */
 
 
 
@@ -115,7 +115,7 @@ void smo_r_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
 
       1 inputRCompID1Dupl     duplicate of inputRCompID1   
       2 inputRCompID3         R-component ID (input, port3) [smoRCompID]  basic variable input  UNPLOTTABLE
-      3 smoRChainID           R-components chain ID         [smoRChainID] basic variable input
+      3 smoRChainID           R-components chain ID         [smoRChainID] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 19 internal variables.

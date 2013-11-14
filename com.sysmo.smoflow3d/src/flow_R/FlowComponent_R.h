@@ -76,6 +76,7 @@ DECLARE_C_STRUCT(FlowComponent_R)
 BEGIN_C_LINKAGE
 int Component_R_isFlowComponent(Component_R* component);
 
+int FlowComponent_R_getFlow1Index(FlowComponent_R* component);
 int FlowComponent_R_getFlow2Index(FlowComponent_R* component);
 int FlowComponent_R_getState2Index(FlowComponent_R* component);
 

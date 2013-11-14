@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_BEGIN skeleton created by AME Submodel editing utility
-   Wed Nov 13 18:06:38 2013 */
+   Thu Nov 14 11:02:13 2013 */
 
 
 
@@ -84,7 +84,7 @@ void smo_r_adaptor_beginin_(int *n, int ic[3], void *ps[2])
    Port 2 has 3 variables:
 
       1 outputRCompID2     R-component ID (output, port2) [smoRCompID]  multi line macro 'smo_r_adaptor_begin_macro0_'  UNPLOTTABLE
-      2 smoRChainID        R-components chain ID (port2)  [smoRChainID] multi line macro 'smo_r_adaptor_begin_macro1_'
+      2 smoRChainID        R-components chain ID (port2)  [smoRChainID] multi line macro 'smo_r_adaptor_begin_macro1_'  UNPLOTTABLE
       3 inputRCompID2      R-component ID (input, port2)  [smoRCompID]  basic variable input  UNPLOTTABLE
 
    Port 3 has 1 variable:

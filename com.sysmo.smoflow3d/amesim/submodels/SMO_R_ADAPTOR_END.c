@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END skeleton created by AME Submodel editing utility
-   Wed Nov 13 16:08:00 2013 */
+   Thu Nov 14 11:02:02 2013 */
 
 
 
@@ -87,7 +87,7 @@ void smo_r_adaptor_endin_(int *n, int ic[6], void *ps[2])
 
       1 outputRCompID1     R-component ID (output, port1) [smoRCompID]  multi line macro 'smo_r_adaptor_end_macro0_'  UNPLOTTABLE
       2 inputRCompID1      R-component ID (input, port1)  [smoRCompID]  basic variable input  UNPLOTTABLE
-      3 smoRChainID        R-components chain ID (port1)  [smoRChainID] basic variable input
+      3 smoRChainID        R-components chain ID (port1)  [smoRChainID] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 

@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Wed Nov 13 16:55:56 2013 */
+   Thu Nov 14 11:01:50 2013 */
 
 
 
@@ -139,7 +139,7 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 
       1 outputRCompID1     R-component ID (ouput, port1) [smoRCompID]  basic variable output  UNPLOTTABLE
       2 inputRCompID1      R-component ID (input, port1) [smoRCompID]  basic variable input  UNPLOTTABLE
-      3 smoRChainID        R-components chain ID         [smoRChainID] basic variable input
+      3 smoRChainID        R-components chain ID         [smoRChainID] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
