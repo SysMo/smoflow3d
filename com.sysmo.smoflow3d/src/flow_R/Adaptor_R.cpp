@@ -20,6 +20,13 @@ BeginAdaptor_R::~BeginAdaptor_R() {
 
 }
 
+EndAdaptor_R::EndAdaptor_R() {
+	flagIsFlowOpen = true;
+}
+
+EndAdaptor_R::~EndAdaptor_R() {
+}
+
 /**
  * Adaptor_R - C
  */
@@ -41,4 +48,12 @@ int Component_R_isBeginAdaptor(Component_R* component) {
 
 MediumState* BeginAdaptor_R_getBeginState(BeginAdaptor_R* beginAdaptor) {
 	return beginAdaptor->getBeginState();
+}
+
+void EndAdaptor_R_setRegulatingSignal(EndAdaptor_R* endAdaptor, double regulatingSignal) {
+	if (regulatingSignal > 0) {
+		endAdaptor->openFlow();
+	} else {
+		endAdaptor->closeFlow();
+	}
 }

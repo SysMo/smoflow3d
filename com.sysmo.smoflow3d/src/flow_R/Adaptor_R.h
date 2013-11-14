@@ -34,8 +34,16 @@ private:
 
 class EndAdaptor_R : public Adaptor_R {
 public:
-	EndAdaptor_R() {}
-	virtual ~EndAdaptor_R() {}
+	EndAdaptor_R();
+	virtual ~EndAdaptor_R();
+
+	bool isFlowClosed() {return !flagIsFlowOpen;}
+	bool isFlowOpen() {return flagIsFlowOpen;}
+	void closeFlow() {flagIsFlowOpen = false;}
+	void openFlow() {flagIsFlowOpen = true;}
+
+private:
+	bool flagIsFlowOpen;
 };
 
 #else //_cplusplus
@@ -51,6 +59,8 @@ EndAdaptor_R* EndAdaptor_R_new();
 
 int Component_R_isBeginAdaptor(Component_R* component);
 MediumState* BeginAdaptor_R_getBeginState(BeginAdaptor_R* beginAdaptor);
+
+void EndAdaptor_R_setRegulatingSignal(EndAdaptor_R* endAdaptor, double regulatingSignal);
 END_C_LINKAGE
 
 

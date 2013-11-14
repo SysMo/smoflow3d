@@ -108,9 +108,14 @@ void ManagerComponents_R::compute() {
 		constructComponentsChain();
 	}
 
-
 	// Compute the mass flow rate
-	double massFlowRate = computeMassFlowRate();
+	double massFlowRate;
+	if (endAdaptor->isFlowOpen()) {
+		massFlowRate = computeMassFlowRate();
+	} else {
+		massFlowRate = cst::zeroMassFlowRate;
+	}
+
 	if (massFlowRate != cst::zeroMassFlowRate) {
 		cache_massFlowRate = massFlowRate;
 	}
