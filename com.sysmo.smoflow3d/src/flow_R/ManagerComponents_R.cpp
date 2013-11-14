@@ -14,11 +14,11 @@ using namespace smoflow;
  * ManagerRComponents - C++
  */
 ManagerComponents_R::ManagerComponents_R() {
-	mainState1 = NULL;
-	mainState2 = NULL;
+	outerState1 = NULL;
+	outerState2 = NULL;
 
-	componentMainState1 = NULL;
-	componentMainState2 = NULL;
+	componentOuterState1 = NULL;
+	componentOuterState2 = NULL;
 
 	beginAdaptor = NULL;
 	endAdaptor = NULL;
@@ -35,14 +35,13 @@ ManagerComponents_R::~ManagerComponents_R() {
 /**
  * Construct R-components chain (NEW)
  */
-void ManagerComponents_R::addMainState1(BeginAdaptor_R* beginAdaptor, int state1Index) {
-	mainState1 = MediumState_get(state1Index);
+void ManagerComponents_R::addOuterState1(BeginAdaptor_R* beginAdaptor, int state1Index) {
+	outerState1 = MediumState_get(state1Index);
 	this->beginAdaptor = beginAdaptor;
-	this->beginAdaptor->setBeginState(mainState1);
 }
 
-void ManagerComponents_R::addMainState2(EndAdaptor_R* endAdaptor, int state2Index) {
-	mainState2 = MediumState_get(state2Index);
+void ManagerComponents_R::addOuterState2(EndAdaptor_R* endAdaptor, int state2Index) {
+	outerState2 = MediumState_get(state2Index);
 	this->endAdaptor = endAdaptor;
 }
 
@@ -51,7 +50,7 @@ void ManagerComponents_R::addComponent(FlowComponent_R* component, int prevCompo
 
 	BeginAdaptor_R* prevComponent_BebinAdaptor = dynamic_cast<BeginAdaptor_R*>(prevComponentR);
 	if (prevComponent_BebinAdaptor != NULL) {
-		componentMainState1 = component;
+		componentOuterState1 = component;
 		return;
 	}
 
@@ -65,9 +64,9 @@ void ManagerComponents_R::addComponent(FlowComponent_R* component, int prevCompo
 	RaiseError("Could not construct the R-components chain - unexpected type of R-component.");
 }
 
-void ManagerComponents_R::setComponentMainState2(EndAdaptor_R* endAdaptor, int componentMainState2ID) {
-	FlowComponent_R* inputComponentMainState2 = (FlowComponent_R*) Component_R_get(componentMainState2ID);
-	if (inputComponentMainState2 != componentMainState2) {
+void ManagerComponents_R::checkComponentOuterState2(EndAdaptor_R* endAdaptor, int componentOuterState2Index) {
+	FlowComponent_R* inputComponentOuterState2 = (FlowComponent_R*) Component_R_get(componentOuterState2Index);
+	if (inputComponentOuterState2 != componentOuterState2) {
 		RaiseComponentError(endAdaptor, "Could not construct R-components chain - there are two end R-components.");
 	}
 }
@@ -77,15 +76,23 @@ void ManagerComponents_R::constructComponentsChain() {
 		RaiseError("Try to construct for the second time the R-components chain.");
 	}
 
+	if (outerState1->getMedium() != outerState2->getMedium()) {
+		RaiseComponentError(beginAdaptor, "Different media connected to the R-components chain.");
+	}
+
+	if (componentOuterState1 == NULL) {
+		RaiseComponentError(beginAdaptor, "The R-components chain is empty.")
+	}
+
 	// Create the internal begin state
-	Medium* fluid = mainState1->getMedium();
+	Medium* fluid = outerState1->getMedium();
 	MediumState* state1 = MediumState_new(fluid);
 	MediumState_register(state1);
 	SMOOBJECT_SET_PARENT_COMPONENT(state1, beginAdaptor);
 	state1->update_Tp(cst::StandardTemperature, cst::StandardPressure);
 
 	// Start construction of the R-components chain
-	FlowComponent_R* component = componentMainState1;
+	FlowComponent_R* component = componentOuterState1;
 	FlowComponent_R* prevComponent;
 	do {
 		component->init(state1);
@@ -95,7 +102,7 @@ void ManagerComponents_R::constructComponentsChain() {
 		prevComponent = component;
 		component = component->getComponent2();
 	} while (component != NULL);
-	componentMainState2 = prevComponent;
+	componentOuterState2 = prevComponent;
 
 	isComponentsChainContructed = true;
 }
@@ -147,15 +154,15 @@ double ManagerComponents_R::computeMassFlowRate() {
 
 
 	// Get upstream and downstream (i.e. first and last component)
-	MediumState* mainUpstreamState = mainState1;
-	MediumState* mainDownstreamState = mainState2;
+	MediumState* outerUpstreamState = outerState1;
+	MediumState* outerDownstreamState = outerState2;
 	FlowComponent_R* upstreamComponent = components.front();
 	FlowComponent_R* downstreamComponent = components.back();
 	bool reverseStream = false;
 
-	if (mainState1->p() < mainState2->p()) { //reverse stream
-		mainUpstreamState = mainState2;
-		mainDownstreamState = mainState1;
+	if (outerState1->p() < outerState2->p()) { //reverse stream
+		outerUpstreamState = outerState2;
+		outerDownstreamState = outerState1;
 		upstreamComponent = components.back();
 		downstreamComponent = components.front();
 		reverseStream = true;
@@ -184,14 +191,14 @@ double ManagerComponents_R::computeMassFlowRate() {
 	double up_downstreamPressure = 0.0;
 	bool up_downstreamPressure_isInit = false;
 
-	upstreamComponent->getUpstreamState(massFlowRate)->update_Tp(mainUpstreamState->T(), mainUpstreamState->p());
+	upstreamComponent->getUpstreamState(massFlowRate)->update_Tp(outerUpstreamState->T(), outerUpstreamState->p());
 
 	// Compute mass flow rate using iteration
 	double stepCoeff = 2.0;
 	static const int maxNumIter = 100; //:SMO_TODO: (???) maxNumIter
 	static const double relTolerance = 1e-08;
 
-	double downstreamPressure = mainDownstreamState->p();
+	double downstreamPressure = outerDownstreamState->p();
 	double minDownstreamPressure = m::max(1e-5, downstreamPressure - 1e5); //:SMO_TODO: (???) m::min(1.0*1e5, 0.5*downstreamPressure);
 	int numIter;
 	for (numIter = 1; numIter < maxNumIter; numIter++) {
@@ -302,20 +309,25 @@ ManagerComponents_R* ManagerComponents_R_get(int managerIndex) {
 
 
 
-void ManagerComponents_R_addMainState1(ManagerComponents_R* manager, BeginAdaptor_R* beginAdaptor, int state1Index) {
-	manager->addMainState1(beginAdaptor, state1Index);
+void ManagerComponents_R_addOuterState1(ManagerComponents_R* manager, BeginAdaptor_R* beginAdaptor, int state1Index) {
+	manager->addOuterState1(beginAdaptor, state1Index);
 }
 
-void ManagerComponents_R_addMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int state2Index) {
-	manager->addMainState2(endAdaptor, state2Index);
+void ManagerComponents_R_addOuterState2(ManagerComponents_R* manager, int componentIndex) {
+	Component_R* inputComponent1 = Component_R_get(componentIndex);
+	if (Component_R_isEndAdaptor(inputComponent1) == 1) {
+		EndAdaptor_R* endAdaptor = (EndAdaptor_R*) inputComponent1;
+		int outerStateIndex = Adaptor_R_getOuterStateIndex((Adaptor_R*)endAdaptor);
+		manager->addOuterState2(endAdaptor, outerStateIndex);
+	}
 }
 
 void ManagerComponents_R_addComponent(ManagerComponents_R* manager, FlowComponent_R* component, int prevComponentID) {
 	manager->addComponent(component, prevComponentID);
 }
 
-void ManagerComponents_R_setComponentMainState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int componentMainState2ID) {
-	manager->setComponentMainState2(endAdaptor, componentMainState2ID);
+void ManagerComponents_R_checkComponentOuterState2(ManagerComponents_R* manager, EndAdaptor_R* endAdaptor, int componentOuterState2Index) {
+	manager->checkComponentOuterState2(endAdaptor, componentOuterState2Index);
 }
 
 int ManagerComponents_R_getFlow1Index(ManagerComponents_R* manager) {

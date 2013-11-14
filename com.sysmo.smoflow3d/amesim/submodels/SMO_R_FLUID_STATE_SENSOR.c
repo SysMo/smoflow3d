@@ -207,24 +207,33 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
+
+   // Initialization
    if (firstc_()) {
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
+
+	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID1);
    }
+
+   // Try to compute R-components chain
    ManagerComponents_R_compute(_manager);
 
+   // Set internal variables
    if (firstc_()) {
-	   Component_R* component_R =  Component_R_get(*inputRCompID3);
-	   if (Component_R_isFlowComponent(component_R) == 1) {
-		   FlowComponent_R* component = (FlowComponent_R*) component_R;
+	   Component_R* inputComponent3 =  Component_R_get(*inputRCompID3);
+	   if (Component_R_isFlowComponent(inputComponent3) == 1) {
+		   FlowComponent_R* component = (FlowComponent_R*) inputComponent3;
 		   int fluidStateIndex = FlowComponent_R_getState2Index(component);
 		   _fluidState = MediumState_get(fluidStateIndex);
-	   } else if (Component_R_isBeginAdaptor(component_R) == 1) {
-		   BeginAdaptor_R* beginAdaptor = (BeginAdaptor_R*) component_R;
-		   _fluidState = BeginAdaptor_R_getBeginState(beginAdaptor);
+	   } else if (Component_R_isBeginAdaptor(inputComponent3) == 1) {
+		   BeginAdaptor_R* beginAdaptor = (BeginAdaptor_R*) inputComponent3;
+		   int outerStateIndex = Adaptor_R_getOuterStateIndex((Adaptor_R*) beginAdaptor);
+		   _fluidState = MediumState_get(outerStateIndex);
+	   } else {
+		   AME_RAISE_ERROR("Unexpected R-component type on the side of port3.");
 	   }
    }
-   *outputRCompID3 = *inputRCompID1;
 
    static const double outputInternalGain[19] = {
 		   1e-5, 1, 1, 1, 1,
@@ -274,6 +283,9 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
    *lambda = c[16];
    *Pr = c[17];
    //c[18] = MediumState_(fluidState);
+
+   // Set ouput variables
+   *outputRCompID3 = *inputRCompID1;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

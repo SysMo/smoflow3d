@@ -16,20 +16,20 @@
 
 class Adaptor_R : public Component_R {
 public:
-	Adaptor_R() {}
+	Adaptor_R() {outerStateIndex = -1;}
 	virtual ~Adaptor_R() {}
+
+	int getOuterStateIndex() {return outerStateIndex;}
+	void setOuterstateIndex(int stateIndex) {outerStateIndex = stateIndex;}
+
+private:
+	int outerStateIndex;
 };
 
 class BeginAdaptor_R : public Adaptor_R {
 public:
-	BeginAdaptor_R();
-	virtual ~BeginAdaptor_R();
-
-	void setBeginState(MediumState* state) {beginState = state;}
-	MediumState* getBeginState() {return beginState;}
-
-private:
-	MediumState* beginState;
+	BeginAdaptor_R() {}
+	virtual ~BeginAdaptor_R() {}
 };
 
 class EndAdaptor_R : public Adaptor_R {
@@ -42,12 +42,7 @@ public:
 	void closeFlow() {flagIsFlowOpen = false;}
 	void openFlow() {flagIsFlowOpen = true;}
 
-	void setEndState(MediumState* state) {endState = state;}
-	MediumState* getEndState() {return endState;}
-
 private:
-	MediumState* endState;
-
 	bool flagIsFlowOpen;
 };
 
@@ -59,16 +54,15 @@ DECLARE_C_STRUCT(EndAdaptor_R)
 
 
 BEGIN_C_LINKAGE
+int Component_R_isBeginAdaptor(Component_R* component);
+int Component_R_isEndAdaptor(Component_R* component);
+
 BeginAdaptor_R* BeginAdaptor_R_new();
 EndAdaptor_R* EndAdaptor_R_new();
 
-int Component_R_isBeginAdaptor(Component_R* component);
-MediumState* BeginAdaptor_R_getBeginState(BeginAdaptor_R* beginAdaptor);
+int Adaptor_R_getOuterStateIndex(Adaptor_R* adaptor);
+void Adaptor_R_setOuterStateIndex(Adaptor_R* adaptor, int stateIndex);
 
-
-int Component_R_isEndAdaptor(Component_R* component);
-MediumState* EndAdaptor_R_getEndState(EndAdaptor_R* endAdaptor);
-void EndAdaptor_R_setEndState(EndAdaptor_R* endAdaptor, MediumState* state);
 void EndAdaptor_R_setRegulatingSignal(EndAdaptor_R* endAdaptor, double regulatingSignal);
 END_C_LINKAGE
 

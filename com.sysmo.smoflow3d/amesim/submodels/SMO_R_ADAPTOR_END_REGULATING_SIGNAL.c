@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Thu Nov 14 12:03:08 2013 */
+   Thu Nov 14 16:28:04 2013 */
 
 
 
@@ -36,15 +36,9 @@ REVISIONS :
 
 #define _manager ps[1]
 #define _managerIndex ic[1]
-
-#define _fluidState2Index ic[2]
-#define _fluidFlow2Index ic[3]
-
-#define _stateMacroIsCalled ic[4]
-#define _flowMacroIsCalled ic[5]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[6]
-      , void *ps[2], double *regulatingSignal)
+void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[2]
+      , void *ps[2])
 
 {
    int loop, error;
@@ -52,12 +46,6 @@ void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[6]
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    loop = 0;
    error = 0;
-
-/*
-   Check and/or reset the following fixed and/or discrete variable
-
-   *regulatingSignal = ??;
-*/
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
@@ -82,9 +70,6 @@ void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[6]
 
    _manager = NULL;
    _managerIndex = -1;
-
-   _stateMacroIsCalled = 0;
-   _flowMacroIsCalled = 0;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -98,7 +83,7 @@ void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[6]
 
    Port 2 has 2 variables:
 
-      1 fluidFlow2Index      fluid flow2 index  [smoFFL] multi line macro 'smo_r_adaptor_end_regulating_signal_macro1_'  UNPLOTTABLE
+      1 fluidFlow2Index      fluid flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
       2 fluidState2Index     fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 3 has 1 variable:
@@ -107,7 +92,7 @@ void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[6]
 
    Port 4 has 1 variable:
 
-      1 regulatingSignal     regulating signal (0-off, 1-on) [null] discrete
+      1 regulatingSignal     regulating signal (0-off, 1-on) [null] basic variable input
 */
 
 /*  There are 0 internal variables.
@@ -118,7 +103,7 @@ void smo_r_adaptor_end_regulating_signal_(int *n
       , double *outputRCompID1, double *inputRCompID1
       , double *smoRChainID, double *fluidFlow2Index
       , double *fluidState2Index, double *smoRChainIDFromBeginAdaptor
-      , double *regulatingSignal, int ic[6], void *ps[2], int *flag)
+      , double *regulatingSignal, int ic[2], void *ps[2], int *flag)
 
 {
    int loop, logi;
@@ -132,20 +117,13 @@ void smo_r_adaptor_end_regulating_signal_(int *n
 /*   *outputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainIDFromBeginAdaptor *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-*/
-
-
-/*
-   The following discrete variable(s) can be reset when the discontinuity flag is zero:
-
-   *regulatingSignal = ??;
+   *fluidFlow2Index = ??;
 */
 
 
@@ -156,8 +134,16 @@ void smo_r_adaptor_end_regulating_signal_(int *n
 	   AME_RAISE_ERROR("The two end adaptors of the R-components chain are not connected with each other.")
    }
 
-   _stateMacroIsCalled = 0;
-   _flowMacroIsCalled = 0;
+   if (firstc_()) {
+	   _managerIndex = *smoRChainID;
+	   _manager = ManagerComponents_R_get(_managerIndex);
+
+	   ManagerComponents_R_checkComponentOuterState2(_manager, _component, *inputRCompID1);
+   }
+
+   ManagerComponents_R_clearIsComputed(_manager);
+
+   *fluidFlow2Index = ManagerComponents_R_getFlow2Index(_manager);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -171,7 +157,8 @@ void smo_r_adaptor_end_regulating_signal_(int *n
 }
 
 extern double smo_r_adaptor_end_regulating_signal_macro0_(int *n
-      , double *fluidState2Index, int ic[6], void *ps[2], int *flag)
+      , double *fluidState2Index, double *regulatingSignal, int ic[2]
+      , void *ps[2], int *flag)
 
 {
    double outputRCompID1;
@@ -195,17 +182,9 @@ extern double smo_r_adaptor_end_regulating_signal_macro0_(int *n
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID1")
    if (firstc_()) {
-	   _fluidState2Index = *fluidState2Index;
-
-	   if (_flowMacroIsCalled == 1) { //i.e. _manager != NULL
-		   ManagerComponents_R_addMainState2(_manager, _component, _fluidState2Index);
-	   }
+	   Adaptor_R_setOuterStateIndex(_component, *fluidState2Index);
    }
-
-   if (_flowMacroIsCalled == 1) {
-	   ManagerComponents_R_compute(_manager);
-   }
-   _stateMacroIsCalled = 1;
+   EndAdaptor_R_setRegulatingSignal(_component, *regulatingSignal);
 
    outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
@@ -217,62 +196,5 @@ extern double smo_r_adaptor_end_regulating_signal_macro0_(int *n
 /*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
 
    return outputRCompID1;
-}
-
-extern double smo_r_adaptor_end_regulating_signal_macro1_(int *n
-      , double *inputRCompID1, double *smoRChainID
-      , double *regulatingSignal, int ic[6], void *ps[2], int *flag)
-
-{
-   double fluidFlow2Index;
-   int loop, logi;
-/* >>>>>>>>>>>>Extra Macro Function macro1 Declarations Here. */
-/* <<<<<<<<<<<<End of Extra Macro macro1 declarations. */
-   logi = 0;
-   loop = 0;
-
-/* Common -> SI units conversions. */
-
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-
-/*
-   Define and return the following macro variable:
-
-   fluidFlow2Index = ??;
-*/
-
-
-/* >>>>>>>>>>>>Macro Function macro1 Executable Statements. */
-   SMOCOMPONENt_PRINT_MACRO_MSG("flow2")
-   if (firstc_()) {
-	   _managerIndex = *smoRChainID;
-	   _manager = ManagerComponents_R_get(_managerIndex);
-
-	   if (_stateMacroIsCalled == 1) { //i.e. _fluidState2Index != -1
-		   ManagerComponents_R_addMainState2(_manager, _component, _fluidState2Index);
-	   }
-
-	   ManagerComponents_R_setComponentMainState2(_manager, _component, *inputRCompID1);
-   }
-   EndAdaptor_R_setRegulatingSignal(_component, *regulatingSignal);
-
-   if (_stateMacroIsCalled == 1) {
-	   ManagerComponents_R_compute(_manager);
-   }
-   _flowMacroIsCalled = 1;
-
-
-   fluidFlow2Index = ManagerComponents_R_getFlow2Index(_manager);
-/* <<<<<<<<<<<<End of Macro macro1 Executable Statements. */
-
-/* SI -> Common units conversions. */
-
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-
-/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
-
-   return fluidFlow2Index;
 }
 

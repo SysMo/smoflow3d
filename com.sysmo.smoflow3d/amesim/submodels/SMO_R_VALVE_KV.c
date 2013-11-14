@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Thu Nov 14 11:01:50 2013 */
+   Thu Nov 14 17:30:29 2013 */
 
 
 
@@ -147,9 +147,9 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 
    Port 3 has 3 variables:
 
-      1 outputRCompID2      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
+      1 outputRCompID3      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
       2 smoRChainIDDupl     duplicate of smoRChainID      
-      3 inputRCompID2       R-component ID (input, port3)  [smoRCompID] basic variable input  UNPLOTTABLE
+      3 inputRCompID3       R-component ID (input, port3)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 3 internal variables.
@@ -161,8 +161,8 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 
 void smo_r_valve_kv_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *smoRChainID
-      , double *regulatingSignal, double *outputRCompID2
-      , double *inputRCompID2, double *massFlowRate
+      , double *regulatingSignal, double *outputRCompID3
+      , double *inputRCompID3, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss, double rp[3]
       , int ip[2], int ic[4], void *ps[4], int *flag)
 
@@ -186,8 +186,8 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
 
 /*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID2 *= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID2 *= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID3 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -202,6 +202,9 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
+   if (firstc_()) {
+	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID3);
+   }
    ManagerComponents_R_compute(_manager);
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
@@ -216,8 +219,8 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
 /*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID2 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
    *pressureLoss /= 1.00000000000000e+005;
 }
 
@@ -226,7 +229,7 @@ extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
       , int ip[2], int ic[4], void *ps[4], int *flag)
 
 {
-   double outputRCompID2;
+   double outputRCompID3;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -250,7 +253,7 @@ extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
 /*
    Define and return the following macro variable:
 
-   outputRCompID2 = ??;
+   outputRCompID3 = ??;
 */
 
 
@@ -264,7 +267,7 @@ extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
    }
    Valve_R_setRegulatingSignal(_component, *regulatingSignal);
 
-   outputRCompID2 = _componentIndex;
+   outputRCompID3 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -272,8 +275,8 @@ extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 
-/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
 
-   return outputRCompID2;
+   return outputRCompID3;
 }
 

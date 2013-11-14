@@ -128,7 +128,6 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
    if (firstc_()) {
 	   _fluidFlow1Index = ManagerComponents_R_getFlow1Index(_manager);
    }
-   ManagerComponents_R_clearIsComputed(_manager);
 
    *fluidFlow1Index =  _fluidFlow1Index;
    *smoRChainIDToEndAdaptor = _managerIndex;
@@ -168,7 +167,8 @@ extern double smo_r_adaptor_begin_macro0_(int *n
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID2")
    if (firstc_()) {
-	   ManagerComponents_R_addMainState1(_manager, _component, *fluidState1Index);
+	   Adaptor_R_setOuterStateIndex(_component, *fluidState1Index);
+	   ManagerComponents_R_addOuterState1(_manager, _component, *fluidState1Index);
    }
 
    outputRCompID2 = _componentIndex;

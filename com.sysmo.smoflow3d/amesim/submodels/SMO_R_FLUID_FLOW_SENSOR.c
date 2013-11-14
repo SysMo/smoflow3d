@@ -169,38 +169,41 @@ void smo_r_fluid_flow_sensor_(int *n, double *outputRCompID1
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
+
+   // Initialization
    if (firstc_()) {
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
 
-	   Component_R* inputComponent1 = Component_R_get(*inputRCompID1);
-	   if (Component_R_isEndAdaptor(inputComponent1)) {
-		   EndAdaptor_R* endAdaptor = (EndAdaptor_R*) inputComponent1;
-		   MediumState* endState = EndAdaptor_R_getEndState(endAdaptor);
-		   int endStateIndex = MediumState_index(endState);
-		   ManagerComponents_R_addMainState2(_manager, endAdaptor, endStateIndex);
-	   }
+	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID1);
    }
+
+   // Try to compute R-components chain
    ManagerComponents_R_compute(_manager);
 
+   // Set internal variables
    if (firstc_()) {
-	   Component_R* component_R = Component_R_get(*inputRCompID3);
-	   if (Component_R_isFlowComponent(component_R) == 1) {
-		   FlowComponent_R* component = (FlowComponent_R*) component_R;
+	   Component_R* inputComponent3 = Component_R_get(*inputRCompID3);
+
+	   if (Component_R_isFlowComponent(inputComponent3) == 1) {
+		   FlowComponent_R* component = (FlowComponent_R*) inputComponent3;
 		   int fluidFlowIndex = FlowComponent_R_getFlow2Index(component);
 		   _fluidFlow = FluidFlow_get(fluidFlowIndex);
-
 		   _fluidFlowDirection = 1;
-	   } else if (Component_R_isBeginAdaptor(component_R) == 1) {
-		   Component_R* component_R = Component_R_get(*inputRCompID1);
-		   FlowComponent_R* component = (FlowComponent_R*) component_R;
-		   int fluidFlowIndex = FlowComponent_R_getFlow1Index(component);
-		   _fluidFlow = FluidFlow_get(fluidFlowIndex);
-
-		   _fluidFlowDirection = -1;
+	   } else if (Component_R_isBeginAdaptor(inputComponent3) == 1) {
+		   Component_R* inputComponent1 = Component_R_get(*inputRCompID1);
+		   if (Component_R_isFlowComponent(inputComponent1) == 1) {
+			   FlowComponent_R* component = (FlowComponent_R*) inputComponent1;
+			   int fluidFlowIndex = FlowComponent_R_getFlow1Index(component);
+			   _fluidFlow = FluidFlow_get(fluidFlowIndex);
+			   _fluidFlowDirection = -1;
+		   } else {
+			   AME_RAISE_ERROR("The R-components chain should contain less than one R-component.");
+		   }
+	   } else {
+		   AME_RAISE_ERROR("Unexpected R-component type on the side of port3.");
 	   }
    }
-   *outputRCompID3 = *inputRCompID1;
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow) * _fluidFlowDirection;
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow) * _fluidFlowDirection;
@@ -212,6 +215,9 @@ void smo_r_fluid_flow_sensor_(int *n, double *outputRCompID1
    } else {
 	   *measuredValue = 0.0;
    }
+
+   // Set output variables
+   *outputRCompID3 = *inputRCompID1;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

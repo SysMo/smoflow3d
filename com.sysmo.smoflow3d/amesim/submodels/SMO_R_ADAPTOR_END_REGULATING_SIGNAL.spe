@@ -4,11 +4,11 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>29</SUB_ID_MAX>
+  <SUB_ID_MAX>31</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_adaptor_end_regulating_signal</DEFAULT_ICON>
   <SUB_LABEL>R-adapbor with regulating signal (end)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>6</I_STORES_NUMBER>
+  <I_STORES_NUMBER>2</I_STORES_NUMBER>
   <P_STORES_NUMBER>2</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
@@ -24,7 +24,7 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoRCompID</UNITS>
-     <EXPRESS2>@_2_2</EXPRESS2>
+     <EXPRESS2>@_2_2, @_4_1</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>7</SUB_ID>
@@ -51,16 +51,15 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>19</SUB_ID>
+     <SUB_ID>30</SUB_ID>
      <TITLE>fluid flow2 index</TITLE>
      <VARNAME>fluidFlow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>8</TYPE>
+     <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
-     <EXPRESS2>@_1_2, @_1_3, @_4_1</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>5</SUB_ID>
@@ -88,18 +87,14 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>29</SUB_ID>
+     <SUB_ID>31</SUB_ID>
      <TITLE>regulating signal (0-off, 1-on)</TITLE>
      <VARNAME>regulatingSignal</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>10</TYPE>
+     <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
-     <IO>2</IO>
+     <IO>1</IO>
      <UNITS>null</UNITS>
-     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
-     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
-     <VALUE>1.00000000000000e+000</VALUE>
     </EVAR>
    </PORT>
   </EVARS_LIST>

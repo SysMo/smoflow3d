@@ -193,7 +193,7 @@
     <EVAR>
      <SUB_ID>87</SUB_ID>
      <TITLE>R-component ID (output, port3)</TITLE>
-     <VARNAME>outputRCompID2</VARNAME>
+     <VARNAME>outputRCompID3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>8</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -214,7 +214,7 @@
     <EVAR>
      <SUB_ID>89</SUB_ID>
      <TITLE>R-component ID (input, port3)</TITLE>
-     <VARNAME>inputRCompID2</VARNAME>
+     <VARNAME>inputRCompID3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
