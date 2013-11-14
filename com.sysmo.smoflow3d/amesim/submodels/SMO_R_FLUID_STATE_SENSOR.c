@@ -1,5 +1,5 @@
-/* Submodel SMO_R_VIRTUAL_CAPACITY_SENSOR skeleton created by AME Submodel editing utility
-   Wed Nov 13 17:09:14 2013 */
+/* Submodel SMO_R_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
+   Thu Nov 14 09:47:24 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_R_VIRTUAL_CAPACITY_SENSOR"
+#define _SUBMODELNAME_ "SMO_R_FLUID_STATE_SENSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -48,7 +48,7 @@ REVISIONS :
    propertyIndex measured fluid property
 */
 
-void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
+void smo_r_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
       , double c[19], void *ps[1])
 
 {
@@ -103,7 +103,7 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 1 has 3 variables:
 
-      1 outputRCompID1      R-component ID (output, port1) [smoRCompID] multi line macro 'smo_r_virtual_capacity_sensor_macro0_'  UNPLOTTABLE
+      1 outputRCompID1      R-component ID (output, port1) [smoRCompID] multi line macro 'smo_r_fluid_state_sensor_macro0_'  UNPLOTTABLE
       2 smoRChainIDDupl     duplicate of smoRChainID      
       3 inputRCompID1       R-component ID (input, port1)  [smoRCompID] basic variable input  UNPLOTTABLE
 
@@ -122,7 +122,7 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
+      3 temperatureC                temperature (°C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -141,7 +141,7 @@ void smo_r_virtual_capacity_sensorin_(int *n, double rp[2], int ip[1]
      19 sigma                       surface tension                     [N/m]               basic variable
 */
 
-void smo_r_virtual_capacity_sensor_(int *n, double *outputRCompID1
+void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *measuredValue
       , double *inputRCompID3, double *smoRChainID, double *pressure
       , double *temperature, double *temperatureC, double *density
@@ -279,7 +279,7 @@ void smo_r_virtual_capacity_sensor_(int *n, double *outputRCompID1
    *dpc      /= 1.00000000000000e+005;
 }
 
-extern double smo_r_virtual_capacity_sensor_macro0_(int *n
+extern double smo_r_fluid_state_sensor_macro0_(int *n
       , double *inputRCompID3, double rp[2], int ip[1], double c[19]
       , void *ps[1])
 
