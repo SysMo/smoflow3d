@@ -1,5 +1,5 @@
-/* Submodel SMO_R_PIPE_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   Fri Nov 15 10:58:48 2013 */
+/* Submodel SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
+   Fri Nov 15 11:12:59 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_R_PIPE_HEAT_EXCHANGER"
+#define _SUBMODELNAME_ "SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -63,8 +63,8 @@ REVISIONS :
    geometryType geometry type
 */
 
-void smo_r_pipe_heat_exchangerin_(int *n, double rp[6], int ip[1]
-      , int ic[4], void *ps[5])
+void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
+      , int ip[1], int ic[4], void *ps[5])
 
 {
    int loop, error;
@@ -168,7 +168,7 @@ void smo_r_pipe_heat_exchangerin_(int *n, double rp[6], int ip[1]
 
    Port 3 has 3 variables:
 
-      1 outputRCompID3      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_pipe_heat_exchanger_macro0_'  UNPLOTTABLE
+      1 outputRCompID3      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_pipe_straight_heat_exchanger_macro0_'  UNPLOTTABLE
       2 smoRChainIDDupl     duplicate of smoRChainID      
       3 inputRCompID3       R-component ID (input, port3)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
@@ -183,14 +183,15 @@ void smo_r_pipe_heat_exchangerin_(int *n, double rp[6], int ip[1]
       6 heatFlowRateFromWall      heat flow rate                [W]         basic variable
 */
 
-void smo_r_pipe_heat_exchanger_(int *n, double *outputRCompID1
-      , double *inputRCompID1, double *smoRChainID
-      , double *heatFlowIndex, double *thermalNodeIndex
-      , double *outputRCompID3, double *inputRCompID3
-      , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressureLoss, double *reynoldsNumber
-      , double *convectionCoefficient, double *heatFlowRateFromWall
-      , double rp[6], int ip[1], int ic[4], void *ps[5], int *flag)
+void smo_r_pipe_straight_heat_exchanger_(int *n
+      , double *outputRCompID1, double *inputRCompID1
+      , double *smoRChainID, double *heatFlowIndex
+      , double *thermalNodeIndex, double *outputRCompID3
+      , double *inputRCompID3, double *massFlowRate
+      , double *enthalpyFlowRate, double *pressureLoss
+      , double *reynoldsNumber, double *convectionCoefficient
+      , double *heatFlowRateFromWall, double rp[6], int ip[1]
+      , int ic[4], void *ps[5], int *flag)
 
 {
    int loop, logi;
@@ -270,7 +271,7 @@ void smo_r_pipe_heat_exchanger_(int *n, double *outputRCompID1
    *pressureLoss /= 1.00000000000000e+005;
 }
 
-extern double smo_r_pipe_heat_exchanger_macro0_(int *n
+extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n
       , double *inputRCompID1, double *smoRChainID
       , double *thermalNodeIndex, double rp[6], int ip[1], int ic[4]
       , void *ps[5], int *flag)

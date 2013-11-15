@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <DEFAULT_ICON>smo_r_pipe</DEFAULT_ICON>
+  <SUB_LABEL>R-straight pipe</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <EVARS_LIST>
+   <PORT>
+   </PORT>
+   <PORT>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>
