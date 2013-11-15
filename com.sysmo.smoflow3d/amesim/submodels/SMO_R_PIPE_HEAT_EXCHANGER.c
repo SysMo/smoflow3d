@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   Fri Nov 15 09:18:23 2013 */
+   Fri Nov 15 10:58:48 2013 */
 
 
 
@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "flow_R/Pipe_R.h"
+#include "flow_R/PipeHeatExchanger_R.h"
 #include "flow_R/ManagerComponents_R.h"
 
 #define _component ps[0]

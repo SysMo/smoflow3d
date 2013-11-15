@@ -6,7 +6,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>143</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_pipe_heat_exchanger</DEFAULT_ICON>
-  <SUB_LABEL>R-pipe heat exchanger</SUB_LABEL>
+  <SUB_LABEL>R-straight pipe heat exchanger</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>4</I_STORES_NUMBER>
   <P_STORES_NUMBER>5</P_STORES_NUMBER>
