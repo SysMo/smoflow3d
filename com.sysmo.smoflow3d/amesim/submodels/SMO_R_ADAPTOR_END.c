@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END skeleton created by AME Submodel editing utility
-   Thu Nov 14 15:14:46 2013 */
+   Fri Nov 15 14:36:39 2013 */
 
 
 
@@ -37,7 +37,8 @@ REVISIONS :
 #define _manager ps[1]
 #define _managerIndex ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_r_adaptor_endin_(int *n, int ic[2], void *ps[2])
+void smo_r_adaptor_endin_(int *n, int ic[2], void *ps[2]
+      , double *isFlowOpen)
 
 {
    int loop, error;
@@ -45,6 +46,12 @@ void smo_r_adaptor_endin_(int *n, int ic[2], void *ps[2])
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    loop = 0;
    error = 0;
+
+/*
+   Check and/or reset the following fixed and/or discrete variable
+
+   *isFlowOpen = ??;
+*/
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
@@ -90,19 +97,22 @@ void smo_r_adaptor_endin_(int *n, int ic[2], void *ps[2])
       1 smoRChainIDFromBeginAdaptor     R-components chain ID (port3) [smoRChainID] basic variable input
 */
 
-/*  There are 0 internal variables.
+/*  There is 1 internal variable.
 
+      1 isFlowOpen     is flow open (0-no, 1-yes) [null] discrete
 */
 
 void smo_r_adaptor_end_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *smoRChainID
       , double *fluidFlow2Index, double *fluidState2Index
-      , double *smoRChainIDFromBeginAdaptor, int ic[2], void *ps[2])
+      , double *smoRChainIDFromBeginAdaptor, double *isFlowOpen
+      , int ic[2], void *ps[2], int *flag)
 
 {
-   int loop;
+   int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
+   logi = 0;
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -117,6 +127,13 @@ void smo_r_adaptor_end_(int *n, double *outputRCompID1
    Set all submodel outputs below:
 
    *fluidFlow2Index = ??;
+*/
+
+
+/*
+   The following discrete variable(s) can be reset when the discontinuity flag is zero:
+
+   *isFlowOpen = ??;
 */
 
 
@@ -136,6 +153,7 @@ void smo_r_adaptor_end_(int *n, double *outputRCompID1
 
    ManagerComponents_R_clearIsComputed(_manager);
 
+   *isFlowOpen = ManagerComponents_R_getIsFlowOpen(_manager);
    *fluidFlow2Index = ManagerComponents_R_getFlow2Index(_manager);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -150,13 +168,14 @@ void smo_r_adaptor_end_(int *n, double *outputRCompID1
 }
 
 extern double smo_r_adaptor_end_macro0_(int *n
-      , double *fluidState2Index, int ic[2], void *ps[2])
+      , double *fluidState2Index, int ic[2], void *ps[2], int *flag)
 
 {
    double outputRCompID1;
-   int loop;
+   int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
+   logi = 0;
    loop = 0;
 
 /* Common -> SI units conversions. */

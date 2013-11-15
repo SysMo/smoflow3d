@@ -30,6 +30,8 @@ public:
 	void compute();
 	void clearIsComputed() {isComputed = false;}
 
+	bool isFlowOpen() {return !isFlowClosed;}
+
 private:
 	double computeMassFlowRate();
 	void updateFlows(double massFlowRate);
@@ -38,6 +40,7 @@ private:
 	inline int getNumComponents() {return (int) components.size();}
 
 	double getAbsoluteOuterPressureDrop();
+	bool checkIsFlowClosed(double massFlowRate);
 
 private:
 	std::vector<FlowComponent_R*> components;
@@ -52,6 +55,9 @@ private:
 
 	bool isComponentsChainContructed;
 	bool isComputed;
+
+	bool isFlowClosed;
+	bool discFlag_isFlowClosed;
 
 	double cache_massFlowRate;
 	double cache_pressureDrop;
@@ -76,6 +82,8 @@ int ManagerComponents_R_getFlow2Index(ManagerComponents_R* manager);
 
 void ManagerComponents_R_compute(ManagerComponents_R* manager);
 void ManagerComponents_R_clearIsComputed(ManagerComponents_R* manager);
+
+int ManagerComponents_R_getIsFlowOpen(ManagerComponents_R* manager);
 END_C_LINKAGE
 
 #endif /* MANAGERCOMPONENTS_R_H_ */

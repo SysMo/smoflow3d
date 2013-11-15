@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Thu Nov 14 16:28:04 2013 */
+   Fri Nov 15 14:50:12 2013 */
 
 
 
@@ -38,7 +38,7 @@ REVISIONS :
 #define _managerIndex ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
 void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[2]
-      , void *ps[2])
+      , void *ps[2], double *isFlowOpen)
 
 {
    int loop, error;
@@ -46,6 +46,12 @@ void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[2]
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    loop = 0;
    error = 0;
+
+/*
+   Check and/or reset the following fixed and/or discrete variable
+
+   *isFlowOpen = ??;
+*/
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
@@ -95,15 +101,17 @@ void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[2]
       1 regulatingSignal     regulating signal (0-off, 1-on) [null] basic variable input
 */
 
-/*  There are 0 internal variables.
+/*  There is 1 internal variable.
 
+      1 isFlowOpen     is flow open (0-no, 1-yes) [null] discrete
 */
 
 void smo_r_adaptor_end_regulating_signal_(int *n
       , double *outputRCompID1, double *inputRCompID1
       , double *smoRChainID, double *fluidFlow2Index
       , double *fluidState2Index, double *smoRChainIDFromBeginAdaptor
-      , double *regulatingSignal, int ic[2], void *ps[2], int *flag)
+      , double *regulatingSignal, double *isFlowOpen, int ic[2]
+      , void *ps[2], int *flag)
 
 {
    int loop, logi;
@@ -127,6 +135,13 @@ void smo_r_adaptor_end_regulating_signal_(int *n
 */
 
 
+/*
+   The following discrete variable(s) can be reset when the discontinuity flag is zero:
+
+   *isFlowOpen = ??;
+*/
+
+
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
@@ -143,6 +158,7 @@ void smo_r_adaptor_end_regulating_signal_(int *n
 
    ManagerComponents_R_clearIsComputed(_manager);
 
+   *isFlowOpen = ManagerComponents_R_getIsFlowOpen(_manager);
    *fluidFlow2Index = ManagerComponents_R_getFlow2Index(_manager);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
