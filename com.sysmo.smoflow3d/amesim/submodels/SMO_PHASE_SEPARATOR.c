@@ -182,6 +182,7 @@ extern double smo_phase_separator_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
 	   MediumState* port1State = MediumState_get(*port1StateIndex);
 	   PhaseSeparator_init(_component, port1State);

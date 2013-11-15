@@ -197,6 +197,7 @@ void smo_thermal_material_point_(int *n, double *thermalNodeIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   _heatFlow = HeatFlow_get(*heatFlowIndex);
    }
@@ -249,6 +250,7 @@ extern double smo_thermal_material_point_thermalNodeIndex_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    ThermalNode_setTemperature(_thermalNode, *temperature);
    thermalNodeIndex = _thermalNodeIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */

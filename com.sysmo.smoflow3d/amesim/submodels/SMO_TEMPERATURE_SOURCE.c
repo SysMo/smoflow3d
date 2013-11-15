@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_TEMPERATURE_SOURCE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "volumes/ThermalNode.h"
 
 #define _thermalNode ps[0]
@@ -133,6 +134,7 @@ extern double smo_temperature_source_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    ThermalNode_setTemperature(_thermalNode, *temperatureSignal);
    thermalNodeIndex = _thermalNodeIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */

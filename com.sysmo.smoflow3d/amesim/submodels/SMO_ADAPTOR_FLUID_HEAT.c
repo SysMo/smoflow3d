@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_ADAPTOR_FLUID_HEAT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "media/MediumState.h"
 #include "flow/FlowBase.h"
 #include "volumes/ThermalNode.h"
@@ -114,6 +115,7 @@ void smo_adaptor_fluid_heat_(int *n, double *thermalNodeIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   _heatFlowIndex = *heatFlowIndex;
 	   _heatFlow = HeatFlow_get(_heatFlowIndex);
@@ -158,6 +160,7 @@ extern double smo_adaptor_fluid_heat_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
 	   _thermalNode = ThermalNode_new(sThermalNode_Source);
 	   _thermalNodeIndex = ThermalNode_register(_thermalNode);

@@ -180,6 +180,7 @@ void smo_thermal_conduction_(int *n, double *heatFlow1Index
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   ThermalNode* node1 = ThermalNode_get(*thermalNode1Index);
 	   ThermalNode* node2 = ThermalNode_get(*thermalNode2Index);

@@ -200,7 +200,7 @@ void smo_valve_2port_regulating_signal_(int *n
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   // Initialization at first run
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   MediumState* state1 = MediumState_get(*fluidState1Index);
 	   MediumState* state2 = MediumState_get(*fluidState2Index);

@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_MEDIUM_PROPERTY_SENSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "media/MediumState.h"
 
 #define _fluidStateIndex ic[0]
@@ -193,6 +194,7 @@ void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    *pressure = c[0];
    *temperature = c[1];
    *temperatureC = c[2];
@@ -257,6 +259,7 @@ extern double smo_medium_property_sensor_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
 	   _fluidStateIndex = *fluidStateIndex;
 	   _fluidState = MediumState_get(_fluidStateIndex);

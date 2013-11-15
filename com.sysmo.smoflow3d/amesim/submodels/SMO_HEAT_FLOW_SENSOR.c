@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_HEAT_FLOW_SENSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "flow/FlowBase.h"
 
 #define _heatFlowIndex ic[0]
@@ -133,6 +134,7 @@ void smo_heat_flow_sensor_(int *n, double *heatFlowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    *heatFlowRate = _heatFlowRate;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -169,6 +171,7 @@ extern double smo_heat_flow_sensor_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
 	   _heatFlowIndex = *heatFlowIndex;
 	   _heatFlow = HeatFlow_get(_heatFlowIndex);

@@ -151,23 +151,23 @@ void smo_valve_2port_mass_flow_(int *n, double *fluidFlow1Index
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   // Initialization at first run
-     if (firstc_()) {
-  	   MediumState* state1 = MediumState_get(*fluidState1Index);
-  	   MediumState* state2 = MediumState_get(*state2Index);
-  	   TwoPortValve_init(_component, state1, state2);
-     }
+   SMOCOMPONENT_PRINT_MAIN_CALC
+   if (firstc_()) {
+	   MediumState* state1 = MediumState_get(*fluidState1Index);
+	   MediumState* state2 = MediumState_get(*state2Index);
+	   TwoPortValve_init(_component, state1, state2);
+   }
 
-     TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
-     TwoPortValve_compute(_component);
-     TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
+   TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
+   TwoPortValve_compute(_component);
+   TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
-     *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
-     *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
-     *pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
+   *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
+   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
+   *pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
 
-     *fluidFlow1Index = _fluidFlow1Index;
-     *fluidFlow2Index = _fluidFlow2Index;
+   *fluidFlow1Index = _fluidFlow1Index;
+   *fluidFlow2Index = _fluidFlow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

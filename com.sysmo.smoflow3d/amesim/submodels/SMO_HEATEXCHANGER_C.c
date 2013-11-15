@@ -241,7 +241,7 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-  // Initialization at first run
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   FluidFlow* port1Flow = FluidFlow_get(*port1FluidFlowIndex);
 	   FluidFlow* port3Flow = FluidFlow_get(*port3FluidFlowIndex);
@@ -317,6 +317,7 @@ extern double smo_heatexchanger_c_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 	   PipeHeatExch_C_setWallNode(_component, wallNode);

@@ -189,7 +189,7 @@ void smo_orifice_compressible_ideal_gas_(int *n
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   // Initialization at first run
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   MediumState* state1 = MediumState_get(*fluidState1Index);
 	   MediumState* state2 = MediumState_get(*fluidState2Index);

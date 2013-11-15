@@ -257,6 +257,7 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   MediumState* fluidState = MediumState_get(*fluidStateIndex);
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);

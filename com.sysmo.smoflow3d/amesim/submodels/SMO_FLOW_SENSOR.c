@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLOW_SENSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "flow/FlowBase.h"
 #include "media/MediumState.h"
 
@@ -164,6 +165,7 @@ void smo_flow_sensor_(int *n, double *fluidStateIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   _fluidFlowIndex = *fluidFlowIndex;
 	   _fluidFlow = FluidFlow_get(_fluidFlowIndex);

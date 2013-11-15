@@ -223,6 +223,7 @@ void smo_mechanical_compressor_(int *n, double *inletFluidFlowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   MediumState* inletState = MediumState_get(*inletFluidStateIndex);
 	   MediumState* outletState = MediumState_get(*outletFluidStateIndex);

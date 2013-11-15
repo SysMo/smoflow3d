@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLUID_STATE_SOURCE_PT"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "media/MediumState.h"
 
 #define _fluidStateIndex ic[0]
@@ -140,6 +141,7 @@ void smo_fluid_state_source_pt_(int *n, double *fluidStateIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    *temperatureC = *temperature - 273.15;
    *density = MediumState_rho(_fluidState);
    *enthalpy = MediumState_h(_fluidState);
@@ -181,6 +183,7 @@ extern double smo_fluid_state_source_pt_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    MediumState_update_Tp(_fluidState, *temperature, *pressure);
    fluidStateIndex = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */

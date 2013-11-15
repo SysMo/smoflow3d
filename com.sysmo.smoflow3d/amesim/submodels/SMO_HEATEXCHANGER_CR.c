@@ -146,7 +146,7 @@ void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   // Initialization at first run
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   PipeHeatExchNoPrDropNoMassAcc_CR_init(_component,
 			   ThermalNode_get(*thermalNodeIndex),

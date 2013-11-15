@@ -240,7 +240,7 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   // Initialization at first run
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   FluidFlow* outletFlow = FluidFlow_get(*outletFluidFlowIndex);
 	   PipeHeatExchNoPrDropNoMassAcc_RC_init(_component, outletFlow);
@@ -318,6 +318,7 @@ extern double smo_heatexchanger_rc_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
 	   // Get the inlet state and wall node
 	   _inletFluidState = MediumState_get(*inletFluidStateIndex);

@@ -158,6 +158,7 @@ void smo_drivecyclereader_(int *n, double *activationSignal
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    DriveCycleReader_compute(_component, *t, *activationSignal, *breakCurrDrivingPhase);
 
    *phaseDuration = DriveCycleReader_getCurrentPhaseDuration(_component);

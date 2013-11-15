@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_HEAT_SOURCE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "flow/FlowBase.h"
 
 #define _heatFlowIndex ic[0]
@@ -102,6 +103,7 @@ void smo_heat_source_(int *n, double *heatFlowRate
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    HeatFlow_setEnthalpyFlowRate(_heatFlow, *heatFlowRate);
    *heatFlowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */

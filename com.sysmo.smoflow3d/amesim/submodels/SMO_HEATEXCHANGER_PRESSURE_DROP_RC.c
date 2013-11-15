@@ -234,7 +234,7 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-  // Initialization at first run
+   SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   FluidFlow* port3Flow = FluidFlow_get(*port3FluidFlowIndex);
 	   PipeHeatExchPrDrop_RC_init(_component, port3Flow);
@@ -310,6 +310,7 @@ extern double smo_heatexchanger_pressure_drop_rc_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
 	   // Get the inlet state and wall node
 	   _port1FluidState = MediumState_get(*port1FluidStateIndex);

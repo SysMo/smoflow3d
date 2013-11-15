@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FLUID_FLOW_SOURCE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "flow/FlowBase.h"
 
 #define _fluidFlowIndex ic[0]
@@ -136,6 +137,7 @@ extern double smo_fluid_flow_source_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
   	   _fluidFlow = FluidFlow_new();
   	   _fluidFlowIndex = FluidFlow_register(_fluidFlow);

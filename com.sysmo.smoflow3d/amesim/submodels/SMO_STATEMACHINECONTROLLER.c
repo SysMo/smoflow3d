@@ -27,8 +27,8 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_STATEMACHINECONTROLLER"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "io_control/StateMachineController.h"
 #include "SmoFlowAme.h"
+#include "io_control/StateMachineController.h"
 
 #define _component ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -308,6 +308,7 @@ void smo_statemachinecontroller_(int *n, double *inputs
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
    StateMachineController_setInputs(_component, inputs);
    StateMachineController_setTime(_component, *t);
    StateMachineController_step(_component);
