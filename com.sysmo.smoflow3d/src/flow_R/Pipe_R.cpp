@@ -12,14 +12,8 @@ using namespace smoflow;
 /**
  * Pipe_R - C++
  */
-Pipe_R::Pipe_R(FrictionFlowPipe* friction, ForcedConvection* convection) {
+Pipe_R::Pipe_R(FrictionFlowPipe* friction) {
 	this->friction = friction;
-	this->convection = convection;
-	if (this->convection != NULL) {
-		SMOCOMPONENT_SET_PARENT(this->convection, this);
-	}
-
-	this->wallNode = NULL;
 }
 
 Pipe_R::~Pipe_R() {
@@ -28,10 +22,6 @@ Pipe_R::~Pipe_R() {
 void Pipe_R::init(MediumState* state1Input) {
 	FlowComponent_R::init(state1Input);
 	friction->init(state1, state2);
-
-	if (hasHeatExhcanger()) {
-		convection->init(state1, state2, wallNode);
-	}
 }
 
 bool Pipe_R::compute(double massFlowRate, double minDownstreamPressure) {
@@ -45,16 +35,8 @@ bool Pipe_R::compute(double massFlowRate, double minDownstreamPressure) {
 		return false;
 	}
 
-	// Compute heat flow rate
-	if (hasHeatExhcanger()) {
-		convection->compute(massFlowRate);
-	}
-
 	// Compute downstream enthalpy
 	double downstreamEnthalpy = upstreamState->h();
-	if (hasHeatExhcanger()) {
-		downstreamEnthalpy += convection->getHeatFlowRate() / m::fabs(massFlowRate);
-	}
 
 	// Set downstream state
 	MediumState* downstreamState = getDownstreamState(massFlowRate);
@@ -62,24 +44,57 @@ bool Pipe_R::compute(double massFlowRate, double minDownstreamPressure) {
 	return true;
 }
 
-bool Pipe_R::hasHeatExhcanger() {
-	if (convection == NULL or wallNode == NULL) {
+/**
+ * PipeHeatExchanger_R - C++
+ */
+PipeHeatExchanger_R::PipeHeatExchanger_R(FrictionFlowPipe* friction, ForcedConvection* convection) :
+		Pipe_R(friction) {
+	this->convection = convection;
+	SMOCOMPONENT_SET_PARENT(this->convection, this);
+
+	wallHeatFlow = HeatFlow_new();
+	HeatFlow_register(wallHeatFlow);
+
+	wallNode = NULL;
+}
+
+PipeHeatExchanger_R::~PipeHeatExchanger_R() {
+}
+
+void PipeHeatExchanger_R::init(MediumState* state1Input) {
+	Pipe_R::init(state1Input);
+	convection->init(state1, state2, wallNode);
+}
+
+bool PipeHeatExchanger_R::compute(double massFlowRate, double minDownstreamPressure) {
+	// Compute pressure drop
+	friction->computePressureDrop(massFlowRate);
+
+	// Try to compute downstream pressure
+	MediumState* upstreamState = getUpstreamState(massFlowRate);
+	double downstreamPressure = upstreamState->p() - friction->getAbsolutePressureDrop();
+	if (downstreamPressure < minDownstreamPressure or downstreamPressure <= 0.0) {
 		return false;
 	}
 
+	// Compute heat flow rate
+	convection->compute(massFlowRate);
+	convection->updateHeatFlow(wallHeatFlow);
+
+	// Compute downstream enthalpy
+	double downstreamEnthalpy = upstreamState->h() + convection->getHeatFlowRate() / m::fabs(massFlowRate);
+
+	// Set downstream state
+	MediumState* downstreamState = getDownstreamState(massFlowRate);
+	downstreamState->update_ph(downstreamPressure, downstreamEnthalpy);
 	return true;
 }
-
 
 /**
  * Pipe_R - C
  */
 Pipe_R* Pipe_R_new(FrictionFlowPipe* friction) {
 	return new Pipe_R(friction);
-}
-
-Pipe_R* PipeHeatExhcanger_R_new(FrictionFlowPipe* friction, ForcedConvection* convection) {
-	return new Pipe_R(friction, convection);
 }
 
 Pipe_R* CylindricalStraightPipe_R_new(
@@ -93,7 +108,14 @@ Pipe_R* CylindricalStraightPipe_R_new(
 	return Pipe_R_new(friction);
 }
 
-Pipe_R* CylindricalStraightPipeHeatExchanger_R_new(
+/**
+ * PipeHeatExchanger_R - C
+ */
+PipeHeatExchanger_R* PipeHeatExhcanger_R_new(FrictionFlowPipe* friction, ForcedConvection* convection) {
+	return new PipeHeatExchanger_R(friction, convection);
+}
+
+PipeHeatExchanger_R* CylindricalStraightPipeHeatExchanger_R_new(
 		double diameter,
 		double length,
 		double surfaceRoughness,
@@ -115,7 +137,7 @@ Pipe_R* CylindricalStraightPipeHeatExchanger_R_new(
 	return PipeHeatExhcanger_R_new(friction, convection);
 }
 
-Pipe_R* NonCylindricalStraightPipeHeatExchanger_R_new(
+PipeHeatExchanger_R* NonCylindricalStraightPipeHeatExchanger_R_new(
 		double hydraulicDiameter,
 		double length,
 		double flowArea,
@@ -136,4 +158,16 @@ Pipe_R* NonCylindricalStraightPipeHeatExchanger_R_new(
 
 
 	return PipeHeatExhcanger_R_new(friction, convection);
+}
+
+HeatFlow* PipeHeatExchanger_R_getWallHeatFlow(PipeHeatExchanger_R* pipe) {
+	return pipe->getWallHeatFlow();
+}
+
+ForcedConvection* PipeHeatExchanger_R_getConvection(PipeHeatExchanger_R* pipe) {
+	return pipe->getConvection();
+}
+
+void PipeHeatExchanger_R_setHeatExchangerThermalNode(PipeHeatExchanger_R* pipe, ThermalNode* wallNode) {
+	pipe->setHeatExchangerThermalNode(wallNode);
 }

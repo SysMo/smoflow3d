@@ -16,14 +16,15 @@ void ForcedConvection::init(MediumState* fluidState1, MediumState* fluidState2,
 		ThermalNode* wallNode) {
 	Convection::init(fluidState1, wallNode);
 	this->fluidState2 = fluidState2;
-}
 
-void ForcedConvection::setLimitOutput(bool limitOutput) {
-	this->limitOutput = limitOutput;
 	if (limitOutput == true && limitState == NULL) {
 		limitState = MediumState_new(fluidState->getMedium());
 		MediumState_register(limitState);
 	}
+}
+
+void ForcedConvection::setLimitOutput(bool limitOutput) {
+	this->limitOutput = limitOutput;
 }
 
 void ForcedConvection::compute(double massFlowRate) {

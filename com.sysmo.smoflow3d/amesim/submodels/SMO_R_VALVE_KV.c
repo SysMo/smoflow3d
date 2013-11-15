@@ -258,7 +258,7 @@ extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   SMOCOMPONENt_PRINT_MACRO_MSG("state2")
+   SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID3")
    if (firstc_()) {
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);

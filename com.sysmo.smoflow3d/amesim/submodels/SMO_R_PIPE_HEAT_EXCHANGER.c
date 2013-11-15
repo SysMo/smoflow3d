@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   Thu Nov 14 18:45:47 2013 */
+   Fri Nov 15 09:18:23 2013 */
 
 
 
@@ -37,8 +37,13 @@ REVISIONS :
 #define _manager ps[1]
 #define _managerIndex ic[1]
 
-#define _wallHeatFlow ps[2]
-#define _wallHeatFlowIndex ic[2]
+#define _fluidFlow2 ps[2]
+#define _fluidFlow2Index ic[2]
+
+#define _wallHeatFlow ps[3]
+#define _wallHeatFlowIndex ic[3]
+
+#define _convection ps[4]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -59,7 +64,7 @@ REVISIONS :
 */
 
 void smo_r_pipe_heat_exchangerin_(int *n, double rp[6], int ip[1]
-      , int ic[3], void *ps[3], double stateValues[2])
+      , int ic[4], void *ps[5])
 
 {
    int loop, error;
@@ -84,7 +89,6 @@ void smo_r_pipe_heat_exchangerin_(int *n, double rp[6], int ip[1]
    If necessary, check values of the following:
 
    rp[0..5]
-   stateValues[0..1]
 */
 
 
@@ -128,7 +132,7 @@ void smo_r_pipe_heat_exchangerin_(int *n, double rp[6], int ip[1]
 			   absoluteRoughness,
 			   pressureDropGain,
 			   heatExchangeGain,
-			   0 //heatExchangerLimitOutput (0-no, 1-yes)
+			   1 //heatExchangerLimitOutput (0-no, 1-yes)
 	   );
    } else {
 	   _component = NonCylindricalStraightPipeHeatExchanger_R_new(
@@ -138,11 +142,14 @@ void smo_r_pipe_heat_exchangerin_(int *n, double rp[6], int ip[1]
 			   absoluteRoughness,
 			   pressureDropGain,
 			   heatExchangeGain,
-			   0 //heatExchangerLimitOutput (0-no, 1-yes)
+			   1 //heatExchangerLimitOutput (0-no, 1-yes)
 	   );
    }
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
+
+   _fluidFlow2Index = FlowComponent_R_getFlow2Index(_component);
+   _fluidFlow2 = FluidFlow_get(_fluidFlow2Index);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -166,26 +173,24 @@ void smo_r_pipe_heat_exchangerin_(int *n, double rp[6], int ip[1]
       3 inputRCompID3       R-component ID (input, port3)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 7 internal variables.
+/*  There are 6 internal variables.
 
-      1 port1Temperature          port 1 temperature     [K]         basic variable
-      2 port3Temperature          port 3 temperature     [K]         basic variable
-      3 stateValues[2]            state values           [null]      explicit state (derivative `stateValuesDot')
-      4 reynoldsNumber            Reynolds number        [null]      basic variable
-      5 convectionCoefficient     convection coefficient [W/m**2/K]  basic variable
-      6 heatFlowRateFromWall      heat flow rate         [W]         basic variable
-      7 totalPressureLoss         total pressure loss    [bar -> Pa] basic variable
+      1 massFlowRate              mass flow rate (at port3)     [kg/s]      basic variable
+      2 enthalpyFlowRate          enthalpy flow rate (at port3) [W]         basic variable
+      3 pressureLoss              total pressure loss           [bar -> Pa] basic variable
+      4 reynoldsNumber            Reynolds number               [null]      basic variable
+      5 convectionCoefficient     convection coefficient        [W/m**2/K]  basic variable
+      6 heatFlowRateFromWall      heat flow rate                [W]         basic variable
 */
 
 void smo_r_pipe_heat_exchanger_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *smoRChainID
       , double *heatFlowIndex, double *thermalNodeIndex
       , double *outputRCompID3, double *inputRCompID3
-      , double *port1Temperature, double *port3Temperature
-      , double stateValues[2], double stateValuesDot[2]
-      , double *reynoldsNumber, double *convectionCoefficient
-      , double *heatFlowRateFromWall, double *totalPressureLoss
-      , double rp[6], int ip[1], int ic[3], void *ps[3], int *flag)
+      , double *massFlowRate, double *enthalpyFlowRate
+      , double *pressureLoss, double *reynoldsNumber
+      , double *convectionCoefficient, double *heatFlowRateFromWall
+      , double rp[6], int ip[1], int ic[4], void *ps[5], int *flag)
 
 {
    int loop, logi;
@@ -219,18 +224,38 @@ void smo_r_pipe_heat_exchanger_(int *n, double *outputRCompID1
 
    *outputRCompID1 = ??;
    *heatFlowIndex = ??;
-   *port1Temperature = ??;
-   *port3Temperature = ??;
-   stateValuesDot[0..1] = ??;
+   *massFlowRate = ??;
+   *enthalpyFlowRate = ??;
+   *pressureLoss = ??;
    *reynoldsNumber = ??;
    *convectionCoefficient = ??;
    *heatFlowRateFromWall = ??;
-   *totalPressureLoss = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+   SMOCOMPONENT_PRINT_MAIN_CALC
+   if (firstc_()) {
+	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID3);
+
+	   _wallHeatFlow = PipeHeatExchanger_R_getWallHeatFlow(_component);
+	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
+
+	   _convection = PipeHeatExchanger_R_getConvection(_component);
+   }
+   ManagerComponents_R_compute(_manager);
+
+   *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
+   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
+   *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
+
+   *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
+   *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
+   *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
+
+   *heatFlowIndex = _wallHeatFlowIndex;
+   *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -242,13 +267,13 @@ void smo_r_pipe_heat_exchanger_(int *n, double *outputRCompID1
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
 /*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
-   *totalPressureLoss /= 1.00000000000000e+005;
+   *pressureLoss /= 1.00000000000000e+005;
 }
 
 extern double smo_r_pipe_heat_exchanger_macro0_(int *n
       , double *inputRCompID1, double *smoRChainID
-      , double *thermalNodeIndex, double rp[6], int ip[1], int ic[3]
-      , void *ps[3], int *flag)
+      , double *thermalNodeIndex, double rp[6], int ip[1], int ic[4]
+      , void *ps[5], int *flag)
 
 {
    double outputRCompID3;
@@ -284,14 +309,16 @@ extern double smo_r_pipe_heat_exchanger_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   SMOCOMPONENt_PRINT_MACRO_MSG("state2")
+   SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID3")
    if (firstc_()) {
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
 
 	   ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
+
+	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
+	   PipeHeatExchanger_R_setHeatExchangerThermalNode(_component, wallNode);
    }
-   //Valve_R_setRegulatingSignal(_component, *regulatingSignal); //SMO_WORK
 
    outputRCompID3 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
