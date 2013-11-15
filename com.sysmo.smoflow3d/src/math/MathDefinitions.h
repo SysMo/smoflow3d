@@ -100,15 +100,15 @@ namespace m {
 		return std::fabs((long double) x);
 	}
 
-	inline double max(const double &a, const double &b) {
+	inline double max(const double& a, const double& b) {
 		return b > a ? b : a;
 	}
 
-	inline double min(const double &a, const double &b) {
+	inline double min(const double& a, const double& b) {
 		return b < a ? b : a;
 	}
 
-	inline double sign(const double &a, const double &b) {
+	inline double sign(const double& a, const double& b) {
 		return (b >= 0 ? (a >= 0 ? a : -a) : (a >= 0 ? -a : a));
 	}
 

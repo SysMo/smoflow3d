@@ -26,7 +26,8 @@ ManagerComponents_R::ManagerComponents_R() {
 	isComponentsChainContructed = false;
 	isComputed = false;
 
-	cache_massFlowRate = 0.001; //:SMO_TODO: (???) cache_massFlowRate
+	cache_massFlowRate = cst::zeroMassFlowRate;
+	cache_pressureDrop = cst::MinPressureDifference;
 }
 
 ManagerComponents_R::~ManagerComponents_R() {
@@ -110,48 +111,56 @@ void ManagerComponents_R::constructComponentsChain() {
 /**
  * Compute R-components chain
  */
+double ManagerComponents_R::getAbsoluteOuterPressureDrop() {
+	return m::fabs(outerState1->p() - outerState2->p());
+}
+
 void ManagerComponents_R::compute() {
 	// Check - R-components chain is constructed
 	if (!isComponentsChainContructed) {
 		constructComponentsChain();
 	}
 
-	// Check
+	// Check - R-components chain is computed
 	if (isComputed) {
 		return;
 	}
 
 	// Compute the mass flow rate
-	double massFlowRate;
-	if (endAdaptor->isFlowOpen()) {
-		massFlowRate = computeMassFlowRate();
-	} else {
-		massFlowRate = cst::zeroMassFlowRate;
-	}
+	double massFlowRate = computeMassFlowRate();
 
-	if (massFlowRate != cst::zeroMassFlowRate) {
-		cache_massFlowRate = massFlowRate;
+	// :TRICKY:
+	/* SMO_WORK - use discontinuity, see FluidChamber::handlePhaseTransition()
+	if (cache_massFlowRate != cst::zeroMassFlowRate) { //in the previous integration step there is a flow in the R-components chain
+		if (cache_massFlowRate * massFlowRate < 0 ) { //the flow direction of the previous step and the flow direction of the current step are different
+			massFlowRate = cst::zeroMassFlowRate;
+			cache_pressureDrop = getAbsoluteOuterPressureDrop();
+		}
 	}
+	*/
+	cache_massFlowRate = massFlowRate;
+
 
 	// Update flows of the all components
 	updateFlows(massFlowRate);
-
 
 	// Set isComputed flag
 	isComputed = true;
 }
 
 double ManagerComponents_R::computeMassFlowRate() {
-	int numComponents = getNumComponents();
-
-	// Check for pressure difference
-	//:SMO_FIXME: there is an oscillation of the mass flow rate in a model with two volumes and a valve bettwen them
-	/*
-	if (m::fabs(mainState1->p() - mainState2->p()) < 10) { //[Pa]
+	// Check - R-components chain is closed
+	if (endAdaptor->isFlowClosed()) {
 		return cst::zeroMassFlowRate;
 	}
-	//*/
 
+	/* SMO_WORK
+ 	if (cache_pressureDrop >= getAbsoluteOuterPressureDrop()) {
+		return cst::zeroMassFlowRate;
+	} else {
+		cache_pressureDrop = cst::MinPressureDifference;
+	}
+	*/
 
 	// Get upstream and downstream (i.e. first and last component)
 	MediumState* outerUpstreamState = outerState1;
@@ -169,12 +178,19 @@ double ManagerComponents_R::computeMassFlowRate() {
 	}
 
 	// Initialize mass flow rate
-	double massFlowRate = m::fabs(cache_massFlowRate); //:TRICKY: (MILEN) ???
+	double massFlowRate;
+	if (cache_massFlowRate == cst::zeroMassFlowRate) {
+		massFlowRate = 0.001; //SMO_TODO (???) massFlowRate = 0.001
+	} else {
+		massFlowRate = m::fabs(cache_massFlowRate);
+	}
+
 	if (reverseStream) {
 		massFlowRate = -massFlowRate;
 	}
 
-	// Check - the components chain is closed
+	// Check - R-components chain is closed
+	int numComponents = getNumComponents();
 	for (int i = 0; i < numComponents; i++) {
 		if (components[i]->isFlowClosed(massFlowRate)) {
 			return cst::zeroMassFlowRate;

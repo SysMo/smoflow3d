@@ -37,6 +37,8 @@ private:
 	void constructComponentsChain();
 	inline int getNumComponents() {return (int) components.size();}
 
+	double getAbsoluteOuterPressureDrop();
+
 private:
 	std::vector<FlowComponent_R*> components;
 	MediumState* outerState1;
@@ -52,6 +54,7 @@ private:
 	bool isComputed;
 
 	double cache_massFlowRate;
+	double cache_pressureDrop;
 };
 
 #else //_cplusplus
