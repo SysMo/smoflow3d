@@ -67,7 +67,6 @@ private:
 	bool discFlag_isFlowDirectionChanged_isInit;
 
 	double cache_massFlowRate;
-	double cache_absOuterPressureDrop; //SMO_WORK
 };
 
 #else //_cplusplus

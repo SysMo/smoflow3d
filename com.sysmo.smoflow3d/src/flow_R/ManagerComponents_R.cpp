@@ -34,7 +34,6 @@ ManagerComponents_R::ManagerComponents_R() {
 	discFlag_isFlowDirectionChanged_isInit = false;
 
 	cache_massFlowRate = cst::zeroMassFlowRate;
-	cache_absOuterPressureDrop = cst::MinPressureDrop;
 }
 
 ManagerComponents_R::~ManagerComponents_R() {
@@ -315,15 +314,9 @@ void ManagerComponents_R::handleEvent_FlowIsClosed() {
 
 
 bool ManagerComponents_R::checkIsFlowClosed(double massFlowRate) {
-	double absOuterPressureDrop = getAbsoluteOuterPressureDrop();
-	if (absOuterPressureDrop < cst::MinPressureDrop) {
+	if (getAbsoluteOuterPressureDrop() < cst::MinPressureDrop) {
 		return true;
 	}
-
-	if (absOuterPressureDrop < cache_absOuterPressureDrop) {
-		return true;
-	}
-
 
 	if (endAdaptor->isFlowClosed()) {
 		return true;
@@ -339,10 +332,7 @@ bool ManagerComponents_R::checkIsFlowClosed(double massFlowRate) {
 }
 
 void ManagerComponents_R::handleEvent_FlowDirectionIsChanged(double massFlowRate) {
-	return; //SMO_WORK
-
-
-/*	bool isFlowDirectionChanged = massFlowRate < 0;
+	bool isFlowDirectionChanged = massFlowRate < 0;
 	if (discFlag_isFlowDirectionChanged_isInit == false) {
 		discFlag_isFlowDirectionChanged = isFlowDirectionChanged;
 		discFlag_isFlowDirectionChanged_isInit = true;
@@ -359,7 +349,7 @@ void ManagerComponents_R::handleEvent_FlowDirectionIsChanged(double massFlowRate
 
 	if (eventIndicator) { //trigger a discontinuity
 		SimEnv.updateEventIndicator(eventIndicator);
-	}*/
+	}
 }
 
 /**

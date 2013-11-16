@@ -315,20 +315,20 @@ public:
 
 		double pCr = m::pow(2/(g+1) , g/(g-1)); // critical pressure
 
-		double flowParam = 0.0; //flow parameter
+		double Cm = 0.0; //flow parameter
 		if (pDn/pUp > pCr) {//(subsonic)
-			flowParam = m::sqrt(2*g/(r*(g-1)))
+			Cm = m::sqrt(2*g/(r*(g-1)))
 			* m::sqrt(m::pow(pDn/pUp, 2/g) - m::pow(pDn/pUp,(g+1)/g));
 			flowType = sFlowType_Subsonic;
 		} else { //pDn/pUp <= pCr (sonic)
-			flowParam = m::sqrt(2*g/(r*(g+1)))
+			Cm = m::sqrt(2*g/(r*(g+1)))
 			* m::pow((2/(g+1)), 1/(g-1));
 			flowType = sFlowType_Sonic;
 		}
 
 		massFlowRate = flowDirection
 				* regulatingSignal * orificeArea * flowCoefficient
-				* flowParam * pUp / m::sqrt(tUp);
+				* Cm * pUp / m::sqrt(tUp);
 
 		return massFlowRate;
 	}
