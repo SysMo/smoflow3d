@@ -33,14 +33,17 @@ public:
 	bool isFlowOpen() {return !isFlowClosed;}
 
 private:
-	double computeMassFlowRate();
-	void updateFlows(double massFlowRate);
-
 	void constructComponentsChain();
 	inline int getNumComponents() {return (int) components.size();}
 
+	double computeMassFlowRate();
+	void updateFlows(double massFlowRate);
+
 	double getAbsoluteOuterPressureDrop();
 	bool checkIsFlowClosed(double massFlowRate);
+
+	void handleEvent_FlowIsClosed();
+	void handleEvent_FlowDirectionIsChanged(double massFlowRate);
 
 private:
 	std::vector<FlowComponent_R*> components;
@@ -55,12 +58,16 @@ private:
 
 	bool isComponentsChainContructed;
 	bool isComputed;
-
 	bool isFlowClosed;
+
 	bool discFlag_isFlowClosed;
+	bool discFlag_isFlowClosed_isInit;
+
+	bool discFlag_isFlowDirectionChanged;
+	bool discFlag_isFlowDirectionChanged_isInit;
 
 	double cache_massFlowRate;
-	double cache_pressureDrop;
+	double cache_absOuterPressureDrop; //SMO_WORK
 };
 
 #else //_cplusplus

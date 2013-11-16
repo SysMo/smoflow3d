@@ -28,9 +28,13 @@ ManagerComponents_R::ManagerComponents_R() {
 	isFlowClosed = false;
 
 	discFlag_isFlowClosed = false;
+	discFlag_isFlowClosed_isInit = false;
+
+	discFlag_isFlowDirectionChanged = false;
+	discFlag_isFlowDirectionChanged_isInit = false;
 
 	cache_massFlowRate = cst::zeroMassFlowRate;
-	cache_pressureDrop = cst::MinPressureDifference;
+	cache_absOuterPressureDrop = cst::MinPressureDrop;
 }
 
 ManagerComponents_R::~ManagerComponents_R() {
@@ -114,23 +118,6 @@ void ManagerComponents_R::constructComponentsChain() {
 /**
  * Compute R-components chain
  */
-double ManagerComponents_R::getAbsoluteOuterPressureDrop() {
-	return m::fabs(outerState1->p() - outerState2->p());
-}
-
-bool ManagerComponents_R::checkIsFlowClosed(double massFlowRate) {
-	if (endAdaptor->isFlowClosed()) {
-		return true;
-	}
-
-	for (int i = 0; i < getNumComponents(); i++) {
-		if (components[i]->isFlowClosed(massFlowRate)) {
-			return true;
-		}
-	}
-
-	return false;
-}
 
 void ManagerComponents_R::compute() {
 	// Check - R-components chain is constructed
@@ -147,28 +134,9 @@ void ManagerComponents_R::compute() {
 	double massFlowRate = computeMassFlowRate();
 	cache_massFlowRate = massFlowRate;
 
-	// Check for discontinuity when the flow is close or open
-	if (SimEnv.isEventMode()) { //in a discontinuity
-		discFlag_isFlowClosed = isFlowClosed;
-	}
-
-	bool eventIndicator = false;
-	if (isFlowClosed != discFlag_isFlowClosed) {
-		eventIndicator = true;
-	}
-
-	if (eventIndicator) { //trigger a discontinuity
-		SimEnv.updateEventIndicator(eventIndicator);
-	}
-
-	/*// SMO_WORK
-	if (cache_massFlowRate != cst::zeroMassFlowRate) { //in the previous integration step there is a flow in the R-components chain
-		if (cache_massFlowRate * massFlowRate < 0 ) { //the flow direction of the previous step and the flow direction of the current step are different
-			massFlowRate = cst::zeroMassFlowRate;
-			cache_pressureDrop = getAbsoluteOuterPressureDrop();
-		}
-	}
-	//*/
+	// Check for discontinuities
+	handleEvent_FlowIsClosed();
+	handleEvent_FlowDirectionIsChanged(massFlowRate);
 
 	// Update flows of the all components
 	updateFlows(massFlowRate);
@@ -178,14 +146,6 @@ void ManagerComponents_R::compute() {
 }
 
 double ManagerComponents_R::computeMassFlowRate() {
-	/* SMO_WORK
- 	if (cache_pressureDrop >= getAbsoluteOuterPressureDrop()) {
-		return cst::zeroMassFlowRate;
-	} else {
-		cache_pressureDrop = cst::MinPressureDifference;
-	}
-	*/
-
 	// Get upstream and downstream (i.e. first and last component)
 	MediumState* outerUpstreamState = outerState1;
 	MediumState* outerDownstreamState = outerState2;
@@ -237,7 +197,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 	int numComponents = getNumComponents();
 
 	double stepCoeff = 2.0;
-	static const int maxNumIter = 100; //:SMO_TODO: (???) maxNumIter
+	static const int maxNumIter = 100;
 	static const double relTolerance = 1e-08;
 
 	double downstreamPressure = outerDownstreamState->p();
@@ -327,6 +287,79 @@ void ManagerComponents_R::updateFlows(double massFlowRate) {
 	for (int i = 0; i < getNumComponents(); i++) {
 		components[i]->updateFlows(massFlowRate);
 	}
+}
+
+double ManagerComponents_R::getAbsoluteOuterPressureDrop() {
+	return m::fabs(outerState1->p() - outerState2->p());
+}
+
+void ManagerComponents_R::handleEvent_FlowIsClosed() {
+	if (discFlag_isFlowClosed_isInit == false) {
+		discFlag_isFlowClosed = isFlowClosed;
+		discFlag_isFlowClosed_isInit = true;
+	}
+
+	if (SimEnv.isEventMode()) { //in a discontinuity
+		discFlag_isFlowClosed = isFlowClosed;
+	}
+
+	bool eventIndicator = false;
+	if (isFlowClosed != discFlag_isFlowClosed) {
+		eventIndicator = true;
+	}
+
+	if (eventIndicator) { //trigger a discontinuity
+		SimEnv.updateEventIndicator(eventIndicator);
+	}
+}
+
+
+bool ManagerComponents_R::checkIsFlowClosed(double massFlowRate) {
+	double absOuterPressureDrop = getAbsoluteOuterPressureDrop();
+	if (absOuterPressureDrop < cst::MinPressureDrop) {
+		return true;
+	}
+
+	if (absOuterPressureDrop < cache_absOuterPressureDrop) {
+		return true;
+	}
+
+
+	if (endAdaptor->isFlowClosed()) {
+		return true;
+	}
+
+	for (int i = 0; i < getNumComponents(); i++) {
+		if (components[i]->isFlowClosed(massFlowRate)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void ManagerComponents_R::handleEvent_FlowDirectionIsChanged(double massFlowRate) {
+	return; //SMO_WORK
+
+
+/*	bool isFlowDirectionChanged = massFlowRate < 0;
+	if (discFlag_isFlowDirectionChanged_isInit == false) {
+		discFlag_isFlowDirectionChanged = isFlowDirectionChanged;
+		discFlag_isFlowDirectionChanged_isInit = true;
+	}
+
+	if (SimEnv.isEventMode()) { //in a discontinuity
+		discFlag_isFlowDirectionChanged = isFlowDirectionChanged;
+	}
+
+	bool eventIndicator = false;
+	if (isFlowDirectionChanged != discFlag_isFlowDirectionChanged) {
+		eventIndicator = true;
+	}
+
+	if (eventIndicator) { //trigger a discontinuity
+		SimEnv.updateEventIndicator(eventIndicator);
+	}*/
 }
 
 /**

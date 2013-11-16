@@ -123,7 +123,7 @@ void FluidChamber::compute(double massFlowRate, double enthalpyFlowRate, double 
 	stateTimeDerivatives.rho = fluidState->rho() * c1;
 	computeStateDerivatives_cv(massFlowRate, UDot, volumeChangeRate);
 
-	handlePhaseTransition();
+	handleEvent_FluidPhaseTransition();
 }
 
 void FluidChamber::computeStateDerivatives_cv(double mDot, double UDot, double VDot) {
@@ -157,7 +157,7 @@ void FluidChamber::computeStateDerivatives_cp(double mDot, double UDot, double V
 
 }
 
-void FluidChamber::handlePhaseTransition() {
+void FluidChamber::handleEvent_FluidPhaseTransition() {
 	if (SimEnv.isEventMode()) { //in a discontinuity
 		flagInTwoPhase = fluidState->isTwoPhase();
 	}

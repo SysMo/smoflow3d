@@ -36,7 +36,7 @@ protected:
 	void computeStateDerivatives_cv(double mDot, double UDot, double VDot);
 	void computeStateDerivatives_cp(double mDot, double UDot, double VDot);
 
-	void handlePhaseTransition();
+	void handleEvent_FluidPhaseTransition();
 
 protected:
 	double volume;

@@ -68,7 +68,7 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDrop) {
 	static const double relTolerance = 1e-08;
 
 	absPressureDrop = m::fabs(pressureDrop);
-	if (absPressureDrop < cst::MinPressureDifference) {
+	if (absPressureDrop < cst::MinPressureDrop) {
 		massFlowRate = 0.0;
 		return 0.0;
 	}

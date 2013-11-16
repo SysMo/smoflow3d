@@ -96,7 +96,7 @@ public:
 	virtual double computeMassFlowRate(double pressureDrop) {
 		// Set absolute pressure drop
 		absPressureDrop = m::fabs(pressureDrop);
-		if (absPressureDrop < cst::MinPressureDifference) { //No flow
+		if (absPressureDrop < cst::MinPressureDrop) { //No flow
 			massFlowRate = 0.0;
 			return massFlowRate;
 		}
@@ -192,7 +192,7 @@ public:
 	virtual double computeMassFlowRate(double pressureDrop) {
 		// Set absolute pressure drop
 		absPressureDrop = m::fabs(pressureDrop);
-		if (absPressureDrop < cst::MinPressureDifference) { //No flow
+		if (absPressureDrop < cst::MinPressureDrop) { //No flow
 			massFlowRate = 0.0;
 			return massFlowRate;
 		}
@@ -278,7 +278,7 @@ public:
 	virtual double computeMassFlowRate(double pressureDrop) {
 		// Set absolute pressure drop
 		absPressureDrop = m::fabs(pressureDrop);
-		if (absPressureDrop < cst::MinPressureDifference) { //No flow
+		if (absPressureDrop < cst::MinPressureDrop) { //No flow
 			massFlowRate = 0.0;
 			return massFlowRate;
 		}
