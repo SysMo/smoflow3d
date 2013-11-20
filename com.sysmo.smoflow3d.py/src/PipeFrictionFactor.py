@@ -1,6 +1,12 @@
 import numpy as np
 import pylab as plt
 
+""" Util - functions """
+def myLogspace(start, stop, num):
+    return np.logspace(np.log10(start), np.log10(stop), num)
+
+
+""" Friction factor - functions """
 def zetaLaminar(Re):
     return 64/Re;
 
@@ -12,12 +18,12 @@ def zetaTurbulentMedium(Re):
     zeta = 0.0054 + 0.3964 / Re**0.3
     return zeta
 
-def zetaPipeFlo(Re, d, e):
+def zetaPipeFlow(Re, d, e):
     zeta = 1.325 / (np.log(e / (3.7 * d) + 5.74 * Re**(-0.9)) )**2
     return zeta
     
 def zetaSmoFlow(Re, d, e):
-    zeta = zetaPipeFlo(Re, d, e)
+    zeta = zetaPipeFlow(Re, d, e)
     if (hasattr(Re, '__len__')):
         for i in range(len(Re)):
             if (Re[i] < 2300):
@@ -31,9 +37,23 @@ def zetaSmoFlow(Re, d, e):
                 zeta = zetaLam
     return zeta
 
+def zetChurchill(Re, d, e):
+    theta1 = (2.457 * np.log((7./Re)**0.9 + 0.27*e/d))**16
+    theta2 = (37530./Re)**16
+    zeta = 8 * ((8./Re)**12 + 1 / (theta1 + theta2)**1.5)**(1./12)
+    return zeta
+
+
+def ChurchilCorrelation(Re, d, epsilon):
+        theta1 = np.power(2.457 * np.log(np.power(7.0 / Re, 0.9) + 0.27 * epsilon / d), 16)
+        theta2 = np.power(37530.0 / Re, 16)
+        zeta = 8 * np.power(np.power((8.0 / Re), 12) + 1 / np.power((theta1 + theta2), 1.5) , 1./12)
+
+        return zeta
+
+""" Compute - functions """
 rho = 69
 mu = 5e-6
-
 def computePressureDrop(mDot, d, l, e):
     A = 3.14/4*d*d
     flowFactor = l / d
@@ -53,7 +73,7 @@ def computeMassFlowRate(dp, d, l, e):
     for i in range(len(dp)):
         err = 1
         while (np.abs(err) > 1e-10 and numIter[i] < maxNumIter):
-            zeta[i] = zetaPipeFlo(Re, d, e)
+            zeta[i] = zetaPipeFlow(Re, d, e)
             v[i] = np.sqrt(2 * dp[i] / (rho * zeta[i] * flowFactor))
             Re = rho * v[i] * d / mu
             dpCalc = computePressureDrop(rho * v[i] * A, d, l, e)
@@ -63,10 +83,7 @@ def computeMassFlowRate(dp, d, l, e):
     return numIter, mdot
     
 
-
-def myLogspace(start, stop, num):
-    return np.logspace(np.log10(start), np.log10(stop), num)
-    
+""" Plot - functions """
 def comparativePlot():
     e = 0.025
     d= 10
@@ -74,18 +91,23 @@ def comparativePlot():
     ReL = myLogspace(100, 2300, 1000)
     ReTL = myLogspace(3000, 100000, 1000)
     ReTM = myLogspace(2e4, 2e6, 1000)
-    
     RePF = myLogspace(1e2, 1e7, 1000)
+    ReChurchil = myLogspace(1e2, 1e7, 1000)
     
     plt.hold(True)
-    plt.plot(ReL, zetaLaminar(ReL))
-    plt.plot(ReTL, zetaTurbulentLow(ReTL))
-    plt.plot(ReTM, zetaTurbulentMedium(ReTM))
-    plt.plot(RePF, zetaPipeFlo(RePF, d, e))
-    plt.plot(RePF, zetaSmoFlow(RePF, d, e))
+    #plt.plot(ReL, zetaLaminar(ReL), label='ReL')
+    #plt.plot(ReTL, zetaTurbulentLow(ReTL), label='ReTL')
+    #plt.plot(ReTM, zetaTurbulentMedium(ReTM), label = 'ReTM')
+    #plt.plot(RePF, zetaPipeFlow(RePF, d, e), label = 'RePF - PipeFlow')
+    plt.plot(RePF, zetaSmoFlow(RePF, d, e), label = 'RePF - SmoFlow')
+    plt.plot(ReChurchil, zetChurchill(ReChurchil, d, e), label = 'Re - Churchill')
+    plt.plot(ReChurchil, ChurchilCorrelation(ReChurchil, d, e), label = 'Re - Churchill')
+    plt.legend()    
     
     plt.xscale('log')
+    plt.xlabel('log (Re)')
     plt.yscale('log')
+    plt.ylabel('Friction factor')
     
     plt.show()
 
@@ -118,5 +140,9 @@ def plotPressureDrop():
 
     plt.show()
     
-#comparativePlot()
-plotPressureDrop()   
+    
+      
+# Execute main function
+if __name__ == "__main__":    
+    comparativePlot()
+    #plotPressureDrop()   
