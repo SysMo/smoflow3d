@@ -40,6 +40,28 @@ Pipe_R* CylindricalStraightPipe_R_new(
 		double surfaceRoughness,
 		double pressureDropGain);
 
+Pipe_R* NonCylindricalStraightPipe_R_new(
+		double length,
+		double hydraulicDiameter,
+		double flowArea,
+		double surfaceRoughness,
+		double pressureDropGain);
+
+Pipe_R* CylindricalElbowPipe_R_new(
+		double diameter,
+		double surfaceRoughness,
+		double curvatureRadius,
+		double bendAngle,
+		double pressureDropGain);
+
+Pipe_R* NonCylindricalElbowPipe_R_new(
+		double hydraulicDiameter,
+		double flowArea,
+		double surfaceRoughness,
+		 double curvatureRadius,
+		 double bendAngle,
+		double pressureDropGain);
+
 END_C_LINKAGE
 
 #endif /* PIPE_R_H_ */

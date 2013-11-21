@@ -14,19 +14,7 @@ using namespace smoflow;
 /**
  * FrictionFlowPipe - C++
  */
-FrictionFlowPipe::FrictionFlowPipe() {
-	this->hydraulicDiameter = 0.0;
-	this->flowArea = 0.0;
-
-	pressureDropGain = 0.0;
-	massFlowRate = 0.0;
-	absPressureDrop = 0.0;
-	state1 = NULL;
-	state2 = NULL;
-
-	Re_cache = 1e5;
-}
-FrictionFlowPipe::FrictionFlowPipe(double hydraulicDiameter,	double flowArea) {
+FrictionFlowPipe::FrictionFlowPipe(double hydraulicDiameter, double flowArea) {
 	this->hydraulicDiameter = hydraulicDiameter;
 	this->flowArea = flowArea;
 
@@ -158,12 +146,6 @@ public:
 	}
 
 protected:
-	FrictionFlowPipe_StraightPipe() {
-		length = 0.0;
-		surfaceRoughness = 0.0;
-		flowFactor = 0.0;
-	}
-
 	virtual double dragCoefficient(double Re) {
 		//double frictionFactor = frictionFactor_EQ_JainAndSwamee_1976(Re);
 		double frictionFactor = calcFrictionFactor_EQ_Churchill_1977(Re);
@@ -208,10 +190,9 @@ protected:
  */
 class FrictionFlowPipe_ElbowPipe : public FrictionFlowPipe_StraightPipe {
 public:
-	FrictionFlowPipe_ElbowPipe(double hydraulicDiameter, double flowArea, double surfaceRoughness, double curvatureRadius, double bendAngle) {
-		double length = (curvatureRadius * bendAngle * m::pi) / 180.;
-		::FrictionFlowPipe_StraightPipe(length, hydraulicDiameter, flowArea, surfaceRoughness);
-
+	FrictionFlowPipe_ElbowPipe(double hydraulicDiameter, double flowArea, double surfaceRoughness, double curvatureRadius, double bendAngle) :
+		FrictionFlowPipe_StraightPipe(0.0, hydraulicDiameter, flowArea, surfaceRoughness) {
+		this->length = (curvatureRadius * bendAngle * m::pi) / 180.;
 		this->curvatureRadius = curvatureRadius;
 		this->bendAngle = bendAngle;
 
@@ -222,7 +203,6 @@ public:
 
 protected:
 	virtual double dragCoefficient(double Re) {
-		//SMO_WORK - check bendAngle is in [0 deg, 180 deg] or convert it in this range
 		double regularDragCoeff = FrictionFlowPipe_StraightPipe::dragCoefficient(Re);
 		double localDragCoeff = calcLocalDragCoefficient_EQ_Idelchik_1966(Re);
 		return regularDragCoeff + localDragCoeff;
@@ -232,22 +212,22 @@ private:
 	double calcLocalDragCoefficient_EQ_Idelchik_1966(double Re) {
 		//Idelchik, I. E., Handbook of Hydraulic Resistance (Israel Program for Scientific Translations Ltd., 1966).
 		double kRe = calc_kRe_Formula(Re);
-
-		return A1 * B1 + kDelta + kRe;
+		return A1 * B1 * kDelta * kRe;
 	}
 
 	double calc_A1(double bendAngle) {
 		static FunctorOneVariable* A1Function = NULL;
 		if (A1Function == NULL) {
 			ArrayXd inputValues(11);
-			inputValues << 0, 20, 30, 45, 60, 75, 90, 110, 130, 150, 180; //bendAngle [degrees]
+			inputValues << 0, 20, 30, 45, 60, 75, 90, 110, 130, 150, 180; //bendAngle [degree]
 			ArrayXd outputValues(11);
 			outputValues << 0, 0.31, 0.45, 0.60, 0.78, 0.90, 1.00, 1.13, 1.20, 1.28, 1.40;
 
 			A1Function = new Interpolator1D(&inputValues, &outputValues);
 		}
 
-		return (*A1Function)(bendAngle);
+		FunctorCache* cache = A1Function->createCache();
+		return (*A1Function)(bendAngle, cache);
 	}
 
 	double calc_B1(double hydraulicDiameter, double curvatureRadius) {
@@ -261,7 +241,8 @@ private:
 			B1Function = new Interpolator1D(&inputValues, &outputValues);
 		}
 
-		return (*B1Function)(curvatureRadius / hydraulicDiameter);
+		FunctorCache* cache = B1Function->createCache();
+		return (*B1Function)(curvatureRadius / hydraulicDiameter, cache);
 	}
 
 	double calc_kRe_Table(double Re) {
@@ -270,12 +251,13 @@ private:
 			ArrayXd inputValues(12);
 			inputValues << 0.1, 0.14, 0.2, 0.3, 0.4, 0.6, 0.8, 1.0, 1.4, 2.0, 3.0, 4.0;
 			ArrayXd outputValues(12);
-			outputValues <<2.00, 1.89, 1.77, 1.64, 1.56, 1.46, 1.38, 1.30, 1.15, 1.02, 1.00, 1.00;
+			outputValues << 2.00, 1.89, 1.77, 1.64, 1.56, 1.46, 1.38, 1.30, 1.15, 1.02, 1.00, 1.00;
 
 			kReFunction = new Interpolator1D(&inputValues, &outputValues);
+			kRe_cache = kReFunction->createCache();
 		}
 
-		return (*kReFunction)(Re * 1e-5);
+		return (*kReFunction)(Re * 1e-5, kRe_cache);
 	}
 
 	double calc_kRe_Formula(double Re) {
@@ -297,11 +279,12 @@ private:
 
 protected:
 	double curvatureRadius;
-	double bendAngle; //[degrees]
+	double bendAngle; //[degree]
 
 	double A1;
 	double B1;
 	double kDelta;
+	FunctorCache* kRe_cache;
 };
 
 /**

@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_STRAIGHT skeleton created by AME Submodel editing utility
-   Fri Nov 15 11:20:38 2013 */
+   Thu Nov 21 17:22:35 2013 */
 
 
 
@@ -42,40 +42,59 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 4 real parameters:
+/* There are 5 real parameters:
 
-   hydraulicDiameter hydraulic diameter [mm -> m]
-   pipeLength        pipe length        [m]
-   absoluteRoughness absolute roughness [mm -> m]
-   pressureDropGain  pressure drop gain [null]
+   pipeLength        pipe length                 [m]
+   hydraulicDiameter hydraulic diameter          [mm -> m]
+   flowArea          flow (cross sectional) area [mm**2 -> m**2]
+   absoluteRoughness absolute roughness          [mm -> m]
+   pressureDropGain  pressure drop gain          [null]
 */
 
-void smo_r_pipe_straightin_(int *n, double rp[4], int ic[3]
+
+/* There is 1 integer parameter:
+
+   geometryType geometry type
+*/
+
+void smo_r_pipe_straightin_(int *n, double rp[5], int ip[1], int ic[3]
       , void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   double hydraulicDiameter, pipeLength, absoluteRoughness, 
+   int geometryType;
+   double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
       pressureDropGain;
 
-   hydraulicDiameter = rp[0];
-   pipeLength = rp[1];
-   absoluteRoughness = rp[2];
-   pressureDropGain = rp[3];
+   geometryType = ip[0];
+
+   pipeLength = rp[0];
+   hydraulicDiameter = rp[1];
+   flowArea   = rp[2];
+   absoluteRoughness = rp[3];
+   pressureDropGain = rp[4];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..3]
+   rp[0..4]
 */
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
+
+/*   Integer parameter checking:   */
+
+   if (geometryType < 1 || geometryType > 2)
+   {
+      amefprintf(stderr, "\ngeometry type must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -90,18 +109,31 @@ void smo_r_pipe_straightin_(int *n, double rp[4], int ic[3]
 
 /* Common -> SI units conversions. */
 
-   rp[0]    *= 1.00000000000000e-003;
-   hydraulicDiameter = rp[0];
-   rp[2]    *= 1.00000000000000e-003;
-   absoluteRoughness = rp[2];
+   rp[1]    *= 1.00000000000000e-003;
+   hydraulicDiameter = rp[1];
+   rp[2]    *= 1.00000000000000e-006;
+   flowArea   = rp[2];
+   rp[3]    *= 1.00000000000000e-003;
+   absoluteRoughness = rp[3];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = CylindricalStraightPipe_R_new(
-		   pipeLength,
-		   hydraulicDiameter,
-		   absoluteRoughness,
-		   pressureDropGain);
+   if (geometryType == 1) {
+	   _component = CylindricalStraightPipe_R_new(
+			   pipeLength,
+			   hydraulicDiameter,
+			   absoluteRoughness,
+			   pressureDropGain);
+   } else {
+	   _component = NonCylindricalStraightPipe_R_new(
+			   pipeLength,
+			   hydraulicDiameter,
+			   flowArea,
+			   absoluteRoughness,
+			   pressureDropGain);
+   }
+
+
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
 
@@ -136,19 +168,24 @@ void smo_r_pipe_straight_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *smoRChainID
       , double *outputRCompID2, double *inputRCompID2
       , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressureLoss, double rp[4], int ic[3], void *ps[3])
+      , double *pressureLoss, double rp[5], int ip[1], int ic[3]
+      , void *ps[3])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   double hydraulicDiameter, pipeLength, absoluteRoughness, 
+   int geometryType;
+   double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
       pressureDropGain;
 
-   hydraulicDiameter = rp[0];
-   pipeLength = rp[1];
-   absoluteRoughness = rp[2];
-   pressureDropGain = rp[3];
+   geometryType = ip[0];
+
+   pipeLength = rp[0];
+   hydraulicDiameter = rp[1];
+   flowArea   = rp[2];
+   absoluteRoughness = rp[3];
+   pressureDropGain = rp[4];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -194,21 +231,25 @@ void smo_r_pipe_straight_(int *n, double *outputRCompID1
 }
 
 extern double smo_r_pipe_straight_macro0_(int *n
-      , double *inputRCompID1, double *smoRChainID, double rp[4]
-      , int ic[3], void *ps[3])
+      , double *inputRCompID1, double *smoRChainID, double rp[5]
+      , int ip[1], int ic[3], void *ps[3])
 
 {
    double outputRCompID2;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   double hydraulicDiameter, pipeLength, absoluteRoughness, 
+   int geometryType;
+   double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
       pressureDropGain;
 
-   hydraulicDiameter = rp[0];
-   pipeLength = rp[1];
-   absoluteRoughness = rp[2];
-   pressureDropGain = rp[3];
+   geometryType = ip[0];
+
+   pipeLength = rp[0];
+   hydraulicDiameter = rp[1];
+   flowArea   = rp[2];
+   absoluteRoughness = rp[3];
+   pressureDropGain = rp[4];
    loop = 0;
 
 /* Common -> SI units conversions. */

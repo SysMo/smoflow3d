@@ -61,3 +61,40 @@ Pipe_R* CylindricalStraightPipe_R_new(
 
 	return Pipe_R_new(friction);
 }
+
+Pipe_R* NonCylindricalStraightPipe_R_new(
+		double length,
+		double hydraulicDiameter,
+		double flowArea,
+		double surfaceRoughness,
+		double pressureDropGain) {
+	FrictionFlowPipe* friction = FrictionFlowPipe_NonCylindricalStraightPipe_new(length, hydraulicDiameter, flowArea, surfaceRoughness);
+	friction->setPressureDropGain(pressureDropGain);
+
+	return Pipe_R_new(friction);
+}
+
+Pipe_R* CylindricalElbowPipe_R_new(
+		double diameter,
+		double surfaceRoughness,
+		double curvatureRadius,
+		double bendAngle,
+		double pressureDropGain) {
+	FrictionFlowPipe* friction = FrictionFlowPipe_CylindricalElbowPipe_new(diameter, surfaceRoughness, curvatureRadius, bendAngle);
+	friction->setPressureDropGain(pressureDropGain);
+
+	return Pipe_R_new(friction);
+}
+
+Pipe_R* NonCylindricalElbowPipe_R_new(
+		double hydraulicDiameter,
+		double flowArea,
+		double surfaceRoughness,
+		double curvatureRadius,
+		double bendAngle,
+		double pressureDropGain) {
+	FrictionFlowPipe* friction = FrictionFlowPipe_NonCylindricalElbowPipe_new(hydraulicDiameter, flowArea, surfaceRoughness, curvatureRadius, bendAngle);
+	friction->setPressureDropGain(pressureDropGain);
+
+	return Pipe_R_new(friction);
+}

@@ -31,8 +31,6 @@ public:
 	double getMassFlowRate() {return massFlowRate;}
 
 protected:
-	FrictionFlowPipe();
-
 	virtual double dragCoefficient(double Re) = 0;
 	MediumState* getUpstreamState(double massFlowRate);
 

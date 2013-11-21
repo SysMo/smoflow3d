@@ -1,5 +1,5 @@
-/* Submodel SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   Thu Nov 21 17:23:09 2013 */
+/* Submodel SMO_R_PIPE_ELBOW skeleton created by AME Submodel editing utility
+   Thu Nov 21 17:48:29 2013 */
 
 
 
@@ -24,11 +24,11 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER"
+#define _SUBMODELNAME_ "SMO_R_PIPE_ELBOW"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "flow_R/PipeHeatExchanger_R.h"
+#include "flow_R/Pipe_R.h"
 #include "flow_R/ManagerComponents_R.h"
 
 #define _component ps[0]
@@ -39,22 +39,17 @@ REVISIONS :
 
 #define _fluidFlow2 ps[2]
 #define _fluidFlow2Index ic[2]
-
-#define _wallHeatFlow ps[3]
-#define _wallHeatFlowIndex ic[3]
-
-#define _convection ps[4]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
 /* There are 6 real parameters:
 
-   pipeLength        pipe length                 [m]
    hydraulicDiameter hydraulic diameter          [mm -> m]
    flowArea          flow (cross sectional) area [mm**2 -> m**2]
    absoluteRoughness absolute roughness          [mm -> m]
    pressureDropGain  pressure drop gain          [null]
-   heatExchangeGain  heat exchange gain          [null]
+   curvatureRadius   curvature radius            [mm -> m]
+   bendAngle         bend angle                  [degree -> rad]
 */
 
 
@@ -63,25 +58,25 @@ REVISIONS :
    geometryType geometry type
 */
 
-void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
-      , int ip[1], int ic[4], void *ps[5])
+void smo_r_pipe_elbowin_(int *n, double rp[6], int ip[1], int ic[3]
+      , void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int geometryType;
-   double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
-      pressureDropGain, heatExchangeGain;
+   double hydraulicDiameter, flowArea, absoluteRoughness, 
+      pressureDropGain, curvatureRadius, bendAngle;
 
    geometryType = ip[0];
 
-   pipeLength = rp[0];
-   hydraulicDiameter = rp[1];
-   flowArea   = rp[2];
-   absoluteRoughness = rp[3];
-   pressureDropGain = rp[4];
-   heatExchangeGain = rp[5];
+   hydraulicDiameter = rp[0];
+   flowArea   = rp[1];
+   absoluteRoughness = rp[2];
+   pressureDropGain = rp[3];
+   curvatureRadius = rp[4];
+   bendAngle  = rp[5];
    loop = 0;
    error = 0;
 
@@ -116,35 +111,41 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 
 /* Common -> SI units conversions. */
 
-   rp[1]    *= 1.00000000000000e-003;
-   hydraulicDiameter = rp[1];
-   rp[2]    *= 1.00000000000000e-006;
-   flowArea   = rp[2];
-   rp[3]    *= 1.00000000000000e-003;
-   absoluteRoughness = rp[3];
+   rp[0]    *= 1.00000000000000e-003;
+   hydraulicDiameter = rp[0];
+   rp[1]    *= 1.00000000000000e-006;
+   flowArea   = rp[1];
+   rp[2]    *= 1.00000000000000e-003;
+   absoluteRoughness = rp[2];
+   rp[4]    *= 1.00000000000000e-003;
+   curvatureRadius = rp[4];
+   rp[5]    *= 1.74532925199433e-002;
+   bendAngle  = rp[5];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   //:TRICKY: return bendAngle from rad to degree
+   rp[5]    /= 1.74532925199433e-002;
+   bendAngle  = rp[5];
+
    if (geometryType == 1) {
-	   _component = CylindricalStraightPipeHeatExchanger_R_new(
-			   pipeLength,
+	   _component = CylindricalElbowPipe_R_new(
 			   hydraulicDiameter,
 			   absoluteRoughness,
-			   pressureDropGain,
-			   heatExchangeGain,
-			   1 //heatExchangerLimitOutput (0-no, 1-yes)
-	   );
+			   curvatureRadius,
+			   bendAngle,
+			   pressureDropGain);
    } else {
-	   _component = NonCylindricalStraightPipeHeatExchanger_R_new(
-			   pipeLength,
+	   _component = NonCylindricalElbowPipe_R_new(
 			   hydraulicDiameter,
 			   flowArea,
 			   absoluteRoughness,
-			   pressureDropGain,
-			   heatExchangeGain,
-			   1 //heatExchangerLimitOutput (0-no, 1-yes)
-	   );
+			   curvatureRadius,
+			   bendAngle,
+			   pressureDropGain);
    }
+
+
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
 
@@ -153,7 +154,7 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
-/*  There are 3 ports.
+/*  There are 2 ports.
 
    Port 1 has 3 variables:
 
@@ -161,76 +162,59 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
       2 inputRCompID1      R-component ID (input, port1) [smoRCompID]  basic variable input  UNPLOTTABLE
       3 smoRChainID        R-components chain ID         [smoRChainID] basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
-      2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
-
-   Port 3 has 3 variables:
-
-      1 outputRCompID3      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_pipe_straight_heat_exchanger_macro0_'  UNPLOTTABLE
+      1 outputRCompID2      R-component ID (output, port2) [smoRCompID] multi line macro 'smo_r_pipe_elbow_macro0_'  UNPLOTTABLE
       2 smoRChainIDDupl     duplicate of smoRChainID      
-      3 inputRCompID3       R-component ID (input, port3)  [smoRCompID] basic variable input  UNPLOTTABLE
+      3 inputRCompID2       R-component ID (input, port2)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 6 internal variables.
+/*  There are 3 internal variables.
 
-      1 massFlowRate              mass flow rate (at port3)     [kg/s]      basic variable
-      2 enthalpyFlowRate          enthalpy flow rate (at port3) [W]         basic variable
-      3 pressureLoss              total pressure loss           [bar -> Pa] basic variable
-      4 reynoldsNumber            Reynolds number               [null]      basic variable
-      5 convectionCoefficient     convection coefficient        [W/m**2/K]  basic variable
-      6 heatFlowRateFromWall      heat flow rate                [W]         basic variable
+      1 massFlowRate         mass flow rate (at port3)     [kg/s]      basic variable
+      2 enthalpyFlowRate     enthalpy flow rate (at port3) [W]         basic variable
+      3 pressureLoss         total pressure loss           [bar -> Pa] basic variable
 */
 
-void smo_r_pipe_straight_heat_exchanger_(int *n
-      , double *outputRCompID1, double *inputRCompID1
-      , double *smoRChainID, double *heatFlowIndex
-      , double *thermalNodeIndex, double *outputRCompID3
-      , double *inputRCompID3, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureLoss
-      , double *reynoldsNumber, double *convectionCoefficient
-      , double *heatFlowRateFromWall, double rp[6], int ip[1]
-      , int ic[4], void *ps[5], int *flag)
+void smo_r_pipe_elbow_(int *n, double *outputRCompID1
+      , double *inputRCompID1, double *smoRChainID
+      , double *outputRCompID2, double *inputRCompID2
+      , double *massFlowRate, double *enthalpyFlowRate
+      , double *pressureLoss, double rp[6], int ip[1], int ic[3]
+      , void *ps[3])
 
 {
-   int loop, logi;
+   int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int geometryType;
-   double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
-      pressureDropGain, heatExchangeGain;
+   double hydraulicDiameter, flowArea, absoluteRoughness, 
+      pressureDropGain, curvatureRadius, bendAngle;
 
    geometryType = ip[0];
 
-   pipeLength = rp[0];
-   hydraulicDiameter = rp[1];
-   flowArea   = rp[2];
-   absoluteRoughness = rp[3];
-   pressureDropGain = rp[4];
-   heatExchangeGain = rp[5];
-   logi = 0;
+   hydraulicDiameter = rp[0];
+   flowArea   = rp[1];
+   absoluteRoughness = rp[2];
+   pressureDropGain = rp[3];
+   curvatureRadius = rp[4];
+   bendAngle  = rp[5];
    loop = 0;
 
 /* Common -> SI units conversions. */
 
 /*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID3 *= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID2 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID2 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
    *outputRCompID1 = ??;
-   *heatFlowIndex = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressureLoss = ??;
-   *reynoldsNumber = ??;
-   *convectionCoefficient = ??;
-   *heatFlowRateFromWall = ??;
 */
 
 
@@ -238,12 +222,7 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
-	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID3);
-
-	   _wallHeatFlow = PipeHeatExchanger_R_getWallHeatFlow(_component);
-	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
-
-	   _convection = PipeHeatExchanger_R_getConvection(_component);
+	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID2);
    }
    ManagerComponents_R_compute(_manager);
 
@@ -251,11 +230,6 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
 
-   *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
-   *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
-   *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
-
-   *heatFlowIndex = _wallHeatFlowIndex;
    *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -264,48 +238,43 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
 /*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID2 /= ??; CONVERSION UNKNOWN */
    *pressureLoss /= 1.00000000000000e+005;
 }
 
-extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n
-      , double *inputRCompID1, double *smoRChainID
-      , double *thermalNodeIndex, double rp[6], int ip[1], int ic[4]
-      , void *ps[5], int *flag)
+extern double smo_r_pipe_elbow_macro0_(int *n, double *inputRCompID1
+      , double *smoRChainID, double rp[6], int ip[1], int ic[3]
+      , void *ps[3])
 
 {
-   double outputRCompID3;
-   int loop, logi;
+   double outputRCompID2;
+   int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
    int geometryType;
-   double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
-      pressureDropGain, heatExchangeGain;
+   double hydraulicDiameter, flowArea, absoluteRoughness, 
+      pressureDropGain, curvatureRadius, bendAngle;
 
    geometryType = ip[0];
 
-   pipeLength = rp[0];
-   hydraulicDiameter = rp[1];
-   flowArea   = rp[2];
-   absoluteRoughness = rp[3];
-   pressureDropGain = rp[4];
-   heatExchangeGain = rp[5];
-   logi = 0;
+   hydraulicDiameter = rp[0];
+   flowArea   = rp[1];
+   absoluteRoughness = rp[2];
+   pressureDropGain = rp[3];
+   curvatureRadius = rp[4];
+   bendAngle  = rp[5];
    loop = 0;
 
 /* Common -> SI units conversions. */
 
 /*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Define and return the following macro variable:
 
-   outputRCompID3 = ??;
+   outputRCompID2 = ??;
 */
 
 
@@ -316,22 +285,18 @@ extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n
 	   _manager = ManagerComponents_R_get(_managerIndex);
 
 	   ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
-
-	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
-	   PipeHeatExchanger_R_setHeatExchangerThermalNode(_component, wallNode);
    }
 
-   outputRCompID3 = _componentIndex;
+   outputRCompID2 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 
-/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
 
-   return outputRCompID3;
+   return outputRCompID2;
 }
 
