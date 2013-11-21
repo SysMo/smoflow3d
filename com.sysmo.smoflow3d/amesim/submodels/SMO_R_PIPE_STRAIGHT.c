@@ -98,8 +98,8 @@ void smo_r_pipe_straightin_(int *n, double rp[4], int ic[3]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = CylindricalStraightPipe_R_new(
-		   hydraulicDiameter,
 		   pipeLength,
+		   hydraulicDiameter,
 		   absoluteRoughness,
 		   pressureDropGain);
    _componentIndex = Component_R_register(_component);

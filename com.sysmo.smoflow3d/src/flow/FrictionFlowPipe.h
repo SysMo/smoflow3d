@@ -16,7 +16,7 @@
 
 class FrictionFlowPipe {
 public:
-	FrictionFlowPipe(double hydraulicDiameter, double flowArea, double flowFactor);
+	FrictionFlowPipe(double length,	double hydraulicDiameter, double flowArea);
 	virtual ~FrictionFlowPipe();
 
 	void init(MediumState* state1, MediumState* state2);
@@ -31,13 +31,13 @@ public:
 	double getMassFlowRate() {return massFlowRate;}
 
 protected:
-	virtual double frictionFactor(double Re) = 0;
+	virtual double dragCoefficient(double Re) = 0;
 	MediumState* getUpstreamState(double massFlowRate);
 
 protected:
-	double flowArea;
+	double length;
 	double hydraulicDiameter;
-	double flowFactor;
+	double flowArea;
 
 private:
 	double pressureDropGain;
@@ -56,7 +56,8 @@ DECLARE_C_STRUCT(FrictionFlowPipe)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-FrictionFlowPipe* FrictionFlowPipe_StraightPipe_new(double diameter, double length, double surfaceRoughness);
+FrictionFlowPipe* FrictionFlowPipe_CylindricalStraightPipe_new(double length, double diameter, double surfaceRoughness);
+FrictionFlowPipe* FrictionFlowPipe_NonCylindricalStraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness);
 
 void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2);
 void FrictionFlowPipe_setPressureDropGain(FrictionFlowPipe* component, double gain);

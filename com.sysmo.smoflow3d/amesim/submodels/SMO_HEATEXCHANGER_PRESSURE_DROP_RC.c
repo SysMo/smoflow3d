@@ -132,14 +132,15 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    double flowAreaValue;
-   if (geometryType == 1) {
+   if (geometryType == 1) { //cylindrical pipe
 	   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
-   } else {
+	   _friction = FrictionFlowPipe_CylindricalStraightPipe_new(pipeLength, hydraulicDiameter, absoluteRoughness);
+	   _convection = ForcedConvection_CylindricalStraightPipe_new(pipeLength, hydraulicDiameter);
+   } else { //non-cylindrical pipe
 	   flowAreaValue = flowArea;
+	   _friction = FrictionFlowPipe_NonCylindricalStraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue, absoluteRoughness);
+	   _convection = ForcedConvection_NonCylindricalStraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue);
    }
-
-   _friction = FrictionFlowPipe_StraightPipe_new(hydraulicDiameter, pipeLength, absoluteRoughness);
-   _convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowAreaValue, pipeLength);
 
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
    FrictionFlowPipe_setPressureDropGain(_friction, pressureDropGain);

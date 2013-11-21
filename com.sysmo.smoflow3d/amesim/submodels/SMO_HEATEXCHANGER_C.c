@@ -128,13 +128,13 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[2]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    double flowAreaValue;
-   if (geometryType == 1) {
+   if (geometryType == 1) { //cylindrical pipe
 	   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
-   } else {
+	   _convection = ForcedConvection_CylindricalStraightPipe_new(pipeLength, hydraulicDiameter);
+   } else { //non-cylindrical pipe
 	   flowAreaValue = flowArea;
+	   _convection = ForcedConvection_NonCylindricalStraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue);
    }
-
-   _convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowAreaValue, pipeLength);
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
 
    double internalVolume = flowAreaValue * pipeLength;

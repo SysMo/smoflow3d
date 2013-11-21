@@ -13,13 +13,10 @@ using namespace smoflow;
 /**
  * FrictionFlowPipe - C++
  */
-FrictionFlowPipe::FrictionFlowPipe(
-		double hydraulicDiameter,
-		double flowArea,
-		double flowFactor) {
+FrictionFlowPipe::FrictionFlowPipe(double length, double hydraulicDiameter,	double flowArea) {
+	this->length = length;
 	this->hydraulicDiameter = hydraulicDiameter;
 	this->flowArea = flowArea;
-	this->flowFactor = flowFactor;
 
 	pressureDropGain = 0.0;
 	massFlowRate = 0.0;
@@ -53,8 +50,8 @@ double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
 	double Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
 
 	//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
-	double pressureDrop = pressureDropGain * frictionFactor(Re)
-		* flowFactor * upstreamState->rho() * vFlow * vFlow / 2;
+	double pressureDrop = pressureDropGain * dragCoefficient(Re)
+			* upstreamState->rho() * vFlow * vFlow / 2;
 
 	absPressureDrop = pressureDrop;
 	if (massFlowRate < 0.0) {
@@ -90,13 +87,13 @@ double FrictionFlowPipe::computeMassFlowRate(double pressureDrop) {
 	double Re = Re_cache;
 	while ((m::fabs(relError) > relTolerance) && (numIter < maxNumIter)) {
 		// Compute the friction factor, and the flow velocity
-		vFlow = m::sqrt(2 * calcPressureDrop / (upstreamState->rho() * frictionFactor(Re) * flowFactor));
+		vFlow = m::sqrt(2 * calcPressureDrop / (upstreamState->rho() * dragCoefficient(Re)));
 
 		// New guess for the Reynolds number
 		Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
 
 		// Compute the error
-		double dpCalc = frictionFactor(Re) * flowFactor * upstreamState->rho() * vFlow * vFlow / 2;
+		double dpCalc = dragCoefficient(Re) * upstreamState->rho() * vFlow * vFlow / 2;
 		relError = (dpCalc - calcPressureDrop) / calcPressureDrop;
 		numIter++;
 	}
@@ -141,15 +138,17 @@ MediumState* FrictionFlowPipe::getUpstreamState(double massFlowRate) {
  */
 class FrictionFlowPipe_StraightPipe : public FrictionFlowPipe {
 public:
-	FrictionFlowPipe_StraightPipe(double diameter, double length, double surfaceRoughness)
-		: FrictionFlowPipe(diameter, (m::pi / 4) * diameter * diameter, length / diameter) {
+	FrictionFlowPipe_StraightPipe(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness)
+		: FrictionFlowPipe(length, hydraulicDiameter, flowArea) {
 		this->surfaceRoughness = surfaceRoughness;
+		this->flowFactor = length/hydraulicDiameter;
 	}
 
 protected:
-	virtual double frictionFactor(double Re) {
-		//return frictionFactor_EQ_JainAndSwamee_1976(Re);
-		return frictionFactor_EQ_Churchill_1977(Re);
+	virtual double dragCoefficient(double Re) {
+		//double frictionFactor = frictionFactor_EQ_JainAndSwamee_1976(Re);
+		double frictionFactor = frictionFactor_EQ_Churchill_1977(Re);
+		return frictionFactor * flowFactor;
 	}
 
 	double frictionFactor_EQ_Churchill_1977(double Re) {
@@ -181,13 +180,20 @@ protected:
 
 protected:
 	double surfaceRoughness;
+	double flowFactor;
 };
 
 /**
  * FrictionFlowPipe - C
  */
-FrictionFlowPipe* FrictionFlowPipe_StraightPipe_new(double diameter, double length, double surfaceRoughness) {
-	return new FrictionFlowPipe_StraightPipe(diameter, length, surfaceRoughness);
+FrictionFlowPipe* FrictionFlowPipe_CylindricalStraightPipe_new(double length, double diameter, double surfaceRoughness) {
+	double hydraulicDiameter = diameter;
+	double flowArea = (m::pi / 4)*diameter * diameter;
+	return new FrictionFlowPipe_StraightPipe(length, hydraulicDiameter, flowArea, surfaceRoughness);
+}
+
+FrictionFlowPipe* FrictionFlowPipe_NonCylindricalStraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness) {
+	return new FrictionFlowPipe_StraightPipe(length, hydraulicDiameter, flowArea, surfaceRoughness);
 }
 
 void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2) {

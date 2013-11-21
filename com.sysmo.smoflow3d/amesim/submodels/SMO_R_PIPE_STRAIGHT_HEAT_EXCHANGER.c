@@ -127,8 +127,8 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    if (geometryType == 1) {
 	   _component = CylindricalStraightPipeHeatExchanger_R_new(
-			   hydraulicDiameter,
 			   pipeLength,
+			   hydraulicDiameter,
 			   absoluteRoughness,
 			   pressureDropGain,
 			   heatExchangeGain,
@@ -136,8 +136,8 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 	   );
    } else {
 	   _component = NonCylindricalStraightPipeHeatExchanger_R_new(
-			   hydraulicDiameter,
 			   pipeLength,
+			   hydraulicDiameter,
 			   flowArea,
 			   absoluteRoughness,
 			   pressureDropGain,

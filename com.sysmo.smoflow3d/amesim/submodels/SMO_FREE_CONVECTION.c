@@ -170,7 +170,7 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 			   FreeConvection_SphericalSurface_new(diameter);
    } else if (calculationMethod == 9) {
 	   _component =
-			   FreeConvection_FinnedPipe_new(basePipeDiameter, length, finSpacing, finThickness, finHeight);
+			   FreeConvection_FinnedPipe_new(length, basePipeDiameter, finSpacing, finThickness, finHeight);
    } else if (calculationMethod == 10) {
 	   _component =
 			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);

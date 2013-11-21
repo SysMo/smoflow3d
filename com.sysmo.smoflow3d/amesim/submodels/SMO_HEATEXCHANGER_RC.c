@@ -138,18 +138,24 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 	   _component = PipeHeatExchNoPrDropNoMassAcc_RC_Efficiency_new(heatExhcangeEfficienccy, tauOutput);
    } else {
 	   double flowAreaValue;
-	   if (geometryType == 1) {
+	   double heatExchangeArea;
+	   if (geometryType == 1) { //cylindrical pipe
 		   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
-	   } else {
+		   double perimeter = M_PI * hydraulicDiameter;
+		   heatExchangeArea =  perimeter * pipeLength;
+	   } else { //non-cylindrical pipe
 		   flowAreaValue = flowArea;
+		   double perimeter = 4 * flowAreaValue / hydraulicDiameter;
+		   heatExchangeArea = perimeter * pipeLength;
 	   }
+
 	   if (heatExchangeCalculationMethod == 2) {
-		   double heatExchangeArea = 4 * flowAreaValue / hydraulicDiameter * pipeLength;
 		   _convection = ForcedConvection_GivenConvectionCoefficient_new(heatExchangeArea);
 		   Convection_setConvectionCoefficient(_convection, convectionCoefficientGiven);
 	   } else {
-		   _convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowAreaValue, pipeLength);
+		   _convection = ForcedConvection_NonCylindricalStraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue);
 	   }
+
 	   Convection_setHeatExchangeGain(_convection, heatExchangeGain);
 	   _component = PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(_convection, tauOutput);
    }

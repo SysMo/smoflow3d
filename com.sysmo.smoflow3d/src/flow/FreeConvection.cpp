@@ -258,7 +258,7 @@ protected:
 
 class FreeConvection_FinnedPipe : public FreeConvection {
 public:
-	FreeConvection_FinnedPipe(double pipeDiameter, double pipeLength,
+	FreeConvection_FinnedPipe(double pipeLength, double pipeDiameter,
 			double finSpacing, double finThickness, double finHeight) {
 		this->pipeDiameter = pipeDiameter;
 		this->pipeLength = pipeLength;
@@ -340,8 +340,9 @@ FreeConvection* FreeConvection_SphericalSurface_new(double diameter) {
 	return new FreeConvection_SphericalSurface(diameter);
 }
 
-FreeConvection* FreeConvection_FinnedPipe_new(double pipeDiameter, double pipeLength,
-			double finSpacing, double finThickness, double finHeight) {
-	return new FreeConvection_FinnedPipe(pipeDiameter, pipeLength,
-			finSpacing, finThickness, finHeight);
+FreeConvection* FreeConvection_FinnedPipe_new(
+		double pipeLength, double pipeDiameter, double finSpacing,
+		double finThickness, double finHeight) {
+	return new FreeConvection_FinnedPipe(pipeLength, pipeDiameter, finSpacing,
+			finThickness, finHeight);
 }

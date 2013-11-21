@@ -73,29 +73,6 @@ void ForcedConvection::compute(double massFlowRate) {
 	}
 }
 
-/**
- * ForcedConvection - C
- */
-void ForcedConvection_init(ForcedConvection* convection,
-		MediumState* fluidState1, MediumState* fluidState2,
-		ThermalNode* wallNode) {
-	convection->init(fluidState1, fluidState2, wallNode);
-}
-
-void ForcedConvection_setLimitOutput(
-		ForcedConvection* convection, int limitOutput) {
-	convection->setLimitOutput(limitOutput);
-}
-
-void ForcedConvection_compute(ForcedConvection* convection,
-		double massFlowRate) {
-	convection->compute(massFlowRate);
-}
-
-double ForcedConvection_getReynoldsNumber(ForcedConvection* convection) {
-	return convection->getReynoldsNumber();
-}
-
 /*************************************************************
  ***  Forced convection models
  *************************************************************/
@@ -130,11 +107,11 @@ protected:
  */
 class ForcedConvection_StraightPipe : public ForcedConvection {
 public:
-	ForcedConvection_StraightPipe(double hydraulicDiameter, double flowArea, double pipeLength) {
+	ForcedConvection_StraightPipe(double length, double hydraulicDiameter, double flowArea) {
 		this->characteristicLength = hydraulicDiameter;
 		this->flowArea = flowArea;
 		double perimeter = 4 * flowArea / hydraulicDiameter;
-		this->heatExchangeArea = perimeter * pipeLength;
+		this->heatExchangeArea = perimeter * length;
 	}
 
 	double computeNusseltNumber(double Re, double Pr) {
@@ -175,13 +152,43 @@ protected:
 
 
 /**
- * ForcedConvection - C
+ * ForcedConvection_XXX - C
  */
 ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(double heatExchangeArea) {
 	return new ForcedConvection_GivenConvectionCoefficient(heatExchangeArea);
 }
 
-ForcedConvection* ForcedConvection_StraightPipe_new(double hydraulicDiameter, double flowArea, double pipeLength) {
-	return new ForcedConvection_StraightPipe(hydraulicDiameter, flowArea, pipeLength);
+ForcedConvection* ForcedConvection_CylindricalStraightPipe_new(double length, double diameter) {
+	double hydraulicDiameter = diameter;
+	double flowArea = (m::pi / 4)*diameter * diameter;
+	return new ForcedConvection_StraightPipe(length, hydraulicDiameter, flowArea);
+}
+
+ForcedConvection* ForcedConvection_NonCylindricalStraightPipe_new(double length, double hydraulicDiameter, double flowArea) {
+	return new ForcedConvection_StraightPipe(length, hydraulicDiameter, flowArea);
+}
+
+
+/**
+ * ForcedConvection - C
+ */
+void ForcedConvection_init(ForcedConvection* convection,
+		MediumState* fluidState1, MediumState* fluidState2,
+		ThermalNode* wallNode) {
+	convection->init(fluidState1, fluidState2, wallNode);
+}
+
+void ForcedConvection_setLimitOutput(
+		ForcedConvection* convection, int limitOutput) {
+	convection->setLimitOutput(limitOutput);
+}
+
+void ForcedConvection_compute(ForcedConvection* convection,
+		double massFlowRate) {
+	convection->compute(massFlowRate);
+}
+
+double ForcedConvection_getReynoldsNumber(ForcedConvection* convection) {
+	return convection->getReynoldsNumber();
 }
 

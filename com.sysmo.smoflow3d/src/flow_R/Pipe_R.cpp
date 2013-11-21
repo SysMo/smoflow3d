@@ -52,11 +52,11 @@ Pipe_R* Pipe_R_new(FrictionFlowPipe* friction) {
 }
 
 Pipe_R* CylindricalStraightPipe_R_new(
-		double diameter,
 		double length,
+		double diameter,
 		double surfaceRoughness,
 		double pressureDropGain) {
-	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(diameter, length, surfaceRoughness);
+	FrictionFlowPipe* friction = FrictionFlowPipe_CylindricalStraightPipe_new(length, diameter, surfaceRoughness);
 	friction->setPressureDropGain(pressureDropGain);
 
 	return Pipe_R_new(friction);

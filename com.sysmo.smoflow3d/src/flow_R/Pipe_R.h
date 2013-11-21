@@ -35,8 +35,8 @@ BEGIN_C_LINKAGE
 Pipe_R* Pipe_R_new(FrictionFlowPipe* friction);
 
 Pipe_R* CylindricalStraightPipe_R_new(
-		double diameter,
 		double length,
+		double diameter,
 		double surfaceRoughness,
 		double pressureDropGain);
 
