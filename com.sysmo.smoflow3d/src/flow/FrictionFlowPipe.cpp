@@ -141,8 +141,8 @@ public:
 	FrictionFlowPipe_StraightPipe(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness)
 		: FrictionFlowPipe(hydraulicDiameter, flowArea) {
 		this->length = length;
-		this->surfaceRoughness = surfaceRoughness;
 		this->flowFactor = length/hydraulicDiameter;
+		this->surfaceRoughness = surfaceRoughness;
 	}
 
 protected:
@@ -186,13 +186,12 @@ protected:
 };
 
 /**
- * FrictionFlowPipe_ElbowStraightPipe - C++
+ * FrictionFlowPipe_ElbowPipe - C++
  */
 class FrictionFlowPipe_ElbowPipe : public FrictionFlowPipe_StraightPipe {
 public:
 	FrictionFlowPipe_ElbowPipe(double hydraulicDiameter, double flowArea, double surfaceRoughness, double curvatureRadius, double bendAngle) :
-		FrictionFlowPipe_StraightPipe(0.0, hydraulicDiameter, flowArea, surfaceRoughness) {
-		this->length = (curvatureRadius * bendAngle * m::pi) / 180.;
+		FrictionFlowPipe_StraightPipe((curvatureRadius * bendAngle * m::pi) / 180., hydraulicDiameter, flowArea, surfaceRoughness) {
 		this->curvatureRadius = curvatureRadius;
 		this->bendAngle = bendAngle;
 
