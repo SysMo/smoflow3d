@@ -75,4 +75,5 @@ smo_r_pipe_straight
 smo_r_pipe_straight_heat_exchanger
 &SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER SmoFlow3d
 smo_r_pipe_elbow
+&SMO_R_PIPE_CONSTANT_DRAC_COEFF SmoFlow3d
 &SMO_R_PIPE_ELBOW SmoFlow3d

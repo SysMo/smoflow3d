@@ -61,11 +61,11 @@ DECLARE_C_STRUCT(FrictionFlowPipe)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-FrictionFlowPipe* FrictionFlowPipe_CylindricalStraightPipe_new(double length, double diameter, double surfaceRoughness);
-FrictionFlowPipe* FrictionFlowPipe_NonCylindricalStraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness);
+FrictionFlowPipe* FrictionFlowPipe_StraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness);
+FrictionFlowPipe* FrictionFlowPipe_ElbowPipe_new(double hydraulicDiameter, double flowArea, double surfaceRoughness, double curvatureRadius, double bendAngle);
+FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientPipe_new(double hydraulicDiameter, double flowArea, double dragCoefficient);
+FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientStraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness, double dragCoefficient);
 
-FrictionFlowPipe* FrictionFlowPipe_CylindricalElbowPipe_new(double diameter, double surfaceRoughness, double curvatureRadius, double bendAngle);
-FrictionFlowPipe* FrictionFlowPipe_NonCylindricalElbowPipe_new(double hydraulicDiameter, double flowArea, double surfaceRoughness, double curvatureRadius, double bendAngle);
 
 void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2);
 void FrictionFlowPipe_setPressureDropGain(FrictionFlowPipe* component, double gain);

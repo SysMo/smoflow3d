@@ -40,8 +40,7 @@ DECLARE_C_STRUCT(ForcedConvection)
 
 BEGIN_C_LINKAGE
 ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(double heatExchangeArea);
-ForcedConvection* ForcedConvection_CylindricalStraightPipe_new(double length, double diameter);
-ForcedConvection* ForcedConvection_NonCylindricalStraightPipe_new(double length, double hydraulicDiameter, double flowArea);
+ForcedConvection* ForcedConvection_StraightPipe_new(double length, double hydraulicDiameter, double flowArea);
 
 void ForcedConvection_init(ForcedConvection* convection, MediumState* fluidState1, MediumState* fluidState2, ThermalNode* wallNode);
 void ForcedConvection_setLimitOutput(ForcedConvection* convection, int limitOutput);

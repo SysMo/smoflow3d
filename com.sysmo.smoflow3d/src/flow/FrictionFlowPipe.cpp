@@ -200,9 +200,9 @@ protected:
 /**
  * FrictionFlowPipe_ConstantDragCoefficientPipe - C++
  */
-class FrictionFlowPipe_ConstantDragCoefficient : public FrictionFlowPipe {
+class FrictionFlowPipe_ConstantDragCoefficientPipe : public FrictionFlowPipe {
 public:
-	FrictionFlowPipe_ConstantDragCoefficient(double hydraulicDiameter, double flowArea, double dragCoefficient)
+	FrictionFlowPipe_ConstantDragCoefficientPipe(double hydraulicDiameter, double flowArea, double dragCoefficient)
 		: FrictionFlowPipe(hydraulicDiameter, flowArea) {
 		this->constDragCoefficient = dragCoefficient;
 	}
@@ -217,13 +217,24 @@ protected:
 };
 
 /**
- * FrictionFlowPipe_ConstantDragCoefficientPipe - C++
+ * FrictionFlowPipe_ConstantDragCoefficientStraigntPipe - C++
  */
-class FrictionFlowPipe_ConstantDragCoefficientPipe : public FrictionFlowPipe_StraightPipe {
+class FrictionFlowPipe_ConstantDragCoefficientStraightPipe : public FrictionFlowPipe_StraightPipe {
+public:
+	FrictionFlowPipe_ConstantDragCoefficientStraightPipe(double lenght, double hydraulicDiameter, double flowArea, double surfaceRoughness, double dragCoefficient) :
+		FrictionFlowPipe_StraightPipe(lenght, hydraulicDiameter, flowArea, surfaceRoughness) {
+		this->constDragCoefficient = dragCoefficient;
+	}
 
+protected:
+	virtual double calcDragCoefficient(double Re) {
+		double regularDragCoeff = FrictionFlowPipe_StraightPipe::calcDragCoefficient(Re);
+		return regularDragCoeff + constDragCoefficient;
+	}
+
+protected:
+	double constDragCoefficient;
 };
-
-
 
 /**
  * FrictionFlowPipe_ElbowPipe - C++
@@ -329,25 +340,22 @@ protected:
 /**
  * FrictionFlowPipe - C
  */
-FrictionFlowPipe* FrictionFlowPipe_CylindricalStraightPipe_new(double length, double diameter, double surfaceRoughness) {
-	double hydraulicDiameter = diameter;
-	double flowArea = (m::pi / 4)*diameter * diameter;
+FrictionFlowPipe* FrictionFlowPipe_StraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness) {
 	return new FrictionFlowPipe_StraightPipe(length, hydraulicDiameter, flowArea, surfaceRoughness);
 }
 
-FrictionFlowPipe* FrictionFlowPipe_NonCylindricalStraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness) {
-	return new FrictionFlowPipe_StraightPipe(length, hydraulicDiameter, flowArea, surfaceRoughness);
-}
-
-FrictionFlowPipe* FrictionFlowPipe_CylindricalElbowPipe_new(double diameter, double surfaceRoughness, double curvatureRadius, double bendAngle) {
-	double hydraulicDiameter = diameter;
-	double flowArea = (m::pi / 4)*diameter * diameter;
+FrictionFlowPipe* FrictionFlowPipe_ElbowPipe_new(double hydraulicDiameter, double flowArea, double surfaceRoughness, double curvatureRadius, double bendAngle) {
 	return new FrictionFlowPipe_ElbowPipe(hydraulicDiameter, flowArea, surfaceRoughness, curvatureRadius, bendAngle);
 }
 
-FrictionFlowPipe* FrictionFlowPipe_NonCylindricalElbowPipe_new(double hydraulicDiameter, double flowArea, double surfaceRoughness, double curvatureRadius, double bendAngle) {
-	return new FrictionFlowPipe_ElbowPipe(hydraulicDiameter, flowArea, surfaceRoughness, curvatureRadius, bendAngle);
+FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientPipe_new(double hydraulicDiameter, double flowArea, double dragCoefficient) {
+	return new FrictionFlowPipe_ConstantDragCoefficientPipe(hydraulicDiameter, flowArea, dragCoefficient);
 }
+
+FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientStraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness, double dragCoefficient) {
+	return new FrictionFlowPipe_ConstantDragCoefficientStraightPipe(length, hydraulicDiameter, flowArea, surfaceRoughness, dragCoefficient);
+}
+
 
 void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2) {
 	component->init(state1, state2);

@@ -158,13 +158,7 @@ ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(double heatExc
 	return new ForcedConvection_GivenConvectionCoefficient(heatExchangeArea);
 }
 
-ForcedConvection* ForcedConvection_CylindricalStraightPipe_new(double length, double diameter) {
-	double hydraulicDiameter = diameter;
-	double flowArea = (m::pi / 4)*diameter * diameter;
-	return new ForcedConvection_StraightPipe(length, hydraulicDiameter, flowArea);
-}
-
-ForcedConvection* ForcedConvection_NonCylindricalStraightPipe_new(double length, double hydraulicDiameter, double flowArea) {
+ForcedConvection* ForcedConvection_StraightPipe_new(double length, double hydraulicDiameter, double flowArea) {
 	return new ForcedConvection_StraightPipe(length, hydraulicDiameter, flowArea);
 }
 

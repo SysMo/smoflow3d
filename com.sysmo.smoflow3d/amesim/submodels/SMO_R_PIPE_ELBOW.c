@@ -128,23 +128,20 @@ void smo_r_pipe_elbowin_(int *n, double rp[6], int ip[1], int ic[3]
    rp[5]    /= 1.74532925199433e-002;
    bendAngle  = rp[5];
 
-   if (geometryType == 1) {
-	   _component = CylindricalElbowPipe_R_new(
-			   hydraulicDiameter,
-			   absoluteRoughness,
-			   curvatureRadius,
-			   bendAngle,
-			   pressureDropGain);
-   } else {
-	   _component = NonCylindricalElbowPipe_R_new(
-			   hydraulicDiameter,
-			   flowArea,
-			   absoluteRoughness,
-			   curvatureRadius,
-			   bendAngle,
-			   pressureDropGain);
+   double flowAreaValue;
+   if (geometryType == 1) { //cylindrical pipe
+	   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
+   } else { //non-cylindrical pipe
+	   flowAreaValue = flowArea;
    }
 
+   _component = ElbowPipe_R_new(
+		   hydraulicDiameter,
+		   flowAreaValue,
+		   absoluteRoughness,
+		   curvatureRadius,
+		   bendAngle,
+		   pressureDropGain);
 
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)

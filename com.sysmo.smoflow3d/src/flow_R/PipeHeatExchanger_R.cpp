@@ -62,28 +62,7 @@ PipeHeatExchanger_R* PipeHeatExhcanger_R_new(FrictionFlowPipe* friction, ForcedC
 	return new PipeHeatExchanger_R(friction, convection);
 }
 
-PipeHeatExchanger_R* CylindricalStraightPipeHeatExchanger_R_new(
-		double length,
-		double diameter,
-		double surfaceRoughness,
-		double pressureDropGain,
-		double heatExchangeGain,
-		int heatExchangerLimitOutput) {
-	FrictionFlowPipe* friction = FrictionFlowPipe_CylindricalStraightPipe_new(length, diameter, surfaceRoughness);
-	friction->setPressureDropGain(pressureDropGain);
-
-	ForcedConvection* convection = ForcedConvection_CylindricalStraightPipe_new(length, diameter);
-	convection->setHeatExchangeGain(heatExchangeGain);
-	if (heatExchangerLimitOutput == 1) {
-		convection->setLimitOutput(true);
-	} else {
-		convection->setLimitOutput(false);
-	}
-
-	return PipeHeatExhcanger_R_new(friction, convection);
-}
-
-PipeHeatExchanger_R* NonCylindricalStraightPipeHeatExchanger_R_new(
+PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		double length,
 		double hydraulicDiameter,
 		double flowArea,
@@ -91,10 +70,10 @@ PipeHeatExchanger_R* NonCylindricalStraightPipeHeatExchanger_R_new(
 		double pressureDropGain,
 		double heatExchangeGain,
 		int heatExchangerLimitOutput) {
-	FrictionFlowPipe* friction = FrictionFlowPipe_NonCylindricalStraightPipe_new(length, hydraulicDiameter, flowArea, surfaceRoughness);
+	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(length, hydraulicDiameter, flowArea, surfaceRoughness);
 	friction->setPressureDropGain(pressureDropGain);
 
-	ForcedConvection* convection = ForcedConvection_NonCylindricalStraightPipe_new(length, hydraulicDiameter, flowArea);
+	ForcedConvection* convection = ForcedConvection_StraightPipe_new(length, hydraulicDiameter, flowArea);
 	convection->setHeatExchangeGain(heatExchangeGain);
 	if (heatExchangerLimitOutput == 1) {
 		convection->setLimitOutput(true);

@@ -37,32 +37,33 @@ DECLARE_C_STRUCT(Pipe_R)
 BEGIN_C_LINKAGE
 Pipe_R* Pipe_R_new(FrictionFlowPipe* friction);
 
-Pipe_R* CylindricalStraightPipe_R_new(
-		double length,
-		double diameter,
-		double surfaceRoughness,
-		double pressureDropGain);
-
-Pipe_R* NonCylindricalStraightPipe_R_new(
+Pipe_R* StraightPipe_R_new(
 		double length,
 		double hydraulicDiameter,
 		double flowArea,
 		double surfaceRoughness,
 		double pressureDropGain);
 
-Pipe_R* CylindricalElbowPipe_R_new(
-		double diameter,
+Pipe_R* ElbowPipe_R_new(
+		double hydraulicDiameter,
+		double flowArea,
 		double surfaceRoughness,
 		double curvatureRadius,
 		double bendAngle,
 		double pressureDropGain);
 
-Pipe_R* NonCylindricalElbowPipe_R_new(
+Pipe_R* Pipe_ConstantDragCoefficientPipe_new(
+		double hydraulicDiameter,
+		double flowArea,
+		double dragCoefficient,
+		double pressureDropGain);
+
+Pipe_R* ConstantDragCoefficientStraightPipe_new(
+		double length,
 		double hydraulicDiameter,
 		double flowArea,
 		double surfaceRoughness,
-		 double curvatureRadius,
-		 double bendAngle,
+		double dragCoefficient,
 		double pressureDropGain);
 
 double Pipe_R_getReynoldsNumber(Pipe_R* pipe);

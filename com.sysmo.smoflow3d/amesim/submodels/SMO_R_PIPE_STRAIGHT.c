@@ -118,21 +118,19 @@ void smo_r_pipe_straightin_(int *n, double rp[5], int ip[1], int ic[3]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   if (geometryType == 1) {
-	   _component = CylindricalStraightPipe_R_new(
-			   pipeLength,
-			   hydraulicDiameter,
-			   absoluteRoughness,
-			   pressureDropGain);
-   } else {
-	   _component = NonCylindricalStraightPipe_R_new(
-			   pipeLength,
-			   hydraulicDiameter,
-			   flowArea,
-			   absoluteRoughness,
-			   pressureDropGain);
+   double flowAreaValue;
+   if (geometryType == 1) { //cylindrical pipe
+	   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
+   } else { //non-cylindrical pipe
+	   flowAreaValue = flowArea;
    }
 
+   _component = StraightPipe_R_new(
+		   pipeLength,
+		   hydraulicDiameter,
+		   flowAreaValue,
+		   absoluteRoughness,
+		   pressureDropGain);
 
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)

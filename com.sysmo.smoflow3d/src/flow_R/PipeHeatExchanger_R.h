@@ -45,15 +45,7 @@ PipeHeatExchanger_R* PipeHeatExhcanger_R_new(
 		FrictionFlowPipe* friction,
 		ForcedConvection* convection);
 
-PipeHeatExchanger_R* CylindricalStraightPipeHeatExchanger_R_new(
-		double length,
-		double diameter,
-		double surfaceRoughness,
-		double pressureDropGain,
-		double heatExchangeGain,
-		int heatExchangerLimitOutput);
-
-PipeHeatExchanger_R* NonCylindricalStraightPipeHeatExchanger_R_new(
+PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		double length,
 		double hydraulicDiameter,
 		double flowArea,

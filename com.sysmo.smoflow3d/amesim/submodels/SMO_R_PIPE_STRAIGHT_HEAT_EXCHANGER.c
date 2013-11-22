@@ -125,26 +125,23 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   if (geometryType == 1) {
-	   _component = CylindricalStraightPipeHeatExchanger_R_new(
-			   pipeLength,
-			   hydraulicDiameter,
-			   absoluteRoughness,
-			   pressureDropGain,
-			   heatExchangeGain,
-			   1 //heatExchangerLimitOutput (0-no, 1-yes)
-	   );
-   } else {
-	   _component = NonCylindricalStraightPipeHeatExchanger_R_new(
-			   pipeLength,
-			   hydraulicDiameter,
-			   flowArea,
-			   absoluteRoughness,
-			   pressureDropGain,
-			   heatExchangeGain,
-			   1 //heatExchangerLimitOutput (0-no, 1-yes)
-	   );
+   double flowAreaValue;
+   if (geometryType == 1) { //cylindrical pipe
+	   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
+   } else { //non-cylindrical pipe
+	   flowAreaValue = flowArea;
    }
+
+   _component = StraightPipeHeatExchanger_R_new(
+		   pipeLength,
+		   hydraulicDiameter,
+		   flowAreaValue,
+		   absoluteRoughness,
+		   pressureDropGain,
+		   heatExchangeGain,
+		   1 //heatExchangerLimitOutput (0-no, 1-yes)
+   );
+
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
 
