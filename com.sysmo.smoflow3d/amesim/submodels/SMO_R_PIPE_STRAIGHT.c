@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_STRAIGHT skeleton created by AME Submodel editing utility
-   Thu Nov 21 17:22:35 2013 */
+   Fri Nov 22 11:06:16 2013 */
 
 
 
@@ -157,18 +157,21 @@ void smo_r_pipe_straightin_(int *n, double rp[5], int ip[1], int ic[3]
       3 inputRCompID2       R-component ID (input, port2)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 3 internal variables.
+/*  There are 5 internal variables.
 
       1 massFlowRate         mass flow rate (at port3)     [kg/s]      basic variable
       2 enthalpyFlowRate     enthalpy flow rate (at port3) [W]         basic variable
       3 pressureLoss         total pressure loss           [bar -> Pa] basic variable
+      4 reynoldsNumber       Reynolds number               [null]      basic variable
+      5 dragCoefficient      drag coefficient              [null]      basic variable
 */
 
 void smo_r_pipe_straight_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *smoRChainID
       , double *outputRCompID2, double *inputRCompID2
       , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressureLoss, double rp[5], int ip[1], int ic[3]
+      , double *pressureLoss, double *reynoldsNumber
+      , double *dragCoefficient, double rp[5], int ip[1], int ic[3]
       , void *ps[3])
 
 {
@@ -202,6 +205,8 @@ void smo_r_pipe_straight_(int *n, double *outputRCompID1
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressureLoss = ??;
+   *reynoldsNumber = ??;
+   *dragCoefficient = ??;
 */
 
 
@@ -216,6 +221,8 @@ void smo_r_pipe_straight_(int *n, double *outputRCompID1
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
+   *reynoldsNumber = Pipe_R_getReynoldsNumber(_component);
+   *dragCoefficient = Pipe_R_getDragCoefficient(_component);
 
    *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */

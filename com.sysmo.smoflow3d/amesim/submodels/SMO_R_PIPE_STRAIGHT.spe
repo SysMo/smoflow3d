@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>30</SUB_ID_MAX>
+  <SUB_ID_MAX>33</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_pipe_straight</DEFAULT_ICON>
   <SUB_LABEL>R-straight pipe</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -116,6 +116,24 @@
     <IS_DELTA>1</IS_DELTA>
     <DIMENSION>1</DIMENSION>
     <UNITS>bar</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>33</SUB_ID>
+    <TITLE>Reynolds number</TITLE>
+    <VARNAME>reynoldsNumber</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>32</SUB_ID>
+    <TITLE>drag coefficient</TITLE>
+    <VARNAME>dragCoefficient</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
    </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>

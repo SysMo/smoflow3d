@@ -23,6 +23,9 @@ public:
 	virtual void init(MediumState* state1);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
+	double getReynoldsNumber() {return friction->getReynoldsNumber();}
+	double getDragCoefficient() {return friction->getDragCoefficient();}
+
 protected:
 	FrictionFlowPipe* friction;
 };
@@ -61,6 +64,10 @@ Pipe_R* NonCylindricalElbowPipe_R_new(
 		 double curvatureRadius,
 		 double bendAngle,
 		double pressureDropGain);
+
+double Pipe_R_getReynoldsNumber(Pipe_R* pipe);
+double Pipe_R_getDragCoefficient(Pipe_R* pipe);
+
 
 END_C_LINKAGE
 

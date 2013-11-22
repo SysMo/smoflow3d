@@ -30,8 +30,11 @@ public:
 	double getAbsolutePressureDrop() {return absPressureDrop;}
 	double getMassFlowRate() {return massFlowRate;}
 
+	double getReynoldsNumber() {return reynoldsNumber;}
+	double getDragCoefficient() {return dragCoefficient;}
+
 protected:
-	virtual double dragCoefficient(double Re) = 0;
+	virtual double calcDragCoefficient(double Re) = 0;
 	MediumState* getUpstreamState(double massFlowRate);
 
 protected:
@@ -41,13 +44,16 @@ protected:
 private:
 	double pressureDropGain;
 
-	double massFlowRate;
-	double absPressureDrop;
-
 	MediumState* state1;
 	MediumState* state2;
 
 	double Re_cache;
+
+	double massFlowRate;
+	double absPressureDrop;
+
+	double reynoldsNumber;
+	double dragCoefficient;
 };
 
 #else //__cplusplus
