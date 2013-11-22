@@ -52,7 +52,7 @@ Pipe_R* ElbowPipe_R_new(
 		double bendAngle,
 		double pressureDropGain);
 
-Pipe_R* Pipe_ConstantDragCoefficientPipe_new(
+Pipe_R* ConstantDragCoefficientPipe_new(
 		double hydraulicDiameter,
 		double flowArea,
 		double dragCoefficient,

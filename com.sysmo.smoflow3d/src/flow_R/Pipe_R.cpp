@@ -76,7 +76,7 @@ Pipe_R* ElbowPipe_R_new(
 	return Pipe_R_new(friction);
 }
 
-Pipe_R* Pipe_ConstantDragCoefficientPipe_new(
+Pipe_R* ConstantDragCoefficientPipe_new(
 		double hydraulicDiameter,
 		double flowArea,
 		double dragCoefficient,

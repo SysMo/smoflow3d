@@ -43,6 +43,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_elbow" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_constant_drag_coeff" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_state_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_flow_sensor" />
   </GROUP>
@@ -98,6 +99,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_elbow" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_constant_drag_coeff" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_state_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_flow_sensor" />
   </GROUP>
