@@ -163,7 +163,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 	// Initialize mass flow rate
 	double massFlowRate;
 	if (cache_massFlowRate == cst::zeroMassFlowRate) {
-		massFlowRate = 0.001; //SMO_TODO (???) massFlowRate = 0.001
+		massFlowRate = 0.001; //:TRICKY:
 	} else {
 		massFlowRate = m::fabs(cache_massFlowRate);
 	}
@@ -199,8 +199,9 @@ double ManagerComponents_R::computeMassFlowRate() {
 	static const int maxNumIter = 100;
 	static const double relTolerance = 1e-08;
 
+	std::cout.precision(16);
 	double downstreamPressure = outerDownstreamState->p();
-	double minDownstreamPressure = m::max(1e-5, downstreamPressure - 1e5); //:SMO_TODO: (???) m::min(1.0*1e5, 0.5*downstreamPressure);
+	double minDownstreamPressure = m::min(1.0*1e5, 0.1*downstreamPressure); //:TRICKY:
 	int numIter;
 	for (numIter = 1; numIter < maxNumIter; numIter++) {
 		bool succ;

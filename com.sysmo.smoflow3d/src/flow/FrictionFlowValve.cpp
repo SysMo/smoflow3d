@@ -162,24 +162,26 @@ public:
 		// Calculate transition mass flow rate if necessary
 		if (transitionChoice == 1) { //1 - Minimum mass flow
 			//:TRICKY: transitionMassFlowRate is set from the user
-			transitionPressureDifference = m::pow((transitionMassFlowRate / upstreamDensity)
+			transitionPressureDifference =
+					m::pow((transitionMassFlowRate / upstreamDensity)
 					/ (N1 * Kv), 2.0) * relativeDensity;
 		} else { //2 - Minimum pressure difference
 			//:TRICKY: transitionPressureDifference is set from the user
-			transitionMassFlowRate = m::sqrt((transitionPressureDifference/relativeDensity))
-			* upstreamDensity * N1 * Kv;
+			transitionMassFlowRate =
+					m::sqrt((transitionPressureDifference/relativeDensity))
+					* upstreamDensity * N1 * Kv;
 		}
 
 		// Calculate pressure drop
 		m::limitVariable(regulatingSignal, 0.0, 1.0);
 
 		double vFlow = absMassFlowRate / upstreamDensity;
-		double pressureDrop = 0.0;
-		if (absMassFlowRate < transitionMassFlowRate) {
-			pressureDrop = transitionPressureDifference * vFlow
+		//:TRICKY: use 'pressureDrop < transitionPressureDifference'. Using 'absMassFlowRate < transitionMassFlowRate' is wrong
+		double pressureDrop = relativeDensity * m::pow(vFlow / (regulatingSignal * N1 * Kv), 2);
+		if (pressureDrop < transitionPressureDifference) {
+			pressureDrop =
+					transitionPressureDifference * vFlow
 					/ (regulatingSignal * N1 * Kv * m::pow(transitionPressureDifference / relativeDensity, 0.5));
-		} else {
-			pressureDrop = relativeDensity * m::pow(vFlow/(regulatingSignal * N1 * Kv), 2);
 		}
 
 		absPressureDrop = pressureDrop;
@@ -222,16 +224,18 @@ public:
 
 		// Calculate transition pressure if necessary
 		if (transitionChoice == 1) { //1 - Minimum mass flow
-			transitionPressureDifference = m::pow((transitionMassFlowRate / upstreamDensity)
+			transitionPressureDifference =
+					m::pow((transitionMassFlowRate / upstreamDensity)
 					/ (N1 * Kv), 2.0) * relativeDensity;
 		} else { //2 - Minimum pressure difference
 		}
 
+		std::cout.precision(16);
 		double vFlow; //volumetric flow rate magnitude
 		if (absPressureDrop < transitionPressureDifference) {
 			vFlow = regulatingSignal * N1 * Kv
 					* m::pow(transitionPressureDifference / relativeDensity, 0.5)
-			* (absPressureDrop / transitionPressureDifference);
+					* (absPressureDrop / transitionPressureDifference);
 		} else {
 			vFlow = regulatingSignal * N1 * Kv
 					* m::pow(absPressureDrop / relativeDensity, 0.5);
