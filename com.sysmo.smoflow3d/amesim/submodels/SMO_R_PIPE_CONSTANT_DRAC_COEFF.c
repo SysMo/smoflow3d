@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_CONSTANT_DRAC_COEFF skeleton created by AME Submodel editing utility
-   Fri Nov 22 12:22:44 2013 */
+   Sat Nov 23 13:02:29 2013 */
 
 
 
@@ -44,12 +44,12 @@ REVISIONS :
 
 /* There are 6 real parameters:
 
-   pipeLength             pipe length                 [m]
-   hydraulicDiameter      hydraulic diameter          [mm -> m]
-   flowArea               flow (cross sectional) area [mm**2 -> m**2]
-   absoluteRoughness      absolute roughness          [mm -> m]
-   pressureDropGain       pressure drop gain          [null]
-   initialDragCoefficient initial drag coefficient    [null]
+   pipeLength          pipe length                 [m]
+   hydraulicDiameter   hydraulic diameter          [mm -> m]
+   flowArea            flow (cross sectional) area [mm**2 -> m**2]
+   absoluteRoughness   absolute roughness          [mm -> m]
+   pressureDropGain    pressure drop gain          [null]
+   dragCoefficientInit drag coefficient            [null]
 */
 
 
@@ -67,7 +67,7 @@ void smo_r_pipe_constant_drac_coeffin_(int *n, double rp[6], int ip[1]
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int computeFrictionalPressureDrop;
    double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
-      pressureDropGain, initialDragCoefficient;
+      pressureDropGain, dragCoefficientInit;
 
    computeFrictionalPressureDrop = ip[0];
 
@@ -76,7 +76,7 @@ void smo_r_pipe_constant_drac_coeffin_(int *n, double rp[6], int ip[1]
    flowArea   = rp[2];
    absoluteRoughness = rp[3];
    pressureDropGain = rp[4];
-   initialDragCoefficient = rp[5];
+   dragCoefficientInit = rp[5];
    loop = 0;
    error = 0;
 
@@ -121,9 +121,9 @@ void smo_r_pipe_constant_drac_coeffin_(int *n, double rp[6], int ip[1]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    if (computeFrictionalPressureDrop == 1) { //yes
-	   _component = ConstantDragCoefficientStraightPipe_new(pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, initialDragCoefficient, pressureDropGain);
+	   _component = ConstantDragCoefficientStraightPipe_new(pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, dragCoefficientInit, pressureDropGain);
    } else { //no
-	   _component = ConstantDragCoefficientPipe_new(hydraulicDiameter, flowArea, initialDragCoefficient, pressureDropGain);
+	   _component = ConstantDragCoefficientPipe_new(flowArea, dragCoefficientInit, pressureDropGain);
    }
 
    _componentIndex = Component_R_register(_component);
@@ -172,7 +172,7 @@ void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int computeFrictionalPressureDrop;
    double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
-      pressureDropGain, initialDragCoefficient;
+      pressureDropGain, dragCoefficientInit;
 
    computeFrictionalPressureDrop = ip[0];
 
@@ -181,7 +181,7 @@ void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1
    flowArea   = rp[2];
    absoluteRoughness = rp[3];
    pressureDropGain = rp[4];
-   initialDragCoefficient = rp[5];
+   dragCoefficientInit = rp[5];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -241,7 +241,7 @@ extern double smo_r_pipe_constant_drac_coeff_macro0_(int *n
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
    int computeFrictionalPressureDrop;
    double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
-      pressureDropGain, initialDragCoefficient;
+      pressureDropGain, dragCoefficientInit;
 
    computeFrictionalPressureDrop = ip[0];
 
@@ -250,7 +250,7 @@ extern double smo_r_pipe_constant_drac_coeff_macro0_(int *n
    flowArea   = rp[2];
    absoluteRoughness = rp[3];
    pressureDropGain = rp[4];
-   initialDragCoefficient = rp[5];
+   dragCoefficientInit = rp[5];
    loop = 0;
 
 /* Common -> SI units conversions. */

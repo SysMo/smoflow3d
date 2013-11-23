@@ -77,11 +77,10 @@ Pipe_R* ElbowPipe_R_new(
 }
 
 Pipe_R* ConstantDragCoefficientPipe_new(
-		double hydraulicDiameter,
 		double flowArea,
 		double dragCoefficient,
 		double pressureDropGain) {
-	FrictionFlowPipe* friction = FrictionFlowPipe_ConstantDragCoefficientPipe_new(hydraulicDiameter, flowArea, dragCoefficient);
+	FrictionFlowPipe* friction = FrictionFlowPipe_ConstantDragCoefficientPipe_new(flowArea, dragCoefficient);
 	friction->setPressureDropGain(pressureDropGain);
 
 	return Pipe_R_new(friction);

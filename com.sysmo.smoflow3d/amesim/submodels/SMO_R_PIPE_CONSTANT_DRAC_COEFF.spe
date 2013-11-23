@@ -27,7 +27,7 @@
     <SUB_ID>23</SUB_ID>
     <TITLE>hydraulic diameter</TITLE>
     <VARNAME>hydraulicDiameter</VARNAME>
-    <VISIBILITY>true</VISIBILITY>
+    <VISIBILITY>computeFrictionalPressureDrop == 1</VISIBILITY>
     <DEF_VALUE>5.00000000000000e+000</DEF_VALUE>
     <VALUE>5.00000000000000e+000</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
@@ -69,8 +69,8 @@
    </RPARAM>
    <RPARAM>
     <SUB_ID>43</SUB_ID>
-    <TITLE>initial drag coefficient</TITLE>
-    <VARNAME>initialDragCoefficient</VARNAME>
+    <TITLE>drag coefficient</TITLE>
+    <VARNAME>dragCoefficientInit</VARNAME>
     <VISIBILITY>true</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
     <VALUE>1.00000000000000e+000</VALUE>
@@ -132,14 +132,14 @@
     <SUB_ID>37</SUB_ID>
     <TITLE>Reynolds number</TITLE>
     <VARNAME>reynoldsNumber</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>computeFrictionalPressureDrop == 1</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>null</UNITS>
    </IVAR>
    <IVAR>
     <SUB_ID>38</SUB_ID>
-    <TITLE>drag coefficient</TITLE>
+    <TITLE>drag coefficient </TITLE>
     <VARNAME>dragCoefficient</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>

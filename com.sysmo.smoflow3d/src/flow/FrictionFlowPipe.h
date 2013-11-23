@@ -16,14 +16,14 @@
 
 class FrictionFlowPipe {
 public:
-	FrictionFlowPipe(double hydraulicDiameter, double flowArea);
+	FrictionFlowPipe(double flowArea);
 	virtual ~FrictionFlowPipe();
 
 	void init(MediumState* state1, MediumState* state2);
-	void setPressureDropGain(double gain){pressureDropGain = gain;}
+	void setPressureDropGain(double gain) {pressureDropGain = gain;}
 
-	double computePressureDrop(double massFlowRate);
-	double computeMassFlowRate(double pressureDrop);
+	virtual double computePressureDrop(double massFlowRate) = 0;
+	virtual double computeMassFlowRate(double pressureDrop) = 0;
 
 	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
 
@@ -34,20 +34,14 @@ public:
 	double getDragCoefficient() {return dragCoefficient;}
 
 protected:
-	virtual double calcDragCoefficient(double Re) = 0;
 	MediumState* getUpstreamState(double massFlowRate);
 
 protected:
-	double hydraulicDiameter;
 	double flowArea;
-
-private:
 	double pressureDropGain;
 
 	MediumState* state1;
 	MediumState* state2;
-
-	double Re_cache;
 
 	double massFlowRate;
 	double absPressureDrop;
@@ -63,15 +57,10 @@ DECLARE_C_STRUCT(FrictionFlowPipe)
 BEGIN_C_LINKAGE
 FrictionFlowPipe* FrictionFlowPipe_StraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness);
 FrictionFlowPipe* FrictionFlowPipe_ElbowPipe_new(double hydraulicDiameter, double flowArea, double surfaceRoughness, double curvatureRadius, double bendAngle);
-FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientPipe_new(double hydraulicDiameter, double flowArea, double dragCoefficient);
+FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientPipe_new(double flowArea, double dragCoefficient);
 FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientStraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness, double dragCoefficient);
 
-
-void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2);
 void FrictionFlowPipe_setPressureDropGain(FrictionFlowPipe* component, double gain);
-
-double FrictionFlowPipe_computePressureDrop(FrictionFlowPipe* component, double massFlowRate);
-double FrictionFlowPipe_computeMassFlowRate(FrictionFlowPipe* component, double pressureDifference);
 
 double FrictionFlowPipe_getAbsolutePressureDrop(FrictionFlowPipe* component);
 double FrictionFlowPipe_getMassFlowRate(FrictionFlowPipe* component);

@@ -14,17 +14,16 @@ using namespace smoflow;
 /**
  * FrictionFlowPipe - C++
  */
-FrictionFlowPipe::FrictionFlowPipe(double hydraulicDiameter, double flowArea) {
-	this->hydraulicDiameter = hydraulicDiameter;
+FrictionFlowPipe::FrictionFlowPipe(double flowArea) {
 	this->flowArea = flowArea;
 
 	pressureDropGain = 0.0;
+
 	massFlowRate = 0.0;
 	absPressureDrop = 0.0;
+
 	state1 = NULL;
 	state2 = NULL;
-
-	Re_cache = 1e5;
 
 	reynoldsNumber = 0.0;
 	dragCoefficient = 0.0;
@@ -36,88 +35,6 @@ FrictionFlowPipe::~FrictionFlowPipe() {
 void FrictionFlowPipe::init(MediumState* state1, MediumState* state2) {
 	this->state1 = state1;
 	this->state2 = state2;
-}
-
-double FrictionFlowPipe::computePressureDrop(double massFlowRate) {
-	this->massFlowRate = massFlowRate;
-
-	MediumState* upstreamState;
-	if (massFlowRate >= 0) {
-		upstreamState = state1;
-	} else {
-		upstreamState = state2;
-	}
-
-	double vFlow = m::fabs(massFlowRate) / (upstreamState->rho() * flowArea);
-	//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (2)
-	double Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
-
-	//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
-	double dragCoeff = calcDragCoefficient(Re);
-	double pressureDrop = pressureDropGain * dragCoeff
-			* upstreamState->rho() * vFlow * vFlow / 2;
-
-	absPressureDrop = pressureDrop;
-	if (massFlowRate < 0.0) {
-		pressureDrop = -pressureDrop;
-	}
-
-	reynoldsNumber = Re;
-	dragCoefficient = dragCoeff;
-
-	return pressureDrop;
-}
-
-double FrictionFlowPipe::computeMassFlowRate(double pressureDrop) {
-	static const int maxNumIter = 100;
-	static const double relTolerance = 1e-08;
-
-	absPressureDrop = m::fabs(pressureDrop);
-	if (absPressureDrop < cst::MinPressureDrop) {
-		massFlowRate = 0.0;
-		return 0.0;
-	}
-
-	MediumState* upstreamState;
-	if (pressureDrop > 0) {
-		upstreamState = state1;
-	} else {
-		upstreamState = state2;
-	}
-
-	double calcPressureDrop = this->absPressureDrop / this->pressureDropGain;
-
-	// Calculate vFlow (i.e. mass flow rate) by pressure drop using iterations
-	int numIter = 0;
-	double relError = 1.0;
-	double vFlow;
-
-	double Re = Re_cache;
-	while ((m::fabs(relError) > relTolerance) && (numIter < maxNumIter)) {
-		// Compute the friction factor, and the upstream flow velocity
-		vFlow = m::sqrt(2 * calcPressureDrop / (upstreamState->rho() * calcDragCoefficient(Re)));
-
-		// New guess for the Reynolds number
-		Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
-
-		// Compute the error
-		double dpCalc = calcDragCoefficient(Re) * upstreamState->rho() * vFlow * vFlow / 2;
-		relError = (dpCalc - calcPressureDrop) / calcPressureDrop;
-		numIter++;
-	}
-	Re_cache = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
-	//m::limitVariable(Re_cache, 10, 1e8); //:TRICKY:
-
-	// Compute mass flow rate, accounting for the flow direction
-	massFlowRate = upstreamState->rho() * vFlow * flowArea;
-	if (pressureDrop < 0) {
-		massFlowRate = -massFlowRate;
-	}
-
-	reynoldsNumber = Re_cache;
-	dragCoefficient = calcDragCoefficient(reynoldsNumber);
-
-	return massFlowRate;
 }
 
 void FrictionFlowPipe::updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2) {
@@ -141,16 +58,188 @@ MediumState* FrictionFlowPipe::getUpstreamState(double massFlowRate) {
 	return upstreamState;
 }
 
+/**
+ * FrictionFlowPipe_Base - C++
+ */
+class FrictionFlowPipe_Base : public FrictionFlowPipe {
+public:
+	FrictionFlowPipe_Base(double hydraulicDiameter, double flowArea) :
+		FrictionFlowPipe(flowArea) {
+		this->hydraulicDiameter = hydraulicDiameter;
+		this->Re_cache = 1e5;
+	}
+
+	virtual double computePressureDrop(double massFlowRate) {
+		this->massFlowRate = massFlowRate;
+
+		MediumState* upstreamState;
+		if (massFlowRate >= 0) {
+			upstreamState = state1;
+		} else {
+			upstreamState = state2;
+		}
+
+		double vFlow = m::fabs(massFlowRate) / (upstreamState->rho() * flowArea);
+		//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (2)
+		double Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
+
+		//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
+		double dragCoeff = calcDragCoefficient(Re);
+		double pressureDrop = pressureDropGain * dragCoeff
+				* upstreamState->rho() * vFlow * vFlow / 2;
+
+		absPressureDrop = pressureDrop;
+		if (massFlowRate < 0.0) {
+			pressureDrop = -pressureDrop;
+		}
+
+		reynoldsNumber = Re;
+		dragCoefficient = dragCoeff;
+		return pressureDrop;
+	}
+
+	virtual double computeMassFlowRate(double pressureDrop) {
+		static const int maxNumIter = 100;
+		static const double relTolerance = 1e-08;
+
+		absPressureDrop = m::fabs(pressureDrop);
+		if (absPressureDrop < cst::MinPressureDrop) {
+			massFlowRate = 0.0;
+			reynoldsNumber = 0.0;
+			dragCoefficient = 0.0;
+			return 0.0;
+		}
+
+		MediumState* upstreamState;
+		if (pressureDrop > 0) {
+			upstreamState = state1;
+		} else {
+			upstreamState = state2;
+		}
+		double calcPressureDrop = this->absPressureDrop / this->pressureDropGain;
+
+		// Calculate vFlow (i.e. mass flow rate) by pressure drop using iterations
+		int numIter = 0;
+		double relError = 1.0;
+		double vFlow;
+
+		double Re = Re_cache;
+		while ((m::fabs(relError) > relTolerance) && (numIter < maxNumIter)) {
+			// Compute the friction factor, and the upstream flow velocity
+			vFlow = m::sqrt(2 * calcPressureDrop / (upstreamState->rho() * calcDragCoefficient(Re)));
+
+			// New guess for the Reynolds number
+			Re = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
+
+			// Compute the error
+			double dpCalc = calcDragCoefficient(Re) * upstreamState->rho() * vFlow * vFlow / 2;
+			relError = (dpCalc - calcPressureDrop) / calcPressureDrop;
+			numIter++;
+		}
+		Re_cache = upstreamState->rho() * vFlow * hydraulicDiameter / upstreamState->mu();
+		//m::limitVariable(Re_cache, 10, 1e8); //:TRICKY:
+
+		// Compute mass flow rate, accounting for the flow direction
+		massFlowRate = upstreamState->rho() * vFlow * flowArea;
+		if (pressureDrop < 0) {
+			massFlowRate = -massFlowRate;
+		}
+
+		reynoldsNumber = Re_cache;
+		dragCoefficient = calcDragCoefficient(reynoldsNumber);
+		return massFlowRate;
+	}
+
+protected:
+	virtual double calcDragCoefficient(double Re) = 0;
+
+protected:
+	double hydraulicDiameter;
+
+private:
+	double Re_cache;
+};
+
+
+
 /*************************************************************
  ***   FrictionFlowPipe implementation classes
  *************************************************************/
 /**
+ * FrictionFlowPipe_ConstantDragCoefficientPipe - C++
+ */
+class FrictionFlowPipe_ConstantDragCoefficientPipe : public FrictionFlowPipe {
+public:
+	FrictionFlowPipe_ConstantDragCoefficientPipe(double flowArea, double dragCoefficient)
+		: FrictionFlowPipe(flowArea) {
+		this->constDragCoefficient = dragCoefficient;
+	}
+
+	virtual double computePressureDrop(double massFlowRate) {
+		this->massFlowRate = massFlowRate;
+
+		MediumState* upstreamState;
+		if (massFlowRate >= 0) {
+			upstreamState = state1;
+		} else {
+			upstreamState = state2;
+		}
+
+		//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
+		double vFlow = m::fabs(massFlowRate) / (upstreamState->rho() * flowArea);
+		double pressureDrop = pressureDropGain * constDragCoefficient
+				* upstreamState->rho() * vFlow * vFlow / 2;
+
+		absPressureDrop = pressureDrop;
+		if (massFlowRate < 0.0) {
+			pressureDrop = -pressureDrop;
+		}
+
+		reynoldsNumber = 0.0;
+		dragCoefficient = constDragCoefficient;
+		return pressureDrop;
+	}
+
+	virtual double computeMassFlowRate(double pressureDrop) {
+		absPressureDrop = m::fabs(pressureDrop);
+		if (absPressureDrop < cst::MinPressureDrop) {
+			massFlowRate = 0.0;
+			reynoldsNumber = 0.0;
+			dragCoefficient = 0.0;
+			return 0.0;
+		}
+
+		MediumState* upstreamState;
+		if (pressureDrop > 0) {
+			upstreamState = state1;
+		} else {
+			upstreamState = state2;
+		}
+
+		//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
+		massFlowRate = flowArea * m::sqrt(2 * upstreamState->rho() * absPressureDrop / (constDragCoefficient * pressureDropGain));
+		if (pressureDrop < 0) {
+			massFlowRate = -massFlowRate;
+		}
+
+		reynoldsNumber = 0.0;
+		dragCoefficient = constDragCoefficient;
+		return massFlowRate;
+	}
+
+
+protected:
+	double constDragCoefficient;
+};
+
+
+/**
  * FrictionFlowPipe_StraightPipe - C++
  */
-class FrictionFlowPipe_StraightPipe : public FrictionFlowPipe {
+class FrictionFlowPipe_StraightPipe : public FrictionFlowPipe_Base {
 public:
 	FrictionFlowPipe_StraightPipe(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness)
-		: FrictionFlowPipe(hydraulicDiameter, flowArea) {
+		: FrictionFlowPipe_Base(hydraulicDiameter, flowArea) {
 		this->length = length;
 		this->flowFactor = length/hydraulicDiameter;
 		this->surfaceRoughness = surfaceRoughness;
@@ -194,26 +283,6 @@ protected:
 	double length;
 	double surfaceRoughness;
 	double flowFactor;
-};
-
-
-/**
- * FrictionFlowPipe_ConstantDragCoefficientPipe - C++
- */
-class FrictionFlowPipe_ConstantDragCoefficientPipe : public FrictionFlowPipe {
-public:
-	FrictionFlowPipe_ConstantDragCoefficientPipe(double hydraulicDiameter, double flowArea, double dragCoefficient)
-		: FrictionFlowPipe(hydraulicDiameter, flowArea) {
-		this->constDragCoefficient = dragCoefficient;
-	}
-
-protected:
-	virtual double calcDragCoefficient(double Re) {
-		return constDragCoefficient;
-	}
-
-protected:
-	double constDragCoefficient;
 };
 
 /**
@@ -348,30 +417,18 @@ FrictionFlowPipe* FrictionFlowPipe_ElbowPipe_new(double hydraulicDiameter, doubl
 	return new FrictionFlowPipe_ElbowPipe(hydraulicDiameter, flowArea, surfaceRoughness, curvatureRadius, bendAngle);
 }
 
-FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientPipe_new(double hydraulicDiameter, double flowArea, double dragCoefficient) {
-	return new FrictionFlowPipe_ConstantDragCoefficientPipe(hydraulicDiameter, flowArea, dragCoefficient);
+FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientPipe_new(double flowArea, double dragCoefficient) {
+	return new FrictionFlowPipe_ConstantDragCoefficientPipe(flowArea, dragCoefficient);
 }
 
 FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientStraightPipe_new(double length, double hydraulicDiameter, double flowArea, double surfaceRoughness, double dragCoefficient) {
 	return new FrictionFlowPipe_ConstantDragCoefficientStraightPipe(length, hydraulicDiameter, flowArea, surfaceRoughness, dragCoefficient);
 }
 
-
-void FrictionFlowPipe_init(FrictionFlowPipe* component, MediumState* state1, MediumState* state2) {
-	component->init(state1, state2);
-}
-
 void FrictionFlowPipe_setPressureDropGain(FrictionFlowPipe* component, double gain) {
 	component->setPressureDropGain(gain);
 }
 
-double FrictionFlowPipe_computePressureDrop(FrictionFlowPipe* component, double massFlowRate) {
-	return component->computePressureDrop(massFlowRate);
-}
-
-double FrictionFlowPipe_computeMassFlowRate(FrictionFlowPipe* component, double pressureDifference) {
-	return component->computeMassFlowRate(pressureDifference);
-}
 
 double FrictionFlowPipe_getAbsolutePressureDrop(FrictionFlowPipe* component) {
 	return component->getAbsolutePressureDrop();
