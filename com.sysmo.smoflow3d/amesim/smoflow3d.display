@@ -38,7 +38,7 @@
    
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_begin" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end_regulating_signal" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end_activating_signal" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight_heat_exchanger" />
@@ -94,7 +94,7 @@
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="R Components" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_begin" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end_regulating_signal" />	
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end_activating_signal" />	
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight_heat_exchanger" />

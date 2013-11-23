@@ -68,8 +68,8 @@ smo_r_adaptor_begin
 &SMO_R_ADAPTOR_BEGIN SmoFlow3d
 smo_r_adaptor_end
 &SMO_R_ADAPTOR_END SmoFlow3d
-smo_r_adaptor_end_regulating_signal
-&SMO_R_ADAPTOR_END_REGULATING_SIGNAL SmoFlow3d
+smo_r_adaptor_end_activating_signal
+&SMO_R_ADAPTOR_END_ACTIVATING_SIGNAL SmoFlow3d
 smo_r_pipe_straight
 &SMO_R_PIPE_STRAIGHT SmoFlow3d
 smo_r_pipe_straight_heat_exchanger

@@ -63,7 +63,7 @@ EndAdaptor_R* EndAdaptor_R_new();
 int Adaptor_R_getOuterStateIndex(Adaptor_R* adaptor);
 void Adaptor_R_setOuterStateIndex(Adaptor_R* adaptor, int stateIndex);
 
-void EndAdaptor_R_setRegulatingSignal(EndAdaptor_R* endAdaptor, double regulatingSignal);
+void EndAdaptor_R_setActivatingSignal(EndAdaptor_R* endAdaptor, double activatingSignal);
 END_C_LINKAGE
 
 

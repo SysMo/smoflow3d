@@ -871,8 +871,8 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^   4  27 signal
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smo_r_adaptor_end_regulating_signal
-%R-adaptor with regulating signal (end) 
+@smo_r_adaptor_end_activating_signal
+%R-adaptor with activating signal (end) 
 #define _width 33
 #define _height 27
 static char _bits[] = {

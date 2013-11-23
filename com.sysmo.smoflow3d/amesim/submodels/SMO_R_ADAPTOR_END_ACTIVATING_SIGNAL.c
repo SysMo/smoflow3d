@@ -1,5 +1,5 @@
-/* Submodel SMO_R_ADAPTOR_END_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Fri Nov 15 14:50:12 2013 */
+/* Submodel SMO_R_ADAPTOR_END_ACTIVATING_SIGNAL skeleton created by AME Submodel editing utility
+   Sat Nov 23 10:19:53 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_R_ADAPTOR_END_REGULATING_SIGNAL"
+#define _SUBMODELNAME_ "SMO_R_ADAPTOR_END_ACTIVATING_SIGNAL"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -37,7 +37,7 @@ REVISIONS :
 #define _manager ps[1]
 #define _managerIndex ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[2]
+void smo_r_adaptor_end_activating_signalin_(int *n, int ic[2]
       , void *ps[2], double *isFlowOpen)
 
 {
@@ -83,7 +83,7 @@ void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[2]
 
    Port 1 has 3 variables:
 
-      1 outputRCompID1     R-component ID (output, port1) [smoRCompID]  multi line macro 'smo_r_adaptor_end_regulating_signal_macro0_'  UNPLOTTABLE
+      1 outputRCompID1     R-component ID (output, port1) [smoRCompID]  multi line macro 'smo_r_adaptor_end_activating_signal_macro0_'  UNPLOTTABLE
       2 inputRCompID1      R-component ID (input, port1)  [smoRCompID]  basic variable input  UNPLOTTABLE
       3 smoRChainID        R-components chain ID (port1)  [smoRChainID] basic variable input  UNPLOTTABLE
 
@@ -98,7 +98,7 @@ void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[2]
 
    Port 4 has 1 variable:
 
-      1 regulatingSignal     regulating signal (0-off, 1-on) [null] basic variable input
+      1 activatingSignal     activating signal (0-off, 1-on) [null] basic variable input
 */
 
 /*  There is 1 internal variable.
@@ -106,11 +106,11 @@ void smo_r_adaptor_end_regulating_signalin_(int *n, int ic[2]
       1 isFlowOpen     is flow open (0-no, 1-yes) [null] discrete
 */
 
-void smo_r_adaptor_end_regulating_signal_(int *n
+void smo_r_adaptor_end_activating_signal_(int *n
       , double *outputRCompID1, double *inputRCompID1
       , double *smoRChainID, double *fluidFlow2Index
       , double *fluidState2Index, double *smoRChainIDFromBeginAdaptor
-      , double *regulatingSignal, double *isFlowOpen, int ic[2]
+      , double *activatingSignal, double *isFlowOpen, int ic[2]
       , void *ps[2], int *flag)
 
 {
@@ -172,8 +172,8 @@ void smo_r_adaptor_end_regulating_signal_(int *n
 /*   *smoRChainIDFromBeginAdaptor /= ??; CONVERSION UNKNOWN */
 }
 
-extern double smo_r_adaptor_end_regulating_signal_macro0_(int *n
-      , double *fluidState2Index, double *regulatingSignal, int ic[2]
+extern double smo_r_adaptor_end_activating_signal_macro0_(int *n
+      , double *fluidState2Index, double *activatingSignal, int ic[2]
       , void *ps[2], int *flag)
 
 {
@@ -200,7 +200,7 @@ extern double smo_r_adaptor_end_regulating_signal_macro0_(int *n
    if (firstc_()) {
 	   Adaptor_R_setOuterStateIndex(_component, *fluidState2Index);
    }
-   EndAdaptor_R_setRegulatingSignal(_component, *regulatingSignal);
+   EndAdaptor_R_setActivatingSignal(_component, *activatingSignal);
 
    outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */

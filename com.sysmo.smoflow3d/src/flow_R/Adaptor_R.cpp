@@ -54,8 +54,8 @@ void Adaptor_R_setOuterStateIndex(Adaptor_R* adaptor, int stateIndex) {
 	adaptor->setOuterstateIndex(stateIndex);
 }
 
-void EndAdaptor_R_setRegulatingSignal(EndAdaptor_R* endAdaptor, double regulatingSignal) {
-	if (regulatingSignal > 0) {
+void EndAdaptor_R_setActivatingSignal(EndAdaptor_R* endAdaptor, double activatingSignal) {
+	if (activatingSignal > 0) {
 		endAdaptor->openFlow();
 	} else {
 		endAdaptor->closeFlow();
