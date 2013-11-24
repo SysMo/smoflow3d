@@ -195,9 +195,9 @@ double ManagerComponents_R::computeMassFlowRate() {
 	// Compute mass flow rate using iteration
 	int numComponents = getNumComponents();
 
-	double stepCoeff = 2.0;
-	static const int maxNumIter = 100;
-	static const double relTolerance = 1e-08;
+	static const double stepCoeff = 2.0;
+	static const int maxNumIter = 100; //:SMO_SETTINGS:
+	static const double relTolerance = 1e-08; //:SMO_SETTINGS:
 
 	std::cout.precision(16);
 	double downstreamPressure = outerDownstreamState->p();

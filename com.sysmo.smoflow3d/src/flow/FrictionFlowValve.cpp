@@ -256,8 +256,8 @@ private:
 	double Kv;
 	double maximumMassFlowRate;
 
-	static const double N1 = 8.784e-07; //2.403e-5;
-	static const double referenceLiquidDensity = 1000;
+	static const double N1 = 8.784e-07; //2.403e-5; //:SMO_SETTINGS:
+	static const double referenceLiquidDensity = 1000; //:SMO_SETTINGS:
 };
 
 /**

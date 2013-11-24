@@ -99,8 +99,8 @@ public:
 	}
 
 	virtual double computeMassFlowRate(double pressureDrop) {
-		static const int maxNumIter = 100;
-		static const double relTolerance = 1e-08;
+		static const int maxNumIter = 100; //:SMO_SETTINGS:
+		static const double relTolerance = 1e-08; //:SMO_SETTINGS:
 
 		absPressureDrop = m::fabs(pressureDrop);
 		if (absPressureDrop < cst::MinPressureDrop) {
