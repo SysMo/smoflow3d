@@ -230,7 +230,6 @@ public:
 		} else { //2 - Minimum pressure difference
 		}
 
-		std::cout.precision(16);
 		double vFlow; //volumetric flow rate magnitude
 		if (absPressureDrop < transitionPressureDifference) {
 			vFlow = regulatingSignal * N1 * Kv
