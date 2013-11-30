@@ -6,7 +6,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>116</SUB_ID_MAX>
   <DEFAULT_ICON>smo_simple_heater</DEFAULT_ICON>
-  <SUB_LABEL>pipe heat exchanger (single phase, no pressure drop, R-C)</SUB_LABEL>
+  <SUB_LABEL>heat exchanger (no pressure drop, no mass accumulation) (R-C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>6</I_STORES_NUMBER>
   <P_STORES_NUMBER>6</P_STORES_NUMBER>

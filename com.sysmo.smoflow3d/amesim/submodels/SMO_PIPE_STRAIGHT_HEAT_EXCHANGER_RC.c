@@ -1,5 +1,5 @@
-/* Submodel SMO_HEATEXCHANGER_PRESSURE_DROP_RC skeleton created by AME Submodel editing utility
-   Fri Nov 29 12:43:59 2013 */
+/* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
+   Sat Nov 30 15:51:03 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_HEATEXCHANGER_PRESSURE_DROP_RC"
+#define _SUBMODELNAME_ "SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -64,7 +64,7 @@ REVISIONS :
    geometryType geometry type
 */
 
-void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
+void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[8]
       , int ip[1], int ic[6], void *ps[6], double stateValues[2])
 
 {
@@ -153,9 +153,9 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
 
    Port 1 has 3 variables:
 
-      1 port1FluidFlowIndex              fluid flow index at port 1  [smoFFL] basic variable output  UNPLOTTABLE
+      1 port1FluidFlowIndex              fluid flow index at port 1   [smoFFL] basic variable output  UNPLOTTABLE
       2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
-      3 port1FluidStateIndex             fluid state index at port 1 [smoTDS] basic variable input  UNPLOTTABLE
+      3 port1FluidStateIndex             fluid state index at port 1  [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
@@ -164,7 +164,7 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
 
    Port 3 has 3 variables:
 
-      1 port3FluidStateIndex          fluid state index outlet     [smoTDS]  multi line macro 'smo_heatexchanger_pressure_drop_rc_macro0_'  UNPLOTTABLE
+      1 port3FluidStateIndex          fluid state index outlet     [smoTDS]  multi line macro 'smo_pipe_straight_heat_exchanger_rc_macro0_'  UNPLOTTABLE
       2 port3FluidFlowIndex           fluid flow index at port 3   [smoFFL]  basic variable input  UNPLOTTABLE
       3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 */
@@ -180,7 +180,7 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
       7 totalPressureLoss         total pressure loss    [bar -> Pa] basic variable
 */
 
-void smo_heatexchanger_pressure_drop_rc_(int *n
+void smo_pipe_straight_heat_exchanger_rc_(int *n
       , double *port1FluidFlowIndex, double *port1FluidStateIndex
       , double *heatFlowIndex, double *thermalNodeIndex
       , double *port3FluidStateIndex, double *port3FluidFlowIndex
@@ -277,7 +277,7 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
    *totalPressureLoss /= 1.00000000000000e+005;
 }
 
-extern double smo_heatexchanger_pressure_drop_rc_macro0_(int *n
+extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
       , double *port1FluidStateIndex, double *thermalNodeIndex
       , double stateValues[2], double rp[8], int ip[1], int ic[6]
       , void *ps[6], int *flag)

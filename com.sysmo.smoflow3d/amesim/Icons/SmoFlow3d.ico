@@ -147,8 +147,8 @@ static char icon_bits[] = {
 ^ 1  12 hflow
 ^ 12 1  signal
 ^ 25 12 hflow
-@smo_simple_heater
-%heat exchanger model
+@smo_heat_exchanger
+%heat exchanger
 #define tmp_width 25
 #define tmp_height 28
 static char tmp_bits[] = {
@@ -163,8 +163,8 @@ static char tmp_bits[] = {
 ^ 1 13 hflow
 ^ 13 1 thermal
 ^ 25 13 hflow
-@smo_pipe_heat_exchanger
-%straight pipe with heat exchanger model
+@smo_pipe_straight_heat_exchanger
+%straight pipe with heat exchanger
 #define _width 43
 #define _height 22
 static char _bits[] = {

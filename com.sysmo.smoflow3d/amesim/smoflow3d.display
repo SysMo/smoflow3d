@@ -20,7 +20,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_orifice" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_mechanical_compressor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
@@ -28,7 +28,7 @@
    
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
    
@@ -70,7 +70,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_orifice" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_simple_heater" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_mechanical_compressor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
@@ -80,7 +80,7 @@
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Nodes/Volumes" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
   </GROUP>

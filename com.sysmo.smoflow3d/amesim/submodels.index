@@ -30,12 +30,12 @@ smo_state_machine_controller
 &SMO_STATEMACHINECONTROLLER SmoFlow3d
 smo_mechanical_compressor
 &SMO_MECHANICAL_COMPRESSOR SmoFlow3d
-smo_simple_heater
+smo_heat_exchanger
 &SMO_HEATEXCHANGER_CR SmoFlow3d
 &SMO_HEATEXCHANGER_RC SmoFlow3d
-smo_pipe_heat_exchanger
-&SMO_HEATEXCHANGER_C SmoFlow3d
-&SMO_HEATEXCHANGER_PRESSURE_DROP_RC SmoFlow3d
+smo_pipe_straight_heat_exchanger
+&SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC SmoFlow3d
+&SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C SmoFlow3d
 smo_thermal_material_point
 &SMO_THERMAL_MATERIAL_POINT SmoFlow3d
 smo_thermal_conduction

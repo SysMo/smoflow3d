@@ -1,5 +1,5 @@
-/* Submodel SMO_HEATEXCHANGER_C skeleton created by AME Submodel editing utility
-   Sat Nov 30 12:23:58 2013 */
+/* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C skeleton created by AME Submodel editing utility
+   Sat Nov 30 15:50:37 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_HEATEXCHANGER_C"
+#define _SUBMODELNAME_ "SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -58,8 +58,8 @@ REVISIONS :
    geometryType geometry type
 */
 
-void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[2]
-      , void *ps[4], double stateValues[2])
+void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[6]
+      , int ip[2], int ic[2], void *ps[4], double stateValues[2])
 
 {
    int loop, error;
@@ -153,7 +153,7 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[2]
 
    Port 1 has 3 variables:
 
-      1 port1FluidStateIndex           fluid state index outlet             [smoTDS]  multi line macro 'smo_heatexchanger_c_macro0_'  UNPLOTTABLE
+      1 port1FluidStateIndex           fluid state index outlet             [smoTDS]  multi line macro 'smo_pipe_straight_heat_exchanger_c_macro0_'  UNPLOTTABLE
       2 port1FluidFlowIndex            fluid flow index at port 1           [smoFFL]  basic variable input  UNPLOTTABLE
       3 fluidFlowActivationSignal1     fluid flow activation signal (port1) [smoFFAS] basic variable input
 
@@ -184,8 +184,8 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[2]
      11 heatFlowRateFromWall      heat flow rate         [W]             basic variable
 */
 
-void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
-      , double *port1FluidFlowIndex
+void smo_pipe_straight_heat_exchanger_c_(int *n
+      , double *port1FluidStateIndex, double *port1FluidFlowIndex
       , double *fluidFlowActivationSignal1, double *heatFlowIndex
       , double *thermalNodeIndex, double *port3FluidFlowIndex
       , double *fluidFlowActivationSignal3, double *pressure
@@ -286,7 +286,7 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
    *internalVolume /= 1.00000000000000e-003;
 }
 
-extern double smo_heatexchanger_c_macro0_(int *n
+extern double smo_pipe_straight_heat_exchanger_c_macro0_(int *n
       , double *thermalNodeIndex, double stateValues[2], double rp[6]
       , int ip[2], int ic[2], void *ps[4], int *flag)
 

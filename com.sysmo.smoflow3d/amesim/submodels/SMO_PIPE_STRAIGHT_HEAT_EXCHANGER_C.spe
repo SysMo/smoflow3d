@@ -4,12 +4,12 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>127</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_pipe_heat_exchanger</DEFAULT_ICON>
-  <SUB_LABEL>straight pipe with heat exchanger (single phase, pressure drop, R-C)</SUB_LABEL>
+  <SUB_ID_MAX>145</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_pipe_straight_heat_exchanger</DEFAULT_ICON>
+  <SUB_LABEL>straight pipe with heat exchanger (no pressure drop, mass accumulation) (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>6</I_STORES_NUMBER>
-  <P_STORES_NUMBER>6</P_STORES_NUMBER>
+  <I_STORES_NUMBER>2</I_STORES_NUMBER>
+  <P_STORES_NUMBER>4</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
@@ -47,28 +47,6 @@
     <UNITS>mm**2</UNITS>
    </RPARAM>
    <RPARAM>
-    <SUB_ID>120</SUB_ID>
-    <TITLE>absolute roughness</TITLE>
-    <VARNAME>absoluteRoughness</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>2.50000000000000e-002</DEF_VALUE>
-    <VALUE>2.50000000000000e-002</VALUE>
-    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
-    <UNITS>mm</UNITS>
-   </RPARAM>
-   <RPARAM>
-    <SUB_ID>118</SUB_ID>
-    <TITLE>pressure drop gain</TITLE>
-    <VARNAME>pressureDropGain</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
-    <VALUE>1.00000000000000e+000</VALUE>
-    <MIN_VALUE>-1.00000000000000e+030</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
-    <UNITS>null</UNITS>
-   </RPARAM>
-   <RPARAM>
     <SUB_ID>109</SUB_ID>
     <TITLE>heat exchange gain</TITLE>
     <VARNAME>heatExchangeGain</VARNAME>
@@ -104,6 +82,16 @@
   </RPARAMS_LIST>
   <IPARAMS_LIST>
    <IPARAM>
+    <SUB_ID>126</SUB_ID>
+    <TITLE>fluid index</TITLE>
+    <VARNAME>fluidIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+   <IPARAM>
     <SUB_ID>112</SUB_ID>
     <TITLE>geometry type</TITLE>
     <VARNAME>geometryType</VARNAME>
@@ -124,22 +112,68 @@
   </IPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
-    <SUB_ID>44</SUB_ID>
-    <TITLE>port 1 temperature</TITLE>
-    <VARNAME>port1Temperature</VARNAME>
+    <SUB_ID>127</SUB_ID>
+    <TITLE>pressure</TITLE>
+    <VARNAME>pressure</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>128</SUB_ID>
+    <TITLE>temperature</TITLE>
+    <VARNAME>temperature</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>K</UNITS>
    </IVAR>
    <IVAR>
-    <SUB_ID>111</SUB_ID>
-    <TITLE>port 3 temperature</TITLE>
-    <VARNAME>port3Temperature</VARNAME>
+    <SUB_ID>132</SUB_ID>
+    <TITLE>density</TITLE>
+    <VARNAME>density</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
-    <UNITS>K</UNITS>
+    <UNITS>kg/m**3</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>133</SUB_ID>
+    <TITLE>specific enthalpy</TITLE>
+    <VARNAME>specificEnthalpy</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kJ/kg</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>136</SUB_ID>
+    <TITLE>gas mass fraction</TITLE>
+    <VARNAME>gasMassFraction</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>137</SUB_ID>
+    <TITLE>subcooling / superheat</TITLE>
+    <VARNAME>superHeat</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <IS_DELTA>1</IS_DELTA>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>degC</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>141</SUB_ID>
+    <TITLE>volume</TITLE>
+    <VARNAME>internalVolume</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>L</UNITS>
    </IVAR>
    <IVAR>
     <SUB_ID>110</SUB_ID>
@@ -183,18 +217,21 @@
     <DIMENSION>1</DIMENSION>
     <UNITS>W</UNITS>
    </IVAR>
-   <IVAR>
-    <SUB_ID>122</SUB_ID>
-    <TITLE>total pressure loss</TITLE>
-    <VARNAME>totalPressureLoss</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <TYPE>0</TYPE>
-    <DIMENSION>1</DIMENSION>
-    <UNITS>bar</UNITS>
-   </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
+    <EVAR>
+     <SUB_ID>139</SUB_ID>
+     <TITLE>fluid state index outlet</TITLE>
+     <VARNAME>port1FluidStateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+     <EXPRESS2>@_2_2, @_0_8</EXPRESS2>
+    </EVAR>
     <EVAR>
      <SUB_ID>89</SUB_ID>
      <TITLE>fluid flow index at port 1</TITLE>
@@ -202,29 +239,19 @@
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
-     <IO>2</IO>
+     <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
-     <SUB_ID>127</SUB_ID>
-     <VARNAME>fluidFlowActivationSignalDup</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
-     <TYPE>4</TYPE>
-     <PRIMARY_PORT>2</PRIMARY_PORT>
-     <PRIMARY_VAR>2</PRIMARY_VAR>
-     <DUP_TYPE>0</DUP_TYPE>
-    </EVAR>
-    <EVAR>
-     <SUB_ID>90</SUB_ID>
-     <TITLE>fluid state index at port 1</TITLE>
-     <VARNAME>port1FluidStateIndex</VARNAME>
+     <SUB_ID>144</SUB_ID>
+     <TITLE>fluid flow activation signal (port1)</TITLE>
+     <VARNAME>fluidFlowActivationSignal1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
+     <UNITS>smoFFAS</UNITS>
     </EVAR>
    </PORT>
    <PORT>
@@ -253,16 +280,13 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>91</SUB_ID>
-     <TITLE>fluid state index outlet</TITLE>
-     <VARNAME>port3FluidStateIndex</VARNAME>
+     <SUB_ID>140</SUB_ID>
+     <VARNAME>port3FluidStateIndexDupl</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>8</TYPE>
-     <DIMENSION>1</DIMENSION>
-     <IO>2</IO>
-     <UNPLOTTABLE>1</UNPLOTTABLE>
-     <UNITS>smoTDS</UNITS>
-     <EXPRESS2>@_1_3, @_2_2, @_0_3</EXPRESS2>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>0</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
     </EVAR>
     <EVAR>
      <SUB_ID>92</SUB_ID>
@@ -276,9 +300,9 @@
      <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
-     <SUB_ID>125</SUB_ID>
-     <TITLE>fluid flow activation signal</TITLE>
-     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <SUB_ID>145</SUB_ID>
+     <TITLE>fluid flow activation signal (port3)</TITLE>
+     <VARNAME>fluidFlowActivationSignal3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
