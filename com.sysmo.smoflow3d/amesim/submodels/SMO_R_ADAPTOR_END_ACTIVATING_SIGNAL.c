@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END_ACTIVATING_SIGNAL skeleton created by AME Submodel editing utility
-   Sat Nov 23 10:19:53 2013 */
+   Sat Nov 30 16:57:11 2013 */
 
 
 
@@ -37,13 +37,22 @@ REVISIONS :
 #define _manager ps[1]
 #define _managerIndex ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_r_adaptor_end_activating_signalin_(int *n, int ic[2]
-      , void *ps[2], double *isFlowOpen)
+
+/* There is 1 integer parameter:
+
+   useFluidFlowActivationSignal use fluid flow activation signal
+*/
+
+void smo_r_adaptor_end_activating_signalin_(int *n, int ip[1]
+      , int ic[2], void *ps[2], double *isFlowOpen)
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
+   int useFluidFlowActivationSignal;
+
+   useFluidFlowActivationSignal = ip[0];
    loop = 0;
    error = 0;
 
@@ -56,6 +65,14 @@ void smo_r_adaptor_end_activating_signalin_(int *n, int ic[2]
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
+
+/*   Integer parameter checking:   */
+
+   if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
+   {
+      amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -87,10 +104,11 @@ void smo_r_adaptor_end_activating_signalin_(int *n, int ic[2]
       2 inputRCompID1      R-component ID (input, port1)  [smoRCompID]  basic variable input  UNPLOTTABLE
       3 smoRChainID        R-components chain ID (port1)  [smoRChainID] basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 fluidFlow2Index      fluid flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidState2Index     fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow2Index               fluid flow2 index                                                      [smoFFL]  basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignal     flow activation signal = {-1 - not used; 0 - deactivate; 1 - activate} [smoFFAS] basic variable output
+      3 fluidState2Index              fluid state2 index                                                     [smoTDS]  basic variable input  UNPLOTTABLE
 
    Port 3 has 1 variable:
 
@@ -109,14 +127,18 @@ void smo_r_adaptor_end_activating_signalin_(int *n, int ic[2]
 void smo_r_adaptor_end_activating_signal_(int *n
       , double *outputRCompID1, double *inputRCompID1
       , double *smoRChainID, double *fluidFlow2Index
-      , double *fluidState2Index, double *smoRChainIDFromBeginAdaptor
-      , double *activatingSignal, double *isFlowOpen, int ic[2]
-      , void *ps[2], int *flag)
+      , double *fluidFlowActivationSignal, double *fluidState2Index
+      , double *smoRChainIDFromBeginAdaptor, double *activatingSignal
+      , double *isFlowOpen, int ip[1], int ic[2], void *ps[2]
+      , int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
+   int useFluidFlowActivationSignal;
+
+   useFluidFlowActivationSignal = ip[0];
    logi = 0;
    loop = 0;
 
@@ -132,6 +154,7 @@ void smo_r_adaptor_end_activating_signal_(int *n
    Set all submodel outputs below:
 
    *fluidFlow2Index = ??;
+   *fluidFlowActivationSignal = ??;
 */
 
 
@@ -160,6 +183,16 @@ void smo_r_adaptor_end_activating_signal_(int *n
 
    *isFlowOpen = ManagerComponents_R_getIsFlowOpen(_manager);
    *fluidFlow2Index = ManagerComponents_R_getFlow2Index(_manager);
+
+   if (useFluidFlowActivationSignal == 1) { //no
+	   *fluidFlowActivationSignal = -1; //not used
+   } else { // yes
+	   if (ManagerComponents_R_getIsFlowOpen(_manager) == 0) { //flow is closed
+		   *fluidFlowActivationSignal = 0; //deactivate flow
+	   } else {
+		   *fluidFlowActivationSignal = 1; //activate flow
+	   }
+   }
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -168,19 +201,23 @@ void smo_r_adaptor_end_activating_signal_(int *n
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
 /*   *smoRChainIDFromBeginAdaptor /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_r_adaptor_end_activating_signal_macro0_(int *n
-      , double *fluidState2Index, double *activatingSignal, int ic[2]
-      , void *ps[2], int *flag)
+      , double *fluidState2Index, double *activatingSignal, int ip[1]
+      , int ic[2], void *ps[2], int *flag)
 
 {
    double outputRCompID1;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
+   int useFluidFlowActivationSignal;
+
+   useFluidFlowActivationSignal = ip[0];
    logi = 0;
    loop = 0;
 
