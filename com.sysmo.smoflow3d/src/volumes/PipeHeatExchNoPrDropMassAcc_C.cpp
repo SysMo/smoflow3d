@@ -1,19 +1,19 @@
 /*
- * PipeHeatExchC.cpp
+ * PipeHeatExchNoPrDropMassAcc_C.cpp
  *
  *  Created on: Oct 10, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "PipeHeatExch_C.h"
+#include "PipeHeatExchNoPrDropMassAcc_C.h"
 
 using namespace smoflow;
 
 /**
  * PipeHeatExch_C - C++
  */
-PipeHeatExch_C::PipeHeatExch_C(Medium* fluid, double internalVolume, ForcedConvection* convection) {
+PipeHeatExchNoPrDropMassAcc_C::PipeHeatExchNoPrDropMassAcc_C(Medium* fluid, double internalVolume, ForcedConvection* convection) {
 	this->convection = convection;
 	SMOCOMPONENT_SET_PARENT(this->convection, this);
 
@@ -30,11 +30,11 @@ PipeHeatExch_C::PipeHeatExch_C(Medium* fluid, double internalVolume, ForcedConve
 	this->wallNode = NULL;
 }
 
-PipeHeatExch_C::~PipeHeatExch_C() {
+PipeHeatExchNoPrDropMassAcc_C::~PipeHeatExchNoPrDropMassAcc_C() {
 
 }
 
-void PipeHeatExch_C::init(FluidFlow* port1Flow, FluidFlow* port2Flow) {
+void PipeHeatExchNoPrDropMassAcc_C::init(FluidFlow* port1Flow, FluidFlow* port2Flow) {
 	this->port1Flow = port1Flow;
 	this->port2Flow = port2Flow;
 
@@ -45,19 +45,19 @@ void PipeHeatExch_C::init(FluidFlow* port1Flow, FluidFlow* port2Flow) {
 	convection->setLimitOutput(false);
 }
 
-void PipeHeatExch_C::getStateValues(double* value1, double* value2) {
+void PipeHeatExchNoPrDropMassAcc_C::getStateValues(double* value1, double* value2) {
 	accFluid->getStateValues(value1, value2, true);
 }
 
-void PipeHeatExch_C::setStateValues(double value1, double value2) {
+void PipeHeatExchNoPrDropMassAcc_C::setStateValues(double value1, double value2) {
 	accFluid->setStateValues(value1, value2);
 }
 
-void PipeHeatExch_C::getStateDerivatives(double* value1, double* value2) {
+void PipeHeatExchNoPrDropMassAcc_C::getStateDerivatives(double* value1, double* value2) {
 	accFluid->getStateDerivatives(value1, value2);
 }
 
-void PipeHeatExch_C::compute() {
+void PipeHeatExchNoPrDropMassAcc_C::compute() {
 	double massFlowRate = m::quadratic_mean(port1Flow->massFlowRate, port2Flow->massFlowRate);
 	convection->compute(massFlowRate);
 	convection->updateHeatFlow(wallHeatFlow);
@@ -72,43 +72,43 @@ void PipeHeatExch_C::compute() {
 /**
  * PipeHeatExch_C - C
  */
-PipeHeatExch_C* PipeHeatExch_C_new(Medium* fluid, double internalVolume, ForcedConvection* convection) {
-	return new PipeHeatExch_C(fluid, internalVolume, convection);
+PipeHeatExchNoPrDropMassAcc_C* PipeHeatExchNoPrDropMassAcc_C_new(Medium* fluid, double internalVolume, ForcedConvection* convection) {
+	return new PipeHeatExchNoPrDropMassAcc_C(fluid, internalVolume, convection);
 }
 
-void PipeHeatExch_C_init(PipeHeatExch_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow) {
+void PipeHeatExchNoPrDropMassAcc_C_init(PipeHeatExchNoPrDropMassAcc_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow) {
 	component->init(port1Flow, port2Flow);
 }
 
-void PipeHeatExch_C_compute(PipeHeatExch_C* component) {
+void PipeHeatExchNoPrDropMassAcc_C_compute(PipeHeatExchNoPrDropMassAcc_C* component) {
 	component->compute();
 }
 
-void PipeHeatExch_C_setWallNode(PipeHeatExch_C* component, ThermalNode* wallNode) {
+void PipeHeatExchNoPrDropMassAcc_C_setWallNode(PipeHeatExchNoPrDropMassAcc_C* component, ThermalNode* wallNode) {
 	component->setWallNode(wallNode);
 }
 
 
-void PipeHeatExch_C_setStateValues(PipeHeatExch_C* component, double value1, double value2) {
+void PipeHeatExchNoPrDropMassAcc_C_setStateValues(PipeHeatExchNoPrDropMassAcc_C* component, double value1, double value2) {
 	component->setStateValues(value1, value2);
 }
 
-void PipeHeatExch_C_getStateValues(PipeHeatExch_C* component, double* value1, double* value2) {
+void PipeHeatExchNoPrDropMassAcc_C_getStateValues(PipeHeatExchNoPrDropMassAcc_C* component, double* value1, double* value2) {
 	component->getStateValues(value1, value2);
 }
 
-void PipeHeatExch_C_getStateDerivatives(PipeHeatExch_C* component, double* value1, double* value2) {
+void PipeHeatExchNoPrDropMassAcc_C_getStateDerivatives(PipeHeatExchNoPrDropMassAcc_C* component, double* value1, double* value2) {
 	component->getStateDerivatives(value1, value2);
 }
 
-HeatFlow* PipeHeatExch_C_getWallHeatFlow(PipeHeatExch_C* component) {
+HeatFlow* PipeHeatExchNoPrDropMassAcc_C_getWallHeatFlow(PipeHeatExchNoPrDropMassAcc_C* component) {
 	return component->getWallHeatFlow();
 }
 
-MediumState* PipeHeatExch_C_getFluidState(PipeHeatExch_C* component) {
+MediumState* PipeHeatExchNoPrDropMassAcc_C_getFluidState(PipeHeatExchNoPrDropMassAcc_C* component) {
 	return component->getFluidState();
 }
 
-double PipeHeatExch_C_getVolume(PipeHeatExch_C* component) {
+double PipeHeatExchNoPrDropMassAcc_C_getVolume(PipeHeatExchNoPrDropMassAcc_C* component) {
 	return component->getVolume();
 }

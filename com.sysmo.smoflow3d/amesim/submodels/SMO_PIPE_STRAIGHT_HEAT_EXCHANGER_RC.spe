@@ -6,7 +6,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>127</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_straight_heat_exchanger</DEFAULT_ICON>
-  <SUB_LABEL>straight pipe with heat exchanger (pressure drop, mass accumulation) (C)</SUB_LABEL>
+  <SUB_LABEL>straight pipe with heat exchanger (pressure drop, mass accumulation) (R-C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>6</I_STORES_NUMBER>
   <P_STORES_NUMBER>6</P_STORES_NUMBER>

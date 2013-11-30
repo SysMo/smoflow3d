@@ -1,18 +1,18 @@
 /*
- * PipeHeatExchNoPrDropNoMassAccCR.cpp
+ * HeatExchNoPrDropNoMassAcc_CR.cpp
  *
  *  Created on: Aug 23, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "PipeHeatExchNoPrDropNoMassAcc_CR.h"
+#include "HeatExchNoPrDropNoMassAcc_CR.h"
 using namespace smoflow;
 
 /**
  * PipeHeatExchNoPrDropNoMassAcc_CR - C++
  */
-PipeHeatExchNoPrDropNoMassAcc_CR::PipeHeatExchNoPrDropNoMassAcc_CR(double heatExhcangeEfficienccy) {
+HeatExchNoPrDropNoMassAcc_CR::HeatExchNoPrDropNoMassAcc_CR(double heatExhcangeEfficienccy) {
 	this->heatExhcangeEfficienccy = heatExhcangeEfficienccy;
 
 	wallNode = NULL;
@@ -33,10 +33,10 @@ PipeHeatExchNoPrDropNoMassAcc_CR::PipeHeatExchNoPrDropNoMassAcc_CR(double heatEx
 	wallHeatFlowIndex = -1;
 }
 
-PipeHeatExchNoPrDropNoMassAcc_CR::~PipeHeatExchNoPrDropNoMassAcc_CR() {
+HeatExchNoPrDropNoMassAcc_CR::~HeatExchNoPrDropNoMassAcc_CR() {
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_CR::init(
+void HeatExchNoPrDropNoMassAcc_CR::init(
 		ThermalNode* wallNode,
 		MediumState* fluidStateOutlet,
 		FluidFlow* fluidFlowInlet) {
@@ -60,7 +60,7 @@ void PipeHeatExchNoPrDropNoMassAcc_CR::init(
 	wallHeatFlowIndex = HeatFlow_register(wallHeatFlow);
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_CR::compute() {
+void HeatExchNoPrDropNoMassAcc_CR::compute() {
 	if (fluidFlowInlet->massFlowRate < 0.0) {
 		RaiseComponentError(this, "Reverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
 	}
@@ -96,43 +96,43 @@ void PipeHeatExchNoPrDropNoMassAcc_CR::compute() {
 /**
  * PipeHeatExchNoPrDropNoMassAcc_CR - C
  */
-PipeHeatExchNoPrDropNoMassAcc_CR* PipeHeatExchNoPrDropNoMassAcc_CR_new(double heatExhcangeEfficienccy) {
-	return new PipeHeatExchNoPrDropNoMassAcc_CR(heatExhcangeEfficienccy);
+HeatExchNoPrDropNoMassAcc_CR* HeatExchNoPrDropNoMassAcc_CR_new(double heatExhcangeEfficienccy) {
+	return new HeatExchNoPrDropNoMassAcc_CR(heatExhcangeEfficienccy);
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_CR_init(PipeHeatExchNoPrDropNoMassAcc_CR* pipe,
+void HeatExchNoPrDropNoMassAcc_CR_init(HeatExchNoPrDropNoMassAcc_CR* heatExch,
 		ThermalNode* wallNode, MediumState* fluidStateOutlet, FluidFlow* fluidFlowInlet) {
-	pipe->init(wallNode, fluidStateOutlet, fluidFlowInlet);
+	heatExch->init(wallNode, fluidStateOutlet, fluidFlowInlet);
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_CR_compute(PipeHeatExchNoPrDropNoMassAcc_CR* pipe) {
-	pipe->compute();
+void HeatExchNoPrDropNoMassAcc_CR_compute(HeatExchNoPrDropNoMassAcc_CR* heatExch) {
+	heatExch->compute();
 }
 
-int PipeHeatExchNoPrDropNoMassAcc_CR_getFluidFlowOutletIndex(PipeHeatExchNoPrDropNoMassAcc_CR* pipe) {
-	return pipe->getFluidFlowOutletIndex();
+int HeatExchNoPrDropNoMassAcc_CR_getFluidFlowOutletIndex(HeatExchNoPrDropNoMassAcc_CR* heatExch) {
+	return heatExch->getFluidFlowOutletIndex();
 }
 
-int PipeHeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowIndex(PipeHeatExchNoPrDropNoMassAcc_CR* pipe) {
-	return pipe->getWallHeatFlowIndex();
+int HeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowIndex(HeatExchNoPrDropNoMassAcc_CR* heatExch) {
+	return heatExch->getWallHeatFlowIndex();
 }
 
-double PipeHeatExchNoPrDropNoMassAcc_CR_getInletTemperature(PipeHeatExchNoPrDropNoMassAcc_CR* pipe) {
-	return pipe->getInletTemperature();
+double HeatExchNoPrDropNoMassAcc_CR_getInletTemperature(HeatExchNoPrDropNoMassAcc_CR* heatExch) {
+	return heatExch->getInletTemperature();
 }
 
-double PipeHeatExchNoPrDropNoMassAcc_CR_getOutletTemperature(PipeHeatExchNoPrDropNoMassAcc_CR* pipe) {
-	return pipe->getOutletTemperature();
+double HeatExchNoPrDropNoMassAcc_CR_getOutletTemperature(HeatExchNoPrDropNoMassAcc_CR* heatExch) {
+	return heatExch->getOutletTemperature();
 }
 
-double PipeHeatExchNoPrDropNoMassAcc_CR_getWallTemperature(PipeHeatExchNoPrDropNoMassAcc_CR* pipe) {
-	return pipe->getWallTemperature();
+double HeatExchNoPrDropNoMassAcc_CR_getWallTemperature(HeatExchNoPrDropNoMassAcc_CR* heatExch) {
+	return heatExch->getWallTemperature();
 }
 
-double PipeHeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowRate(PipeHeatExchNoPrDropNoMassAcc_CR* pipe) {
-	return pipe->getWallHeatFlowRate();
+double HeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowRate(HeatExchNoPrDropNoMassAcc_CR* heatExch) {
+	return heatExch->getWallHeatFlowRate();
 }
 
-double PipeHeatExchNoPrDropNoMassAcc_CR_getMassFlowRateInlet(PipeHeatExchNoPrDropNoMassAcc_CR* pipe) {
-	return pipe->getMassFlowRateInlet();
+double HeatExchNoPrDropNoMassAcc_CR_getMassFlowRateInlet(HeatExchNoPrDropNoMassAcc_CR* heatExch) {
+	return heatExch->getMassFlowRateInlet();
 }

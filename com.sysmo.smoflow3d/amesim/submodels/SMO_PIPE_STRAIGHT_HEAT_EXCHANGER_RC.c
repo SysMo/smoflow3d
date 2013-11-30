@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   Sat Nov 30 15:51:03 2013 */
+   Sat Nov 30 15:59:01 2013 */
 
 
 
@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "volumes/PipeHeatExchPrDrop_RC.h"
+#include "volumes/PipeHeatExchPrDropMassAcc_RC.h"
 
 #define _port1FluidFlow ps[0]
 #define _port1FluidFlowIndex ic[0]
@@ -144,7 +144,7 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[8]
    FrictionFlowPipe_setPressureDropGain(_friction, pressureDropGain);
 
    double internalVolume = flowAreaValue * pipeLength;
-   _component = PipeHeatExchPrDrop_RC_new(internalVolume, _friction, _convection);
+   _component = PipeHeatExchPrDropMassAcc_RC_new(internalVolume, _friction, _convection);
    SMOCOMPONENT_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -240,25 +240,25 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
    SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   FluidFlow* port3Flow = FluidFlow_get(*port3FluidFlowIndex);
-	   PipeHeatExchPrDrop_RC_init(_component, port3Flow);
+	   PipeHeatExchPrDropMassAcc_RC_init(_component, port3Flow);
 
-	   _port1FluidFlow = PipeHeatExchPrDrop_RC_getPort1Flow(_component);
+	   _port1FluidFlow = PipeHeatExchPrDropMassAcc_RC_getPort1Flow(_component);
 	   _port1FluidFlowIndex = SmoObject_getInstanceIndex(_port1FluidFlow);
 
-	   _wallHeatFlow = PipeHeatExchPrDrop_RC_getWallHeatFlow(_component);
+	   _wallHeatFlow = PipeHeatExchPrDropMassAcc_RC_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
    if (*fluidFlowActivationSignal == 0) {
-	   PipeHeatExchPrDrop_RC_compute_deactivedFluidFlow(_component);
+	   PipeHeatExchPrDropMassAcc_RC_compute_deactivedFluidFlow(_component);
    } else {
-	   PipeHeatExchPrDrop_RC_compute(_component);
+	   PipeHeatExchPrDropMassAcc_RC_compute(_component);
    }
 
    *port1FluidFlowIndex = _port1FluidFlowIndex;
    *heatFlowIndex = _wallHeatFlowIndex;
    *port1Temperature = MediumState_T(_port1FluidState);
    *port3Temperature = MediumState_T(_port3FluidState);
-   PipeHeatExchPrDrop_RC_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
+   PipeHeatExchPrDropMassAcc_RC_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
    *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
@@ -325,14 +325,14 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
 
 	   // Initialize outlet
 	   StateVariableSet internalStateInit = {iT, initT, iP, initP};
-	   PipeHeatExchPrDrop_RC_initStates(_component, _port1FluidState, wallNode, internalStateInit);
+	   PipeHeatExchPrDropMassAcc_RC_initStates(_component, _port1FluidState, wallNode, internalStateInit);
 
-	   _port3FluidState = PipeHeatExchPrDrop_RC_getPort2State(_component);
+	   _port3FluidState = PipeHeatExchPrDropMassAcc_RC_getPort2State(_component);
 	   _port3FluidStateIndex = SmoObject_getInstanceIndex(_port3FluidState);
 
-	   PipeHeatExchPrDrop_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);
+	   PipeHeatExchPrDropMassAcc_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);
    } else {
-	   PipeHeatExchPrDrop_RC_setStateValues(_component, stateValues[0], stateValues[1]);
+	   PipeHeatExchPrDropMassAcc_RC_setStateValues(_component, stateValues[0], stateValues[1]);
    }
 
    port3FluidStateIndex = _port3FluidStateIndex;

@@ -1,13 +1,13 @@
 /*
- * PipeHeatExchPrDropRC.h
+ * HeatExchNoPrDropNoMassAcc_CR.h
  *
  *  Created on: Aug 23, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#ifndef PIPEHEATEXCHNOPRDROPNOMASSACC_CR_H_
-#define PIPEHEATEXCHNOPRDROPNOMASSACC_CR_H_
+#ifndef HEATEXCHNOPRDROPNOMASSACC_CR_H_
+#define HEATEXCHNOPRDROPNOMASSACC_CR_H_
 
 #include "media/MediumState.h"
 #include "flow/FlowBase.h"
@@ -15,10 +15,10 @@
 
 #ifdef __cplusplus
 
-class PipeHeatExchNoPrDropNoMassAcc_CR : public SmoComponent {
+class HeatExchNoPrDropNoMassAcc_CR : public SmoComponent {
 public:
-	PipeHeatExchNoPrDropNoMassAcc_CR(double heatExhcangeEfficienccy);
-	virtual ~PipeHeatExchNoPrDropNoMassAcc_CR();
+	HeatExchNoPrDropNoMassAcc_CR(double heatExhcangeEfficienccy);
+	virtual ~HeatExchNoPrDropNoMassAcc_CR();
 
 	void init(ThermalNode* wallNode, MediumState* fluidStateOutlet, FluidFlow* fluidFlowInlet);
 	void compute();
@@ -56,23 +56,23 @@ protected:
 };
 
 #else //__cplusplus
-DECLARE_C_STRUCT(PipeHeatExchNoPrDropNoMassAcc_CR)
+DECLARE_C_STRUCT(HeatExchNoPrDropNoMassAcc_CR)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-PipeHeatExchNoPrDropNoMassAcc_CR* PipeHeatExchNoPrDropNoMassAcc_CR_new(double heatExhcangeEfficienccy);
+HeatExchNoPrDropNoMassAcc_CR* HeatExchNoPrDropNoMassAcc_CR_new(double heatExhcangeEfficienccy);
 
-void PipeHeatExchNoPrDropNoMassAcc_CR_init(PipeHeatExchNoPrDropNoMassAcc_CR* pipe,
+void HeatExchNoPrDropNoMassAcc_CR_init(HeatExchNoPrDropNoMassAcc_CR* heatExch,
 		ThermalNode* wallNode, MediumState* fluidStateOutlet, FluidFlow* fluidFlowInlet);
-void PipeHeatExchNoPrDropNoMassAcc_CR_compute(PipeHeatExchNoPrDropNoMassAcc_CR* pipe);
+void HeatExchNoPrDropNoMassAcc_CR_compute(HeatExchNoPrDropNoMassAcc_CR* heatExch);
 
-int PipeHeatExchNoPrDropNoMassAcc_CR_getFluidFlowOutletIndex(PipeHeatExchNoPrDropNoMassAcc_CR* pipe);
-int PipeHeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowIndex(PipeHeatExchNoPrDropNoMassAcc_CR* pipe);
-double PipeHeatExchNoPrDropNoMassAcc_CR_getInletTemperature(PipeHeatExchNoPrDropNoMassAcc_CR* pipe);
-double PipeHeatExchNoPrDropNoMassAcc_CR_getOutletTemperature(PipeHeatExchNoPrDropNoMassAcc_CR* pipe);
-double PipeHeatExchNoPrDropNoMassAcc_CR_getWallTemperature(PipeHeatExchNoPrDropNoMassAcc_CR* pipe);
-double PipeHeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowRate(PipeHeatExchNoPrDropNoMassAcc_CR* pipe);
-double PipeHeatExchNoPrDropNoMassAcc_CR_getMassFlowRateInlet(PipeHeatExchNoPrDropNoMassAcc_CR* pipe);
+int HeatExchNoPrDropNoMassAcc_CR_getFluidFlowOutletIndex(HeatExchNoPrDropNoMassAcc_CR* heatExch);
+int HeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowIndex(HeatExchNoPrDropNoMassAcc_CR* heatExch);
+double HeatExchNoPrDropNoMassAcc_CR_getInletTemperature(HeatExchNoPrDropNoMassAcc_CR* heatExch);
+double HeatExchNoPrDropNoMassAcc_CR_getOutletTemperature(HeatExchNoPrDropNoMassAcc_CR* heatExch);
+double HeatExchNoPrDropNoMassAcc_CR_getWallTemperature(HeatExchNoPrDropNoMassAcc_CR* heatExch);
+double HeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowRate(HeatExchNoPrDropNoMassAcc_CR* heatExch);
+double HeatExchNoPrDropNoMassAcc_CR_getMassFlowRateInlet(HeatExchNoPrDropNoMassAcc_CR* heatExch);
 END_C_LINKAGE
 
-#endif /* PIPEHEATEXCHNOPRDROPNOMASSACC_CR_H_ */
+#endif /* HEATEXCHNOPRDROPNOMASSACC_CR_H_ */

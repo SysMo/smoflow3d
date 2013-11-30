@@ -1,19 +1,19 @@
 /*
- * PipeHeatExchNoPrDropNoMassAcc.cpp
+ * HeatExchNoPrDropNoMassAcc_RC.cpp
  *
  *  Created on: Aug 13, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "PipeHeatExchNoPrDropNoMassAcc_RC.h"
+#include "HeatExchNoPrDropNoMassAcc_RC.h"
 
 using namespace smoflow;
 
 /**
  * Pipe_HeatExch_NoPrDr_NoMassAcc
  */
-PipeHeatExchNoPrDropNoMassAcc_RC::PipeHeatExchNoPrDropNoMassAcc_RC(double stateTimeConstant) {
+HeatExchNoPrDropNoMassAcc_RC::HeatExchNoPrDropNoMassAcc_RC(double stateTimeConstant) {
 	this->stateTimeConstant = stateTimeConstant;
 	stateVariableType = sTemperature;
 
@@ -30,10 +30,10 @@ PipeHeatExchNoPrDropNoMassAcc_RC::PipeHeatExchNoPrDropNoMassAcc_RC(double stateT
 	wallHeatFlow = NULL;
 }
 
-PipeHeatExchNoPrDropNoMassAcc_RC::~PipeHeatExchNoPrDropNoMassAcc_RC() {
+HeatExchNoPrDropNoMassAcc_RC::~HeatExchNoPrDropNoMassAcc_RC() {
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC::init(FluidFlow* port2Flow) {
+void HeatExchNoPrDropNoMassAcc_RC::init(FluidFlow* port2Flow) {
 	this->port2Flow = port2Flow;
 
 	this->port1Flow = FluidFlow_new();
@@ -43,7 +43,7 @@ void PipeHeatExchNoPrDropNoMassAcc_RC::init(FluidFlow* port2Flow) {
 	HeatFlow_register(this->wallHeatFlow);
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC::initStates(MediumState* port1State, ThermalNode* wallNode) {
+void HeatExchNoPrDropNoMassAcc_RC::initStates(MediumState* port1State, ThermalNode* wallNode) {
 	this->port1State = port1State;
 	this->wallNode = wallNode;
 
@@ -58,7 +58,7 @@ void PipeHeatExchNoPrDropNoMassAcc_RC::initStates(MediumState* port1State, Therm
 	}
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC::setStateValue(double stateValue) {
+void HeatExchNoPrDropNoMassAcc_RC::setStateValue(double stateValue) {
 	this->stateValue = stateValue;
 	if (stateVariableType == sTemperature) {
 		this->port2State->update_Tp(stateValue, port1State->p());
@@ -67,7 +67,7 @@ void PipeHeatExchNoPrDropNoMassAcc_RC::setStateValue(double stateValue) {
 	}
 }
 
-double PipeHeatExchNoPrDropNoMassAcc_RC::getStateDerivative() {
+double HeatExchNoPrDropNoMassAcc_RC::getStateDerivative() {
 	double stateDerivative;
 	if (stateVariableType == sTemperature) {
 		stateDerivative = (stateSetpoint - port2State->T()) / stateTimeConstant;
@@ -80,12 +80,12 @@ double PipeHeatExchNoPrDropNoMassAcc_RC::getStateDerivative() {
 /*************************************************************
  ***   Pipe_HeatExch_NoPrDr_NoMassAcc implementation classes
  *************************************************************/
-class PipeHeatExchNoPrDropNoMassAcc_RC_HEEfficiency : public PipeHeatExchNoPrDropNoMassAcc_RC {
+class PipeHeatExchNoPrDropNoMassAcc_RC_HEEfficiency : public HeatExchNoPrDropNoMassAcc_RC {
 public:
 	PipeHeatExchNoPrDropNoMassAcc_RC_HEEfficiency(
 			double heatExchEfficiency,
 			double stateTimeConstant) :
-			PipeHeatExchNoPrDropNoMassAcc_RC(stateTimeConstant) {
+			HeatExchNoPrDropNoMassAcc_RC(stateTimeConstant) {
 		this->heatExchEfficiency = heatExchEfficiency;
 
 		stateVariableType = sTemperature;
@@ -106,12 +106,12 @@ protected:
 	double heatExchEfficiency;
 };
 
-class PipeHeatExchNoPrDropNoMassAcc_RC_Convection : public PipeHeatExchNoPrDropNoMassAcc_RC {
+class PipeHeatExchNoPrDropNoMassAcc_RC_Convection : public HeatExchNoPrDropNoMassAcc_RC {
 public:
 	PipeHeatExchNoPrDropNoMassAcc_RC_Convection(
 			ForcedConvection* convection,
 			double stateTimeConstant) :
-			PipeHeatExchNoPrDropNoMassAcc_RC(stateTimeConstant) {
+			HeatExchNoPrDropNoMassAcc_RC(stateTimeConstant) {
 		this->convection = convection;
 		SMOCOMPONENT_SET_PARENT(this->convection, this);
 		port2LimitState = NULL;
@@ -120,7 +120,7 @@ public:
 	}
 
 	virtual void initStates(MediumState* port1State, ThermalNode* wallNode) {
-		PipeHeatExchNoPrDropNoMassAcc_RC::initStates(port1State, wallNode);
+		HeatExchNoPrDropNoMassAcc_RC::initStates(port1State, wallNode);
 		convection->init(port1State, port2State, wallNode);
 
 		port2LimitState = MediumState_new(port1State->getMedium());
@@ -169,46 +169,46 @@ protected:
 /**
  * Pipe_HeatExch_NoPrDr_NoMassAc - C
  */
-PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant) {
+HeatExchNoPrDropNoMassAcc_RC* HeatExchNoPrDropNoMassAcc_RC_Efficiency_new(double heatExchEfficiency, double stateTimeConstant) {
 	return new PipeHeatExchNoPrDropNoMassAcc_RC_HEEfficiency(heatExchEfficiency, stateTimeConstant);
 }
 
-PipeHeatExchNoPrDropNoMassAcc_RC* PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant) {
+HeatExchNoPrDropNoMassAcc_RC* HeatExchNoPrDropNoMassAcc_RC_Convection_new(ForcedConvection* convection, double stateTimeConstant) {
 	return new PipeHeatExchNoPrDropNoMassAcc_RC_Convection(convection, stateTimeConstant);
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC_init(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, FluidFlow* port2Flow) {
-	pipe->init(port2Flow);
+void HeatExchNoPrDropNoMassAcc_RC_init(HeatExchNoPrDropNoMassAcc_RC* heatExch, FluidFlow* port2Flow) {
+	heatExch->init(port2Flow);
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC_initStates(PipeHeatExchNoPrDropNoMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode) {
-	pipe->initStates(port1State, wallNode);
+void HeatExchNoPrDropNoMassAcc_RC_initStates(HeatExchNoPrDropNoMassAcc_RC* heatExch, MediumState* port1State, ThermalNode* wallNode) {
+	heatExch->initStates(port1State, wallNode);
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC_compute(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
-	pipe->compute();
+void HeatExchNoPrDropNoMassAcc_RC_compute(HeatExchNoPrDropNoMassAcc_RC* heatExch) {
+	heatExch->compute();
 }
 
-void PipeHeatExchNoPrDropNoMassAcc_RC_setStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe,  double stateValue) {
-	pipe->setStateValue(stateValue);
+void HeatExchNoPrDropNoMassAcc_RC_setStateValue(HeatExchNoPrDropNoMassAcc_RC* heatExch,  double stateValue) {
+	heatExch->setStateValue(stateValue);
 }
 
-double PipeHeatExchNoPrDropNoMassAcc_RC_getStateValue(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
-	return pipe->getStateValue();
+double HeatExchNoPrDropNoMassAcc_RC_getStateValue(HeatExchNoPrDropNoMassAcc_RC* heatExch) {
+	return heatExch->getStateValue();
 }
 
-double PipeHeatExchNoPrDropNoMassAcc_RC_getStateDerivative(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
-	return pipe->getStateDerivative();
+double HeatExchNoPrDropNoMassAcc_RC_getStateDerivative(HeatExchNoPrDropNoMassAcc_RC* heatExch) {
+	return heatExch->getStateDerivative();
 }
 
-MediumState* PipeHeatExchNoPrDropNoMassAcc_RC_getPort2State(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
-	return pipe->getPort2State();
+MediumState* HeatExchNoPrDropNoMassAcc_RC_getPort2State(HeatExchNoPrDropNoMassAcc_RC* heatExch) {
+	return heatExch->getPort2State();
 }
 
-FluidFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getPort1Flow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
-	return pipe->getPort1Flow();
+FluidFlow* HeatExchNoPrDropNoMassAcc_RC_getPort1Flow(HeatExchNoPrDropNoMassAcc_RC* heatExch) {
+	return heatExch->getPort1Flow();
 }
 
-HeatFlow* PipeHeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(PipeHeatExchNoPrDropNoMassAcc_RC* pipe) {
-	return pipe->getWallHeatFlow();
+HeatFlow* HeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(HeatExchNoPrDropNoMassAcc_RC* heatExch) {
+	return heatExch->getWallHeatFlow();
 }

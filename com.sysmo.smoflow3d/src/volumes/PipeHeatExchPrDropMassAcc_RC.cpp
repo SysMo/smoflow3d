@@ -1,19 +1,19 @@
 /*
- * PipeHeatExchPrDropRC.cpp
+ * PipeHeatExchPrDropMassAcc_RC.cpp
  *
  *  Created on: Aug 23, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "PipeHeatExchPrDrop_RC.h"
+#include "PipeHeatExchPrDropMassAcc_RC.h"
 
 using namespace smoflow;
 
 /**
  * PipeHeatExchPrDrop_RC - C++
  */
-PipeHeatExchPrDrop_RC::PipeHeatExchPrDrop_RC(
+PipeHeatExchPrDropMassAcc_RC::PipeHeatExchPrDropMassAcc_RC(
 		double internalVolume,
 		FrictionFlowPipe* friction,
 		ForcedConvection* convection) {
@@ -35,10 +35,10 @@ PipeHeatExchPrDrop_RC::PipeHeatExchPrDrop_RC(
 	wallHeatFlow = NULL;
 }
 
-PipeHeatExchPrDrop_RC::~PipeHeatExchPrDrop_RC() {
+PipeHeatExchPrDropMassAcc_RC::~PipeHeatExchPrDropMassAcc_RC() {
 }
 
-void PipeHeatExchPrDrop_RC::init(FluidFlow* port2Flow) {
+void PipeHeatExchPrDropMassAcc_RC::init(FluidFlow* port2Flow) {
 	this->port2Flow = port2Flow;
 
 	this->port1Flow = FluidFlow_new();
@@ -55,7 +55,7 @@ void PipeHeatExchPrDrop_RC::init(FluidFlow* port2Flow) {
 	FluidFlow_register(internalFlow);
 }
 
-void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State, ThermalNode* wallNode, StateVariableSet& innerStateInitializer) {
+void PipeHeatExchPrDropMassAcc_RC::initStates(MediumState* port1State, ThermalNode* wallNode, StateVariableSet& innerStateInitializer) {
 	this->port1State = port1State;
 	this->wallNode = wallNode;
 
@@ -69,28 +69,28 @@ void PipeHeatExchPrDrop_RC::initStates(MediumState* port1State, ThermalNode* wal
 	port2State->init(innerStateInitializer);
 }
 
-void PipeHeatExchPrDrop_RC::getStateValues(double* value1, double* value2) {
+void PipeHeatExchPrDropMassAcc_RC::getStateValues(double* value1, double* value2) {
 	accFluid->getStateValues(value1, value2, true);
 }
 
-void PipeHeatExchPrDrop_RC::setStateValues(double value1, double value2) {
+void PipeHeatExchPrDropMassAcc_RC::setStateValues(double value1, double value2) {
 	accFluid->setStateValues(value1, value2);
 }
 
-void PipeHeatExchPrDrop_RC::getStateDerivatives(double* value1, double* value2) {
+void PipeHeatExchPrDropMassAcc_RC::getStateDerivatives(double* value1, double* value2) {
 	accFluid->getStateDerivatives(value1, value2);
 }
 
-void PipeHeatExchPrDrop_RC::compute() {
+void PipeHeatExchPrDropMassAcc_RC::compute() {
 	double pressureDrop = port1State->p() - port2State->p();
 	compute(pressureDrop);
 }
 
-void PipeHeatExchPrDrop_RC::compute_deactivedFluidFlow() {
+void PipeHeatExchPrDropMassAcc_RC::compute_deactivedFluidFlow() {
 	compute(cst::zeroPressureDrop);  //:TRICKY: to compute zero mass flow rate
 }
 
-void PipeHeatExchPrDrop_RC::compute(double pressureDrop) {
+void PipeHeatExchPrDropMassAcc_RC::compute(double pressureDrop) {
 	double massFlowRate = friction->computeMassFlowRate(pressureDrop);
 	friction->updateFluidFlows(port1Flow, internalFlow);
 
@@ -108,44 +108,44 @@ void PipeHeatExchPrDrop_RC::compute(double pressureDrop) {
 /**
  * PipeHeatExchPrDrop_RC - C
  */
-PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection) {
-	return new PipeHeatExchPrDrop_RC(internalVolume, friction, convection);
+PipeHeatExchPrDropMassAcc_RC* PipeHeatExchPrDropMassAcc_RC_new(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection) {
+	return new PipeHeatExchPrDropMassAcc_RC(internalVolume, friction, convection);
 }
 
-void PipeHeatExchPrDrop_RC_init(PipeHeatExchPrDrop_RC* pipe, FluidFlow* port2Flow) {
+void PipeHeatExchPrDropMassAcc_RC_init(PipeHeatExchPrDropMassAcc_RC* pipe, FluidFlow* port2Flow) {
 	pipe->init(port2Flow);
 }
 
-void PipeHeatExchPrDrop_RC_initStates(PipeHeatExchPrDrop_RC* pipe, MediumState* port1State, ThermalNode* wallNode, StateVariableSet innerStateInitializer) {
+void PipeHeatExchPrDropMassAcc_RC_initStates(PipeHeatExchPrDropMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode, StateVariableSet innerStateInitializer) {
 	pipe->initStates(port1State, wallNode, innerStateInitializer);
 }
 
-void PipeHeatExchPrDrop_RC_compute(PipeHeatExchPrDrop_RC* pipe) {
+void PipeHeatExchPrDropMassAcc_RC_compute(PipeHeatExchPrDropMassAcc_RC* pipe) {
 	pipe->compute();
 }
 
-void PipeHeatExchPrDrop_RC_compute_deactivedFluidFlow(PipeHeatExchPrDrop_RC* pipe) {
+void PipeHeatExchPrDropMassAcc_RC_compute_deactivedFluidFlow(PipeHeatExchPrDropMassAcc_RC* pipe) {
 	pipe->compute_deactivedFluidFlow();
 }
 
-void PipeHeatExchPrDrop_RC_setStateValues(PipeHeatExchPrDrop_RC* pipe, double value1, double value2) {
+void PipeHeatExchPrDropMassAcc_RC_setStateValues(PipeHeatExchPrDropMassAcc_RC* pipe, double value1, double value2) {
 	pipe->setStateValues(value1, value2);
 }
-void PipeHeatExchPrDrop_RC_getStateValues(PipeHeatExchPrDrop_RC* pipe, double* value1, double* value2) {
+void PipeHeatExchPrDropMassAcc_RC_getStateValues(PipeHeatExchPrDropMassAcc_RC* pipe, double* value1, double* value2) {
 	pipe->getStateValues(value1, value2);
 }
-void PipeHeatExchPrDrop_RC_getStateDerivatives(PipeHeatExchPrDrop_RC* pipe, double* value1, double* value2) {
+void PipeHeatExchPrDropMassAcc_RC_getStateDerivatives(PipeHeatExchPrDropMassAcc_RC* pipe, double* value1, double* value2) {
 	pipe->getStateDerivatives(value1, value2);
 }
 
-MediumState* PipeHeatExchPrDrop_RC_getPort2State(PipeHeatExchPrDrop_RC* pipe) {
+MediumState* PipeHeatExchPrDropMassAcc_RC_getPort2State(PipeHeatExchPrDropMassAcc_RC* pipe) {
 	return pipe->getPort2State();
 }
 
-FluidFlow* PipeHeatExchPrDrop_RC_getPort1Flow(PipeHeatExchPrDrop_RC* pipe) {
+FluidFlow* PipeHeatExchPrDropMassAcc_RC_getPort1Flow(PipeHeatExchPrDropMassAcc_RC* pipe) {
 	return pipe->getPort1Flow();
 }
 
-HeatFlow* PipeHeatExchPrDrop_RC_getWallHeatFlow(PipeHeatExchPrDrop_RC* pipe) {
+HeatFlow* PipeHeatExchPrDropMassAcc_RC_getWallHeatFlow(PipeHeatExchPrDropMassAcc_RC* pipe) {
 	return pipe->getWallHeatFlow();
 }

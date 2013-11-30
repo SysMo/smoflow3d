@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "volumes/PipeHeatExch_C.h"
+#include "volumes/PipeHeatExchNoPrDropMassAcc_C.h"
 
 #define _wallHeatFlow ps[0]
 #define _wallHeatFlowIndex ic[0]
@@ -138,14 +138,14 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[6]
 
    double internalVolume = flowAreaValue * pipeLength;
    Medium* fluid = Medium_get(fluidIndex);
-   _component = PipeHeatExch_C_new(fluid, internalVolume, _convection);
+   _component = PipeHeatExchNoPrDropMassAcc_C_new(fluid, internalVolume, _convection);
    SMOCOMPONENT_SET_PROPS(_component)
 
-   _pipeState = PipeHeatExch_C_getFluidState(_component);
+   _pipeState = PipeHeatExchNoPrDropMassAcc_C_getFluidState(_component);
    _pipeStateIndex = SmoObject_getInstanceIndex(_pipeState);
 
    MediumState_update_Tp(_pipeState, initT, initP);
-   PipeHeatExch_C_getStateValues(_component, &stateValues[0], &stateValues[1]);
+   PipeHeatExchNoPrDropMassAcc_C_getStateValues(_component, &stateValues[0], &stateValues[1]);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -249,14 +249,14 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
    if (firstc_()) {
 	   FluidFlow* port1Flow = FluidFlow_get(*port1FluidFlowIndex);
 	   FluidFlow* port3Flow = FluidFlow_get(*port3FluidFlowIndex);
-	   PipeHeatExch_C_init(_component, port1Flow, port3Flow);
+	   PipeHeatExchNoPrDropMassAcc_C_init(_component, port1Flow, port3Flow);
 
-	   _wallHeatFlow = PipeHeatExch_C_getWallHeatFlow(_component);
+	   _wallHeatFlow = PipeHeatExchNoPrDropMassAcc_C_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
 
-   PipeHeatExch_C_compute(_component);
-   PipeHeatExch_C_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
+   PipeHeatExchNoPrDropMassAcc_C_compute(_component);
+   PipeHeatExchNoPrDropMassAcc_C_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
 
    *heatFlowIndex = _wallHeatFlowIndex;
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
@@ -269,7 +269,7 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
    *specificEnthalpy = MediumState_h(_pipeState);
    *gasMassFraction = MediumState_q(_pipeState);
    *superHeat  = MediumState_deltaTSat(_pipeState);
-   *internalVolume = PipeHeatExch_C_getVolume(_component);
+   *internalVolume = PipeHeatExchNoPrDropMassAcc_C_getVolume(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -326,10 +326,10 @@ extern double smo_pipe_straight_heat_exchanger_c_macro0_(int *n
    SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
-	   PipeHeatExch_C_setWallNode(_component, wallNode);
+	   PipeHeatExchNoPrDropMassAcc_C_setWallNode(_component, wallNode);
    }
 
-   PipeHeatExch_C_setStateValues(_component, stateValues[0], stateValues[1]);
+   PipeHeatExchNoPrDropMassAcc_C_setStateValues(_component, stateValues[0], stateValues[1]);
    port1FluidStateIndex = _pipeStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
