@@ -6,7 +6,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>42</SUB_ID_MAX>
   <DEFAULT_ICON>smo_flow_sensor</DEFAULT_ICON>
-  <SUB_LABEL>mass flow rate sensor</SUB_LABEL>
+  <SUB_LABEL>fluid flow sensor</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>3</I_STORES_NUMBER>
   <P_STORES_NUMBER>3</P_STORES_NUMBER>
@@ -163,7 +163,6 @@
     </EVAR>
     <EVAR>
      <SUB_ID>42</SUB_ID>
-     <ORIG_TITLE>fluid flow index</ORIG_TITLE>
      <VARNAME>fluidFlowActivationSignalDup</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>

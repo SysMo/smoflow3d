@@ -1,5 +1,5 @@
-/* Submodel SMO_VALVE_2PORT_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Sat Nov 30 12:18:03 2013 */
+/* Submodel SMO_VALVE_KV skeleton created by AME Submodel editing utility
+   Sat Nov 30 14:51:35 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_VALVE_2PORT_REGULATING_SIGNAL"
+#define _SUBMODELNAME_ "SMO_VALVE_KV"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -56,8 +56,8 @@ REVISIONS :
    useFluidFlowActivationSignal use fluid flow activation signal     
 */
 
-void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
-      , int ip[3], int ic[3], void *ps[3])
+void smo_valve_kvin_(int *n, double rp[4], int ip[3], int ic[3]
+      , void *ps[3])
 
 {
    int loop, error;
@@ -156,7 +156,7 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
    Port 3 has 3 variables:
 
       1 fluidFlow2Index                  fluid flow2 index                                                      [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidFlowActivationSignalDup     duplicate of regulatingSignal                                         
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal                                
       3 fluidState2Index                 fluid state2 index                                                     [smoTDS] basic variable input  UNPLOTTABLE
 */
 
@@ -167,13 +167,12 @@ void smo_valve_2port_regulating_signalin_(int *n, double rp[4]
       3 pressureLoss         total pressure loss           [bar -> Pa] basic variable
 */
 
-void smo_valve_2port_regulating_signal_(int *n
-      , double *fluidFlow1Index, double *fluidFlowActivationSignal
-      , double *fluidState1Index, double *regulatingSignal
-      , double *fluidFlow2Index, double *fluidState2Index
-      , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressureLoss, double rp[4], int ip[3], int ic[3]
-      , void *ps[3], int *flag)
+void smo_valve_kv_(int *n, double *fluidFlow1Index
+      , double *fluidFlowActivationSignal, double *fluidState1Index
+      , double *regulatingSignal, double *fluidFlow2Index
+      , double *fluidState2Index, double *massFlowRate
+      , double *enthalpyFlowRate, double *pressureLoss, double rp[4]
+      , int ip[3], int ic[3], void *ps[3], int *flag)
 
 {
    int loop, logi;

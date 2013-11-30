@@ -1,5 +1,5 @@
-/* Submodel SMO_ZERO_FLOW skeleton created by AME Submodel editing utility
-   Sat Nov 30 11:30:11 2013 */
+/* Submodel SMO_FLUID_FLOW_ZERO skeleton created by AME Submodel editing utility
+   Sat Nov 30 15:09:29 2013 */
 
 
 
@@ -24,13 +24,13 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_ZERO_FLOW"
+#define _SUBMODELNAME_ "SMO_FLUID_FLOW_ZERO"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "flow/FlowBase.h"
 
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_zero_flowin_(int *n, double *fluidFlowIndex
+void smo_fluid_flow_zeroin_(int *n, double *fluidFlowIndex
       , double *fluidFlowActivationSignal)
 
 {
@@ -88,7 +88,7 @@ void smo_zero_flowin_(int *n, double *fluidFlowIndex
 
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
-void smo_zero_flow_(int *n, double *fluidStateIndex)
+void smo_fluid_flow_zero_(int *n, double *fluidStateIndex)
 
 {
    int loop;

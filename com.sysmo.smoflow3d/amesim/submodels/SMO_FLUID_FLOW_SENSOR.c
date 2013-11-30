@@ -1,5 +1,5 @@
-/* Submodel SMO_FLOW_SENSOR skeleton created by AME Submodel editing utility
-   Sat Nov 30 11:32:10 2013 */
+/* Submodel SMO_FLUID_FLOW_SENSOR skeleton created by AME Submodel editing utility
+   Sat Nov 30 14:34:03 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_FLOW_SENSOR"
+#define _SUBMODELNAME_ "SMO_FLUID_FLOW_SENSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -54,8 +54,8 @@ REVISIONS :
    measuredFlowPropertyIndex measured flow property
 */
 
-void smo_flow_sensorin_(int *n, double rp[2], int ip[1], int ic[3]
-      , void *ps[3])
+void smo_fluid_flow_sensorin_(int *n, double rp[2], int ip[1]
+      , int ic[3], void *ps[3])
 
 {
    int loop, error;
@@ -131,7 +131,7 @@ void smo_flow_sensorin_(int *n, double rp[2], int ip[1], int ic[3]
       3 flowTemperature      flow temperature   [K]    basic variable
 */
 
-void smo_flow_sensor_(int *n, double *fluidStateIndex
+void smo_fluid_flow_sensor_(int *n, double *fluidStateIndex
       , double *measuredValue, double *fluidFlowIndex
       , double *fluidFlowActivationSignal, double *massFlowRate
       , double *enthalpyFlowRate, double *flowTemperature

@@ -6,6 +6,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>21</SUB_ID_MAX>
   <DEFAULT_ICON>smo_fluid_flow_splitter_3port</DEFAULT_ICON>
+  <SUB_LABEL>fluid flow splitter (3-ports)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>1</I_STORES_NUMBER>
   <P_STORES_NUMBER>1</P_STORES_NUMBER>

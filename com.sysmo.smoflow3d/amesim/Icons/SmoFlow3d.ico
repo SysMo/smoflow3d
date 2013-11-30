@@ -40,7 +40,7 @@ static unsigned char icon_bits[] = {
 0xff, 0xff, 0xff, 0xff };
 @smo_fluid_state_source_constant
 ~smo_fluid_state_source_constant
-%fluid state source constant
+%fluid state source (constant)
 #define _width 37
 #define _height 37
 static char _bits[] = {
@@ -61,7 +61,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_fluid_state_source_pt
 ~smo_fluid_state_source_pt
-%fluid state source (P and T)
+%fluid state source (variable P and T)
 #define icon_width 49
 #define icon_height 37
 static unsigned char icon_bits[] = {
@@ -94,9 +94,9 @@ static unsigned char icon_bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^   1  25 signal
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smo_zero_flow
-~smo_zero_flow
-%zero flow source
+@smo_fluid_flow_zero
+~smo_fluid_flow_zero
+%fluid flow source (zero)
 #define icon_width 15
 #define icon_height 15
 static unsigned char icon_bits[] = {
@@ -105,9 +105,9 @@ static unsigned char icon_bits[] = {
 };
 ^   8   1 hflow
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smo_generic_property_sensor
-~smo_generic_property_sensor
-%generic property sensor
+@smo_fluid_state_sensor
+~smo_fluid_state_sensor
+%fluid state sensor
 #define icon_width 25
 #define icon_height 49
 static unsigned char icon_bits[] = {
@@ -132,8 +132,8 @@ static unsigned char icon_bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^   1  37 hflow
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smo_reg_valve_2port
-%two-port valve with regulating signal
+@smo_valve
+%valve with regulating signal input (R)
 #define icon_width 25
 #define icon_height 23
 static char icon_bits[] = {
@@ -182,7 +182,7 @@ static char _bits[] = {
 ^ 23  1 thermal
 ^ 43 15 hflow
 @smo_state_machine_controller
-%state machine controller with discrete output variables
+%state machine controller
 #define icon_width 73
 #define icon_height 40
 static char icon_bits[] = {
@@ -217,7 +217,7 @@ static char icon_bits[] = {
 ^  73  16 signal
 ^  38  40 signal
 @smo_drive_cycle_reader
-%component for reading a drive cycle from an input csv file
+%drive cycle reader
 #define DriveCycle_width 126
 #define DriveCycle_height 90
 static unsigned char DriveCycle_bits[] = {
@@ -366,7 +366,7 @@ static char _bits[] = {
 ^ 16  1 hflow
 @smo_fluid_chamber_cst_volume_4port
 ~smo_fluid_chamber_cst_volume_4port
-%fluid chamber with constant volume (4 ports)
+%fluid chamber with constant volume and 4 ports (C)
 #define _width 51
 #define _height 51
 static char _bits[] = {
@@ -405,7 +405,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_fluid_chamber_cst_volume
 ~smo_fluid_chamber_cst_volume
-%fluid chamber with constant volume (2 ports)
+%fluid chamber with constant volume and 2 ports (C)
 #define _width 51
 #define _height 51
 static char _bits[] = {
@@ -438,9 +438,9 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^  51  26 hflow
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smo_pump
-~smo_pump
-%compressor/pump model
+@smo_mechanical_compressor
+~smo_mechanical_compressor
+%compressor/pump model (R)
 #define _width 49
 #define _height 49
 static char _bits[] = {
@@ -476,7 +476,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_fluid_flow_splitter_3port
 ~smo_fluid_flow_splitter_3port
-%fluid flow splitter (3-port)
+%fluid flow splitter (3-ports)
 #define icon_width 19
 #define icon_height 21
 static unsigned char icon_bits[] = {
@@ -494,7 +494,7 @@ static unsigned char icon_bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_heat_flow_splitter_3port
 ~smo_heat_flow_splitter_3port
-%heat flow splitter (3-port)
+%heat flow splitter (3-ports)
 #define _width 19
 #define _height 19
 static char _bits[] = {
@@ -511,7 +511,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_heat_source
 ~smo_heat_source
-%variable heat/enthalpy source
+%heat source (variable)
 #define icon_width 25
 #define icon_height 49
 static unsigned char icon_bits[] = {
@@ -534,9 +534,9 @@ static unsigned char icon_bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^  13   1 thermal
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smo_flow_sensor
-~smo_flow_sensor
-%flow sensor (mass/enthalpy flow)
+@smo_fluid_flow_sensor
+~smo_fluid_flow_sensor
+%fluid flow sensor
 #define icon_width 25
 #define icon_height 49
 static unsigned char icon_bits[] = {
@@ -562,7 +562,7 @@ static unsigned char icon_bits[] = {
 ^   1  37 hflow
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_thermal_material_point
-~smo_thermal_material_point
+~smo_thermal_material_point (C)
 %thermal point mass
 #define _width 37
 #define _height 37
@@ -602,7 +602,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_temperature_source_constant
 ~smo_temperature_source_constant
-%temperature source constant
+%temperature source (constant)
 #define _width 25
 #define _height 37
 static char _bits[] = {
@@ -620,7 +620,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_temperature_source
 ~smo_temperature_source
-%temperature source
+%temperature source (variable)
 #define icon_width 25
 #define icon_height 49
 static unsigned char icon_bits[] = {
@@ -658,9 +658,9 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^  32 7 hflow
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smo_reg_orifice
-~smo_reg_orifice
-%regulated orifice
+@smo_orifice
+~smo_orifice
+%orifice with regulating signal input (R)
 #define _width 25
 #define _height 25
 static char _bits[] = {
@@ -679,7 +679,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_fluid_flow_source
 ~smo_fluid_flow_source
-%fluid flow source
+%fluid flow source (variable)
 #define _width 49
 #define _height 37
 static char _bits[] = {
@@ -766,7 +766,7 @@ static unsigned char icon_bits[] = {
 ^  17  28 signal
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_r_valve
-%R-valve with regulating signal input (R)
+%R-valve with regulating signal input
 #define _width 27
 #define _height 25
 static char _bits[] = {
@@ -807,7 +807,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_r_fluid_flow_sensor
 ~smo_r_fluid_flow_sensor
-%R-flow sensor (mass/enthalpy flow)
+%R-fluid flow sensor
 #define _width 25
 #define _height 49
 static char _bits[] = {

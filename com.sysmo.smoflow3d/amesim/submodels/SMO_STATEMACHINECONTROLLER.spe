@@ -7,6 +7,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>18</SUB_ID_MAX>
   <DEFAULT_ICON>smo_state_machine_controller</DEFAULT_ICON>
+  <SUB_LABEL>state machine controller</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <P_STORES_NUMBER>1</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
@@ -110,7 +111,7 @@
     <EVAR>
      <SUB_ID>1</SUB_ID>
      <TITLE>input variables</TITLE>
-     <ORIG_TITLE>input variables 1 1 1 1</ORIG_TITLE>
+     <ORIG_TITLE>input variables 1 1 1 1 1</ORIG_TITLE>
      <NB_IN_GROUP>numInputs</NB_IN_GROUP>
      <VARNAME>inputs</VARNAME>
      <VISIBILITY>True</VISIBILITY>
@@ -124,7 +125,7 @@
     <EVAR>
      <SUB_ID>6</SUB_ID>
      <TITLE>outputs</TITLE>
-     <ORIG_TITLE>outputs 1 1 1 1</ORIG_TITLE>
+     <ORIG_TITLE>outputs 1 1 1 1 1</ORIG_TITLE>
      <NB_IN_GROUP>numOutputs</NB_IN_GROUP>
      <VARNAME>outputs</VARNAME>
      <VISIBILITY>True</VISIBILITY>

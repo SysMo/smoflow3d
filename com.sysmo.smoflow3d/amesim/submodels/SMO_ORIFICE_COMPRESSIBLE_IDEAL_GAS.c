@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Fri Nov 29 14:20:13 2013 */
+   Sat Nov 30 14:56:24 2013 */
 
 
 
@@ -144,9 +144,9 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
    Port 3 has 3 variables:
 
-      1 fluidFlow2Index                  fluid flow2 index            [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
-      3 fluidState2Index                 fluid state2 index           [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow2Index                  fluid flow2 index                                                      [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal                                
+      3 fluidState2Index                 fluid state2 index                                                     [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 4 internal variables.

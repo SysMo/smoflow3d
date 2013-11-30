@@ -1,5 +1,5 @@
-/* Submodel SMO_VALVE_2PORT_MASS_FLOW skeleton created by AME Submodel editing utility
-   Sat Nov 30 12:18:43 2013 */
+/* Submodel SMO_VALVE_MASS_FLOW_RATE skeleton created by AME Submodel editing utility
+   Sat Nov 30 14:51:49 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_VALVE_2PORT_MASS_FLOW"
+#define _SUBMODELNAME_ "SMO_VALVE_MASS_FLOW_RATE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -45,7 +45,7 @@ REVISIONS :
    useFluidFlowActivationSignal use fluid flow activation signal
 */
 
-void smo_valve_2port_mass_flowin_(int *n, int ip[2], int ic[3]
+void smo_valve_mass_flow_ratein_(int *n, int ip[2], int ic[3]
       , void *ps[3])
 
 {
@@ -114,7 +114,7 @@ void smo_valve_2port_mass_flowin_(int *n, int ip[2], int ic[3]
    Port 3 has 3 variables:
 
       1 fluidFlow2Index                  fluid flow2 index                                                      [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidFlowActivationSignalDup     duplicate of                                                          
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal                                
       3 state2Index                      fluid state2 index                                                     [smoTDS] basic variable input  UNPLOTTABLE
 */
 
@@ -125,7 +125,7 @@ void smo_valve_2port_mass_flowin_(int *n, int ip[2], int ic[3]
       3 pressureLoss         total pressure loss           [bar -> Pa] basic variable
 */
 
-void smo_valve_2port_mass_flow_(int *n, double *fluidFlow1Index
+void smo_valve_mass_flow_rate_(int *n, double *fluidFlow1Index
       , double *fluidFlowActivationSignal, double *fluidState1Index
       , double *regulatingSignal, double *fluidFlow2Index
       , double *state2Index, double *massFlowRate

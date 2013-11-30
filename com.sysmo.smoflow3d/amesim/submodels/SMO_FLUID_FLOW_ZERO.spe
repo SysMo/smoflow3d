@@ -5,8 +5,8 @@
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>12</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_zero_flow</DEFAULT_ICON>
-  <SUB_LABEL>zero mass and enthalpy flow rate source</SUB_LABEL>
+  <DEFAULT_ICON>smo_fluid_flow_zero</DEFAULT_ICON>
+  <SUB_LABEL>fluid flow source (zero)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <HAS_NO_CALC>1</HAS_NO_CALC>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>

@@ -1,5 +1,5 @@
-/* Submodel SMO_MEDIUM_PROPERTY_SENSOR skeleton created by AME Submodel editing utility
-   Fri Nov 29 13:11:04 2013 */
+/* Submodel SMO_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
+   Sat Nov 30 14:33:52 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_MEDIUM_PROPERTY_SENSOR"
+#define _SUBMODELNAME_ "SMO_FLUID_STATE_SENSOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -47,7 +47,7 @@ REVISIONS :
    propertyIndex measured fluid property
 */
 
-void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
+void smo_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
       , double c[20], int ic[1], void *ps[1])
 
 {
@@ -108,7 +108,7 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 2 has 1 variable:
 
-      1 measuredValue     measured value [null] multi line macro 'smo_medium_property_sensor_macro0_'
+      1 measuredValue     measured value [null] multi line macro 'smo_fluid_state_sensor_macro0_'
 
    Port 3 has 3 variables:
 
@@ -140,7 +140,7 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
      19 sigma                       surface tension                     [N/m]               basic variable
 */
 
-void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
+void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
       , double *fluidFlowActivationSignal, double *measuredValue
       , double *fluidStateIndex, double *pressure, double *temperature
       , double *temperatureC, double *density, double *specificVolume
@@ -233,7 +233,7 @@ void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
    *dpc      /= 1.00000000000000e+005;
 }
 
-extern double smo_medium_property_sensor_macro0_(int *n
+extern double smo_fluid_state_sensor_macro0_(int *n
       , double *fluidStateIndex, double rp[2], int ip[1], double c[20]
       , int ic[1], void *ps[1])
 
