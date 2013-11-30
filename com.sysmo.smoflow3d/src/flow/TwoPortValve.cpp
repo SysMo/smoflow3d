@@ -99,3 +99,11 @@ int TwoPortValve_getFlowType(TwoPortValve* valve) {
 	return (int) valve->getFlowType();
 }
 
+int TwoPortValve_getIsFlowClosed(TwoPortValve* valve) {
+	if (valve->isFlowClosed()) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+

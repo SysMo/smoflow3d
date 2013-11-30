@@ -1,5 +1,5 @@
 /* Submodel SMO_ZERO_FLOW skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:03:19 2013 */
+   Sat Nov 30 11:30:11 2013 */
 
 
 
@@ -30,7 +30,8 @@ REVISIONS :
 #include "flow/FlowBase.h"
 
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_zero_flowin_(int *n, double *fluidFlowIndex)
+void smo_zero_flowin_(int *n, double *fluidFlowIndex
+      , double *fluidFlowActivationSignal)
 
 {
    int loop, error;
@@ -40,9 +41,10 @@ void smo_zero_flowin_(int *n, double *fluidFlowIndex)
    error = 0;
 
 /*
-   Check and/or reset the following fixed and/or discrete variable
+   Check and/or reset the following fixed and/or discrete variables
 
    *fluidFlowIndex = ??;
+   *fluidFlowActivationSignal = ??;
 */
 
 
@@ -71,10 +73,11 @@ void smo_zero_flowin_(int *n, double *fluidFlowIndex)
 
 /*  There is 1 port.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidFlowIndex      fluid flow index  [smoFFL] fixed  UNPLOTTABLE
-      2 fluidStateIndex     fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndex                fluid flow index             [smoFFL]  fixed  UNPLOTTABLE
+      2 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] fixed  UNPLOTTABLE
+      3 fluidStateIndex               fluid state index            [smoTDS]  basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.

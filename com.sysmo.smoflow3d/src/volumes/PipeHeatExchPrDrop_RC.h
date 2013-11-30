@@ -23,6 +23,7 @@ public:
 	void init(FluidFlow* port2Flow);
 	void initStates(MediumState* port1State, ThermalNode* wallNode, StateVariableSet& innerStateInitializer);
 	void compute();
+	void compute_deactivedFluidFlow();
 
 	void setStateValues(double value1, double value2);
 	void getStateValues(double* value1, double* value2);
@@ -31,6 +32,9 @@ public:
 	FluidFlow* getPort1Flow() {return port1Flow;}
 	MediumState* getPort2State() {return port2State;}
 	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
+
+protected:
+	void compute(double pressureDrop);
 
 protected:
 	// Port 1 (fluid)
@@ -66,6 +70,7 @@ PipeHeatExchPrDrop_RC* PipeHeatExchPrDrop_RC_new(double internalVolume, Friction
 void PipeHeatExchPrDrop_RC_init(PipeHeatExchPrDrop_RC* pipe, FluidFlow* port2Flow);
 void PipeHeatExchPrDrop_RC_initStates(PipeHeatExchPrDrop_RC* pipe, MediumState* port1State, ThermalNode* wallNode, StateVariableSet innerStateInitializer);
 void PipeHeatExchPrDrop_RC_compute(PipeHeatExchPrDrop_RC* pipe);
+void PipeHeatExchPrDrop_RC_compute_deactivedFluidFlow(PipeHeatExchPrDrop_RC* pipe);
 
 void PipeHeatExchPrDrop_RC_setStateValues(PipeHeatExchPrDrop_RC* pipe, double value1, double value2);
 void PipeHeatExchPrDrop_RC_getStateValues(PipeHeatExchPrDrop_RC* pipe, double* value1, double* value2);

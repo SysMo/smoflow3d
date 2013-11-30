@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_PROPERTY_SENSOR skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:07:48 2013 */
+   Fri Nov 29 13:11:04 2013 */
 
 
 
@@ -100,26 +100,28 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidStateIndexDup     duplicate of fluidStateIndex
-      2 fluidFlowIndex         fluid flow index [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup            duplicate of fluidStateIndex
+      2 fluidFlowIndex                fluid flow index             [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 
    Port 2 has 1 variable:
 
       1 measuredValue     measured value [null] multi line macro 'smo_medium_property_sensor_macro0_'
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 fluidFlowIndexDup     duplicate of fluidFlowIndex
-      2 fluidStateIndex       fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndexDup                duplicate of fluidFlowIndex 
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
+      3 fluidStateIndex                  fluid state index            [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 19 internal variables.
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
+      3 temperatureC                temperature (°C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -139,9 +141,9 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
 */
 
 void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
-      , double *measuredValue, double *fluidStateIndex
-      , double *pressure, double *temperature, double *temperatureC
-      , double *density, double *specificVolume
+      , double *fluidFlowActivationSignal, double *measuredValue
+      , double *fluidStateIndex, double *pressure, double *temperature
+      , double *temperatureC, double *density, double *specificVolume
       , double *internalEnergy, double *enthalpy
       , double *specificEntropy, double *cp, double *cv
       , double *specificHelmholtzEnergy, double *specificGibbsEnergy
@@ -165,6 +167,7 @@ void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
 /* Common -> SI units conversions. */
 
 /*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
 /*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
@@ -219,6 +222,7 @@ void smo_medium_property_sensor_(int *n, double *fluidFlowIndex
 /* SI -> Common units conversions. */
 
 /*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *internalEnergy /= 1.00000000000000e+003;

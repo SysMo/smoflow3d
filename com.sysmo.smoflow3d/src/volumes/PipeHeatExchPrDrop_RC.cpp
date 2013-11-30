@@ -8,6 +8,7 @@
 
 #include "PipeHeatExchPrDrop_RC.h"
 
+using namespace smoflow;
 
 /**
  * PipeHeatExchPrDrop_RC - C++
@@ -82,6 +83,14 @@ void PipeHeatExchPrDrop_RC::getStateDerivatives(double* value1, double* value2) 
 
 void PipeHeatExchPrDrop_RC::compute() {
 	double pressureDrop = port1State->p() - port2State->p();
+	compute(pressureDrop);
+}
+
+void PipeHeatExchPrDrop_RC::compute_deactivedFluidFlow() {
+	compute(cst::zeroPressureDrop);  //:TRICKY: to compute zero mass flow rate
+}
+
+void PipeHeatExchPrDrop_RC::compute(double pressureDrop) {
 	double massFlowRate = friction->computeMassFlowRate(pressureDrop);
 	friction->updateFluidFlows(port1Flow, internalFlow);
 
@@ -94,6 +103,7 @@ void PipeHeatExchPrDrop_RC::compute() {
 
 	accFluid->compute(netMassFlowRate, netEnthalpyFlow, netHeatFlowRate, 0);
 }
+
 
 /**
  * PipeHeatExchPrDrop_RC - C
@@ -112,6 +122,10 @@ void PipeHeatExchPrDrop_RC_initStates(PipeHeatExchPrDrop_RC* pipe, MediumState* 
 
 void PipeHeatExchPrDrop_RC_compute(PipeHeatExchPrDrop_RC* pipe) {
 	pipe->compute();
+}
+
+void PipeHeatExchPrDrop_RC_compute_deactivedFluidFlow(PipeHeatExchPrDrop_RC* pipe) {
+	pipe->compute_deactivedFluidFlow();
 }
 
 void PipeHeatExchPrDrop_RC_setStateValues(PipeHeatExchPrDrop_RC* pipe, double value1, double value2) {

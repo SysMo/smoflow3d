@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>124</SUB_ID_MAX>
+  <SUB_ID_MAX>127</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>straight pipe with heat exchanger (single phase, pressure drop, R-C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -207,6 +207,15 @@
      <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
+     <SUB_ID>127</SUB_ID>
+     <VARNAME>fluidFlowActivationSignalDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>2</PRIMARY_PORT>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
      <SUB_ID>90</SUB_ID>
      <TITLE>fluid state index at port 1</TITLE>
      <VARNAME>port1FluidStateIndex</VARNAME>
@@ -253,7 +262,7 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoTDS</UNITS>
-     <EXPRESS2>@_1_2, @_2_2, @_0_3</EXPRESS2>
+     <EXPRESS2>@_1_3, @_2_2, @_0_3</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>92</SUB_ID>
@@ -265,6 +274,16 @@
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>125</SUB_ID>
+     <TITLE>fluid flow activation signal</TITLE>
+     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>smoFFAS</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

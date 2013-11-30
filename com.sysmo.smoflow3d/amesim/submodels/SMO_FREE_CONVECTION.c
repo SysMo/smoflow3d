@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:49:35 2013 */
+   Sat Nov 30 09:50:58 2013 */
 
 
 
@@ -70,7 +70,8 @@ REVISIONS :
 */
 
 void smo_free_convectionin_(int *n, double rp[13], int ip[1]
-      , char *tp[1], int ic[4], void *ps[4])
+      , char *tp[1], int ic[4], void *ps[4]
+      , double *fluidFlowActivationSignal)
 
 {
    int loop, error;
@@ -107,6 +108,12 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
    If necessary, check values of the following:
 
    rp[0..12]
+*/
+
+/*
+   Check and/or reset the following fixed and/or discrete variable
+
+   *fluidFlowActivationSignal = ??;
 */
 
 
@@ -188,10 +195,11 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
       1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
       2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 fluidFlowIndex      fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidStateIndex     fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndex                fluid flow index             [smoFFL]  basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] fixed  UNPLOTTABLE
+      3 fluidStateIndex               fluid state index            [smoTDS]  basic variable input  UNPLOTTABLE
 */
 
 /*  There are 4 internal variables.

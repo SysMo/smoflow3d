@@ -1,5 +1,5 @@
 /* Submodel SMO_PHASE_SEPARATOR skeleton created by AME Submodel editing utility
-   Wed Aug 28 18:02:52 2013 */
+   Sat Nov 30 12:37:26 2013 */
 
 
 
@@ -96,19 +96,21 @@ void smo_phase_separatorin_(int *n, int ip[1], int ic[5], void *ps[5])
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 port1FlowIndex      duplicate of port2FlowIndex
-      2 port1StateIndex     state index at port 1 [smoTDS] basic variable input  UNPLOTTABLE
+      1 port1FlowIndexDup                duplicate of port2FlowIndex 
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
+      3 port1StateIndex                  state index at port 1        [smoTDS] basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 port2StateIndex     state index at port 2 [smoTDS] multi line macro 'smo_phase_separator_macro0_'  UNPLOTTABLE
-      2 port2FlowIndex      flow index at port 2  [smoFFL] basic variable input  UNPLOTTABLE
+      1 port2StateIndex               state index at port 2        [smoTDS]  multi line macro 'smo_phase_separator_macro0_'  UNPLOTTABLE
+      2 port2FlowIndex                flow index at port 2         [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 
    Port 3 has 1 variable:
 
-      1 regSignal     regulating signal [null] basic variable input  UNPLOTTABLE
+      1 regulatingSignal     regulating signal [null] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.
@@ -121,7 +123,8 @@ void smo_phase_separatorin_(int *n, int ip[1], int ic[5], void *ps[5])
 
 void smo_phase_separator_(int *n, double *port1StateIndex
       , double *port2StateIndex, double *port2FlowIndex
-      , double *regSignal, int ip[1], int ic[5], void *ps[5])
+      , double *fluidFlowActivationSignal, double *regulatingSignal
+      , int ip[1], int ic[5], void *ps[5])
 
 {
    int loop;
@@ -137,6 +140,7 @@ void smo_phase_separator_(int *n, double *port1StateIndex
 /*   *port1StateIndex *= ??; CONVERSION UNKNOWN */
 /*   *port2StateIndex *= ??; CONVERSION UNKNOWN */
 /*   *port2FlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -153,11 +157,12 @@ void smo_phase_separator_(int *n, double *port1StateIndex
 /*   *port1StateIndex /= ??; CONVERSION UNKNOWN */
 /*   *port2StateIndex /= ??; CONVERSION UNKNOWN */
 /*   *port2FlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 }
 
 #endif
 extern double smo_phase_separator_macro0_(int *n
-      , double *port1StateIndex, double *regSignal, int ip[1]
+      , double *port1StateIndex, double *regulatingSignal, int ip[1]
       , int ic[5], void *ps[5])
 
 {
@@ -191,7 +196,7 @@ extern double smo_phase_separator_macro0_(int *n
 	   _port2FluidStateIndex = SmoObject_getInstanceIndex((SmoObject*)port2State);
    }
 
-   PhaseSeparator_updateState(_component, *regSignal);
+   PhaseSeparator_updateState(_component, *regulatingSignal);
    port2StateIndex = _port2FluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

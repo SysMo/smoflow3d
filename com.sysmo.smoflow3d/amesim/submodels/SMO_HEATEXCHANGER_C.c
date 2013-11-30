@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_C skeleton created by AME Submodel editing utility
-   Thu Nov 21 17:16:14 2013 */
+   Sat Nov 30 12:23:58 2013 */
 
 
 
@@ -151,20 +151,22 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[2]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 port1FluidStateIndex     fluid state index outlet   [smoTDS] multi line macro 'smo_heatexchanger_c_macro0_'  UNPLOTTABLE
-      2 port1FluidFlowIndex      fluid flow index at port 1 [smoFFL] basic variable input  UNPLOTTABLE
+      1 port1FluidStateIndex           fluid state index outlet             [smoTDS]  multi line macro 'smo_heatexchanger_c_macro0_'  UNPLOTTABLE
+      2 port1FluidFlowIndex            fluid flow index at port 1           [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal1     fluid flow activation signal (port1) [smoFFAS] basic variable input
 
    Port 2 has 2 variables:
 
       1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
       2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 port3FluidStateIndexDupl     duplicate of port1FluidStateIndex
-      2 port3FluidFlowIndex          fluid flow index at port 3 [smoFFL] basic variable input  UNPLOTTABLE
+      1 port3FluidStateIndexDupl       duplicate of port1FluidStateIndex   
+      2 port3FluidFlowIndex            fluid flow index at port 3           [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal3     fluid flow activation signal (port3) [smoFFAS] basic variable input
 */
 
 /*  There are 11 internal variables.
@@ -183,15 +185,16 @@ void smo_heatexchanger_cin_(int *n, double rp[6], int ip[2], int ic[2]
 */
 
 void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
-      , double *port1FluidFlowIndex, double *heatFlowIndex
+      , double *port1FluidFlowIndex
+      , double *fluidFlowActivationSignal1, double *heatFlowIndex
       , double *thermalNodeIndex, double *port3FluidFlowIndex
-      , double *pressure, double *temperature, double *density
-      , double *specificEnthalpy, double *gasMassFraction
-      , double *superHeat, double *internalVolume
-      , double stateValues[2], double stateValuesDot[2]
-      , double *reynoldsNumber, double *convectionCoefficient
-      , double *heatFlowRateFromWall, double rp[6], int ip[2]
-      , int ic[2], void *ps[4], int *flag)
+      , double *fluidFlowActivationSignal3, double *pressure
+      , double *temperature, double *density, double *specificEnthalpy
+      , double *gasMassFraction, double *superHeat
+      , double *internalVolume, double stateValues[2]
+      , double stateValuesDot[2], double *reynoldsNumber
+      , double *convectionCoefficient, double *heatFlowRateFromWall
+      , double rp[6], int ip[2], int ic[2], void *ps[4], int *flag)
 
 {
    int loop, logi;
@@ -217,8 +220,10 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
 
 /*   *port1FluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *port1FluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal1 *= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 /*   *port3FluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal3 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -271,9 +276,11 @@ void smo_heatexchanger_c_(int *n, double *port1FluidStateIndex
 
 /*   *port1FluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *port1FluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal1 /= ??; CONVERSION UNKNOWN */
 /*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal3 /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
    *internalVolume /= 1.00000000000000e-003;

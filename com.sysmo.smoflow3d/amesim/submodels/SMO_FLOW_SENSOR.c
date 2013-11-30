@@ -1,5 +1,5 @@
 /* Submodel SMO_FLOW_SENSOR skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:08:53 2013 */
+   Sat Nov 30 11:32:10 2013 */
 
 
 
@@ -107,19 +107,21 @@ void smo_flow_sensorin_(int *n, double rp[2], int ip[1], int ic[3]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidFlowIndexDup     duplicate of fluidFlowIndex
-      2 fluidStateIndex       fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndexDup                duplicate of fluidFlowIndex 
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
+      3 fluidStateIndex                  fluid state index            [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
       1 measuredValue     measured value [null] basic variable output
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 fluidStateIndexDup     duplicate of fluidStateIndex
-      2 fluidFlowIndex         fluid flow index [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup            duplicate of fluidStateIndex
+      2 fluidFlowIndex                fluid flow index             [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 */
 
 /*  There are 3 internal variables.
@@ -131,9 +133,9 @@ void smo_flow_sensorin_(int *n, double rp[2], int ip[1], int ic[3]
 
 void smo_flow_sensor_(int *n, double *fluidStateIndex
       , double *measuredValue, double *fluidFlowIndex
-      , double *massFlowRate, double *enthalpyFlowRate
-      , double *flowTemperature, double rp[2], int ip[1], int ic[3]
-      , void *ps[3])
+      , double *fluidFlowActivationSignal, double *massFlowRate
+      , double *enthalpyFlowRate, double *flowTemperature
+      , double rp[2], int ip[1], int ic[3], void *ps[3])
 
 {
    int loop;
@@ -152,6 +154,7 @@ void smo_flow_sensor_(int *n, double *fluidStateIndex
 
 /*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -208,5 +211,6 @@ void smo_flow_sensor_(int *n, double *fluidStateIndex
 
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 }
 

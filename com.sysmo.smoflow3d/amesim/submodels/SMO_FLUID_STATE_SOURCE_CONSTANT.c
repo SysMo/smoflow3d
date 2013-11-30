@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SOURCE_CONSTANT skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:04:12 2013 */
+   Fri Nov 29 12:53:09 2013 */
 
 
 
@@ -156,17 +156,18 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
 
 /*  There is 1 port.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidStateIndex     fluid state index [smoTDS] fixed  UNPLOTTABLE
-      2 fluidFlowIndex      fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndex               fluid state index            [smoTDS]  fixed  UNPLOTTABLE
+      2 fluidFlowIndex                fluid flow index             [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 6 internal variables.
 
       1 pressure             pressure           [bar]     fixed
       2 temperature          temperature        [K]       fixed
-      3 temperatureC         temperature (ï¿½C)   [degC]    fixed
+      3 temperatureC         temperature (°C)   [degC]    fixed
       4 density              density            [kg/m**3] fixed
       5 specificEnthalpy     specific enthalpy  [kJ/kg]   fixed
       6 gasMassFraction      gas mass fraction  [null]    fixed
@@ -177,7 +178,8 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
 void smo_fluid_state_source_constant_(int *n, double *fluidFlowIndex
-      , double rp[4], int ip[2], int ic[1], void *ps[1], int *flag)
+      , double *fluidFlowActivationSignal, double rp[4], int ip[2]
+      , int ic[1], void *ps[1], int *flag)
 
 {
    int loop, logi;
@@ -200,6 +202,7 @@ void smo_fluid_state_source_constant_(int *n, double *fluidFlowIndex
 /* Common -> SI units conversions. */
 
 /*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -214,6 +217,7 @@ void smo_fluid_state_source_constant_(int *n, double *fluidFlowIndex
 /* SI -> Common units conversions. */
 
 /*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 }
 
 #endif

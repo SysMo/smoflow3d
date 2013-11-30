@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_CR skeleton created by AME Submodel editing utility
-   Sun Nov 10 14:09:27 2013 */
+   Sat Nov 30 12:43:42 2013 */
 
 
 
@@ -81,20 +81,22 @@ void smo_heatexchanger_crin_(int *n, double rp[1], void *ps[1])
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 outletFluidStateIndexDup     duplicate of outletFluidStateIndex
-      2 inletFluidFlowIndex          inlet fluid flow index   [smoFFL] basic variable input  UNPLOTTABLE
+      1 inletFluidStateIndexDup       duplicate of outletFluidStateIndex
+      2 inletFluidFlowIndex           inlet fluid flow index       [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 
    Port 2 has 2 variables:
 
       1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
       2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 outletFluidFlowIndex      outlet fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 outletFluidStateIndex     outlet fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 outletFluidFlowIndex             outlet fluid flow index      [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
+      3 outletFluidStateIndex            outlet fluid state index     [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 5 internal variables.
@@ -107,12 +109,12 @@ void smo_heatexchanger_crin_(int *n, double rp[1], void *ps[1])
 */
 
 void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
-      , double *heatFlowIndex, double *thermalNodeIndex
-      , double *outletFluidFlowIndex, double *outletFluidStateIndex
-      , double *inletTemperature, double *outletTemperature
-      , double *wallTemperature, double *heatFlowRateFromWall
-      , double *massFlowRateInlet, double rp[1], void *ps[1]
-      , int *flag)
+      , double *fluidFlowActivationSignal, double *heatFlowIndex
+      , double *thermalNodeIndex, double *outletFluidFlowIndex
+      , double *outletFluidStateIndex, double *inletTemperature
+      , double *outletTemperature, double *wallTemperature
+      , double *heatFlowRateFromWall, double *massFlowRateInlet
+      , double rp[1], void *ps[1], int *flag)
 
 {
    int loop, logi;
@@ -128,6 +130,7 @@ void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
 /* Common -> SI units conversions. */
 
 /*   *inletFluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 /*   *outletFluidStateIndex *= ??; CONVERSION UNKNOWN */
 
@@ -169,6 +172,7 @@ void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
 /* SI -> Common units conversions. */
 
 /*   *inletFluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 /*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *outletFluidFlowIndex /= ??; CONVERSION UNKNOWN */

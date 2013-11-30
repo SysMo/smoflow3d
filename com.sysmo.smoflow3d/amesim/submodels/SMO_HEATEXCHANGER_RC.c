@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_RC skeleton created by AME Submodel editing utility
-   Sat Nov 2 11:57:42 2013 */
+   Sat Nov 30 14:07:00 2013 */
 
 
 
@@ -166,20 +166,22 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 inletFluidFlowIndex      inlet fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 inletFluidStateIndex     inlet fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 inletFluidFlowIndex              inlet fluid flow index       [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
+      3 inletFluidStateIndex             inlet fluid state index      [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
       1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
       2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 outletFluidStateIndex     outlet fluid state index [smoTDS] multi line macro 'smo_heatexchanger_rc_macro0_'  UNPLOTTABLE
-      2 outletFluidFlowIndex      outlet fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 outletFluidStateIndex         outlet fluid state index     [smoTDS]  multi line macro 'smo_heatexchanger_rc_macro0_'  UNPLOTTABLE
+      2 outletFluidFlowIndex          outlet fluid flow index      [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 */
 
 /*  There are 6 internal variables.
@@ -195,7 +197,8 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
       , double *inletFluidStateIndex, double *heatFlowIndex
       , double *thermalNodeIndex, double *outletFluidStateIndex
-      , double *outletFluidFlowIndex, double *inletTemperature
+      , double *outletFluidFlowIndex
+      , double *fluidFlowActivationSignal, double *inletTemperature
       , double *outletTemperature, double *outletStateValue
       , double *outletStateValueDot, double *reynoldsNumber
       , double *convectionCoefficient, double *heatFlowRateFromWall
@@ -229,6 +232,7 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 /*   *outletFluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *outletFluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -281,6 +285,7 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *outletFluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *outletFluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_heatexchanger_rc_macro0_(int *n

@@ -30,6 +30,8 @@ public:
 	double getAbsolutePressureDrop() {return friction->getAbsolutePressureDrop();}
 	FlowType getFlowType() {return friction->getFlowType();}
 
+	bool isFlowClosed() {return friction->getRegulatingSignal() <= 0;}
+
 protected:
 	FrictionFlowValve* friction;
 
@@ -67,6 +69,7 @@ void TwoPortValve_setRegulatingSignal(TwoPortValve* valve, double regulatingSign
 void TwoPortValve_updateFluidFlows(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2);
 double TwoPortValve_getAbsolutePressureDrop(TwoPortValve* valve);
 int TwoPortValve_getFlowType(TwoPortValve* valve);
+int TwoPortValve_getIsFlowClosed(TwoPortValve* valve);
 END_C_LINKAGE
 
 

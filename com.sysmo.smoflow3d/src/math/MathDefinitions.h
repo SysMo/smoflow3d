@@ -27,6 +27,7 @@ namespace cst {
 	const double StandardTemperature = 288.15; // [K]
 
 	const double MinPressureDrop = 1e-06; // [Pa]
+	const double zeroPressureDrop = 0.0; // [Pa]
 	const double MinMassFlowRate = 1e-12; // [kg/s]
 	const double zeroMassFlowRate = 0.0; // [kg/s]
 

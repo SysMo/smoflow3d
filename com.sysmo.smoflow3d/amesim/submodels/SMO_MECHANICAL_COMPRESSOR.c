@@ -1,5 +1,5 @@
 /* Submodel SMO_MECHANICAL_COMPRESSOR skeleton created by AME Submodel editing utility
-   Sun Nov 10 14:09:20 2013 */
+   Sat Nov 30 14:10:20 2013 */
 
 
 
@@ -47,9 +47,10 @@ REVISIONS :
 */
 
 
-/* There is 1 integer parameter:
+/* There are 2 integer parameters:
 
-   flowRateCalculationMethod flow rate calculation method
+   flowRateCalculationMethod    flow rate calculation method    
+   useFluidFlowActivationSignal use fluid flow activation signal
 */
 
 
@@ -61,19 +62,20 @@ REVISIONS :
    etaMechanicalExpression      expression for mechanical efficiency [-] = f(N[rev/min], tau[-])   
 */
 
-void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
+void smo_mechanical_compressorin_(int *n, double rp[1], int ip[2]
       , char *tp[4], int ic[3], void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int flowRateCalculationMethod;
+   int flowRateCalculationMethod, useFluidFlowActivationSignal;
    double displacementVolume;
    char *etaVolumetricExpression, *volumetricFlowRateExpression, 
       *etaIsentropicExpression, *etaMechanicalExpression;
 
    flowRateCalculationMethod = ip[0];
+   useFluidFlowActivationSignal = ip[1];
 
    displacementVolume = rp[0];
 
@@ -99,6 +101,11 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
    if (flowRateCalculationMethod < 1 || flowRateCalculationMethod > 2)
    {
       amefprintf(stderr, "\nflow rate calculation method must be in range [1..2].\n");
+      error = 2;
+   }
+   if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
+   {
+      amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
       error = 2;
    }
 
@@ -146,15 +153,17 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 inletFluidFlowIndex      inlet fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 inletFluidStateIndex     inlet fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 inletFluidFlowIndex              inlet fluid flow index                                                 [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal                                
+      3 inletFluidStateIndex             inlet fluid state index                                                [smoTDS] basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 outletFluidFlowIndex      outlet fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 outletFluidStateIndex     outlet fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 outletFluidFlowIndex          outlet fluid flow index                                                [smoFFL]  basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignal     flow activation signal = {-1 - not used; 0 - deactivate; 1 - activate} [smoFFAS] basic variable output
+      3 outletFluidStateIndex         outlet fluid state index                                               [smoTDS]  basic variable input  UNPLOTTABLE
 
    Port 3 has 2 variables:
 
@@ -174,23 +183,25 @@ void smo_mechanical_compressorin_(int *n, double rp[1], int ip[1]
 
 void smo_mechanical_compressor_(int *n, double *inletFluidFlowIndex
       , double *inletFluidStateIndex, double *outletFluidFlowIndex
+      , double *fluidFlowActivationSignal
       , double *outletFluidStateIndex, double *torque
       , double *rotarySpeed, double *pressureRatio
       , double *etaVolumetric, double *etaIsentropic
       , double *etaMechanical, double *massFlowRate
-      , double *compressorWork, double rp[1], int ip[1], char *tp[4]
+      , double *compressorWork, double rp[1], int ip[2], char *tp[4]
       , int ic[3], void *ps[3])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int flowRateCalculationMethod;
+   int flowRateCalculationMethod, useFluidFlowActivationSignal;
    double displacementVolume;
    char *etaVolumetricExpression, *volumetricFlowRateExpression, 
       *etaIsentropicExpression, *etaMechanicalExpression;
 
    flowRateCalculationMethod = ip[0];
+   useFluidFlowActivationSignal = ip[1];
 
    displacementVolume = rp[0];
 
@@ -211,6 +222,7 @@ void smo_mechanical_compressor_(int *n, double *inletFluidFlowIndex
 
    *inletFluidFlowIndex = ??;
    *outletFluidFlowIndex = ??;
+   *fluidFlowActivationSignal = ??;
    *torque     = ??;
    *pressureRatio = ??;
    *etaVolumetric = ??;
@@ -260,6 +272,16 @@ void smo_mechanical_compressor_(int *n, double *inletFluidFlowIndex
 
    *inletFluidFlowIndex = _inletFluidFlowIndex;
    *outletFluidFlowIndex = _outletFluidFlowIndex;
+
+   if (useFluidFlowActivationSignal == 1) { //no
+	   *fluidFlowActivationSignal = -1; //not used
+   } else { // yes
+	   if (*rotarySpeed <= 1e-12) {
+		   *fluidFlowActivationSignal = 0; //deactivate flow
+	   } else {
+		   *fluidFlowActivationSignal = 1; //activate flow
+	   }
+   }
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -267,6 +289,7 @@ void smo_mechanical_compressor_(int *n, double *inletFluidFlowIndex
 /*   *inletFluidFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *inletFluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *outletFluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 /*   *outletFluidStateIndex /= ??; CONVERSION UNKNOWN */
    *rotarySpeed /= 1.04719755119660e-001;
 }

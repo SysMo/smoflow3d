@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SOURCE_PT skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:05:11 2013 */
+   Sat Nov 30 11:28:26 2013 */
 
 
 
@@ -85,10 +85,11 @@ void smo_fluid_state_source_ptin_(int *n, int ip[1], int ic[1]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidStateIndex     fluid state index [smoTDS] multi line macro 'smo_fluid_state_source_pt_macro0_'  UNPLOTTABLE
-      2 fluidFlowIndex      fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndex               fluid state index            [smoTDS]  multi line macro 'smo_fluid_state_source_pt_macro0_'  UNPLOTTABLE
+      2 fluidFlowIndex                fluid flow index             [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -101,17 +102,17 @@ void smo_fluid_state_source_ptin_(int *n, int ip[1], int ic[1]
 
 /*  There are 4 internal variables.
 
-      1 temperatureC        temperature (ï¿½C)  [degC]          basic variable
+      1 temperatureC        temperature (°C)  [degC]          basic variable
       2 density             density           [kg/m**3]       basic variable
       3 enthalpy            specific enthalpy [kJ/kg -> J/kg] basic variable
       4 gasMassFraction     gas mass fraction [null]          basic variable
 */
 
 void smo_fluid_state_source_pt_(int *n, double *fluidStateIndex
-      , double *fluidFlowIndex, double *pressure, double *temperature
-      , double *temperatureC, double *density, double *enthalpy
-      , double *gasMassFraction, int ip[1], int ic[1], void *ps[1]
-      , int *flag)
+      , double *fluidFlowIndex, double *fluidFlowActivationSignal
+      , double *pressure, double *temperature, double *temperatureC
+      , double *density, double *enthalpy, double *gasMassFraction
+      , int ip[1], int ic[1], void *ps[1], int *flag)
 
 {
    int loop, logi;
@@ -127,6 +128,7 @@ void smo_fluid_state_source_pt_(int *n, double *fluidStateIndex
 
 /*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
    *pressure *= 1.00000000000000e+005;
 
 /*
@@ -152,6 +154,7 @@ void smo_fluid_state_source_pt_(int *n, double *fluidStateIndex
 
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *enthalpy /= 1.00000000000000e+003;
 }

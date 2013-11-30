@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_FLOW_SOURCE skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:06:00 2013 */
+   Sat Nov 30 11:29:57 2013 */
 
 
 
@@ -33,7 +33,8 @@ REVISIONS :
 #define _fluidFlowIndex ic[0]
 #define _fluidFlow ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_fluid_flow_sourcein_(int *n, int ic[1], void *ps[1])
+void smo_fluid_flow_sourcein_(int *n, int ic[1], void *ps[1]
+      , double *fluidFlowActivationSignal)
 
 {
    int loop, error;
@@ -41,6 +42,12 @@ void smo_fluid_flow_sourcein_(int *n, int ic[1], void *ps[1])
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    loop = 0;
    error = 0;
+
+/*
+   Check and/or reset the following fixed and/or discrete variable
+
+   *fluidFlowActivationSignal = ??;
+*/
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
@@ -64,10 +71,11 @@ void smo_fluid_flow_sourcein_(int *n, int ic[1], void *ps[1])
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidFlowIndex      fluid flow index   [smoFFL] multi line macro 'smo_fluid_flow_source_macro0_'  UNPLOTTABLE
-      2 fluidStateIndex     fluid state index  [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndex                fluid flow index             [smoFFL]  multi line macro 'smo_fluid_flow_source_macro0_'  UNPLOTTABLE
+      2 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] fixed  UNPLOTTABLE
+      3 fluidStateIndex               fluid state index            [smoTDS]  basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 

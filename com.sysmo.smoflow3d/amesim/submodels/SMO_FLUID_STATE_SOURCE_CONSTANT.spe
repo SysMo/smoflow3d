@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>55</SUB_ID_MAX>
+  <SUB_ID_MAX>57</SUB_ID_MAX>
   <DEFAULT_ICON>smo_fluid_state_source_constant</DEFAULT_ICON>
   <SUB_LABEL>modulated pressure and specific enthalpy source</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -256,6 +256,17 @@
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>57</SUB_ID>
+     <TITLE>fluid flow activation signal</TITLE>
+     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFAS</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

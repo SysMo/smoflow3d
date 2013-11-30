@@ -152,7 +152,12 @@ public:
 			return 0.0;
 		}
 
-		double absMassFlowRate = m::fabs(massFlowRate);
+		// Check regulating signal
+		m::limitVariable(regulatingSignal, 0.0, 1.0);
+		if (regulatingSignal <= 0) {
+			absPressureDrop = 0.0;
+			return 0.0;
+		}
 
 		// Get upstream state
 		MediumState* upstreamState = getUpstreamState(massFlowRate);
@@ -173,9 +178,7 @@ public:
 		}
 
 		// Calculate pressure drop
-		m::limitVariable(regulatingSignal, 0.0, 1.0);
-
-		double vFlow = absMassFlowRate / upstreamDensity;
+		double vFlow = m::fabs(massFlowRate) / upstreamDensity;
 		//:TRICKY: use 'pressureDrop < transitionPressureDifference'. Using 'absMassFlowRate < transitionMassFlowRate' is wrong
 		double pressureDrop = relativeDensity * m::pow(vFlow / (regulatingSignal * N1 * Kv), 2);
 		if (pressureDrop < transitionPressureDifference) {

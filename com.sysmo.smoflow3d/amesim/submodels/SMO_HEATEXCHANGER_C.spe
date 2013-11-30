@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>141</SUB_ID_MAX>
+  <SUB_ID_MAX>145</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>straight pipe with heat exchanger (no pressure drop, C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -243,6 +243,16 @@
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
     </EVAR>
+    <EVAR>
+     <SUB_ID>144</SUB_ID>
+     <TITLE>fluid flow activation signal (port1)</TITLE>
+     <VARNAME>fluidFlowActivationSignal1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
    </PORT>
    <PORT>
     <EVAR>
@@ -288,6 +298,16 @@
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>145</SUB_ID>
+     <TITLE>fluid flow activation signal (port3)</TITLE>
+     <VARNAME>fluidFlowActivationSignal3</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>smoFFAS</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

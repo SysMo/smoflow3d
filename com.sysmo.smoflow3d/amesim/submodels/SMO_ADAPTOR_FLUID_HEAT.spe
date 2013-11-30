@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>10</SUB_ID_MAX>
+  <SUB_ID_MAX>12</SUB_ID_MAX>
   <DEFAULT_ICON>smo_adaptor_fluid_heat</DEFAULT_ICON>
   <SUB_LABEL>adaptor between fluid and heat</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -23,7 +23,7 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoTHN</UNITS>
-     <EXPRESS2>@_2_2</EXPRESS2>
+     <EXPRESS2>@_2_3</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>8</SUB_ID>
@@ -48,6 +48,21 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>12</SUB_ID>
+     <TITLE>fluid flow activation signal</TITLE>
+     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>5</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFAS</UNITS>
+     <MIN_VALUE>-1.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>-1.00000000000000e+000</DEF_VALUE>
+     <VALUE>-1.00000000000000e+000</VALUE>
     </EVAR>
     <EVAR>
      <SUB_ID>6</SUB_ID>

@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>49</SUB_ID_MAX>
+  <SUB_ID_MAX>53</SUB_ID_MAX>
   <DEFAULT_ICON>smo_generic_property_sensor</DEFAULT_ICON>
   <SUB_LABEL>generic sensor with additional thermodynamic state variable</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -673,7 +673,7 @@
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>2</PRIMARY_PORT>
-     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
      <DUP_TYPE>0</DUP_TYPE>
     </EVAR>
     <EVAR>
@@ -687,6 +687,16 @@
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
     </EVAR>
+    <EVAR>
+     <SUB_ID>52</SUB_ID>
+     <TITLE>fluid flow activation signal</TITLE>
+     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
    </PORT>
    <PORT>
     <EVAR>
@@ -698,7 +708,7 @@
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNITS>null</UNITS>
-     <EXPRESS2>@_3_2</EXPRESS2>
+     <EXPRESS2>@_3_3</EXPRESS2>
     </EVAR>
    </PORT>
    <PORT>
@@ -709,6 +719,16 @@
      <TYPE>4</TYPE>
      <PRIMARY_PORT>0</PRIMARY_PORT>
      <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>53</SUB_ID>
+     <ORIG_TITLE>fluid flow index</ORIG_TITLE>
+     <VARNAME>fluidFlowActivationSignalDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
      <DUP_TYPE>0</DUP_TYPE>
     </EVAR>
     <EVAR>

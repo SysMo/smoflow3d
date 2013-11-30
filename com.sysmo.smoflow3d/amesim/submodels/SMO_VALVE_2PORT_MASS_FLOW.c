@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_MASS_FLOW skeleton created by AME Submodel editing utility
-   Sun Nov 10 14:09:42 2013 */
+   Sat Nov 30 12:18:43 2013 */
 
 
 
@@ -39,21 +39,23 @@ REVISIONS :
 #define _fluidFlow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
-/* There is 1 integer parameter:
+/* There are 2 integer parameters:
 
-   allowBidirectionalFlow allow bi-directional flow
+   allowBidirectionalFlow       allow bi-directional flow       
+   useFluidFlowActivationSignal use fluid flow activation signal
 */
 
-void smo_valve_2port_mass_flowin_(int *n, int ip[1], int ic[3]
+void smo_valve_2port_mass_flowin_(int *n, int ip[2], int ic[3]
       , void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int allowBidirectionalFlow;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
 
    allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
    loop = 0;
    error = 0;
 
@@ -66,6 +68,11 @@ void smo_valve_2port_mass_flowin_(int *n, int ip[1], int ic[3]
    if (allowBidirectionalFlow < 1 || allowBidirectionalFlow > 2)
    {
       amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
+      error = 2;
+   }
+   if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
+   {
+      amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
       error = 2;
    }
 
@@ -94,19 +101,21 @@ void smo_valve_2port_mass_flowin_(int *n, int ip[1], int ic[3]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidFlow1Index      fluid flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidState1Index     fluid state1 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow1Index               fluid flow1 index                                                      [smoFFL]  basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignal     flow activation signal = {-1 - not used; 0 - deactivate; 1 - activate} [smoFFAS] basic variable output
+      3 fluidState1Index              fluid state1 index                                                     [smoTDS]  basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
       1 regulatingSignal     regulating signal [kg/s] basic variable input
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 fluidFlow2Index     fluid flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 state2Index         fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow2Index                  fluid flow2 index                                                      [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignalDup     duplicate of                                                          
+      3 state2Index                      fluid state2 index                                                     [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 3 internal variables.
@@ -117,19 +126,20 @@ void smo_valve_2port_mass_flowin_(int *n, int ip[1], int ic[3]
 */
 
 void smo_valve_2port_mass_flow_(int *n, double *fluidFlow1Index
-      , double *fluidState1Index, double *regulatingSignal
-      , double *fluidFlow2Index, double *state2Index
-      , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressureLoss, int ip[1], int ic[3], void *ps[3]
-      , int *flag)
+      , double *fluidFlowActivationSignal, double *fluidState1Index
+      , double *regulatingSignal, double *fluidFlow2Index
+      , double *state2Index, double *massFlowRate
+      , double *enthalpyFlowRate, double *pressureLoss, int ip[2]
+      , int ic[3], void *ps[3], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int allowBidirectionalFlow;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
 
    allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
    logi = 0;
    loop = 0;
 
@@ -142,6 +152,7 @@ void smo_valve_2port_mass_flow_(int *n, double *fluidFlow1Index
    Set all submodel outputs below:
 
    *fluidFlow1Index = ??;
+   *fluidFlowActivationSignal = ??;
    *fluidFlow2Index = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
@@ -168,11 +179,22 @@ void smo_valve_2port_mass_flow_(int *n, double *fluidFlow1Index
 
    *fluidFlow1Index = _fluidFlow1Index;
    *fluidFlow2Index = _fluidFlow2Index;
+
+   if (useFluidFlowActivationSignal == 1) { //no
+	   *fluidFlowActivationSignal = -1; //not used
+   } else { // yes
+	   if (TwoPortValve_getIsFlowClosed(_component) == 1) {
+		   *fluidFlowActivationSignal = 0; //deactivate flow
+	   } else {
+		   *fluidFlowActivationSignal = 1; //activate flow
+	   }
+   }
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *state2Index /= ??; CONVERSION UNKNOWN */

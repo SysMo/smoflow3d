@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>59</SUB_ID_MAX>
+  <SUB_ID_MAX>65</SUB_ID_MAX>
   <DEFAULT_ICON>smo_reg_valve_2port</DEFAULT_ICON>
   <SUB_LABEL>Two port valve with direct control of the mass flow rate (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -57,6 +57,24 @@
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
+   <IPARAM>
+    <SUB_ID>65</SUB_ID>
+    <TITLE>use fluid flow activation signal</TITLE>
+    <VARNAME>useFluidFlowActivationSignal</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
   </IPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
@@ -102,6 +120,16 @@
      <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
+     <SUB_ID>62</SUB_ID>
+     <TITLE>flow activation signal = {-1 - not used; 0 - deactivate; 1 - activate}</TITLE>
+     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
+    <EVAR>
      <SUB_ID>54</SUB_ID>
      <TITLE>fluid state1 index</TITLE>
      <VARNAME>fluidState1Index</VARNAME>
@@ -136,6 +164,15 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>63</SUB_ID>
+     <VARNAME>fluidFlowActivationSignalDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
     </EVAR>
     <EVAR>
      <SUB_ID>55</SUB_ID>

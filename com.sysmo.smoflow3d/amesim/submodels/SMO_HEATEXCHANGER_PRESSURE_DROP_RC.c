@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_PRESSURE_DROP_RC skeleton created by AME Submodel editing utility
-   Thu Nov 21 17:16:28 2013 */
+   Fri Nov 29 12:43:59 2013 */
 
 
 
@@ -151,20 +151,22 @@ void smo_heatexchanger_pressure_drop_rcin_(int *n, double rp[8]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 port1FluidFlowIndex      fluid flow index at port 1  [smoFFL] basic variable output  UNPLOTTABLE
-      2 port1FluidStateIndex     fluid state index at port 1 [smoTDS] basic variable input  UNPLOTTABLE
+      1 port1FluidFlowIndex              fluid flow index at port 1  [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
+      3 port1FluidStateIndex             fluid state index at port 1 [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
       1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
       2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 port3FluidStateIndex     fluid state index outlet   [smoTDS] multi line macro 'smo_heatexchanger_pressure_drop_rc_macro0_'  UNPLOTTABLE
-      2 port3FluidFlowIndex      fluid flow index at port 3 [smoFFL] basic variable input  UNPLOTTABLE
+      1 port3FluidStateIndex          fluid state index outlet     [smoTDS]  multi line macro 'smo_heatexchanger_pressure_drop_rc_macro0_'  UNPLOTTABLE
+      2 port3FluidFlowIndex           fluid flow index at port 3   [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 */
 
 /*  There are 7 internal variables.
@@ -182,11 +184,12 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
       , double *port1FluidFlowIndex, double *port1FluidStateIndex
       , double *heatFlowIndex, double *thermalNodeIndex
       , double *port3FluidStateIndex, double *port3FluidFlowIndex
-      , double *port1Temperature, double *port3Temperature
-      , double stateValues[2], double stateValuesDot[2]
-      , double *reynoldsNumber, double *convectionCoefficient
-      , double *heatFlowRateFromWall, double *totalPressureLoss
-      , double rp[8], int ip[1], int ic[6], void *ps[6], int *flag)
+      , double *fluidFlowActivationSignal, double *port1Temperature
+      , double *port3Temperature, double stateValues[2]
+      , double stateValuesDot[2], double *reynoldsNumber
+      , double *convectionCoefficient, double *heatFlowRateFromWall
+      , double *totalPressureLoss, double rp[8], int ip[1], int ic[6]
+      , void *ps[6], int *flag)
 
 {
    int loop, logi;
@@ -215,6 +218,7 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 /*   *port3FluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *port3FluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -244,8 +248,11 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
 	   _wallHeatFlow = PipeHeatExchPrDrop_RC_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
-
-   PipeHeatExchPrDrop_RC_compute(_component);
+   if (*fluidFlowActivationSignal == 0) {
+	   PipeHeatExchPrDrop_RC_compute_deactivedFluidFlow(_component);
+   } else {
+	   PipeHeatExchPrDrop_RC_compute(_component);
+   }
 
    *port1FluidFlowIndex = _port1FluidFlowIndex;
    *heatFlowIndex = _wallHeatFlowIndex;
@@ -266,6 +273,7 @@ void smo_heatexchanger_pressure_drop_rc_(int *n
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *port3FluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
    *totalPressureLoss /= 1.00000000000000e+005;
 }
 
