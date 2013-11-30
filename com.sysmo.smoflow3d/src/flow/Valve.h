@@ -1,13 +1,13 @@
 /*
- * TwoPortValve.h
+ * Valve.h
  *
  *  Created on: Jul 28, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#ifndef TWOPORTVALVE_H_
-#define TWOPORTVALVE_H_
+#ifndef VALVE_H_
+#define VALVE_H_
 
 #include "media/MediumState.h"
 #include "flow/FlowBase.h"
@@ -16,10 +16,10 @@
 
 #ifdef __cplusplus
 
-class TwoPortValve : public SmoComponent {
+class Valve : public SmoComponent {
 public:
-	TwoPortValve(FrictionFlowValve* friction);
-	virtual ~TwoPortValve();
+	Valve(FrictionFlowValve* friction);
+	virtual ~Valve();
 
 	void init(MediumState* state1, MediumState* state2);
 	void compute();
@@ -40,15 +40,15 @@ protected:
 };
 
 #else //_cplusplus
-DECLARE_C_STRUCT(TwoPortValve)
+DECLARE_C_STRUCT(Valve)
 #endif //_cplusplus
 
 
 BEGIN_C_LINKAGE
-TwoPortValve* TwoPortValve_InputMassFlowRate_new(
+Valve* Valve_InputMassFlowRate_new(
 		int allowBidirectionalFlow);
 
-TwoPortValve* TwoPortValve_Kv_new(
+Valve* Valve_Kv_new(
 		int allowBidirectionalFlow,
 		double Kv,
 		int transitionChoice,
@@ -56,21 +56,21 @@ TwoPortValve* TwoPortValve_Kv_new(
 		double transitionPressureDifference,
 		double maximumMassFlowRate);
 
-TwoPortValve* TwoPortValve_OrificeCompressibleIdealGas_new(
+Valve* Valve_OrificeCompressibleIdealGas_new(
 		int allowBidirectionalFlow,
 		double orificeArea,
 		double flowCoefficient);
 
-void TwoPortValve_init(TwoPortValve* valve, MediumState* state1, MediumState* state2);
-void TwoPortValve_compute(TwoPortValve* valve);
+void Valve_init(Valve* valve, MediumState* state1, MediumState* state2);
+void Valve_compute(Valve* valve);
 
-void TwoPortValve_setRegulatingSignal(TwoPortValve* valve, double regulatingSignal);
+void Valve_setRegulatingSignal(Valve* valve, double regulatingSignal);
 
-void TwoPortValve_updateFluidFlows(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2);
-double TwoPortValve_getAbsolutePressureDrop(TwoPortValve* valve);
-int TwoPortValve_getFlowType(TwoPortValve* valve);
-int TwoPortValve_getIsFlowClosed(TwoPortValve* valve);
+void Valve_updateFluidFlows(Valve* valve, FluidFlow* flow1, FluidFlow* flow2);
+double Valve_getAbsolutePressureDrop(Valve* valve);
+int Valve_getFlowType(Valve* valve);
+int Valve_getIsFlowClosed(Valve* valve);
 END_C_LINKAGE
 
 
-#endif /* TWOPORTVALVE_H_ */
+#endif /* VALVE_H_ */

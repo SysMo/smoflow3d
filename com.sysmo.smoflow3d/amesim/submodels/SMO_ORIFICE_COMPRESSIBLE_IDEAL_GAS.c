@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "flow/TwoPortValve.h"
+#include "flow/Valve.h"
 
 #define _component ps[0]
 
@@ -117,7 +117,7 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = TwoPortValve_OrificeCompressibleIdealGas_new(
+   _component = Valve_OrificeCompressibleIdealGas_new(
 		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow = {1-no, 2-yes} - 1 = {0-no, 1-yes});
 		   orificeArea,
 		   flowCoefficient);
@@ -204,17 +204,17 @@ void smo_orifice_compressible_ideal_gas_(int *n
    if (firstc_()) {
 	   MediumState* state1 = MediumState_get(*fluidState1Index);
 	   MediumState* state2 = MediumState_get(*fluidState2Index);
-	   TwoPortValve_init(_component, state1, state2);
+	   Valve_init(_component, state1, state2);
    }
 
-   TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
-   TwoPortValve_compute(_component);
-   TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
+   Valve_setRegulatingSignal(_component, *regulatingSignal);
+   Valve_compute(_component);
+   Valve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
-   *pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
-   *flowType = TwoPortValve_getFlowType(_component);
+   *pressureLoss = Valve_getAbsolutePressureDrop(_component);
+   *flowType = Valve_getFlowType(_component);
 
    *fluidFlow1Index = _fluidFlow1Index;
    *fluidFlow2Index = _fluidFlow2Index;
@@ -222,7 +222,7 @@ void smo_orifice_compressible_ideal_gas_(int *n
    if (useFluidFlowActivationSignal == 1) { //no
 	   *fluidFlowActivationSignal = -1; //not used
    } else { // yes
-	   if (TwoPortValve_getIsFlowClosed(_component) == 1) {
+	   if (Valve_getIsFlowClosed(_component) == 1) {
 		   *fluidFlowActivationSignal = 0; //deactivate flow
 	   } else {
 		   *fluidFlowActivationSignal = 1; //activate flow

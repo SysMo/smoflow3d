@@ -1,28 +1,28 @@
 /*
- * TwoPortValve.cpp
+ * Valve.cpp
  *
  *  Created on: Jul 28, 2013
  *      Author: Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "TwoPortValve.h"
+#include "Valve.h"
 using namespace smoflow;
 
 /**
  * TwoPortValve - C++
  */
-TwoPortValve::TwoPortValve(FrictionFlowValve* friction) {
+Valve::Valve(FrictionFlowValve* friction) {
 	this->friction = friction;
 
 	state1 = NULL;
 	state2 = NULL;
 }
 
-TwoPortValve::~TwoPortValve() {
+Valve::~Valve() {
 }
 
-void TwoPortValve::init(MediumState* state1, MediumState* state2) {
+void Valve::init(MediumState* state1, MediumState* state2) {
 	if (state1->getMedium() != state2->getMedium()) {
 		RaiseComponentError(this, "Different media connected to the valve component!");
 	}
@@ -32,7 +32,7 @@ void TwoPortValve::init(MediumState* state1, MediumState* state2) {
 	friction->init(state1, state2);
 }
 
-void TwoPortValve::compute() {
+void Valve::compute() {
 	double pressureDrop12 = state1->p() - state2->p();
 	friction->computeMassFlowRate(pressureDrop12);
 }
@@ -40,12 +40,12 @@ void TwoPortValve::compute() {
 /**
  * TwoPortValve - C
  */
-TwoPortValve* TwoPortValve_InputMassFlowRate_new(int allowBidirectionalFlow) {
+Valve* Valve_InputMassFlowRate_new(int allowBidirectionalFlow) {
 	FrictionFlowValve* friction = FrictionFlowValve_InputMassFlowRate_new(allowBidirectionalFlow);
-	return new TwoPortValve(friction);
+	return new Valve(friction);
 }
 
-TwoPortValve* TwoPortValve_Kv_new(
+Valve* Valve_Kv_new(
 		int allowBidirectionalFlow,
 		double Kv,
 		int transitionChoice,
@@ -60,10 +60,10 @@ TwoPortValve* TwoPortValve_Kv_new(
 				transitionPressureDifference,
 				maximumMassFlowRate);
 
-	return new TwoPortValve(friction);
+	return new Valve(friction);
 }
 
-TwoPortValve* TwoPortValve_OrificeCompressibleIdealGas_new(
+Valve* Valve_OrificeCompressibleIdealGas_new(
 		int allowBidirectionalFlow,
 		double orificeArea,
 		double flowCoefficient) {
@@ -72,34 +72,34 @@ TwoPortValve* TwoPortValve_OrificeCompressibleIdealGas_new(
 			orificeArea,
 			flowCoefficient);
 
-	return new TwoPortValve(friction);
+	return new Valve(friction);
 }
 
-void TwoPortValve_init(TwoPortValve* valve, MediumState* state1, MediumState* state2) {
+void Valve_init(Valve* valve, MediumState* state1, MediumState* state2) {
 	valve->init(state1, state2);
 }
 
-void TwoPortValve_compute(TwoPortValve* valve) {
+void Valve_compute(Valve* valve) {
 	valve->compute();
 }
 
-void TwoPortValve_setRegulatingSignal(TwoPortValve* valve, double regulatingSignal) {
+void Valve_setRegulatingSignal(Valve* valve, double regulatingSignal) {
 	valve->setRegulatingSignal(regulatingSignal);
 }
 
-void TwoPortValve_updateFluidFlows(TwoPortValve* valve, FluidFlow* flow1, FluidFlow* flow2) {
+void Valve_updateFluidFlows(Valve* valve, FluidFlow* flow1, FluidFlow* flow2) {
 	valve->updateFluidFlows(flow1, flow2);
 }
 
-double TwoPortValve_getAbsolutePressureDrop(TwoPortValve* valve) {
+double Valve_getAbsolutePressureDrop(Valve* valve) {
 	return valve->getAbsolutePressureDrop();
 }
 
-int TwoPortValve_getFlowType(TwoPortValve* valve) {
+int Valve_getFlowType(Valve* valve) {
 	return (int) valve->getFlowType();
 }
 
-int TwoPortValve_getIsFlowClosed(TwoPortValve* valve) {
+int Valve_getIsFlowClosed(Valve* valve) {
 	if (valve->isFlowClosed()) {
 		return 1;
 	} else {

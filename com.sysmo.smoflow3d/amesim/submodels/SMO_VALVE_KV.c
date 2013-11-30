@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "flow/TwoPortValve.h"
+#include "flow/Valve.h"
 
 #define _component ps[0]
 
@@ -125,7 +125,7 @@ void smo_valve_kvin_(int *n, double rp[4], int ip[3], int ic[3]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = TwoPortValve_Kv_new(
+   _component = Valve_Kv_new(
 		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
 		   Kv,
 		   transitionChoice,
@@ -217,16 +217,16 @@ void smo_valve_kv_(int *n, double *fluidFlow1Index
    if (firstc_()) {
 	   MediumState* state1 = MediumState_get(*fluidState1Index);
 	   MediumState* state2 = MediumState_get(*fluidState2Index);
-	   TwoPortValve_init(_component, state1, state2);
+	   Valve_init(_component, state1, state2);
    }
 
-   TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
-   TwoPortValve_compute(_component);
-   TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
+   Valve_setRegulatingSignal(_component, *regulatingSignal);
+   Valve_compute(_component);
+   Valve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
-   *pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
+   *pressureLoss = Valve_getAbsolutePressureDrop(_component);
 
    *fluidFlow1Index = _fluidFlow1Index;
    *fluidFlow2Index = _fluidFlow2Index;
@@ -234,7 +234,7 @@ void smo_valve_kv_(int *n, double *fluidFlow1Index
    if (useFluidFlowActivationSignal == 1) { //no
 	   *fluidFlowActivationSignal = -1; //not used
    } else { // yes
-	   if (TwoPortValve_getIsFlowClosed(_component) == 1) {
+	   if (Valve_getIsFlowClosed(_component) == 1) {
 		   *fluidFlowActivationSignal = 0; //deactivate flow
 	   } else {
 		   *fluidFlowActivationSignal = 1; //activate flow
