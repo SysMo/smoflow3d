@@ -34,6 +34,9 @@ class StatechartImplementation {
 	
 	def generateImplementation(ExecutionFlow it) {'''
 		#include "«name».h"
+
+		SimEnv_MessageFunc _message;
+		SimEnv_ErrorFunc _error;
 		
 		const char* stateNames[«states.size»] = {
 			«FOR ExecutionState state : states SEPARATOR ','»
@@ -60,8 +63,8 @@ class StatechartImplementation {
 		};
 
 		«name»::«name»(SimEnv_MessageFunc messageFunc, SimEnv_ErrorFunc errorFunc) {
-			this->_message = messageFunc;
-			this->_error = errorFunc;
+			_message = messageFunc;
+			_error = errorFunc;
 			_message("Controller state list:\n");	
 			for (int i = 0; i < «states.size»; i++) {
 				_message(stateNames[i]);

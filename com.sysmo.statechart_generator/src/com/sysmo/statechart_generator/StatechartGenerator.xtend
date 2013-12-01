@@ -8,10 +8,12 @@ import org.yakindu.sct.generator.core.AbstractWorkspaceGenerator
 import org.yakindu.sct.generator.core.impl.IExecutionFlowGenerator
 import org.yakindu.sct.model.sexec.ExecutionFlow
 import org.yakindu.sct.model.sgen.GeneratorEntry
+import org.yakindu.sct.generator.cpp.Navigation
 
 class StatechartGenerator extends AbstractWorkspaceGenerator implements IExecutionFlowGenerator {
 	@Inject extension StatechartHeader
 	@Inject extension StatechartImplementation
+	@Inject extension Navigation
 	
 	
 
@@ -24,13 +26,18 @@ class StatechartGenerator extends AbstractWorkspaceGenerator implements IExecuti
 	
 	def String generateMakefile(ExecutionFlow flow){
 		val libExtension = "dll"
+		var extraArgs = "";
+		if (flow.scopes.filter[hasOperations()].size > 0) {
+			extraArgs += " " + flow.name + "_Operations.cpp "
+		}
+			
 	'''
 		build : «flow.name».«libExtension»
 		clean : 
 			del *.dll
 		
 		«flow.name».«libExtension»: «flow.name».cpp «flow.name».h
-			g++ -o «flow.name».«libExtension» -shared -fPIC «flow.name».cpp			  
+			g++ -o «flow.name».«libExtension» -shared -fPIC «flow.name».cpp «extraArgs»
 	'''}
 
 	def write(File dir, String filename, String content) {
