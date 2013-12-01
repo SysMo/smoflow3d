@@ -92,7 +92,7 @@ CarbonFiberCompositeWarm::CarbonFiberCompositeWarm() {
 	//@source: SysMo/85_SoftwareLibs/MaterialData/CFRC_Warm.xls
 	name = "CarbonFiberCompositeWarm";
 
-	const double numValues = 12;
+	const double numValues = 18;
 	ArrayXd TValues(numValues);
 	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 ,
 			273.15, 293.15, 313.15, 353.15, 423.15, 473.15, 523.15, 562.85;

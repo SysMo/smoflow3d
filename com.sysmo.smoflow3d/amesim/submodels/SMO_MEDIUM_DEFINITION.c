@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_DEFINITION skeleton created by AME Submodel editing utility
-   Wed Jan 29 10:24:11 2014 */
+   Sun Dec 1 09:13:32 2013 */
 
 
 
@@ -120,9 +120,9 @@ void smo_medium_definitionin_(int *n, int ip[5])
       amefprintf(stderr, "\nmedium type must be in range [1..3].\n");
       error = 2;
    }
-   if (solidNameIndex < 1 || solidNameIndex > 8)
+   if (solidNameIndex < 1 || solidNameIndex > 10)
    {
-      amefprintf(stderr, "\nsolid name must be in range [1..8].\n");
+      amefprintf(stderr, "\nsolid name must be in range [1..10].\n");
       error = 2;
    }
    if (liquidNameIndex < 1 || liquidNameIndex > 2)
