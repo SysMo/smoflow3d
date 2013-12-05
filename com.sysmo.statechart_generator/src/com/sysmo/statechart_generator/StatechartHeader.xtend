@@ -11,12 +11,14 @@ import org.yakindu.sct.model.sgraph.Variable
 import org.yakindu.sct.model.stext.stext.VariableDefinition
 import org.yakindu.sct.model.sgraph.Declaration
 import org.yakindu.sct.model.sexec.naming.INamingService
-import java.util.UUID
+import org.yakindu.sct.generator.cpp.Navigation
+import org.yakindu.sct.model.stext.stext.OperationDefinition
 
 class StatechartHeader {
 	@Inject extension Util
 	@Inject extension INamingService
 	@Inject extension Naming
+	@Inject extension Navigation
 
 	new() {
 	
@@ -37,12 +39,22 @@ class StatechartHeader {
 		
 		typedef void (*SimEnv_MessageFunc)(const char* text);
 		typedef void (*SimEnv_ErrorFunc)(const char* text);
+		extern SimEnv_MessageFunc _message;
+		extern SimEnv_ErrorFunc _error;
+		
 		
 		#define ShowMessage(message) {\
 			std::stringstream messageStream; \
 			messageStream << "\n" << message; \
 			std::string messageString(messageStream.str()); \
 			_message(messageString.c_str()); \
+			}
+			
+		#define RaiseError(message) {\
+			std::stringstream errorStream; \
+			errorStream << "\n" << message; \
+			std::string errorString(errorStream.str()); \
+			_error(errorString.c_str()); \
 			}
 
 		class «name» {
@@ -85,9 +97,6 @@ class StatechartHeader {
 			void react();
 		
 		protected:
-			SimEnv_MessageFunc _message;
-			SimEnv_ErrorFunc _error;
-
 			double t;
 			//! the maximum number of orthogonal states defines the dimension of the state configuration vector.
 			static const int maxOrthogonalStates = «stateVector.size»;
@@ -152,13 +161,19 @@ class StatechartHeader {
 	def protected createInterface(StatechartScope scope) {'''
 		«FOR Variable variable : scope.variables»
 			«variable.structDeclaration()»
-		«ENDFOR»			
+		«ENDFOR»
+		«IF scope.hasOperations»
+		/* Operations */
+			«FOR OperationDefinition operation : scope.operations»
+		«operation.type.targetLanguageName» «operation.name.asEscapedIdentifier»(«FOR parameter : operation.parameters SEPARATOR ', '»«parameter.type.targetLanguageName» «parameter.name»«ENDFOR»);
+			«ENDFOR»
+		«ENDIF»
 	'''}
 	
 	def dispatch structDeclaration(VariableDefinition it) {'''
 		«IF type.name != 'void'»«type.targetLanguageName» «name»;«ENDIF»
 	'''}
 
-	def dispatch structDeclaration(Declaration it) ''''''
+	def dispatch structDeclaration(Declaration it) '''xxx'''
 	
 }
