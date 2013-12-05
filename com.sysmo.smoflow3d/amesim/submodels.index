@@ -58,6 +58,8 @@ smiulation_environment
 &SMO_SIMULATION_ENVIRONMENT SmoFlow3d
 smo_phase_separator
 &SMO_PHASE_SEPARATOR SmoFlow3d
+smo_fluid_flow_activation_signal_deactivator
+&SMO_FLUID_FLOW_ACTIVATION_SIGNAL_DEACTIVATOR_RC SmoFlow3d
 smo_r_fluid_state_sensor
 &SMO_R_FLUID_STATE_SENSOR SmoFlow3d
 smo_r_fluid_flow_sensor
