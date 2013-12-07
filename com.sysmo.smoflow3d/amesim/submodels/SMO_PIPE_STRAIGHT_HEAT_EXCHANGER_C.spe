@@ -247,10 +247,11 @@
      <SUB_ID>144</SUB_ID>
      <TITLE>fluid flow activation signal (port1)</TITLE>
      <VARNAME>fluidFlowActivationSignal1</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
+     <VISIBILITY>False</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFAS</UNITS>
     </EVAR>
    </PORT>
@@ -303,10 +304,11 @@
      <SUB_ID>145</SUB_ID>
      <TITLE>fluid flow activation signal (port3)</TITLE>
      <VARNAME>fluidFlowActivationSignal3</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
+     <VISIBILITY>False</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFAS</UNITS>
     </EVAR>
    </PORT>

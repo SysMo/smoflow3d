@@ -28,25 +28,30 @@ void ForcedConvection::setLimitOutput(bool limitOutput) {
 }
 
 void ForcedConvection::compute(double massFlowRate) {
-	if (m::fabs(massFlowRate) < cst::MinMassFlowRate) {
-		Re = 0;
-		Pr = 0;
-		Nu = 0;
-		heatFlowRate = 0;
-		return;
-	}
-
 	MediumState* upstreamFluidState;
 	if (massFlowRate >= 0) {
 		upstreamFluidState = fluidState;
 	} else {
 		upstreamFluidState = fluidState2;
 	}
+
 	// Calculate film state
 	double fluidTemperature = upstreamFluidState->T();
 	double wallTemperature = wallNode->getTemperature();
-	double filmTemperature = (fluidTemperature + wallTemperature)/2;
+
 	double wallOverheat = wallTemperature - fluidTemperature;
+	if (m::fabs(massFlowRate) < cst::MinMassFlowRate) {
+		Re = 0;
+		Pr = 0;
+		Nu = 3.66;
+		convectionCoefficient = Nu * fluidState->lambda() / characteristicLength;
+		heatFlowRate = heatExchangeGain * convectionCoefficient
+				* heatExchangeArea * wallOverheat;
+		return;
+	}
+
+	// Calculate film state
+	double filmTemperature = (fluidTemperature + wallTemperature)/2;
 	filmState->update_Tp(filmTemperature, upstreamFluidState->p());
 
 	double absMassFlowRate = m::fabs(massFlowRate);

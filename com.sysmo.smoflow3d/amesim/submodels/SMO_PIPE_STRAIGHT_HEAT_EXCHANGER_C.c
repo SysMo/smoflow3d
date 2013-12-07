@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C skeleton created by AME Submodel editing utility
-   Sat Nov 30 15:50:37 2013 */
+   Sat Dec 7 10:00:34 2013 */
 
 
 
@@ -155,7 +155,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[6]
 
       1 port1FluidStateIndex           fluid state index outlet             [smoTDS]  multi line macro 'smo_pipe_straight_heat_exchanger_c_macro0_'  UNPLOTTABLE
       2 port1FluidFlowIndex            fluid flow index at port 1           [smoFFL]  basic variable input  UNPLOTTABLE
-      3 fluidFlowActivationSignal1     fluid flow activation signal (port1) [smoFFAS] basic variable input
+      3 fluidFlowActivationSignal1     fluid flow activation signal (port1) [smoFFAS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
@@ -166,7 +166,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[6]
 
       1 port3FluidStateIndexDupl       duplicate of port1FluidStateIndex   
       2 port3FluidFlowIndex            fluid flow index at port 3           [smoFFL]  basic variable input  UNPLOTTABLE
-      3 fluidFlowActivationSignal3     fluid flow activation signal (port3) [smoFFAS] basic variable input
+      3 fluidFlowActivationSignal3     fluid flow activation signal (port3) [smoFFAS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 11 internal variables.

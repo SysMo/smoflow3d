@@ -53,7 +53,7 @@
      <SUB_ID>12</SUB_ID>
      <TITLE>fluid flow activation signal</TITLE>
      <VARNAME>fluidFlowActivationSignal</VARNAME>
-     <VISIBILITY>True</VISIBILITY>
+     <VISIBILITY>False</VISIBILITY>
      <TYPE>5</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>

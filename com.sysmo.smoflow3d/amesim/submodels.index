@@ -18,8 +18,8 @@ smo_fluid_flow_splitter_3port
 smo_heat_flow_splitter_3port
 &SMO_HEAT_FLOW_SPLITTER_3PORT SmoFlow3d
 smo_valve
-&SMO_VALVE_MASS_FLOW_RATE SmoFlow3d
 &SMO_VALVE_KV SmoFlow3d
+&SMO_VALVE_MASS_FLOW_RATE SmoFlow3d
 smo_fluid_chamber_cst_volume
 &SMO_FLUID_CHAMBER SmoFlow3d
 smo_fluid_chamber_cst_volume_4port
