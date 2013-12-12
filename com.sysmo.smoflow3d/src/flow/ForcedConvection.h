@@ -23,6 +23,7 @@ public:
 
 protected:
 	virtual double computeNusseltNumber(double Re, double Pr) = 0;
+	ForcedConvection();
 
 protected:
 	double flowArea;

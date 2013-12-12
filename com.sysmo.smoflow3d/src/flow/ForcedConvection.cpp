@@ -12,8 +12,18 @@ using namespace smoflow;
 /**
  * ForcedConvection - C++
  */
-void ForcedConvection::init(MediumState* fluidState1, MediumState* fluidState2,
-		ThermalNode* wallNode) {
+
+ForcedConvection::ForcedConvection() {
+	flowArea = 0.0;
+
+	fluidState2 = NULL;
+	limitOutput = false;
+	limitState = NULL;
+
+	Re = 0.0;
+}
+
+void ForcedConvection::init(MediumState* fluidState1, MediumState* fluidState2, ThermalNode* wallNode) {
 	Convection::init(fluidState1, wallNode);
 	this->fluidState2 = fluidState2;
 
