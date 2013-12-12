@@ -1,5 +1,5 @@
-/* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Thu Dec 12 12:45:08 2013 */
+/* Submodel SMO_FREE_CONVECTION_REGULATING_GAIN skeleton created by AME Submodel editing utility
+   Thu Dec 12 12:52:49 2013 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
  
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_FREE_CONVECTION"
+#define _SUBMODELNAME_ "SMO_FREE_CONVECTION_REGULATING_GAIN"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -40,9 +40,8 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 13 real parameters:
+/* There are 12 real parameters:
 
-   heatExchangeGain           heat exchange gain                            [null]
    convectionCoefficientGiven convection coefficient (given)                [W/m**2/K]
    characteristicLength       characteristic length                         [m]
    heatExchangeArea           heat exchange area                            [m**2]
@@ -69,8 +68,8 @@ REVISIONS :
    nusseltCorrelationExpr nusselt correlation expression Nu=f(Ra, Pr)
 */
 
-void smo_free_convectionin_(int *n, double rp[13], int ip[1]
-      , char *tp[1], int ic[4], void *ps[4]
+void smo_free_convection_regulating_gainin_(int *n, double rp[12]
+      , int ip[1], char *tp[1], int ic[4], void *ps[4]
       , double *fluidFlowActivationSignal)
 
 {
@@ -78,27 +77,26 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int calculationMethod;
-   double heatExchangeGain, convectionCoefficientGiven, 
-      characteristicLength, heatExchangeArea, length, height, width, 
-      diameter, basePipeDiameter, finSpacing, finThickness, finHeight
-      , angleOfInclination;
+   double convectionCoefficientGiven, characteristicLength, 
+      heatExchangeArea, length, height, width, diameter, 
+      basePipeDiameter, finSpacing, finThickness, finHeight, 
+      angleOfInclination;
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
 
-   heatExchangeGain = rp[0];
-   convectionCoefficientGiven = rp[1];
-   characteristicLength = rp[2];
-   heatExchangeArea = rp[3];
-   length     = rp[4];
-   height     = rp[5];
-   width      = rp[6];
-   diameter   = rp[7];
-   basePipeDiameter = rp[8];
-   finSpacing = rp[9];
-   finThickness = rp[10];
-   finHeight  = rp[11];
-   angleOfInclination = rp[12];
+   convectionCoefficientGiven = rp[0];
+   characteristicLength = rp[1];
+   heatExchangeArea = rp[2];
+   length     = rp[3];
+   height     = rp[4];
+   width      = rp[5];
+   diameter   = rp[6];
+   basePipeDiameter = rp[7];
+   finSpacing = rp[8];
+   finThickness = rp[9];
+   finHeight  = rp[10];
+   angleOfInclination = rp[11];
 
    nusseltCorrelationExpr = tp[0];
    loop = 0;
@@ -107,7 +105,7 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 /*
    If necessary, check values of the following:
 
-   rp[0..12]
+   rp[0..11]
 */
 
 /*
@@ -141,7 +139,7 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 
 /* Common -> SI units conversions. */
 
-/*   *rp[12]   *= ??; CONVERSION UNKNOWN */
+/*   *rp[11]   *= ??; CONVERSION UNKNOWN */
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
@@ -183,12 +181,10 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
    SMOCOMPONENT_SET_PROPS(_component)
-
-   Convection_setHeatExchangeGain(_component, heatExchangeGain);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
-/*  There are 2 ports.
+/*  There are 3 ports.
 
    Port 1 has 2 variables:
 
@@ -200,6 +196,10 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
       1 fluidFlowIndex                fluid flow index             [smoFFL]  basic variable output  UNPLOTTABLE
       2 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] fixed  UNPLOTTABLE
       3 fluidStateIndex               fluid state index            [smoTDS]  basic variable input  UNPLOTTABLE
+
+   Port 3 has 1 variable:
+
+      1 heatExchangeGain     heat exchange gain [null] basic variable input
 */
 
 /*  There are 4 internal variables.
@@ -210,10 +210,11 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
       4 qDot     heat flow rate from the wall [W]        basic variable
 */
 
-void smo_free_convection_(int *n, double *heatFlowIndex
-      , double *thermalNodeIndex, double *fluidFlowIndex
-      , double *fluidStateIndex, double *Ra, double *Nu, double *h
-      , double *qDot, double rp[13], int ip[1], char *tp[1], int ic[4]
+void smo_free_convection_regulating_gain_(int *n
+      , double *heatFlowIndex, double *thermalNodeIndex
+      , double *fluidFlowIndex, double *fluidStateIndex
+      , double *heatExchangeGain, double *Ra, double *Nu, double *h
+      , double *qDot, double rp[12], int ip[1], char *tp[1], int ic[4]
       , void *ps[4])
 
 {
@@ -221,27 +222,26 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int calculationMethod;
-   double heatExchangeGain, convectionCoefficientGiven, 
-      characteristicLength, heatExchangeArea, length, height, width, 
-      diameter, basePipeDiameter, finSpacing, finThickness, finHeight
-      , angleOfInclination;
+   double convectionCoefficientGiven, characteristicLength, 
+      heatExchangeArea, length, height, width, diameter, 
+      basePipeDiameter, finSpacing, finThickness, finHeight, 
+      angleOfInclination;
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
 
-   heatExchangeGain = rp[0];
-   convectionCoefficientGiven = rp[1];
-   characteristicLength = rp[2];
-   heatExchangeArea = rp[3];
-   length     = rp[4];
-   height     = rp[5];
-   width      = rp[6];
-   diameter   = rp[7];
-   basePipeDiameter = rp[8];
-   finSpacing = rp[9];
-   finThickness = rp[10];
-   finHeight  = rp[11];
-   angleOfInclination = rp[12];
+   convectionCoefficientGiven = rp[0];
+   characteristicLength = rp[1];
+   heatExchangeArea = rp[2];
+   length     = rp[3];
+   height     = rp[4];
+   width      = rp[5];
+   diameter   = rp[6];
+   basePipeDiameter = rp[7];
+   finSpacing = rp[8];
+   finThickness = rp[9];
+   finHeight  = rp[10];
+   angleOfInclination = rp[11];
 
    nusseltCorrelationExpr = tp[0];
    loop = 0;
@@ -272,7 +272,9 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 	   FreeConvection_init(_component, fluidState, wallNode);
    }
 
+   Convection_setHeatExchangeGain(_component, *heatExchangeGain);
    FreeConvection_compute(_component);
+
    Convection_updateFluidFlow(_component, _fluidFlow);
    Convection_updateHeatFlow(_component, _heatFlow);
    *Ra = FreeConvection_getRayleighNumber(_component);

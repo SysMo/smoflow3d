@@ -26,6 +26,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />   
    
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
@@ -48,6 +49,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_state_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_flow_sensor" />
   </GROUP>
+
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Media" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_medium_definition" />
@@ -77,6 +79,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Nodes/Volumes" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
