@@ -318,7 +318,11 @@ bool ManagerComponents_R::checkIsFlowClosed(double massFlowRate) {
 		return true;
 	}
 
-	if (endAdaptor->isFlowClosed()) {
+	if (beginAdaptor->isFlowClosed(massFlowRate)) {
+		return true;
+	}
+
+	if (endAdaptor->isFlowClosed(massFlowRate)) {
 		return true;
 	}
 

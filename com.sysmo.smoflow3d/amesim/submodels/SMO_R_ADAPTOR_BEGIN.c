@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_BEGIN skeleton created by AME Submodel editing utility
-   Sat Nov 30 16:59:50 2013 */
+   Thu Dec 12 15:10:52 2013 */
 
 
 
@@ -40,20 +40,22 @@ REVISIONS :
 #define _fluidFlow1Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
-/* There is 1 integer parameter:
+/* There are 2 integer parameters:
 
+   allowBidirectionalFlow       allow bi-directional flow       
    useFluidFlowActivationSignal use fluid flow activation signal
 */
 
-void smo_r_adaptor_beginin_(int *n, int ip[1], int ic[3], void *ps[2])
+void smo_r_adaptor_beginin_(int *n, int ip[2], int ic[3], void *ps[2])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
 
-   useFluidFlowActivationSignal = ip[0];
+   allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
    loop = 0;
    error = 0;
 
@@ -63,6 +65,11 @@ void smo_r_adaptor_beginin_(int *n, int ip[1], int ic[3], void *ps[2])
 
 /*   Integer parameter checking:   */
 
+   if (allowBidirectionalFlow < 1 || allowBidirectionalFlow > 2)
+   {
+      amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
+      error = 2;
+   }
    if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
    {
       amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
@@ -82,7 +89,7 @@ void smo_r_adaptor_beginin_(int *n, int ip[1], int ic[3], void *ps[2])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = BeginAdaptor_R_new();
+   _component = BeginAdaptor_R_new(allowBidirectionalFlow - 1); //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component);
 
@@ -118,15 +125,16 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
       , double *fluidFlowActivationSignal, double *fluidState1Index
       , double *outputRCompID2, double *smoRChainID
       , double *inputRCompID2, double *smoRChainIDToEndAdaptor
-      , int ip[1], int ic[3], void *ps[2])
+      , int ip[2], int ic[3], void *ps[2])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
 
-   useFluidFlowActivationSignal = ip[0];
+   allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -178,16 +186,17 @@ void smo_r_adaptor_begin_(int *n, double *fluidFlow1Index
 }
 
 extern double smo_r_adaptor_begin_macro0_(int *n
-      , double *fluidState1Index, int ip[1], int ic[3], void *ps[2])
+      , double *fluidState1Index, int ip[2], int ic[3], void *ps[2])
 
 {
    double outputRCompID2;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
 
-   useFluidFlowActivationSignal = ip[0];
+   allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -221,16 +230,17 @@ extern double smo_r_adaptor_begin_macro0_(int *n
 }
 
 extern double smo_r_adaptor_begin_macro1_(int *n
-      , double *fluidState1Index, int ip[1], int ic[3], void *ps[2])
+      , double *fluidState1Index, int ip[2], int ic[3], void *ps[2])
 
 {
    double smoRChainID;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro1 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro1 declarations. */
-   int useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
 
-   useFluidFlowActivationSignal = ip[0];
+   allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
    loop = 0;
 
 /* Common -> SI units conversions. */

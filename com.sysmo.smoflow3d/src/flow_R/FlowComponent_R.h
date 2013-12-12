@@ -42,13 +42,6 @@ public:
 	void setComponent1(FlowComponent_R* component) {component1 = component;}
 	void setComponent2(FlowComponent_R* component) {component2 = component;}
 
-	bool isFlowClosed(double massFlowRate);
-	void closeFlow() {flagIsFlowOpen = false;}
-	void openFlow() {flagIsFlowOpen = true;}
-
-	bool isBidirectionalFlowAllowed() {return flagIsBidirectionalFlowAllowed;}
-	void setIsBidirectionalFlowAllowed(bool isBidirectionalFlowAllowed) {this->flagIsBidirectionalFlowAllowed = isBidirectionalFlowAllowed;}
-
 	double getAbsolutePressureDrop();
 
 protected:
@@ -64,9 +57,6 @@ protected:
 
 	FlowComponent_R* component1;
 	FlowComponent_R* component2;
-
-	bool flagIsFlowOpen;
-	bool flagIsBidirectionalFlowAllowed;
 };
 
 #else //_cplusplus

@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END_ACTIVATING_SIGNAL skeleton created by AME Submodel editing utility
-   Thu Dec 12 11:01:25 2013 */
+   Thu Dec 12 15:51:54 2013 */
 
 
 
@@ -38,21 +38,23 @@ REVISIONS :
 #define _managerIndex ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
 
-/* There is 1 integer parameter:
+/* There are 2 integer parameters:
 
+   allowBidirectionalFlow       allow bi-directional flow       
    useFluidFlowActivationSignal use fluid flow activation signal
 */
 
-void smo_r_adaptor_end_activating_signalin_(int *n, int ip[1]
+void smo_r_adaptor_end_activating_signalin_(int *n, int ip[2]
       , int ic[2], void *ps[2], double *isFlowOpen)
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
 
-   useFluidFlowActivationSignal = ip[0];
+   allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
    loop = 0;
    error = 0;
 
@@ -68,6 +70,11 @@ void smo_r_adaptor_end_activating_signalin_(int *n, int ip[1]
 
 /*   Integer parameter checking:   */
 
+   if (allowBidirectionalFlow < 1 || allowBidirectionalFlow > 2)
+   {
+      amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
+      error = 2;
+   }
    if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
    {
       amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
@@ -87,7 +94,7 @@ void smo_r_adaptor_end_activating_signalin_(int *n, int ip[1]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = EndAdaptor_R_new();
+   _component = EndAdaptor_R_new(allowBidirectionalFlow - 1); //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component);
 
@@ -116,12 +123,12 @@ void smo_r_adaptor_end_activating_signalin_(int *n, int ip[1]
 
    Port 4 has 1 variable:
 
-      1 activatingSignal     activating signal (0-off, 1-on) [null] basic variable input
+      1 activatingSignal     activating signal (0-off, 1-on) (port4) [null] basic variable input
 */
 
 /*  There is 1 internal variable.
 
-      1 isFlowOpen     is flow open (0-no, 1-yes) (port4) [null] discrete
+      1 isFlowOpen     is flow open (0-no, 1-yes) [null] discrete
 */
 
 void smo_r_adaptor_end_activating_signal_(int *n
@@ -129,16 +136,17 @@ void smo_r_adaptor_end_activating_signal_(int *n
       , double *smoRChainID, double *fluidFlow2Index
       , double *fluidFlowActivationSignal, double *fluidState2Index
       , double *smoRChainIDFromBeginAdaptor, double *activatingSignal
-      , double *isFlowOpen, int ip[1], int ic[2], void *ps[2]
+      , double *isFlowOpen, int ip[2], int ic[2], void *ps[2]
       , int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
 
-   useFluidFlowActivationSignal = ip[0];
+   allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
    logi = 0;
    loop = 0;
 
@@ -207,7 +215,7 @@ void smo_r_adaptor_end_activating_signal_(int *n
 }
 
 extern double smo_r_adaptor_end_activating_signal_macro0_(int *n
-      , double *fluidState2Index, double *activatingSignal, int ip[1]
+      , double *fluidState2Index, double *activatingSignal, int ip[2]
       , int ic[2], void *ps[2], int *flag)
 
 {
@@ -215,9 +223,10 @@ extern double smo_r_adaptor_end_activating_signal_macro0_(int *n
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
 
-   useFluidFlowActivationSignal = ip[0];
+   allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
    logi = 0;
    loop = 0;
 

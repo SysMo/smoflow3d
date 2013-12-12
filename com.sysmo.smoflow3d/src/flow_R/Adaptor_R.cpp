@@ -13,7 +13,6 @@ using namespace smoflow;
  * Adaptor_R - C++
  */
 EndAdaptor_R::EndAdaptor_R() {
-	flagIsFlowOpen = true;
 }
 
 EndAdaptor_R::~EndAdaptor_R() {
@@ -38,12 +37,22 @@ int Component_R_isEndAdaptor(Component_R* component) {
 	}
 }
 
-BeginAdaptor_R* BeginAdaptor_R_new() {
-	return new BeginAdaptor_R();
+BeginAdaptor_R* BeginAdaptor_R_new(int allowBidirectionalFlow) {
+	BeginAdaptor_R* beginAdaptor = new BeginAdaptor_R();
+	if (allowBidirectionalFlow == 0) { //0 - no
+		beginAdaptor->setIsBidirectionalFlowAllowed(false);
+	}
+
+	return beginAdaptor;
 }
 
-EndAdaptor_R* EndAdaptor_R_new() {
-	return new EndAdaptor_R();
+EndAdaptor_R* EndAdaptor_R_new(int allowBidirectionalFlow) {
+	EndAdaptor_R* endAdaptor = new EndAdaptor_R();
+	if (allowBidirectionalFlow == 0) { //0 - no
+		endAdaptor->setIsBidirectionalFlowAllowed(false);
+	}
+
+	return endAdaptor;
 }
 
 int Adaptor_R_getOuterStateIndex(Adaptor_R* adaptor) {

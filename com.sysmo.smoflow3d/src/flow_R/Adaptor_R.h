@@ -26,24 +26,18 @@ private:
 	int outerStateIndex;
 };
 
+
 class BeginAdaptor_R : public Adaptor_R {
 public:
 	BeginAdaptor_R() {}
 	virtual ~BeginAdaptor_R() {}
 };
 
+
 class EndAdaptor_R : public Adaptor_R {
 public:
 	EndAdaptor_R();
 	virtual ~EndAdaptor_R();
-
-	bool isFlowClosed() {return !flagIsFlowOpen;}
-	bool isFlowOpen() {return flagIsFlowOpen;}
-	void closeFlow() {flagIsFlowOpen = false;}
-	void openFlow() {flagIsFlowOpen = true;}
-
-private:
-	bool flagIsFlowOpen;
 };
 
 #else //_cplusplus
@@ -57,8 +51,8 @@ BEGIN_C_LINKAGE
 int Component_R_isBeginAdaptor(Component_R* component);
 int Component_R_isEndAdaptor(Component_R* component);
 
-BeginAdaptor_R* BeginAdaptor_R_new();
-EndAdaptor_R* EndAdaptor_R_new();
+BeginAdaptor_R* BeginAdaptor_R_new(int allowBidirectionalFlow);
+EndAdaptor_R* EndAdaptor_R_new(int allowBidirectionalFlow);
 
 int Adaptor_R_getOuterStateIndex(Adaptor_R* adaptor);
 void Adaptor_R_setOuterStateIndex(Adaptor_R* adaptor, int stateIndex);
