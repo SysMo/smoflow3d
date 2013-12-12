@@ -35,9 +35,9 @@
   <IVARS_LIST>
    <IVAR>
     <SUB_ID>33</SUB_ID>
-    <TITLE>is flow open (0-no, 1-yes)</TITLE>
+    <TITLE>is flow open (0-no, 1-yes) (port4)</TITLE>
     <VARNAME>isFlowOpen</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>False</VISIBILITY>
     <TYPE>10</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>null</UNITS>

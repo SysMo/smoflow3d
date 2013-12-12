@@ -37,7 +37,7 @@
     <SUB_ID>28</SUB_ID>
     <TITLE>is flow open (0-no, 1-yes)</TITLE>
     <VARNAME>isFlowOpen</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>False</VISIBILITY>
     <TYPE>10</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>null</UNITS>

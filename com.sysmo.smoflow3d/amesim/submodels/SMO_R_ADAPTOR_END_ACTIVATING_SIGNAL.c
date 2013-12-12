@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END_ACTIVATING_SIGNAL skeleton created by AME Submodel editing utility
-   Sat Nov 30 16:57:11 2013 */
+   Thu Dec 12 11:01:25 2013 */
 
 
 
@@ -121,7 +121,7 @@ void smo_r_adaptor_end_activating_signalin_(int *n, int ip[1]
 
 /*  There is 1 internal variable.
 
-      1 isFlowOpen     is flow open (0-no, 1-yes) [null] discrete
+      1 isFlowOpen     is flow open (0-no, 1-yes) (port4) [null] discrete
 */
 
 void smo_r_adaptor_end_activating_signal_(int *n

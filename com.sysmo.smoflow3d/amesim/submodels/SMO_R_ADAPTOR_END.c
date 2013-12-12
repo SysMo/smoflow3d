@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END skeleton created by AME Submodel editing utility
-   Sat Nov 30 16:54:49 2013 */
+   Thu Dec 12 11:01:21 2013 */
 
 
 
