@@ -88,6 +88,14 @@ void ForcedConvection::compute(double massFlowRate) {
 	}
 }
 
+void ForcedConvection::compute_NoHeatFlow() {
+	Re = 0;
+	Pr = 0;
+	Nu = 0.0;
+	convectionCoefficient = 0.0;
+	heatFlowRate = 0.0;
+}
+
 /*************************************************************
  ***  Forced convection models
  *************************************************************/

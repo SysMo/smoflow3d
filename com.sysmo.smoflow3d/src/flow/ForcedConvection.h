@@ -18,6 +18,7 @@ public:
 	void init(MediumState* fluidState1, MediumState* fluidState2, ThermalNode* wallNode);
 
 	virtual void compute(double massFlowRate);
+	virtual void compute_NoHeatFlow();
 	void setLimitOutput(bool limitOutput);
 	double getReynoldsNumber() {return Re;}
 

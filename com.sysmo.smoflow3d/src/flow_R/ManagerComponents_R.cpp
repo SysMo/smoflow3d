@@ -133,6 +133,15 @@ void ManagerComponents_R::compute() {
 
 	// Compute the mass flow rate
 	double massFlowRate = computeMassFlowRate();
+
+	// Compute R-components when no mass flow rate
+	if (cache_massFlowRate != cst::zeroMassFlowRate && massFlowRate == cst::zeroMassFlowRate) {
+		for (int i = 0; i <  getNumComponents(); i++) {
+			components[i]->compute_NoMassFlowRate();
+		}
+	}
+
+	// Cache the mass flow rate
 	cache_massFlowRate = massFlowRate;
 
 	// Check for discontinuities

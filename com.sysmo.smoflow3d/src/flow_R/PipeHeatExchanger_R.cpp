@@ -55,6 +55,11 @@ bool PipeHeatExchanger_R::compute(double massFlowRate, double minDownstreamPress
 	return true;
 }
 
+void  PipeHeatExchanger_R::compute_NoMassFlowRate() {
+	convection->compute_NoHeatFlow();
+	convection->updateHeatFlow(wallHeatFlow);
+}
+
 /**
  * PipeHeatExchanger_R - C
  */

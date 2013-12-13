@@ -23,6 +23,7 @@ public:
 
 	virtual void init(MediumState* state1);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
+	virtual void compute_NoMassFlowRate();
 
 	void setHeatExchangerThermalNode(ThermalNode* wallNode) {this->wallNode = wallNode;}
 
