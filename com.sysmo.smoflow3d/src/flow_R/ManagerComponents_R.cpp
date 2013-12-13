@@ -34,8 +34,10 @@ ManagerComponents_R::ManagerComponents_R() {
 	discFlag_isFlowDirectionChanged_isInit = false;
 
 	cache_massFlowRate = cst::zeroMassFlowRate;
-	cache_outerPressure1 = cst::zeroPressure;
-	cache_outerPressure2 = cst::zeroPressure;
+	cache_outerState1_p = cst::zeroPressure;
+	cache_outerState1_h = cst::zeroSpecEnthalpy;
+	cache_outerState2_p = cst::zeroPressure;
+	cache_outerState2_h = cst::zeroSpecEnthalpy;
 }
 
 ManagerComponents_R::~ManagerComponents_R() {
@@ -192,12 +194,15 @@ double ManagerComponents_R::computeMassFlowRate() {
 	isFlowClosed = false;
 
 
-	// Cached the outer pressures
-	if (cache_outerPressure1 == outerState1->p() && cache_outerPressure2 == outerState2->p()){
+	// Cached the outer pressures and enthalpies
+	if (cache_outerState1_p == outerState1->p() && cache_outerState2_p == outerState2->p()
+			&& cache_outerState1_h == outerState1->h() && cache_outerState2_h == outerState2->h()){
 		return cache_massFlowRate;
 	}
-	cache_outerPressure1 =  outerState1->p();
-	cache_outerPressure2 =  outerState2->p();
+	cache_outerState1_p =  outerState1->p();
+	cache_outerState1_h = outerState1->h();
+	cache_outerState2_p =  outerState2->p();
+	cache_outerState2_h = outerState2->h();
 
 
 	// Initialize
