@@ -34,6 +34,8 @@ ManagerComponents_R::ManagerComponents_R() {
 	discFlag_isFlowDirectionChanged_isInit = false;
 
 	cache_massFlowRate = cst::zeroMassFlowRate;
+	cache_outerPressure1 = cst::zeroPressure;
+	cache_outerPressure2 = cst::zeroPressure;
 }
 
 ManagerComponents_R::~ManagerComponents_R() {
@@ -180,6 +182,15 @@ double ManagerComponents_R::computeMassFlowRate() {
 	}
 	isFlowClosed = false;
 
+
+	// Cached the outer pressures
+	if (cache_outerPressure1 == outerState1->p() && cache_outerPressure2 == outerState2->p()){
+		return cache_massFlowRate;
+	}
+	cache_outerPressure1 =  outerState1->p();
+	cache_outerPressure2 =  outerState2->p();
+
+
 	// Initialize
 	double up_MassFlowRate = 0.0;
 	bool up_MassFlowRate_isInit = false;
@@ -195,8 +206,12 @@ double ManagerComponents_R::computeMassFlowRate() {
 	// Compute mass flow rate using iteration
 	int numComponents = getNumComponents();
 
-	static const double stepCoeff = 2.0;
-	static const int maxNumIter = 100; //:SMO_SETTINGS:
+	double stepCoeff = 1.01; //:SMO_SETTINGS: the value 1.01 is the best for refueling of the CGH2DriveCycle
+	if (cache_massFlowRate == cst::zeroMassFlowRate) { //no cache of the mass flow rate
+		stepCoeff = 2.0;
+	}
+
+	static const int maxNumIter = 106; //:SMO_SETTINGS:
 	static const double relTolerance = 1e-08; //:SMO_SETTINGS:
 
 	double downstreamPressure = outerDownstreamState->p();
@@ -220,6 +235,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
 			} else {
 				massFlowRate /= stepCoeff;
+				iterateStepCoeff(stepCoeff);
 			}
 			continue;
 		}
@@ -249,6 +265,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 				AssertInComponent(m::isValueInsideInterval(massFlowRate, down_MassFlowRate, up_MassFlowRate), beginAdaptor);
 			} else {
 				massFlowRate /= stepCoeff;
+				iterateStepCoeff(stepCoeff);
 			}
 		} else {
 			down_MassFlowRate = massFlowRate;
@@ -267,9 +284,10 @@ double ManagerComponents_R::computeMassFlowRate() {
 
 				AssertInComponent(m::isValueInsideInterval(massFlowRate, down_MassFlowRate, up_MassFlowRate), beginAdaptor);
 			} else if (up_MassFlowRate_isInit) {
-				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / stepCoeff;
+				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
 			} else {
 				massFlowRate *= stepCoeff;
+				iterateStepCoeff(stepCoeff);
 			}
 		}
 	}
@@ -280,6 +298,16 @@ double ManagerComponents_R::computeMassFlowRate() {
 	}
 
 	return massFlowRate;
+}
+
+void ManagerComponents_R::iterateStepCoeff(double& stepCoeff) {
+	if (stepCoeff < 2) {
+		stepCoeff *= stepCoeff;
+	}
+
+	if (stepCoeff >= 2.0) {
+		stepCoeff = 2.0;
+	}
 }
 
 void ManagerComponents_R::updateFlows(double massFlowRate) {

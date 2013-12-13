@@ -28,6 +28,7 @@ namespace cst {
 
 	const double MinPressureDrop = 1e-06; // [Pa]
 	const double zeroPressureDrop = 0.0; // [Pa]
+	const double zeroPressure = 0.0; // [Pa]
 	const double MinMassFlowRate = 1e-12; // [kg/s]
 	const double zeroMassFlowRate = 0.0; // [kg/s]
 

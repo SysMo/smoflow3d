@@ -37,6 +37,7 @@ private:
 	inline int getNumComponents() {return (int) components.size();}
 
 	double computeMassFlowRate();
+	void iterateStepCoeff(double& stepCoeff);
 	void updateFlows(double massFlowRate);
 
 	double getAbsoluteOuterPressureDrop();
@@ -67,6 +68,8 @@ private:
 	bool discFlag_isFlowDirectionChanged_isInit;
 
 	double cache_massFlowRate;
+	double cache_outerPressure1;
+	double cache_outerPressure2;
 };
 
 #else //_cplusplus
