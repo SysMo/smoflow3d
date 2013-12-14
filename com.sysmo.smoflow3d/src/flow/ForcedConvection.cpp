@@ -71,26 +71,16 @@ void ForcedConvection::compute(double massFlowRate) {
 	Nu = computeNusseltNumber(Re, Pr);
 	convectionCoefficient = Nu * filmState->lambda() / characteristicLength;
 
-	heatFlowRate = heatExchangeGain * convectionCoefficient
-			* heatExchangeArea * wallOverheat;
+	heatFlowRate = heatExchangeGain * convectionCoefficient * heatExchangeArea * wallOverheat;
 
 	if (limitOutput) {
 		limitState->update_Tp(wallTemperature, upstreamFluidState->p());
 
-		double outletSpecEnthalpy = upstreamFluidState->h()
-				+ m::fabs(heatFlowRate) / absMassFlowRate;
-
-		if (wallTemperature > fluidTemperature) {
-			// Ensure the outlet temperature is not above wall temperature
-			outletSpecEnthalpy = m::min(outletSpecEnthalpy, limitState->h());
+		double limitHeatFlowRate = absMassFlowRate * (limitState->h() - upstreamFluidState->h());
+		if (heatFlowRate > 0) {
+			heatFlowRate = m::min(heatFlowRate, limitHeatFlowRate);
 		} else {
-			// Ensure the outlet temperature is not below wall temperature
-			outletSpecEnthalpy = m::max(outletSpecEnthalpy, limitState->h());
-		}
-
-		heatFlowRate = absMassFlowRate * (outletSpecEnthalpy - upstreamFluidState->h());
-		if (wallOverheat < 0) {
-			heatFlowRate = -heatFlowRate;
+			heatFlowRate = m::max(heatFlowRate, limitHeatFlowRate);
 		}
 	}
 }
