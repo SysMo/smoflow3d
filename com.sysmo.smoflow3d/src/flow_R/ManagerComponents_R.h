@@ -68,10 +68,6 @@ private:
 	bool discFlag_isFlowDirectionChanged_isInit;
 
 	double cache_massFlowRate;
-	double cache_outerState1_p;
-	double cache_outerState1_h;
-	double cache_outerState2_p;
-	double cache_outerState2_h;
 };
 
 #else //_cplusplus
