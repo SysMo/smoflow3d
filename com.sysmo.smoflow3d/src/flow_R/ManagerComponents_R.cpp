@@ -187,7 +187,6 @@ double ManagerComponents_R::computeMassFlowRate() {
 		isFlowClosed = true;
 		return cst::zeroMassFlowRate;
 	}
-	isFlowClosed = false;
 
 	// Initialize
 	double up_MassFlowRate = 0.0;
@@ -216,6 +215,11 @@ double ManagerComponents_R::computeMassFlowRate() {
 	double minDownstreamPressure = m::min(1.0*1e5, 0.1*downstreamPressure); //:TRICKY:
 	int numIter;
 	for (numIter = 1; numIter < maxNumIter; numIter++) {
+		if (m::fabs(massFlowRate) < cst::MinMassFlowRate) {
+			isFlowClosed = true;
+			return cst::zeroMassFlowRate;
+		}
+
 		bool succ;
 		for (int i = 0; i < numComponents; i++) {
 			int componentIndex = (reverseStream) ? numComponents - i - 1 : i;
@@ -295,6 +299,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 		RaiseComponentError(upstreamComponent, "Computation of the mass flow rate in a R-components chain did not converge.");
 	}
 
+	isFlowClosed = false;
 	return massFlowRate;
 }
 
