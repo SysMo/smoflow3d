@@ -195,14 +195,14 @@ double ManagerComponents_R::computeMassFlowRate() {
 
 
 	// Cached the outer pressures and enthalpies
-	if (cache_outerState1_p == outerState1->p() && cache_outerState2_p == outerState2->p()
+/*	if (cache_outerState1_p == outerState1->p() && cache_outerState2_p == outerState2->p()
 			&& cache_outerState1_h == outerState1->h() && cache_outerState2_h == outerState2->h()){
 		return cache_massFlowRate;
 	}
 	cache_outerState1_p =  outerState1->p();
 	cache_outerState1_h = outerState1->h();
 	cache_outerState2_p =  outerState2->p();
-	cache_outerState2_h = outerState2->h();
+	cache_outerState2_h = outerState2->h();*/
 
 
 	// Initialize
