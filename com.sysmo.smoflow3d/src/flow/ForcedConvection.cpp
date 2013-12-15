@@ -17,7 +17,7 @@ ForcedConvection::ForcedConvection() {
 	flowArea = 0.0;
 
 	fluidState2 = NULL;
-	limitOutput = false;
+	limitOutput = true;
 	limitState = NULL;
 
 	Re = 0.0;
@@ -105,14 +105,14 @@ public:
 		this->heatExchangeArea = heatExchangeArea;
 	}
 
-	void compute() {
+	virtual void compute(double massFlowRate) {
 		double fluidTemperature = fluidState->T();
 		double wallTemperature = wallNode->getTemperature();
 		double wallOverheat = wallTemperature - fluidTemperature;
-		Re = 0;
-		Pr = 0;
-		Nu = 0;
-		heatFlowRate = heatExchangeGain *convectionCoefficient
+		Re = 0.0;
+		Pr = 0.0;
+		Nu = 0.0;
+		heatFlowRate = heatExchangeGain * convectionCoefficient
 				* heatExchangeArea * wallOverheat;
 	}
 
