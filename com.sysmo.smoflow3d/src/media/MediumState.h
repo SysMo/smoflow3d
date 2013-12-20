@@ -46,12 +46,13 @@ public:
 	virtual ~MediumState();
 
 	Medium* getMedium();
-	void init(ThermodynamicVariable state1, double state1Value,
+	virtual void init(ThermodynamicVariable state1, double state1Value,
 			ThermodynamicVariable state2, double state2Value);
+	virtual void init(std::string state1, double state1Value,
+			std::string state2, double state2Value);
 	void init(StateVariableSet& stateStruct);
 	virtual void clearState();
 	virtual void clearPropertyCache();
-
 
 	virtual void update_Tp(double T, double p);
 	virtual void update_Trho(double T, double rho);

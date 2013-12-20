@@ -32,6 +32,8 @@ protected:
 	void post_update();
 
 public:
+	virtual void init(std::string state1, double state1Value,
+			std::string state2, double state2Value);
 	virtual void update_Tp(double T, double p);
 	virtual void update_Trho(double T, double rho);
 	virtual void update_prho(double p, double rho);

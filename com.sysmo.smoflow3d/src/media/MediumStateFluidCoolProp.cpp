@@ -73,6 +73,41 @@ void MediumState_FluidCoolProp::post_update() {
 	}
 }
 
+void MediumState_FluidCoolProp::init(std::string state1, double state1Value,
+		std::string state2, double state2Value) {
+	long index1 = get_param_index(state1);
+	long index2 = get_param_index(state2);
+	if (index1 == -1) {
+		RaiseError("No such state variable name " << state1);
+	}
+	if (index2 == -1) {
+		RaiseError("No such state variable name " << state2);
+	}
+	// Pre-update
+	prevState.p = _p;
+	prevState.T = _T;
+	prevState.rho = _rho;
+	prevState.h = _h;
+	prevState.q = _q;
+	this->clearState();
+	this->clearPropertyCache();
+
+	cps.update(index1, state1Value, index2, state2Value);
+	_T = cps.T();
+	_p = cps.p();
+	_rho = cps.rho();
+	_h = cps.h();
+	if (!ValidNumber(_q)) {
+		if (isTwoPhase()) {
+			_q = cps.Q();
+		} else {
+			_q = -1.0;
+		}
+	}
+
+}
+
+
 void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 	pre_update();
 	_T = T;
