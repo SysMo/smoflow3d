@@ -30,8 +30,8 @@ protected:
 	double flowArea;
 
 	MediumState* fluidState2;
-	bool limitOutput;
 	MediumState* limitState;
+	bool limitOutput;
 
 	double Re;
 };

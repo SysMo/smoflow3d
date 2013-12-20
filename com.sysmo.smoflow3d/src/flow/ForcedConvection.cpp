@@ -27,10 +27,8 @@ void ForcedConvection::init(MediumState* fluidState1, MediumState* fluidState2, 
 	Convection::init(fluidState1, wallNode);
 	this->fluidState2 = fluidState2;
 
-	if (limitOutput == true && limitState == NULL) {
-		limitState = MediumState_new(fluidState->getMedium());
-		MediumState_register(limitState);
-	}
+	limitState = MediumState_new(fluidState->getMedium());
+	MediumState_register(limitState);
 }
 
 void ForcedConvection::setLimitOutput(bool limitOutput) {
@@ -46,7 +44,7 @@ void ForcedConvection::compute(double massFlowRate) {
 	}
 	double absMassFlowRate = m::fabs(massFlowRate);
 
-	// Calculate film state
+
 	double fluidTemperature = upstreamFluidState->T();
 	double wallTemperature = wallNode->getTemperature();
 
@@ -62,14 +60,20 @@ void ForcedConvection::compute(double massFlowRate) {
 	}
 
 	// Calculate film state
-	double filmTemperature = (fluidTemperature + wallTemperature)/2;
-	filmState->update_Tp(filmTemperature, upstreamFluidState->p());
+	MediumState* workState = upstreamFluidState;
+	if (useFilmState) {
+		double filmTemperature = (fluidTemperature + wallTemperature)/2;
+		filmState->update_Tp(filmTemperature, upstreamFluidState->p());
 
-	double vFlow =  absMassFlowRate / filmState->rho() / flowArea;
-	Re = filmState->rho() * vFlow * characteristicLength / filmState->mu();
-	Pr = filmState->Pr();
+		workState = filmState;
+	}
+
+	// Calculate
+	double vFlow =  absMassFlowRate / workState->rho() / flowArea;
+	Re = workState->rho() * vFlow * characteristicLength / workState->mu();
+	Pr = workState->Pr();
 	Nu = computeNusseltNumber(Re, Pr);
-	convectionCoefficient = Nu * filmState->lambda() / characteristicLength;
+	convectionCoefficient = Nu * workState->lambda() / characteristicLength;
 
 	heatFlowRate = heatExchangeGain * convectionCoefficient * heatExchangeArea * wallOverheat;
 
@@ -192,13 +196,11 @@ void ForcedConvection_init(ForcedConvection* convection,
 	convection->init(fluidState1, fluidState2, wallNode);
 }
 
-void ForcedConvection_setLimitOutput(
-		ForcedConvection* convection, int limitOutput) {
+void ForcedConvection_setLimitOutput(ForcedConvection* convection, int limitOutput) {
 	convection->setLimitOutput(limitOutput);
 }
 
-void ForcedConvection_compute(ForcedConvection* convection,
-		double massFlowRate) {
+void ForcedConvection_compute(ForcedConvection* convection, double massFlowRate) {
 	convection->compute(massFlowRate);
 }
 

@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_RC skeleton created by AME Submodel editing utility
-   Sat Nov 30 15:47:08 2013 */
+   Fri Dec 20 17:40:35 2013 */
 
 
 
@@ -59,26 +59,29 @@ REVISIONS :
 */
 
 
-/* There are 2 integer parameters:
+/* There are 3 integer parameters:
 
-   heatExchangeCalculationMethod heat exchange calculation method
-   geometryType                  geometry type                   
+   heatExchangeCalculationMethod heat exchange calculation method  
+   geometryType                  geometry type                     
+   forcedConvectionUseFilmState  use film state (forced convection)
 */
 
-void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
+void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[3]
       , int ic[6], void *ps[6], double *outletStateValue)
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int heatExchangeCalculationMethod, geometryType;
+   int heatExchangeCalculationMethod, geometryType, 
+      forcedConvectionUseFilmState;
    double heatExhcangeEfficienccy, convectionCoefficientGiven, 
       heatExchangeGain, hydraulicDiameter, pipeLength, flowArea, 
       tauOutput;
 
    heatExchangeCalculationMethod = ip[0];
    geometryType = ip[1];
+   forcedConvectionUseFilmState = ip[2];
 
    heatExhcangeEfficienccy = rp[0];
    convectionCoefficientGiven = rp[1];
@@ -111,6 +114,11 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
    if (geometryType < 1 || geometryType > 2)
    {
       amefprintf(stderr, "\ngeometry type must be in range [1..2].\n");
+      error = 2;
+   }
+   if (forcedConvectionUseFilmState < 1 || forcedConvectionUseFilmState > 2)
+   {
+      amefprintf(stderr, "\nuse film state (forced convection) must be in range [1..2].\n");
       error = 2;
    }
 
@@ -157,6 +165,8 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 	   }
 
 	   Convection_setHeatExchangeGain(_convection, heatExchangeGain);
+	   Convection_setUseFilmState(_convection, forcedConvectionUseFilmState - 1); //:TRICKY: (0-no, 1-yes)
+
 	   _component = HeatExchNoPrDropNoMassAcc_RC_Convection_new(_convection, tauOutput);
    }
 
@@ -202,19 +212,21 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
       , double *outletTemperature, double *outletStateValue
       , double *outletStateValueDot, double *reynoldsNumber
       , double *convectionCoefficient, double *heatFlowRateFromWall
-      , double rp[7], int ip[2], int ic[6], void *ps[6], int *flag)
+      , double rp[7], int ip[3], int ic[6], void *ps[6], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int heatExchangeCalculationMethod, geometryType;
+   int heatExchangeCalculationMethod, geometryType, 
+      forcedConvectionUseFilmState;
    double heatExhcangeEfficienccy, convectionCoefficientGiven, 
       heatExchangeGain, hydraulicDiameter, pipeLength, flowArea, 
       tauOutput;
 
    heatExchangeCalculationMethod = ip[0];
    geometryType = ip[1];
+   forcedConvectionUseFilmState = ip[2];
 
    heatExhcangeEfficienccy = rp[0];
    convectionCoefficientGiven = rp[1];
@@ -290,7 +302,7 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
 
 extern double smo_heatexchanger_rc_macro0_(int *n
       , double *inletFluidStateIndex, double *thermalNodeIndex
-      , double *outletStateValue, double rp[7], int ip[2], int ic[6]
+      , double *outletStateValue, double rp[7], int ip[3], int ic[6]
       , void *ps[6], int *flag)
 
 {
@@ -298,13 +310,15 @@ extern double smo_heatexchanger_rc_macro0_(int *n
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int heatExchangeCalculationMethod, geometryType;
+   int heatExchangeCalculationMethod, geometryType, 
+      forcedConvectionUseFilmState;
    double heatExhcangeEfficienccy, convectionCoefficientGiven, 
       heatExchangeGain, hydraulicDiameter, pipeLength, flowArea, 
       tauOutput;
 
    heatExchangeCalculationMethod = ip[0];
    geometryType = ip[1];
+   forcedConvectionUseFilmState = ip[2];
 
    heatExhcangeEfficienccy = rp[0];
    convectionCoefficientGiven = rp[1];

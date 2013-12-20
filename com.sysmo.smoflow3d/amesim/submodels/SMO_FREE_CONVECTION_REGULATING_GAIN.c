@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION_REGULATING_GAIN skeleton created by AME Submodel editing utility
-   Thu Dec 12 12:52:49 2013 */
+   Fri Dec 20 15:17:45 2013 */
 
 
 
@@ -57,9 +57,10 @@ REVISIONS :
 */
 
 
-/* There is 1 integer parameter:
+/* There are 2 integer parameters:
 
    calculationMethod covection calculation method
+   useFilmState      use film state              
 */
 
 
@@ -69,14 +70,14 @@ REVISIONS :
 */
 
 void smo_free_convection_regulating_gainin_(int *n, double rp[12]
-      , int ip[1], char *tp[1], int ic[4], void *ps[4]
+      , int ip[2], char *tp[1], int ic[4], void *ps[4]
       , double *fluidFlowActivationSignal)
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int calculationMethod;
+   int calculationMethod, useFilmState;
    double convectionCoefficientGiven, characteristicLength, 
       heatExchangeArea, length, height, width, diameter, 
       basePipeDiameter, finSpacing, finThickness, finHeight, 
@@ -84,6 +85,7 @@ void smo_free_convection_regulating_gainin_(int *n, double rp[12]
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
+   useFilmState = ip[1];
 
    convectionCoefficientGiven = rp[0];
    characteristicLength = rp[1];
@@ -123,6 +125,11 @@ void smo_free_convection_regulating_gainin_(int *n, double rp[12]
    if (calculationMethod < 1 || calculationMethod > 10)
    {
       amefprintf(stderr, "\ncovection calculation method must be in range [1..10].\n");
+      error = 2;
+   }
+   if (useFilmState < 1 || useFilmState > 2)
+   {
+      amefprintf(stderr, "\nuse film state must be in range [1..2].\n");
       error = 2;
    }
 
@@ -181,6 +188,8 @@ void smo_free_convection_regulating_gainin_(int *n, double rp[12]
 			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
    SMOCOMPONENT_SET_PROPS(_component)
+
+   Convection_setUseFilmState(_component, useFilmState - 1); //:TRICKY: 0-no, 1-yes
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -214,14 +223,14 @@ void smo_free_convection_regulating_gain_(int *n
       , double *heatFlowIndex, double *thermalNodeIndex
       , double *fluidFlowIndex, double *fluidStateIndex
       , double *heatExchangeGain, double *Ra, double *Nu, double *h
-      , double *qDot, double rp[12], int ip[1], char *tp[1], int ic[4]
+      , double *qDot, double rp[12], int ip[2], char *tp[1], int ic[4]
       , void *ps[4])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int calculationMethod;
+   int calculationMethod, useFilmState;
    double convectionCoefficientGiven, characteristicLength, 
       heatExchangeArea, length, height, width, diameter, 
       basePipeDiameter, finSpacing, finThickness, finHeight, 
@@ -229,6 +238,7 @@ void smo_free_convection_regulating_gain_(int *n
    char *nusseltCorrelationExpr;
 
    calculationMethod = ip[0];
+   useFilmState = ip[1];
 
    convectionCoefficientGiven = rp[0];
    characteristicLength = rp[1];

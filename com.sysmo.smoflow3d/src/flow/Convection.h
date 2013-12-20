@@ -38,6 +38,8 @@ public:
 	void updateHeatFlow(HeatFlow* flow); //heat flow to the wall
 	void updateFluidFlow(FluidFlow* flow); //fluid flow to the fluid
 
+	void setUseFilmState(bool useFilmState) {this->useFilmState = useFilmState;}
+
 protected:
 	double characteristicLength;
 	double heatExchangeArea;
@@ -46,6 +48,7 @@ protected:
 	MediumState* fluidState;
 	ThermalNode* wallNode;
 	MediumState* filmState;
+	bool useFilmState;
 
 	double Pr;
 	double Nu;
@@ -70,6 +73,8 @@ double Convection_getHeatFlowRate(Convection* convection);
 
 void Convection_updateHeatFlow(Convection* convection, HeatFlow* flow);
 void Convection_updateFluidFlow(Convection* convection, FluidFlow* flow);
+
+void Convection_setUseFilmState(Convection* convection, int useFilmState);
 END_C_LINKAGE
 
 #endif /* CONVECTION_H_ */

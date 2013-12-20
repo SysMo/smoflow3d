@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   Sat Nov 30 15:59:01 2013 */
+   Fri Dec 20 16:40:11 2013 */
 
 
 
@@ -59,23 +59,25 @@ REVISIONS :
 */
 
 
-/* There is 1 integer parameter:
+/* There are 2 integer parameters:
 
-   geometryType geometry type
+   geometryType                 geometry type                     
+   forcedConvectionUseFilmState use film state (forced convection)
 */
 
 void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[8]
-      , int ip[1], int ic[6], void *ps[6], double stateValues[2])
+      , int ip[2], int ic[6], void *ps[6], double stateValues[2])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int geometryType;
+   int geometryType, forcedConvectionUseFilmState;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
       pressureDropGain, heatExchangeGain, initP, initT;
 
    geometryType = ip[0];
+   forcedConvectionUseFilmState = ip[1];
 
    hydraulicDiameter = rp[0];
    pipeLength = rp[1];
@@ -104,6 +106,11 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[8]
    if (geometryType < 1 || geometryType > 2)
    {
       amefprintf(stderr, "\ngeometry type must be in range [1..2].\n");
+      error = 2;
+   }
+   if (forcedConvectionUseFilmState < 1 || forcedConvectionUseFilmState > 2)
+   {
+      amefprintf(stderr, "\nuse film state (forced convection) must be in range [1..2].\n");
       error = 2;
    }
 
@@ -141,6 +148,7 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[8]
    _convection = ForcedConvection_StraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue);
 
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
+   Convection_setUseFilmState(_convection, forcedConvectionUseFilmState - 1); //:TRICKY: (0-no, 1-yes)
    FrictionFlowPipe_setPressureDropGain(_friction, pressureDropGain);
 
    double internalVolume = flowAreaValue * pipeLength;
@@ -188,18 +196,19 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
       , double *port3Temperature, double stateValues[2]
       , double stateValuesDot[2], double *reynoldsNumber
       , double *convectionCoefficient, double *heatFlowRateFromWall
-      , double *totalPressureLoss, double rp[8], int ip[1], int ic[6]
+      , double *totalPressureLoss, double rp[8], int ip[2], int ic[6]
       , void *ps[6], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int geometryType;
+   int geometryType, forcedConvectionUseFilmState;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
       pressureDropGain, heatExchangeGain, initP, initT;
 
    geometryType = ip[0];
+   forcedConvectionUseFilmState = ip[1];
 
    hydraulicDiameter = rp[0];
    pipeLength = rp[1];
@@ -279,7 +288,7 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
 
 extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
       , double *port1FluidStateIndex, double *thermalNodeIndex
-      , double stateValues[2], double rp[8], int ip[1], int ic[6]
+      , double stateValues[2], double rp[8], int ip[2], int ic[6]
       , void *ps[6], int *flag)
 
 {
@@ -287,11 +296,12 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int geometryType;
+   int geometryType, forcedConvectionUseFilmState;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
       pressureDropGain, heatExchangeGain, initP, initT;
 
    geometryType = ip[0];
+   forcedConvectionUseFilmState = ip[1];
 
    hydraulicDiameter = rp[0];
    pipeLength = rp[1];

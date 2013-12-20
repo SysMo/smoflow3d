@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>145</SUB_ID_MAX>
+  <SUB_ID_MAX>147</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_straight_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>straight pipe with heat exchanger (no pressure drop, mass accumulation) (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -106,6 +106,24 @@
      </ENUM>
      <ENUM>
       <ENUM_STRING>non-cylindrical straight pipe</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>147</SUB_ID>
+    <TITLE>use film state (forced convection)</TITLE>
+    <VARNAME>forcedConvectionUseFilmState</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>2</DEF_VALUE>
+    <VALUE>2</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>

@@ -19,6 +19,7 @@ Convection::Convection() {
 	fluidState = NULL;
 	wallNode = NULL;
 	filmState = NULL;
+	useFilmState = true;
 
 	Pr = 0.0;
 	Nu = 0.0;
@@ -79,5 +80,9 @@ void Convection_updateHeatFlow(Convection* convection, HeatFlow* flow) {
 
 void Convection_updateFluidFlow(Convection* convection, FluidFlow* flow) {
 	convection->updateFluidFlow(flow);
+}
+
+void Convection_setUseFilmState(Convection* convection, int useFilmState) {
+	convection->setUseFilmState(useFilmState);
 }
 

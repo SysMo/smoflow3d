@@ -36,15 +36,21 @@ void FreeConvection::compute() {
 	double wallOverheat = wallTemperature - fluidTemperature;
 
 	// Calculate film state
-	double filmTemperature = (fluidTemperature + wallTemperature)/2;
-	filmState->update_Tp(filmTemperature, fluidState->p());
-	// Calculate Rayleigh & Prandtl number
-	double eta = filmState->mu() / filmState->rho();
-	Gr = filmState->beta() * cst::earthAcceleration * m::pow(characteristicLength, 3) * m::fabs(wallOverheat) / (eta * eta );
-	Pr = filmState->Pr();
+	MediumState* workState = fluidState;
+	if (useFilmState) {
+		double filmTemperature = (fluidTemperature + wallTemperature)/2;
+		filmState->update_Tp(filmTemperature, fluidState->p());
+
+		workState = filmState;
+	}
+
+	// Calculate
+	double eta = workState->mu() / workState->rho();
+	Gr = workState->beta() * cst::earthAcceleration * m::pow(characteristicLength, 3) * m::fabs(wallOverheat) / (eta * eta );
+	Pr = workState->Pr();
 	Ra = Gr * Pr;
 	Nu = computeNusseltNumber(Ra, Pr, wallOverheat);
-	convectionCoefficient = Nu * filmState->lambda() / characteristicLength;
+	convectionCoefficient = Nu * workState->lambda() / characteristicLength;
 	heatFlowRate = heatExchangeGain * convectionCoefficient * heatExchangeArea * wallOverheat;
 }
 
