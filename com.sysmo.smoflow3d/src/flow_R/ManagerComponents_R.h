@@ -45,6 +45,7 @@ private:
 
 	void handleEvent_FlowIsClosed();
 	void handleEvent_FlowDirectionIsChanged(double massFlowRate);
+	void handleEvent_PressureDifferenceIsChanged();
 
 private:
 	std::vector<FlowComponent_R*> components;
@@ -59,13 +60,23 @@ private:
 
 	bool isComponentsChainContructed;
 	bool isComputed;
-	bool isFlowClosed;
 
+	bool isFlowClosed;
 	bool discFlag_isFlowClosed;
 	bool discFlag_isFlowClosed_isInit;
 
 	bool discFlag_isFlowDirectionChanged;
 	bool discFlag_isFlowDirectionChanged_isInit;
+
+	bool isFlowClosed_byPressDiff;
+
+	bool isClosingPressDiffCrossed;
+	bool discFlag_isClosingPressDiffCrossed;
+	bool discFlag_isClosingPressDiffCrossed_isInit;
+
+	bool isOpeningPressDiffCrossed;
+	bool discFlag_isOpeningPressDiffCrossed;
+	bool discFlag_isOpeningPressDiffCrossed_isInit;
 
 	double cache_massFlowRate;
 };

@@ -1,5 +1,5 @@
 /* Submodel SMO_R_ADAPTOR_END skeleton created by AME Submodel editing utility
-   Thu Dec 12 15:53:16 2013 */
+   Thu Dec 26 14:39:21 2013 */
 
 
 
@@ -38,25 +38,46 @@ REVISIONS :
 #define _managerIndex ic[1]
 /* <<<<<<<<<<<<End of Private Code. */
 
-/* There are 2 integer parameters:
 
-   allowBidirectionalFlow       allow bi-directional flow       
-   useFluidFlowActivationSignal use fluid flow activation signal
+/* There are 2 real parameters:
+
+   openingPressDiff opening pressure difference [bar -> Pa]
+   closingPressDiff closing pressure difference [bar -> Pa]
 */
 
-void smo_r_adaptor_endin_(int *n, int ip[2], int ic[2], void *ps[2]
-      , double *isFlowOpen)
+
+/* There are 3 integer parameters:
+
+   allowBidirectionalFlow       allow bi-directional flow              
+   useFluidFlowActivationSignal use fluid flow activation signal       
+   useOpeningClosingPressDiff   use opening/closing pressure difference
+*/
+
+void smo_r_adaptor_endin_(int *n, double rp[2], int ip[3], int ic[2]
+      , void *ps[2], double *isFlowOpen)
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int allowBidirectionalFlow, useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal, 
+      useOpeningClosingPressDiff;
+   double openingPressDiff, closingPressDiff;
 
    allowBidirectionalFlow = ip[0];
    useFluidFlowActivationSignal = ip[1];
+   useOpeningClosingPressDiff = ip[2];
+
+   openingPressDiff = rp[0];
+   closingPressDiff = rp[1];
    loop = 0;
    error = 0;
+
+/*
+   If necessary, check values of the following:
+
+   rp[0..1]
+*/
 
 /*
    Check and/or reset the following fixed and/or discrete variable
@@ -66,6 +87,11 @@ void smo_r_adaptor_endin_(int *n, int ip[2], int ic[2], void *ps[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
+   if (useOpeningClosingPressDiff == 2 && openingPressDiff < closingPressDiff)
+   {
+      amefprintf(stderr, "\n Closing pressure difference must be less than opening pressure difference.\n");
+      error = 2;
+   }
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
 
 /*   Integer parameter checking:   */
@@ -80,6 +106,11 @@ void smo_r_adaptor_endin_(int *n, int ip[2], int ic[2], void *ps[2]
       amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
       error = 2;
    }
+   if (useOpeningClosingPressDiff < 1 || useOpeningClosingPressDiff > 2)
+   {
+      amefprintf(stderr, "\nuse opening/closing pressure difference must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -92,11 +123,22 @@ void smo_r_adaptor_endin_(int *n, int ip[2], int ic[2], void *ps[2]
       AmeExit(1);
    }
 
+/* Common -> SI units conversions. */
+
+   rp[0]    *= 1.00000000000000e+005;
+   openingPressDiff = rp[0];
+   rp[1]    *= 1.00000000000000e+005;
+   closingPressDiff = rp[1];
+
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = EndAdaptor_R_new(allowBidirectionalFlow - 1); //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component);
+
+   EndAdaptor_R_setPressureDifferenceParameters(
+		   _component, useOpeningClosingPressDiff - 1,  //:TRICKY: useOpeningClosingPressDiff = '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
+		   openingPressDiff, closingPressDiff);
 
    _manager = NULL;
    _managerIndex = -1;
@@ -131,17 +173,23 @@ void smo_r_adaptor_end_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *smoRChainID
       , double *fluidFlow2Index, double *fluidFlowActivationSignal
       , double *fluidState2Index, double *smoRChainIDFromBeginAdaptor
-      , double *isFlowOpen, int ip[2], int ic[2], void *ps[2]
-      , int *flag)
+      , double *isFlowOpen, double rp[2], int ip[3], int ic[2]
+      , void *ps[2], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int allowBidirectionalFlow, useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal, 
+      useOpeningClosingPressDiff;
+   double openingPressDiff, closingPressDiff;
 
    allowBidirectionalFlow = ip[0];
    useFluidFlowActivationSignal = ip[1];
+   useOpeningClosingPressDiff = ip[2];
+
+   openingPressDiff = rp[0];
+   closingPressDiff = rp[1];
    logi = 0;
    loop = 0;
 
@@ -210,18 +258,24 @@ void smo_r_adaptor_end_(int *n, double *outputRCompID1
 }
 
 extern double smo_r_adaptor_end_macro0_(int *n
-      , double *fluidState2Index, int ip[2], int ic[2], void *ps[2]
-      , int *flag)
+      , double *fluidState2Index, double rp[2], int ip[3], int ic[2]
+      , void *ps[2], int *flag)
 
 {
    double outputRCompID1;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int allowBidirectionalFlow, useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal, 
+      useOpeningClosingPressDiff;
+   double openingPressDiff, closingPressDiff;
 
    allowBidirectionalFlow = ip[0];
    useFluidFlowActivationSignal = ip[1];
+   useOpeningClosingPressDiff = ip[2];
+
+   openingPressDiff = rp[0];
+   closingPressDiff = rp[1];
    logi = 0;
    loop = 0;
 

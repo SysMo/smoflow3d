@@ -25,13 +25,24 @@ ManagerComponents_R::ManagerComponents_R() {
 
 	isComponentsChainContructed = false;
 	isComputed = false;
-	isFlowClosed = false;
 
+	isFlowClosed = false;
 	discFlag_isFlowClosed = false;
 	discFlag_isFlowClosed_isInit = false;
 
 	discFlag_isFlowDirectionChanged = false;
 	discFlag_isFlowDirectionChanged_isInit = false;
+
+
+	isFlowClosed_byPressDiff = false;
+
+	isClosingPressDiffCrossed = false;
+	discFlag_isClosingPressDiffCrossed = false;
+	discFlag_isClosingPressDiffCrossed_isInit = false;
+
+	isOpeningPressDiffCrossed = false;
+	discFlag_isOpeningPressDiffCrossed = false;
+	discFlag_isOpeningPressDiffCrossed_isInit = false;
 
 	cache_massFlowRate = cst::zeroMassFlowRate;
 }
@@ -145,6 +156,7 @@ void ManagerComponents_R::compute() {
 	// Check for discontinuities
 	handleEvent_FlowIsClosed();
 	handleEvent_FlowDirectionIsChanged(massFlowRate);
+	handleEvent_PressureDifferenceIsChanged();
 
 	// Update flows of the all components
 	updateFlows(massFlowRate);
@@ -181,6 +193,27 @@ double ManagerComponents_R::computeMassFlowRate() {
 		massFlowRate = -massFlowRate;
 	}
 
+	// Use opening/closing pressure difference
+	if (endAdaptor->isOpeningClosingPressureDifferenceUsed()) {
+		double absOuterPressDrop = getAbsoluteOuterPressureDrop();
+		isClosingPressDiffCrossed = absOuterPressDrop < endAdaptor->getClosingPressureDifference();
+		isOpeningPressDiffCrossed = absOuterPressDrop > endAdaptor->getOpeningPressureDifference();
+
+		if (SimEnv.isEventMode()) { //in a discontinuity
+			if (absOuterPressDrop <= endAdaptor->getClosingPressureDifference()) {
+				isFlowClosed_byPressDiff = true;
+			}
+
+			if (absOuterPressDrop >= endAdaptor->getOpeningPressureDifference()) {
+				isFlowClosed_byPressDiff = false;
+			}
+		}
+
+		if (isFlowClosed_byPressDiff) {
+			isFlowClosed = true;
+			return cst::zeroMassFlowRate;
+		}
+	}
 
 	// Check - R-components chain is closed
 	if (checkIsFlowClosed(massFlowRate)) {
@@ -384,6 +417,54 @@ void ManagerComponents_R::handleEvent_FlowDirectionIsChanged(double massFlowRate
 
 	if (eventIndicator) { //trigger a discontinuity
 		SimEnv.updateEventIndicator(eventIndicator);
+	}
+}
+
+void ManagerComponents_R::handleEvent_PressureDifferenceIsChanged() {
+	if (!endAdaptor->isOpeningClosingPressureDifferenceUsed()) {
+		return;
+	}
+
+	// Handle - Closing pressure difference
+	if (isFlowClosed_byPressDiff == false) {
+		if (discFlag_isClosingPressDiffCrossed_isInit == false) {
+			discFlag_isClosingPressDiffCrossed = isClosingPressDiffCrossed;
+			discFlag_isClosingPressDiffCrossed_isInit = true;
+		}
+
+		if (SimEnv.isEventMode()) { //in a discontinuity
+			discFlag_isClosingPressDiffCrossed = isClosingPressDiffCrossed;
+		}
+
+		bool eventIndicator = false;
+		if (isClosingPressDiffCrossed != discFlag_isClosingPressDiffCrossed) {
+			eventIndicator = true;
+		}
+
+		if (eventIndicator) { //trigger a discontinuity
+			SimEnv.updateEventIndicator(eventIndicator);
+		}
+	}
+
+	// Handle - Opening pressure difference
+	if (isFlowClosed_byPressDiff == true) {
+		if (discFlag_isOpeningPressDiffCrossed_isInit == false) {
+			discFlag_isOpeningPressDiffCrossed = isOpeningPressDiffCrossed;
+			discFlag_isOpeningPressDiffCrossed_isInit = true;
+		}
+
+		if (SimEnv.isEventMode()) { //in a discontinuity
+			discFlag_isOpeningPressDiffCrossed = isOpeningPressDiffCrossed;
+		}
+
+		bool eventIndicator = false;
+		if (isOpeningPressDiffCrossed != discFlag_isOpeningPressDiffCrossed) {
+			eventIndicator = true;
+		}
+
+		if (eventIndicator) { //trigger a discontinuity
+			SimEnv.updateEventIndicator(eventIndicator);
+		}
 	}
 }
 

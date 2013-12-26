@@ -38,6 +38,17 @@ class EndAdaptor_R : public Adaptor_R {
 public:
 	EndAdaptor_R();
 	virtual ~EndAdaptor_R();
+
+	bool isOpeningClosingPressureDifferenceUsed() {return useOpeningClosePressDiff;}
+	double getOpeningPressureDifference() {return openingPressDiff;}
+	double getClosingPressureDifference() {return closingPressDiff;}
+
+	void setPressureDifferenceParameters(bool useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff);
+
+private:
+	bool useOpeningClosePressDiff;
+	double openingPressDiff;
+	double closingPressDiff;
 };
 
 #else //_cplusplus
@@ -58,6 +69,7 @@ int Adaptor_R_getOuterStateIndex(Adaptor_R* adaptor);
 void Adaptor_R_setOuterStateIndex(Adaptor_R* adaptor, int stateIndex);
 
 void EndAdaptor_R_setActivatingSignal(EndAdaptor_R* endAdaptor, double activatingSignal);
+void EndAdaptor_R_setPressureDifferenceParameters(EndAdaptor_R* endAdaptor, int useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff);
 END_C_LINKAGE
 
 

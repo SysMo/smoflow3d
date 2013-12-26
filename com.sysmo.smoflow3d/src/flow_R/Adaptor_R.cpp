@@ -13,9 +13,18 @@ using namespace smoflow;
  * Adaptor_R - C++
  */
 EndAdaptor_R::EndAdaptor_R() {
+	useOpeningClosePressDiff = false;
+	openingPressDiff = 0.0;
+	closingPressDiff = 0.0;
 }
 
 EndAdaptor_R::~EndAdaptor_R() {
+}
+
+void EndAdaptor_R::setPressureDifferenceParameters(bool useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff) {
+	this->useOpeningClosePressDiff = useOpeningClosePressDiff;
+	this->openingPressDiff = openingPressDiff;
+	this->closingPressDiff = closingPressDiff;
 }
 
 /**
@@ -69,4 +78,13 @@ void EndAdaptor_R_setActivatingSignal(EndAdaptor_R* endAdaptor, double activatin
 	} else {
 		endAdaptor->closeFlow();
 	}
+}
+
+void EndAdaptor_R_setPressureDifferenceParameters(EndAdaptor_R* endAdaptor, int useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff) {
+	bool flagUseOpeningClosingPressDiff = false;
+	if (useOpeningClosePressDiff == 1) {
+		flagUseOpeningClosingPressDiff = true;
+	}
+
+	endAdaptor->setPressureDifferenceParameters(flagUseOpeningClosingPressDiff, openingPressDiff, closingPressDiff);
 }
