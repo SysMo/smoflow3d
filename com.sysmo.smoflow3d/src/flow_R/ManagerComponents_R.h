@@ -45,7 +45,7 @@ private:
 
 	void handleEvent_FlowIsClosed();
 	void handleEvent_FlowDirectionIsChanged(double massFlowRate);
-	void handleEvent_PressureDifferenceIsChanged();
+	void handleEvent_OpeningClosingPressureDifferenceIsCrossed();
 
 private:
 	std::vector<FlowComponent_R*> components;

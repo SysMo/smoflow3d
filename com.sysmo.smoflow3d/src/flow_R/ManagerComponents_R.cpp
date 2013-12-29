@@ -156,7 +156,7 @@ void ManagerComponents_R::compute() {
 	// Check for discontinuities
 	handleEvent_FlowIsClosed();
 	handleEvent_FlowDirectionIsChanged(massFlowRate);
-	handleEvent_PressureDifferenceIsChanged();
+	handleEvent_OpeningClosingPressureDifferenceIsCrossed();
 
 	// Update flows of the all components
 	updateFlows(massFlowRate);
@@ -420,7 +420,7 @@ void ManagerComponents_R::handleEvent_FlowDirectionIsChanged(double massFlowRate
 	}
 }
 
-void ManagerComponents_R::handleEvent_PressureDifferenceIsChanged() {
+void ManagerComponents_R::handleEvent_OpeningClosingPressureDifferenceIsCrossed() {
 	if (!endAdaptor->isOpeningClosingPressureDifferenceUsed()) {
 		return;
 	}
