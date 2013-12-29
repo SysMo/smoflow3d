@@ -31,6 +31,7 @@ public:
 
 	virtual double computePressureDrop(double massFlowRate) = 0;
 	virtual double computeMassFlowRate(double pressureDrop) = 0;
+	double computeMassFlowRate_NoFluidFlow(double pressureDrop);
 
 	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
 

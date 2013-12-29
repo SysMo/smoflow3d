@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>81</SUB_ID_MAX>
+  <SUB_ID_MAX>87</SUB_ID_MAX>
   <DEFAULT_ICON>smo_orifice</DEFAULT_ICON>
   <SUB_LABEL>Orifice with ideal gas compressible flow (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -34,6 +34,28 @@
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
     <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>86</SUB_ID>
+    <TITLE>opening pressure difference</TITLE>
+    <VARNAME>openingPressDiff</VARNAME>
+    <VISIBILITY>useOpeningClosingPressDiff == 2</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>1.00000000000000e-011</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>bar</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>87</SUB_ID>
+    <TITLE>closing pressure difference</TITLE>
+    <VARNAME>closingPressDiff</VARNAME>
+    <VISIBILITY>useOpeningClosingPressDiff == 2</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e-003</DEF_VALUE>
+    <VALUE>1.00000000000000e-003</VALUE>
+    <MIN_VALUE>1.00000000000000e-011</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>bar</UNITS>
    </RPARAM>
   </RPARAMS_LIST>
   <IPARAMS_LIST>
@@ -85,6 +107,24 @@
     <SUB_ID>81</SUB_ID>
     <TITLE>use fluid flow activation signal</TITLE>
     <VARNAME>useFluidFlowActivationSignal</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>83</SUB_ID>
+    <TITLE>use opening/closing pressure difference</TITLE>
+    <VARNAME>useOpeningClosingPressDiff</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>

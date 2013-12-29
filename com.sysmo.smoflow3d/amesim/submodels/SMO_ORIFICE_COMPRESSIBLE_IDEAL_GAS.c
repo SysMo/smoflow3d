@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Thu Dec 5 10:51:02 2013 */
+   Sun Dec 29 15:58:34 2013 */
 
 
 
@@ -40,41 +40,49 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 2 real parameters:
+/* There are 4 real parameters:
 
-   orificeArea      orifice area    [mm**2 -> m**2]
-   flowCoefficient flow coefficient [null]
+   orificeArea       orifice area               [mm**2 -> m**2]
+   flowCoefficient  flow coefficient            [null]
+   openingPressDiff opening pressure difference [bar -> Pa]
+   closingPressDiff closing pressure difference [bar -> Pa]
 */
 
 
-/* There are 2 integer parameters:
+/* There are 3 integer parameters:
 
-   allowBidirectionalFlow       allow bi-directional flow       
-   useFluidFlowActivationSignal use fluid flow activation signal
+   allowBidirectionalFlow       allow bi-directional flow              
+   useFluidFlowActivationSignal use fluid flow activation signal       
+   useOpeningClosingPressDiff   use opening/closing pressure difference
 */
 
-void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
-      , int ip[2], int ic[3], void *ps[3])
+void smo_orifice_compressible_ideal_gasin_(int *n, double rp[4]
+      , int ip[3], int ic[3], void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int allowBidirectionalFlow, useFluidFlowActivationSignal;
-   double orificeArea, flowCoefficient;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal, 
+      useOpeningClosingPressDiff;
+   double orificeArea, flowCoefficient, openingPressDiff, 
+      closingPressDiff;
 
    allowBidirectionalFlow = ip[0];
    useFluidFlowActivationSignal = ip[1];
+   useOpeningClosingPressDiff = ip[2];
 
    orificeArea = rp[0];
    flowCoefficient = rp[1];
+   openingPressDiff = rp[2];
+   closingPressDiff = rp[3];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..1]
+   rp[0..3]
 */
 
 
@@ -83,6 +91,12 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
    {
 	   amefprintf(stderr, "\nflow coefficient = %f, but must be in range [0.0 .. 1.0].\n", flowCoefficient);
 	   error = 2;
+   }
+
+   if (useOpeningClosingPressDiff == 2 && openingPressDiff < closingPressDiff)
+   {
+      amefprintf(stderr, "\n Closing pressure difference must be less than opening pressure difference.\n");
+      error = 2;
    }
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
 
@@ -96,6 +110,11 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
    if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
    {
       amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
+      error = 2;
+   }
+   if (useOpeningClosingPressDiff < 1 || useOpeningClosingPressDiff > 2)
+   {
+      amefprintf(stderr, "\nuse opening/closing pressure difference must be in range [1..2].\n");
       error = 2;
    }
 
@@ -114,6 +133,10 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
    rp[0]    *= 1.00000000000000e-006;
    orificeArea = rp[0];
+   rp[2]    *= 1.00000000000000e+005;
+   openingPressDiff = rp[2];
+   rp[3]    *= 1.00000000000000e+005;
+   closingPressDiff = rp[3];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
@@ -122,6 +145,10 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 		   orificeArea,
 		   flowCoefficient);
    SMOCOMPONENT_SET_PROPS(_component)
+
+   Valve_setPressureDifferenceParameters(
+		   _component, useOpeningClosingPressDiff - 1,  //:TRICKY: useOpeningClosingPressDiff = '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
+		   openingPressDiff, closingPressDiff);
 
    _fluidFlow1 = FluidFlow_new();
    _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
@@ -162,21 +189,26 @@ void smo_orifice_compressible_ideal_gas_(int *n
       , double *fluidState1Index, double *regulatingSignal
       , double *fluidFlow2Index, double *fluidState2Index
       , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressureLoss, double *flowType, double rp[2]
-      , int ip[2], int ic[3], void *ps[3], int *flag)
+      , double *pressureLoss, double *flowType, double rp[4]
+      , int ip[3], int ic[3], void *ps[3], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int allowBidirectionalFlow, useFluidFlowActivationSignal;
-   double orificeArea, flowCoefficient;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal, 
+      useOpeningClosingPressDiff;
+   double orificeArea, flowCoefficient, openingPressDiff, 
+      closingPressDiff;
 
    allowBidirectionalFlow = ip[0];
    useFluidFlowActivationSignal = ip[1];
+   useOpeningClosingPressDiff = ip[2];
 
    orificeArea = rp[0];
    flowCoefficient = rp[1];
+   openingPressDiff = rp[2];
+   closingPressDiff = rp[3];
    logi = 0;
    loop = 0;
 

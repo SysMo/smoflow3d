@@ -33,6 +33,12 @@ void FrictionFlowValve::init(MediumState* state1, MediumState* state2) {
 	this->state2 = state2;
 }
 
+double FrictionFlowValve::computeMassFlowRate_NoFluidFlow(double pressureDrop) {
+	absPressureDrop = m::fabs(pressureDrop);
+	massFlowRate = cst::zeroMassFlowRate;
+	return massFlowRate;
+}
+
 void FrictionFlowValve::updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2) {
 	MediumState* upstreamState = getUpstreamState(massFlowRate);
 

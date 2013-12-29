@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_MASS_FLOW_RATE skeleton created by AME Submodel editing utility
-   Thu Dec 5 10:30:34 2013 */
+   Sun Dec 29 11:43:16 2013 */
 
 
 
@@ -39,28 +39,54 @@ REVISIONS :
 #define _fluidFlow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
-/* There are 2 integer parameters:
 
-   allowBidirectionalFlow       allow bi-directional flow       
-   useFluidFlowActivationSignal use fluid flow activation signal
+/* There are 2 real parameters:
+
+   openingPressDiff opening pressure difference [bar -> Pa]
+   closingPressDiff closing pressure difference [bar -> Pa]
 */
 
-void smo_valve_mass_flow_ratein_(int *n, int ip[2], int ic[3]
-      , void *ps[3])
+
+/* There are 3 integer parameters:
+
+   allowBidirectionalFlow       allow bi-directional flow              
+   useFluidFlowActivationSignal use fluid flow activation signal       
+   useOpeningClosingPressDiff   use opening/closing pressure difference
+*/
+
+void smo_valve_mass_flow_ratein_(int *n, double rp[2], int ip[3]
+      , int ic[3], void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int allowBidirectionalFlow, useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal, 
+      useOpeningClosingPressDiff;
+   double openingPressDiff, closingPressDiff;
 
    allowBidirectionalFlow = ip[0];
    useFluidFlowActivationSignal = ip[1];
+   useOpeningClosingPressDiff = ip[2];
+
+   openingPressDiff = rp[0];
+   closingPressDiff = rp[1];
    loop = 0;
    error = 0;
 
+/*
+   If necessary, check values of the following:
+
+   rp[0..1]
+*/
+
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
+   if (useOpeningClosingPressDiff == 2 && openingPressDiff < closingPressDiff)
+   {
+      amefprintf(stderr, "\n Closing pressure difference must be less than opening pressure difference.\n");
+      error = 2;
+   }
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
 
 /*   Integer parameter checking:   */
@@ -75,6 +101,11 @@ void smo_valve_mass_flow_ratein_(int *n, int ip[2], int ic[3]
       amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
       error = 2;
    }
+   if (useOpeningClosingPressDiff < 1 || useOpeningClosingPressDiff > 2)
+   {
+      amefprintf(stderr, "\nuse opening/closing pressure difference must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -87,10 +118,21 @@ void smo_valve_mass_flow_ratein_(int *n, int ip[2], int ic[3]
       AmeExit(1);
    }
 
+/* Common -> SI units conversions. */
+
+   rp[0]    *= 1.00000000000000e+005;
+   openingPressDiff = rp[0];
+   rp[1]    *= 1.00000000000000e+005;
+   closingPressDiff = rp[1];
+
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = Valve_InputMassFlowRate_new(allowBidirectionalFlow - 1); //:TRICKY: allowBidirectionalFlow = {1-no, 2-yes} - 1 = {0-no, 1-yes});
    SMOCOMPONENT_SET_PROPS(_component)
+
+   Valve_setPressureDifferenceParameters(
+		   _component, useOpeningClosingPressDiff - 1,  //:TRICKY: useOpeningClosingPressDiff = '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
+		   openingPressDiff, closingPressDiff);
 
    _fluidFlow1 = FluidFlow_new();
    _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
@@ -129,17 +171,23 @@ void smo_valve_mass_flow_rate_(int *n, double *fluidFlow1Index
       , double *fluidFlowActivationSignal, double *fluidState1Index
       , double *regulatingSignal, double *fluidFlow2Index
       , double *state2Index, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureLoss, int ip[2]
-      , int ic[3], void *ps[3], int *flag)
+      , double *enthalpyFlowRate, double *pressureLoss, double rp[2]
+      , int ip[3], int ic[3], void *ps[3], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int allowBidirectionalFlow, useFluidFlowActivationSignal;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal, 
+      useOpeningClosingPressDiff;
+   double openingPressDiff, closingPressDiff;
 
    allowBidirectionalFlow = ip[0];
    useFluidFlowActivationSignal = ip[1];
+   useOpeningClosingPressDiff = ip[2];
+
+   openingPressDiff = rp[0];
+   closingPressDiff = rp[1];
    logi = 0;
    loop = 0;
 

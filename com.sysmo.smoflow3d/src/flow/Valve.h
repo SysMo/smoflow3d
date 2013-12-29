@@ -32,11 +32,30 @@ public:
 
 	bool isFlowClosed() {return friction->getRegulatingSignal() <= 0;}
 
+	void setPressureDifferenceParameters(bool useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff);
+	void handleEvent_OpeningClosingPressureDifferenceIsCrossed();
+
 protected:
 	FrictionFlowValve* friction;
 
 	MediumState* state1;
 	MediumState* state2;
+
+private:
+	// Opening/closing pressure difference
+	bool useOpeningClosePressDiff;
+	double openingPressDiff;
+	double closingPressDiff;
+
+	bool isFlowClosed_byPressDiff;
+
+	bool isClosingPressDiffCrossed;
+	bool discFlag_isClosingPressDiffCrossed;
+	bool discFlag_isClosingPressDiffCrossed_isInit;
+
+	bool isOpeningPressDiffCrossed;
+	bool discFlag_isOpeningPressDiffCrossed;
+	bool discFlag_isOpeningPressDiffCrossed_isInit;
 };
 
 #else //_cplusplus
@@ -67,9 +86,12 @@ void Valve_compute(Valve* valve);
 void Valve_setRegulatingSignal(Valve* valve, double regulatingSignal);
 
 void Valve_updateFluidFlows(Valve* valve, FluidFlow* flow1, FluidFlow* flow2);
+
 double Valve_getAbsolutePressureDrop(Valve* valve);
 int Valve_getFlowType(Valve* valve);
 int Valve_getIsFlowClosed(Valve* valve);
+
+void Valve_setPressureDifferenceParameters(Valve* valve, int useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff);
 END_C_LINKAGE
 
 

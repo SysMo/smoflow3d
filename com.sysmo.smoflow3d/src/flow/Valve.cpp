@@ -17,6 +17,20 @@ Valve::Valve(FrictionFlowValve* friction) {
 
 	state1 = NULL;
 	state2 = NULL;
+
+	useOpeningClosePressDiff = false;
+	openingPressDiff = 0.0;
+	closingPressDiff = 0.0;
+
+	isFlowClosed_byPressDiff = false;
+
+	isClosingPressDiffCrossed = false;
+	discFlag_isClosingPressDiffCrossed = false;
+	discFlag_isClosingPressDiffCrossed_isInit = false;
+
+	isOpeningPressDiffCrossed = false;
+	discFlag_isOpeningPressDiffCrossed = false;
+	discFlag_isOpeningPressDiffCrossed_isInit = false;
 }
 
 Valve::~Valve() {
@@ -33,8 +47,89 @@ void Valve::init(MediumState* state1, MediumState* state2) {
 }
 
 void Valve::compute() {
+	// Get pressure drop
 	double pressureDrop12 = state1->p() - state2->p();
-	friction->computeMassFlowRate(pressureDrop12);
+
+	// Use opening/closing pressure difference
+	if (useOpeningClosePressDiff) {
+		double absOuterPressDrop = m::fabs(pressureDrop12);
+		isClosingPressDiffCrossed = absOuterPressDrop < closingPressDiff;
+		isOpeningPressDiffCrossed = absOuterPressDrop > openingPressDiff;
+
+		if (SimEnv.isEventMode()) { //in a discontinuity
+			if (absOuterPressDrop <= closingPressDiff) {
+				isFlowClosed_byPressDiff = true;
+			}
+
+			if (absOuterPressDrop >= openingPressDiff) {
+				isFlowClosed_byPressDiff = false;
+			}
+		}
+	}
+
+	// Compute
+	if (isFlowClosed_byPressDiff) {
+		friction->computeMassFlowRate_NoFluidFlow(pressureDrop12);
+	} else {
+		friction->computeMassFlowRate(pressureDrop12);
+	}
+
+	// Check for discontinuities
+	handleEvent_OpeningClosingPressureDifferenceIsCrossed();
+}
+
+void Valve::setPressureDifferenceParameters(bool useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff) {
+	this->useOpeningClosePressDiff = useOpeningClosePressDiff;
+	this->openingPressDiff = openingPressDiff;
+	this->closingPressDiff = closingPressDiff;
+}
+
+void Valve::handleEvent_OpeningClosingPressureDifferenceIsCrossed() {
+	if (!useOpeningClosePressDiff) {
+		return;
+	}
+
+	// Handle - Closing pressure difference
+	if (isFlowClosed_byPressDiff == false) {
+		if (discFlag_isClosingPressDiffCrossed_isInit == false) {
+			discFlag_isClosingPressDiffCrossed = isClosingPressDiffCrossed;
+			discFlag_isClosingPressDiffCrossed_isInit = true;
+		}
+
+		if (SimEnv.isEventMode()) { //in a discontinuity
+			discFlag_isClosingPressDiffCrossed = isClosingPressDiffCrossed;
+		}
+
+		bool eventIndicator = false;
+		if (isClosingPressDiffCrossed != discFlag_isClosingPressDiffCrossed) {
+			eventIndicator = true;
+		}
+
+		if (eventIndicator) { //trigger a discontinuity
+			SimEnv.updateEventIndicator(eventIndicator);
+		}
+	}
+
+	// Handle - Opening pressure difference
+	if (isFlowClosed_byPressDiff == true) {
+		if (discFlag_isOpeningPressDiffCrossed_isInit == false) {
+			discFlag_isOpeningPressDiffCrossed = isOpeningPressDiffCrossed;
+			discFlag_isOpeningPressDiffCrossed_isInit = true;
+		}
+
+		if (SimEnv.isEventMode()) { //in a discontinuity
+			discFlag_isOpeningPressDiffCrossed = isOpeningPressDiffCrossed;
+		}
+
+		bool eventIndicator = false;
+		if (isOpeningPressDiffCrossed != discFlag_isOpeningPressDiffCrossed) {
+			eventIndicator = true;
+		}
+
+		if (eventIndicator) { //trigger a discontinuity
+			SimEnv.updateEventIndicator(eventIndicator);
+		}
+	}
 }
 
 /**
@@ -107,3 +202,11 @@ int Valve_getIsFlowClosed(Valve* valve) {
 	}
 }
 
+void Valve_setPressureDifferenceParameters(Valve* valve, int useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff) {
+	bool flagUseOpeningClosingPressDiff = false;
+	if (useOpeningClosePressDiff == 1) {
+		flagUseOpeningClosingPressDiff = true;
+	}
+
+	valve->setPressureDifferenceParameters(flagUseOpeningClosingPressDiff, openingPressDiff, closingPressDiff);
+}
