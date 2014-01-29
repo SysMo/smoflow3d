@@ -21,6 +21,8 @@ SolidRegistryClass::SolidRegistryClass() {
 	addSolid(new CarbonFiberComposite());
 	addSolid(new GlassFiberComposite());
 	addSolid(new HighDensityPolyethylene());
+	addSolid(new ArmaflexLTD());
+	addSolid(new ArmaflexAF());
 }
 
 SolidRegistryClass::~SolidRegistryClass() {

@@ -32,6 +32,14 @@ struct HighDensityPolyethylene : public Medium_Solid {
 	HighDensityPolyethylene();
 };
 
+struct ArmaflexLTD : public Medium_Solid {
+	ArmaflexLTD();
+};
+
+struct ArmaflexAF : public Medium_Solid {
+	ArmaflexAF();
+};
+
 }
 
 #endif /* SOLIDDEFINITIONS_H_ */

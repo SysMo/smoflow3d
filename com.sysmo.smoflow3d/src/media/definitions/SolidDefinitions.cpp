@@ -134,4 +134,58 @@ HighDensityPolyethylene::HighDensityPolyethylene() {
 	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
 }
 
+ArmaflexLTD::ArmaflexLTD() {
+	name = "ArmaflexLTD";
+
+	const double numValues = 7;
+
+	ArrayXd TValues(numValues);
+	TValues << 93.15, 173.15, 223.15, 273.15, 323.15, 373.15, 383.15;
+
+	double rhoValue = 70.0;
+	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
+
+	double cpValue = 1.0; //:SMO_TODO: Armaflex LTD cp = (?)
+	heatCapacityFunction = FunctorOneVariable_Constant_new(cpValue);
+
+	ArrayXd lambdaValues(numValues);
+	lambdaValues << 0.0307, 0.0390, 0.0395, 0.0400, 0.0435, 0.0530, 0.0559;
+	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
+
+	ArrayXd TValues_h(2);
+	TValues_h << 0, 400;
+
+	ArrayXd enthalpyValues(2);
+	double hEndValue = cpValue * (400 - 0);
+	enthalpyValues << 0.0, hEndValue;
+	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
 }
+
+ArmaflexAF::ArmaflexAF() {
+	name = "ArmaflexAF";
+
+	const double numValues = 7;
+
+	ArrayXd TValues(numValues);
+	TValues << 93.15, 173.15, 223.15, 273.15, 323.15, 373.15, 383.15;
+
+	double rhoValue = 50.0;
+	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
+
+	double cpValue = 1.0; //:SMO_TODO: Armaflex AF cp = (?)
+	heatCapacityFunction = FunctorOneVariable_Constant_new(cpValue);
+
+	ArrayXd lambdaValues(numValues);
+	lambdaValues << 0.044, 0.034, 0.033, 0.036, 0.043, 0.054, 0.057;
+	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
+
+	ArrayXd TValues_h(2);
+	TValues_h << 0, 400;
+
+	ArrayXd enthalpyValues(2);
+	double hEndValue = cpValue * (400 - 0);
+	enthalpyValues << 0.0, hEndValue;
+	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
+}
+
+} //end namespace solids
