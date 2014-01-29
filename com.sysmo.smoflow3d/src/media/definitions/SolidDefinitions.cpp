@@ -186,4 +186,18 @@ ArmaflexAF::ArmaflexAF() {
 	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
 }
 
+SolidConstProps::SolidConstProps(
+		const char* solidName,
+		double density,
+		double thermalConductivity,
+		double heatCapacity,
+		double enthalpy) {
+	name = solidName;
+
+	densityFunction = FunctorOneVariable_Constant_new(density);
+	heatCapacityFunction = FunctorOneVariable_Constant_new(heatCapacity);
+	thermalConductivityFunction = FunctorOneVariable_Constant_new(thermalConductivity);
+	enthalpyFunction = FunctorOneVariable_Constant_new(enthalpy);
+}
+
 } //end namespace solids

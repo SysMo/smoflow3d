@@ -18,6 +18,9 @@ public:
 	virtual ~SolidRegistryClass();
 	Medium_Solid* getSolid(const char* solidName);
 
+public:
+	void addSolidConstProps(const char* solidName, double density, double thermalConductivity, double heatCapacity, double enthalpy);
+
 protected:
 	void addSolid(Medium_Solid* solidInstance);
 
