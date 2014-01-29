@@ -57,6 +57,21 @@ void Medium_registerSolidConstProps(
 	MediumRegistry[mediumIndex] = medium;
 }
 
+void Medium_registerSolidUserDefined(
+		const char* mediumName,
+		int mediumIndex,
+		const char* density,
+		const char* thermalConductivity,
+		const char* heatCapacity,
+		const char* enthalpy) {
+	// Add a new solid
+	SolidRegistry.addSolidUserDefined(mediumName, density, thermalConductivity, heatCapacity, enthalpy);
+
+	// Register the solid
+	Medium* medium = SolidRegistry.getSolid(mediumName);
+	MediumRegistry[mediumIndex] = medium;
+}
+
 Medium* Medium_get(int mediumIndex) {
 	MediumContainer::iterator it = MediumRegistry.find(mediumIndex);
 	if (it == MediumRegistry.end()) {

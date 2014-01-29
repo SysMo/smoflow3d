@@ -6,6 +6,8 @@
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
+#include "util/String.h"
+#include "io_control/CSVProcessor.h"
 #include "SolidDefinitions.h"
 #include "math/Interpolators.h"
 #include "Eigen/Core"
@@ -198,6 +200,62 @@ SolidConstProps::SolidConstProps(
 	heatCapacityFunction = FunctorOneVariable_Constant_new(heatCapacity);
 	thermalConductivityFunction = FunctorOneVariable_Constant_new(thermalConductivity);
 	enthalpyFunction = FunctorOneVariable_Constant_new(enthalpy);
+}
+
+void setDataFromCsvFile(const char* csvFile, FunctorOneVariable** functor) {
+	CSVProcessor csv;
+	VectorFloat vecTemperature;
+	csv.addFloatColumn(vecTemperature);
+	VectorFloat vecValue;
+	csv.addFloatColumn(vecValue);
+	String fileName(csvFile);
+	csv.read(fileName, ',', 1);
+
+	const double numValues = vecTemperature.size();
+	ArrayXd arrTValues(numValues);
+	ArrayXd arrValues(numValues);
+	for (size_t i = 0; i < vecTemperature.size(); i++) {
+		arrTValues(i) = vecTemperature.at(i);
+		arrValues(i) = vecValue.at(i);
+	}
+	(*functor) = new Interpolator1D(&arrTValues, &arrValues);
+}
+
+SolidUserDefined::SolidUserDefined(
+		const char* solidName,
+		const char* density,
+		const char* thermalConductivity,
+		const char* heatCapacity,
+		const char* enthalpy) {
+	name = solidName;
+
+	double densityConstValue;
+	if (smoflow::String::toDouble(density, &densityConstValue)) {
+		densityFunction = FunctorOneVariable_Constant_new(densityConstValue);
+	} else {
+		setDataFromCsvFile(density, &densityFunction);
+	}
+
+	double heatCapacityConstValue;
+	if (smoflow::String::toDouble(heatCapacity, &heatCapacityConstValue)) {
+		heatCapacityFunction = FunctorOneVariable_Constant_new(heatCapacityConstValue);
+	} else {
+		setDataFromCsvFile(heatCapacity, &heatCapacityFunction);
+	}
+
+	double thermalConductivityConstValue;
+	if (smoflow::String::toDouble(thermalConductivity, &thermalConductivityConstValue)) {
+		thermalConductivityFunction = FunctorOneVariable_Constant_new(thermalConductivityConstValue);
+	} else {
+		setDataFromCsvFile(thermalConductivity, &thermalConductivityFunction);
+	}
+
+	double enthalpyConstValue;
+	if (smoflow::String::toDouble(enthalpy, &enthalpyConstValue)) {
+		enthalpyFunction = FunctorOneVariable_Constant_new(enthalpyConstValue);
+	} else {
+		setDataFromCsvFile(enthalpy, &enthalpyFunction);
+	}
 }
 
 } //end namespace solids

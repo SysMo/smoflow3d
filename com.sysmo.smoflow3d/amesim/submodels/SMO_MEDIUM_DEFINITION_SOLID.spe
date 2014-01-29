@@ -4,56 +4,23 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>12</SUB_ID_MAX>
+  <SUB_ID_MAX>18</SUB_ID_MAX>
   <DEFAULT_ICON>smo_medium_definition</DEFAULT_ICON>
   <SUB_UNIT>0</SUB_UNIT>
+  <HAS_NO_CALC>1</HAS_NO_CALC>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
-  <RPARAMS_LIST>
-   <RPARAM>
-    <SUB_ID>6</SUB_ID>
-    <TITLE>density</TITLE>
-    <VARNAME>density</VARNAME>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>14</SUB_ID>
+    <TITLE>medium index</TITLE>
+    <VARNAME>mediumIndex</VARNAME>
     <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
-    <VALUE>0.00000000000000e+000</VALUE>
-    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
-    <UNITS>kg/m**3</UNITS>
-   </RPARAM>
-   <RPARAM>
-    <SUB_ID>8</SUB_ID>
-    <TITLE>thermal conductivity</TITLE>
-    <VARNAME>thermalConductivity</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
-    <VALUE>0.00000000000000e+000</VALUE>
-    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
-    <UNITS>W/m/K</UNITS>
-   </RPARAM>
-   <RPARAM>
-    <SUB_ID>10</SUB_ID>
-    <TITLE>heat capacity</TITLE>
-    <VARNAME>heatCapacity</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
-    <VALUE>0.00000000000000e+000</VALUE>
-    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
-    <UNITS>J/kg/K</UNITS>
-   </RPARAM>
-   <RPARAM>
-    <SUB_ID>12</SUB_ID>
-    <TITLE>enthalpy</TITLE>
-    <VARNAME>enthalpy</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>0.00000000000000e+000</DEF_VALUE>
-    <VALUE>0.00000000000000e+000</VALUE>
-    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
-    <UNITS>J/kg</UNITS>
-   </RPARAM>
-  </RPARAMS_LIST>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>100000</MAX_VALUE>
+   </IPARAM>
+  </IPARAMS_LIST>
   <TPARAMS_LIST>
    <TPARAM>
     <SUB_ID>1</SUB_ID>
@@ -62,6 +29,42 @@
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE><enter the solid name></DEF_VALUE>
     <VALUE><enter the solid name></VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>15</SUB_ID>
+    <TITLE>density [kg/m**3]</TITLE>
+    <VARNAME>density</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE><enter a float value or a csv file with columns 'T [K]' and 'density [kg/m**3]', and a header row></DEF_VALUE>
+    <VALUE><enter a float value or a csv file with columns 'T [K]' and 'density [kg/m**3]', and a header row></VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>16</SUB_ID>
+    <TITLE>thermal conductivity [W/m/K]</TITLE>
+    <VARNAME>thermalConductivity</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE><enter a float value or a csv file with columns 'T [K]' and 'lambda [W/m/K]', and a header row></DEF_VALUE>
+    <VALUE><enter a float value or a csv file with columns 'T [K]' and 'lambda [W/m/K]', and a header row></VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>17</SUB_ID>
+    <TITLE>heat capacity [J/kg/K]</TITLE>
+    <VARNAME>heatCapacity</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE><enter a float value or a csv file with columns 'T [K]' and 'cp [J/kg/K]' , and a header row></DEF_VALUE>
+    <VALUE><enter a float value or a csv file with columns 'T [K]' and 'cp [J/kg/K]' , and a header row></VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>18</SUB_ID>
+    <TITLE>enthalpy [J/kg]</TITLE>
+    <VARNAME>enthalpy</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE><enter a float value or a csv file with columns 'T [K]' and 'enthalpy [J/kg]' , and a header row></DEF_VALUE>
+    <VALUE><enter a float value or a csv file with columns 'T [K]' and 'enthalpy [J/kg]' , and a header row></VALUE>
     <TEXT_TYPE>0</TEXT_TYPE>
    </TPARAM>
   </TPARAMS_LIST>

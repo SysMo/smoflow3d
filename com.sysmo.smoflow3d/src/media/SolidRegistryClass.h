@@ -20,6 +20,7 @@ public:
 
 public:
 	void addSolidConstProps(const char* solidName, double density, double thermalConductivity, double heatCapacity, double enthalpy);
+	void addSolidUserDefined(const char* solidName, const char* density, const char* thermalConductivity, const char* heatCapacity, const char* enthalpy);
 
 protected:
 	void addSolid(Medium_Solid* solidInstance);

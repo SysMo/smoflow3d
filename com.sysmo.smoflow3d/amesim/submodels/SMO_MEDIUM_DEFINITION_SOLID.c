@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_DEFINITION_SOLID skeleton created by AME Submodel editing utility
-   Wed Jan 29 12:52:21 2014 */
+   Wed Jan 29 15:24:57 2014 */
 
 
 
@@ -27,50 +27,56 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_MEDIUM_DEFINITION_SOLID"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
+#include "media/Medium.h"
 /* <<<<<<<<<<<<End of Private Code. */
 
+/* There is 1 integer parameter:
 
-/* There are 4 real parameters:
+   mediumIndex medium index
+*/
 
-   density             density              [kg/m**3]
+
+/* There are 5 text parameters:
+
+   solidName           solid name                  
+   density             density [kg/m**3]           
    thermalConductivity thermal conductivity [W/m/K]
-   heatCapacity        heat capacity        [J/kg/K]
-   enthalpy            enthalpy             [J/kg]
+   heatCapacity        heat capacity [J/kg/K]      
+   enthalpy            enthalpy [J/kg]             
 */
 
-
-/* There is 1 text parameter:
-
-   solidName solid name
-*/
-
-void smo_medium_definition_solidin_(int *n, double rp[4], char *tp[1])
+void smo_medium_definition_solidin_(int *n, int ip[1], char *tp[5])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   double density, thermalConductivity, heatCapacity, enthalpy;
-   char *solidName;
+   int mediumIndex;
+   char *solidName, *density, *thermalConductivity, *heatCapacity, 
+      *enthalpy;
 
-   density    = rp[0];
-   thermalConductivity = rp[1];
-   heatCapacity = rp[2];
-   enthalpy   = rp[3];
+   mediumIndex = ip[0];
 
    solidName  = tp[0];
+   density    = tp[1];
+   thermalConductivity = tp[2];
+   heatCapacity = tp[3];
+   enthalpy   = tp[4];
    loop = 0;
    error = 0;
-
-/*
-   If necessary, check values of the following:
-
-   rp[0..3]
-*/
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
+
+/*   Integer parameter checking:   */
+
+   if (mediumIndex < 1 || mediumIndex > 100000)
+   {
+      amefprintf(stderr, "\nmedium index must be in range [1..100000].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -85,6 +91,7 @@ void smo_medium_definition_solidin_(int *n, double rp[4], char *tp[1])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   Medium_registerSolidUserDefined(solidName, mediumIndex, density, thermalConductivity, heatCapacity, enthalpy);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -95,21 +102,27 @@ void smo_medium_definition_solidin_(int *n, double rp[4], char *tp[1])
 
 */
 
-void smo_medium_definition_solid_(int *n, double rp[4], char *tp[1])
+#if 0
+
+/* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
+
+void smo_medium_definition_solid_(int *n, int ip[1], char *tp[5])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   double density, thermalConductivity, heatCapacity, enthalpy;
-   char *solidName;
+   int mediumIndex;
+   char *solidName, *density, *thermalConductivity, *heatCapacity, 
+      *enthalpy;
 
-   density    = rp[0];
-   thermalConductivity = rp[1];
-   heatCapacity = rp[2];
-   enthalpy   = rp[3];
+   mediumIndex = ip[0];
 
    solidName  = tp[0];
+   density    = tp[1];
+   thermalConductivity = tp[2];
+   heatCapacity = tp[3];
+   enthalpy   = tp[4];
    loop = 0;
 
 
@@ -117,3 +130,4 @@ void smo_medium_definition_solid_(int *n, double rp[4], char *tp[1])
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 }
 
+#endif

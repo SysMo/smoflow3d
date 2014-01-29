@@ -58,6 +58,21 @@ void SolidRegistryClass::addSolidConstProps(
 	));
 }
 
+void SolidRegistryClass::addSolidUserDefined(
+		const char* solidName,
+		const char* density,
+		const char* thermalConductivity,
+		const char* heatCapacity,
+		const char* enthalpy) {
+	addSolid(new SolidUserDefined(
+		solidName,
+		density,
+		thermalConductivity,
+		heatCapacity,
+		enthalpy
+	));
+}
+
 Medium_Solid* SolidRegistryClass::getSolid(const char* solidName) {
 	std::map<std::string, Medium_Solid*>::iterator it = solidNameMap.find(solidName);
 	if (it == solidNameMap.end()) {
