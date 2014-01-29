@@ -130,7 +130,7 @@ HighDensityPolyethylene::HighDensityPolyethylene() {
 	TValues_h << 0.0, 400.0;
 
 	ArrayXd enthalpyValues(2);
-	enthalpyValues << 0.0, 800000.00;
+	enthalpyValues << 0.0, 800000.0;
 	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
 }
 
@@ -145,7 +145,7 @@ ArmaflexLTD::ArmaflexLTD() {
 	double rhoValue = 70.0;
 	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
 
-	double cpValue = 1.0; //:SMO_TODO: Armaflex LTD cp = (?)
+	double cpValue = 2000.0; //:TRICKY: this value is only a guess
 	heatCapacityFunction = FunctorOneVariable_Constant_new(cpValue);
 
 	ArrayXd lambdaValues(numValues);
@@ -156,8 +156,7 @@ ArmaflexLTD::ArmaflexLTD() {
 	TValues_h << 0, 400;
 
 	ArrayXd enthalpyValues(2);
-	double hEndValue = cpValue * (400 - 0);
-	enthalpyValues << 0.0, hEndValue;
+	enthalpyValues << 0.0, 800000.0;
 	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
 }
 
@@ -172,7 +171,7 @@ ArmaflexAF::ArmaflexAF() {
 	double rhoValue = 50.0;
 	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
 
-	double cpValue = 1.0; //:SMO_TODO: Armaflex AF cp = (?)
+	double cpValue = 2000.0; //:TRICKY: this value is only a guess
 	heatCapacityFunction = FunctorOneVariable_Constant_new(cpValue);
 
 	ArrayXd lambdaValues(numValues);
@@ -183,8 +182,7 @@ ArmaflexAF::ArmaflexAF() {
 	TValues_h << 0, 400;
 
 	ArrayXd enthalpyValues(2);
-	double hEndValue = cpValue * (400 - 0);
-	enthalpyValues << 0.0, hEndValue;
+	enthalpyValues << 0.0, 800000.0;
 	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
 }
 
