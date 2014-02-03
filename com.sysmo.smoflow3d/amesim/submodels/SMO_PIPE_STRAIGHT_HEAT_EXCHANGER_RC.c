@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   Tue Feb 25 17:25:20 2014 */
+   Mon Feb 3 21:53:41 2014 */
 
 
 
@@ -72,7 +72,7 @@ REVISIONS :
 */
 
 void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[11]
-      , int ip[5], int ic[6], void *ps[6], double stateValues[2])
+      , int ip[5], int ic[6], void *ps[7], double stateValues[2])
 
 {
    int loop, error;
@@ -232,7 +232,7 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
       , double stateValuesDot[2], double *reynoldsNumber
       , double *convectionCoefficient, double *heatFlowRateFromWall
       , double *totalPressureLoss, double rp[11], int ip[5], int ic[6]
-      , void *ps[6], int *flag)
+      , void *ps[7], int *flag)
 
 {
    int loop, logi;
@@ -334,7 +334,7 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
 extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
       , double *port1FluidStateIndex, double *thermalNodeIndex
       , double stateValues[2], double rp[11], int ip[5], int ic[6]
-      , void *ps[6], int *flag)
+      , void *ps[7], int *flag)
 
 {
    double port3FluidStateIndex;
