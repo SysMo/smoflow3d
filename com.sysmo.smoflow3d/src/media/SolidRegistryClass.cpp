@@ -43,21 +43,6 @@ void SolidRegistryClass::addSolid(Medium_Solid* solidInstance) {
 	solidNameMap[solidInstance->name] = solidInstance;
 }
 
-void SolidRegistryClass::addSolidConstProps(
-		const char* solidName,
-		double density,
-		double thermalConductivity,
-		double heatCapacity,
-		double enthalpy) {
-	addSolid(new SolidConstProps(
-		solidName,
-		density,
-		thermalConductivity,
-		heatCapacity,
-		enthalpy
-	));
-}
-
 void SolidRegistryClass::addSolidUserDefined(
 		const char* solidName,
 		const char* density,

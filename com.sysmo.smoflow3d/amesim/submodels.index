@@ -1,6 +1,5 @@
 ./submodels
 smo_medium_definition
-&SMO_MEDIUM_DEFINITION_SOLID_CONST_PROPS SmoFlow3d
 &SMO_MEDIUM_DEFINITION_SOLID SmoFlow3d
 &SMO_MEDIUM_DEFINITION SmoFlow3d
 smo_fluid_state_sensor

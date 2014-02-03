@@ -40,10 +40,6 @@ struct ArmaflexAF : public Medium_Solid {
 	ArmaflexAF();
 };
 
-struct SolidConstProps : public Medium_Solid {
-	SolidConstProps(const char* solidName, double density, double thermalConductivity, double heatCapacity, double enthalpy);
-};
-
 struct SolidUserDefined : public Medium_Solid {
 	SolidUserDefined(const char* solidName, const char* density, const char* thermalConductivity, const char* heatCapacity, const char* enthalpy);
 };

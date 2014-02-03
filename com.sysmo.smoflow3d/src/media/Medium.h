@@ -117,7 +117,6 @@ DECLARE_C_STRUCT(Medium_Solid)
 
 BEGIN_C_LINKAGE
 void Medium_register(MediumConcreteTypes mediumType, const char* mediumName, int mediumIndex);
-void Medium_registerSolidConstProps(const char* mediumName, int mediumIndex, double density, double thermalConductivity, double heatCapacity, double enthalpy);
 void Medium_registerSolidUserDefined(const char* mediumName, int mediumIndex, const char* density, const char* thermalConductivity, const char* heatCapacity, const char* enthalpy);
 
 Medium* Medium_get(int mediumIndex);

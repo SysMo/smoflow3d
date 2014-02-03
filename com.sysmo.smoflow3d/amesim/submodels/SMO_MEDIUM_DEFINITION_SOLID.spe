@@ -62,9 +62,9 @@
     <SUB_ID>18</SUB_ID>
     <TITLE>enthalpy [J/kg]</TITLE>
     <VARNAME>enthalpy</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE><enter a float value or a csv file with columns 'T [K]' and 'enthalpy [J/kg]' , and a header row></DEF_VALUE>
-    <VALUE><enter a float value or a csv file with columns 'T [K]' and 'enthalpy [J/kg]' , and a header row></VALUE>
+    <VISIBILITY>False</VISIBILITY>
+    <DEF_VALUE>0</DEF_VALUE>
+    <VALUE>0</VALUE>
     <TEXT_TYPE>0</TEXT_TYPE>
    </TPARAM>
   </TPARAMS_LIST>
