@@ -24,6 +24,15 @@ MediumState::MediumState(Medium* medium) {
 MediumState::~MediumState() {
 }
 
+bool MediumState::triggerDiscontinuity_NegativeStateValue(double stateValue) {
+	bool eventIndicator = false;
+	if (stateValue < 0) {
+		eventIndicator = true; //trigger discontinuity
+	}
+	SimEnv.updateEventIndicator(eventIndicator);
+	return eventIndicator;
+}
+
 Medium* MediumState::getMedium() {
 	return medium;
 }
@@ -32,7 +41,7 @@ void MediumState::init(
 		ThermodynamicVariable state1, double state1Value,
 		ThermodynamicVariable state2, double state2Value) {
 	this->clearState();
-		   if (state1 == iT && state2 == iD) {
+	if (state1 == iT && state2 == iD) {
 		update_Trho(state1Value, state2Value);
 	} else if (state1 == iD && state2 == iT) {
 		update_Trho(state2Value, state1Value);

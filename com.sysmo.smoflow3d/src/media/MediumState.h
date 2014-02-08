@@ -95,6 +95,8 @@ public:
 protected:
 	MediumState(Medium* medium);
 
+	bool triggerDiscontinuity_NegativeStateValue(double stateValue);
+
 	Medium* medium;
 	double _T;
 	double _p;
