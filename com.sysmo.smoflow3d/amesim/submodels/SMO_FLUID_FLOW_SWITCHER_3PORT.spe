@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>29</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_fluid_flow_switcher_3port</DEFAULT_ICON>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>9</I_STORES_NUMBER>
+  <P_STORES_NUMBER>6</P_STORES_NUMBER>
+  <DISCONTINUITY>1</DISCONTINUITY>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>29</SUB_ID>
+    <TITLE>use fluid flow activation signal</TITLE>
+    <VARNAME>useFluidFlowActivationSignal</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>26</SUB_ID>
+     <TITLE>fluid flow index (port1)</TITLE>
+     <VARNAME>fluidFlow1IndexOut</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+     <EXPRESS2>@_2_2, @_4_1</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>13</SUB_ID>
+     <TITLE>fluid flow activation signal (port1)</TITLE>
+     <VARNAME>fluidFlowActivationSignal1Out</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>smoFFAS</UNITS>
+     <EXPRESS2>@_2_3, @_4_1</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>16</SUB_ID>
+     <TITLE>fluid state index (port1)</TITLE>
+     <VARNAME>fluidState1IndexIn</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>25</SUB_ID>
+     <TITLE>fluid state index (port2)</TITLE>
+     <VARNAME>fluidState2IndexOut</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+     <EXPRESS2>@_1_3, @_3_3, @_4_1</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>22</SUB_ID>
+     <TITLE>fluid flow index  (port2)</TITLE>
+     <VARNAME>fluidFlow2IndexIn</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>23</SUB_ID>
+     <TITLE>fluid flow activation signal (port2)</TITLE>
+     <VARNAME>fluidFlowActivationSignal2In</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>27</SUB_ID>
+     <TITLE>fluid flow index (port3)</TITLE>
+     <VARNAME>fluidFlow3IndexOut</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+     <EXPRESS2>@_2_2, @_4_1</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>20</SUB_ID>
+     <TITLE>fluid flow activation signal (port3)</TITLE>
+     <VARNAME>fluidFlowActivationSignal3Out</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>smoFFAS</UNITS>
+     <EXPRESS2>@_2_3, @_4_1</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>18</SUB_ID>
+     <TITLE>fluid state index (port3)</TITLE>
+     <VARNAME>fluidState3IndexIn</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>2</SUB_ID>
+     <TITLE>switching signal (0-port1; 1-port3)</TITLE>
+     <VARNAME>switchingSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>

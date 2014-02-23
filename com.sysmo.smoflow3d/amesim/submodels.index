@@ -15,6 +15,8 @@ smo_heat_source
 &SMO_HEAT_SOURCE SmoFlow3d
 smo_fluid_flow_splitter_3port
 &SMO_FLUID_FLOW_SPLITTER_3PORT SmoFlow3d
+smo_fluid_flow_switcher_3port
+&SMO_FLUID_FLOW_SWITCHER_3PORT SmoFlow3d
 smo_heat_flow_splitter_3port
 &SMO_HEAT_FLOW_SPLITTER_3PORT SmoFlow3d
 smo_valve

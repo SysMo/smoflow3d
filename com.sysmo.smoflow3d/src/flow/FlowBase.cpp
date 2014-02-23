@@ -7,6 +7,9 @@
  */
 
 #include "FlowBase.h"
+#include "util/CommonDefinitions.h"
+
+using namespace smoflow;
 
 /**
  * Heat flow - C
@@ -72,3 +75,12 @@ double FluidFlow_getEnthalpyFlowRate(FluidFlow* flow) {
 	return flow->enthalpyFlowRate;
 }
 
+void FluidFlow_copy(FluidFlow* flowSource, FluidFlow* flowTarget) {
+	flowTarget->enthalpyFlowRate = flowSource->enthalpyFlowRate;
+	flowTarget->massFlowRate = flowSource->massFlowRate;
+}
+
+void FluidFlow_zero(FluidFlow* flow) {
+	flow->enthalpyFlowRate = cst::zeroSpecEnthalpy;
+	flow->massFlowRate = cst::zeroMassFlowRate;
+}

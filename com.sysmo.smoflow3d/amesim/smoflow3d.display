@@ -1,4 +1,3 @@
-<!DOCTYPE CATEGORY_DISPLAY>
 <CATEGORY_DISPLAY DOC_VERSION="" AME_VERSION="" >
  <CATEGORY ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="40" DEFAULT_ZOOM="120" DESCRIPTION="SmoFlow3d" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="120" >
 
@@ -17,8 +16,9 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />
    
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_activation_signal_deactivator" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_switcher_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_orifice" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_exchanger" />
@@ -70,8 +70,9 @@
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Flow" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+  <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_activation_signal_deactivator" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_activation_signal_deactivator" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_switcher_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_orifice" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_exchanger" />

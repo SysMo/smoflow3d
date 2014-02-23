@@ -57,6 +57,9 @@ void FluidFlow_setMassFlowRate(FluidFlow* flow, double massFlowRate);
 double FluidFlow_getMassFlowRate(FluidFlow* flow);
 void FluidFlow_setEnthalpyFlowRate(FluidFlow* flow, double enthalpyFlowRate);
 double FluidFlow_getEnthalpyFlowRate(FluidFlow* flow);
+
+void FluidFlow_copy(FluidFlow* flowSource, FluidFlow* flowTarget);
+void FluidFlow_zero(FluidFlow* flow);
 END_C_LINKAGE
 
 #endif /* FLOWBASE_H_ */
