@@ -31,8 +31,8 @@ REVISIONS :
 #include "flow/FlowBase.h"
 #include "media/MediumState.h"
 
-#define _isPort1Active *switchingSignal < 0.5
-#define _isPort3Active *switchingSignal > 0.5
+#define _isPort1Active (*switchingSignal < 0.5)
+#define _isPort3Active (*switchingSignal > 0.5)
 
 
 #define _fluidState1In ps[0]
@@ -298,11 +298,7 @@ extern double smo_fluid_flow_switcher_3port_macro1_(int *n
    if (useFluidFlowActivationSignal == 1) { //no
 	   fluidFlowActivationSignal1Out = -1; //not used
    } else { // yes
-	   if (_isPort1Active) {
-		   fluidFlowActivationSignal1Out = 1; //activate flow
-	   } else {
-		   fluidFlowActivationSignal1Out = 0; //deactivate flow
-	   }
+	   fluidFlowActivationSignal1Out = *fluidFlowActivationSignal2In;
    }
 /* <<<<<<<<<<<<End of Macro macro1 Executable Statements. */
 
@@ -364,6 +360,7 @@ extern double smo_fluid_flow_switcher_3port_macro2_(int *n
 	   _fluidState2IndexOut = MediumState_register(_fluidState2Out);
    }
 
+   //:TODO: (Milen) create a copy function for fluid states
    if (_isPort1Active) { //Port1 is active
 	   MediumState_update_ph(_fluidState2Out, MediumState_p(_fluidState1In), MediumState_h(_fluidState1In));
    } else { //Port3 is active
@@ -473,11 +470,7 @@ extern double smo_fluid_flow_switcher_3port_macro4_(int *n
    if (useFluidFlowActivationSignal == 1) { //no
 	   fluidFlowActivationSignal3Out = -1; //not used
    } else { // yes
-	   if (_isPort3Active) {
-		   fluidFlowActivationSignal3Out = 1; //activate flow
-	   } else {
-		   fluidFlowActivationSignal3Out = 0; //deactivate flow
-	   }
+	   fluidFlowActivationSignal3Out = *fluidFlowActivationSignal2In;
    }
 /* <<<<<<<<<<<<End of Macro macro4 Executable Statements. */
 

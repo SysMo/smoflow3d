@@ -21,7 +21,7 @@
 	SmoComponent_setComponentName(_component, _SUBMODELNAME_); \
 
 
-#define SMOCOMPONENT_PRINT
+//#define SMOCOMPONENT_PRINT
 #ifdef SMOCOMPONENT_PRINT
 #define SMOCOMPONENT_PRINT_MAIN_CALC \
 	amefprintf(stderr, "\n%s instance %d - main_calc \n", _SUBMODELNAME_, *n);
