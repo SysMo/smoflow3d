@@ -30,7 +30,7 @@ public:
 	double getAbsolutePressureDrop() {return friction->getAbsolutePressureDrop();}
 	FlowType getFlowType() {return friction->getFlowType();}
 
-	bool isFlowClosed() {return friction->getRegulatingSignal() <= 0;}
+	bool isFlowClosed();
 
 	void setPressureDifferenceParameters(bool useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff);
 	void handleEvent_OpeningClosingPressureDifferenceIsCrossed();

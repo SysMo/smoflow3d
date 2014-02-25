@@ -78,6 +78,10 @@ void Valve::compute() {
 	handleEvent_OpeningClosingPressureDifferenceIsCrossed();
 }
 
+bool Valve::isFlowClosed() {
+	return (friction->getRegulatingSignal() <= 0 || isFlowClosed_byPressDiff == true);
+}
+
 void Valve::setPressureDifferenceParameters(bool useOpeningClosePressDiff, double openingPressDiff, double closingPressDiff) {
 	this->useOpeningClosePressDiff = useOpeningClosePressDiff;
 	this->openingPressDiff = openingPressDiff;
