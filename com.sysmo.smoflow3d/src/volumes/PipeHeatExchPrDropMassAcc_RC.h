@@ -17,7 +17,7 @@
 
 class PipeHeatExchPrDropMassAcc_RC : public SmoComponent {
 public:
-	PipeHeatExchPrDropMassAcc_RC(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection);
+	PipeHeatExchPrDropMassAcc_RC(int allowBidirectionalFlow, double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection);
 	virtual ~PipeHeatExchPrDropMassAcc_RC();
 
 	void init(FluidFlow* port2Flow);
@@ -51,6 +51,7 @@ protected:
 
 
 	// Parameters
+	int allowBidirectionalFlow; //0-no, 1-yes
 	double volume;
 	ForcedConvection* convection;
 	FrictionFlowPipe* friction;
@@ -65,7 +66,7 @@ DECLARE_C_STRUCT(PipeHeatExchPrDropMassAcc_RC)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-PipeHeatExchPrDropMassAcc_RC* PipeHeatExchPrDropMassAcc_RC_new(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection);
+PipeHeatExchPrDropMassAcc_RC* PipeHeatExchPrDropMassAcc_RC_new(int allowBidirectionalFlow, double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection);
 
 void PipeHeatExchPrDropMassAcc_RC_init(PipeHeatExchPrDropMassAcc_RC* pipe, FluidFlow* port2Flow);
 void PipeHeatExchPrDropMassAcc_RC_initStates(PipeHeatExchPrDropMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode, StateVariableSet innerStateInitializer);

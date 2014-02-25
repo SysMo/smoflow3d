@@ -14,9 +14,11 @@ using namespace smoflow;
  * PipeHeatExchPrDrop_RC - C++
  */
 PipeHeatExchPrDropMassAcc_RC::PipeHeatExchPrDropMassAcc_RC(
+		int allowBidirectionalFlow,
 		double internalVolume,
 		FrictionFlowPipe* friction,
 		ForcedConvection* convection) {
+	this->allowBidirectionalFlow = allowBidirectionalFlow;
 	this->volume = internalVolume;
 	this->friction = friction;
 	this->convection = convection;
@@ -83,7 +85,11 @@ void PipeHeatExchPrDropMassAcc_RC::getStateDerivatives(double* value1, double* v
 
 void PipeHeatExchPrDropMassAcc_RC::compute() {
 	double pressureDrop = port1State->p() - port2State->p();
-	compute(pressureDrop);
+	if (allowBidirectionalFlow == 0 && pressureDrop > 0) { //only one direction
+		compute(cst::zeroPressureDrop);  //:TRICKY: block flow in the opposite direction (i.e. compute zero mass flow rate)
+	} else {
+		compute(pressureDrop);
+	}
 }
 
 void PipeHeatExchPrDropMassAcc_RC::compute_deactivedFluidFlow() {
@@ -108,8 +114,8 @@ void PipeHeatExchPrDropMassAcc_RC::compute(double pressureDrop) {
 /**
  * PipeHeatExchPrDrop_RC - C
  */
-PipeHeatExchPrDropMassAcc_RC* PipeHeatExchPrDropMassAcc_RC_new(double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection) {
-	return new PipeHeatExchPrDropMassAcc_RC(internalVolume, friction, convection);
+PipeHeatExchPrDropMassAcc_RC* PipeHeatExchPrDropMassAcc_RC_new(int allowBidirectionalFlow, double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection) {
+	return new PipeHeatExchPrDropMassAcc_RC(allowBidirectionalFlow, internalVolume, friction, convection);
 }
 
 void PipeHeatExchPrDropMassAcc_RC_init(PipeHeatExchPrDropMassAcc_RC* pipe, FluidFlow* port2Flow) {
