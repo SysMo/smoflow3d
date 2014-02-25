@@ -13,14 +13,27 @@ using namespace smoflow;
 /**
  * PipeHeatExch_C - C++
  */
-PipeHeatExchNoPrDropMassAcc_C::PipeHeatExchNoPrDropMassAcc_C(Medium* fluid, double internalVolume, ForcedConvection* convection) {
+PipeHeatExchNoPrDropMassAcc_C::PipeHeatExchNoPrDropMassAcc_C(Medium* fluid, double internalVolume, ForcedConvection* convection, int stateVariableSelection) {
 	this->convection = convection;
 	SMOCOMPONENT_SET_PARENT(this->convection, this);
 
 	accFluid = FluidChamber_new(fluid);
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
 	accFluid->setVolume(internalVolume);
-	accFluid->selectStates(iT, iD);
+
+	if (stateVariableSelection == 1) {
+		accFluid->selectStates(iT, iD);
+	} else if (stateVariableSelection == 2) {
+		accFluid->selectStates(iP, iT);
+	} else if (stateVariableSelection == 3) {
+		accFluid->selectStates(iP, iD);
+	} else if (stateVariableSelection == 4) {
+		accFluid->selectStates(iP, iH);
+	} else {
+		RaiseComponentError(this, "Unsupported type of state variables.");
+	}
+
+
 	accFluidState = accFluid->getFluidState();
 
 	this->port1Flow = NULL;
@@ -72,8 +85,8 @@ void PipeHeatExchNoPrDropMassAcc_C::compute() {
 /**
  * PipeHeatExch_C - C
  */
-PipeHeatExchNoPrDropMassAcc_C* PipeHeatExchNoPrDropMassAcc_C_new(Medium* fluid, double internalVolume, ForcedConvection* convection) {
-	return new PipeHeatExchNoPrDropMassAcc_C(fluid, internalVolume, convection);
+PipeHeatExchNoPrDropMassAcc_C* PipeHeatExchNoPrDropMassAcc_C_new(Medium* fluid, double internalVolume, ForcedConvection* convection, int stateVariableSelection) {
+	return new PipeHeatExchNoPrDropMassAcc_C(fluid, internalVolume, convection, stateVariableSelection);
 }
 
 void PipeHeatExchNoPrDropMassAcc_C_init(PipeHeatExchNoPrDropMassAcc_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow) {

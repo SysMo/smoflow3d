@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>131</SUB_ID_MAX>
+  <SUB_ID_MAX>143</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_straight_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>straight pipe with heat exchanger (pressure drop, mass accumulation) (R-C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -80,26 +80,60 @@
     <UNITS>null</UNITS>
    </RPARAM>
    <RPARAM>
-    <SUB_ID>114</SUB_ID>
+    <SUB_ID>135</SUB_ID>
     <TITLE>initial pressure</TITLE>
-    <VARNAME>initP</VARNAME>
+    <VARNAME>initialPressure</VARNAME>
     <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
-    <VALUE>1.00000000000000e+000</VALUE>
-    <MIN_VALUE>-1.00000000000000e+030</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
-    <UNITS>bar</UNITS>
+    <DEF_VALUE>3.00000000000000e+000</DEF_VALUE>
+    <VALUE>3.00000000000000e+000</VALUE>
+    <MIN_VALUE>1.00000000000000e-008</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+008</MAX_VALUE>
+    <UNITS>barA</UNITS>
    </RPARAM>
    <RPARAM>
-    <SUB_ID>116</SUB_ID>
-    <TITLE>initial temperature</TITLE>
-    <VARNAME>initT</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <SUB_ID>136</SUB_ID>
+    <TITLE>initial temperature (K)</TITLE>
+    <VARNAME>initialTemperature</VARNAME>
+    <VISIBILITY>(initConditionsChoice == 1)</VISIBILITY>
     <DEF_VALUE>3.00000000000000e+002</DEF_VALUE>
     <VALUE>3.00000000000000e+002</VALUE>
-    <MIN_VALUE>-1.00000000000000e+030</MIN_VALUE>
-    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <MIN_VALUE>1.00000000000000e-001</MIN_VALUE>
+    <MAX_VALUE>5.00000000000000e+003</MAX_VALUE>
     <UNITS>K</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>137</SUB_ID>
+    <TITLE>initial temperature (°C)</TITLE>
+    <VARNAME>initialTemperatureC</VARNAME>
+    <VISIBILITY>(initConditionsChoice == 2)</VISIBILITY>
+    <DEF_VALUE>1.50000000000000e+001</DEF_VALUE>
+    <VALUE>1.50000000000000e+001</VALUE>
+    <MIN_VALUE>-2.73150000000000e+002</MIN_VALUE>
+    <MAX_VALUE>5.00000000000000e+003</MAX_VALUE>
+    <UNITS>degC</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>138</SUB_ID>
+    <TITLE>initial gas mass fraction</TITLE>
+    <VARNAME>initialGasMassFraction</VARNAME>
+    <VISIBILITY>(initConditionsChoice == 3)</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e-001</DEF_VALUE>
+    <VALUE>5.00000000000000e-001</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>139</SUB_ID>
+    <TITLE>initial superheat</TITLE>
+    <VARNAME>initialSuperheat</VARNAME>
+    <VISIBILITY>(initConditionsChoice == 4)</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e+000</DEF_VALUE>
+    <VALUE>5.00000000000000e+000</VALUE>
+    <MIN_VALUE>-2.00000000000000e+002</MIN_VALUE>
+    <MAX_VALUE>2.00000000000000e+002</MAX_VALUE>
+    <UNITS>K</UNITS>
+    <IS_DELTA>1</IS_DELTA>
    </RPARAM>
   </RPARAMS_LIST>
   <IPARAMS_LIST>
@@ -192,6 +226,54 @@
      </ENUM>
      <ENUM>
       <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>141</SUB_ID>
+    <TITLE>type of initialization</TITLE>
+    <VARNAME>initConditionsChoice</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>4</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>pressure and temperature</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>pressure and temperature (degC)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>pressure and gas mass fraction</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>pressure and superheat</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>143</SUB_ID>
+    <TITLE>states variables</TITLE>
+    <VARNAME>stateVariableSelection</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>4</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>(T, rho)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(P, T)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(p, rho)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(p, h)</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>

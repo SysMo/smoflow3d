@@ -16,7 +16,7 @@
 
 class PipeHeatExchNoPrDropMassAcc_C : public SmoComponent {
 public:
-	PipeHeatExchNoPrDropMassAcc_C(Medium* fluid, double internalVolume, ForcedConvection* convection);
+	PipeHeatExchNoPrDropMassAcc_C(Medium* fluid, double internalVolume, ForcedConvection* convection, int stateVariableSelection);
 	virtual ~PipeHeatExchNoPrDropMassAcc_C();
 
 	void init(FluidFlow* port1Flow, FluidFlow* port2Flow);
@@ -55,7 +55,7 @@ DECLARE_C_STRUCT(PipeHeatExchNoPrDropMassAcc_C)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
-PipeHeatExchNoPrDropMassAcc_C* PipeHeatExchNoPrDropMassAcc_C_new(Medium* fluid, double internalVolume, ForcedConvection* convection);
+PipeHeatExchNoPrDropMassAcc_C* PipeHeatExchNoPrDropMassAcc_C_new(Medium* fluid, double internalVolume, ForcedConvection* convection, int stateVariableSelection);
 
 void PipeHeatExchNoPrDropMassAcc_C_init(PipeHeatExchNoPrDropMassAcc_C* component, FluidFlow* port1Flow, FluidFlow* port2Flow);
 void PipeHeatExchNoPrDropMassAcc_C_compute(PipeHeatExchNoPrDropMassAcc_C* component);

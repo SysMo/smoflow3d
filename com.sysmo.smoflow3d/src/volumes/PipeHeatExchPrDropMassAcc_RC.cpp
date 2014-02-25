@@ -57,7 +57,8 @@ void PipeHeatExchPrDropMassAcc_RC::init(FluidFlow* port2Flow) {
 	FluidFlow_register(internalFlow);
 }
 
-void PipeHeatExchPrDropMassAcc_RC::initStates(MediumState* port1State, ThermalNode* wallNode, StateVariableSet& innerStateInitializer) {
+void PipeHeatExchPrDropMassAcc_RC::initStates(MediumState* port1State, ThermalNode* wallNode,
+		int stateVariableSelection, StateVariableSet& internalStateInitialValues) {
 	this->port1State = port1State;
 	this->wallNode = wallNode;
 
@@ -65,10 +66,20 @@ void PipeHeatExchPrDropMassAcc_RC::initStates(MediumState* port1State, ThermalNo
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
 
 	accFluid->setVolume(volume);
-	accFluid->selectStates(iP, iD);
+	if (stateVariableSelection == 1) {
+		accFluid->selectStates(iT, iD);
+	} else if (stateVariableSelection == 2) {
+		accFluid->selectStates(iP, iT);
+	} else if (stateVariableSelection == 3) {
+		accFluid->selectStates(iP, iD);
+	} else if (stateVariableSelection == 4) {
+		accFluid->selectStates(iP, iH);
+	} else {
+		RaiseComponentError(this, "Unsupported type of state variables.");
+	}
 
 	port2State = accFluid->getFluidState();
-	port2State->init(innerStateInitializer);
+	port2State->init(internalStateInitialValues);
 }
 
 void PipeHeatExchPrDropMassAcc_RC::getStateValues(double* value1, double* value2) {
@@ -114,7 +125,8 @@ void PipeHeatExchPrDropMassAcc_RC::compute(double pressureDrop) {
 /**
  * PipeHeatExchPrDrop_RC - C
  */
-PipeHeatExchPrDropMassAcc_RC* PipeHeatExchPrDropMassAcc_RC_new(int allowBidirectionalFlow, double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection) {
+PipeHeatExchPrDropMassAcc_RC* PipeHeatExchPrDropMassAcc_RC_new(int allowBidirectionalFlow, double internalVolume,
+		FrictionFlowPipe* friction, ForcedConvection* convection) {
 	return new PipeHeatExchPrDropMassAcc_RC(allowBidirectionalFlow, internalVolume, friction, convection);
 }
 
@@ -122,8 +134,9 @@ void PipeHeatExchPrDropMassAcc_RC_init(PipeHeatExchPrDropMassAcc_RC* pipe, Fluid
 	pipe->init(port2Flow);
 }
 
-void PipeHeatExchPrDropMassAcc_RC_initStates(PipeHeatExchPrDropMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode, StateVariableSet innerStateInitializer) {
-	pipe->initStates(port1State, wallNode, innerStateInitializer);
+void PipeHeatExchPrDropMassAcc_RC_initStates(PipeHeatExchPrDropMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode,
+		int stateVariableSelection, StateVariableSet innerStateInitializer) {
+	pipe->initStates(port1State, wallNode, stateVariableSelection, innerStateInitializer);
 }
 
 void PipeHeatExchPrDropMassAcc_RC_compute(PipeHeatExchPrDropMassAcc_RC* pipe) {
