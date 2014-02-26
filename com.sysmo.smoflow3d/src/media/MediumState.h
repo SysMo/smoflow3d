@@ -146,6 +146,8 @@ void MediumState_update_ps(MediumState* mstate, double p, double s);
 void MediumState_update_pq(MediumState* mstate, double p, double q);
 void MediumState_update_Tq(MediumState* mstate, double T, double q);
 
+void MediumState_copy(MediumState* sourceState, MediumState* targetState, int stateVariableSelection);
+
 double MediumState_T(MediumState* mstate);
 double MediumState_p(MediumState* mstate);
 double MediumState_rho(MediumState* mstate);

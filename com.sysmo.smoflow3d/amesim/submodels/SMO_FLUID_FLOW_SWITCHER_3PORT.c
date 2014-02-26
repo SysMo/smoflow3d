@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_FLOW_SWITCHER_3PORT skeleton created by AME Submodel editing utility
-   Sun Feb 23 16:53:48 2014 */
+   Wed Feb 26 18:38:11 2014 */
 
 
 
@@ -60,21 +60,23 @@ REVISIONS :
 #define _discFlag_isSwitchingSignalChanged ic[8]
 /* <<<<<<<<<<<<End of Private Code. */
 
-/* There is 1 integer parameter:
+/* There are 2 integer parameters:
 
-   useFluidFlowActivationSignal use fluid flow activation signal
+   useFluidFlowActivationSignal use fluid flow activation signal                   
+   stateVariableSelection       states variables using for copying the input states
 */
 
-void smo_fluid_flow_switcher_3portin_(int *n, int ip[1], int ic[9]
+void smo_fluid_flow_switcher_3portin_(int *n, int ip[2], int ic[9]
       , void *ps[6])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int useFluidFlowActivationSignal;
+   int useFluidFlowActivationSignal, stateVariableSelection;
 
    useFluidFlowActivationSignal = ip[0];
+   stateVariableSelection = ip[1];
    loop = 0;
    error = 0;
 
@@ -87,6 +89,11 @@ void smo_fluid_flow_switcher_3portin_(int *n, int ip[1], int ic[9]
    if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
    {
       amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
+      error = 2;
+   }
+   if (stateVariableSelection < 1 || stateVariableSelection > 4)
+   {
+      amefprintf(stderr, "\nstates variables using for copying the input states must be in range [1..4].\n");
       error = 2;
    }
 
@@ -143,16 +150,17 @@ void smo_fluid_flow_switcher_3port_(int *n, double *fluidFlow1IndexOut
       , double *fluidFlowActivationSignal2In
       , double *fluidFlow3IndexOut
       , double *fluidFlowActivationSignal3Out
-      , double *fluidState3IndexIn, double *switchingSignal, int ip[1]
+      , double *fluidState3IndexIn, double *switchingSignal, int ip[2]
       , int ic[9], void *ps[6], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int useFluidFlowActivationSignal;
+   int useFluidFlowActivationSignal, stateVariableSelection;
 
    useFluidFlowActivationSignal = ip[0];
+   stateVariableSelection = ip[1];
    logi = 0;
    loop = 0;
 
@@ -209,7 +217,7 @@ void smo_fluid_flow_switcher_3port_(int *n, double *fluidFlow1IndexOut
 }
 
 extern double smo_fluid_flow_switcher_3port_macro0_(int *n
-      , double *fluidFlow2IndexIn, double *switchingSignal, int ip[1]
+      , double *fluidFlow2IndexIn, double *switchingSignal, int ip[2]
       , int ic[9], void *ps[6], int *flag)
 
 {
@@ -217,9 +225,10 @@ extern double smo_fluid_flow_switcher_3port_macro0_(int *n
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int useFluidFlowActivationSignal;
+   int useFluidFlowActivationSignal, stateVariableSelection;
 
    useFluidFlowActivationSignal = ip[0];
+   stateVariableSelection = ip[1];
    logi = 0;
    loop = 0;
 
@@ -268,16 +277,17 @@ extern double smo_fluid_flow_switcher_3port_macro0_(int *n
 
 extern double smo_fluid_flow_switcher_3port_macro1_(int *n
       , double *fluidFlowActivationSignal2In, double *switchingSignal
-      , int ip[1], int ic[9], void *ps[6], int *flag)
+      , int ip[2], int ic[9], void *ps[6], int *flag)
 
 {
    double fluidFlowActivationSignal1Out;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro1 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro1 declarations. */
-   int useFluidFlowActivationSignal;
+   int useFluidFlowActivationSignal, stateVariableSelection;
 
    useFluidFlowActivationSignal = ip[0];
+   stateVariableSelection = ip[1];
    logi = 0;
    loop = 0;
 
@@ -313,7 +323,7 @@ extern double smo_fluid_flow_switcher_3port_macro1_(int *n
 
 extern double smo_fluid_flow_switcher_3port_macro2_(int *n
       , double *fluidState1IndexIn, double *fluidState3IndexIn
-      , double *switchingSignal, int ip[1], int ic[9], void *ps[6]
+      , double *switchingSignal, int ip[2], int ic[9], void *ps[6]
       , int *flag)
 
 {
@@ -321,9 +331,10 @@ extern double smo_fluid_flow_switcher_3port_macro2_(int *n
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro2 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro2 declarations. */
-   int useFluidFlowActivationSignal;
+   int useFluidFlowActivationSignal, stateVariableSelection;
 
    useFluidFlowActivationSignal = ip[0];
+   stateVariableSelection = ip[1];
    logi = 0;
    loop = 0;
 
@@ -362,9 +373,9 @@ extern double smo_fluid_flow_switcher_3port_macro2_(int *n
 
    //:TODO: (Milen) create a copy function for fluid states
    if (_isPort1Active) { //Port1 is active
-	   MediumState_update_ph(_fluidState2Out, MediumState_p(_fluidState1In), MediumState_h(_fluidState1In));
+	   MediumState_copy(_fluidState1In, _fluidState2Out, stateVariableSelection);
    } else { //Port3 is active
-	   MediumState_update_ph(_fluidState2Out, MediumState_p(_fluidState3In), MediumState_h(_fluidState3In));
+	   MediumState_copy(_fluidState3In, _fluidState2Out, stateVariableSelection);
    }
 
    fluidState2IndexOut = _fluidState2IndexOut;
@@ -381,7 +392,7 @@ extern double smo_fluid_flow_switcher_3port_macro2_(int *n
 }
 
 extern double smo_fluid_flow_switcher_3port_macro3_(int *n
-      , double *fluidFlow2IndexIn, double *switchingSignal, int ip[1]
+      , double *fluidFlow2IndexIn, double *switchingSignal, int ip[2]
       , int ic[9], void *ps[6], int *flag)
 
 {
@@ -389,9 +400,10 @@ extern double smo_fluid_flow_switcher_3port_macro3_(int *n
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro3 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro3 declarations. */
-   int useFluidFlowActivationSignal;
+   int useFluidFlowActivationSignal, stateVariableSelection;
 
    useFluidFlowActivationSignal = ip[0];
+   stateVariableSelection = ip[1];
    logi = 0;
    loop = 0;
 
@@ -440,16 +452,17 @@ extern double smo_fluid_flow_switcher_3port_macro3_(int *n
 
 extern double smo_fluid_flow_switcher_3port_macro4_(int *n
       , double *fluidFlowActivationSignal2In, double *switchingSignal
-      , int ip[1], int ic[9], void *ps[6], int *flag)
+      , int ip[2], int ic[9], void *ps[6], int *flag)
 
 {
    double fluidFlowActivationSignal3Out;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro4 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro4 declarations. */
-   int useFluidFlowActivationSignal;
+   int useFluidFlowActivationSignal, stateVariableSelection;
 
    useFluidFlowActivationSignal = ip[0];
+   stateVariableSelection = ip[1];
    logi = 0;
    loop = 0;
 

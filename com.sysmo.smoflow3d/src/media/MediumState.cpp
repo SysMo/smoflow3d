@@ -319,6 +319,20 @@ void MediumState_update_Tq(MediumState* mstate, double T, double q) {
 	mstate->update_Tq(T, q);
 }
 
+void MediumState_copy(MediumState* sourceState, MediumState* targetState, int stateVariableSelection) {
+	if (stateVariableSelection == 1) {
+		targetState->update_Trho(sourceState->T(), sourceState->rho());
+	} else if (stateVariableSelection == 2) {
+		targetState->update_Tp(sourceState->T(), sourceState->p());
+	} else if (stateVariableSelection == 3) {
+		targetState->update_prho(sourceState->p(), sourceState->rho());
+	} else if (stateVariableSelection == 4) {
+		targetState->update_ph(sourceState->p(), sourceState->h());
+	} else {
+		RaiseError("Unsupported type of state variables in 'MediumState_copy'");
+	}
+}
+
 double MediumState_T(MediumState* mstate) {
 	return mstate->T();
 }

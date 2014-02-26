@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>29</SUB_ID_MAX>
+  <SUB_ID_MAX>31</SUB_ID_MAX>
   <DEFAULT_ICON>smo_fluid_flow_switcher_3port</DEFAULT_ICON>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>9</I_STORES_NUMBER>
@@ -27,6 +27,30 @@
      </ENUM>
      <ENUM>
       <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>31</SUB_ID>
+    <TITLE>states variables using for copying the input states</TITLE>
+    <VARNAME>stateVariableSelection</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>4</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>(T, rho)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(P, T)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(p, rho)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(p, h)</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
