@@ -32,6 +32,8 @@ smo_state_machine_controller
 &SMO_STATEMACHINECONTROLLER SmoFlow3d
 smo_mechanical_compressor
 &SMO_MECHANICAL_COMPRESSOR SmoFlow3d
+smo_cryopump_heat_exchanger
+&SMO_CRYOPUMP_HEAT_EXCHANGER SmoFlow3d
 smo_heat_exchanger
 &SMO_HEATEXCHANGER_CR SmoFlow3d
 &SMO_HEATEXCHANGER_RC SmoFlow3d
