@@ -60,6 +60,8 @@ smo_free_convection_regulating_gain
 &SMO_FREE_CONVECTION_REGULATING_GAIN SmoFlow3d
 smo_heat_flow_sensor
 &SMO_HEAT_FLOW_SENSOR SmoFlow3d
+smo_temperature_sensor
+&SMO_TEMPERATURE_SENSOR SmoFlow3d
 smiulation_environment
 &SMO_SIMULATION_ENVIRONMENT SmoFlow3d
 smo_phase_separator

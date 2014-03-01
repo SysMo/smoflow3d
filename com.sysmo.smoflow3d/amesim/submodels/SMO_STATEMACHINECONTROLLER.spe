@@ -33,8 +33,8 @@
     <TITLE>number of inputs</TITLE>
     <VARNAME>numInputs</VARNAME>
     <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>3</DEF_VALUE>
-    <VALUE>3</VALUE>
+    <DEF_VALUE>4</DEF_VALUE>
+    <VALUE>4</VALUE>
     <MIN_VALUE>0</MIN_VALUE>
     <MAX_VALUE>100</MAX_VALUE>
     <RECOMPILE>1</RECOMPILE>
@@ -44,8 +44,8 @@
     <TITLE>number of outputs</TITLE>
     <VARNAME>numOutputs</VARNAME>
     <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>4</DEF_VALUE>
-    <VALUE>4</VALUE>
+    <DEF_VALUE>5</DEF_VALUE>
+    <VALUE>5</VALUE>
     <MIN_VALUE>0</MIN_VALUE>
     <MAX_VALUE>100</MAX_VALUE>
     <RECOMPILE>1</RECOMPILE>
@@ -111,7 +111,7 @@
     <EVAR>
      <SUB_ID>1</SUB_ID>
      <TITLE>input variables</TITLE>
-     <ORIG_TITLE>input variables 1 1 1 1 1</ORIG_TITLE>
+     <ORIG_TITLE>input variables 1 1 1 1 1 1</ORIG_TITLE>
      <NB_IN_GROUP>numInputs</NB_IN_GROUP>
      <VARNAME>inputs</VARNAME>
      <VISIBILITY>True</VISIBILITY>
@@ -125,7 +125,7 @@
     <EVAR>
      <SUB_ID>6</SUB_ID>
      <TITLE>outputs</TITLE>
-     <ORIG_TITLE>outputs 1 1 1 1 1</ORIG_TITLE>
+     <ORIG_TITLE>outputs 1 1 1 1 1 1</ORIG_TITLE>
      <NB_IN_GROUP>numOutputs</NB_IN_GROUP>
      <VARNAME>outputs</VARNAME>
      <VISIBILITY>True</VISIBILITY>
