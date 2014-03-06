@@ -25,6 +25,14 @@ third-party/mu-parser/muParserTest.cpp
 third-party/mu-parser/muParserTokenReader.cpp
 )
 
+set(SMO_FILE_RADER
+	file_reader/containers/DataTable.cpp
+	file_reader/containers/HeadingDataTable.cpp
+	file_reader/containers/TimeDataTable.cpp
+	file_reader/DataTableFactory.cpp
+	file_reader/FileReaderPackageWrapper.cpp
+)
+
 #######################################
 # SmoFlow
 #######################################
@@ -34,6 +42,7 @@ add_library(SmoFlow SHARED
     util/SmoComponent.cpp
     util/SimulationEnvironment.cpp
     util/DynamicLoader.cpp
+    util/String.cpp
     math/Functors.cpp
     math/Interpolators.cpp
     io_control/CSVProcessor.cpp
@@ -69,6 +78,7 @@ add_library(SmoFlow SHARED
     volumes/HeatExchNoPrDropNoMassAcc_RC.cpp
     volumes/HeatExchNoPrDropNoMassAcc_CR.cpp
     ${MU_PARSER_FILES}
+    ${SMO_FILE_RADER}
 )
 
 target_link_libraries(SmoFlow CoolProp)

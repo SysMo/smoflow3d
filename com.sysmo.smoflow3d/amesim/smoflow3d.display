@@ -51,6 +51,9 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_constant_drag_coeff" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_state_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_flow_sensor" />
+   
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader_data_selector" />
   </GROUP>
 
 
@@ -114,6 +117,11 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_constant_drag_coeff" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_state_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_flow_sensor" />
+  </GROUP>
+  
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="File readers" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader_data_selector" />
   </GROUP>
   
  </CATEGORY>

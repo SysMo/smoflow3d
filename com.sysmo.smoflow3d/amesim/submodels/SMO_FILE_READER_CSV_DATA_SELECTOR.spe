@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>6</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_file_reader_data_selector</DEFAULT_ICON>
+  <SUB_LABEL>Data selector for file reader (csv)</SUB_LABEL>
+  <SUB_UNIT>1</SUB_UNIT>
+  <I_STORES_NUMBER>1</I_STORES_NUMBER>
+  <TIME_REQUIRED>1</TIME_REQUIRED>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>4</SUB_ID>
+    <TITLE>file reader index</TITLE>
+    <VARNAME>fileReaderIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <TPARAMS_LIST>
+   <TPARAM>
+    <SUB_ID>6</SUB_ID>
+    <TITLE>column header name</TITLE>
+    <VARNAME>columnHeaderName</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE><none></DEF_VALUE>
+    <VALUE><none></VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+  </TPARAMS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>2</SUB_ID>
+     <TITLE>data output</TITLE>
+     <VARNAME>value</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>

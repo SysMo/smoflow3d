@@ -90,3 +90,9 @@ smo_r_pipe_elbow
 &SMO_R_PIPE_ELBOW SmoFlow3d
 smo_r_pipe_constant_drag_coeff
 &SMO_R_PIPE_CONSTANT_DRAC_COEFF SmoFlow3d
+smo_file_reader
+&SMO_FILE_READER_CSV SmoFlow3d
+&SMO_FILE_READER
+smo_file_reader_data_selector
+&SMO_FILE_READER_CSV_DATA_SELECTOR SmoFlow3d
+&SMO_FILE_READER_DATA_SELCTOR
