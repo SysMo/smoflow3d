@@ -44,7 +44,7 @@ public:
 	/*
 	 * Checks
 	 */
-	void isTimeDataOK() const;
+	void isTimeDataOK();
 
 private:
 	/*

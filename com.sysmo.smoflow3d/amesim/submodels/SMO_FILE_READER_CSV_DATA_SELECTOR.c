@@ -1,5 +1,5 @@
 /* Submodel SMO_FILE_READER_CSV_DATA_SELECTOR skeleton created by AME Submodel editing utility
-   Thu Mar 6 15:14:02 2014 */
+   Fri Mar 7 08:58:30 2014 */
 
 
 
@@ -27,9 +27,11 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FILE_READER_CSV_DATA_SELECTOR"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "file_reader/FileReaderPackageWrapper.h"
+#include "file_reader/FileReader.h"
 
-#define columnIndex ic[0]
+#define _component ps[0]
+
+#define _columnIndex ic[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 /* There is 1 integer parameter:
@@ -44,7 +46,7 @@ REVISIONS :
 */
 
 void smo_file_reader_csv_data_selectorin_(int *n, int ip[1]
-      , char *tp[1], int ic[1])
+      , char *tp[1], int ic[1], void *ps[1])
 
 {
    int loop, error;
@@ -99,7 +101,7 @@ void smo_file_reader_csv_data_selectorin_(int *n, int ip[1]
 */
 
 void smo_file_reader_csv_data_selector_(int *n, double *value
-      , int ip[1], char *tp[1], int ic[1], double *t)
+      , int ip[1], char *tp[1], int ic[1], void *ps[1], double *t)
 
 {
    int loop;
@@ -123,17 +125,11 @@ void smo_file_reader_csv_data_selector_(int *n, double *value
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    if (firstc_()) {
-	   FileReader_getColumnIndex(
-			   fileReaderIndex,
-			   columnHeaderName,
-			   &columnIndex);
+	   _component = FileReader_get(fileReaderIndex);
+	   _columnIndex = FileReader_getColumnIndex(_component, columnHeaderName);
    }
 
-   FileReader_getValue(
-		   fileReaderIndex,
-		   columnIndex,
-		   *t,
-		   value);
+   *value = FileReader_getValue(_component, _columnIndex, *t);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 }
 

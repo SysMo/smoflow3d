@@ -29,8 +29,7 @@ set(SMO_FILE_RADER
 	file_reader/containers/DataTable.cpp
 	file_reader/containers/HeadingDataTable.cpp
 	file_reader/containers/TimeDataTable.cpp
-	file_reader/DataTableFactory.cpp
-	file_reader/FileReaderPackageWrapper.cpp
+	file_reader/FileReader.cpp
 )
 
 #######################################

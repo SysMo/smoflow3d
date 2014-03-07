@@ -1,5 +1,5 @@
 /* Submodel SMO_FILE_READER_CSV skeleton created by AME Submodel editing utility
-   Thu Mar 6 17:04:03 2014 */
+   Fri Mar 7 09:10:03 2014 */
 
 
 
@@ -27,7 +27,10 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_FILE_READER_CSV"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "file_reader/FileReaderPackageWrapper.h"
+#include "SmoFlowAme.h"
+#include "file_reader/FileReader.h"
+
+#define _component ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 /* There are 5 integer parameters:
@@ -46,7 +49,8 @@ REVISIONS :
    dataSeparators data separator
 */
 
-void smo_file_reader_csvin_(int *n, int ip[5], char *tp[2])
+void smo_file_reader_csvin_(int *n, int ip[5], char *tp[2]
+      , void *ps[1])
 
 {
    int loop, error;
@@ -112,14 +116,17 @@ void smo_file_reader_csvin_(int *n, int ip[5], char *tp[2])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   FileReader_createTimeDataTable(
-		   fileReaderIndex,
+   FileReader_register(fileReaderIndex, timeColumnIndex);
+   _component = FileReader_get(fileReaderIndex);
+   SMOCOMPONENT_SET_PROPS(_component)
+
+   FileReader_readDataFromFile(
+		   _component,
 		   dataFile,
 		   dataSeparators,
 		   headerLineNumber,
 		   dataFirstLineNumber,
-		   maxLinesToRead,
-		   timeColumnIndex);
+		   maxLinesToRead);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -134,7 +141,7 @@ void smo_file_reader_csvin_(int *n, int ip[5], char *tp[2])
 
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
-void smo_file_reader_csv_(int *n, int ip[5], char *tp[2])
+void smo_file_reader_csv_(int *n, int ip[5], char *tp[2], void *ps[1])
 
 {
    int loop;

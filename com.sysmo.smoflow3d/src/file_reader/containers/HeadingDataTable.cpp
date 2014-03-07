@@ -73,14 +73,15 @@ const THeaders& HeadingDataTable::getHeaders() const {
  * @return the index of the found column.
  * @note if the column is not found then throw an exception.
  */
-int HeadingDataTable::getColumnIndex(const std::string& columnName) const {
+int HeadingDataTable::getColumnIndex(const std::string& columnName) {
 	for (unsigned i = 0; i < _headers.size(); ++i) {
 		if (_headers[i] == columnName) {
 			return i;
 		}
 	}
 
-	RaiseError("Could not find a column with name '" << columnName << "'.");
+	RaiseComponentError(this, "Could not find a column with name '" << columnName << "'.");
+	return -1;
 }
 
 /**
@@ -116,7 +117,7 @@ void HeadingDataTable::readDataFromFile(
 	// Try to open the file
 	std::ifstream in(dataFileName.c_str());
 	if (!in.is_open()) {
-		RaiseError("Could not open the file '" << dataFileName << "'.");
+		RaiseComponentError(this, "Could not open the file '" << dataFileName << "'.");
 	}
 
 
@@ -159,7 +160,7 @@ void HeadingDataTable::readDataFromFile(
 
 		// Check the current line for correct number of data
 		if (headersNumber != (int)parsedValues.size()) {
-			RaiseError("The header line has " << (headersNumber + 1) << " columns, but "
+			RaiseComponentError(this, "The header line has " << (headersNumber + 1) << " columns, but "
 					<< "the line " << currLineNumber << " has "
 					<< (parsedValues.size() + 1) + " columns.");
 		}
@@ -172,7 +173,7 @@ void HeadingDataTable::readDataFromFile(
 
 			double value;
 			if (!String::toDouble(strValue, &value)) {
-				RaiseError("The value '" << strValue << "' has incorrect double format.\n"
+				RaiseComponentError(this, "The value '" << strValue << "' has incorrect double format.\n"
 						<< "@see line " << currLineNumber
 						<< " and column " << columnIndex << ".");
 			}

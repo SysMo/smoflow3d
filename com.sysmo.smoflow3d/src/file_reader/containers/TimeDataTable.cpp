@@ -91,10 +91,13 @@ double TimeDataTable::getValue(int columnIndex, double time) {
 		}
 	}
 
+	// SMO_WORK (MILEN) - return the last known value
+
 	// Throw an error
-	RaiseError("The input time value " << time << " is out of range. "
-			<< "It should be between " << timeDataColumn[0] << " and " << timeDataColumn[timeDataColumn.size() -1] << ".\n"
-			<< "@see the function 'int double TimeDataTable::getValue(columnIndex, double time)'");
+	RaiseComponentError(this, "The input time value " << time << " is out of range. "
+			<< "It should be between " << timeDataColumn[0] << " and " << timeDataColumn[timeDataColumn.size() -1] << ".\n");
+
+	return -1.0;
 }
 
 /**
@@ -116,18 +119,18 @@ double TimeDataTable::getInterpolatedValue(int columnIndex, double time) const {
  * Check the data time for correctness.
  * @note this function throws an exception.
  */
-void TimeDataTable::isTimeDataOK() const {
+void TimeDataTable::isTimeDataOK() {
 	const TDataColumn& timeDataColumn = (*getTimeDataColumn());
 	if (timeDataColumn.size() < 1) {
-		RaiseError("There is not time values in the data.");
+		RaiseComponentError(this, "There is not time values in the data.");
 	}
 
 	if (timeDataColumn.size() == 1) {
-		RaiseError("There is only one time value in the data.");
+		RaiseComponentError(this, "There is only one time value in the data.");
 	}
 
 	if (timeDataColumn[0] != 0.0) {
-		RaiseError("The first value " << timeDataColumn[0] << " of time is different from zero.");
+		RaiseComponentError(this, "The first value " << timeDataColumn[0] << " of time is different from zero.");
 	}
 
 	double timeValue1 = timeDataColumn[0];
@@ -135,7 +138,7 @@ void TimeDataTable::isTimeDataOK() const {
 	for (unsigned i = 1; i < timeDataColumn.size(); ++i) {
 		timeValue2 = timeDataColumn[i];
 		if (timeValue2 <= timeValue1) {
-			RaiseError("Time values are not increasing.\n"
+			RaiseComponentError(this, "Time values are not increasing.\n"
 					<< "@see time[" << (i-1) << "] = " << timeDataColumn[i-1]
 					<< " and time[" << i << "] = " << timeDataColumn[i]);
 		}

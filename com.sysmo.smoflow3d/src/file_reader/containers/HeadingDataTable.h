@@ -58,7 +58,7 @@ public:
 	 * Get functions
 	 */
 	const THeaders& getHeaders() const;
-	int getColumnIndex(const std::string& columnName) const;
+	int getColumnIndex(const std::string& columnName);
 
 private:
 

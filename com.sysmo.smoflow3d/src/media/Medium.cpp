@@ -21,7 +21,7 @@ static MediumContainer MediumRegistry;
 void Medium_register(MediumConcreteTypes mediumType, const char* mediumName, int mediumIndex) {
 	MediumContainer::iterator it = MediumRegistry.find(mediumIndex);
 	if (it != MediumRegistry.end()) {
-		RaiseError("Medium index " << mediumIndex << " already used");
+		RaiseError("Medium index " << mediumIndex << " already used.");
 	}
 	if (mediumType == sCompressibleFluidCoolProp) {
 		std::string mediumNameStr(mediumName);

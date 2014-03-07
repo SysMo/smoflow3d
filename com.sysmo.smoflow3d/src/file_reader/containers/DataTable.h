@@ -34,7 +34,7 @@ namespace filereader {
  * This class presents a data table that contains columns with double values
  * (i.e. vector<vector<double>*>).
  */
-class DataTable {
+class DataTable : public SmoComponent {
 public:
 	/*
 	 * Friend functions
