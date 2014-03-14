@@ -148,7 +148,7 @@ void StateMachineController::step() {
 		timeLastEvent = t;
 	} else {
 		bool actionRequested = _isActionRequested(controller);
-		if (actionRequested && (t - timeLastEvent > 1)) {
+		if (actionRequested) { //SMO_TRICKY: set a minimum time for a state duration use: //if (actionRequested && (t - timeLastEvent > 1.0)) //1.0 second
 			SimEnv.updateEventIndicator(actionRequested);
 		}
 	}
