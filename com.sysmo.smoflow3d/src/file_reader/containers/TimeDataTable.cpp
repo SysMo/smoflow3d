@@ -91,13 +91,18 @@ double TimeDataTable::getValue(int columnIndex, double time) {
 		}
 	}
 
-	// SMO_WORK (MILEN) - return the last known value
+	//*/ Extrapolate with the last known value
+	const TDataColumn& dataColumn = (*getDataColumn(columnIndex));
+	return dataColumn[_lastTimeRowIndex2];
+	//*/
 
+	/*/
 	// Throw an error
 	RaiseComponentError(this, "The input time value " << time << " is out of range. "
 			<< "It should be between " << timeDataColumn[0] << " and " << timeDataColumn[timeDataColumn.size() -1] << ".\n");
 
 	return -1.0;
+	//*/
 }
 
 /**
