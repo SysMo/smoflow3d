@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
-   Sat Nov 30 14:33:52 2013 */
+   Sun Mar 23 15:04:56 2014 */
 
 
 
@@ -48,7 +48,7 @@ REVISIONS :
 */
 
 void smo_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
-      , double c[20], int ic[1], void *ps[1])
+      , double c[22], int ic[1], void *ps[1])
 
 {
    int loop, error;
@@ -76,9 +76,9 @@ void smo_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
 
 /*   Integer parameter checking:   */
 
-   if (propertyIndex < 1 || propertyIndex > 20)
+   if (propertyIndex < 1 || propertyIndex > 22)
    {
-      amefprintf(stderr, "\nmeasured fluid property must be in range [1..20].\n");
+      amefprintf(stderr, "\nmeasured fluid property must be in range [1..22].\n");
       error = 2;
    }
 
@@ -117,11 +117,11 @@ void smo_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
       3 fluidStateIndex                  fluid state index            [smoTDS] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 19 internal variables.
+/*  There are 21 internal variables.
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (°C)                    [degC]              basic variable
+      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -138,6 +138,8 @@ void smo_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
      17 lambda                      thermal conductivity                [W/m/degC]          basic variable
      18 Pr                          Prandtl number                      [null]              basic variable
      19 sigma                       surface tension                     [N/m]               basic variable
+     20 gasVolumeFraction           gas volume fraction                 [null]              basic variable
+     21 liquidLevel                 liquid level                        [null]              basic variable
 */
 
 void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
@@ -149,7 +151,8 @@ void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
       , double *specificHelmholtzEnergy, double *specificGibbsEnergy
       , double *gasMassFraction, double *superheating, double *dpc
       , double *mu, double *lambda, double *Pr, double *sigma
-      , double rp[2], int ip[1], double c[20], int ic[1], void *ps[1])
+      , double *gasVolumeFraction, double *liquidLevel, double rp[2]
+      , int ip[1], double c[22], int ic[1], void *ps[1])
 
 {
    int loop;
@@ -192,6 +195,8 @@ void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
    *lambda     = ??;
    *Pr         = ??;
    *sigma      = ??;
+   *gasVolumeFraction = ??;
+   *liquidLevel = ??;
 */
 
 
@@ -217,6 +222,8 @@ void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
    *lambda = c[16];
    *Pr = c[17];
    //c[18] = MediumState_(fluidState);
+   *gasVolumeFraction = c[19];
+   *liquidLevel = c[20];
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -234,7 +241,7 @@ void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
 }
 
 extern double smo_fluid_state_sensor_macro0_(int *n
-      , double *fluidStateIndex, double rp[2], int ip[1], double c[20]
+      , double *fluidStateIndex, double rp[2], int ip[1], double c[22]
       , int ic[1], void *ps[1])
 
 {
@@ -269,11 +276,11 @@ extern double smo_fluid_state_sensor_macro0_(int *n
 	   _fluidState = MediumState_get(_fluidStateIndex);
    }
 
-   static const double outputInternalGain[20] = {
+   static const double outputInternalGain[21] = {
 		   1e-5, 1, 1, 1, 1,
 		   1e-3, 1e-3, 1e-3, 1e-3, 1,
 		   1, 1, 1, 1, 1,
-		   1, 1, 1, 1, 1
+		   1, 1, 1, 1, 1, 1
    };
 
    c[0] = MediumState_p(_fluidState);
@@ -295,8 +302,15 @@ extern double smo_fluid_state_sensor_macro0_(int *n
    c[16] = MediumState_lambda(_fluidState);
    c[17] = MediumState_Pr(_fluidState);
    //c[18] = MediumState_(fluidState);
+   c[19] = MediumState_qV(_fluidState); //gas volume fraction
 
-   if (propertyIndex == 20) {
+   if (c[19] == -1) {
+	   c[20] = -1; //liquid level
+   } else {
+	   c[20] = 1 - c[19];
+   }
+
+   if (propertyIndex == 22) {
 	   measuredValue = _fluidStateIndex;
    } else {
 	   measuredValue = c[propertyIndex - 1]

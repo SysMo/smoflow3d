@@ -363,3 +363,11 @@ double MediumState_FluidCoolProp::TSat() {
 double MediumState_FluidCoolProp::dpdTSat() {
 	return 1./cps.dTdp_along_sat();
 }
+
+double MediumState_FluidCoolProp::qV() {
+	if (isTwoPhase()) {
+		return 1 / (1 + (cps.rhoV() / cps.rhoL()) * (1 / _q - 1));
+	} else {
+		return -1;
+	}
+}

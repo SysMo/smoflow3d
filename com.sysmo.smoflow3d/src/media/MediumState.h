@@ -83,6 +83,7 @@ public:
 
 	// Two-phase related functions
 	virtual double q(); // Gas mass fraction
+	virtual double qV(); //Gas volume fraction
 	virtual bool isSupercritical();
 	virtual bool isTwoPhase();
 	virtual double deltaTSat();
@@ -153,6 +154,7 @@ double MediumState_p(MediumState* mstate);
 double MediumState_rho(MediumState* mstate);
 double MediumState_h(MediumState* mstate);
 double MediumState_q(MediumState* mstate);
+double MediumState_qV(MediumState* mstate);
 
 double MediumState_u(MediumState* mstate);
 double MediumState_cp(MediumState* mstate);

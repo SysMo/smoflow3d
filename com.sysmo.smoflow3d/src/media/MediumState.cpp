@@ -147,6 +147,10 @@ double MediumState::q() {
 	return _q;
 }
 
+double MediumState::qV() {
+	RaiseError("Unimplemented virtual method 'MediumState::qV()'")
+}
+
 
 double MediumState::u() {
 	RaiseError("Unimplemented virtual method 'MediumState::u()'")
@@ -411,6 +415,10 @@ int MediumState_isTwoPhase(MediumState* mstate) {
 
 double MediumState_q(MediumState* mstate) {
 	return mstate->q();
+}
+
+double MediumState_qV(MediumState* mstate) {
+	return mstate->qV();
 }
 
 double MediumState_deltaTSat(MediumState* mstate) {

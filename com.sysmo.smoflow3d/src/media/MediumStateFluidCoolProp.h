@@ -65,6 +65,7 @@ public:
 	virtual double deltaTSat();
 	virtual double TSat();
 	virtual double dpdTSat();
+	virtual double qV(); //Gas volume fraction
 
 protected:
 	Fluid* pFluid;
