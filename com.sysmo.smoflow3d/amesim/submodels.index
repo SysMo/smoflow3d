@@ -98,3 +98,5 @@ smo_file_reader
 smo_file_reader_data_selector
 &SMO_FILE_READER_CSV_DATA_SELECTOR SmoFlow3d
 &SMO_FILE_READER_DATA_SELCTOR
+smo_fluid_flow_source_mdot_t
+&SMO_FLUID_FLOW_SOURCE_MDOT_T SmoFlow3d
