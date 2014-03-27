@@ -80,7 +80,7 @@ void MechanicalCompressor::init(MediumState* inletState, MediumState* outletStat
 
 void MechanicalCompressor::compute() {
 	pressureRatio = outletState->p() / inletState->p();
-	double rotationalSpeedRPM = rotationalSpeed / (2 * M_PI) * 60;
+	double rotationalSpeedRPM = rotationalSpeed / (2 * M_PI) * 60; // [rad/s] -> [rev/min]
 
 	if (rotationalSpeed < 0) {
 		RaiseComponentError(this, "Compressor is not allowed to operate in reverse" );
@@ -112,7 +112,6 @@ void MechanicalCompressor::compute() {
 
 	compressorWork = massFlowRate * enthalpyChangeReal / mechanicalEfficiency;
 	torque = compressorWork / rotationalSpeed;
-
 }
 
 void MechanicalCompressor::updateFluidFlows(FluidFlow* inletFlow, FluidFlow* outletFlow) {
