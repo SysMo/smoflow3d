@@ -4,8 +4,9 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>52</SUB_ID_MAX>
+  <SUB_ID_MAX>63</SUB_ID_MAX>
   <DEFAULT_ICON>smo_cryopump_heat_exchanger</DEFAULT_ICON>
+  <SUB_LABEL>cryopump model with heat exchanger</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>4</I_STORES_NUMBER>
   <P_STORES_NUMBER>4</P_STORES_NUMBER>
@@ -15,19 +16,41 @@
     <SUB_ID>30</SUB_ID>
     <TITLE>displacement volume</TITLE>
     <VARNAME>displacementVolume</VARNAME>
-    <VISIBILITY>flowRateCalculationMethod == 1</VISIBILITY>
+    <VISIBILITY>true</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+002</DEF_VALUE>
     <VALUE>1.00000000000000e+002</VALUE>
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+006</MAX_VALUE>
     <UNITS>cm**3</UNITS>
    </RPARAM>
+   <RPARAM>
+    <SUB_ID>58</SUB_ID>
+    <TITLE>heat flow rate to pump reservoir (parameter)</TITLE>
+    <VARNAME>heatFlowRateToPumpReservoirPrm</VARNAME>
+    <VISIBILITY>computationMethod == 1</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+003</DEF_VALUE>
+    <VALUE>1.00000000000000e+003</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>W</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>60</SUB_ID>
+    <TITLE>fraction of extra heat going to fluid</TITLE>
+    <VARNAME>fractionOfExtraHeatToFluid</VARNAME>
+    <VISIBILITY>computationMethod == 2</VISIBILITY>
+    <DEF_VALUE>6.00000000000000e-001</DEF_VALUE>
+    <VALUE>6.00000000000000e-001</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
   </RPARAMS_LIST>
   <IPARAMS_LIST>
    <IPARAM>
-    <SUB_ID>33</SUB_ID>
-    <TITLE>flow rate calculation method</TITLE>
-    <VARNAME>flowRateCalculationMethod</VARNAME>
+    <SUB_ID>63</SUB_ID>
+    <TITLE>computation method of outlet conditions</TITLE>
+    <VARNAME>computationMethod</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
@@ -35,10 +58,10 @@
     <MAX_VALUE>2</MAX_VALUE>
     <ENUM_LIST>
      <ENUM>
-      <ENUM_STRING>displacement volume and volumetric efficiency</ENUM_STRING>
+      <ENUM_STRING>using outlet temperature</ENUM_STRING>
      </ENUM>
      <ENUM>
-      <ENUM_STRING>volumetric flow rate function</ENUM_STRING>
+      <ENUM_STRING>using  isentropic efficiency</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
@@ -64,38 +87,38 @@
   <TPARAMS_LIST>
    <TPARAM>
     <SUB_ID>39</SUB_ID>
-    <TITLE>expression for volumetric efficiency [-] = f(N[rev/min], tau[-l])</TITLE>
+    <TITLE>expression for volumetric efficiency [-] = f(N[rev/min], pOut[barl])</TITLE>
     <VARNAME>etaVolumetricExpression</VARNAME>
-    <VISIBILITY>flowRateCalculationMethod == 1</VISIBILITY>
+    <VISIBILITY>true</VISIBILITY>
     <DEF_VALUE>0.6</DEF_VALUE>
     <VALUE>0.6</VALUE>
     <TEXT_TYPE>0</TEXT_TYPE>
    </TPARAM>
    <TPARAM>
-    <SUB_ID>40</SUB_ID>
-    <TITLE>expression for volumetric flow rate [m^3/s] = f(N[rev/min], tau[-])</TITLE>
-    <VARNAME>volumetricFlowRateExpression</VARNAME>
-    <VISIBILITY>flowRateCalculationMethod == 2</VISIBILITY>
-    <DEF_VALUE>1e-3</DEF_VALUE>
-    <VALUE>1e-3</VALUE>
-    <TEXT_TYPE>0</TEXT_TYPE>
-   </TPARAM>
-   <TPARAM>
     <SUB_ID>41</SUB_ID>
-    <TITLE>expression for isentropic efficiency [-] = f(N[rev/min], tau[-])</TITLE>
+    <TITLE>expression for isentropic efficiency [-] = f(N[rev/min],  pOut[barl])</TITLE>
     <VARNAME>etaIsentropicExpression</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>computationMethod == 2</VISIBILITY>
     <DEF_VALUE>0.75</DEF_VALUE>
     <VALUE>0.75</VALUE>
     <TEXT_TYPE>0</TEXT_TYPE>
    </TPARAM>
    <TPARAM>
     <SUB_ID>42</SUB_ID>
-    <TITLE>expression for mechanical efficiency [-] = f(N[rev/min], tau[-])</TITLE>
+    <TITLE>expression for mechanical efficiency [-] = f(N[rev/min],  pOut[barl])</TITLE>
     <VARNAME>etaMechanicalExpression</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>0.9</DEF_VALUE>
     <VALUE>0.9</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>61</SUB_ID>
+    <TITLE>expression for outlet temperature [K] = f(N[rev/min],  pOut[barl])</TITLE>
+    <VARNAME>outletTemperatureExpression</VARNAME>
+    <VISIBILITY>computationMethod == 1</VISIBILITY>
+    <DEF_VALUE>60</DEF_VALUE>
+    <VALUE>60</VALUE>
     <TEXT_TYPE>0</TEXT_TYPE>
    </TPARAM>
   </TPARAMS_LIST>
@@ -155,9 +178,18 @@
     <UNITS>W</UNITS>
    </IVAR>
    <IVAR>
+    <SUB_ID>53</SUB_ID>
+    <TITLE>outlet temperature</TITLE>
+    <VARNAME>outletTemperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
     <SUB_ID>52</SUB_ID>
-    <TITLE>heat flow rate (port4)</TITLE>
-    <VARNAME>heatFlow</VARNAME>
+    <TITLE>heat flow rate to the pump reservoir</TITLE>
+    <VARNAME>heatFlowRateToPumpReservoir</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>

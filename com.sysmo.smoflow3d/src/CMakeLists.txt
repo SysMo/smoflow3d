@@ -56,6 +56,7 @@ add_library(SmoFlow SHARED
     flow/FlowBase.cpp    
     flow/Valve.cpp
     flow/MechanicalCompressor.cpp
+    flow/CryopumpHeatExch.cpp
     flow/ThermalConductionElement.cpp
     flow/Convection.cpp
     flow/FreeConvection.cpp

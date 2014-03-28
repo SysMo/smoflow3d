@@ -1,5 +1,5 @@
 /* Submodel SMO_CRYOPUMP_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   Thu Feb 27 11:55:18 2014 */
+   Fri Mar 28 11:41:15 2014 */
 
 
 
@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "flow/MechanicalCompressor.h"
+#include "flow/CryopumpHeatExch.h"
 #include "math/Functors.h"
 
 #define _component ps[0]
@@ -44,55 +44,60 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There is 1 real parameter:
+/* There are 3 real parameters:
 
-   displacementVolume displacement volume [cm**3 -> m**3]
+   displacementVolume             displacement volume                          [cm**3 -> m**3]
+   heatFlowRateToPumpReservoirPrm heat flow rate to pump reservoir (parameter) [W]
+   fractionOfExtraHeatToFluid     fraction of extra heat going to fluid        [null]
 */
 
 
 /* There are 2 integer parameters:
 
-   flowRateCalculationMethod    flow rate calculation method    
-   useFluidFlowActivationSignal use fluid flow activation signal
+   computationMethod            computation method of outlet conditions
+   useFluidFlowActivationSignal use fluid flow activation signal       
 */
 
 
 /* There are 4 text parameters:
 
-   etaVolumetricExpression      expression for volumetric efficiency [-] = f(N[rev/min], tau[-l])  
-   volumetricFlowRateExpression expression for volumetric flow rate [m^3/s] = f(N[rev/min], tau[-])
-   etaIsentropicExpression      expression for isentropic efficiency [-] = f(N[rev/min], tau[-])   
-   etaMechanicalExpression      expression for mechanical efficiency [-] = f(N[rev/min], tau[-])   
+   etaVolumetricExpression     expression for volumetric efficiency [-] = f(N[rev/min], pOut[barl]) 
+   etaIsentropicExpression     expression for isentropic efficiency [-] = f(N[rev/min],  pOut[barl])
+   etaMechanicalExpression     expression for mechanical efficiency [-] = f(N[rev/min],  pOut[barl])
+   outletTemperatureExpression expression for outlet temperature [K] = f(N[rev/min],  pOut[barl])   
 */
 
-void smo_cryopump_heat_exchangerin_(int *n, double rp[1], int ip[2]
+void smo_cryopump_heat_exchangerin_(int *n, double rp[3], int ip[2]
       , char *tp[4], int ic[4], void *ps[4])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int flowRateCalculationMethod, useFluidFlowActivationSignal;
-   double displacementVolume;
-   char *etaVolumetricExpression, *volumetricFlowRateExpression, 
-      *etaIsentropicExpression, *etaMechanicalExpression;
+   int computationMethod, useFluidFlowActivationSignal;
+   double displacementVolume, heatFlowRateToPumpReservoirPrm, 
+      fractionOfExtraHeatToFluid;
+   char *etaVolumetricExpression, *etaIsentropicExpression, 
+      *etaMechanicalExpression, *outletTemperatureExpression;
 
-   flowRateCalculationMethod = ip[0];
+   computationMethod = ip[0];
    useFluidFlowActivationSignal = ip[1];
 
    displacementVolume = rp[0];
+   heatFlowRateToPumpReservoirPrm = rp[1];
+   fractionOfExtraHeatToFluid = rp[2];
 
    etaVolumetricExpression = tp[0];
-   volumetricFlowRateExpression = tp[1];
-   etaIsentropicExpression = tp[2];
-   etaMechanicalExpression = tp[3];
+   etaIsentropicExpression = tp[1];
+   etaMechanicalExpression = tp[2];
+   outletTemperatureExpression = tp[3];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..0]
+   rp[0..2]
 */
 
 
@@ -101,9 +106,9 @@ void smo_cryopump_heat_exchangerin_(int *n, double rp[1], int ip[2]
 
 /*   Integer parameter checking:   */
 
-   if (flowRateCalculationMethod < 1 || flowRateCalculationMethod > 2)
+   if (computationMethod < 1 || computationMethod > 2)
    {
-      amefprintf(stderr, "\nflow rate calculation method must be in range [1..2].\n");
+      amefprintf(stderr, "\ncomputation method of outlet conditions must be in range [1..2].\n");
       error = 2;
    }
    if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
@@ -130,33 +135,30 @@ void smo_cryopump_heat_exchangerin_(int *n, double rp[1], int ip[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = MechanicalCompressor_new();
+   _component = CryopumpHeatExch_new();
    SMOCOMPONENT_SET_PROPS(_component)
+
+   CryopumpHeatExch_setDisplacementVolume(_component, displacementVolume);
+   CryopumpHeatExch_setVolumetricEfficiencyFunction(_component, FunctorTwoVariables_Expression_new(etaVolumetricExpression, "N", "pOut"));
+   CryopumpHeatExch_setMechanicalEfficiencyFunction(_component, FunctorTwoVariables_Expression_new(etaMechanicalExpression, "N", "pOut"));
+
+   CryopumpHeatExch_setComputationMethod(_component, computationMethod);
+   if (computationMethod == 1) { //using outlet temperature
+	   CryopumpHeatExch_setOutletTemperatureFunction(_component, FunctorTwoVariables_Expression_new(outletTemperatureExpression, "N", "pOut"));
+	   CryopumpHeatExch_setHeatFlowRateToPumpReservoir(_component, heatFlowRateToPumpReservoirPrm);
+   } else { //using isentropic efficiency
+	   CryopumpHeatExch_setIsentropicEfficiencyFunction(_component, FunctorTwoVariables_Expression_new(etaIsentropicExpression, "N", "pOut"));
+	   CryopumpHeatExch_setFractionOfExtraHeatToFluid(_component, fractionOfExtraHeatToFluid);
+   }
 
    _inletFluidFlow = FluidFlow_new();
    _inletFluidFlowIndex = FluidFlow_register(_inletFluidFlow);
+
    _outletFluidFlow = FluidFlow_new();
    _outletFluidFlowIndex = FluidFlow_register(_outletFluidFlow);
 
-   if (flowRateCalculationMethod == 1) {
-	   MechanicalCompressor_setDisplacementVolume(_component, displacementVolume);
-	   MechanicalCompressor_setVolumetricEfficiencyFunction(_component,
-			   FunctorTwoVariables_Expression_new(etaVolumetricExpression, "N", "tau"));
-   } else {
-	   MechanicalCompressor_setVolumetricFlowRateFunction(_component,
-			   FunctorTwoVariables_Expression_new(volumetricFlowRateExpression, "N", "tau"));
-   }
-
-   MechanicalCompressor_setIsentropicEfficiencyFunction(_component,
-		   FunctorTwoVariables_Expression_new(etaIsentropicExpression, "N", "tau"));
-   MechanicalCompressor_setMechanicalEfficiencyFunction(_component,
-		   FunctorTwoVariables_Expression_new(etaMechanicalExpression, "N", "tau"));
-
-
    _heatFlow = HeatFlow_new();
    _heatFlowIndex = HeatFlow_register(_heatFlow);
-
-   HeatFlow_setEnthalpyFlowRate(_heatFlow, 10.0); //:SMO_WORK: (Milen) cryopump heat flow
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -185,15 +187,16 @@ void smo_cryopump_heat_exchangerin_(int *n, double rp[1], int ip[2]
       2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 7 internal variables.
+/*  There are 8 internal variables.
 
-      1 pressureRatio      pressure ratio         [null] basic variable
-      2 etaVolumetric      volumetric efficiency  [null] basic variable
-      3 etaIsentropic      isentropic efficiency  [null] basic variable
-      4 etaMechanical      mechanical efficiency  [null] basic variable
-      5 massFlowRate       mass flow rate         [kg/s] basic variable
-      6 compressorWork     compressor work        [W]    basic variable
-      7 heatFlow           heat flow rate (port4) [W]    basic variable
+      1 pressureRatio                   pressure ratio                       [null] basic variable
+      2 etaVolumetric                   volumetric efficiency                [null] basic variable
+      3 etaIsentropic                   isentropic efficiency                [null] basic variable
+      4 etaMechanical                   mechanical efficiency                [null] basic variable
+      5 massFlowRate                    mass flow rate                       [kg/s] basic variable
+      6 compressorWork                  compressor work                      [W]    basic variable
+      7 outletTemperature               outlet temperature                   [K]    basic variable
+      8 heatFlowRateToPumpReservoir     heat flow rate to the pump reservoir [W]    basic variable
 */
 
 void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
@@ -204,27 +207,31 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
       , double *thermalNodeIndex, double *pressureRatio
       , double *etaVolumetric, double *etaIsentropic
       , double *etaMechanical, double *massFlowRate
-      , double *compressorWork, double *heatFlow, double rp[1]
-      , int ip[2], char *tp[4], int ic[4], void *ps[4])
+      , double *compressorWork, double *outletTemperature
+      , double *heatFlowRateToPumpReservoir, double rp[3], int ip[2]
+      , char *tp[4], int ic[4], void *ps[4])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int flowRateCalculationMethod, useFluidFlowActivationSignal;
-   double displacementVolume;
-   char *etaVolumetricExpression, *volumetricFlowRateExpression, 
-      *etaIsentropicExpression, *etaMechanicalExpression;
+   int computationMethod, useFluidFlowActivationSignal;
+   double displacementVolume, heatFlowRateToPumpReservoirPrm, 
+      fractionOfExtraHeatToFluid;
+   char *etaVolumetricExpression, *etaIsentropicExpression, 
+      *etaMechanicalExpression, *outletTemperatureExpression;
 
-   flowRateCalculationMethod = ip[0];
+   computationMethod = ip[0];
    useFluidFlowActivationSignal = ip[1];
 
    displacementVolume = rp[0];
+   heatFlowRateToPumpReservoirPrm = rp[1];
+   fractionOfExtraHeatToFluid = rp[2];
 
    etaVolumetricExpression = tp[0];
-   volumetricFlowRateExpression = tp[1];
-   etaIsentropicExpression = tp[2];
-   etaMechanicalExpression = tp[3];
+   etaIsentropicExpression = tp[1];
+   etaMechanicalExpression = tp[2];
+   outletTemperatureExpression = tp[3];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -248,7 +255,8 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
    *etaMechanical = ??;
    *massFlowRate = ??;
    *compressorWork = ??;
-   *heatFlow   = ??;
+   *outletTemperature = ??;
+   *heatFlowRateToPumpReservoir = ??;
 */
 
 
@@ -258,21 +266,23 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
    if (firstc_()) {
 	   MediumState* inletState = MediumState_get(*inletFluidStateIndex);
 	   MediumState* outletState = MediumState_get(*outletFluidStateIndex);
-	   MechanicalCompressor_init(_component, inletState, outletState);
+	   CryopumpHeatExch_init(_component, inletState, outletState);
    }
 
    if (*rotarySpeed > 1e-12) {
-	   MechanicalCompressor_setRotationalSpeed(_component, *rotarySpeed);
-	   MechanicalCompressor_compute(_component);
-	   MechanicalCompressor_updateFluidFlows(_component, _inletFluidFlow, _outletFluidFlow);
+	   CryopumpHeatExch_setRotationalSpeed(_component, *rotarySpeed);
+	   CryopumpHeatExch_compute(_component);
+	   CryopumpHeatExch_updateFluidFlows(_component, _inletFluidFlow, _outletFluidFlow);
 
-	   *pressureRatio = MechanicalCompressor_getPressureRatio(_component);
-	   *torque = MechanicalCompressor_getTorque(_component);
-	   *etaVolumetric = MechanicalCompressor_getVolumetricEfficiency(_component);
-	   *etaIsentropic = MechanicalCompressor_getIsentropicEfficiency(_component);
-	   *etaMechanical = MechanicalCompressor_getMechanicalEfficiency(_component);
+	   *pressureRatio = CryopumpHeatExch_getPressureRatio(_component);
+	   *torque = CryopumpHeatExch_getTorque(_component);
+	   *etaVolumetric = CryopumpHeatExch_getVolumetricEfficiency(_component);
+	   *etaIsentropic = CryopumpHeatExch_getIsentropicEfficiency(_component);
+	   *etaMechanical = CryopumpHeatExch_getMechanicalEfficiency(_component);
 	   *massFlowRate = FluidFlow_getMassFlowRate(_outletFluidFlow);
-	   *compressorWork = MechanicalCompressor_getCompressorWork(_component);
+	   *compressorWork = CryopumpHeatExch_getPumpWork(_component);
+	   *outletTemperature = CryopumpHeatExch_getOutletTemperature(_component);
+	   *heatFlowRateToPumpReservoir = CryopumpHeatExch_getHeatFlowRateToPumpReservoir(_component);
    } else {
 	   FluidFlow_setMassFlowRate(_inletFluidFlow, 0.0);
 	   FluidFlow_setEnthalpyFlowRate(_inletFluidFlow, 0.0);
@@ -287,10 +297,15 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
 	   *etaMechanical = 0.0;
 	   *massFlowRate = FluidFlow_getMassFlowRate(_outletFluidFlow);
 	   *compressorWork = 0.0;
+	   *outletTemperature = 0.0;
+	   *heatFlowRateToPumpReservoir = 0.0;
    }
+   HeatFlow_setEnthalpyFlowRate(_heatFlow, *heatFlowRateToPumpReservoir);
 
    *inletFluidFlowIndex = _inletFluidFlowIndex;
    *outletFluidFlowIndex = _outletFluidFlowIndex;
+   *heatFlowIndex = _heatFlowIndex;
+
 
    if (useFluidFlowActivationSignal == 1) { //no
 	   *fluidFlowActivationSignal = -1; //not used
@@ -301,10 +316,6 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
 		   *fluidFlowActivationSignal = 1; //activate flow
 	   }
    }
-
-
-   *heatFlow = HeatFlow_getEnthalpyFlowRate(_heatFlow);
-   *heatFlowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
