@@ -34,9 +34,11 @@ static const char* solidNames[] = {
 	"Aluminium6061",
 	"StainlessSteel304",
 	"CarbonFiberComposite",
+	"CarbonFiberCompositeWarm",
 	"GlassFiberComposite",
 	"Teflon", //:SMO_TODO: (Milen)
 	"HighDensityPolyethylene",
+	"HighDensityPolyethyleneWarm",
 	"ArmaflexLTD",
 	"ArmaflexAF"
 };

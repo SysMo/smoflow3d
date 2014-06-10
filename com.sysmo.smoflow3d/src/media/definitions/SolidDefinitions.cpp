@@ -64,7 +64,7 @@ StainlessSteel304::StainlessSteel304() {
 }
 
 CarbonFiberComposite::CarbonFiberComposite() {
-	//@source: SysMo/85_SoftwareLibs/MaterialData/Carbon Fiber CompositeThermal Properties.xls //:SMO_TODO: (Milen)
+	//@source: SysMo/85_SoftwareLibs/MaterialData/Carbon Fiber CompositeThermal Properties.xls
 	name = "CarbonFiberComposite";
 
 	const double numValues = 12;
@@ -89,25 +89,31 @@ CarbonFiberComposite::CarbonFiberComposite() {
 }
 
 CarbonFiberCompositeWarm::CarbonFiberCompositeWarm() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/CFRC_Warm.xls
 	name = "CarbonFiberCompositeWarm";
 
 	const double numValues = 12;
 	ArrayXd TValues(numValues);
-	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 , 275.0 , 300.0;
+	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 ,
+			273.15, 293.15, 313.15, 353.15, 423.15, 473.15, 523.15, 562.85;
 
 	double rhoValue = 1810.0;
 	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
 
 	ArrayXd cpValues(numValues);
-	cpValues << 0.05, 75.53, 197.91, 309.65, 410.77, 501.26, 581.13, 650.38, 709.0, 757.0, 794.36, 821.11;
+	cpValues << 0.05, 75.53, 197.91, 309.65, 410.77, 501.26, 581.13, 650.38, 709.0, 757.0,
+			768.0, 825.0, 879.0, 985.0, 1208.0, 1303.0, 1385.0, 1453.0;
 	heatCapacityFunction = new Interpolator1D(&TValues, &cpValues);
 
 	ArrayXd lambdaValues(numValues);
-	lambdaValues << 0.06, 0.19, 0.31, 0.42, 0.51, 0.58, 0.63, 0.66, 0.68, 0.69, 0.7, 0.71;
+	lambdaValues << 0.05, 0.10, 0.14, 0.17, 0.20, 0.24, 0.27, 0.30, 0.33, 0.36,
+			0.38, 0.41, 0.43, 0.47, 0.54, 0.59, 0.64, 0.68;
 	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
 
 	ArrayXd enthalpyValues(numValues);
-	enthalpyValues << 0.0, 1133.7, 4551.7, 10896.2, 19901.45, 31301.82, 44831.7, 60225.57, 77217.82, 95542.82, 114934.83, 135128.2;
+	enthalpyValues << 0.0, 1133.7, 4551.7, 10896.2, 19901.45, 31301.82, 44831.7, 60225.57, 77217.82, 95542.82,
+			113194.7, 129124.7, 146164.7, 183444.7, 260199.7, 322974.7, 390174.7, 446509.0;
+
 	enthalpyFunction = new Interpolator1D(&TValues, &enthalpyValues);
 }
 
@@ -153,6 +159,27 @@ HighDensityPolyethylene::HighDensityPolyethylene() {
 	ArrayXd lambdaValues(numValues);
 	lambdaValues << 0.76148, 0.75348, 0.74548, 0.73748, 0.72948, 0.72148, 0.71348, 0.70548, 0.69748, 0.68948, 0.68148, 0.67348, 0.66548, 0.65748, 0.64948;
 	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
+
+	ArrayXd TValues_h(2);
+	TValues_h << 0.0, 400.0;
+
+	ArrayXd enthalpyValues(2);
+	enthalpyValues << 0.0, 800000.0;
+	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
+}
+
+HighDensityPolyethyleneWarm::HighDensityPolyethyleneWarm() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/HDPE_Warm.xls
+	name = "HighDensityPolyethyleneWarm";
+
+	double rhoValue = 945.0;
+	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
+
+	double cpValue = 2000.0;
+	heatCapacityFunction = FunctorOneVariable_Constant_new(cpValue);
+
+	double lambdaValue = 0.51;
+	thermalConductivityFunction = FunctorOneVariable_Constant_new(lambdaValue);
 
 	ArrayXd TValues_h(2);
 	TValues_h << 0.0, 400.0;

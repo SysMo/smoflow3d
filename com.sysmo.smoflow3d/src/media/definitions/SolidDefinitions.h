@@ -36,6 +36,10 @@ struct HighDensityPolyethylene : public Medium_Solid {
 	HighDensityPolyethylene();
 };
 
+struct HighDensityPolyethyleneWarm : public Medium_Solid {
+	HighDensityPolyethyleneWarm();
+};
+
 struct ArmaflexLTD : public Medium_Solid {
 	ArmaflexLTD();
 };
