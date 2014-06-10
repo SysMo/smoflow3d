@@ -24,6 +24,10 @@ struct CarbonFiberComposite : public Medium_Solid {
 	CarbonFiberComposite();
 };
 
+struct CarbonFiberCompositeWarm : public Medium_Solid {
+	CarbonFiberCompositeWarm();
+};
+
 struct GlassFiberComposite : public Medium_Solid {
 	GlassFiberComposite();
 };

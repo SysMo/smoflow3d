@@ -16,6 +16,7 @@ using namespace Eigen;
 namespace solids {
 
 Aluminium6061::Aluminium6061() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/Alu6061-T6.xls
 	name = "Aluminium6061";
 
 	const double numValues = 12;
@@ -39,10 +40,10 @@ Aluminium6061::Aluminium6061() {
 }
 
 StainlessSteel304::StainlessSteel304() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/StainlessSteel304.xls
 	name = "StainlessSteel304";
 
 	const double numValues = 12;
-
 	ArrayXd TValues(numValues);
 	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 , 275.0 , 300.0;
 
@@ -63,6 +64,7 @@ StainlessSteel304::StainlessSteel304() {
 }
 
 CarbonFiberComposite::CarbonFiberComposite() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/Carbon Fiber CompositeThermal Properties.xls //:SMO_TODO: (Milen)
 	name = "CarbonFiberComposite";
 
 	const double numValues = 12;
@@ -86,11 +88,34 @@ CarbonFiberComposite::CarbonFiberComposite() {
 	enthalpyFunction = new Interpolator1D(&TValues, &enthalpyValues);
 }
 
+CarbonFiberCompositeWarm::CarbonFiberCompositeWarm() {
+	name = "CarbonFiberCompositeWarm";
+
+	const double numValues = 12;
+	ArrayXd TValues(numValues);
+	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 , 275.0 , 300.0;
+
+	double rhoValue = 1810.0;
+	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
+
+	ArrayXd cpValues(numValues);
+	cpValues << 0.05, 75.53, 197.91, 309.65, 410.77, 501.26, 581.13, 650.38, 709.0, 757.0, 794.36, 821.11;
+	heatCapacityFunction = new Interpolator1D(&TValues, &cpValues);
+
+	ArrayXd lambdaValues(numValues);
+	lambdaValues << 0.06, 0.19, 0.31, 0.42, 0.51, 0.58, 0.63, 0.66, 0.68, 0.69, 0.7, 0.71;
+	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
+
+	ArrayXd enthalpyValues(numValues);
+	enthalpyValues << 0.0, 1133.7, 4551.7, 10896.2, 19901.45, 31301.82, 44831.7, 60225.57, 77217.82, 95542.82, 114934.83, 135128.2;
+	enthalpyFunction = new Interpolator1D(&TValues, &enthalpyValues);
+}
+
 GlassFiberComposite::GlassFiberComposite() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/GFK_Auswertung_Waermeleitfaehigkeitsmessung.xlsx
 	name = "GlassFiberComposite";
 
 	const double numValues = 12;
-
 	ArrayXd TValues(numValues);
 	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 , 275.0 , 300.0;
 
@@ -111,6 +136,7 @@ GlassFiberComposite::GlassFiberComposite() {
 }
 
 HighDensityPolyethylene::HighDensityPolyethylene() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/HDPE*
 	name = "HighDensityPolyethylene";
 
 	const double numValues = 15;
@@ -137,10 +163,10 @@ HighDensityPolyethylene::HighDensityPolyethylene() {
 }
 
 ArmaflexLTD::ArmaflexLTD() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/Armaflex
 	name = "ArmaflexLTD";
 
 	const double numValues = 7;
-
 	ArrayXd TValues(numValues);
 	TValues << 93.15, 173.15, 223.15, 273.15, 323.15, 373.15, 383.15;
 
@@ -163,10 +189,10 @@ ArmaflexLTD::ArmaflexLTD() {
 }
 
 ArmaflexAF::ArmaflexAF() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/Armaflex
 	name = "ArmaflexAF";
 
 	const double numValues = 7;
-
 	ArrayXd TValues(numValues);
 	TValues << 93.15, 173.15, 223.15, 273.15, 323.15, 373.15, 383.15;
 
