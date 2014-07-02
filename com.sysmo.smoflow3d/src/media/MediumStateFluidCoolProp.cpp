@@ -89,7 +89,7 @@ void MediumState_FluidCoolProp::update_ps(double p, double s) {
 //		cps.update_Trho(iT, _T, iD, _rho);
 //	} else {
 //	}
-	// TODO Currently no function temperature_ps() with supplyied guess
+	// TODO (Nasko) Currently no function temperature_ps() with supplyied guess
 	// values for T and rho is available for coolprop Fluid class
 	cps.update_ps(iP, p, iS, s);
 	post_update();

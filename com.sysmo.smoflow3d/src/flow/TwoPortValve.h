@@ -27,7 +27,7 @@ typedef struct {
 	double Kv;
 	int transitionChoice;
 	int flowDirection;
-} TwoPortValve; //:TODO: Rename: TwoPortValve to BidirectionalValve
+} TwoPortValve; //TODO (Milen) Rename: TwoPortValve to BidirectionalValve
 
 
 TwoPortValve* TwoPortValve_new();

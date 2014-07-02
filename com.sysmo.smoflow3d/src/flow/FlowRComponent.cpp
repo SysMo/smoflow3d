@@ -9,12 +9,9 @@
 #include "FlowRComponent.h"
 
 FlowRComponent::FlowRComponent() {
-	// TODO Auto-generated constructor stub
-
 }
 
 FlowRComponent::~FlowRComponent() {
-	// TODO Auto-generated destructor stub
 }
 
 void FlowRComponent::init(MediumState* state1, MediumState* state2) {

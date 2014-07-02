@@ -557,3 +557,16 @@ static unsigned char icon_bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^  13   1 thermal
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
+@smo_adaptor_fluid_heat
+~smo_adaptor_fluid_heat
+%adaptor between fluid and heat
+#define _width 17
+#define _height 7
+static char _bits[] = {
+ 0x00,0x00,0x00,0xfe,0x01,0x00,0x92,0x02,0x00,0x93,0xfe,0x01,0x92,0x02,0x00,
+ 0xfe,0x01,0x00,0x00,0x00,0x00 };
+^  1  4 thermal
+&* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
+^  17 4 hflow
+&* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
+ 

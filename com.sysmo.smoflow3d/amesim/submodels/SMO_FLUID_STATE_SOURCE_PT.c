@@ -148,7 +148,7 @@ void smo_fluid_state_source_pt_(int *n, double *stateIndex
    *temperatureC = *temperature - 273.15;
    *density = MediumState_rho(_fluidState);
    *enthalpy = MediumState_h(_fluidState);
-   *xx = 0.0; //:TODO: compute gas mass fraction
+   *xx = 0.0; //:TODO: (Nasko) compute gas mass fraction
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
