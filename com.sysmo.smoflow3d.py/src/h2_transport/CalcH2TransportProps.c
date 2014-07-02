@@ -51,3 +51,11 @@ double viscosity_Trho (double T, double rho) {
 	//printf("Excess viscosity: %e\n", excessViscosity);
 	return viscosity;
 }
+
+double thermalConductivity_Trho (double T, double rho) {
+	double thermalConductivity = 0;
+
+
+
+	return thermalConductivity;
+}
