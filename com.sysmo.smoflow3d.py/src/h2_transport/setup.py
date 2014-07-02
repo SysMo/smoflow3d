@@ -1,7 +1,10 @@
 from distutils.core import setup
+from distutils.extension import Extension
 from Cython.Build import cythonize
 
 setup(
-  name = 'Hello world app',
-  ext_modules = cythonize("hello.pyx"),
+    name = 'H2 transport properties',
+    ext_modules = cythonize([
+       Extension("h2_transport", ["h2_transport.pyx", "CalcH2TransportProps.c"])
+    ])
 )
