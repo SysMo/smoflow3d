@@ -5,5 +5,5 @@ cdef extern from "CalcH2TransportProps.h":
 cpdef viscosity(T, rho):
     return viscosity_Trho(T, rho)
 
-cpdef thermalConductivty(T, rho):
+cpdef thermalConductivity(T, rho):
     return thermalConductivity_Trho(T, rho)

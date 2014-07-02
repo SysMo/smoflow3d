@@ -71,7 +71,7 @@ double thermalConductivity_Trho (double T, double rho) {
 
 	};
 
-	double diluteGasLambda;
+	double diluteGasLambda = 0;
 	double tf = pow(T, 1./3);
 	// tff = 1 / tf**4
 	double tff = 1./tf;
@@ -96,7 +96,7 @@ double thermalConductivity_Trho (double T, double rho) {
 	excessLambda = exp(x) - exp(x1);
 
 	// TODO critical enhancement for thermal conductivity
-	double criticalEnhancement;
+	double criticalEnhancement = 0;
 
 	thermalConductivity = diluteGasLambda + densityCorrection
 			+ excessLambda + criticalEnhancement;
