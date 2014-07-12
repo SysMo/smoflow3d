@@ -96,7 +96,7 @@ public:
 	}
 	double computeNusseltNumber(double Re, double Pr) {
 		double Nu;
-		const double ReL = 2300;
+		const double ReL = 2300; //@see VDI Heat Atlas, page 696, Sect. 4.2
 		const double ReH = 1e4;
 
 		if (Re < ReL) {
@@ -106,16 +106,17 @@ public:
 		} else {
 			// Interpolation coefficient
 			double gamma = (Re - ReL) / (ReH - ReL);
+			//gamma = -2*m::pow(gamma, 3.0) + 3*m::pow(gamma, 2.0); //TRICKY - this polynomial smooth the interpolation //:TODO: (MILEN) ??? and ReH = 4000 in SmoFlow
 			Nu = (1 - gamma) * NuLaminar(ReL, Pr) + gamma * NuTurbulent(ReH, Pr);
 		}
 		return Nu;
 	}
 protected:
 	inline double NuLaminar(double Re, double Pr) {
-		return 3.66;
+		return 3.66; //@see VDI Heat Atlas, page 693, Eq. (1)
 	}
 	inline double NuTurbulent(double Re, double Pr) {
-		// Friction factor
+		// Friction factor - @see VDI Heat Atlas, page 696, Eq. (26) and (27)
 		double xi = m::pow(1.8 * m::log10(Re) - 1.5, -2);
 		double NuNum = (xi / 8) * Re * Pr;
 		double NuDenom = 1 + 12.7 * m::sqrt(xi / 8) * (m::pow(Pr, 2./3) - 1);
