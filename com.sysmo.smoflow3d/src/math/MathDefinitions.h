@@ -17,15 +17,36 @@
 #define MATHDECLARATIONS_H_
 
 #include <cmath>
+#include <limits>
 
 namespace smoflow {
 namespace m {
+
+	// Constants
+	static const double pi = 3.1415927;
+
+	inline double eps() {
+		return std::numeric_limits<double>::epsilon();
+	}
+
 	inline double pow(const double& x, const double& y) {
+		return std::pow(x, y);
+	}
+
+	inline double pow(const double& x, const int& y) {
 		return std::pow(x, y);
 	}
 
 	inline double sqrt(const double& x) {
 		return std::sqrt((long double) x);
+	}
+
+	inline double log(const double& x) {
+		return std::log((long double) x);
+	}
+
+	inline double log10(const double& x) {
+		return std::log10((long double) x);
 	}
 
 	inline double fabs(const double& x) {
@@ -51,6 +72,24 @@ namespace m {
 			variable = maxValue;
 		}
 	}
+
+	/* Trigonometric functions */
+	inline double cos(const double& x) {
+		return std::cos((long double) x);
+	}
+	inline double sin(const double& x) {
+		return std::sin((long double) x);
+	}
+	inline double tan(const double& x) {
+		return std::tan((long double) x);
+	}
+	inline double cosh(const double& x) {
+		return std::cosh((long double) x);
+	}
+	inline double tanh(const double& x) {
+		return std::tanh((long double) x);
+	}
+
 }
 }
 

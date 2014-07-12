@@ -30,6 +30,7 @@ struct Interpolator1DCache : public FunctorCache {
 public:
 	Interpolator1D(ArrayXd* xValues, ArrayXd* yValues, bool copyValues = true,
 			size_t interpolationOrder = 2, InterpolationBoundaryHandling boundaryHandling = ibhConstant);
+
 	virtual ~Interpolator1D();
 	virtual double operator()(double value, FunctorCache* cache);
 	virtual FunctorCache* createCache();

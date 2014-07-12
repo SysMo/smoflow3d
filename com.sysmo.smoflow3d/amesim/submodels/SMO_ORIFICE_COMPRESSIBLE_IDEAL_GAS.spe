@@ -5,7 +5,7 @@
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>70</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_reg_valve_2port</DEFAULT_ICON>
+  <DEFAULT_ICON>smo_reg_orifice</DEFAULT_ICON>
   <SUB_LABEL>Orifice with ideal gas compressible flow</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>5</I_STORES_NUMBER>

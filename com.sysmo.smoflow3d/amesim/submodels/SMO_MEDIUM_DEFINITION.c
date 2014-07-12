@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_DEFINITION skeleton created by AME Submodel editing utility
-   Tue Aug 6 14:17:25 2013 */
+   Sun Aug 11 15:31:26 2013 */
 
 
 
@@ -42,10 +42,33 @@ static const char* liquidNames[] = {
 	"ethylene glycol"
 };
 
-static const char* realFluidNames[] = {
-	"ParaHydrogen",
+static const char* realFluidNames[26] = {
+	"ParaHydrogenSmoFlow",
+	"OrthoHydrogen",
+	"Hydrogen",
+	"Water",
+	"Air",
 	"Nitrogen",
-	"Water"
+	"Oxygen",
+	"CarbonDioxide",
+	"CarbonMonoxide",
+	"R134a",
+	"R1234yf",
+	"R1234ze(Z)",
+	"Ammonia",
+	"Argon",
+	"Neon",
+	"Helium",
+	"Methane",
+	"Ethane",
+	"Ethylene",
+	"n-Propane",
+	"n-Butane",
+	"IsoButane",
+	"n-Pentane",
+	"Isopentane",
+	"Methanol",
+	"Ethanol"
 };
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -101,9 +124,9 @@ void smo_medium_definitionin_(int *n, int ip[5])
       amefprintf(stderr, "\nliquid name must be in range [1..2].\n");
       error = 2;
    }
-   if (realFluidNameIndex < 1 || realFluidNameIndex > 3)
+   if (realFluidNameIndex < 1 || realFluidNameIndex > 26)
    {
-      amefprintf(stderr, "\nreal fluid name must be in range [1..3].\n");
+      amefprintf(stderr, "\nreal fluid name must be in range [1..26].\n");
       error = 2;
    }
 

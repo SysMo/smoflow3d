@@ -72,7 +72,9 @@ ThermalNode* ThermalNode_new(ThermalNodeType nodeType) {
 
 int ThermalNode_register(ThermalNode* node) {
 	ThermalNodeRegistry.push_back(node);
-	return ThermalNodeRegistry.size();
+	size_t instanceIndex = ThermalNodeRegistry.size();
+	node->instanceIndex = instanceIndex;
+	return instanceIndex;
 }
 
 ThermalNode* ThermalNode_get(int nodeIndex) {

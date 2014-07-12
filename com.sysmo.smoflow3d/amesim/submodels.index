@@ -16,7 +16,6 @@ smo_fluid_flow_splitter_3port
 smo_heat_flow_splitter_3port
 &SMO_HEAT_FLOW_SPLITTER_3PORT SmoFlow3d
 smo_reg_valve_2port
-&SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
 &SMO_VALVE_2PORT_MASS_FLOW SmoFlow3d
 &SMO_VALVE_2PORT_REGULATING_SIGNAL SmoFlow3d
 smo_fluid_chamber_cst_volume
@@ -40,3 +39,11 @@ smo_temperature_source
 &SMO_TEMPERATURE_SOURCE SmoFlow3d
 smo_adaptor_fluid_heat
 &SMO_ADAPTOR_FLUID_HEAT SmoFlow3d
+smo_reg_orifice
+&SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
+smo_fluid_flow_source
+&SMO_FLUID_FLOW_SOURCE SmoFlow3d
+smo_free_convection
+&SMO_FREE_CONVECTION SmoFlow3d
+smo_heat_flow_sensor
+&SMO_HEAT_FLOW_SENSOR SmoFlow3d

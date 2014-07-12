@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_MASS_FLOW skeleton created by AME Submodel editing utility
-   Sun Jul 28 17:41:44 2013 */
+   Sat Aug 17 18:19:44 2013 */
 
 
 
@@ -42,18 +42,36 @@ REVISIONS :
 #define _fluidStateIndex3 ic[4]
 #define _fluidState3 ps[4]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_valve_2port_mass_flowin_(int *n, int ic[5], void *ps[5])
+
+/* There is 1 integer parameter:
+
+   allowBidirectionalFlow allow bi-directional flow
+*/
+
+void smo_valve_2port_mass_flowin_(int *n, int ip[1], int ic[5]
+      , void *ps[5])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
+   int allowBidirectionalFlow;
+
+   allowBidirectionalFlow = ip[0];
    loop = 0;
    error = 0;
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
+
+/*   Integer parameter checking:   */
+
+   if (allowBidirectionalFlow < 1 || allowBidirectionalFlow > 2)
+   {
+      amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -98,13 +116,16 @@ void smo_valve_2port_mass_flowin_(int *n, int ic[5], void *ps[5])
 void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
       , double *stateIndex1, double *regulatingSignal
       , double *flowIndex3, double *stateIndex3, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureLoss, int ic[5]
-      , void *ps[5], int *flag)
+      , double *enthalpyFlowRate, double *pressureLoss, int ip[1]
+      , int ic[5], void *ps[5], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
+   int allowBidirectionalFlow;
+
+   allowBidirectionalFlow = ip[0];
    logi = 0;
    loop = 0;
 
@@ -149,19 +170,22 @@ void smo_valve_2port_mass_flow_(int *n, double *flowIndex1
 	   }
    }
 
+   double _massFlowRate = *regulatingSignal;
    double upstreamSpecificEnthalpy = 0.0;
    if (*regulatingSignal > 0) {
 	   upstreamSpecificEnthalpy = MediumState_h(_fluidState1);
    } else {
+	   if (allowBidirectionalFlow == 1) {
+		   _massFlowRate = 0;
+	   }
 	   upstreamSpecificEnthalpy = MediumState_h(_fluidState3);
    }
-   double _massFlowRate = *regulatingSignal;
    double _enthalpyFlowRate = _massFlowRate * upstreamSpecificEnthalpy;
    FluidFlow_setMassFlowRate(_fluidFlow3, _massFlowRate);
    FluidFlow_setEnthalpyFlowRate(_fluidFlow3, _enthalpyFlowRate);
 
-   FluidFlow_setMassFlowRate(_fluidFlow3, -_massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(_fluidFlow3, -_enthalpyFlowRate);
+   FluidFlow_setMassFlowRate(_fluidFlow1, -_massFlowRate);
+   FluidFlow_setEnthalpyFlowRate(_fluidFlow1, -_enthalpyFlowRate);
 
    *massFlowRate = fabs(_massFlowRate);
    *enthalpyFlowRate = fabs(_enthalpyFlowRate);

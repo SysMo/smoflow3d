@@ -201,7 +201,7 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 
    HeatFlow_setEnthalpyFlowRate(_heatFlow, FluidFlow_getEnthalpyFlowRate(_fluidFlowInlet) - FluidFlow_getEnthalpyFlowRate(_fluidFlowOutlet));
 
-   *wallHeatFlowRate = FluidFlow_getEnthalpyFlowRate(_heatFlow);
+   *wallHeatFlowRate = HeatFlow_getEnthalpyFlowRate(_heatFlow);
    *massFlowRateInlet = FluidFlow_getMassFlowRate(_fluidFlowInlet);
 
    *heatFlowIndex = _heatFlowIndex;
@@ -254,9 +254,10 @@ extern double smo_heatexchanger_cr_macro0_(int *n
   	   Medium* fluid = Medium_get(mediumIndexOutlet);
   	   _fluidStateInlet = MediumState_new(fluid);
   	   _fluidStateIndexInlet = MediumState_register(_fluidStateInlet);
+   }
 
-  	   MediumState_update_ph(_fluidStateInlet, MediumState_p(_fluidStateOutlet), MediumState_h(_fluidStateOutlet));
-     }
+   MediumState_update_ph(_fluidStateInlet, MediumState_p(_fluidStateOutlet), MediumState_h(_fluidStateOutlet));
+
    stateIndexInlet = _fluidStateIndexInlet;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

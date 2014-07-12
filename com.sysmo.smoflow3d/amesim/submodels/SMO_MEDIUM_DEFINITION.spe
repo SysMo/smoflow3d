@@ -95,16 +95,85 @@
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
     <MIN_VALUE>1</MIN_VALUE>
-    <MAX_VALUE>3</MAX_VALUE>
+    <MAX_VALUE>26</MAX_VALUE>
     <ENUM_LIST>
      <ENUM>
       <ENUM_STRING>parahydrogen</ENUM_STRING>
      </ENUM>
      <ENUM>
-      <ENUM_STRING>nitrogen</ENUM_STRING>
+      <ENUM_STRING>orthohydrogen</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>normal hydrogen</ENUM_STRING>
      </ENUM>
      <ENUM>
       <ENUM_STRING>water</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>air</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>nitrogen</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>oxygen</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>carbon dioxide</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>carbon monoxide</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>R134A</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>R1234yf</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>R1234ze(Z)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>ammonia</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>argon</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>neon</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>helium</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>methane (CH4, R50)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>ethane (C2H6)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>ethylene (C2H4)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>n-propane (R290)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>n-butane (R600)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>iso-butane (R600a)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>n-pentane (R601)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>iso-pentane (R601a)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>methanol</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>ethanol</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>

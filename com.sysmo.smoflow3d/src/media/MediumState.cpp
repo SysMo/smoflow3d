@@ -171,7 +171,9 @@ MediumState* MediumState_new(Medium* medium) {
 
 int MediumState_register(MediumState* mstate) {
 	MediumStateRegistry.push_back(mstate);
-	return MediumStateRegistry.size();
+	size_t instanceIndex = MediumStateRegistry.size();
+	mstate->instanceIndex = instanceIndex;
+	return instanceIndex;
 }
 
 MediumState* MediumState_get(int mstateIndex) {

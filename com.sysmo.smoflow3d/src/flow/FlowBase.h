@@ -12,7 +12,9 @@
 #include "util/CommonDefinitions.h"
 
 #ifdef __cplusplus
-struct FlowBase {
+
+#include "util/SmoComponent.h"
+struct FlowBase : public  SmoComponent {
 };
 
 struct HeatFlow : public FlowBase {

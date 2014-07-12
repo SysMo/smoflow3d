@@ -46,8 +46,12 @@ add_library(SmoFlow SHARED
     flow/Orifice.cpp
     flow/MechanicalCompressor.cpp
     flow/ThermalConductionElement.cpp
+    flow/Convection.cpp
+    flow/FreeConvection.cpp
+    flow/ForcedConvection.cpp
     volumes/FluidChamber.cpp
     volumes/ThermalNode.cpp
+    volumes/PipeHeatExchNoPrDrNoMassAcc.cpp
     ${MU_PARSER_FILES}
 )
 

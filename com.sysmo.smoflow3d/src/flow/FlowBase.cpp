@@ -19,7 +19,9 @@ HeatFlow* HeatFlow_new() {
 
 int HeatFlow_register(HeatFlow* flow) {
 	HeatFlowRegistry.push_back(flow);
-	return HeatFlowRegistry.size();
+	size_t instanceIndex = HeatFlowRegistry.size();
+	flow->instanceIndex = instanceIndex;
+	return instanceIndex;
 }
 
 HeatFlow* HeatFlow_get(int flowIndex) {
@@ -45,7 +47,9 @@ FluidFlow* FluidFlow_new(){
 
 int FluidFlow_register(FluidFlow* flow){
 	FluidFlowRegistry.push_back(flow);
-	return FluidFlowRegistry.size();
+	size_t instanceIndex = FluidFlowRegistry.size();
+	flow->instanceIndex = instanceIndex;
+	return instanceIndex;
 }
 
 FluidFlow* FluidFlow_get(int flowIndex) {

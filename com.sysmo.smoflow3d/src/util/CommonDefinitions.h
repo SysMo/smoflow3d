@@ -40,6 +40,14 @@
 #define DECLARE_C_STRUCT(name) \
 	typedef struct name##Struct name; \
 
+#define JOIN_STR(a, b, sep) a##sep##b
+#define FULL_FUNC_NAME(a, b) JOIN_STR(a, b, _)
+#define KOMPONENT_FUNC(RET_TYPE, FUNC_NAME, ...) \
+		RET_TYPE FULL_FUNC_NAME(KOMPONENT, FUNC_NAME)(KOMPONENT* component, __VA_ARGS__)
+#define KOMPONENT_FUNC_V(RET_TYPE, FUNC_NAME) \
+		RET_TYPE FULL_FUNC_NAME(KOMPONENT, FUNC_NAME)(KOMPONENT* component)
+
+
 #include "CoolProp/GlobalConstants.h"
 typedef enum params ThermodynamicVariable;
 
@@ -65,9 +73,6 @@ typedef enum params ThermodynamicVariable;
 #include <cmath>
 #include <algorithm>
 #include <assert.h>
-
-
-#include "SmoComponent.h"
 
 typedef double Real;
 typedef int Integer;
@@ -186,5 +191,6 @@ namespace cst {
  * END C++ definitions
  **************************************/
 
+#include "util/SmoComponent.h"
 
 #endif /* COMMONDECLARATIONS_H_ */

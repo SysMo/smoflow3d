@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_2PORT_REGULATING_SIGNAL skeleton created by AME Submodel editing utility
-   Sat Aug 3 16:50:31 2013 */
+   Sat Aug 17 18:28:15 2013 */
 
 
 

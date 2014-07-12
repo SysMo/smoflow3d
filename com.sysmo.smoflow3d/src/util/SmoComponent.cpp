@@ -8,4 +8,6 @@
 
 #include "SmoComponent.h"
 
-
+size_t SmoComponent_getInstanceIndex(SmoComponent* component) {
+	return component->instanceIndex;
+}
