@@ -1,9 +1,9 @@
 cdef extern from "CalcH2TransportProps.h":
-    double viscosity_Trho (double T, double rho)
-    double thermalConductivity_Trho (double T, double rho)
+    double ParaHydrogen_viscosity_Trho (double T, double rho)
+    double ParaHydrogen_thermalConductivity_Trho (double T, double rho)
     
-cpdef viscosity(T, rho):
-    return viscosity_Trho(T, rho)
+cpdef ParaHydrogen_viscosity(T, rho):
+    return ParaHydrogen_viscosity_Trho(T, rho)
 
-cpdef thermalConductivity(T, rho):
-    return thermalConductivity_Trho(T, rho)
+cpdef ParaHydrogen_thermalConductivity(T, rho):
+    return ParaHydrogen_thermalConductivity_Trho(T, rho)

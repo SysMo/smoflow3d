@@ -19,7 +19,7 @@ sys.path.append(path_GasPak)
 from GaspakFluidState import GaspakFluidState
 
 fluidName_GasPak = 'parahydrogen'
-fluid_GasPak = GaspakFluidState(fluidName_GasPak, dataPath_GasPak)
+ph2_GasPak = GaspakFluidState(fluidName_GasPak, dataPath_GasPak)
 
 
 
@@ -35,16 +35,16 @@ def getDynamicViscosity_CoolProp(p, t):
 
 
 def getDenisyt_GasPak(p, t):
-    fluid_GasPak.setState('P', p, 'T', t)
-    return fluid_GasPak.density
+    ph2_GasPak.setState('P', p, 'T', t)
+    return ph2_GasPak.density
 
 def getThermalConductivity_GasPak(p, t):
-    fluid_GasPak.setState('P', p, 'T', t)
-    return fluid_GasPak.thermalConductivity
+    ph2_GasPak.setState('P', p, 'T', t)
+    return ph2_GasPak.thermalConductivity
 
 def getDynamicViscosity_GasPak(p, t):
-    fluid_GasPak.setState('P', p, 'T', t)
-    return fluid_GasPak.dynamicViscosity
+    ph2_GasPak.setState('P', p, 'T', t)
+    return ph2_GasPak.dynamicViscosity
 
 
 """ Test GasProp vs GasPak """
