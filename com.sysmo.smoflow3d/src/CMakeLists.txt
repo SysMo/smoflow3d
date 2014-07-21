@@ -3,9 +3,9 @@
 #######################################
 SET(COOLPROP_LOCATION ${CMAKE_SOURCE_DIR}/../../coolprop)
 message("Coolprop location: ${COOLPROP_LOCATION}")
-add_library(CoolProp SHARED IMPORTED)
-set_property(TARGET CoolProp PROPERTY IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/bin/libCoolProp.dll")
-set_property(TARGET CoolProp PROPERTY IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/bin/libCoolProp.dll.a")
+add_library(CoolProp STATIC IMPORTED)
+set_property(TARGET CoolProp PROPERTY IMPORTED_LOCATION "${CMAKE_SOURCE_DIR}/bin/libCoolProp.a")
+#set_property(TARGET CoolProp PROPERTY IMPORTED_IMPLIB "${CMAKE_SOURCE_DIR}/bin/libCoolProp.dll.a")
 include_directories(${COOLPROP_LOCATION})
 
 #######################################
@@ -32,6 +32,7 @@ add_library(SmoFlow SHARED
     util/CodeTiming.cpp
     util/CachedProperty.cpp
     util/SmoComponent.cpp
+    util/SimulationEnvironment.cpp
     math/Functors.cpp
     math/Interpolators.cpp
     media/Medium.cpp
@@ -49,8 +50,12 @@ add_library(SmoFlow SHARED
     flow/Convection.cpp
     flow/FreeConvection.cpp
     flow/ForcedConvection.cpp
+    flow/FrictionFlowPipe.cpp
+    flow/PhaseSeparator.cpp
     volumes/FluidChamber.cpp
     volumes/ThermalNode.cpp
+    volumes/Component_RC.cpp
+    volumes/PipeHeatExchPrDropRC.cpp
     volumes/PipeHeatExchNoPrDrNoMassAcc.cpp
     ${MU_PARSER_FILES}
 )

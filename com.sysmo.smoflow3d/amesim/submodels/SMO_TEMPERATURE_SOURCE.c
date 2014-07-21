@@ -1,5 +1,5 @@
 /* Submodel SMO_TEMPERATURE_SOURCE skeleton created by AME Submodel editing utility
-   Thu Aug 8 17:17:54 2013 */
+   Thu Aug 22 11:34:11 2013 */
 
 
 
@@ -72,7 +72,7 @@ void smo_temperature_sourcein_(int *n, int ic[2], void *ps[2])
    Port 2 has 2 variables:
 
       1 thermalNodeIndex     thermal node index [smoTHN] multi line macro 'smo_temperature_source_macro0_'  UNPLOTTABLE
-      2 heatFlowIndex        heat flow index    [smoHFL] basic variable input
+      2 heatFlowIndex        heat flow index    [smoHFL] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.

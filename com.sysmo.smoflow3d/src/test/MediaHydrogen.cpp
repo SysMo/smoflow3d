@@ -28,12 +28,39 @@ void displayState (MediumState* fp1) {
 void testCoolProp() {
 	Medium* fluid = Medium_get(1);
 	MediumState* fp1 = MediumState_new(fluid);
+	MediumState* fp2 = MediumState_new(fluid);
 
-	MediumState_update_Tp(fp1, 250, 20e5);
+	MediumState_update_Tp(fp1, 288.15, 1e5);
 	std::cout << "entalpy = " << MediumState_h(fp1) << std::endl;
 
-	MediumState_update_Tp(fp1, 250, 20e5);
+	MediumState_update_Trho(fp2, 29.765734268475395, 0.84329344123579586);
+	std::cout << "entalpy = " << MediumState_h(fp2) << std::endl;
+
+	MediumState_update_ph(fp2, 1e5, fp1->h());
 	std::cout << "entalpy = " << MediumState_h(fp1) << std::endl;
+}
+
+void testCriticalPoint() {
+	Medium* fluid = Medium_get(1);
+	MediumState* fp1 = MediumState_new(fluid);
+
+	fp1->update_Trho(32.798321531316866, 38.007425381953652);
+	double gamma = fp1->gamma();
+	double Pr = fp1->Pr();
+	std::cout << gamma << std::endl;
+	std::cout << Pr << std::endl;
+
+}
+
+void testTwoPhase() {
+	Medium* fluid = Medium_get(1);
+	MediumState* fp1 = MediumState_new(fluid);
+	fp1->update_pq(10.34736e5, 0.7503882);
+	std::cout << "T = " << fp1->T() << std::endl;
+	std::cout << "cv = " << fp1->cv() << std::endl;
+	std::cout << "dp_dT_rho = " << fp1->dpdt_v() << std::endl;
+	std::cout << "dp_drho_T = " << fp1->dpdrho_t() << std::endl;
+
 }
 
 void testCoolPropCalculationTiming() {
@@ -103,10 +130,13 @@ void testCoolPropCalculationTiming() {
 }
 
 int main(int argc, char** argv) {
-	const char* fluidName = "parahydrogen";
+	const char* fluidName = "ParaHydrogen";
 	Medium_register(sCompressibleFluidCoolProp, fluidName, 1);
 	//testCoolPropCalculationTiming();
-	testCoolProp();
-
+	//testCoolProp();
+	//testCriticalPoint();
+	testTwoPhase();
+	//std::cout << "eps(double) = " << std::numeric_limits<double>::epsilon() << std::endl;
+	//std::cout << "eps(float) = " << std::numeric_limits<float>::epsilon() << std::endl;
 	return 0;
 }

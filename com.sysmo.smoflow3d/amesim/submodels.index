@@ -7,6 +7,8 @@ smo_zero_flow
 &SMO_ZERO_FLOW SmoFlow3d
 smo_fluid_state_source_pt
 &SMO_FLUID_STATE_SOURCE_PT SmoFlow3d
+smo_fluid_state_source_pt_constant
+&SMO_FLUID_STATE_SOURCE_PT_CONSTANT SmoFlow3d
 smo_flow_sensor
 &SMO_FLOW_SENSOR SmoFlow3d
 smo_heat_source
@@ -29,12 +31,16 @@ smo_pump
 smo_simple_heater
 &SMO_HEATEXCHANGER_CR SmoFlow3d
 &SMO_HEATEXCHANGER_RC SmoFlow3d
+smo_pipe_heat_exchanger
+&SMO_HEATEXCHANGER_PRESSURE_DROP_RC SmoFlow3d
 smo_fluid_chamber_cst_volume_4port
 &SMO_FLUID_CHAMBER_4PORT SmoFlow3d
 smo_thermal_material_point
 &SMO_THERMAL_MATERIAL_POINT SmoFlow3d
 smo_thermal_conduction
 &SMO_THERMAL_CONDUCTION SmoFlow3d
+smo_temperature_source_constant
+&SMO_TEMPERATURE_SOURCE_CONSTANT SmoFlow3d
 smo_temperature_source
 &SMO_TEMPERATURE_SOURCE SmoFlow3d
 smo_adaptor_fluid_heat
@@ -47,3 +53,7 @@ smo_free_convection
 &SMO_FREE_CONVECTION SmoFlow3d
 smo_heat_flow_sensor
 &SMO_HEAT_FLOW_SENSOR SmoFlow3d
+smiulation_environment
+&SMO_SIMULATION_ENVIRONMENT SmoFlow3d
+smo_phase_separator
+&SMO_PHASE_SEPARATOR SmoFlow3d

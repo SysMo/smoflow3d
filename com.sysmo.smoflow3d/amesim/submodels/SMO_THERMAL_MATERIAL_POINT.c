@@ -1,5 +1,5 @@
 /* Submodel SMO_THERMAL_MATERIAL_POINT skeleton created by AME Submodel editing utility
-   Thu Aug 8 17:36:38 2013 */
+   Fri Aug 23 20:10:21 2013 */
 
 
 
@@ -141,17 +141,19 @@ void smo_thermal_material_pointin_(int *n, double *rp, int *ip
       2 heatFlowIndex        heat flow index    [smoHFL] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 3 internal variables.
+/*  There are 4 internal variables.
 
-      1 thermalEnergy     thermal energy [J] basic variable
-      2 temperature       temperature    [K] explicit state (derivative `temperatureDot')
-      3 heatFlow          heat flow      [W] basic variable
+      1 thermalEnergy     thermal energy [J]   basic variable
+      2 temperature       temperature    [K]   explicit state (derivative `temperatureDot')
+      3 heatFlow          heat flow      [W]   basic variable
+      4 tDot              TDot           [K/s] basic variable
 */
 
 void smo_thermal_material_point_(int *n, double *thermalNodeIndex
       , double *heatFlowIndex, double *thermalEnergy
       , double *temperature, double *temperatureDot, double *heatFlow
-      , double *rp, int *ip, double c[1], int ic[5], void *ps[5])
+      , double *tDot, double *rp, int *ip, double c[1], int ic[5]
+      , void *ps[5])
 
 {
    int loop;
@@ -188,6 +190,7 @@ void smo_thermal_material_point_(int *n, double *thermalNodeIndex
    *thermalEnergy = ??;
    *temperatureDot = ??;
    *heatFlow   = ??;
+   *tDot       = ??;
 */
 
 
@@ -199,6 +202,8 @@ void smo_thermal_material_point_(int *n, double *thermalNodeIndex
    *heatFlow = HeatFlow_getEnthalpyFlowRate(_heatFlow);
    ThermalMaterialNode_compute(_thermalNode, *heatFlow);
    *temperatureDot = ThermalMaterialNode_getTemperatureDerivative(_thermalNode);
+
+   *tDot = *temperatureDot;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */

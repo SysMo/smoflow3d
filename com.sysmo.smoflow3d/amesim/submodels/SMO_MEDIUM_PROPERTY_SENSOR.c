@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_PROPERTY_SENSOR skeleton created by AME Submodel editing utility
-   Wed Jul 24 23:18:00 2013 */
+   Mon Aug 26 13:55:41 2013 */
 
 
 
@@ -110,8 +110,8 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
 
    Port 3 has 2 variables:
 
-      1 flowIndexDup     duplicate of flowIndex   
-      2 stateIndex       state index               [smoTDS] basic variable input  UNPLOTTABLE
+      1 flowIndexDup     duplicate of flowIndex
+      2 stateIndex       state index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 19 internal variables.
@@ -129,8 +129,8 @@ void smo_medium_property_sensorin_(int *n, double rp[2], int ip[1]
      11 specificHelmholtzEnergy     specific helmholtz energy           [kJ/kg -> J/kg]     basic variable
      12 specificGibbsEnergy         specific gibbs energy               [kJ/kg -> J/kg]     basic variable
      13 gasMassFraction             gas mass fraction                   [null]              basic variable
-     14 superHeating                superheat / subcooling              [degC]              basic variable
-     15 dpc                         (p - pcrit)                         [barA -> PaA]       basic variable
+     14 superheating                superheating                        [K]                 basic variable
+     15 dpc                         (p - pcrit)                         [bar -> Pa]         basic variable
      16 mu                          absolute viscosity                  [kg/m/s -> Ns/m**2] basic variable
      17 lambda                      thermal conductivity                [W/m/degC]          basic variable
      18 Pr                          Prandtl number                      [null]              basic variable
@@ -144,7 +144,7 @@ void smo_medium_property_sensor_(int *n, double *flowIndex
       , double *enthalpy, double *specificEntropy, double *cp
       , double *cv, double *specificHelmholtzEnergy
       , double *specificGibbsEnergy, double *gasMassFraction
-      , double *superHeating, double *dpc, double *mu, double *lambda
+      , double *superheating, double *dpc, double *mu, double *lambda
       , double *Pr, double *sigma, double rp[2], int ip[1]
       , double c[20], int ic[1], void *ps[1])
 
@@ -182,7 +182,7 @@ void smo_medium_property_sensor_(int *n, double *flowIndex
    *specificHelmholtzEnergy = ??;
    *specificGibbsEnergy = ??;
    *gasMassFraction = ??;
-   *superHeating = ??;
+   *superheating = ??;
    *dpc        = ??;
    *mu         = ??;
    *lambda     = ??;
@@ -202,11 +202,11 @@ void smo_medium_property_sensor_(int *n, double *flowIndex
    *enthalpy = c[6];
    //c[7] = MediumState_s(fluidState);
    *cp = c[8];
-   //c[9] = MediumState_(fluidState);
+   *cv = c[9];
    //c[10] = MediumState_(fluidState);
    //c[11] = MediumState_(fluidState);
-   //c[12] = MediumState_(fluidState);
-   //c[13] = MediumState_(fluidState);
+   *gasMassFraction = c[12];
+   *superheating = c[13];
    //c[14] = MediumState_(fluidState);
    *mu = c[15];
    *lambda = c[16];
@@ -262,6 +262,13 @@ extern double smo_medium_property_sensor_macro0_(int *n
 	   _fluidState = MediumState_get(_fluidStateIndex);
    }
 
+   static const double outputInternalGain[20] = {
+		   1e-5, 1, 1, 1, 1,
+		   1e-3, 1e-3, 1e-3, 1e-3, 1,
+		   1, 1, 1, 1, 1,
+		   1, 1, 1, 1, 1
+   };
+
    c[0] = MediumState_p(_fluidState);
    c[1] = MediumState_T(_fluidState);
    c[2] = c[1] - 273.15;
@@ -271,11 +278,11 @@ extern double smo_medium_property_sensor_macro0_(int *n
    c[6] = MediumState_h(_fluidState);
    //c[7] = MediumState_s(fluidState);
    c[8] = MediumState_cp(_fluidState);
-   //c[9] = MediumState_(fluidState);
+   c[9] = MediumState_cv(_fluidState);
    //c[10] = MediumState_(fluidState);
    //c[11] = MediumState_(fluidState);
-   //c[12] = MediumState_(fluidState);
-   //c[13] = MediumState_(fluidState);
+   c[12] = MediumState_q(_fluidState);
+   c[13] = MediumState_deltaTSat(_fluidState);
    //c[14] = MediumState_(fluidState);
    c[15] = MediumState_mu(_fluidState);
    c[16] = MediumState_lambda(_fluidState);
@@ -285,7 +292,8 @@ extern double smo_medium_property_sensor_macro0_(int *n
    if (propertyIndex == 20) {
 	   measuredValue = _fluidStateIndex;
    } else {
-	   measuredValue = c[propertyIndex - 1] * gain + offset;
+	   measuredValue = c[propertyIndex - 1]
+		 * outputInternalGain[propertyIndex - 1] * gain + offset;
    }
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

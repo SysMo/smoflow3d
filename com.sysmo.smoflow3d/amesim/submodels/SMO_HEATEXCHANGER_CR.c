@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_CR skeleton created by AME Submodel editing utility
-   Thu Aug 8 17:42:37 2013 */
+   Fri Aug 23 15:54:38 2013 */
 
 
 
@@ -37,17 +37,17 @@ REVISIONS :
 #define _fluidFlowIndexOutlet ic[1]
 #define _fluidFlowOutlet ps[1]
 
-#define _fluidStateIndexInlet ic[2]
-#define _fluidStateInlet ps[2]
+#define _fluidStateIndexOutlet ic[2]
+#define _fluidStateOutlet ps[2]
 
-#define _fluidStateIndexOutlet ic[3]
-#define _fluidStateOutlet ps[3]
+#define _thermalNodeIndex ic[3]
+#define _thermalNode ps[3]
 
-#define _thermalNodeIndex ic[4]
-#define _thermalNode ps[4]
+#define _heatFlowIndex ic[4]
+#define _heatFlow ps[4]
 
-#define _heatFlowIndex ic[5]
-#define _heatFlow ps[5]
+#define _fluidStateOutletInternal ps[5]
+#define _fluidStateInletInternal ps[6]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -56,8 +56,8 @@ REVISIONS :
    efficienccy heat exchanger efficiency [null]
 */
 
-void smo_heatexchanger_crin_(int *n, double rp[1], int ic[6]
-      , void *ps[6])
+void smo_heatexchanger_crin_(int *n, double rp[1], int ic[5]
+      , void *ps[7])
 
 {
    int loop, error;
@@ -99,8 +99,8 @@ void smo_heatexchanger_crin_(int *n, double rp[1], int ic[6]
 
    Port 1 has 2 variables:
 
-      1 stateIndexInlet     state index inlet [smoTDS] multi line macro 'smo_heatexchanger_cr_macro0_'  UNPLOTTABLE
-      2 flowIndexInlet      flow index inlet  [smoFFL] basic variable input  UNPLOTTABLE
+      1 stateIndexOutletDup     duplicate of stateIndexOutlet
+      2 flowIndexInlet          flow index inlet   [smoFFL] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
@@ -122,13 +122,13 @@ void smo_heatexchanger_crin_(int *n, double rp[1], int ic[6]
       5 massFlowRateInlet     mass flow rate at inlet [kg/s] basic variable
 */
 
-void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
-      , double *flowIndexInlet, double *heatFlowIndex
-      , double *thermalNodeIndex, double *flowIndexOutlet
-      , double *stateIndexOutlet, double *inletTemperature
-      , double *outletTemperature, double *wallTemperature
-      , double *wallHeatFlowRate, double *massFlowRateInlet
-      , double rp[1], int ic[6], void *ps[6], int *flag)
+void smo_heatexchanger_cr_(int *n, double *flowIndexInlet
+      , double *heatFlowIndex, double *thermalNodeIndex
+      , double *flowIndexOutlet, double *stateIndexOutlet
+      , double *inletTemperature, double *outletTemperature
+      , double *wallTemperature, double *wallHeatFlowRate
+      , double *massFlowRateInlet, double rp[1], int ic[5]
+      , void *ps[7], int *flag)
 
 {
    int loop, logi;
@@ -143,7 +143,6 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 
 /* Common -> SI units conversions. */
 
-/*   *stateIndexInlet *= ??; CONVERSION UNKNOWN */
 /*   *flowIndexInlet *= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 /*   *stateIndexOutlet *= ??; CONVERSION UNKNOWN */
@@ -165,6 +164,19 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
+  	   _fluidStateIndexOutlet = *stateIndexOutlet;
+  	   _fluidStateOutlet = MediumState_get(_fluidStateIndexOutlet);
+
+  	   int mediumIndexOutlet = Medium_index(MediumState_getMedium(_fluidStateOutlet));
+  	   Medium* fluid = Medium_get(mediumIndexOutlet);
+
+  	   _fluidStateOutletInternal = MediumState_new(fluid);
+  	   MediumState_register(_fluidStateOutletInternal);
+
+  	   _fluidStateInletInternal = MediumState_new(fluid);
+  	   MediumState_register(_fluidStateInletInternal);
+
+
 	   _fluidFlowInlet = FluidFlow_get(*flowIndexInlet);
 	   _fluidFlowIndexInlet = *flowIndexInlet;
 
@@ -187,19 +199,26 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
    *wallTemperature = MediumState_T(_thermalNode);
    if (FluidFlow_getMassFlowRate(_fluidFlowInlet) > 1e-8) {
 	  double inletSpecificEnthalpy = FluidFlow_getEnthalpyFlowRate(_fluidFlowInlet) / FluidFlow_getMassFlowRate(_fluidFlowInlet);
-	  MediumState_update_ph(_fluidStateInlet, MediumState_p(_fluidStateOutlet), inletSpecificEnthalpy);
+	  MediumState_update_ph(_fluidStateInletInternal, MediumState_p(_fluidStateOutlet), inletSpecificEnthalpy);
 
-	  *inletTemperature = MediumState_T(_fluidStateInlet);
+	  *inletTemperature = MediumState_T(_fluidStateInletInternal);
 	  *outletTemperature = *inletTemperature + (*wallTemperature - *inletTemperature) * efficienccy;
-	  MediumState_update_Tp(_fluidStateOutlet, *outletTemperature, MediumState_p(_fluidStateOutlet));
+
+	  MediumState_update_Tp(_fluidStateOutletInternal, *outletTemperature, MediumState_p(_fluidStateOutlet));
+
+	  FluidFlow_setMassFlowRate(_fluidFlowOutlet, FluidFlow_getMassFlowRate(_fluidFlowInlet));
+	  FluidFlow_setEnthalpyFlowRate(_fluidFlowOutlet, MediumState_h(_fluidStateOutletInternal) * FluidFlow_getMassFlowRate(_fluidFlowInlet));
+
+	  HeatFlow_setEnthalpyFlowRate(_heatFlow, FluidFlow_getEnthalpyFlowRate(_fluidFlowInlet) - FluidFlow_getEnthalpyFlowRate(_fluidFlowOutlet));
    } else {
-	   //:TODO: (Nasko) no mass flow rate
+	   *outletTemperature = 0.0;
+
+	   FluidFlow_setMassFlowRate(_fluidFlowOutlet, 0.0);
+	   FluidFlow_setEnthalpyFlowRate(_fluidFlowOutlet, 0.0);
+
+	   HeatFlow_setEnthalpyFlowRate(_heatFlow, 0.0);
    }
 
-   FluidFlow_setMassFlowRate(_fluidFlowOutlet, FluidFlow_getMassFlowRate(_fluidFlowInlet));
-   FluidFlow_setEnthalpyFlowRate(_fluidFlowOutlet, MediumState_h(_fluidStateOutlet) * FluidFlow_getMassFlowRate(_fluidFlowInlet));
-
-   HeatFlow_setEnthalpyFlowRate(_heatFlow, FluidFlow_getEnthalpyFlowRate(_fluidFlowInlet) - FluidFlow_getEnthalpyFlowRate(_fluidFlowOutlet));
 
    *wallHeatFlowRate = HeatFlow_getEnthalpyFlowRate(_heatFlow);
    *massFlowRateInlet = FluidFlow_getMassFlowRate(_fluidFlowInlet);
@@ -210,63 +229,10 @@ void smo_heatexchanger_cr_(int *n, double *stateIndexInlet
 
 /* SI -> Common units conversions. */
 
-/*   *stateIndexInlet /= ??; CONVERSION UNKNOWN */
 /*   *flowIndexInlet /= ??; CONVERSION UNKNOWN */
 /*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *flowIndexOutlet /= ??; CONVERSION UNKNOWN */
 /*   *stateIndexOutlet /= ??; CONVERSION UNKNOWN */
-}
-
-extern double smo_heatexchanger_cr_macro0_(int *n
-      , double *stateIndexOutlet, double rp[1], int ic[6], void *ps[6]
-      , int *flag)
-
-{
-   double stateIndexInlet;
-   int loop, logi;
-/* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
-/* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   double efficienccy;
-
-   efficienccy = rp[0];
-   logi = 0;
-   loop = 0;
-
-/* Common -> SI units conversions. */
-
-/*   *stateIndexOutlet *= ??; CONVERSION UNKNOWN */
-
-/*
-   Define and return the following macro variable:
-
-   stateIndexInlet = ??;
-*/
-
-
-/* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   if (firstc_()) {
-  	   _fluidStateIndexOutlet = *stateIndexOutlet;
-  	   _fluidStateOutlet = MediumState_get(_fluidStateIndexOutlet);
-
-  	   int mediumIndexOutlet = Medium_index(MediumState_getMedium(_fluidStateOutlet));
-
-  	   Medium* fluid = Medium_get(mediumIndexOutlet);
-  	   _fluidStateInlet = MediumState_new(fluid);
-  	   _fluidStateIndexInlet = MediumState_register(_fluidStateInlet);
-   }
-
-   MediumState_update_ph(_fluidStateInlet, MediumState_p(_fluidStateOutlet), MediumState_h(_fluidStateOutlet));
-
-   stateIndexInlet = _fluidStateIndexInlet;
-/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
-
-/* SI -> Common units conversions. */
-
-/*   *stateIndexOutlet /= ??; CONVERSION UNKNOWN */
-
-/*   *stateIndexInlet /= ??; CONVERSION UNKNOWN */
-
-   return stateIndexInlet;
 }
 

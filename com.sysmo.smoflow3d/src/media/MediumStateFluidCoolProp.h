@@ -13,9 +13,13 @@
 #include "Medium.h"
 #include "CoolProp/CPState.h"
 
-class MyCoolPropStateClass : public CoolPropStateClassSI {
+class SmoCoolPropStateClass : public CoolPropStateClassSI {
 	friend class MediumState_FluidCoolProp;
-	MyCoolPropStateClass(Fluid* pFluid) : CoolPropStateClassSI(pFluid){};
+public:
+	SmoCoolPropStateClass(Fluid* pFluid) : CoolPropStateClassSI(pFluid) {};
+	double Pr();
+	double gamma();
+	double beta();
 };
 
 class MediumState_FluidCoolProp : public MediumState {
@@ -32,6 +36,8 @@ public:
 	virtual void update_prho(double p, double rho);
 	virtual void update_ph(double p, double h);
 	virtual void update_ps(double p, double s);
+	virtual void update_pq(double p, double q);
+	virtual void update_Tq(double T, double q);
 
 	virtual double u();
 	virtual double s();
@@ -45,10 +51,21 @@ public:
 	virtual double mu();
 	virtual double lambda();
 	virtual double R();
+	// Overwritten to allow working in the two-phase region
+	virtual double Pr();
+	virtual double gamma();
+	// Two-phase functions
+	virtual double q();
+	virtual bool isSupercritical();
+	virtual bool isTwoPhase();
+	virtual double deltaTSat();
+	virtual double TSat();
+	virtual double dpdTSat();
 
 protected:
 	Fluid* pFluid;
-	MyCoolPropStateClass cps;
+	SmoCoolPropStateClass cps;
+	double _q;
 };
 
 #endif /* MEDIUMSTATEFLUIDCOOLPROP_H_ */

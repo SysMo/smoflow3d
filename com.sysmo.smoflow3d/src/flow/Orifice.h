@@ -22,6 +22,7 @@ typedef struct {
 
 	double orificeArea;
 	double flowCoefficient;
+	int sonicFlow;
 } Orifice;
 
 

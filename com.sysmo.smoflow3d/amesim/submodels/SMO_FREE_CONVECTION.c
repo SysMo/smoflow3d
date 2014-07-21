@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Thu Aug 15 22:06:59 2013 */
+   Tue Aug 20 11:35:31 2013 */
 
 
 
@@ -200,10 +200,10 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 
 /*  There are 4 internal variables.
 
-      1 Ra       Rayleigh number        [null]     basic variable
-      2 Nu       Nusselt number         [null]     basic variable
-      3 h        convection coefficient [W/m**2/K] basic variable
-      4 qDot     heat flow rate         [W]        basic variable
+      1 Ra       Rayleigh number              [null]     basic variable
+      2 Nu       Nusselt number               [null]     basic variable
+      3 h        convection coefficient       [W/m**2/K] basic variable
+      4 qDot     heat flow rate from the wall [W]        basic variable
 */
 
 void smo_free_convection_(int *n, double *heatFlowIndex

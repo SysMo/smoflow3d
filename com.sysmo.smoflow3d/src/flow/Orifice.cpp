@@ -41,9 +41,11 @@ void Orifice_computeMassFlow_CompressibleIdealGas(Orifice* orifice, double regul
 	if (pDn/pUp > pCr) {//(subsonic)
 		flowParam = m::sqrt(2*g/(r*(g-1)))
 			* m::sqrt(m::pow(pDn/pUp, 2/g) - m::pow(pDn/pUp,(g+1)/g));
+		orifice->sonicFlow = 0;
 	} else { //pDn/pUp <= pCr (sonic)
 		flowParam = m::sqrt(2*g/(r*(g+1)))
 			* m::pow((2/(g+1)), 1/(g-1));
+		orifice->sonicFlow = 1;
 	}
 
 	m::limitVariable(regulatingSignal, 0.0, 1.0);

@@ -29,6 +29,7 @@ void Medium_register(MediumConcreteTypes mediumType, const char* mediumName, int
 			Medium_CompressibleFluid_CoolProp* medium =  new Medium_CompressibleFluid_CoolProp(mediumFluid);
 			medium->name = mediumNameStr;
 			MediumRegistry[mediumIndex] = medium;
+			std::cout << "Registered fluid " << mediumFluid->get_name() << " (TMin = " << mediumFluid->limits.Tmin << ")\n";
 		}
 	} else if (mediumType == sSolidThermal) {
 		Medium* medium = SolidRegistry.getSolid(mediumName);

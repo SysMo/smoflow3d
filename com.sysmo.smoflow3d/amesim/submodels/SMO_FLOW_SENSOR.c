@@ -1,5 +1,5 @@
 /* Submodel SMO_FLOW_SENSOR skeleton created by AME Submodel editing utility
-   Sun Jul 28 17:45:49 2013 */
+   Sun Aug 25 17:28:36 2013 */
 
 
 
@@ -28,9 +28,16 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "flow/FlowBase.h"
+#include "media/MediumState.h"
 
 #define _fluidFlowIndex ic[0]
 #define _fluidFlow ps[0]
+
+#define _fluidStateIndexInternal ic[1]
+#define _fluidStateInternal ps[1]
+
+#define _fluidStateIndexInput ic[2]
+#define _fluidStateInput ps[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -46,8 +53,8 @@ REVISIONS :
    measuredFlowPropertyIndex measured flow property
 */
 
-void smo_flow_sensorin_(int *n, double rp[2], int ip[1], double c[2]
-      , int ic[1], void *ps[1])
+void smo_flow_sensorin_(int *n, double rp[2], int ip[1], int ic[3]
+      , void *ps[3])
 
 {
    int loop, error;
@@ -75,9 +82,9 @@ void smo_flow_sensorin_(int *n, double rp[2], int ip[1], double c[2]
 
 /*   Integer parameter checking:   */
 
-   if (measuredFlowPropertyIndex < 1 || measuredFlowPropertyIndex > 3)
+   if (measuredFlowPropertyIndex < 1 || measuredFlowPropertyIndex > 4)
    {
-      amefprintf(stderr, "\nmeasured flow property must be in range [1..3].\n");
+      amefprintf(stderr, "\nmeasured flow property must be in range [1..4].\n");
       error = 2;
    }
 
@@ -106,7 +113,7 @@ void smo_flow_sensorin_(int *n, double rp[2], int ip[1], double c[2]
 
    Port 2 has 1 variable:
 
-      1 measuredValue     measured value [null] multi line macro 'smo_flow_sensor_macro0_'
+      1 measuredValue     measured value [null] basic variable output
 
    Port 3 has 2 variables:
 
@@ -114,16 +121,17 @@ void smo_flow_sensorin_(int *n, double rp[2], int ip[1], double c[2]
       2 flowIndex         flow index  [smoFFL] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 2 internal variables.
+/*  There are 3 internal variables.
 
       1 massFlowRate         mass flow rate     [kg/s] basic variable
       2 enthalpyFlowRate     enthalpy flow rate [W]    basic variable
+      3 flowTemperature      flow temperature   [K]    basic variable
 */
 
 void smo_flow_sensor_(int *n, double *stateIndex
       , double *measuredValue, double *flowIndex, double *massFlowRate
-      , double *enthalpyFlowRate, double rp[2], int ip[1], double c[2]
-      , int ic[1], void *ps[1])
+      , double *enthalpyFlowRate, double *flowTemperature
+      , double rp[2], int ip[1], int ic[3], void *ps[3])
 
 {
    int loop;
@@ -146,73 +154,57 @@ void smo_flow_sensor_(int *n, double *stateIndex
 /*
    Set all submodel outputs below:
 
+   *measuredValue = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
+   *flowTemperature = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-   *massFlowRate = c[0];
-   *enthalpyFlowRate = c[1];
+   if (firstc_()) {
+	   _fluidFlowIndex = *flowIndex;
+	   _fluidFlow = FluidFlow_get(_fluidFlowIndex);
+
+	   _fluidStateIndexInput = *stateIndex;
+	   _fluidStateInput = MediumState_get(_fluidStateIndexInput);
+
+	   int mediumIndex = Medium_index(MediumState_getMedium(_fluidStateInput));
+	   Medium* fluid = Medium_get(mediumIndex);
+
+	   _fluidStateInternal = MediumState_new(fluid);
+	   _fluidStateIndexInternal = MediumState_register(_fluidStateInternal);
+   }
+
+   *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow);;
+   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow);
+
+   if (fabs(*massFlowRate) > 1e-12) {
+	   double h = *enthalpyFlowRate / *massFlowRate;
+	   MediumState_update_ph(_fluidStateInternal, MediumState_p(_fluidStateInput), h);
+	   *flowTemperature = MediumState_T(_fluidStateInternal);
+   } else {
+	   *flowTemperature = 0.0;
+   }
+
+   if (measuredFlowPropertyIndex == 1) {
+	   *measuredValue = *massFlowRate;
+   } else if (measuredFlowPropertyIndex == 2) {
+	   *measuredValue = *enthalpyFlowRate;
+   } else if (measuredFlowPropertyIndex == 3) {
+	   *measuredValue = *flowTemperature;
+   } else if (measuredFlowPropertyIndex == 4) {
+	   *measuredValue = _fluidFlowIndex;
+   } else {
+	   *measuredValue = 0.0;
+   }
+
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *stateIndex /= ??; CONVERSION UNKNOWN */
 /*   *flowIndex /= ??; CONVERSION UNKNOWN */
-}
-
-extern double smo_flow_sensor_macro0_(int *n, double *flowIndex
-      , double rp[2], int ip[1], double c[2], int ic[1], void *ps[1])
-
-{
-   double measuredValue;
-   int loop;
-/* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
-/* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int measuredFlowPropertyIndex;
-   double offset, gain;
-
-   measuredFlowPropertyIndex = ip[0];
-
-   offset     = rp[0];
-   gain       = rp[1];
-   loop = 0;
-
-/* Common -> SI units conversions. */
-
-/*   *flowIndex *= ??; CONVERSION UNKNOWN */
-
-/*
-   Define and return the following macro variable:
-
-   measuredValue = ??;
-*/
-
-
-/* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-   if (firstc_()) {
-	   _fluidFlowIndex = *flowIndex;
-	   _fluidFlow = FluidFlow_get(_fluidFlowIndex);
-   }
-
-   // Retrieving the objects from the storage
-   c[0] = FluidFlow_getMassFlowRate(_fluidFlow);
-   c[1] = FluidFlow_getEnthalpyFlowRate(_fluidFlow);
-
-   if (measuredFlowPropertyIndex == 3) {
-	   measuredValue = _fluidFlowIndex;
-   } else {
-	   measuredValue = c[measuredFlowPropertyIndex - 1] * gain + offset;
-   }
-/* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
-
-/* SI -> Common units conversions. */
-
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
-
-
-   return measuredValue;
 }
 

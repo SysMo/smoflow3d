@@ -100,7 +100,7 @@ public:
 	virtual void compute() {
 		// Compute flows
 		double massFlowRate = - outletFlow->massFlowRate;
-		if (massFlowRate < - m::eps()) {
+		if (massFlowRate < - m::eps) {
 			RaiseError("Reverse flow encountered");
 		}
 		inletFlow->massFlowRate = outletFlow->massFlowRate;
@@ -112,7 +112,7 @@ public:
 		double inletTemperature = inletState->T();
 		outletLimitState->update_Tp(wallTemperature, inletState->p());
 		if (massFlowRate > minMassFlowRate) {
-			convection->compute();
+			convection->compute(massFlowRate);
 			outletStateSetpoint = inletState->h() + convection->getHeatFlowRate() / massFlowRate;
 			if (wallTemperature > inletTemperature) {
 				// Ensure the outlet temperature is not above wall temperature
@@ -132,7 +132,7 @@ public:
 	}
 protected:
 	virtual void _init() {
-		convection->init(inletState, wallNode, inletFlow);
+		convection->init(inletState, outletState, wallNode);
 	}
 	ForcedConvection* convection;
 	double heatExchangeArea;

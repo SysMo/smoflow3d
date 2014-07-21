@@ -223,20 +223,38 @@ void smo_mechanical_compressor_(int *n, double *inletFlowIndex
 	   MediumState* outletState = MediumState_get(*outletStateIndex);
 	   MechanicalCompressor_init(_compressor, inletState, outletState);
    }
-   MechanicalCompressor_setRotationalSpeed(_compressor, *rotarySpeed);
-   MechanicalCompressor_compute(_compressor);
-   MechanicalCompressor_getInletFlowRates(_compressor, _inletFlow);
-   MechanicalCompressor_getOutletFlowRates(_compressor, _outletFlow);
+
+   if (*rotarySpeed > 1e-12) {
+	   MechanicalCompressor_setRotationalSpeed(_compressor, *rotarySpeed);
+	   MechanicalCompressor_compute(_compressor);
+	   MechanicalCompressor_getInletFlowRates(_compressor, _inletFlow);
+	   MechanicalCompressor_getOutletFlowRates(_compressor, _outletFlow);
+
+	   *pressureRatio = MechanicalCompressor_getPressureRatio(_compressor);
+	   *torque = MechanicalCompressor_getTorque(_compressor);
+	   *etaVolumetric = MechanicalCompressor_getVolumetricEfficiency(_compressor);
+	   *etaIsentropic = MechanicalCompressor_getIsentropicEfficiency(_compressor);
+	   *etaMechanical = MechanicalCompressor_getMechanicalEfficiency(_compressor);
+	   *massFlowRate = FluidFlow_getMassFlowRate(_outletFlow);
+	   *compressorWork = MechanicalCompressor_getCompressorWork(_compressor);
+   } else {
+	   FluidFlow_setMassFlowRate(_inletFlow, 0.0);
+	   FluidFlow_setEnthalpyFlowRate(_inletFlow, 0.0);
+
+	   FluidFlow_setMassFlowRate(_outletFlow, 0.0);
+	   FluidFlow_setEnthalpyFlowRate(_outletFlow, 0.0);
+
+	   *pressureRatio = 0.0;
+	   *torque = 0.0;
+	   *etaVolumetric = 0.0;
+	   *etaIsentropic = 0.0;
+	   *etaMechanical = 0.0;
+	   *massFlowRate = FluidFlow_getMassFlowRate(_outletFlow);
+	   *compressorWork = 0.0;
+   }
+
    *inletFlowIndex = _inletFlowIndex;
    *outletFlowIndex = _outletFlowIndex;
-
-   *pressureRatio = MechanicalCompressor_getPressureRatio(_compressor);
-   *torque = MechanicalCompressor_getTorque(_compressor);
-   *etaVolumetric = MechanicalCompressor_getVolumetricEfficiency(_compressor);
-   *etaIsentropic = MechanicalCompressor_getIsentropicEfficiency(_compressor);
-   *etaMechanical = MechanicalCompressor_getMechanicalEfficiency(_compressor);
-   *massFlowRate = FluidFlow_getMassFlowRate(_outletFlow);
-   *compressorWork = MechanicalCompressor_getCompressorWork(_compressor);
 
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
