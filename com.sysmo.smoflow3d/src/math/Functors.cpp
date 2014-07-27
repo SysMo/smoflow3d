@@ -29,7 +29,7 @@ protected:
 	double value;
 };
 
-#include "third-party/mu-parser/MuParser.h"
+#include "third-party/mu-parser/muParser.h"
 typedef mu::Parser ExprParser;
 
 class MISOExpressionFunctor {

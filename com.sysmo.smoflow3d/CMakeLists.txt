@@ -14,7 +14,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX )
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--enable-auto-import")
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
     elseif(UNIX)
-        message("Configured for Linux")
+        message("Configured for Linux, Windows: ${WINDOWS}")
         set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DLINUX -fPIC")
     endif()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall") # -m32 for 32 bit compilation
@@ -25,7 +25,7 @@ endif()
 ##########################################
 function (add_smo_test TEST_NAME TEST_SOURCES)
     add_executable(${TEST_NAME} ${TEST_SOURCES})
-    target_link_libraries(${TEST_NAME} SmoFlow CoolProp)
+    target_link_libraries(${TEST_NAME} SmoFlow CoolProp ${CMAKE_DL_LIBS})
     install(
     TARGETS ${TEST_NAME}
     RUNTIME DESTINATION bin/tests
