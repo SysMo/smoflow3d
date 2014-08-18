@@ -159,7 +159,6 @@ void FluidChamber::computeStateDerivatives_cp(double mDot, double UDot, double V
 /**
  * FluidChamber - C
  */
-BEGIN_C_LINKAGE
 FluidChamber* FluidChamber_new(Medium *fluid) {
 	return new FluidChamber(fluid);
 }
@@ -195,4 +194,3 @@ void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDeriva
 MediumState* FluidChamber_getFluidState(FluidChamber* chamber) {
 	return chamber->getFluidState();
 }
-END_C_LINKAGE

@@ -78,7 +78,7 @@
     <EVAR>
      <SUB_ID>35</SUB_ID>
      <TITLE>heat flow index 1</TITLE>
-     <VARNAME>heatFlowIndex1</VARNAME>
+     <VARNAME>heatFlow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -89,7 +89,7 @@
     <EVAR>
      <SUB_ID>36</SUB_ID>
      <TITLE>thermal node index 1</TITLE>
-     <VARNAME>thermalNodeIndex1</VARNAME>
+     <VARNAME>thermalNode1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -102,7 +102,7 @@
     <EVAR>
      <SUB_ID>37</SUB_ID>
      <TITLE>heat flow index 2</TITLE>
-     <VARNAME>heatFlowIndex2</VARNAME>
+     <VARNAME>heatFlow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -113,7 +113,7 @@
     <EVAR>
      <SUB_ID>38</SUB_ID>
      <TITLE>state index 2</TITLE>
-     <VARNAME>thermalNodeIndex2</VARNAME>
+     <VARNAME>thermalNode2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>

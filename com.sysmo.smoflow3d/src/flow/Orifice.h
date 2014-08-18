@@ -10,24 +10,73 @@
 #define ORIFICE_H_
 
 #include "media/MediumState.h"
+#include "FlowBase.h"
+#include "FlowComponent_R_2Port.h"
 
-BEGIN_C_LINKAGE
-typedef struct {
-	MediumState* stateUp;
-	MediumState* stateDown;
-	double pressureDrop;
-	double massFlowRate;
-	double enthalpyFlowRate;
+typedef enum {
+	sFlowType_Undefine = -1,
+	sFlowType_Subsonic = 0,
+	sFlowType_Sonic = 1
+} FlowType;
 
+
+#ifdef __cplusplus
+
+class Orifice : public FlowComponent_R_2Port {
+public:
+	Orifice();
+	virtual ~Orifice();
+
+	void setOrificeArea(double orificeArea) {this->orificeArea = orificeArea;}
+	void setFlowCoefficient(double flowCoefficient) {this->flowCoefficient = flowCoefficient;}
+
+	void setRegulatingSignal(double regulatingSignal) {this->regulatingSignal = regulatingSignal;}
+
+	double getMassFlowRate() {return massFlowRate;}
+	double getEnthalpyFlowRate() {return enthalpyFlowRate;}
+	double getPressureLoss() {return pressureLoss;}
+	FlowType getFlowType() {return flowType;}
+
+	void compute_CompressibleIdealGas();
+
+	void getFlowRates(FluidFlow* flow1, FluidFlow* flow2);
+
+protected:
+	/* Parameters */
 	double orificeArea;
 	double flowCoefficient;
-	int sonicFlow;
-} Orifice;
 
+	/* Inputs */
+	double regulatingSignal;
+
+	/* Results */
+	double massFlowRate;
+	double enthalpyFlowRate;
+	double pressureLoss;
+	FlowType flowType;
+};
+
+#else //_cplusplus
+DECLARE_C_STRUCT(Orifice)
+#endif //_cplusplus
+
+
+BEGIN_C_LINKAGE
 Orifice* Orifice_new();
-void Orifice_init(Orifice* orifice, MediumState* stateUp, MediumState* stateDown);
-void Orifice_computeMassFlow_CompressibleIdealGas(Orifice* orifice, double regulatingSignal);
-void Orifice_computeEnthalpyFlow(Orifice* orifice);
+void Orifice_init(Orifice* orifice, MediumState* state1, MediumState* state2);
+void Orifice_compute_CompressibleIdealGas(Orifice* orifice);
+
+void Orifice_setOrificeArea(Orifice* orifice, double orificeArea);
+void Orifice_setFlowCoefficient(Orifice* orifice, double flowCoefficient);
+
+void Orifice_setRegulatingSignal(Orifice* orifice, double regulatingSignal);
+
+double Orifice_getMassFlowRate(Orifice* orifice);
+double Orifice_getEnthalpyFlowRate(Orifice* orifice);
+double Orifice_getPressureLoss(Orifice* orifice);
+int Orifice_getFlowType(Orifice* orifice);
+
+void Orifice_getFlowRates(Orifice* orifice, FluidFlow* flow1, FluidFlow* flow2);
 END_C_LINKAGE
 
 #endif /* ORIFICE_H_ */

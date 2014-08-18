@@ -1,5 +1,5 @@
 /* Submodel SMO_TEMPERATURE_SOURCE skeleton created by AME Submodel editing utility
-   Thu Aug 22 11:34:11 2013 */
+   Thu Sep 19 17:01:51 2013 */
 
 
 
@@ -122,8 +122,6 @@ extern double smo_temperature_source_macro0_(int *n
    double thermalNodeIndex;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
-   ThermalNode_setTemperature(_thermalNode, *temperatureSignal);
-   thermalNodeIndex = _thermalNodeIndex;
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
    loop = 0;
 
@@ -135,6 +133,8 @@ extern double smo_temperature_source_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+   ThermalNode_setTemperature(_thermalNode, *temperatureSignal);
+   thermalNodeIndex = _thermalNodeIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */

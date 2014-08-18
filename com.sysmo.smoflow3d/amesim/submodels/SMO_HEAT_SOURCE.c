@@ -1,5 +1,5 @@
 /* Submodel SMO_HEAT_SOURCE skeleton created by AME Submodel editing utility
-   Thu Aug 8 17:21:27 2013 */
+   Thu Sep 19 17:02:22 2013 */
 
 
 
@@ -71,7 +71,7 @@ void smo_heat_sourcein_(int *n, int ic[1], void *ps[1])
 
    Port 2 has 2 variables:
 
-      1 flowIndex            flow index         [smoHFL] basic variable output  UNPLOTTABLE
+      1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
       2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 */
 
@@ -79,8 +79,9 @@ void smo_heat_sourcein_(int *n, int ic[1], void *ps[1])
 
 */
 
-void smo_heat_source_(int *n, double *heatFlowRate, double *flowIndex
-      , double *thermalNodeIndex, int ic[1], void *ps[1])
+void smo_heat_source_(int *n, double *heatFlowRate
+      , double *heatFlowIndex, double *thermalNodeIndex, int ic[1]
+      , void *ps[1])
 
 {
    int loop;
@@ -95,19 +96,19 @@ void smo_heat_source_(int *n, double *heatFlowRate, double *flowIndex
 /*
    Set all submodel outputs below:
 
-   *flowIndex  = ??;
+   *heatFlowIndex = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    HeatFlow_setEnthalpyFlowRate(_heatFlow, *heatFlowRate);
-   *flowIndex = _heatFlowIndex;
+   *heatFlowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 }
 

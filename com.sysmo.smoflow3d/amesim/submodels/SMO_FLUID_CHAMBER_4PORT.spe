@@ -240,8 +240,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>41</SUB_ID>
-     <TITLE>state index</TITLE>
-     <VARNAME>stateIndex</VARNAME>
+     <TITLE>fluid state index</TITLE>
+     <VARNAME>fluidStateIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>8</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -252,8 +252,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>26</SUB_ID>
-     <TITLE>flow index 1</TITLE>
-     <VARNAME>flowIndex1</VARNAME>
+     <TITLE>fluid flow index 1</TITLE>
+     <VARNAME>fluidFlow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -265,7 +265,7 @@
    <PORT>
     <EVAR>
      <SUB_ID>6</SUB_ID>
-     <VARNAME>stateIndexDup2</VARNAME>
+     <VARNAME>fluidStateIndexDup2</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>0</PRIMARY_PORT>
@@ -274,8 +274,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>27</SUB_ID>
-     <TITLE>flow index 2</TITLE>
-     <VARNAME>flowIndex2</VARNAME>
+     <TITLE>fluid flow index 2</TITLE>
+     <VARNAME>fluidFlow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -287,7 +287,7 @@
    <PORT>
     <EVAR>
      <SUB_ID>51</SUB_ID>
-     <VARNAME>stateIndexDup3</VARNAME>
+     <VARNAME>fluidStateIndexDup3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>0</PRIMARY_PORT>
@@ -296,8 +296,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>49</SUB_ID>
-     <TITLE>flow index 3</TITLE>
-     <VARNAME>flowIndex3</VARNAME>
+     <TITLE>fluid flow index 3</TITLE>
+     <VARNAME>fluidFlow3Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -309,7 +309,7 @@
    <PORT>
     <EVAR>
      <SUB_ID>52</SUB_ID>
-     <VARNAME>stateIndexDup4</VARNAME>
+     <VARNAME>fluidStateIndexDup4</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>0</PRIMARY_PORT>
@@ -319,7 +319,7 @@
     <EVAR>
      <SUB_ID>50</SUB_ID>
      <TITLE>flow index 4</TITLE>
-     <VARNAME>flowIndex4</VARNAME>
+     <VARNAME>fluidFlow4Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>

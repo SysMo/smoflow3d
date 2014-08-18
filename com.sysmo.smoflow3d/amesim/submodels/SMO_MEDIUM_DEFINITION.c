@@ -27,6 +27,7 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_MEDIUM_DEFINITION"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
 #include "media/Medium.h"
 
 static const char* solidNames[] = {
@@ -154,7 +155,7 @@ void smo_medium_definitionin_(int *n, int ip[5])
 	   Medium_register(sCompressibleFluidCoolProp,
 			   realFluidNames[realFluidNameIndex - 1], mediumIndex);
    } else {
-
+	   AME_RAISE_ERROR("Unsupported medium type.")
    }
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }

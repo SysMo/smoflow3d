@@ -15,7 +15,7 @@
    <PORT>
     <EVAR>
      <SUB_ID>12</SUB_ID>
-     <VARNAME>stateIndexDup1</VARNAME>
+     <VARNAME>fluidStateIndexDup1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>1</PRIMARY_PORT>
@@ -24,8 +24,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>8</SUB_ID>
-     <TITLE>flow index in 1</TITLE>
-     <VARNAME>flowIndexIn1</VARNAME>
+     <TITLE>fluid flow index in 1</TITLE>
+     <VARNAME>fluidFlowIndexIn1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -37,8 +37,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>14</SUB_ID>
-     <TITLE>flow index out</TITLE>
-     <VARNAME>flowIndexOut</VARNAME>
+     <TITLE>fluid flow index out</TITLE>
+     <VARNAME>fluidFlowIndexOut</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>8</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -49,8 +49,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>7</SUB_ID>
-     <TITLE>state index</TITLE>
-     <VARNAME>stateIndex</VARNAME>
+     <TITLE>fluid state index</TITLE>
+     <VARNAME>fluidStateIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -62,7 +62,7 @@
    <PORT>
     <EVAR>
      <SUB_ID>11</SUB_ID>
-     <VARNAME>stateIndexDup3</VARNAME>
+     <VARNAME>fluidStateIndexDup3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>4</TYPE>
      <PRIMARY_PORT>1</PRIMARY_PORT>
@@ -71,8 +71,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>9</SUB_ID>
-     <TITLE>flow index in 3</TITLE>
-     <VARNAME>flowIndexIn3</VARNAME>
+     <TITLE>fluid flow index in 3</TITLE>
+     <VARNAME>fluidFlowIndexIn3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>

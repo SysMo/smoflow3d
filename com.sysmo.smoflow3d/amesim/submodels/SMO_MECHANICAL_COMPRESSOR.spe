@@ -142,8 +142,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>13</SUB_ID>
-     <TITLE>inlet flow index</TITLE>
-     <VARNAME>inletFlowIndex</VARNAME>
+     <TITLE>inlet fluid flow index</TITLE>
+     <VARNAME>inletFluidFlowIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -153,8 +153,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>93</SUB_ID>
-     <TITLE>inlet state index</TITLE>
-     <VARNAME>inletStateIndex</VARNAME>
+     <TITLE>inlet fluid state index</TITLE>
+     <VARNAME>inletFluidStateIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -166,8 +166,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>94</SUB_ID>
-     <TITLE>outlet flow index</TITLE>
-     <VARNAME>outletFlowIndex</VARNAME>
+     <TITLE>outlet fluid flow index</TITLE>
+     <VARNAME>outletFluidFlowIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -177,8 +177,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>95</SUB_ID>
-     <TITLE>outlet state index</TITLE>
-     <VARNAME>outletStateIndex</VARNAME>
+     <TITLE>outlet fluid state index</TITLE>
+     <VARNAME>outletFluidStateIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>

@@ -128,6 +128,7 @@ void smo_thermal_material_pointin_(int *n, double *rp, int *ip
 	  if (Medium_getConcreteType(medium) != sSolidThermal) {
 		  AME_RAISE_ERROR("Medium concrete type expected to be 'solid thermal'")
 	  }
+
 	  ThermalMaterialNode_addMaterialMass(_thermalNode, (Medium_Solid*) medium, materialMasses[i]);
    }
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */

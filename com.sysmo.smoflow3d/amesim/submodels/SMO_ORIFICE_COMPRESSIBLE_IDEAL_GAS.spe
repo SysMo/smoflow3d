@@ -8,8 +8,8 @@
   <DEFAULT_ICON>smo_reg_orifice</DEFAULT_ICON>
   <SUB_LABEL>Orifice with ideal gas compressible flow</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>5</I_STORES_NUMBER>
-  <P_STORES_NUMBER>5</P_STORES_NUMBER>
+  <I_STORES_NUMBER>3</I_STORES_NUMBER>
+  <P_STORES_NUMBER>3</P_STORES_NUMBER>
   <DISCONTINUITY>1</DISCONTINUITY>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
@@ -79,8 +79,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>57</SUB_ID>
-     <TITLE>flow index 1</TITLE>
-     <VARNAME>flowIndex1</VARNAME>
+     <TITLE>fluid flow1 index</TITLE>
+     <VARNAME>fluidFlow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -90,8 +90,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>58</SUB_ID>
-     <TITLE>state index 1</TITLE>
-     <VARNAME>stateIndex1</VARNAME>
+     <TITLE>fluid state1 index</TITLE>
+     <VARNAME>fluidState1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -115,8 +115,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>59</SUB_ID>
-     <TITLE>flow index 3</TITLE>
-     <VARNAME>flowIndex3</VARNAME>
+     <TITLE>fluid flow2 index</TITLE>
+     <VARNAME>fluidFlow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
@@ -126,8 +126,8 @@
     </EVAR>
     <EVAR>
      <SUB_ID>60</SUB_ID>
-     <TITLE>state index3</TITLE>
-     <VARNAME>stateIndex3</VARNAME>
+     <TITLE>fluid state2 index</TITLE>
+     <VARNAME>fluidState2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>

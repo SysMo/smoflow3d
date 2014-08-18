@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Wed Aug 21 10:50:20 2013 */
+   Thu Sep 19 17:15:34 2013 */
 
 
 
@@ -27,23 +27,16 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
-#include "media/MediumState.h"
-#include "flow/FlowBase.h"
+#include "SmoFlowAme.h"
 #include "flow/Orifice.h"
 
-#define _orifice ps[0]
+#define _component ps[0]
 
-#define _fluidFlowIndex1 ic[1]
 #define _fluidFlow1 ps[1]
+#define _fluidFlow1Index ic[1]
 
-#define _fluidFlowIndex3 ic[2]
-#define _fluidFlow3 ps[2]
-
-#define _fluidStateIndex1 ic[3]
-#define _fluidState1 ps[3]
-
-#define _fluidStateIndex3 ic[4]
-#define _fluidState3 ps[4]
+#define _fluidFlow2 ps[2]
+#define _fluidFlow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -54,7 +47,7 @@ REVISIONS :
 */
 
 void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
-      , int ic[5], void *ps[5])
+      , int ic[3], void *ps[3])
 
 {
    int loop, error;
@@ -100,10 +93,16 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _orifice = Orifice_new();
-   Orifice* orificeObj = _orifice;
-   orificeObj->orificeArea = orificeArea;
-   orificeObj->flowCoefficient = flowCoefficient;
+   _component = Orifice_new();
+   SMOCOMPONEN_SET_PROPS(_component)
+
+   Orifice_setOrificeArea(_component, orificeArea);
+   Orifice_setFlowCoefficient(_component, flowCoefficient);
+
+   _fluidFlow1 = FluidFlow_new();
+   _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
+   _fluidFlow2 = FluidFlow_new();
+   _fluidFlow2Index = FluidFlow_register(_fluidFlow2);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -111,8 +110,8 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
    Port 1 has 2 variables:
 
-      1 flowIndex1      flow index 1  [smoFFL] basic variable output  UNPLOTTABLE
-      2 stateIndex1     state index 1 [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow1Index      fluid flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidState1Index     fluid state1 index [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -120,8 +119,8 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
    Port 3 has 2 variables:
 
-      1 flowIndex3      flow index 3 [smoFFL] basic variable output  UNPLOTTABLE
-      2 stateIndex3     state index3 [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow2Index      fluid flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidState2Index     fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 4 internal variables.
@@ -132,11 +131,12 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
       4 flowType             flow type = {0 - subsonic, 1 - sonic} [null]        basic variable
 */
 
-void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
-      , double *stateIndex1, double *regulatingSignal
-      , double *flowIndex3, double *stateIndex3, double *massFlowRate
+void smo_orifice_compressible_ideal_gas_(int *n
+      , double *fluidFlow1Index, double *fluidState1Index
+      , double *regulatingSignal, double *fluidFlow2Index
+      , double *fluidState2Index, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss
-      , double *flowType, double rp[2], int ic[5], void *ps[5]
+      , double *flowType, double rp[2], int ic[3], void *ps[3]
       , int *flag)
 
 {
@@ -152,14 +152,14 @@ void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
 
 /* Common -> SI units conversions. */
 
-/*   *stateIndex1 *= ??; CONVERSION UNKNOWN */
-/*   *stateIndex3 *= ??; CONVERSION UNKNOWN */
+/*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *flowIndex1 = ??;
-   *flowIndex3 = ??;
+   *fluidFlow1Index = ??;
+   *fluidFlow2Index = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressureLoss = ??;
@@ -171,60 +171,30 @@ void smo_orifice_compressible_ideal_gas_(int *n, double *flowIndex1
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    // Initialization at first run
    if (firstc_()) {
-	   _fluidFlow1 = (void*) FluidFlow_new();
-	   _fluidFlowIndex1 = FluidFlow_register(_fluidFlow1);
-
-	   _fluidFlow3 = (void*) FluidFlow_new();
-	   _fluidFlowIndex3 = FluidFlow_register(_fluidFlow3);
-
-	   _fluidStateIndex1 = *stateIndex1;
-	   _fluidState1 = MediumState_get(_fluidStateIndex1);
-
-	   _fluidStateIndex3 = *stateIndex3;
-	   _fluidState3 = MediumState_get(_fluidStateIndex3);
-
-	   int mediumIndex1 = Medium_index(MediumState_getMedium(_fluidState1));
-	   int mediumIndex3 = Medium_index(MediumState_getMedium(_fluidState3));
-	   if (mediumIndex1 != mediumIndex3) {
-		   amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-		   amefprintf(stderr, "\nThe orifice connects two components with different fluid indices: %d and %d.\n", mediumIndex1, mediumIndex3);
-		   AmeExit(1);
-	   }
-
-	   Orifice_init(_orifice, _fluidState1, _fluidState3);
+	   MediumState* inletState = MediumState_get(*fluidState1Index);
+	   MediumState* outletState = MediumState_get(*fluidState2Index);
+	   Orifice_init(_component, inletState, outletState);
    }
 
-   Orifice_computeMassFlow_CompressibleIdealGas(_orifice, *regulatingSignal);
-   Orifice_computeEnthalpyFlow(_orifice);
+   Orifice_setRegulatingSignal(_component, *regulatingSignal);
+   Orifice_compute_CompressibleIdealGas(_component);
+   Orifice_getFlowRates(_component, _fluidFlow1, _fluidFlow2);
 
-   // Retrieving the objects from the storage
-   Orifice* orificeObj = (Orifice*) _orifice;
+   *massFlowRate = Orifice_getMassFlowRate(_component);
+   *enthalpyFlowRate = Orifice_getEnthalpyFlowRate(_component);
+   *pressureLoss = Orifice_getPressureLoss(_component);
+   *flowType = Orifice_getFlowType(_component);
 
-   FluidFlow_setMassFlowRate(_fluidFlow3, orificeObj->massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(_fluidFlow3, orificeObj->enthalpyFlowRate);
-
-   FluidFlow_setMassFlowRate(_fluidFlow1, -orificeObj->massFlowRate);
-   FluidFlow_setEnthalpyFlowRate(_fluidFlow1, -orificeObj->enthalpyFlowRate);
-
-   *massFlowRate = fabs(orificeObj->massFlowRate);
-   *enthalpyFlowRate = fabs(orificeObj->enthalpyFlowRate);
-   *pressureLoss = fabs(MediumState_p(_fluidState1) - MediumState_p(_fluidState3));
-
-   *flowIndex1 = _fluidFlowIndex1;
-   *flowIndex3 = _fluidFlowIndex3;
-   if (orificeObj->sonicFlow) {
-	   *flowType = 1.0;
-   } else {
-	   *flowType = 0.0;
-   }
+   *fluidFlow1Index = _fluidFlow1Index;
+   *fluidFlow2Index = _fluidFlow2Index;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *flowIndex1 /= ??; CONVERSION UNKNOWN */
-/*   *stateIndex1 /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex3 /= ??; CONVERSION UNKNOWN */
-/*   *stateIndex3 /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
    *pressureLoss /= 1.00000000000000e+005;
 }
 

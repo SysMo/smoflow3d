@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Tue Aug 20 11:35:31 2013 */
+   Thu Sep 19 17:49:35 2013 */
 
 
 
@@ -36,7 +36,7 @@ REVISIONS :
 #define _fluidFlowIndex ic[1]
 #define _fluidFlow ps[1]
 
-#define _freeConvection ps[2]
+#define _component ps[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -145,45 +145,39 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
    _fluidFlowIndex = FluidFlow_register(_fluidFlow);
 
    if (calculationMethod == 1) {
-	   _freeConvection =
-			   FreeConvection_GivenConvectionCoefficient_new(
-					   convectionCoefficientGiven, heatExchangeArea);
+	   _component =
+			   FreeConvection_GivenConvectionCoefficient_new(convectionCoefficientGiven, heatExchangeArea);
    } else if (calculationMethod == 2) {
-	   _freeConvection =
-			   FreeConvection_NusseltExpression_new(
-					   characteristicLength, heatExchangeArea, nusseltCorrelationExpr);
+	   _component =
+			   FreeConvection_NusseltExpression_new(characteristicLength, heatExchangeArea, nusseltCorrelationExpr);
    } else if (calculationMethod == 3) {
-	   _freeConvection =
+	   _component =
 			   FreeConvection_VerticalSurface_new(height, width);
    } else if (calculationMethod == 4) {
-	   _freeConvection =
+	   _component =
 			   FreeConvection_HorizontalSurfaceTop_new(length, width);
    } else if (calculationMethod == 5) {
-	   _freeConvection =
+	   _component =
 			   FreeConvection_HorizontalSurfaceBottom_new(length, width);
    } else if (calculationMethod == 6) {
-	   _freeConvection =
-			   FreeConvection_CylindricalHorizontalSurface_new(
-					   length, diameter);
+	   _component =
+			   FreeConvection_CylindricalHorizontalSurface_new(length, diameter);
    } else if (calculationMethod == 7) {
-	   _freeConvection =
-			   FreeConvection_CylindricalVerticalSurface_new(
-					   length, diameter);
+	   _component =
+			   FreeConvection_CylindricalVerticalSurface_new(length, diameter);
    } else if (calculationMethod == 8) {
-	   _freeConvection =
-			   FreeConvection_SphericalSurface_new(
-					   diameter);
+	   _component =
+			   FreeConvection_SphericalSurface_new(diameter);
    } else if (calculationMethod == 9) {
-	   _freeConvection =
-			   FreeConvection_FinnedPipe_new(basePipeDiameter, length,
-					   finSpacing, finThickness, finHeight);
+	   _component =
+			   FreeConvection_FinnedPipe_new(basePipeDiameter, length, finSpacing, finThickness, finHeight);
    } else if (calculationMethod == 10) {
-	   _freeConvection =
+	   _component =
 			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
-   SMOCOMPONEN_SET_PROPS(_freeConvection)
+   SMOCOMPONEN_SET_PROPS(_component)
 
-   Convection_setHeatExchangeGain(_freeConvection, heatExchangeGain);
+   Convection_setHeatExchangeGain(_component, heatExchangeGain);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -196,8 +190,8 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 
    Port 2 has 2 variables:
 
-      1 flowIndex      flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 stateIndex     state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndex      fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidStateIndex     fluid state index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 4 internal variables.
@@ -209,8 +203,8 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[1]
 */
 
 void smo_free_convection_(int *n, double *heatFlowIndex
-      , double *thermalNodeIndex, double *flowIndex
-      , double *stateIndex, double *Ra, double *Nu, double *h
+      , double *thermalNodeIndex, double *fluidFlowIndex
+      , double *fluidStateIndex, double *Ra, double *Nu, double *h
       , double *qDot, double rp[13], int ip[1], char *tp[1], int ic[4]
       , void *ps[4])
 
@@ -247,13 +241,13 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 /* Common -> SI units conversions. */
 
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
    *heatFlowIndex = ??;
-   *flowIndex  = ??;
+   *fluidFlowIndex = ??;
    *Ra         = ??;
    *Nu         = ??;
    *h          = ??;
@@ -264,20 +258,20 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    if (firstc_()) {
-	   MediumState* fluidState = MediumState_get(*stateIndex);
+	   MediumState* fluidState = MediumState_get(*fluidStateIndex);
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
-	   FreeConvection_init(_freeConvection, fluidState, wallNode);
+	   FreeConvection_init(_component, fluidState, wallNode);
    }
 
-   FreeConvection_compute(_freeConvection);
-   Convection_getFlow_Fluid(_freeConvection, _fluidFlow);
-   Convection_getFlow_Wall(_freeConvection, _heatFlow);
-   *Ra = FreeConvection_getRayleighNumber(_freeConvection);
-   *Nu = Convection_getNusseltNumber(_freeConvection);
-   *h = Convection_getConvectionCoefficient(_freeConvection);
-   *qDot = Convection_getHeatFlowRate(_freeConvection);
+   FreeConvection_compute(_component);
+   Convection_getFlow_Fluid(_component, _fluidFlow);
+   Convection_getFlow_Wall(_component, _heatFlow);
+   *Ra = FreeConvection_getRayleighNumber(_component);
+   *Nu = Convection_getNusseltNumber(_component);
+   *h = Convection_getConvectionCoefficient(_component);
+   *qDot = Convection_getHeatFlowRate(_component);
 
-   *flowIndex = _fluidFlowIndex;
+   *fluidFlowIndex = _fluidFlowIndex;
    *heatFlowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -285,7 +279,7 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 
 /*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 }
 

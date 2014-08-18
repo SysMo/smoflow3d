@@ -31,7 +31,7 @@ REVISIONS :
 #include "flow/PhaseSeparator.h"
 
 #define _component ps[0]
-#define _port2StateIndex ic[0]
+#define _port2FluidStateIndex ic[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
 /* There is 1 integer parameter:
@@ -88,6 +88,7 @@ void smo_phase_separatorin_(int *n, int ip[1], int ic[5], void *ps[5])
    } else {
 	   phaseSelection = PhaseSelection_varContinuous;
    }
+
    _component = PhaseSeparator_new(phaseSelection);
    SMOCOMPONEN_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -185,10 +186,11 @@ extern double smo_phase_separator_macro0_(int *n
 	   MediumState* port1State = MediumState_get(*port1StateIndex);
 	   PhaseSeparator_init(_component, port1State);
 	   MediumState* port2State = PhaseSeparator_getPort2State(_component);
-	   _port2StateIndex = SmoObject_getInstanceIndex((SmoObj*)port2State);
+	   _port2FluidStateIndex = SmoObject_getInstanceIndex((SmoObj*)port2State);
    }
+
    PhaseSeparator_updateState(_component, *regSignal);
-   port2StateIndex = _port2StateIndex;
+   port2StateIndex = _port2FluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */

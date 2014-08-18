@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_FLOW_SOURCE skeleton created by AME Submodel editing utility
-   Sat Aug 10 18:18:19 2013 */
+   Thu Sep 19 17:06:00 2013 */
 
 
 
@@ -65,8 +65,8 @@ void smo_fluid_flow_sourcein_(int *n, int ic[1], void *ps[1])
 
    Port 1 has 2 variables:
 
-      1 flowIndex      flow index   [smoFFL] multi line macro 'smo_fluid_flow_source_macro0_'  UNPLOTTABLE
-      2 stateIndex     state index  [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndex      fluid flow index   [smoFFL] multi line macro 'smo_fluid_flow_source_macro0_'  UNPLOTTABLE
+      2 fluidStateIndex     fluid state index  [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
@@ -85,8 +85,8 @@ void smo_fluid_flow_sourcein_(int *n, int ic[1], void *ps[1])
 
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
-void smo_fluid_flow_source_(int *n, double *flowIndex
-      , double *stateIndex, double *massFlowRate
+void smo_fluid_flow_source_(int *n, double *fluidFlowIndex
+      , double *fluidStateIndex, double *massFlowRate
       , double *enthalpyFlowRate, int ic[1], void *ps[1])
 
 {
@@ -97,8 +97,8 @@ void smo_fluid_flow_source_(int *n, double *flowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *flowIndex *= ??; CONVERSION UNKNOWN */
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -112,8 +112,8 @@ void smo_fluid_flow_source_(int *n, double *flowIndex
 
 /* SI -> Common units conversions. */
 
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 }
 
 #endif
@@ -122,7 +122,7 @@ extern double smo_fluid_flow_source_macro0_(int *n
       , void *ps[1])
 
 {
-   double flowIndex;
+   double fluidFlowIndex;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
@@ -131,7 +131,7 @@ extern double smo_fluid_flow_source_macro0_(int *n
 /*
    Define and return the following macro variable:
 
-   flowIndex  = ??;
+   fluidFlowIndex = ??;
 */
 
 
@@ -144,11 +144,11 @@ extern double smo_fluid_flow_source_macro0_(int *n
      FluidFlow_setMassFlowRate(_fluidFlow, *massFlowRate);
      FluidFlow_setEnthalpyFlowRate(_fluidFlow, *enthalpyFlowRate);
 
-     flowIndex = _fluidFlowIndex;
+     fluidFlowIndex = _fluidFlowIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
 
-   return flowIndex;
+   return fluidFlowIndex;
 }
 

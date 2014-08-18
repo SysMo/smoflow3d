@@ -1,5 +1,5 @@
 /* Submodel SMO_ADAPTOR_FLUID_HEAT skeleton created by AME Submodel editing utility
-   Fri Aug 9 17:09:29 2013 */
+   Thu Sep 19 17:09:57 2013 */
 
 
 
@@ -81,8 +81,8 @@ void smo_adaptor_fluid_heatin_(int *n, int ic[4], void *ps[4])
 
    Port 2 has 2 variables:
 
-      1 flowIndex      flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 stateIndex     state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndex      fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidStateIndex     fluid state index [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.
@@ -90,8 +90,8 @@ void smo_adaptor_fluid_heatin_(int *n, int ic[4], void *ps[4])
 */
 
 void smo_adaptor_fluid_heat_(int *n, double *thermalNodeIndex
-      , double *heatFlowIndex, double *flowIndex, double *stateIndex
-      , int ic[4], void *ps[4])
+      , double *heatFlowIndex, double *fluidFlowIndex
+      , double *fluidStateIndex, int ic[4], void *ps[4])
 
 {
    int loop;
@@ -103,12 +103,12 @@ void smo_adaptor_fluid_heat_(int *n, double *thermalNodeIndex
 
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 /*   *heatFlowIndex *= ??; CONVERSION UNKNOWN */
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
 
-   *flowIndex  = ??;
+   *fluidFlowIndex = ??;
 */
 
 
@@ -125,19 +125,19 @@ void smo_adaptor_fluid_heat_(int *n, double *thermalNodeIndex
    FluidFlow_setMassFlowRate(_fluidFlow, 0.0);
    FluidFlow_setEnthalpyFlowRate(_fluidFlow, HeatFlow_getEnthalpyFlowRate(_heatFlow));
 
-   *flowIndex = _fluidFlowIndex;
+   *fluidFlowIndex = _fluidFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *flowIndex /= ??; CONVERSION UNKNOWN */
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_adaptor_fluid_heat_macro0_(int *n
-      , double *stateIndex, int ic[4], void *ps[4])
+      , double *fluidStateIndex, int ic[4], void *ps[4])
 
 {
    double thermalNodeIndex;
@@ -148,7 +148,7 @@ extern double smo_adaptor_fluid_heat_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *stateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 
 /*
    Define and return the following macro variable:
@@ -162,7 +162,7 @@ extern double smo_adaptor_fluid_heat_macro0_(int *n
 	   _thermalNode = ThermalNode_new(sThermalNode_Source);
 	   _thermalNodeIndex = ThermalNode_register(_thermalNode);
 
-	   _fluidStateIndex = *stateIndex;
+	   _fluidStateIndex = *fluidStateIndex;
 	   _fluidState = MediumState_get(_fluidStateIndex);
    }
 
@@ -172,7 +172,7 @@ extern double smo_adaptor_fluid_heat_macro0_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *stateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 
