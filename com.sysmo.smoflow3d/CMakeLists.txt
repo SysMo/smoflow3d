@@ -17,6 +17,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX )
     elseif(UNIX)
         message("Configured for Linux, Windows: ${WINDOWS}")
         set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DLINUX -fPIC")
+        SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DLINUX -std=c99")
     endif()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall") # -m32 for 32 bit compilation
 endif()

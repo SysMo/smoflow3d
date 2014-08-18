@@ -72,7 +72,7 @@ void testDriveCycleReader() {
 	END_TEST;
 }
 
-int main(int argc, char* argv) {
+int main(int argc, char** argv) {
 	testRowReader();
 	testCSVProcessor();
 	testDriveCycleReader();
