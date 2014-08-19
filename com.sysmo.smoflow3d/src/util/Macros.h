@@ -69,6 +69,12 @@
 	throw -1; \
 	} \
 
+#define RaiseWarning(message) \
+	{ \
+	_RaiseEvent(message, SimulationEnvironment_warning) \
+	} \
+
+
 #define RaiseComponentError(component, message) \
 	{ \
 		std::stringstream messageStream; \
@@ -86,11 +92,6 @@
 		throw -1; \
 	} \
 
-
-#define RaiseWarning(message) \
-	{ \
-	_RaiseEvent(message, SimulationEnvironment_warning) \
-	} \
 
 // Macro for defining an exception object for a unimplemented function.
 #define RaiseError_UnimplementedFunction() \

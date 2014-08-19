@@ -41,5 +41,5 @@ include_directories(src)
 include_directories(src/third-party/eigen)
 add_subdirectory(src)
 
-include_directories(src_c)
-add_subdirectory(src_c)
+#include_directories(src_c)
+#add_subdirectory(src_c)

@@ -33,12 +33,12 @@ add_library(SmoFlow SHARED
     util/CachedProperty.cpp
     util/SmoComponent.cpp
     util/SimulationEnvironment.cpp
+    util/DynamicLoader.cpp
     math/Functors.cpp
     math/Interpolators.cpp
     io_control/CSVProcessor.cpp
     io_control/DriveCycleReader.cpp
     io_control/StateMachineController.cpp
-    io_control/CcH2DriveCycleController.cpp
     media/Medium.cpp
     media/SolidRegistryClass.cpp
     media/MediumState.cpp
