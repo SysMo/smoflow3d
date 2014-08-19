@@ -23,6 +23,7 @@
 #ifdef __cplusplus
 
 class DynamicLoader {
+public:
 	DynamicLoader();
 	~DynamicLoader();
 	void load(const char* libraryPath, const char* methodPrefix = NULL);

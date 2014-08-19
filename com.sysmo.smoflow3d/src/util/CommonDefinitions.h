@@ -19,8 +19,6 @@
  * BEGIN C interface
  **************************************/
 #include <math.h>
-#include "CoolProp/GlobalConstants.h"
-typedef enum params ThermodynamicVariable;
 
 /***************************************
  * END C interface

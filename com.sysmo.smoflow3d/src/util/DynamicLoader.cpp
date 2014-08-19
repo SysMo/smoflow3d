@@ -10,6 +10,9 @@
 DynamicLoader::DynamicLoader() {
 }
 
+DynamicLoader::~DynamicLoader() {
+}
+
 void DynamicLoader::load(const char* libraryPath, const char* methodPrefix) {
 	this->libraryPath = libraryPath;
 	if (methodPrefix != NULL) {

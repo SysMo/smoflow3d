@@ -28,6 +28,8 @@ typedef enum {
 
 #include <map>
 #include "CoolProp/CoolProp.h"
+#include "CoolProp/GlobalConstants.h"
+typedef enum params ThermodynamicVariable;
 
 struct Medium {
 	MediumConcreteTypes concreteType;
