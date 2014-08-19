@@ -18,8 +18,16 @@ class StatechartGenerator extends AbstractWorkspaceGenerator implements IExecuti
 	override generate(ExecutionFlow flow, GeneratorEntry entry, IFileSystemAccess access) {
 		entry.targetFolder.write(flow.name+'.h', flow.generateHeader)
 		entry.targetFolder.write(flow.name+'.cpp', flow.generateImplementation)
+		entry.targetFolder.write('Makefile', flow.generateMakefile)
 		refreshTargetProject(entry)
 	}
+	
+	def String generateMakefile(ExecutionFlow flow)'''
+		build : «flow.name».so
+		
+		«flow.name».so: «flow.name».cpp «flow.name».h
+			gcc -o «flow.name».so -shared -fPIC -I../../smoflow3d/com.sysmo.smoflow3d/src «flow.name».cpp			  
+	'''
 
 	def write(File dir, String filename, String content) {
 		try {

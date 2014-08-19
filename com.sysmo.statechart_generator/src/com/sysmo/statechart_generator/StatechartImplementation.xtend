@@ -29,7 +29,7 @@ class StatechartImplementation {
 	
 	
 	new() {
-	
+		this.eventMode = true
 	}
 	
 	def generateImplementation(ExecutionFlow it) {'''
@@ -37,42 +37,36 @@ class StatechartImplementation {
 		
 		const char* stateNames[«states.size»] = {
 			«FOR ExecutionState state : states SEPARATOR ','»
-				"«state.name.split("\\.").last»"
+				"«state.shortName»"
 			«ENDFOR»
 		};
 
-		«name»::«name»() {
-			
+		const char* parameterNames[«getScope("parameters").variables.size»] = {
+			«FOR v : getScope("parameters").variables SEPARATOR ','»
+				"«v.name»"
+			«ENDFOR»
+		};
+		
+		const char* inputNames[«getScope("inputs").variables.size»] = {
+			«FOR v : getScope("inputs").variables SEPARATOR ','»
+				"«v.name»"
+			«ENDFOR»
+		};
+		
+		const char* outputNames[«getScope("outputs").variables.size»] = {
+			«FOR v : getScope("outputs").variables SEPARATOR ','»
+				"«v.name»"
+			«ENDFOR»
+		};
+
+		«name»::«name»(SimulationEnvironment* simEnv) {
+			this->simEnv = simEnv;
 		}
 		
 		«name»::~«name»() {
 			
 		}
-		void «name»::setParameters(
-				double realParameterValues[],
-				double integerParameterValues[]) {			
-			«setValuesFromArray(getScope("parameters").variables.filter[
-				v | (v as VariableDefinition).type.name == "real"
-			],
-			"parameters", "realParameterValues")»
-
-			«setValuesFromArray(getScope("parameters").variables.filter[
-				v | (v as VariableDefinition).type.name == "integer"
-			],
-			"parameters", "integerParameterValues")»
-		}
-
-		void «name»::setInputs(double inputValues[]) {
-			«setValuesFromArray(getScope("inputs").variables, "inputs", "inputValues")»
-		}
-
-		void «name»::getOutputs(double outputValues[]) {
-			«getValuesToArray(getScope("outputs").variables.filter[
-				v | (v as VariableDefinition).type.name == "real"
-			],
-			"outputs", "outputValues")»
-		}
-
+		
 		void «name»::init() {
 			for (int i = 0; i < «orthogonalStatesConst»; ++i)
 				stateConfVector[i] = «last_state»;
@@ -81,23 +75,27 @@ class StatechartImplementation {
 		
 			«initSequence.code»
 		}
+		
+		void «name»::setParameters(
+				double realParameterValues[],
+				int integerParameterValues[]) {			
+			«setValuesFromArray(realParameters,
+			"parameters", "realParameterValues")»
+
+			«setValuesFromArray(integerParameters,
+			"parameters", "integerParameterValues")»
+		}
+
+		void «name»::setInputs(double inputValues[]) {
+			«setValuesFromArray(inputs, "inputs", "inputValues")»
+		}
+
+		void «name»::getOutputs(double outputValues[]) {
+			«getValuesToArray(outputs, "outputs", "outputValues")»
+		}
 
 		«enterFunction»
 		
-		/* Function called on each integrator step */
-		void «name»::step() {
-			if (simEnv->isEventMode()) {
-				while (isActionRequested()) {
-					react();
-				}
-			} else {
-				bool actionRequested = isActionRequested();
-				if (actionRequested) {
-					simEnv->updateEventIndicator(actionRequested);
-				}
-			}
-		}
-
 		/* Function which checks if any discrete event is about to occur */
 		bool «name»::isActionRequested() {
 			bool actionRequested = false;
@@ -138,6 +136,53 @@ class StatechartImplementation {
 		}
 
 		«reactFunctions.toImplementation»
+		
+		/* C interface functions */		
+		«name»* createController(SimulationEnvironment* simEnv) {
+			return new «module»(simEnv);
+		}
+		
+		void getSizes(«module»* controller, 
+			int* numRealParameters, int* numIntegerParameters,
+			int* numInputs, int* numOutputs) {
+				controller->getSizes(*numRealParameters, *numIntegerParameters,
+						*numInputs, *numOutputs);
+		}
+		
+		void init(«module»* controller) {
+			controller->init();
+		}
+		
+		void setParameters(«module»* controller,
+				double realParameterValues[],
+				int integerParameterValues[]) {
+			controller->setParameters(realParameterValues, integerParameterValues);
+		}
+		
+		void setInputs(«module»* controller, double inputValues[]) {
+			controller->setInputs(inputValues);
+		}
+		
+		void getOutputs(«module»* controller, double outputValues[]) {
+			controller->getOutputs(outputValues);
+		}
+		
+		void enter(«module»* controller) {
+			controller->enter();			
+		}
+		
+		int isActionRequested(«module»* controller) {
+			if (controller->isActionRequested()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+		
+		void react(«module»* controller) {
+			controller->react();
+		}
+		
 	'''.toString}
 	
 	def enterFunction(ExecutionFlow it) {

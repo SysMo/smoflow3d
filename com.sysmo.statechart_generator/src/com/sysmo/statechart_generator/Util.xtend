@@ -40,6 +40,26 @@ class Util {
 		throw new IllegalArgumentException("No scope with name " + name)
 	}
 	
+	def getRealParameters(ExecutionFlow it) {
+		getScope("parameters").variables.filter[
+				v | (v as VariableDefinition).type.name == "real"
+		]
+	}
+	
+	def getIntegerParameters(ExecutionFlow it) {
+		getScope("parameters").variables.filter[
+				v | (v as VariableDefinition).type.name == "integer"
+		]		
+	}
+
+	def getInputs(ExecutionFlow it) {
+		getScope("inputs").variables
+	}
+
+	def getOutputs(ExecutionFlow it) {
+		getScope("outputs").variables
+	}
+
 	def setValuesFromArray(Iterable<Variable> variables, String groupName, String arrayName) {
 		var i = 0
 		var result = ''''''
