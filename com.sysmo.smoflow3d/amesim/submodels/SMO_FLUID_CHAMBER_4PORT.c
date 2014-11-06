@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_CHAMBER_4PORT skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:53:33 2013 */
+   Sat Nov 30 15:16:40 2013 */
 
 
 
@@ -47,7 +47,7 @@ REVISIONS :
 
    initialPressure        initial pressure          [barA -> PaA]
    initialTemperature     initial temperature (K)   [K]
-   initialTemperatureC    initial temperature (ï¿½C)  [degC]
+   initialTemperatureC    initial temperature (°C)  [degC]
    initialGasMassFraction initial gas mass fraction [null]
    initialSuperheat       initial superheat         [K]
    volume                 volume                    [L -> m**3]
@@ -171,25 +171,29 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
 
 /*  There are 4 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidStateIndex     fluid state index  [smoTDS] multi line macro 'smo_fluid_chamber_4port_macro0_'  UNPLOTTABLE
-      2 fluidFlow1Index     fluid flow index 1 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndex                fluid state index                    [smoTDS]  multi line macro 'smo_fluid_chamber_4port_macro0_'  UNPLOTTABLE
+      2 fluidFlow1Index                fluid flow index 1                   [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal1     fluid flow activation signal (port1) [smoFFAS] basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 fluidStateIndexDup2     duplicate of fluidStateIndex
-      2 fluidFlow2Index         fluid flow index 2 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup2            duplicate of fluidStateIndex        
+      2 fluidFlow2Index                fluid flow index 2                   [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal2     fluid flow activation signal (port2) [smoFFAS] basic variable input  UNPLOTTABLE
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 fluidStateIndexDup3     duplicate of fluidStateIndex
-      2 fluidFlow3Index         fluid flow index 3 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup3            duplicate of fluidStateIndex        
+      2 fluidFlow3Index                fluid flow index 3                   [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal3     fluid flow activation signal (port3) [smoFFAS] basic variable input  UNPLOTTABLE
 
-   Port 4 has 2 variables:
+   Port 4 has 3 variables:
 
-      1 fluidStateIndexDup4     duplicate of fluidStateIndex
-      2 fluidFlow4Index         flow index 4 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup4            duplicate of fluidStateIndex        
+      2 fluidFlow4Index                flow index 4                         [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal4     fluid flow activation signal (port4) [smoFFAS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 9 internal variables.
@@ -206,8 +210,10 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
 */
 
 void smo_fluid_chamber_4port_(int *n, double *fluidStateIndex
-      , double *fluidFlow1Index, double *fluidFlow2Index
-      , double *fluidFlow3Index, double *fluidFlow4Index
+      , double *fluidFlow1Index, double *fluidFlowActivationSignal1
+      , double *fluidFlow2Index, double *fluidFlowActivationSignal2
+      , double *fluidFlow3Index, double *fluidFlowActivationSignal3
+      , double *fluidFlow4Index, double *fluidFlowActivationSignal4
       , double *pressure, double *temperature, double *density
       , double *specificEnthalpy, double *gasMassFraction
       , double *superHeat, double *totalMass, double *state1
@@ -238,9 +244,13 @@ void smo_fluid_chamber_4port_(int *n, double *fluidStateIndex
 
 /*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal1 *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal2 *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow3Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal3 *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow4Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal4 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -287,9 +297,13 @@ void smo_fluid_chamber_4port_(int *n, double *fluidStateIndex
 
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal1 /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal2 /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow3Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal3 /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow4Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal4 /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
 }

@@ -4,9 +4,9 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>42</SUB_ID_MAX>
+  <SUB_ID_MAX>46</SUB_ID_MAX>
   <DEFAULT_ICON>smo_fluid_chamber_cst_volume</DEFAULT_ICON>
-  <SUB_LABEL>adiabatic chamber (C)</SUB_LABEL>
+  <SUB_LABEL>fluid chamber with constant volume and 2 ports (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>1</I_STORES_NUMBER>
   <P_STORES_NUMBER>4</P_STORES_NUMBER>
@@ -261,6 +261,17 @@
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
     </EVAR>
+    <EVAR>
+     <SUB_ID>46</SUB_ID>
+     <TITLE>fluid flow activation signal (port1)</TITLE>
+     <VARNAME>fluidFlowActivationSignal1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
    </PORT>
    <PORT>
     <EVAR>
@@ -282,6 +293,17 @@
      <IO>1</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>44</SUB_ID>
+     <TITLE>fluid flow activation signal (port2)</TITLE>
+     <VARNAME>fluidFlowActivationSignal2</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFAS</UNITS>
     </EVAR>
    </PORT>
   </EVARS_LIST>

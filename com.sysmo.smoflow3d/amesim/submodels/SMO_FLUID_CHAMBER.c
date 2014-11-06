@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_CHAMBER skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:50:51 2013 */
+   Sat Nov 30 15:16:34 2013 */
 
 
 
@@ -45,7 +45,7 @@ REVISIONS :
 
    initialPressure        initial pressure          [barA -> PaA]
    initialTemperature     initial temperature (K)   [K]
-   initialTemperatureC    initial temperature (ï¿½C)  [degC]
+   initialTemperatureC    initial temperature (°C)  [degC]
    initialGasMassFraction initial gas mass fraction [null]
    initialSuperheat       initial superheat         [K]
    volume                 volume                    [L -> m**3]
@@ -169,15 +169,17 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
 
 /*  There are 2 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidStateIndex     fluid state index  [smoTDS] multi line macro 'smo_fluid_chamber_macro0_'  UNPLOTTABLE
-      2 fluidFlow1Index     fluid flow index 1 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndex                fluid state index                    [smoTDS]  multi line macro 'smo_fluid_chamber_macro0_'  UNPLOTTABLE
+      2 fluidFlow1Index                fluid flow index 1                   [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal1     fluid flow activation signal (port1) [smoFFAS] basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 stateIndexDup       duplicate of fluidStateIndex
-      2 fluidFlow2Index     fluid flow index 2 [smoFFL] basic variable input  UNPLOTTABLE
+      1 stateIndexDup                  duplicate of fluidStateIndex        
+      2 fluidFlow2Index                fluid flow index 2                   [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal2     fluid flow activation signal (port2) [smoFFAS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 9 internal variables.
@@ -194,7 +196,8 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
 */
 
 void smo_fluid_chamber_(int *n, double *fluidStateIndex
-      , double *fluidFlow1Index, double *fluidFlow2Index
+      , double *fluidFlow1Index, double *fluidFlowActivationSignal1
+      , double *fluidFlow2Index, double *fluidFlowActivationSignal2
       , double *pressure, double *temperature, double *density
       , double *specificEnthalpy, double *gasMassFraction
       , double *superHeat, double *totalMass, double *state1
@@ -225,7 +228,9 @@ void smo_fluid_chamber_(int *n, double *fluidStateIndex
 
 /*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal1 *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal2 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -268,7 +273,9 @@ void smo_fluid_chamber_(int *n, double *fluidStateIndex
 
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal1 /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal2 /= ??; CONVERSION UNKNOWN */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
 }

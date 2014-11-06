@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>100</SUB_ID_MAX>
+  <SUB_ID_MAX>106</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pump</DEFAULT_ICON>
   <SUB_LABEL>mechanical compressor (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -40,6 +40,24 @@
      </ENUM>
      <ENUM>
       <ENUM_STRING>volumetric flow rate function</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>106</SUB_ID>
+    <TITLE>use fluid flow activation signal</TITLE>
+    <VARNAME>useFluidFlowActivationSignal</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
@@ -152,6 +170,15 @@
      <UNITS>smoFFL</UNITS>
     </EVAR>
     <EVAR>
+     <SUB_ID>104</SUB_ID>
+     <VARNAME>fluidFlowActivationSignalDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>1</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
      <SUB_ID>93</SUB_ID>
      <TITLE>inlet fluid state index</TITLE>
      <VARNAME>inletFluidStateIndex</VARNAME>
@@ -174,6 +201,16 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>103</SUB_ID>
+     <TITLE>flow activation signal = {-1 - not used; 0 - deactivate; 1 - activate}</TITLE>
+     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>smoFFAS</UNITS>
     </EVAR>
     <EVAR>
      <SUB_ID>95</SUB_ID>

@@ -27,8 +27,11 @@ namespace cst {
 	const double StandardTemperature = 288.15; // [K]
 
 	const double MinPressureDrop = 1e-06; // [Pa]
+	const double zeroPressureDrop = 0.0; // [Pa]
+	const double zeroPressure = 0.0; // [Pa]
 	const double MinMassFlowRate = 1e-12; // [kg/s]
 	const double zeroMassFlowRate = 0.0; // [kg/s]
+	const double zeroSpecEnthalpy = 0.0;
 
 	const double RGas = 8.3144621; // [J/mol-K]
 	const double N_a = 6.02e23; // Particles per mole

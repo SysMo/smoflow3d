@@ -58,7 +58,8 @@ FreeConvection* FreeConvection_CylindricalVerticalSurface_new(
 		double height, double diameter);
 FreeConvection* FreeConvection_SphericalSurface_new(
 		double diameter);
-FreeConvection* FreeConvection_FinnedPipe_new(double pipeDiameter, double pipeLength,
+FreeConvection* FreeConvection_FinnedPipe_new(
+		double pipeLength, double pipeDiameter,
 		double finSpacing, double finThickness, double finHeight);
 END_C_LINKAGE
 

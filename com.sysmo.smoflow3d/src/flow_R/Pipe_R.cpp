@@ -51,13 +51,58 @@ Pipe_R* Pipe_R_new(FrictionFlowPipe* friction) {
 	return new Pipe_R(friction);
 }
 
-Pipe_R* CylindricalStraightPipe_R_new(
-		double diameter,
+Pipe_R* StraightPipe_R_new(
 		double length,
+		double hydraulicDiameter,
+		double flowArea,
 		double surfaceRoughness,
 		double pressureDropGain) {
-	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(diameter, length, surfaceRoughness);
+	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(length, hydraulicDiameter, flowArea, surfaceRoughness);
 	friction->setPressureDropGain(pressureDropGain);
 
 	return Pipe_R_new(friction);
+}
+
+Pipe_R* ElbowPipe_R_new(
+		double hydraulicDiameter,
+		double flowArea,
+		double surfaceRoughness,
+		double curvatureRadius,
+		double bendAngle,
+		double pressureDropGain) {
+	FrictionFlowPipe* friction = FrictionFlowPipe_ElbowPipe_new(hydraulicDiameter, flowArea, surfaceRoughness, curvatureRadius, bendAngle);
+	friction->setPressureDropGain(pressureDropGain);
+
+	return Pipe_R_new(friction);
+}
+
+Pipe_R* ConstantDragCoefficientPipe_new(
+		double flowArea,
+		double dragCoefficient,
+		double pressureDropGain) {
+	FrictionFlowPipe* friction = FrictionFlowPipe_ConstantDragCoefficientPipe_new(flowArea, dragCoefficient);
+	friction->setPressureDropGain(pressureDropGain);
+
+	return Pipe_R_new(friction);
+}
+
+Pipe_R* ConstantDragCoefficientStraightPipe_new(
+		double length,
+		double hydraulicDiameter,
+		double flowArea,
+		double surfaceRoughness,
+		double dragCoefficient,
+		double pressureDropGain) {
+	FrictionFlowPipe* friction = FrictionFlowPipe_ConstantDragCoefficientStraightPipe_new(length, hydraulicDiameter, flowArea, surfaceRoughness, dragCoefficient);
+	friction->setPressureDropGain(pressureDropGain);
+
+	return Pipe_R_new(friction);
+}
+
+double Pipe_R_getDragCoefficient(Pipe_R* pipe) {
+	return pipe->getDragCoefficient();
+}
+
+double Pipe_R_getReynoldsNumber(Pipe_R* pipe) {
+	return pipe->getReynoldsNumber();
 }

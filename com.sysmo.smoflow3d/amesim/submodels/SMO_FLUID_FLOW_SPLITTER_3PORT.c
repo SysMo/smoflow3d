@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_FLOW_SPLITTER_3PORT skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:11:37 2013 */
+   Sat Nov 30 15:12:38 2013 */
 
 
 
@@ -65,20 +65,23 @@ void smo_fluid_flow_splitter_3portin_(int *n, int ic[1], void *ps[1])
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidStateIndexDup1     duplicate of fluidStateIndex
-      2 fluidFlowIndexIn1       fluid flow index in 1 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup1              duplicate of fluidStateIndex        
+      2 fluidFlowIndexIn1                fluid flow index in 1                [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignalIn1     fluid flow activation signal (port1) [smoFFAS] basic variable input
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 fluidFlowIndexOut     fluid flow index out [smoFFL] multi line macro 'smo_fluid_flow_splitter_3port_macro0_'  UNPLOTTABLE
-      2 fluidStateIndex       fluid state index    [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndexOut                fluid flow index out                 [smoFFL]  multi line macro 'smo_fluid_flow_splitter_3port_macro0_'  UNPLOTTABLE
+      2 fluidFlowActivationSignalOut     fluid flow activation signal (port2) [smoFFAS] multi line macro 'smo_fluid_flow_splitter_3port_macro1_'
+      3 fluidStateIndex                  fluid state index                    [smoTDS]  basic variable input  UNPLOTTABLE
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 fluidStateIndexDup3     duplicate of fluidStateIndex
-      2 fluidFlowIndexIn3       fluid flow index in 3 [smoFFL] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup3              duplicate of fluidStateIndex        
+      2 fluidFlowIndexIn3                fluid flow index in 3                [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignalIn3     fluid flow activation signal (port3) [smoFFAS] basic variable input
 */
 
 /*  There are 0 internal variables.
@@ -90,8 +93,11 @@ void smo_fluid_flow_splitter_3portin_(int *n, int ic[1], void *ps[1])
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
 void smo_fluid_flow_splitter_3port_(int *n, double *fluidFlowIndexIn1
-      , double *fluidFlowIndexOut, double *fluidStateIndex
-      , double *fluidFlowIndexIn3, int ic[1], void *ps[1])
+      , double *fluidFlowActivationSignalIn1
+      , double *fluidFlowIndexOut
+      , double *fluidFlowActivationSignalOut, double *fluidStateIndex
+      , double *fluidFlowIndexIn3
+      , double *fluidFlowActivationSignalIn3, int ic[1], void *ps[1])
 
 {
    int loop;
@@ -102,9 +108,12 @@ void smo_fluid_flow_splitter_3port_(int *n, double *fluidFlowIndexIn1
 /* Common -> SI units conversions. */
 
 /*   *fluidFlowIndexIn1 *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignalIn1 *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlowIndexOut *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignalOut *= ??; CONVERSION UNKNOWN */
 /*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *fluidFlowIndexIn3 *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignalIn3 *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -119,9 +128,12 @@ void smo_fluid_flow_splitter_3port_(int *n, double *fluidFlowIndexIn1
 /* SI -> Common units conversions. */
 
 /*   *fluidFlowIndexIn1 /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignalIn1 /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlowIndexOut /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignalOut /= ??; CONVERSION UNKNOWN */
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlowIndexIn3 /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignalIn3 /= ??; CONVERSION UNKNOWN */
 }
 
 #endif
@@ -168,5 +180,48 @@ extern double smo_fluid_flow_splitter_3port_macro0_(int *n
 /*   *fluidFlowIndexOut /= ??; CONVERSION UNKNOWN */
 
    return fluidFlowIndexOut;
+}
+
+extern double smo_fluid_flow_splitter_3port_macro1_(int *n
+      , double *fluidFlowActivationSignalIn1
+      , double *fluidFlowActivationSignalIn3, int ic[1], void *ps[1])
+
+{
+   double fluidFlowActivationSignalOut;
+   int loop;
+/* >>>>>>>>>>>>Extra Macro Function macro1 Declarations Here. */
+/* <<<<<<<<<<<<End of Extra Macro macro1 declarations. */
+   loop = 0;
+
+/* Common -> SI units conversions. */
+
+/*   *fluidFlowActivationSignalIn1 *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignalIn3 *= ??; CONVERSION UNKNOWN */
+
+/*
+   Define and return the following macro variable:
+
+   fluidFlowActivationSignalOut = ??;
+*/
+
+
+/* >>>>>>>>>>>>Macro Function macro1 Executable Statements. */
+   if (*fluidFlowActivationSignalIn1 == 1 || *fluidFlowActivationSignalIn3 == 1) {
+	   fluidFlowActivationSignalOut = 1; //activate flow
+   } else if (*fluidFlowActivationSignalIn1 == -1 || *fluidFlowActivationSignalIn3 == -1) {
+	   fluidFlowActivationSignalOut = -1; //not used
+   } else {
+	   fluidFlowActivationSignalOut = 0; //deactivate flow
+   }
+/* <<<<<<<<<<<<End of Macro macro1 Executable Statements. */
+
+/* SI -> Common units conversions. */
+
+/*   *fluidFlowActivationSignalIn1 /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignalIn3 /= ??; CONVERSION UNKNOWN */
+
+/*   *fluidFlowActivationSignalOut /= ??; CONVERSION UNKNOWN */
+
+   return fluidFlowActivationSignalOut;
 }
 

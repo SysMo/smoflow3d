@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_CR skeleton created by AME Submodel editing utility
-   Sun Nov 10 14:09:27 2013 */
+   Sat Nov 30 15:46:57 2013 */
 
 
 
@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "volumes/PipeHeatExchNoPrDropNoMassAcc_CR.h"
+#include "volumes/HeatExchNoPrDropNoMassAcc_CR.h"
 
 #define _component ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -74,27 +74,29 @@ void smo_heatexchanger_crin_(int *n, double rp[1], void *ps[1])
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = PipeHeatExchNoPrDropNoMassAcc_CR_new(heatExhcangeEfficienccy);
+   _component = HeatExchNoPrDropNoMassAcc_CR_new(heatExhcangeEfficienccy);
    SMOCOMPONENT_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 outletFluidStateIndexDup     duplicate of outletFluidStateIndex
-      2 inletFluidFlowIndex          inlet fluid flow index   [smoFFL] basic variable input  UNPLOTTABLE
+      1 inletFluidStateIndexDup       duplicate of outletFluidStateIndex
+      2 inletFluidFlowIndex           inlet fluid flow index       [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 
    Port 2 has 2 variables:
 
       1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
       2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 outletFluidFlowIndex      outlet fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 outletFluidStateIndex     outlet fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 outletFluidFlowIndex             outlet fluid flow index      [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
+      3 outletFluidStateIndex            outlet fluid state index     [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 5 internal variables.
@@ -107,12 +109,12 @@ void smo_heatexchanger_crin_(int *n, double rp[1], void *ps[1])
 */
 
 void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
-      , double *heatFlowIndex, double *thermalNodeIndex
-      , double *outletFluidFlowIndex, double *outletFluidStateIndex
-      , double *inletTemperature, double *outletTemperature
-      , double *wallTemperature, double *heatFlowRateFromWall
-      , double *massFlowRateInlet, double rp[1], void *ps[1]
-      , int *flag)
+      , double *fluidFlowActivationSignal, double *heatFlowIndex
+      , double *thermalNodeIndex, double *outletFluidFlowIndex
+      , double *outletFluidStateIndex, double *inletTemperature
+      , double *outletTemperature, double *wallTemperature
+      , double *heatFlowRateFromWall, double *massFlowRateInlet
+      , double rp[1], void *ps[1], int *flag)
 
 {
    int loop, logi;
@@ -128,6 +130,7 @@ void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
 /* Common -> SI units conversions. */
 
 /*   *inletFluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 /*   *outletFluidStateIndex *= ??; CONVERSION UNKNOWN */
 
@@ -148,27 +151,28 @@ void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
-	   PipeHeatExchNoPrDropNoMassAcc_CR_init(_component,
+	   HeatExchNoPrDropNoMassAcc_CR_init(_component,
 			   ThermalNode_get(*thermalNodeIndex),
 			   MediumState_get(*outletFluidStateIndex),
 			   FluidFlow_get(*inletFluidFlowIndex));
    }
 
-   PipeHeatExchNoPrDropNoMassAcc_CR_compute(_component);
+   HeatExchNoPrDropNoMassAcc_CR_compute(_component);
 
-   *inletTemperature = PipeHeatExchNoPrDropNoMassAcc_CR_getInletTemperature(_component);
-   *outletTemperature = PipeHeatExchNoPrDropNoMassAcc_CR_getOutletTemperature(_component);
-   *wallTemperature = PipeHeatExchNoPrDropNoMassAcc_CR_getWallTemperature(_component);
-   *heatFlowRateFromWall = -PipeHeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowRate(_component);
-   *massFlowRateInlet = PipeHeatExchNoPrDropNoMassAcc_CR_getMassFlowRateInlet(_component);
+   *inletTemperature = HeatExchNoPrDropNoMassAcc_CR_getInletTemperature(_component);
+   *outletTemperature = HeatExchNoPrDropNoMassAcc_CR_getOutletTemperature(_component);
+   *wallTemperature = HeatExchNoPrDropNoMassAcc_CR_getWallTemperature(_component);
+   *heatFlowRateFromWall = -HeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowRate(_component);
+   *massFlowRateInlet = HeatExchNoPrDropNoMassAcc_CR_getMassFlowRateInlet(_component);
 
-   *outletFluidFlowIndex = PipeHeatExchNoPrDropNoMassAcc_CR_getFluidFlowOutletIndex(_component);
-   *heatFlowIndex = PipeHeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowIndex(_component);
+   *outletFluidFlowIndex = HeatExchNoPrDropNoMassAcc_CR_getFluidFlowOutletIndex(_component);
+   *heatFlowIndex = HeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowIndex(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *inletFluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 /*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *outletFluidFlowIndex /= ??; CONVERSION UNKNOWN */

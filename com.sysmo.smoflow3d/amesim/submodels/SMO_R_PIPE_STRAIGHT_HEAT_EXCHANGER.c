@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   Fri Nov 15 11:12:59 2013 */
+   Thu Nov 21 17:23:09 2013 */
 
 
 
@@ -49,8 +49,8 @@ REVISIONS :
 
 /* There are 6 real parameters:
 
-   hydraulicDiameter hydraulic diameter          [mm -> m]
    pipeLength        pipe length                 [m]
+   hydraulicDiameter hydraulic diameter          [mm -> m]
    flowArea          flow (cross sectional) area [mm**2 -> m**2]
    absoluteRoughness absolute roughness          [mm -> m]
    pressureDropGain  pressure drop gain          [null]
@@ -71,13 +71,13 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int geometryType;
-   double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
+   double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
       pressureDropGain, heatExchangeGain;
 
    geometryType = ip[0];
 
-   hydraulicDiameter = rp[0];
-   pipeLength = rp[1];
+   pipeLength = rp[0];
+   hydraulicDiameter = rp[1];
    flowArea   = rp[2];
    absoluteRoughness = rp[3];
    pressureDropGain = rp[4];
@@ -116,8 +116,8 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 
 /* Common -> SI units conversions. */
 
-   rp[0]    *= 1.00000000000000e-003;
-   hydraulicDiameter = rp[0];
+   rp[1]    *= 1.00000000000000e-003;
+   hydraulicDiameter = rp[1];
    rp[2]    *= 1.00000000000000e-006;
    flowArea   = rp[2];
    rp[3]    *= 1.00000000000000e-003;
@@ -125,26 +125,23 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   if (geometryType == 1) {
-	   _component = CylindricalStraightPipeHeatExchanger_R_new(
-			   hydraulicDiameter,
-			   pipeLength,
-			   absoluteRoughness,
-			   pressureDropGain,
-			   heatExchangeGain,
-			   1 //heatExchangerLimitOutput (0-no, 1-yes)
-	   );
-   } else {
-	   _component = NonCylindricalStraightPipeHeatExchanger_R_new(
-			   hydraulicDiameter,
-			   pipeLength,
-			   flowArea,
-			   absoluteRoughness,
-			   pressureDropGain,
-			   heatExchangeGain,
-			   1 //heatExchangerLimitOutput (0-no, 1-yes)
-	   );
+   double flowAreaValue;
+   if (geometryType == 1) { //cylindrical pipe
+	   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
+   } else { //non-cylindrical pipe
+	   flowAreaValue = flowArea;
    }
+
+   _component = StraightPipeHeatExchanger_R_new(
+		   pipeLength,
+		   hydraulicDiameter,
+		   flowAreaValue,
+		   absoluteRoughness,
+		   pressureDropGain,
+		   heatExchangeGain,
+		   1 //heatExchangerLimitOutput (0-no, 1-yes)
+   );
+
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
 
@@ -198,13 +195,13 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int geometryType;
-   double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
+   double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
       pressureDropGain, heatExchangeGain;
 
    geometryType = ip[0];
 
-   hydraulicDiameter = rp[0];
-   pipeLength = rp[1];
+   pipeLength = rp[0];
+   hydraulicDiameter = rp[1];
    flowArea   = rp[2];
    absoluteRoughness = rp[3];
    pressureDropGain = rp[4];
@@ -282,13 +279,13 @@ extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
    int geometryType;
-   double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
+   double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
       pressureDropGain, heatExchangeGain;
 
    geometryType = ip[0];
 
-   hydraulicDiameter = rp[0];
-   pipeLength = rp[1];
+   pipeLength = rp[0];
+   hydraulicDiameter = rp[1];
    flowArea   = rp[2];
    absoluteRoughness = rp[3];
    pressureDropGain = rp[4];

@@ -34,6 +34,10 @@ ManagerComponents_R::ManagerComponents_R() {
 	discFlag_isFlowDirectionChanged_isInit = false;
 
 	cache_massFlowRate = cst::zeroMassFlowRate;
+	cache_outerState1_p = cst::zeroPressure;
+	cache_outerState1_h = cst::zeroSpecEnthalpy;
+	cache_outerState2_p = cst::zeroPressure;
+	cache_outerState2_h = cst::zeroSpecEnthalpy;
 }
 
 ManagerComponents_R::~ManagerComponents_R() {
@@ -131,6 +135,15 @@ void ManagerComponents_R::compute() {
 
 	// Compute the mass flow rate
 	double massFlowRate = computeMassFlowRate();
+
+	// Compute R-components when no mass flow rate
+	if (cache_massFlowRate != cst::zeroMassFlowRate && massFlowRate == cst::zeroMassFlowRate) {
+		for (int i = 0; i <  getNumComponents(); i++) {
+			components[i]->compute_NoMassFlowRate();
+		}
+	}
+
+	// Cache the mass flow rate
 	cache_massFlowRate = massFlowRate;
 
 	// Check for discontinuities
@@ -163,7 +176,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 	// Initialize mass flow rate
 	double massFlowRate;
 	if (cache_massFlowRate == cst::zeroMassFlowRate) {
-		massFlowRate = 0.001; //SMO_TODO (???) massFlowRate = 0.001
+		massFlowRate = 0.001; //:TRICKY:
 	} else {
 		massFlowRate = m::fabs(cache_massFlowRate);
 	}
@@ -180,6 +193,18 @@ double ManagerComponents_R::computeMassFlowRate() {
 	}
 	isFlowClosed = false;
 
+
+	// Cached the outer pressures and enthalpies
+	if (cache_outerState1_p == outerState1->p() && cache_outerState2_p == outerState2->p()
+			&& cache_outerState1_h == outerState1->h() && cache_outerState2_h == outerState2->h()){
+		return cache_massFlowRate;
+	}
+	cache_outerState1_p =  outerState1->p();
+	cache_outerState1_h = outerState1->h();
+	cache_outerState2_p =  outerState2->p();
+	cache_outerState2_h = outerState2->h();
+
+
 	// Initialize
 	double up_MassFlowRate = 0.0;
 	bool up_MassFlowRate_isInit = false;
@@ -195,12 +220,16 @@ double ManagerComponents_R::computeMassFlowRate() {
 	// Compute mass flow rate using iteration
 	int numComponents = getNumComponents();
 
-	double stepCoeff = 2.0;
-	static const int maxNumIter = 100;
-	static const double relTolerance = 1e-08;
+	double stepCoeff = 1.01; //:SMO_SETTINGS: the value 1.01 is the best for refueling of the CGH2DriveCycle
+	if (cache_massFlowRate == cst::zeroMassFlowRate) { //no cache of the mass flow rate
+		stepCoeff = 2.0;
+	}
+
+	static const int maxNumIter = 106; //:SMO_SETTINGS:
+	static const double relTolerance = 1e-08; //:SMO_SETTINGS:
 
 	double downstreamPressure = outerDownstreamState->p();
-	double minDownstreamPressure = m::max(1e-5, downstreamPressure - 1e5); //:SMO_TODO: (???) m::min(1.0*1e5, 0.5*downstreamPressure);
+	double minDownstreamPressure = m::min(1.0*1e5, 0.1*downstreamPressure); //:TRICKY:
 	int numIter;
 	for (numIter = 1; numIter < maxNumIter; numIter++) {
 		bool succ;
@@ -220,6 +249,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
 			} else {
 				massFlowRate /= stepCoeff;
+				iterateStepCoeff(stepCoeff);
 			}
 			continue;
 		}
@@ -249,6 +279,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 				AssertInComponent(m::isValueInsideInterval(massFlowRate, down_MassFlowRate, up_MassFlowRate), beginAdaptor);
 			} else {
 				massFlowRate /= stepCoeff;
+				iterateStepCoeff(stepCoeff);
 			}
 		} else {
 			down_MassFlowRate = massFlowRate;
@@ -267,9 +298,10 @@ double ManagerComponents_R::computeMassFlowRate() {
 
 				AssertInComponent(m::isValueInsideInterval(massFlowRate, down_MassFlowRate, up_MassFlowRate), beginAdaptor);
 			} else if (up_MassFlowRate_isInit) {
-				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / stepCoeff;
+				massFlowRate = (up_MassFlowRate + down_MassFlowRate) / 2.0;
 			} else {
 				massFlowRate *= stepCoeff;
+				iterateStepCoeff(stepCoeff);
 			}
 		}
 	}
@@ -280,6 +312,16 @@ double ManagerComponents_R::computeMassFlowRate() {
 	}
 
 	return massFlowRate;
+}
+
+void ManagerComponents_R::iterateStepCoeff(double& stepCoeff) {
+	if (stepCoeff < 2) {
+		stepCoeff *= stepCoeff;
+	}
+
+	if (stepCoeff >= 2.0) {
+		stepCoeff = 2.0;
+	}
 }
 
 void ManagerComponents_R::updateFlows(double massFlowRate) {
@@ -318,7 +360,11 @@ bool ManagerComponents_R::checkIsFlowClosed(double massFlowRate) {
 		return true;
 	}
 
-	if (endAdaptor->isFlowClosed()) {
+	if (beginAdaptor->isFlowClosed(massFlowRate)) {
+		return true;
+	}
+
+	if (endAdaptor->isFlowClosed(massFlowRate)) {
 		return true;
 	}
 

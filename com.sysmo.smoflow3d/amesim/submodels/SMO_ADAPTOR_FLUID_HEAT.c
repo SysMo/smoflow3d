@@ -1,5 +1,5 @@
 /* Submodel SMO_ADAPTOR_FLUID_HEAT skeleton created by AME Submodel editing utility
-   Thu Sep 19 17:09:57 2013 */
+   Fri Dec 6 19:13:12 2013 */
 
 
 
@@ -44,7 +44,8 @@ REVISIONS :
 #define _fluidFlowIndex ic[3]
 #define _fluidFlow ps[3]
 /* <<<<<<<<<<<<End of Private Code. */
-void smo_adaptor_fluid_heatin_(int *n, int ic[4], void *ps[4])
+void smo_adaptor_fluid_heatin_(int *n, int ic[4], void *ps[4]
+      , double *fluidFlowActivationSignal)
 
 {
    int loop, error;
@@ -52,6 +53,12 @@ void smo_adaptor_fluid_heatin_(int *n, int ic[4], void *ps[4])
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    loop = 0;
    error = 0;
+
+/*
+   Check and/or reset the following fixed and/or discrete variable
+
+   *fluidFlowActivationSignal = ??;
+*/
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
@@ -80,10 +87,11 @@ void smo_adaptor_fluid_heatin_(int *n, int ic[4], void *ps[4])
       1 thermalNodeIndex     thermal node index [smoTHN] multi line macro 'smo_adaptor_fluid_heat_macro0_'  UNPLOTTABLE
       2 heatFlowIndex        heat flow index    [smoHFL] basic variable input  UNPLOTTABLE
 
-   Port 2 has 2 variables:
+   Port 2 has 3 variables:
 
-      1 fluidFlowIndex      fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidStateIndex     fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlowIndex                fluid flow index             [smoFFL]  basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] fixed  UNPLOTTABLE
+      3 fluidStateIndex               fluid state index            [smoTDS]  basic variable input  UNPLOTTABLE
 */
 
 /*  There are 0 internal variables.

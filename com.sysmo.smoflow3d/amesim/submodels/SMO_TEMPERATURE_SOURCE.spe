@@ -6,7 +6,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>6</SUB_ID_MAX>
   <DEFAULT_ICON>smo_temperature_source</DEFAULT_ICON>
-  <SUB_LABEL>conversion between linear variables and signal variables</SUB_LABEL>
+  <SUB_LABEL>temperature source (variable)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>2</I_STORES_NUMBER>
   <P_STORES_NUMBER>2</P_STORES_NUMBER>

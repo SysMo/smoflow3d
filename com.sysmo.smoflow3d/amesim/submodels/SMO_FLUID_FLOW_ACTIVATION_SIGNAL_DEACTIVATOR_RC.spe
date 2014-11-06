@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>28</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_fluid_flow_activation_signal_deactivator</DEFAULT_ICON>
+  <SUB_UNIT>0</SUB_UNIT>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>23</SUB_ID>
+     <VARNAME>fluidFlowIndexDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>1</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>28</SUB_ID>
+     <TITLE>fluid flow activation signal (port1)</TITLE>
+     <VARNAME>fluidFlowActivationSignal1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>5</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>smoFFAS</UNITS>
+     <MIN_VALUE>-1.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>-1.00000000000000e+000</DEF_VALUE>
+     <VALUE>-1.00000000000000e+000</VALUE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>21</SUB_ID>
+     <TITLE>fluid state index</TITLE>
+     <VARNAME>fluidStateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>22</SUB_ID>
+     <VARNAME>fluidStateIndexDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>18</SUB_ID>
+     <TITLE>fluid flow index</TITLE>
+     <VARNAME>fluidFlowIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>19</SUB_ID>
+     <TITLE>fluid flow activation signal (port 2)</TITLE>
+     <VARNAME>fluidFlowActivationSignal2</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>

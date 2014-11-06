@@ -23,6 +23,9 @@ public:
 	virtual void init(MediumState* state1);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
+	double getReynoldsNumber() {return friction->getReynoldsNumber();}
+	double getDragCoefficient() {return friction->getDragCoefficient();}
+
 protected:
 	FrictionFlowPipe* friction;
 };
@@ -34,11 +37,37 @@ DECLARE_C_STRUCT(Pipe_R)
 BEGIN_C_LINKAGE
 Pipe_R* Pipe_R_new(FrictionFlowPipe* friction);
 
-Pipe_R* CylindricalStraightPipe_R_new(
-		double diameter,
+Pipe_R* StraightPipe_R_new(
 		double length,
+		double hydraulicDiameter,
+		double flowArea,
 		double surfaceRoughness,
 		double pressureDropGain);
+
+Pipe_R* ElbowPipe_R_new(
+		double hydraulicDiameter,
+		double flowArea,
+		double surfaceRoughness,
+		double curvatureRadius,
+		double bendAngle,
+		double pressureDropGain);
+
+Pipe_R* ConstantDragCoefficientPipe_new(
+		double flowArea,
+		double dragCoefficient,
+		double pressureDropGain);
+
+Pipe_R* ConstantDragCoefficientStraightPipe_new(
+		double length,
+		double hydraulicDiameter,
+		double flowArea,
+		double surfaceRoughness,
+		double dragCoefficient,
+		double pressureDropGain);
+
+double Pipe_R_getReynoldsNumber(Pipe_R* pipe);
+double Pipe_R_getDragCoefficient(Pipe_R* pipe);
+
 
 END_C_LINKAGE
 

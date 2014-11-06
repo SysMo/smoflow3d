@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Sun Nov 10 14:09:34 2013 */
+   Thu Dec 5 10:51:02 2013 */
 
 
 
@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "flow/TwoPortValve.h"
+#include "flow/Valve.h"
 
 #define _component ps[0]
 
@@ -47,22 +47,24 @@ REVISIONS :
 */
 
 
-/* There is 1 integer parameter:
+/* There are 2 integer parameters:
 
-   allowBidirectionalFlow allow bi-directional flow
+   allowBidirectionalFlow       allow bi-directional flow       
+   useFluidFlowActivationSignal use fluid flow activation signal
 */
 
 void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
-      , int ip[1], int ic[3], void *ps[3])
+      , int ip[2], int ic[3], void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int allowBidirectionalFlow;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
    double orificeArea, flowCoefficient;
 
    allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
 
    orificeArea = rp[0];
    flowCoefficient = rp[1];
@@ -91,6 +93,11 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
       amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
       error = 2;
    }
+   if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
+   {
+      amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -110,7 +117,7 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = TwoPortValve_OrificeCompressibleIdealGas_new(
+   _component = Valve_OrificeCompressibleIdealGas_new(
 		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow = {1-no, 2-yes} - 1 = {0-no, 1-yes});
 		   orificeArea,
 		   flowCoefficient);
@@ -125,19 +132,21 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 fluidFlow1Index      fluid flow1 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidState1Index     fluid state1 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow1Index               fluid flow1 index                                                      [smoFFL]  basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignal     flow activation signal = {-1 - not used; 0 - deactivate; 1 - activate} [smoFFAS] basic variable output
+      3 fluidState1Index              fluid state1 index                                                     [smoTDS]  basic variable input  UNPLOTTABLE
 
    Port 2 has 1 variable:
 
       1 regulatingSignal     regulating signal [null] basic variable input
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 fluidFlow2Index      fluid flow2 index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 fluidState2Index     fluid state2 index [smoTDS] basic variable input  UNPLOTTABLE
+      1 fluidFlow2Index                  fluid flow2 index                                                      [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal                                
+      3 fluidState2Index                 fluid state2 index                                                     [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 4 internal variables.
@@ -149,21 +158,22 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 */
 
 void smo_orifice_compressible_ideal_gas_(int *n
-      , double *fluidFlow1Index, double *fluidState1Index
-      , double *regulatingSignal, double *fluidFlow2Index
-      , double *fluidState2Index, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureLoss
-      , double *flowType, double rp[2], int ip[1], int ic[3]
-      , void *ps[3], int *flag)
+      , double *fluidFlow1Index, double *fluidFlowActivationSignal
+      , double *fluidState1Index, double *regulatingSignal
+      , double *fluidFlow2Index, double *fluidState2Index
+      , double *massFlowRate, double *enthalpyFlowRate
+      , double *pressureLoss, double *flowType, double rp[2]
+      , int ip[2], int ic[3], void *ps[3], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int allowBidirectionalFlow;
+   int allowBidirectionalFlow, useFluidFlowActivationSignal;
    double orificeArea, flowCoefficient;
 
    allowBidirectionalFlow = ip[0];
+   useFluidFlowActivationSignal = ip[1];
 
    orificeArea = rp[0];
    flowCoefficient = rp[1];
@@ -179,6 +189,7 @@ void smo_orifice_compressible_ideal_gas_(int *n
    Set all submodel outputs below:
 
    *fluidFlow1Index = ??;
+   *fluidFlowActivationSignal = ??;
    *fluidFlow2Index = ??;
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
@@ -193,25 +204,36 @@ void smo_orifice_compressible_ideal_gas_(int *n
    if (firstc_()) {
 	   MediumState* state1 = MediumState_get(*fluidState1Index);
 	   MediumState* state2 = MediumState_get(*fluidState2Index);
-	   TwoPortValve_init(_component, state1, state2);
+	   Valve_init(_component, state1, state2);
    }
 
-   TwoPortValve_setRegulatingSignal(_component, *regulatingSignal);
-   TwoPortValve_compute(_component);
-   TwoPortValve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
+   Valve_setRegulatingSignal(_component, *regulatingSignal);
+   Valve_compute(_component);
+   Valve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
-   *pressureLoss = TwoPortValve_getAbsolutePressureDrop(_component);
-   *flowType = TwoPortValve_getFlowType(_component);
+   *pressureLoss = Valve_getAbsolutePressureDrop(_component);
+   *flowType = Valve_getFlowType(_component);
 
    *fluidFlow1Index = _fluidFlow1Index;
    *fluidFlow2Index = _fluidFlow2Index;
+
+   if (useFluidFlowActivationSignal == 1) { //no
+	   *fluidFlowActivationSignal = -1; //not used
+   } else { // yes
+	   if (Valve_getIsFlowClosed(_component) == 1) {
+		   *fluidFlowActivationSignal = 0; //deactivate flow
+	   } else {
+		   *fluidFlowActivationSignal = 1; //activate flow
+	   }
+   }
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 /*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
 /*   *fluidState2Index /= ??; CONVERSION UNKNOWN */

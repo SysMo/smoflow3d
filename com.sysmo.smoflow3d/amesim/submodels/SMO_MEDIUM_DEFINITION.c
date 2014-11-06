@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_DEFINITION skeleton created by AME Submodel editing utility
-   Tue Aug 20 12:18:55 2013 */
+   Sat Nov 30 14:30:33 2013 */
 
 
 

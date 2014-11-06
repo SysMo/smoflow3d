@@ -29,9 +29,6 @@ FlowComponent_R::FlowComponent_R() {
 	flow2 = FluidFlow_new();
 	flow2Index = FluidFlow_register(flow2);
 	SMOOBJECT_SET_PARENT_COMPONENT(flow2, this);
-
-	flagIsFlowOpen = true;
-	flagIsBidirectionalFlowAllowed = true;
 }
 
 FlowComponent_R::~FlowComponent_R() {
@@ -70,18 +67,6 @@ MediumState* FlowComponent_R::getDownstreamState(double massFlowRate) {
 	} else {
 		return state1;
 	}
-}
-
-bool FlowComponent_R::isFlowClosed(double massFlowRate) {
-	if (flagIsFlowOpen == false) {
-		return true;
-	}
-
-	if (massFlowRate < 0.0 && !isBidirectionalFlowAllowed()) {
-		return true;
-	}
-
-	return false;
 }
 
 double FlowComponent_R::getAbsolutePressureDrop() {

@@ -23,6 +23,7 @@ public:
 
 	virtual void init(MediumState* state1);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
+	virtual void compute_NoMassFlowRate();
 
 	void setHeatExchangerThermalNode(ThermalNode* wallNode) {this->wallNode = wallNode;}
 
@@ -45,17 +46,9 @@ PipeHeatExchanger_R* PipeHeatExhcanger_R_new(
 		FrictionFlowPipe* friction,
 		ForcedConvection* convection);
 
-PipeHeatExchanger_R* CylindricalStraightPipeHeatExchanger_R_new(
-		double diameter,
+PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		double length,
-		double surfaceRoughness,
-		double pressureDropGain,
-		double heatExchangeGain,
-		int heatExchangerLimitOutput);
-
-PipeHeatExchanger_R* NonCylindricalStraightPipeHeatExchanger_R_new(
 		double hydraulicDiameter,
-		double length,
 		double flowArea,
 		double surfaceRoughness,
 		double pressureDropGain,

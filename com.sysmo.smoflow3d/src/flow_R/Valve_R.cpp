@@ -71,9 +71,10 @@ Valve_R* ValveKv_R_new(
 	);
 
 	Valve_R* valve = new Valve_R(friction);
-	if (allowBidirectionalFlow == 0) {
+	if (allowBidirectionalFlow == 0) { //0 - no
 		valve->setIsBidirectionalFlowAllowed(false);
 	}
+
 	return valve;
 }
 

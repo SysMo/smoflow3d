@@ -55,6 +55,11 @@ bool PipeHeatExchanger_R::compute(double massFlowRate, double minDownstreamPress
 	return true;
 }
 
+void  PipeHeatExchanger_R::compute_NoMassFlowRate() {
+	convection->compute_NoHeatFlow();
+	convection->updateHeatFlow(wallHeatFlow);
+}
+
 /**
  * PipeHeatExchanger_R - C
  */
@@ -62,40 +67,18 @@ PipeHeatExchanger_R* PipeHeatExhcanger_R_new(FrictionFlowPipe* friction, ForcedC
 	return new PipeHeatExchanger_R(friction, convection);
 }
 
-PipeHeatExchanger_R* CylindricalStraightPipeHeatExchanger_R_new(
-		double diameter,
+PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		double length,
-		double surfaceRoughness,
-		double pressureDropGain,
-		double heatExchangeGain,
-		int heatExchangerLimitOutput) {
-	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(diameter, length, surfaceRoughness);
-	friction->setPressureDropGain(pressureDropGain);
-
-	double flowArea = M_PI / 4 * diameter * diameter;
-	ForcedConvection* convection = ForcedConvection_StraightPipe_new(diameter, flowArea, length);
-	convection->setHeatExchangeGain(heatExchangeGain);
-	if (heatExchangerLimitOutput == 1) {
-		convection->setLimitOutput(true);
-	} else {
-		convection->setLimitOutput(false);
-	}
-
-	return PipeHeatExhcanger_R_new(friction, convection);
-}
-
-PipeHeatExchanger_R* NonCylindricalStraightPipeHeatExchanger_R_new(
 		double hydraulicDiameter,
-		double length,
 		double flowArea,
 		double surfaceRoughness,
 		double pressureDropGain,
 		double heatExchangeGain,
 		int heatExchangerLimitOutput) {
-	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(hydraulicDiameter, length, surfaceRoughness);
+	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(length, hydraulicDiameter, flowArea, surfaceRoughness);
 	friction->setPressureDropGain(pressureDropGain);
 
-	ForcedConvection* convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowArea, length);
+	ForcedConvection* convection = ForcedConvection_StraightPipe_new(length, hydraulicDiameter, flowArea);
 	convection->setHeatExchangeGain(heatExchangeGain);
 	if (heatExchangerLimitOutput == 1) {
 		convection->setLimitOutput(true);

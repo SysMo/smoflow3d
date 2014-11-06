@@ -46,7 +46,7 @@ add_library(SmoFlow SHARED
     media/MediumStateSolid.cpp
     media/definitions/SolidDefinitions.cpp
     flow/FlowBase.cpp    
-    flow/TwoPortValve.cpp
+    flow/Valve.cpp
     flow/MechanicalCompressor.cpp
     flow/ThermalConductionElement.cpp
     flow/Convection.cpp
@@ -64,10 +64,10 @@ add_library(SmoFlow SHARED
     flow_R/ManagerComponents_R.cpp
     volumes/FluidChamber.cpp
     volumes/ThermalNode.cpp
-    volumes/PipeHeatExch_C.cpp
-    volumes/PipeHeatExchPrDrop_RC.cpp
-    volumes/PipeHeatExchNoPrDropNoMassAcc_RC.cpp
-    volumes/PipeHeatExchNoPrDropNoMassAcc_CR.cpp
+    volumes/PipeHeatExchNoPrDropMassAcc_C.cpp
+    volumes/PipeHeatExchPrDropMassAcc_RC.cpp
+    volumes/HeatExchNoPrDropNoMassAcc_RC.cpp
+    volumes/HeatExchNoPrDropNoMassAcc_CR.cpp
     ${MU_PARSER_FILES}
 )
 
@@ -86,4 +86,3 @@ add_smo_test(MediaHydrogenTest "test/MediaHydrogen.cpp;")
 add_smo_test(FunctorsTest "test/Functors.cpp;")
 add_smo_test(MediumSolidTest "test/MediumSolid.cpp;")
 add_smo_test(IOControlTest "test/IOControl.cpp;")
-#add_smo_test(RComponents "test/RComponents.cpp;")

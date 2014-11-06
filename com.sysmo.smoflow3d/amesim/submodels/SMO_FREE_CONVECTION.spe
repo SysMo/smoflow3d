@@ -4,9 +4,9 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>47</SUB_ID_MAX>
+  <SUB_ID_MAX>56</SUB_ID_MAX>
   <DEFAULT_ICON>smo_free_convection</DEFAULT_ICON>
-  <SUB_LABEL>adaptor between fluid and heat</SUB_LABEL>
+  <SUB_LABEL>free convection heat exchange</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>4</I_STORES_NUMBER>
   <P_STORES_NUMBER>4</P_STORES_NUMBER>
@@ -285,6 +285,21 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>56</SUB_ID>
+     <TITLE>fluid flow activation signal</TITLE>
+     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <VISIBILITY>False</VISIBILITY>
+     <TYPE>5</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFAS</UNITS>
+     <MIN_VALUE>-1.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>-1.00000000000000e+000</DEF_VALUE>
+     <VALUE>-1.00000000000000e+000</VALUE>
     </EVAR>
     <EVAR>
      <SUB_ID>6</SUB_ID>

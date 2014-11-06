@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>38</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_r_pipe_elbow</DEFAULT_ICON>
+  <SUB_LABEL>R-elbow pipe</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>3</I_STORES_NUMBER>
+  <P_STORES_NUMBER>3</P_STORES_NUMBER>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>23</SUB_ID>
+    <TITLE>hydraulic diameter</TITLE>
+    <VARNAME>hydraulicDiameter</VARNAME>
+    <VISIBILITY>true</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e+000</DEF_VALUE>
+    <VALUE>5.00000000000000e+000</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>30</SUB_ID>
+    <TITLE>flow (cross sectional) area</TITLE>
+    <VARNAME>flowArea</VARNAME>
+    <VISIBILITY>geometryType !=1</VISIBILITY>
+    <DEF_VALUE>1.96250000000000e+001</DEF_VALUE>
+    <VALUE>1.96250000000000e+001</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm**2</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>25</SUB_ID>
+    <TITLE>absolute roughness</TITLE>
+    <VARNAME>absoluteRoughness</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>2.50000000000000e-002</DEF_VALUE>
+    <VALUE>2.50000000000000e-002</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>26</SUB_ID>
+    <TITLE>pressure drop gain</TITLE>
+    <VARNAME>pressureDropGain</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>-1.00000000000000e+030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>33</SUB_ID>
+    <TITLE>curvature radius</TITLE>
+    <VARNAME>curvatureRadius</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
+    <VALUE>1.00000000000000e+000</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>34</SUB_ID>
+    <TITLE>bend angle</TITLE>
+    <VARNAME>bendAngle</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>9.00000000000000e+001</DEF_VALUE>
+    <VALUE>9.00000000000000e+001</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.80000000000000e+002</MAX_VALUE>
+    <UNITS>degree</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>28</SUB_ID>
+    <TITLE>geometry type</TITLE>
+    <VARNAME>geometryType</VARNAME>
+    <VISIBILITY>true</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>cylindrical straight pipe</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>non-cylindrical straight pipe</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>16</SUB_ID>
+    <TITLE>mass flow rate (at port3)</TITLE>
+    <VARNAME>massFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/s</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>17</SUB_ID>
+    <TITLE>enthalpy flow rate (at port3)</TITLE>
+    <VARNAME>enthalpyFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>18</SUB_ID>
+    <TITLE>total pressure loss</TITLE>
+    <VARNAME>pressureLoss</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <IS_DELTA>1</IS_DELTA>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>37</SUB_ID>
+    <TITLE>Reynolds number</TITLE>
+    <VARNAME>reynoldsNumber</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>38</SUB_ID>
+    <TITLE>drag coefficient</TITLE>
+    <VARNAME>dragCoefficient</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>7</SUB_ID>
+     <TITLE>R-component ID (ouput, port1)</TITLE>
+     <VARNAME>outputRCompID1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRCompID</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>8</SUB_ID>
+     <TITLE>R-component ID (input, port1)</TITLE>
+     <VARNAME>inputRCompID1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRCompID</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>9</SUB_ID>
+     <TITLE>R-components chain ID</TITLE>
+     <VARNAME>smoRChainID</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRChainID</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>10</SUB_ID>
+     <TITLE>R-component ID (output, port2)</TITLE>
+     <VARNAME>outputRCompID2</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRCompID</UNITS>
+     <EXPRESS2>@_1_2, @_1_3</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>11</SUB_ID>
+     <VARNAME>smoRChainIDDupl</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>12</SUB_ID>
+     <TITLE>R-component ID (input, port2)</TITLE>
+     <VARNAME>inputRCompID2</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRCompID</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+ </SUBMODEL>
+</SPE>

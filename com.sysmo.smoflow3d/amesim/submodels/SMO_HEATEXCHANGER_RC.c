@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_RC skeleton created by AME Submodel editing utility
-   Sat Nov 2 11:57:42 2013 */
+   Sat Nov 30 15:47:08 2013 */
 
 
 
@@ -28,7 +28,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "volumes/PipeHeatExchNoPrDropNoMassAcc_RC.h"
+#include "volumes/HeatExchNoPrDropNoMassAcc_RC.h"
 
 #define _inletFluidState ps[0]
 #define _inletFluidStateIndex ic[0]
@@ -135,23 +135,29 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    if (heatExchangeCalculationMethod == 1) {
-	   _component = PipeHeatExchNoPrDropNoMassAcc_RC_Efficiency_new(heatExhcangeEfficienccy, tauOutput);
+	   _component = HeatExchNoPrDropNoMassAcc_RC_Efficiency_new(heatExhcangeEfficienccy, tauOutput);
    } else {
 	   double flowAreaValue;
-	   if (geometryType == 1) {
+	   double heatExchangeArea;
+	   if (geometryType == 1) { //cylindrical pipe
 		   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
-	   } else {
+		   double perimeter = M_PI * hydraulicDiameter;
+		   heatExchangeArea =  perimeter * pipeLength;
+	   } else { //non-cylindrical pipe
 		   flowAreaValue = flowArea;
+		   double perimeter = 4 * flowAreaValue / hydraulicDiameter;
+		   heatExchangeArea = perimeter * pipeLength;
 	   }
+
 	   if (heatExchangeCalculationMethod == 2) {
-		   double heatExchangeArea = 4 * flowAreaValue / hydraulicDiameter * pipeLength;
 		   _convection = ForcedConvection_GivenConvectionCoefficient_new(heatExchangeArea);
 		   Convection_setConvectionCoefficient(_convection, convectionCoefficientGiven);
 	   } else {
-		   _convection = ForcedConvection_StraightPipe_new(hydraulicDiameter, flowAreaValue, pipeLength);
+		   _convection = ForcedConvection_StraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue);
 	   }
+
 	   Convection_setHeatExchangeGain(_convection, heatExchangeGain);
-	   _component = PipeHeatExchNoPrDropNoMassAcc_RC_Convection_new(_convection, tauOutput);
+	   _component = HeatExchNoPrDropNoMassAcc_RC_Convection_new(_convection, tauOutput);
    }
 
    SMOCOMPONENT_SET_PROPS(_component)
@@ -160,20 +166,22 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 
 /*  There are 3 ports.
 
-   Port 1 has 2 variables:
+   Port 1 has 3 variables:
 
-      1 inletFluidFlowIndex      inlet fluid flow index  [smoFFL] basic variable output  UNPLOTTABLE
-      2 inletFluidStateIndex     inlet fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      1 inletFluidFlowIndex              inlet fluid flow index       [smoFFL] basic variable output  UNPLOTTABLE
+      2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
+      3 inletFluidStateIndex             inlet fluid state index      [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
       1 heatFlowIndex        heat flow index    [smoHFL] basic variable output  UNPLOTTABLE
       2 thermalNodeIndex     thermal node index [smoTHN] basic variable input  UNPLOTTABLE
 
-   Port 3 has 2 variables:
+   Port 3 has 3 variables:
 
-      1 outletFluidStateIndex     outlet fluid state index [smoTDS] multi line macro 'smo_heatexchanger_rc_macro0_'  UNPLOTTABLE
-      2 outletFluidFlowIndex      outlet fluid flow index  [smoFFL] basic variable input  UNPLOTTABLE
+      1 outletFluidStateIndex         outlet fluid state index     [smoTDS]  multi line macro 'smo_heatexchanger_rc_macro0_'  UNPLOTTABLE
+      2 outletFluidFlowIndex          outlet fluid flow index      [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 */
 
 /*  There are 6 internal variables.
@@ -189,7 +197,8 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[2]
 void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
       , double *inletFluidStateIndex, double *heatFlowIndex
       , double *thermalNodeIndex, double *outletFluidStateIndex
-      , double *outletFluidFlowIndex, double *inletTemperature
+      , double *outletFluidFlowIndex
+      , double *fluidFlowActivationSignal, double *inletTemperature
       , double *outletTemperature, double *outletStateValue
       , double *outletStateValueDot, double *reynoldsNumber
       , double *convectionCoefficient, double *heatFlowRateFromWall
@@ -223,6 +232,7 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
 /*   *outletFluidStateIndex *= ??; CONVERSION UNKNOWN */
 /*   *outletFluidFlowIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
 
 /*
    Set all submodel outputs below:
@@ -243,22 +253,22 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
    SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   FluidFlow* outletFlow = FluidFlow_get(*outletFluidFlowIndex);
-	   PipeHeatExchNoPrDropNoMassAcc_RC_init(_component, outletFlow);
+	   HeatExchNoPrDropNoMassAcc_RC_init(_component, outletFlow);
 
-	   _inletFluidFlow = PipeHeatExchNoPrDropNoMassAcc_RC_getPort1Flow(_component);
+	   _inletFluidFlow = HeatExchNoPrDropNoMassAcc_RC_getPort1Flow(_component);
 	   _inletFluidFlowIndex = SmoObject_getInstanceIndex(_inletFluidFlow);
 
-	   _wallHeatFlow = PipeHeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(_component);
+	   _wallHeatFlow = HeatExchNoPrDropNoMassAcc_RC_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
 
-   PipeHeatExchNoPrDropNoMassAcc_RC_compute(_component);
+   HeatExchNoPrDropNoMassAcc_RC_compute(_component);
 
    *inletFluidFlowIndex = _inletFluidFlowIndex;
    *heatFlowIndex = _wallHeatFlowIndex;
    *inletTemperature = MediumState_T(_inletFluidState);
    *outletTemperature = MediumState_T(_outletFluidState);
-   *outletStateValueDot = PipeHeatExchNoPrDropNoMassAcc_RC_getStateDerivative(_component);
+   *outletStateValueDot = HeatExchNoPrDropNoMassAcc_RC_getStateDerivative(_component);
    *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
 
    if (heatExchangeCalculationMethod != 1) {
@@ -275,6 +285,7 @@ void smo_heatexchanger_rc_(int *n, double *inletFluidFlowIndex
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
 /*   *outletFluidStateIndex /= ??; CONVERSION UNKNOWN */
 /*   *outletFluidFlowIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
 }
 
 extern double smo_heatexchanger_rc_macro0_(int *n
@@ -325,14 +336,14 @@ extern double smo_heatexchanger_rc_macro0_(int *n
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 
 	   // Initialize outlet
-	   PipeHeatExchNoPrDropNoMassAcc_RC_initStates(_component, _inletFluidState, wallNode);
+	   HeatExchNoPrDropNoMassAcc_RC_initStates(_component, _inletFluidState, wallNode);
 
-	   _outletFluidState = PipeHeatExchNoPrDropNoMassAcc_RC_getPort2State(_component);
+	   _outletFluidState = HeatExchNoPrDropNoMassAcc_RC_getPort2State(_component);
 	   _outletFluidStateIndex = SmoObject_getInstanceIndex(_outletFluidState);
 
-	   *outletStateValue = PipeHeatExchNoPrDropNoMassAcc_RC_getStateValue(_component);
+	   *outletStateValue = HeatExchNoPrDropNoMassAcc_RC_getStateValue(_component);
    } else {
-	   PipeHeatExchNoPrDropNoMassAcc_RC_setStateValue(_component, *outletStateValue);
+	   HeatExchNoPrDropNoMassAcc_RC_setStateValue(_component, *outletStateValue);
    }
 
    outletFluidStateIndex = _outletFluidStateIndex;
