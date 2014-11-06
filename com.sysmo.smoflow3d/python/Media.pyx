@@ -51,8 +51,6 @@ cdef class MediumState:
 	def h(self):
 		return self.ptr.h()
 	
-	def h(self):
-		return self.ptr.h()		
 	def s(self):
 		return self.ptr.s()
 	def u(self):
