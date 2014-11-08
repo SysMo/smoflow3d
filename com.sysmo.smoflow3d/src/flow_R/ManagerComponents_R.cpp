@@ -34,10 +34,6 @@ ManagerComponents_R::ManagerComponents_R() {
 	discFlag_isFlowDirectionChanged_isInit = false;
 
 	cache_massFlowRate = cst::zeroMassFlowRate;
-	cache_outerState1_p = cst::zeroPressure;
-	cache_outerState1_h = cst::zeroSpecEnthalpy;
-	cache_outerState2_p = cst::zeroPressure;
-	cache_outerState2_h = cst::zeroSpecEnthalpy;
 }
 
 ManagerComponents_R::~ManagerComponents_R() {
@@ -191,19 +187,6 @@ double ManagerComponents_R::computeMassFlowRate() {
 		isFlowClosed = true;
 		return cst::zeroMassFlowRate;
 	}
-	isFlowClosed = false;
-
-
-	// Cached the outer pressures and enthalpies
-	if (cache_outerState1_p == outerState1->p() && cache_outerState2_p == outerState2->p()
-			&& cache_outerState1_h == outerState1->h() && cache_outerState2_h == outerState2->h()){
-		return cache_massFlowRate;
-	}
-	cache_outerState1_p =  outerState1->p();
-	cache_outerState1_h = outerState1->h();
-	cache_outerState2_p =  outerState2->p();
-	cache_outerState2_h = outerState2->h();
-
 
 	// Initialize
 	double up_MassFlowRate = 0.0;
@@ -232,6 +215,11 @@ double ManagerComponents_R::computeMassFlowRate() {
 	double minDownstreamPressure = m::min(1.0*1e5, 0.1*downstreamPressure); //:TRICKY:
 	int numIter;
 	for (numIter = 1; numIter < maxNumIter; numIter++) {
+		if (m::fabs(massFlowRate) < cst::MinMassFlowRate) {
+			isFlowClosed = true;
+			return cst::zeroMassFlowRate;
+		}
+
 		bool succ;
 		for (int i = 0; i < numComponents; i++) {
 			int componentIndex = (reverseStream) ? numComponents - i - 1 : i;
@@ -311,6 +299,7 @@ double ManagerComponents_R::computeMassFlowRate() {
 		RaiseComponentError(upstreamComponent, "Computation of the mass flow rate in a R-components chain did not converge.");
 	}
 
+	isFlowClosed = false;
 	return massFlowRate;
 }
 

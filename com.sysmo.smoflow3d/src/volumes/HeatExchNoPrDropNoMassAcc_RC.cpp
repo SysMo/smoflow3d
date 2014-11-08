@@ -122,6 +122,7 @@ public:
 	virtual void initStates(MediumState* port1State, ThermalNode* wallNode) {
 		HeatExchNoPrDropNoMassAcc_RC::initStates(port1State, wallNode);
 		convection->init(port1State, port2State, wallNode);
+		convection->setLimitOutput(false);
 
 		port2LimitState = MediumState_new(port1State->getMedium());
 		MediumState_register(port2LimitState);
@@ -133,6 +134,7 @@ public:
 		if (massFlowRate < 0.0) {
 			RaiseComponentError(this, "Reverse flow encouuntered. Restrict the flow direction, e.g. by adding check valve.");
 		}
+
 		port1Flow->massFlowRate = port2Flow->massFlowRate;
 		port1Flow->enthalpyFlowRate = port1Flow->massFlowRate * port1State->h();
 		wallHeatFlow->enthalpyFlowRate = massFlowRate * (port1State->h() - port2State->h());

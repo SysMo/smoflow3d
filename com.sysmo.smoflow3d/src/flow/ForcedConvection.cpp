@@ -17,7 +17,7 @@ ForcedConvection::ForcedConvection() {
 	flowArea = 0.0;
 
 	fluidState2 = NULL;
-	limitOutput = false;
+	limitOutput = true;
 	limitState = NULL;
 
 	Re = 0.0;
@@ -44,13 +44,14 @@ void ForcedConvection::compute(double massFlowRate) {
 	} else {
 		upstreamFluidState = fluidState2;
 	}
+	double absMassFlowRate = m::fabs(massFlowRate);
 
 	// Calculate film state
 	double fluidTemperature = upstreamFluidState->T();
 	double wallTemperature = wallNode->getTemperature();
 
 	double wallOverheat = wallTemperature - fluidTemperature;
-	if (m::fabs(massFlowRate) < cst::MinMassFlowRate) {
+	if (absMassFlowRate < cst::MinMassFlowRate) {
 		Re = 0;
 		Pr = 0;
 		Nu = 3.66;
@@ -64,27 +65,23 @@ void ForcedConvection::compute(double massFlowRate) {
 	double filmTemperature = (fluidTemperature + wallTemperature)/2;
 	filmState->update_Tp(filmTemperature, upstreamFluidState->p());
 
-	double absMassFlowRate = m::fabs(massFlowRate);
 	double vFlow =  absMassFlowRate / filmState->rho() / flowArea;
 	Re = filmState->rho() * vFlow * characteristicLength / filmState->mu();
 	Pr = filmState->Pr();
 	Nu = computeNusseltNumber(Re, Pr);
 	convectionCoefficient = Nu * filmState->lambda() / characteristicLength;
-	heatFlowRate = heatExchangeGain * convectionCoefficient
-			* heatExchangeArea * wallOverheat;
-	double outletSpecEnthalpy = upstreamFluidState->h()
-			+ heatFlowRate / massFlowRate;
+
+	heatFlowRate = heatExchangeGain * convectionCoefficient * heatExchangeArea * wallOverheat;
+
 	if (limitOutput) {
 		limitState->update_Tp(wallTemperature, upstreamFluidState->p());
-		if (wallTemperature > fluidTemperature) {
-			// Ensure the outlet temperature is not above wall temperature
-			outletSpecEnthalpy = m::min(outletSpecEnthalpy, limitState->h());
-		} else {
-			// Ensure the outlet temperature is not below wall temperature
-			outletSpecEnthalpy = m::max(outletSpecEnthalpy, limitState->h());
-		}
 
-		heatFlowRate = absMassFlowRate * (outletSpecEnthalpy - upstreamFluidState->h());
+		double limitHeatFlowRate = absMassFlowRate * (limitState->h() - upstreamFluidState->h());
+		if (heatFlowRate > 0) {
+			heatFlowRate = m::min(heatFlowRate, limitHeatFlowRate);
+		} else {
+			heatFlowRate = m::max(heatFlowRate, limitHeatFlowRate);
+		}
 	}
 }
 
@@ -108,14 +105,14 @@ public:
 		this->heatExchangeArea = heatExchangeArea;
 	}
 
-	void compute() {
+	virtual void compute(double massFlowRate) {
 		double fluidTemperature = fluidState->T();
 		double wallTemperature = wallNode->getTemperature();
 		double wallOverheat = wallTemperature - fluidTemperature;
-		Re = 0;
-		Pr = 0;
-		Nu = 0;
-		heatFlowRate = heatExchangeGain *convectionCoefficient
+		Re = 0.0;
+		Pr = 0.0;
+		Nu = 0.0;
+		heatFlowRate = heatExchangeGain * convectionCoefficient
 				* heatExchangeArea * wallOverheat;
 	}
 
