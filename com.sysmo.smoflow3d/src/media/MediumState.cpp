@@ -62,6 +62,12 @@ void MediumState::init(
 	}
 }
 
+void MediumState::init(std::string state1, double state1Value,
+		std::string state2, double state2Value) {
+	RaiseError("Unimplemented virtual method 'MediumState::init(string, double, string, double)'");
+}
+
+
 void MediumState::init(StateVariableSet& stateStruct) {
 	this->init(stateStruct.state1, stateStruct.state1Value,
 			stateStruct.state2, stateStruct.state2Value);
