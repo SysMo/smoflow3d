@@ -83,9 +83,28 @@ void MediumState_FluidCoolProp::init(std::string state1, double state1Value,
 	if (index2 == -1) {
 		RaiseError("No such state variable name " << state2);
 	}
-	pre_update();
+	// Pre-update
+	prevState.p = _p;
+	prevState.T = _T;
+	prevState.rho = _rho;
+	prevState.h = _h;
+	prevState.q = _q;
+	this->clearState();
+	this->clearPropertyCache();
+
 	cps.update(index1, state1Value, index2, state2Value);
-	post_update();
+	_T = cps.T();
+	_p = cps.p();
+	_rho = cps.rho();
+	_h = cps.h();
+	if (!ValidNumber(_q)) {
+		if (isTwoPhase()) {
+			_q = cps.Q();
+		} else {
+			_q = -1.0;
+		}
+	}
+
 }
 
 
