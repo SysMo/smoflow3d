@@ -165,13 +165,69 @@ protected:
 	inline double NuTurbulent(double Re, double Pr) {
 		// Friction factor - @see VDI Heat Atlas, page 696, Eq. (26) and (27)
 		// Range of validity: 1e4 < Re < 1e6, 0.1 < Pr < 1000
+
 		// Limit the Prandtl number, to prevent crashing around the critical point
 		//m::limitVariable(Pr, 0, 100);
+
 		double xi = m::pow(1.8 * m::log10(Re) - 1.5, -2);
 		double NuNum = (xi / 8) * Re * Pr;
 		double NuDenom = 1 + 12.7 * m::sqrt(xi / 8) * (m::pow(Pr, 2./3) - 1);
 		return NuNum/NuDenom;
 	}
+};
+
+
+/**
+ * ForcedConvection 'Straight Pipe with Nusselt Expression' model - C++
+ */
+class ForcedConvection_StraightPipe_NusseltExpression : public ForcedConvection {
+public:
+	ForcedConvection_StraightPipe_NusseltExpression(
+			double length, double hydraulicDiameter, double flowArea,
+			const char* nusseltExpressionLaminarFlow, const char* nusseltExpressionTurbulentFlow,
+			double criticalReynoldsNumber_EndLaminarFlow, double criticalReynoldsNumber_StartTurbulentFlow) {
+		this->characteristicLength = hydraulicDiameter;
+		this->flowArea = flowArea;
+		double perimeter = 4 * flowArea / hydraulicDiameter;
+		this->heatExchangeArea = perimeter * length;
+
+		this->nusseltExpressionLaminarFlow = FunctorTwoVariables_Expression_new(nusseltExpressionLaminarFlow, "Re", "Pr");
+		this->nusseltExpressionTurbulentFlow = FunctorTwoVariables_Expression_new(nusseltExpressionTurbulentFlow, "Re", "Pr");
+		this->ReL = criticalReynoldsNumber_EndLaminarFlow;
+		this->ReH = criticalReynoldsNumber_StartTurbulentFlow;
+	}
+
+	double computeNusseltNumber(double Re, double Pr) {
+		double ReL = this->ReL;
+		double ReH = this->ReH;
+
+		double Nu;
+		if (Re < ReL) {
+			Nu = NuLaminar(Re, Pr);
+		} else if (Re > ReH) {
+			Nu = NuTurbulent(Re, Pr);
+		} else {
+			// Interpolation coefficient
+			double gamma = (Re - ReL) / (ReH - ReL);
+			Nu = (1 - gamma) * NuLaminar(ReL, Pr) + gamma * NuTurbulent(ReH, Pr);
+		}
+		return Nu;
+	}
+
+protected:
+	inline double NuLaminar(double Re, double Pr) {
+		return  (*nusseltExpressionLaminarFlow)(Re, Pr);
+	}
+
+	inline double NuTurbulent(double Re, double Pr) {
+		return  (*nusseltExpressionTurbulentFlow)(Re, Pr);
+	}
+
+protected:
+	FunctorTwoVariables* nusseltExpressionLaminarFlow;
+	FunctorTwoVariables* nusseltExpressionTurbulentFlow;
+	double ReL;
+	double ReH;
 };
 
 
@@ -186,6 +242,15 @@ ForcedConvection* ForcedConvection_StraightPipe_new(double length, double hydrau
 	return new ForcedConvection_StraightPipe(length, hydraulicDiameter, flowArea);
 }
 
+ForcedConvection* ForcedConvection_StraightPipe_NusseltExpression_new(
+		double length, double hydraulicDiameter, double flowArea,
+		const char* nusseltExpressionLaminarFlow, const char* nusseltExpressionTurbulentFlow,
+		double criticalReynoldsNumber_EndLaminarFlow, double criticalReynoldsNumber_StartTurbulentFlow) {
+	return new ForcedConvection_StraightPipe_NusseltExpression(length,
+			hydraulicDiameter, flowArea,
+			nusseltExpressionLaminarFlow, nusseltExpressionTurbulentFlow,
+			criticalReynoldsNumber_EndLaminarFlow, criticalReynoldsNumber_StartTurbulentFlow);
+}
 
 /**
  * ForcedConvection - C
