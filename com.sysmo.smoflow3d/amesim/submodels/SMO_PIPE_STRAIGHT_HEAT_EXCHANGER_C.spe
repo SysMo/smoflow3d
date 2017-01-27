@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>169</SUB_ID_MAX>
+  <SUB_ID_MAX>171</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_straight_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>straight pipe with heat exchanger (no pressure drop, mass accumulation) (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -134,6 +134,17 @@
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
     <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>171</SUB_ID>
+    <TITLE>hydraulic diameter of the injector (0 - no injector)</TITLE>
+    <VARNAME>hydraulicDiameterInjector</VARNAME>
+    <VISIBILITY>convCalcMethod == 2</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
+    <VALUE>0.00000000000000e+00</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm</UNITS>
    </RPARAM>
   </RPARAMS_LIST>
   <IPARAMS_LIST>

@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C skeleton created by AME Submodel editing utility
-   Tue Jan 17 12:54:15 2017 */
+   Tue Jan 17 14:10:22 2017 */
 
 
 
@@ -41,19 +41,20 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 11 real parameters:
+/* There are 12 real parameters:
 
-   hydraulicDiameter      hydraulic diameter                              [mm -> m]
-   pipeLength             pipe length                                     [m]
-   flowArea               flow (cross sectional) area                     [mm**2 -> m**2]
-   heatExchangeGain       heat exchange gain                              [null]
-   initialPressure        initial pressure                                [barA -> PaA]
-   initialTemperature     initial temperature (K)                         [K]
-   initialTemperatureC    initial temperature (°C)                        [degC]
-   initialGasMassFraction initial gas mass fraction                       [null]
-   initialSuperheat       initial superheat                               [K]
-   ReL                    critical Reynolds number (end laminar flow)     [null]
-   ReH                    critical Reynolds number (start turbulent flow) [null]
+   hydraulicDiameter         hydraulic diameter                                   [mm -> m]
+   pipeLength                pipe length                                          [m]
+   flowArea                  flow (cross sectional) area                          [mm**2 -> m**2]
+   heatExchangeGain          heat exchange gain                                   [null]
+   initialPressure           initial pressure                                     [barA -> PaA]
+   initialTemperature        initial temperature (K)                              [K]
+   initialTemperatureC       initial temperature (°C)                             [degC]
+   initialGasMassFraction    initial gas mass fraction                            [null]
+   initialSuperheat          initial superheat                                    [K]
+   ReL                       critical Reynolds number (end laminar flow)          [null]
+   ReH                       critical Reynolds number (start turbulent flow)      [null]
+   hydraulicDiameterInjector hydraulic diameter of the injector (0 - no injector) [mm -> m]
 */
 
 
@@ -74,7 +75,7 @@ REVISIONS :
    nusseltExpressionTurbulentFlow nusselt correlation expression Nu=f(Re, Pr) - turbulent flow
 */
 
-void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
+void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[12]
       , int ip[6], char *tp[2], int ic[2], void *ps[4]
       , double stateValues[2])
 
@@ -87,7 +88,8 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
       stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, heatExchangeGain, 
       initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, ReL, ReH;
+      initialGasMassFraction, initialSuperheat, ReL, ReH, 
+      hydraulicDiameterInjector;
    char *nusseltExpressionLaminarFlow, *nusseltExpressionTurbulentFlow;
 
    fluidIndex = ip[0];
@@ -108,6 +110,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
    initialSuperheat = rp[8];
    ReL        = rp[9];
    ReH        = rp[10];
+   hydraulicDiameterInjector = rp[11];
 
    nusseltExpressionLaminarFlow = tp[0];
    nusseltExpressionTurbulentFlow = tp[1];
@@ -117,7 +120,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
 /*
    If necessary, check values of the following:
 
-   rp[0..10]
+   rp[0..11]
    stateValues[0..1]
 */
 
@@ -177,6 +180,8 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
    flowArea   = rp[2];
    rp[4]    *= 1.00000000000000e+005;
    initialPressure = rp[4];
+   rp[11]   *= 1.00000000000000e-003;
+   hydraulicDiameterInjector = rp[11];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
@@ -191,7 +196,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
 	   _convection = ForcedConvection_StraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue);
    } else { //user expression for Nuselt number
 		_convection = ForcedConvection_StraightPipe_NusseltExpression_new(pipeLength, hydraulicDiameter, flowAreaValue,
-				nusseltExpressionLaminarFlow, nusseltExpressionTurbulentFlow, ReL, ReH);
+				nusseltExpressionLaminarFlow, nusseltExpressionTurbulentFlow, ReL, ReH, hydraulicDiameterInjector);
    }
  
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
@@ -265,7 +270,7 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
       , double *internalVolume, double stateValues[2]
       , double stateValuesDot[2], double *reynoldsNumber
       , double *convectionCoefficient, double *heatFlowRateFromWall
-      , double rp[11], int ip[6], char *tp[2], int ic[2], void *ps[4]
+      , double rp[12], int ip[6], char *tp[2], int ic[2], void *ps[4]
       , int *flag)
 
 {
@@ -277,7 +282,8 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
       stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, heatExchangeGain, 
       initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, ReL, ReH;
+      initialGasMassFraction, initialSuperheat, ReL, ReH, 
+      hydraulicDiameterInjector;
    char *nusseltExpressionLaminarFlow, *nusseltExpressionTurbulentFlow;
 
    fluidIndex = ip[0];
@@ -298,6 +304,7 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
    initialSuperheat = rp[8];
    ReL        = rp[9];
    ReH        = rp[10];
+   hydraulicDiameterInjector = rp[11];
 
    nusseltExpressionLaminarFlow = tp[0];
    nusseltExpressionTurbulentFlow = tp[1];
@@ -375,7 +382,7 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
 }
 
 extern double smo_pipe_straight_heat_exchanger_c_macro0_(int *n
-      , double *thermalNodeIndex, double stateValues[2], double rp[11]
+      , double *thermalNodeIndex, double stateValues[2], double rp[12]
       , int ip[6], char *tp[2], int ic[2], void *ps[4], int *flag)
 
 {
@@ -388,7 +395,8 @@ extern double smo_pipe_straight_heat_exchanger_c_macro0_(int *n
       stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, heatExchangeGain, 
       initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, ReL, ReH;
+      initialGasMassFraction, initialSuperheat, ReL, ReH, 
+      hydraulicDiameterInjector;
    char *nusseltExpressionLaminarFlow, *nusseltExpressionTurbulentFlow;
 
    fluidIndex = ip[0];
@@ -409,6 +417,7 @@ extern double smo_pipe_straight_heat_exchanger_c_macro0_(int *n
    initialSuperheat = rp[8];
    ReL        = rp[9];
    ReH        = rp[10];
+   hydraulicDiameterInjector = rp[11];
 
    nusseltExpressionLaminarFlow = tp[0];
    nusseltExpressionTurbulentFlow = tp[1];

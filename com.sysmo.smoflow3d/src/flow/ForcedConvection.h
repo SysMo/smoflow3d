@@ -34,6 +34,8 @@ protected:
 	bool limitOutput;
 
 	double Re;
+
+	double hydraulicDiameterInjector;
 };
 
 #else // __cplusplus
@@ -46,7 +48,8 @@ ForcedConvection* ForcedConvection_StraightPipe_new(double length, double hydrau
 ForcedConvection* ForcedConvection_StraightPipe_NusseltExpression_new(
 		double length, double hydraulicDiameter, double flowArea,
 		const char* nusseltExpressionLaminarFlow, const char* nusseltExpressionTurbulentFlow,
-		double criticalReynoldsNumber_EndLaminarFlow, double criticalReynoldsNumber_StartTurbulentFlow);
+		double criticalReynoldsNumber_EndLaminarFlow, double criticalReynoldsNumber_StartTurbulentFlow,
+		double hydraulicDiameterInjector);
 
 void ForcedConvection_init(ForcedConvection* convection, MediumState* fluidState1, MediumState* fluidState2, ThermalNode* wallNode);
 void ForcedConvection_setLimitOutput(ForcedConvection* convection, int limitOutput);
