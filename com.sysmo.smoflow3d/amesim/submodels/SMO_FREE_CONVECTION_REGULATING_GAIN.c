@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION_REGULATING_GAIN skeleton created by AME Submodel editing utility
-   Fri Dec 20 15:17:45 2013 */
+   Thu Feb 2 11:45:30 2017 */
 
 
 
@@ -29,13 +29,13 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "flow/FreeConvection.h"
-
+ 
 #define _heatFlowIndex ic[0]
 #define _heatFlow ps[0]
-
+ 
 #define _fluidFlowIndex ic[1]
 #define _fluidFlow ps[1]
-
+ 
 #define _component ps[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -146,16 +146,16 @@ void smo_free_convection_regulating_gainin_(int *n, double rp[12]
 
 /* Common -> SI units conversions. */
 
-/*   *rp[11]   *= ??; CONVERSION UNKNOWN */
+/*   *rp[11]   *= ??; CONVERSION UNKNOWN [deg] */
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _heatFlow = HeatFlow_new();
    _heatFlowIndex = HeatFlow_register(_heatFlow);
-
+ 
    _fluidFlow = FluidFlow_new();
    _fluidFlowIndex = FluidFlow_register(_fluidFlow);
-
+ 
    if (calculationMethod == 1) {
 	   _component =
 			   FreeConvection_GivenConvectionCoefficient_new(convectionCoefficientGiven, heatExchangeArea);
@@ -188,7 +188,7 @@ void smo_free_convection_regulating_gainin_(int *n, double rp[12]
 			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
    SMOCOMPONENT_SET_PROPS(_component)
-
+ 
    Convection_setUseFilmState(_component, useFilmState - 1); //:TRICKY: 0-no, 1-yes
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -258,8 +258,8 @@ void smo_free_convection_regulating_gain_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Set all submodel outputs below:
@@ -281,26 +281,26 @@ void smo_free_convection_regulating_gain_(int *n
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 	   FreeConvection_init(_component, fluidState, wallNode);
    }
-
+ 
    Convection_setHeatExchangeGain(_component, *heatExchangeGain);
    FreeConvection_compute(_component);
-
+ 
    Convection_updateFluidFlow(_component, _fluidFlow);
    Convection_updateHeatFlow(_component, _heatFlow);
    *Ra = FreeConvection_getRayleighNumber(_component);
    *Nu = Convection_getNusseltNumber(_component);
    *h = Convection_getConvectionCoefficient(_component);
    *qDot = Convection_getHeatFlowRate(_component);
-
+ 
    *fluidFlowIndex = _fluidFlowIndex;
    *heatFlowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN [smoHFL] */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 }
 

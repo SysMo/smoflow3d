@@ -169,10 +169,10 @@
     <MAX_VALUE>2</MAX_VALUE>
     <ENUM_LIST>
      <ENUM>
-      <ENUM_STRING>default expression for Nuselt number</ENUM_STRING>
+      <ENUM_STRING>default expression for Nusselt number</ENUM_STRING>
      </ENUM>
      <ENUM>
-      <ENUM_STRING>expression for Nuselt number</ENUM_STRING>
+      <ENUM_STRING>expression for Nusselt number</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
