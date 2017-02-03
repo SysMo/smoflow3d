@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE SPE>
-<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
@@ -29,7 +29,7 @@
     <SUB_ID>18</SUB_ID>
     <TITLE>temperature (°C)</TITLE>
     <VARNAME>temperatureC</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>False</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>degC</UNITS>
@@ -38,7 +38,7 @@
     <SUB_ID>17</SUB_ID>
     <TITLE>density</TITLE>
     <VARNAME>density</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>False</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>kg/m**3</UNITS>
@@ -47,7 +47,7 @@
     <SUB_ID>20</SUB_ID>
     <TITLE>specific enthalpy</TITLE>
     <VARNAME>enthalpy</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>False</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>kJ/kg</UNITS>
@@ -56,7 +56,7 @@
     <SUB_ID>22</SUB_ID>
     <TITLE>gas mass fraction</TITLE>
     <VARNAME>gasMassFraction</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>False</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>null</UNITS>
@@ -108,7 +108,7 @@
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>1</IO>
-     <UNITS>bar</UNITS>
+     <UNITS>barA</UNITS>
     </EVAR>
    </PORT>
    <PORT>
@@ -124,5 +124,6 @@
     </EVAR>
    </PORT>
   </EVARS_LIST>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
  </SUBMODEL>
 </SPE>

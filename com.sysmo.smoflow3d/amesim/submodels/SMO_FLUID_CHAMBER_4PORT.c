@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_CHAMBER_4PORT skeleton created by AME Submodel editing utility
-   Wed Aug 2 05:57:35 2017 */
+   Thu Feb 2 14:13:11 2017 */
 
 
 
@@ -45,7 +45,7 @@ REVISIONS :
 
 /* There are 6 real parameters:
 
-   initialPressure        initial pressure          [bar -> Pa]
+   initialPressure        initial pressure          [barA -> PaA]
    initialTemperature     initial temperature (K)   [K]
    initialTemperatureC    initial temperature (°C)  [degC]
    initialGasMassFraction initial gas mass fraction [null]
@@ -198,7 +198,7 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
 
 /*  There are 9 internal variables.
 
-      1 pressure             pressure               [bar -> Pa]     basic variable
+      1 pressure             pressure               [barA -> PaA]   basic variable
       2 temperature          temperature            [K]             basic variable
       3 density              density                [kg/m**3]       basic variable
       4 specificEnthalpy     specific enthalpy      [kJ/kg -> J/kg] basic variable

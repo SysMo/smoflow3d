@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
-   Wed Aug 2 06:18:46 2017 */
+   Fri Feb 3 08:22:03 2017 */
 
 
 
@@ -76,9 +76,9 @@ void smo_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
 
 /*   Integer parameter checking:   */
 
-   if (propertyIndex < 1 || propertyIndex > 22)
+   if (propertyIndex < 1 || propertyIndex > 23)
    {
-      amefprintf(stderr, "\nmeasured fluid property must be in range [1..22].\n");
+      amefprintf(stderr, "\nmeasured fluid property must be in range [1..23].\n");
       error = 2;
    }
 
@@ -117,42 +117,44 @@ void smo_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
       3 fluidStateIndex                  fluid state index            [smoTDS] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 21 internal variables.
+/*  There are 22 internal variables.
 
-      1 pressure                    pressure                            [bar -> Pa]         basic variable
-      2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (°C)                    [degC]              basic variable
-      4 density                     density                             [kg/m**3]           basic variable
-      5 specificVolume              specific volume                     [m**3/kg]           basic variable
-      6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
-      7 enthalpy                    specific enthalpy                   [kJ/kg -> J/kg]     basic variable
-      8 specificEntropy             specific entropy                    [kJ/kg/K -> J/kg/K] basic variable
-      9 cp                          specific heat  at constant pressure [J/kg/degC]         basic variable
-     10 cv                          specific heat  at constant volume   [J/kg/degC]         basic variable
-     11 specificHelmholtzEnergy     specific helmholtz energy           [kJ/kg -> J/kg]     basic variable
-     12 specificGibbsEnergy         specific gibbs energy               [kJ/kg -> J/kg]     basic variable
-     13 gasMassFraction             gas mass fraction                   [null]              basic variable
-     14 superheating                superheating                        [K]                 basic variable
-     15 dpc                         (p - pcrit)                         [bar -> Pa]         basic variable
-     16 mu                          dynamic viscosity                   [kg/m/s -> Ns/m**2] basic variable
-     17 lambda                      thermal conductivity                [W/m/degC]          basic variable
-     18 Pr                          Prandtl number                      [null]              basic variable
-     19 sigma                       surface tension                     [N/m]               basic variable
-     20 gasVolumeFraction           gas volume fraction                 [null]              basic variable
-     21 liquidLevel                 liquid level                        [null]              basic variable
+      1 pressure                    pressure                            [barA -> PaA]       basic variable
+      2 pressureG                   gauge pressure                      [bar -> Pa]         basic variable
+      3 temperature                 temperature                         [K]                 basic variable
+      4 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
+      5 density                     density                             [kg/m**3]           basic variable
+      6 specificVolume              specific volume                     [m**3/kg]           basic variable
+      7 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
+      8 enthalpy                    specific enthalpy                   [kJ/kg -> J/kg]     basic variable
+      9 specificEntropy             specific entropy                    [kJ/kg/K -> J/kg/K] basic variable
+     10 cp                          specific heat  at constant pressure [J/kg/degC]         basic variable
+     11 cv                          specific heat  at constant volume   [J/kg/degC]         basic variable
+     12 specificHelmholtzEnergy     specific helmholtz energy           [kJ/kg -> J/kg]     basic variable
+     13 specificGibbsEnergy         specific gibbs energy               [kJ/kg -> J/kg]     basic variable
+     14 gasMassFraction             gas mass fraction                   [null]              basic variable
+     15 superheating                superheating                        [K]                 basic variable
+     16 dpc                         (p - pcrit)                         [barA -> PaA]       basic variable
+     17 mu                          dynamic viscosity                   [kg/m/s -> Ns/m**2] basic variable
+     18 lambda                      thermal conductivity                [W/m/degC]          basic variable
+     19 Pr                          Prandtl number                      [null]              basic variable
+     20 sigma                       surface tension                     [N/m]               basic variable
+     21 gasVolumeFraction           gas volume fraction                 [null]              basic variable
+     22 liquidLevel                 liquid level                        [null]              basic variable
 */
 
 void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
       , double *fluidFlowActivationSignal, double *measuredValue
-      , double *fluidStateIndex, double *pressure, double *temperature
-      , double *temperatureC, double *density, double *specificVolume
-      , double *internalEnergy, double *enthalpy
-      , double *specificEntropy, double *cp, double *cv
-      , double *specificHelmholtzEnergy, double *specificGibbsEnergy
-      , double *gasMassFraction, double *superheating, double *dpc
-      , double *mu, double *lambda, double *Pr, double *sigma
-      , double *gasVolumeFraction, double *liquidLevel, double rp[2]
-      , int ip[1], double c[22], int ic[1], void *ps[1])
+      , double *fluidStateIndex, double *pressure, double *pressureG
+      , double *temperature, double *temperatureC, double *density
+      , double *specificVolume, double *internalEnergy
+      , double *enthalpy, double *specificEntropy, double *cp
+      , double *cv, double *specificHelmholtzEnergy
+      , double *specificGibbsEnergy, double *gasMassFraction
+      , double *superheating, double *dpc, double *mu, double *lambda
+      , double *Pr, double *sigma, double *gasVolumeFraction
+      , double *liquidLevel, double rp[2], int ip[1], double c[22]
+      , int ic[1], void *ps[1])
 
 {
    int loop;
@@ -177,6 +179,7 @@ void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
    Set all submodel outputs below:
 
    *pressure   = ??;
+   *pressureG  = ??;
    *temperature = ??;
    *temperatureC = ??;
    *density    = ??;
@@ -204,26 +207,27 @@ void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
    *pressure = c[0];
-   *temperature = c[1];
-   *temperatureC = c[2];
-   *density = c[3];
-   *specificVolume = c[4];
-   *internalEnergy = c[5];
-   *enthalpy = c[6];
-   //c[7] = MediumState_s(fluidState);
-   *cp = c[8];
-   *cv = c[9];
-   //c[10] = MediumState_(fluidState);
+   *pressureG = c[1];
+   *temperature = c[2];
+   *temperatureC = c[3];
+   *density = c[4];
+   *specificVolume = c[5];
+   *internalEnergy = c[6];
+   *enthalpy = c[7];
+   //c[8] = MediumState_s(fluidState);
+   *cp = c[9];
+   *cv = c[10];
    //c[11] = MediumState_(fluidState);
-   *gasMassFraction = c[12];
-   *superheating = c[13];
-   //c[14] = MediumState_(fluidState);
-   *mu = c[15];
-   *lambda = c[16];
-   *Pr = c[17];
+   //c[12] = MediumState_(fluidState);
+   *gasMassFraction = c[13];
+   *superheating = c[14];
+   //c[15] = MediumState_(fluidState);
+   *mu = c[16];
+   *lambda = c[17];
+   *Pr = c[18];
    //c[18] = MediumState_(fluidState);
-   *gasVolumeFraction = c[19];
-   *liquidLevel = c[20];
+   *gasVolumeFraction = c[20];
+   *liquidLevel = c[21];
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -232,6 +236,7 @@ void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
 /*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
    *pressure /= 1.00000000000000e+005;
+   *pressureG /= 1.00000000000000e+005;
    *internalEnergy /= 1.00000000000000e+003;
    *enthalpy /= 1.00000000000000e+003;
    *specificEntropy /= 1.00000000000000e+003;
@@ -276,38 +281,39 @@ extern double smo_fluid_state_sensor_macro0_(int *n
 	   _fluidState = MediumState_get(_fluidStateIndex);
    }
  
-   static const double outputInternalGain[21] = {
-		   1e-5, 1, 1, 1, 1,
+   static const double outputInternalGain[22] = {
+		   1e-5, 1e-5, 1, 1, 1, 1,
 		   1e-3, 1e-3, 1e-3, 1e-3, 1,
 		   1, 1, 1, 1, 1,
 		   1, 1, 1, 1, 1, 1
    };
  
    c[0] = MediumState_p(_fluidState);
-   c[1] = MediumState_T(_fluidState);
-   c[2] = c[1] - 273.15;
-   c[3] = MediumState_rho(_fluidState);
-   c[4] = 1./c[3];
-   c[5] = MediumState_u(_fluidState);
-   c[6] = MediumState_h(_fluidState);
-   //c[7] = MediumState_s(fluidState);
-   c[8] = MediumState_cp(_fluidState);
-   c[9] = MediumState_cv(_fluidState);
-   //c[10] = MediumState_(fluidState);
+   c[1] = c[0] - 101325;
+   c[2] = MediumState_T(_fluidState);
+   c[3] = c[2] - 273.15;
+   c[4] = MediumState_rho(_fluidState);
+   c[5] = 1./c[4];
+   c[6] = MediumState_u(_fluidState);
+   c[7] = MediumState_h(_fluidState);
+   //c[8] = MediumState_s(fluidState);
+   c[9] = MediumState_cp(_fluidState);
+   c[10] = MediumState_cv(_fluidState);
    //c[11] = MediumState_(fluidState);
-   c[12] = MediumState_q(_fluidState);
-   c[13] = MediumState_deltaTSat(_fluidState);
-   //c[14] = MediumState_(fluidState);
-   c[15] = MediumState_mu(_fluidState);
-   c[16] = MediumState_lambda(_fluidState);
-   c[17] = MediumState_Pr(_fluidState);
-   //c[18] = MediumState_(fluidState);
-   c[19] = MediumState_qV(_fluidState); //gas volume fraction
+   //c[12] = MediumState_(fluidState);
+   c[13] = MediumState_q(_fluidState);
+   c[14] = MediumState_deltaTSat(_fluidState);
+   //c[15] = MediumState_(fluidState);
+   c[16] = MediumState_mu(_fluidState);
+   c[17] = MediumState_lambda(_fluidState);
+   c[18] = MediumState_Pr(_fluidState);
+   //c[19] = MediumState_(fluidState);
+   c[20] = MediumState_qV(_fluidState); //gas volume fraction
  
-   if (c[19] == -1) {
-	   c[20] = -1; //liquid level
+   if (c[20] == -1) {
+	   c[21] = -1; //liquid level
    } else {
-	   c[20] = 1 - c[19];
+	   c[21] = 1 - c[20]; //liquid level
    }
  
    if (propertyIndex == 22) {

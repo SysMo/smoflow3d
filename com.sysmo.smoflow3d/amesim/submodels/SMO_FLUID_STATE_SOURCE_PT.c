@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SOURCE_PT skeleton created by AME Submodel editing utility
-   Fri Dec 6 19:15:12 2013 */
+   Thu Feb 2 14:47:05 2017 */
 
 
 
@@ -29,7 +29,7 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "media/MediumState.h"
-
+ 
 #define _fluidStateIndex ic[0]
 #define _fluidState ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -93,7 +93,7 @@ void smo_fluid_state_source_ptin_(int *n, int ip[1], int ic[1]
 
    Port 2 has 1 variable:
 
-      1 pressure     pressure [bar -> Pa] basic variable input
+      1 pressure     pressure [barA -> PaA] basic variable input
 
    Port 3 has 1 variable:
 
@@ -126,9 +126,9 @@ void smo_fluid_state_source_pt_(int *n, double *fluidStateIndex
 
 /* Common -> SI units conversions. */
 
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN [smoFFAS] */
    *pressure *= 1.00000000000000e+005;
 
 /*
@@ -152,9 +152,9 @@ void smo_fluid_state_source_pt_(int *n, double *fluidStateIndex
 
 /* SI -> Common units conversions. */
 
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
    *pressure /= 1.00000000000000e+005;
    *enthalpy /= 1.00000000000000e+003;
 }
@@ -195,7 +195,7 @@ extern double smo_fluid_state_source_pt_macro0_(int *n
 
    *pressure /= 1.00000000000000e+005;
 
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 
    return fluidStateIndex;
 }

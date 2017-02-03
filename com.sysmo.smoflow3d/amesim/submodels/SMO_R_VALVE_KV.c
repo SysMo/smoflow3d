@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Thu Dec 5 10:29:39 2013 */
+   Thu Feb 2 14:27:06 2017 */
 
 
 
@@ -30,16 +30,16 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "flow_R/Valve_R.h"
 #include "flow_R/ManagerComponents_R.h"
-
+ 
 #define _component ps[0]
 #define _componentIndex ic[0]
-
+ 
 #define _manager ps[1]
 #define _managerIndex ic[1]
-
+ 
 #define _fluidFlow1 ps[2]
 #define _fluidFlow1Index ic[2]
-
+ 
 #define _fluidFlow2 ps[3]
 #define _fluidFlow2Index ic[3]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -49,7 +49,7 @@ REVISIONS :
 
    Kv                           flow coefficient Kv            [null]
    transitionMassFlowRate       transition mass flow rate      [kg/s]
-   transitionPressureDifference transition pressure difference [bar -> Pa]
+   transitionPressureDifference transition pressure difference [barA -> PaA]
 */
 
 
@@ -127,7 +127,7 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 		   transitionPressureDifference);
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
-
+ 
    _fluidFlow2Index = FlowComponent_R_getFlow2Index(_component);
    _fluidFlow2 = FluidFlow_get(_fluidFlow2Index);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -184,10 +184,10 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
 
 /* Common -> SI units conversions. */
 
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID3 *= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *outputRCompID3 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN [smoRCompID] */
 
 /*
    Set all submodel outputs below:
@@ -206,21 +206,21 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
 	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID3);
    }
    ManagerComponents_R_compute(_manager);
-
+ 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
-
+ 
    *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
    *pressureLoss /= 1.00000000000000e+005;
 }
 
@@ -247,8 +247,8 @@ extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
 
 /* Common -> SI units conversions. */
 
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
 
 /*
    Define and return the following macro variable:
@@ -262,20 +262,20 @@ extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
    if (firstc_()) {
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
-
+ 
 	   ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
    }
    Valve_R_setRegulatingSignal(_component, *regulatingSignal);
-
+ 
    outputRCompID3 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
 
-/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 
    return outputRCompID3;
 }

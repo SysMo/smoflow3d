@@ -38,4 +38,11 @@
 #endif /* SMOCOMPONENT_PRINT */
 
 
+//#define SMO_PRESSURE_CONVERTERS
+#define SMO_PaG2PaA(p) \
+	p += 101325; //PaG -> PaA
+
+#define SMO_PaA2PaG(p) \
+	p -= 101325; //PaA -> PaG
+
 #endif /* SMOFLOWAME_H_ */

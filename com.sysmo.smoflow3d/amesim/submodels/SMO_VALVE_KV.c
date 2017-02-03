@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_KV skeleton created by AME Submodel editing utility
-   Wed Sep 6 06:45:22 2017 */
+   Thu Feb 2 14:28:04 2017 */
 
 
 
@@ -44,7 +44,7 @@ REVISIONS :
 
    Kv                           flow coefficient Kv            [null]
    transitionMassFlowRate       transition mass flow rate      [kg/s]
-   transitionPressureDifference transition pressure difference [bar -> Pa]
+   transitionPressureDifference transition pressure difference [barA -> PaA]
    maximumMassFlowRate          maximum mass flow              [kg/s]
    openingPressDiff             opening pressure difference    [bar -> Pa]
    closingPressDiff             closing pressure difference    [bar -> Pa]

@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   Wed Aug 2 06:01:06 2017 */
+   Thu Feb 2 14:19:54 2017 */
 
 
 
@@ -54,7 +54,7 @@ REVISIONS :
    absoluteRoughness      absolute roughness          [mm -> m]
    pressureDropGain       pressure drop gain          [null]
    heatExchangeGain       heat exchange gain          [null]
-   initialPressure        initial pressure            [bar -> Pa]
+   initialPressure        initial pressure            [barA -> PaA]
    initialTemperature     initial temperature (K)     [K]
    initialTemperatureC    initial temperature (°C)    [degC]
    initialGasMassFraction initial gas mass fraction   [null]

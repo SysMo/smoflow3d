@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C skeleton created by AME Submodel editing utility
-   Wed Aug 2 06:01:25 2017 */
+   Thu Feb 2 14:29:23 2017 */
 
 
 
@@ -47,7 +47,7 @@ REVISIONS :
    pipeLength             pipe length                                             [m]
    flowArea               flow (cross sectional) area                             [mm**2 -> m**2]
    heatExchangeGain       heat exchange gain                                      [null]
-   initialPressure        initial pressure                                        [bar -> Pa]
+   initialPressure        initial pressure                                        [barA -> PaA]
    initialTemperature     initial temperature (K)                                 [K]
    initialTemperatureC    initial temperature (°C)                                [degC]
    initialGasMassFraction initial gas mass fraction                               [null]
@@ -243,7 +243,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
 
 /*  There are 11 internal variables.
 
-      1 pressure                  pressure               [bar -> Pa]     basic variable
+      1 pressure                  pressure               [barA -> PaA]   basic variable
       2 temperature               temperature            [K]             basic variable
       3 density                   density                [kg/m**3]       basic variable
       4 specificEnthalpy          specific enthalpy      [kJ/kg -> J/kg] basic variable

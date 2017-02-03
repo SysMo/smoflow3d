@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SOURCE_CONSTANT skeleton created by AME Submodel editing utility
-   Wed Aug 2 06:12:45 2017 */
+   Thu Feb 2 14:51:12 2017 */
 
 
 
@@ -37,7 +37,7 @@ REVISIONS :
 
 /* There are 4 real parameters:
 
-   initialPressure         pressure          [bar -> Pa]
+   initialPressure         pressure          [barA -> PaA]
    initialTemperature      temperature       [K]
    initialSpecificEnthalpy specific enthalpy [kJ/kg -> J/kg]
    initialGasMassFraction  gas mass fraction [null]
@@ -165,7 +165,7 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
 
 /*  There are 6 internal variables.
 
-      1 pressure             pressure           [bar]     fixed
+      1 pressure             pressure           [barA]    fixed
       2 temperature          temperature        [K]       fixed
       3 temperatureC         temperature (°C)   [degC]    fixed
       4 density              density            [kg/m**3] fixed
