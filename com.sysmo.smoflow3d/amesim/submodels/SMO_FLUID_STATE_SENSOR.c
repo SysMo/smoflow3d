@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
-   Fri Feb 3 08:22:03 2017 */
+   Fri Feb 3 11:44:48 2017 */
 
 
 
@@ -119,10 +119,10 @@ void smo_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
 
 /*  There are 22 internal variables.
 
-      1 pressure                    pressure                            [barA -> PaA]       basic variable
-      2 pressureG                   gauge pressure                      [bar -> Pa]         basic variable
-      3 temperature                 temperature                         [K]                 basic variable
-      4 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
+      1 pressure                    pressure (absolute)                 [barA -> PaA]       basic variable
+      2 pressureG                   pressure (gauge)                    [bar -> Pa]         basic variable
+      3 temperature                 temperature (K)                     [K]                 basic variable
+      4 temperatureC                temperature (°C)                    [degC]              basic variable
       5 density                     density                             [kg/m**3]           basic variable
       6 specificVolume              specific volume                     [m**3/kg]           basic variable
       7 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
