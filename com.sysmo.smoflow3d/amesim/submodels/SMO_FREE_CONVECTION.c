@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Thu Feb 2 11:43:23 2017 */
+   Fri Feb 3 14:36:37 2017 */
 
 
 
@@ -167,35 +167,33 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[3]
    _fluidFlowIndex = FluidFlow_register(_fluidFlow);
  
    if (calculationMethod == 1) {
-	   _component =
-			   FreeConvection_GivenConvectionCoefficient_new(convectionCoefficientGiven, heatExchangeArea);
+	   _component = FreeConvection_GivenConvectionCoefficient_new(convectionCoefficientGiven, heatExchangeArea);
    } else if (calculationMethod == 2) {
-	   _component =
-			   FreeConvection_NusseltExpression_new(characteristicLength, heatExchangeArea, nusseltCorrelationExpr);
+	   _component = FreeConvection_NusseltExpression_new(characteristicLength, heatExchangeArea, nusseltCorrelationExpr);
    } else if (calculationMethod == 3) {
-	   _component =
-			   FreeConvection_VerticalSurface_new(height, width);
+	   _component = FreeConvection_VerticalSurface_new(height, width);
    } else if (calculationMethod == 4) {
-	   _component =
-			   FreeConvection_HorizontalSurfaceTop_new(length, width);
+	   _component = FreeConvection_HorizontalSurfaceTop_new(length, width);
    } else if (calculationMethod == 5) {
-	   _component =
-			   FreeConvection_HorizontalSurfaceBottom_new(length, width);
+	   _component = FreeConvection_HorizontalSurfaceBottom_new(length, width);
    } else if (calculationMethod == 6) {
-	   _component =
-			   FreeConvection_CylindricalHorizontalSurface_new(length, diameter);
+	   if (areaCalculationMethod == 1) {
+		   _component = FreeConvection_CylindricalHorizontalSurface_new(length, diameter);
+	   } else {
+		   _component = FreeConvection_CylindricalHorizontalSurfaceWithArea_new(length, diameter, heatExchangeArea);
+	   }
    } else if (calculationMethod == 7) {
-	   _component =
-			   FreeConvection_CylindricalVerticalSurface_new(length, diameter);
+	   if (areaCalculationMethod == 1) {
+		   _component = FreeConvection_CylindricalVerticalSurface_new(length, diameter);
+	   } else {
+		   _component = FreeConvection_CylindricalVerticalSurfaceWithArea_new(length, diameter, heatExchangeArea);
+	   }
    } else if (calculationMethod == 8) {
-	   _component =
-			   FreeConvection_SphericalSurface_new(diameter);
+	   _component = FreeConvection_SphericalSurface_new(diameter);
    } else if (calculationMethod == 9) {
-	   _component =
-			   FreeConvection_FinnedPipe_new(length, basePipeDiameter, finSpacing, finThickness, finHeight);
+	   _component = FreeConvection_FinnedPipe_new(length, basePipeDiameter, finSpacing, finThickness, finHeight);
    } else if (calculationMethod == 10) {
-	   _component =
-			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
+	   _component = FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
    SMOCOMPONENT_SET_PROPS(_component)
  

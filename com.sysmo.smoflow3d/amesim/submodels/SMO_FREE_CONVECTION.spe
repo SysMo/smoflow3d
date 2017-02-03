@@ -49,7 +49,7 @@
     <SUB_ID>17</SUB_ID>
     <TITLE>heat exchange area</TITLE>
     <VARNAME>heatExchangeArea</VARNAME>
-    <VISIBILITY>(calculationMethod==1) || ( calculationMethod==2) || (calculationMethod==6) || ( calculationMethod==7)</VISIBILITY>
+    <VISIBILITY>(calculationMethod==1) || ( calculationMethod==2) || (areaCalculationMethod == 2 && ((calculationMethod==6) || ( calculationMethod==7)))</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
     <VALUE>1.00000000000000e+00</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
@@ -228,10 +228,10 @@
     <MAX_VALUE>2</MAX_VALUE>
     <ENUM_LIST>
      <ENUM>
-      <ENUM_STRING>compute; A = L*Pi*D</ENUM_STRING>
+      <ENUM_STRING>compute heat exchange area (A = L*Pi*D)</ENUM_STRING>
      </ENUM>
      <ENUM>
-      <ENUM_STRING>set; A = heat exchange area</ENUM_STRING>
+      <ENUM_STRING>set heat exchange area</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>

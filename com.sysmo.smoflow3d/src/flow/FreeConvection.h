@@ -40,27 +40,18 @@ void FreeConvection_compute(FreeConvection* convection);
 double FreeConvection_getGrashofNumber(FreeConvection* convection);
 double FreeConvection_getRayleighNumber(FreeConvection* convection);
 
-FreeConvection* FreeConvection_GivenConvectionCoefficient_new(
-		double convectionCoefficient, double heatExchangeArea);
-FreeConvection* FreeConvection_NusseltExpression_new(
-		double characteristicLength, double heatExchangeArea, const char* nusseltExpression);
-FreeConvection* FreeConvection_VerticalSurface_new(
-		double height, double width);
-FreeConvection* FreeConvection_InclinedSurface_new(
-		double length, double width, double angleOfInclination);
-FreeConvection* FreeConvection_HorizontalSurfaceTop_new(
-		double length, double width);
-FreeConvection* FreeConvection_HorizontalSurfaceBottom_new(
-		double length, double width);
-FreeConvection* FreeConvection_CylindricalHorizontalSurface_new(
-		double length, double diameter);
-FreeConvection* FreeConvection_CylindricalVerticalSurface_new(
-		double height, double diameter);
-FreeConvection* FreeConvection_SphericalSurface_new(
-		double diameter);
-FreeConvection* FreeConvection_FinnedPipe_new(
-		double pipeLength, double pipeDiameter,
-		double finSpacing, double finThickness, double finHeight);
+FreeConvection* FreeConvection_GivenConvectionCoefficient_new(double convectionCoefficient, double heatExchangeArea);
+FreeConvection* FreeConvection_NusseltExpression_new(double characteristicLength, double heatExchangeArea, const char* nusseltExpression);
+FreeConvection* FreeConvection_VerticalSurface_new(double height, double width);
+FreeConvection* FreeConvection_InclinedSurface_new(double length, double width, double angleOfInclination);
+FreeConvection* FreeConvection_HorizontalSurfaceTop_new(double length, double width);
+FreeConvection* FreeConvection_HorizontalSurfaceBottom_new(double length, double width);
+FreeConvection* FreeConvection_CylindricalHorizontalSurface_new(double length, double diameter);
+FreeConvection* FreeConvection_CylindricalHorizontalSurfaceWithArea_new(double length, double diameter, double heatExchangeArea);
+FreeConvection* FreeConvection_CylindricalVerticalSurface_new(double height, double diameter);
+FreeConvection* FreeConvection_CylindricalVerticalSurfaceWithArea_new(double height, double diameter, double heatExchangeArea);
+FreeConvection* FreeConvection_SphericalSurface_new(double diameter);
+FreeConvection* FreeConvection_FinnedPipe_new(double pipeLength, double pipeDiameter,double finSpacing, double finThickness, double finHeight);
 END_C_LINKAGE
 
 #endif /* FREECONVECTION_H_ */

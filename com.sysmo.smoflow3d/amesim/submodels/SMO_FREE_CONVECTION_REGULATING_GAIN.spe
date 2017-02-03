@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>59</SUB_ID_MAX>
+  <SUB_ID_MAX>61</SUB_ID_MAX>
   <DEFAULT_ICON>smo_free_convection_regulating_gain</DEFAULT_ICON>
   <SUB_LABEL>free convection heat exchange with regulating signal</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -38,7 +38,7 @@
     <SUB_ID>17</SUB_ID>
     <TITLE>heat exchange area</TITLE>
     <VARNAME>heatExchangeArea</VARNAME>
-    <VISIBILITY>(calculationMethod==1) || ( calculationMethod==2)</VISIBILITY>
+    <VISIBILITY>(calculationMethod==1) || ( calculationMethod==2) || (areaCalculationMethod == 2 && ((calculationMethod==6) || ( calculationMethod==7)))</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
     <VALUE>1.00000000000000e+00</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
@@ -203,6 +203,24 @@
      </ENUM>
      <ENUM>
       <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>61</SUB_ID>
+    <TITLE>area calculation method</TITLE>
+    <VARNAME>areaCalculationMethod</VARNAME>
+    <VISIBILITY>(calculationMethod==6) || ( calculationMethod==7)</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>compute heat exchange area (A = L*Pi*D)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>set heat exchange area</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
