@@ -1,5 +1,5 @@
 /* Submodel SMO_TANK skeleton created by AME Submodel editing utility
-   Tue Feb 7 15:10:45 2017 */
+   Tue Feb 7 16:05:20 2017 */
 
 
 
@@ -28,52 +28,70 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "volumes/FluidChamber.h"
-#include "flow/FlowBase.h"
+#include "volumes/PipeHeatExchNoPrDropMassAcc_C.h"
  
-#define _component ps[0]
+#define _wallHeatFlow ps[0]
+#define _wallHeatFlowIndex ic[0]
  
-#define _fluidStateIndex ic[0]
-#define _fluidState ps[1]
+#define _pipeState ps[1]
+#define _pipeStateIndex ic[1]
  
-#define _fluidFlow1 ps[2]
-#define _fluidFlow3 ps[3]
-#define _fluidFlow4 ps[4]
+#define _convection ps[2]
+#define _component ps[3]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 6 real parameters:
+/* There are 12 real parameters:
 
-   initialPressure        initial pressure          [barA -> PaA]
-   initialTemperature     initial temperature (K)   [K]
-   initialTemperatureC    initial temperature (°C)  [degC]
-   initialGasMassFraction initial gas mass fraction [null]
-   initialSuperheat       initial superheat         [K]
-   volume                 volume                    [L -> m**3]
+   initialPressure           initial pressure                                [barA -> PaA]
+   initialTemperature        initial temperature (K)                         [K]
+   initialTemperatureC       initial temperature (ï¿½C)                        [degC]
+   initialGasMassFraction    initial gas mass fraction                       [null]
+   initialSuperheat          initial superheat                               [K]
+   volume                    volume                                          [L -> m**3]
+   hydraulicDiameter         hydraulic diameter                              [mm -> m]
+   pipeLength                pipe length                                     [m]
+   heatExchangeGain          heat exchange gain                              [null]
+   ReL                       critical Reynolds number (end laminar flow)     [null]
+   ReH                       critical Reynolds number (start turbulent flow) [null]
+   hydraulicDiameterInjector hydraulic diameter of the injector              [mm -> m]
 */
 
 
-/* There are 3 integer parameters:
+/* There are 4 integer parameters:
 
-   fluidIndex             fluid index           
-   initConditionsChoice   type of initialization
-   stateVariableSelection states variables      
+   fluidIndex                   fluid index                                                          
+   initConditionsChoice         type of initialization                                               
+   stateVariableSelection       states variables                                                     
+   forcedConvectionUseFilmState use film state for the forced convection; T_film = (T_wall+T_fluid)/2
 */
 
-void smo_tankin_(int *n, double rp[6], int ip[3], int ic[1]
-      , void *ps[6], double *state1, double *state2)
+
+/* There are 2 text parameters:
+
+   nusseltExpressionLaminarFlow   nusselt correlation expression Nu=f(Re, Pr) - laminar flow  
+   nusseltExpressionTurbulentFlow nusselt correlation expression Nu=f(Re, Pr) - turbulent flow
+*/
+
+void smo_tankin_(int *n, double rp[12], int ip[4], char *tp[2]
+      , int ic[2], void *ps[6], double stateValues[2])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int fluidIndex, initConditionsChoice, stateVariableSelection;
+   int fluidIndex, initConditionsChoice, stateVariableSelection, 
+      forcedConvectionUseFilmState;
    double initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, volume;
+      initialGasMassFraction, initialSuperheat, volume, 
+      hydraulicDiameter, pipeLength, heatExchangeGain, ReL, ReH, 
+      hydraulicDiameterInjector;
+   char *nusseltExpressionLaminarFlow, *nusseltExpressionTurbulentFlow;
 
    fluidIndex = ip[0];
    initConditionsChoice = ip[1];
    stateVariableSelection = ip[2];
+   forcedConvectionUseFilmState = ip[3];
 
    initialPressure = rp[0];
    initialTemperature = rp[1];
@@ -81,15 +99,23 @@ void smo_tankin_(int *n, double rp[6], int ip[3], int ic[1]
    initialGasMassFraction = rp[3];
    initialSuperheat = rp[4];
    volume     = rp[5];
+   hydraulicDiameter = rp[6];
+   pipeLength = rp[7];
+   heatExchangeGain = rp[8];
+   ReL        = rp[9];
+   ReH        = rp[10];
+   hydraulicDiameterInjector = rp[11];
+
+   nusseltExpressionLaminarFlow = tp[0];
+   nusseltExpressionTurbulentFlow = tp[1];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..5]
-   *state1
-   *state2
+   rp[0..11]
+   stateValues[0..1]
 */
 
 
@@ -113,6 +139,11 @@ void smo_tankin_(int *n, double rp[6], int ip[3], int ic[1]
       amefprintf(stderr, "\nstates variables must be in range [1..4].\n");
       error = 2;
    }
+   if (forcedConvectionUseFilmState < 1 || forcedConvectionUseFilmState > 2)
+   {
+      amefprintf(stderr, "\nuse film state for the forced convection; T_film = (T_wall+T_fluid)/2 must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -131,40 +162,43 @@ void smo_tankin_(int *n, double rp[6], int ip[3], int ic[1]
    initialPressure = rp[0];
    rp[5]    *= 1.00000000000000e-003;
    volume     = rp[5];
+   rp[6]    *= 1.00000000000000e-003;
+   hydraulicDiameter = rp[6];
+   rp[11]   *= 1.00000000000000e-003;
+   hydraulicDiameterInjector = rp[11];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+   double flowAreaValue;
+   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
+
+   _convection = ForcedConvection_StraightPipe_NusseltExpression_new(pipeLength,
+		   hydraulicDiameter, flowAreaValue,
+		   nusseltExpressionLaminarFlow, nusseltExpressionTurbulentFlow, ReL, ReH, hydraulicDiameterInjector);
+
+   Convection_setHeatExchangeGain(_convection, heatExchangeGain);
+   Convection_setUseFilmState(_convection, forcedConvectionUseFilmState - 1); //:TRICKY: (0-no, 1-yes)
+
+   double internalVolume = flowAreaValue * pipeLength;
    Medium* fluid = Medium_get(fluidIndex);
-   _component = FluidChamber_new(fluid);
+   _component = PipeHeatExchNoPrDropMassAcc_C_new(fluid, internalVolume, _convection, stateVariableSelection);
    SMOCOMPONENT_SET_PROPS(_component)
  
-   FluidChamber_setVolume(_component, volume);
-   _fluidState = FluidChamber_getFluidState(_component);
-   _fluidStateIndex = MediumState_index(_fluidState);
+   _pipeState = PipeHeatExchNoPrDropMassAcc_C_getFluidState(_component);
+   _pipeStateIndex = SmoObject_getInstanceIndex(_pipeState);
  
-   if (stateVariableSelection == 1) {
-	   FluidChamber_selectStates(_component, iT, iD);
-   } else if (stateVariableSelection == 2) {
-	   FluidChamber_selectStates(_component, iP, iT);
-   } else if (stateVariableSelection == 3) {
-	   FluidChamber_selectStates(_component, iP, iD);
-   } else if (stateVariableSelection == 4) {
-	   FluidChamber_selectStates(_component, iP, iH);
-   } else {
-	   AME_RAISE_ERROR("Unsupported type of state variables.")
-   }
  
    if (initConditionsChoice == 1) {
-	   MediumState_update_Tp(_fluidState, initialTemperature, initialPressure);
-   } else if (initConditionsChoice == 2) {
-	   MediumState_update_Tp(_fluidState, initialTemperatureC + 273.15, initialPressure);
-   } else if (initConditionsChoice == 3) {
-	   MediumState_update_pq(_fluidState, initialPressure, initialGasMassFraction);
-   } else {
-	   AME_RAISE_ERROR("Unsupported type of initialization.")
-   }
+ 	   MediumState_update_Tp(_pipeState, initialTemperature, initialPressure);
+    } else if (initConditionsChoice == 2) {
+ 	   MediumState_update_Tp(_pipeState, initialTemperatureC + 273.15, initialPressure);
+    } else if (initConditionsChoice == 3) {
+    	   MediumState_update_pq(_pipeState, initialPressure, initialGasMassFraction);
+    } else {
+ 	   AME_RAISE_ERROR("Unsupported type of initialization.")
+    }
  
-   FluidChamber_getStateValues(_component, state1, state2, 1);
+   PipeHeatExchNoPrDropMassAcc_C_getStateValues(_component, &stateValues[0], &stateValues[1]);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -172,39 +206,41 @@ void smo_tankin_(int *n, double rp[6], int ip[3], int ic[1]
 
    Port 1 has 3 variables:
 
-      1 fluidStateIndex                fluid state index                    [smoTDS]  multi line macro 'smo_tank_macro0_'  UNPLOTTABLE
-      2 fluidFlow1Index                fluid flow index (port1)             [smoFFL]  basic variable input  UNPLOTTABLE
-      3 fluidFlowActivationSignal1     fluid flow activation signal (port1) [smoFFAS] basic variable input  UNPLOTTABLE
+      1 fluidStateIndex                fluid state index                                                 [smoTDS]  multi line macro 'smo_tank_macro0_'  UNPLOTTABLE
+      2 fluidFlow1Index                fluid flow index (port1); (connection with the fueling subsystem) [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal1     fluid flow activation signal (port1)                              [smoFFAS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
-      1 heatFlowIndex        heat flow index (port2)    [smoHFL] basic variable output  UNPLOTTABLE
-      2 thermalNodeIndex     thermal node index (port2) [smoTHN] basic variable input  UNPLOTTABLE
+      1 heatFlowIndex        heat flow index (port2)                                       [smoHFL] basic variable output  UNPLOTTABLE
+      2 thermalNodeIndex     thermal node index (port2); (connection with the tank's wall) [smoTHN] basic variable input  UNPLOTTABLE
 
    Port 3 has 3 variables:
 
-      1 fluidStateIndexDup3            duplicate of fluidStateIndex        
-      2 fluidFlow3Index                fluid flow index (port3)             [smoFFL]  basic variable input  UNPLOTTABLE
-      3 fluidFlowActivationSignal3     fluid flow activation signal (port3) [smoFFAS] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup3            duplicate of fluidStateIndex                                      
+      2 fluidFlow3Index                outlet fluid flow (port3); (connect with the extraction subsystem) [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal3     fluid flow activation signal (port3)                               [smoFFAS] basic variable input  UNPLOTTABLE
 
    Port 4 has 3 variables:
 
-      1 fluidStateIndexDup4            duplicate of fluidStateIndex        
-      2 fluidFlow4Index                fluid flow index (port4)             [smoFFL]  basic variable input  UNPLOTTABLE
-      3 fluidFlowActivationSignal4     fluid flow activation signal (port4) [smoFFAS] basic variable input  UNPLOTTABLE
+      1 fluidStateIndexDup4            duplicate of fluidStateIndex                                           
+      2 fluidFlow4Index                fluid flow index (port4); (use it for a additional heat/fluid exchange) [smoFFL]  basic variable input  UNPLOTTABLE
+      3 fluidFlowActivationSignal4     fluid flow activation signal (port4)                                    [smoFFAS] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 9 internal variables.
+/*  There are 11 internal variables.
 
-      1 pressure             pressure               [bar -> Pa]     basic variable
-      2 temperature          temperature            [K]             basic variable
-      3 density              density                [kg/m**3]       basic variable
-      4 specificEnthalpy     specific enthalpy      [kJ/kg -> J/kg] basic variable
-      5 gasMassFraction      gas mass fraction      [null]          basic variable
-      6 superHeat            subcooling / superheat [degC]          basic variable
-      7 totalMass            mass in chamber        [kg]            basic variable
-      8 state1               state variable 1       [null]          explicit state (derivative `state1Dot')
-      9 state2               state variable 2       [null]          explicit state (derivative `state2Dot')
+      1 pressure                  pressure                    [bar -> Pa]     basic variable
+      2 temperature               temperature                 [K]             basic variable
+      3 density                   density                     [kg/m**3]       basic variable
+      4 specificEnthalpy          specific enthalpy           [kJ/kg -> J/kg] basic variable
+      5 gasMassFraction           gas mass fraction           [null]          basic variable
+      6 superHeat                 subcooling / superheat      [degC]          basic variable
+      7 totalMass                 mass in chamber             [kg]            basic variable
+      8 stateValues[2]            state values                [null]          explicit state (derivative `stateValuesDot')
+      9 reynoldsNumber            Reynolds number             [null]          basic variable
+     10 convectionCoefficient     convection coefficient      [W/m**2/K]      basic variable
+     11 heatFlowRateFromWall      heat flow rate fom the wall [W]             basic variable
 */
 
 void smo_tank_(int *n, double *fluidStateIndex
@@ -214,21 +250,27 @@ void smo_tank_(int *n, double *fluidStateIndex
       , double *fluidFlow4Index, double *fluidFlowActivationSignal4
       , double *pressure, double *temperature, double *density
       , double *specificEnthalpy, double *gasMassFraction
-      , double *superHeat, double *totalMass, double *state1
-      , double *state1Dot, double *state2, double *state2Dot
-      , double rp[6], int ip[3], int ic[1], void *ps[6])
+      , double *superHeat, double *totalMass, double stateValues[2]
+      , double stateValuesDot[2], double *reynoldsNumber
+      , double *convectionCoefficient, double *heatFlowRateFromWall
+      , double rp[12], int ip[4], char *tp[2], int ic[2], void *ps[6])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int fluidIndex, initConditionsChoice, stateVariableSelection;
+   int fluidIndex, initConditionsChoice, stateVariableSelection, 
+      forcedConvectionUseFilmState;
    double initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, volume;
+      initialGasMassFraction, initialSuperheat, volume, 
+      hydraulicDiameter, pipeLength, heatExchangeGain, ReL, ReH, 
+      hydraulicDiameterInjector;
+   char *nusseltExpressionLaminarFlow, *nusseltExpressionTurbulentFlow;
 
    fluidIndex = ip[0];
    initConditionsChoice = ip[1];
    stateVariableSelection = ip[2];
+   forcedConvectionUseFilmState = ip[3];
 
    initialPressure = rp[0];
    initialTemperature = rp[1];
@@ -236,6 +278,15 @@ void smo_tank_(int *n, double *fluidStateIndex
    initialGasMassFraction = rp[3];
    initialSuperheat = rp[4];
    volume     = rp[5];
+   hydraulicDiameter = rp[6];
+   pipeLength = rp[7];
+   heatExchangeGain = rp[8];
+   ReL        = rp[9];
+   ReH        = rp[10];
+   hydraulicDiameterInjector = rp[11];
+
+   nusseltExpressionLaminarFlow = tp[0];
+   nusseltExpressionTurbulentFlow = tp[1];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -260,34 +311,40 @@ void smo_tank_(int *n, double *fluidStateIndex
    *gasMassFraction = ??;
    *superHeat  = ??;
    *totalMass  = ??;
-   *state1Dot  = ??;
-   *state2Dot  = ??;
+   stateValuesDot[0..1] = ??;
+   *reynoldsNumber = ??;
+   *convectionCoefficient = ??;
+   *heatFlowRateFromWall = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
-   if (firstc_()) {
-	   _fluidFlow1 = FluidFlow_get(*fluidFlow1Index);
-	   _fluidFlow3 = FluidFlow_get(*fluidFlow3Index);
-	   _fluidFlow4 = FluidFlow_get(*fluidFlow4Index);
-   }
- 
-   double massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1) +
-		   +  FluidFlow_getMassFlowRate(_fluidFlow3) + FluidFlow_getMassFlowRate(_fluidFlow4);
-   double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1) +
-		   + FluidFlow_getEnthalpyFlowRate(_fluidFlow3) + FluidFlow_getEnthalpyFlowRate(_fluidFlow4);
-   FluidChamber_compute(_component, massFlowRate, enthalpyFlowRate, 0, 0);
-   FluidChamber_getStateDerivatives(_component, state1Dot, state2Dot);
- 
-   *pressure = MediumState_p(_fluidState);
-   *temperature = MediumState_T(_fluidState);
-   *density = MediumState_rho(_fluidState);
-   *specificEnthalpy = MediumState_h(_fluidState);
-   *gasMassFraction = MediumState_q(_fluidState);
-   *superHeat  = MediumState_deltaTSat(_fluidState);
-   *totalMass  = FluidChamber_getFluidMass(_component);
+     if (firstc_()) {
+  	   FluidFlow* port1Flow = FluidFlow_get(*fluidFlow1Index);
+  	   FluidFlow* port3Flow = FluidFlow_get(*fluidFlow3Index);
+  	   PipeHeatExchNoPrDropMassAcc_C_init(_component, port1Flow, port3Flow);
+
+  	   _wallHeatFlow = PipeHeatExchNoPrDropMassAcc_C_getWallHeatFlow(_component);
+  	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
+     }
+
+     PipeHeatExchNoPrDropMassAcc_C_compute(_component);
+     PipeHeatExchNoPrDropMassAcc_C_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
+
+     *heatFlowIndex = _wallHeatFlowIndex;
+     *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
+     *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
+     *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
+
+     *pressure = MediumState_p(_pipeState);
+     *temperature = MediumState_T(_pipeState);
+     *density = MediumState_rho(_pipeState);
+     *specificEnthalpy = MediumState_h(_pipeState);
+     *gasMassFraction = MediumState_q(_pipeState);
+     *superHeat  = MediumState_deltaTSat(_pipeState);
+     //*internalVolume = PipeHeatExchNoPrDropMassAcc_C_getVolume(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -305,21 +362,27 @@ void smo_tank_(int *n, double *fluidStateIndex
    *specificEnthalpy /= 1.00000000000000e+003;
 }
 
-extern double smo_tank_macro0_(int *n, double *state1, double *state2
-      , double rp[6], int ip[3], int ic[1], void *ps[6])
+extern double smo_tank_macro0_(int *n, double *thermalNodeIndex
+      , double stateValues[2], double rp[12], int ip[4], char *tp[2]
+      , int ic[2], void *ps[6])
 
 {
    double fluidStateIndex;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int fluidIndex, initConditionsChoice, stateVariableSelection;
+   int fluidIndex, initConditionsChoice, stateVariableSelection, 
+      forcedConvectionUseFilmState;
    double initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, volume;
+      initialGasMassFraction, initialSuperheat, volume, 
+      hydraulicDiameter, pipeLength, heatExchangeGain, ReL, ReH, 
+      hydraulicDiameterInjector;
+   char *nusseltExpressionLaminarFlow, *nusseltExpressionTurbulentFlow;
 
    fluidIndex = ip[0];
    initConditionsChoice = ip[1];
    stateVariableSelection = ip[2];
+   forcedConvectionUseFilmState = ip[3];
 
    initialPressure = rp[0];
    initialTemperature = rp[1];
@@ -327,7 +390,20 @@ extern double smo_tank_macro0_(int *n, double *state1, double *state2
    initialGasMassFraction = rp[3];
    initialSuperheat = rp[4];
    volume     = rp[5];
+   hydraulicDiameter = rp[6];
+   pipeLength = rp[7];
+   heatExchangeGain = rp[8];
+   ReL        = rp[9];
+   ReH        = rp[10];
+   hydraulicDiameterInjector = rp[11];
+
+   nusseltExpressionLaminarFlow = tp[0];
+   nusseltExpressionTurbulentFlow = tp[1];
    loop = 0;
+
+/* Common -> SI units conversions. */
+
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
 
 /*
    Define and return the following macro variable:
@@ -338,9 +414,18 @@ extern double smo_tank_macro0_(int *n, double *state1, double *state2
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO
-   FluidChamber_setStateValues(_component, *state1, *state2);
-   fluidStateIndex = _fluidStateIndex;
+   if (firstc_()) {
+	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
+	   PipeHeatExchNoPrDropMassAcc_C_setWallNode(_component, wallNode);
+   }
+
+   PipeHeatExchNoPrDropMassAcc_C_setStateValues(_component, stateValues[0], stateValues[1]);
+   fluidStateIndex = _pipeStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
+
+/* SI -> Common units conversions. */
+
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
 
 /*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 

@@ -4,11 +4,11 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>64</SUB_ID_MAX>
+  <SUB_ID_MAX>94</SUB_ID_MAX>
   <DEFAULT_ICON>smo_tank</DEFAULT_ICON>
   <SUB_LABEL>tank with an injector</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>1</I_STORES_NUMBER>
+  <I_STORES_NUMBER>2</I_STORES_NUMBER>
   <P_STORES_NUMBER>6</P_STORES_NUMBER>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
@@ -79,6 +79,72 @@
     <MAX_VALUE>1.00000000000000e+005</MAX_VALUE>
     <UNITS>L</UNITS>
    </RPARAM>
+   <RPARAM>
+    <SUB_ID>77</SUB_ID>
+    <TITLE>hydraulic diameter</TITLE>
+    <VARNAME>hydraulicDiameter</VARNAME>
+    <VISIBILITY>true</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e+00</DEF_VALUE>
+    <VALUE>5.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>78</SUB_ID>
+    <TITLE>pipe length</TITLE>
+    <VARNAME>pipeLength</VARNAME>
+    <VISIBILITY>true</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>80</SUB_ID>
+    <TITLE>heat exchange gain</TITLE>
+    <VARNAME>heatExchangeGain</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>84</SUB_ID>
+    <TITLE>critical Reynolds number (end laminar flow)</TITLE>
+    <VARNAME>ReL</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>2.30000000000000e+03</DEF_VALUE>
+    <VALUE>2.30000000000000e+03</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>85</SUB_ID>
+    <TITLE>critical Reynolds number (start turbulent flow)</TITLE>
+    <VARNAME>ReH</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+04</DEF_VALUE>
+    <VALUE>1.00000000000000e+04</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>86</SUB_ID>
+    <TITLE>hydraulic diameter of the injector</TITLE>
+    <VARNAME>hydraulicDiameterInjector</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
+    <VALUE>0.00000000000000e+00</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
   </RPARAMS_LIST>
   <IPARAMS_LIST>
    <IPARAM>
@@ -139,7 +205,45 @@
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
+   <IPARAM>
+    <SUB_ID>90</SUB_ID>
+    <TITLE>use film state for the forced convection; T_film = (T_wall+T_fluid)/2</TITLE>
+    <VARNAME>forcedConvectionUseFilmState</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>2</DEF_VALUE>
+    <VALUE>2</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
   </IPARAMS_LIST>
+  <TPARAMS_LIST>
+   <TPARAM>
+    <SUB_ID>93</SUB_ID>
+    <TITLE>nusselt correlation expression Nu=f(Re, Pr) - laminar flow</TITLE>
+    <VARNAME>nusseltExpressionLaminarFlow</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>3.66</DEF_VALUE>
+    <VALUE>3.66</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>94</SUB_ID>
+    <TITLE>nusselt correlation expression Nu=f(Re, Pr) - turbulent flow</TITLE>
+    <VARNAME>nusseltExpressionTurbulentFlow</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>(((1.8*log10(Re)-1.5)^-2)/8)*Re*Pr / (1 + 12.7*(((1.8*log10(Re)-1.5)^-2)/8)^0.5*(Pr^(2/3)-1))</DEF_VALUE>
+    <VALUE>(((1.8*log10(Re)-1.5)^-2)/8)*Re*Pr / (1 + 12.7*(((1.8*log10(Re)-1.5)^-2)/8)^0.5*(Pr^(2/3)-1))</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+  </TPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
     <SUB_ID>16</SUB_ID>
@@ -206,14 +310,13 @@
     <UNITS>kg</UNITS>
    </IVAR>
    <IVAR>
-    <SUB_ID>23</SUB_ID>
-    <TITLE>state variable 1</TITLE>
-    <VARNAME>state1</VARNAME>
-    <VARNAME2>state1Dot</VARNAME2>
+    <SUB_ID>69</SUB_ID>
+    <TITLE>state values</TITLE>
+    <VARNAME>stateValues</VARNAME>
+    <VARNAME2>stateValuesDot</VARNAME2>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>1</TYPE>
-    <DIMENSION>1</DIMENSION>
-    <UNPLOTTABLE>1</UNPLOTTABLE>
+    <DIMENSION>2</DIMENSION>
     <UNITS>null</UNITS>
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
     <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
@@ -221,19 +324,32 @@
     <VALUE>0</VALUE>
    </IVAR>
    <IVAR>
-    <SUB_ID>24</SUB_ID>
-    <TITLE>state variable 2</TITLE>
-    <VARNAME>state2</VARNAME>
-    <VARNAME2>state2Dot</VARNAME2>
+    <SUB_ID>70</SUB_ID>
+    <TITLE>Reynolds number</TITLE>
+    <VARNAME>reynoldsNumber</VARNAME>
     <VISIBILITY>True</VISIBILITY>
-    <TYPE>1</TYPE>
+    <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
-    <UNPLOTTABLE>1</UNPLOTTABLE>
     <UNITS>null</UNITS>
-    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-    <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
-    <DEF_VALUE>0</DEF_VALUE>
-    <VALUE>0</VALUE>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>71</SUB_ID>
+    <TITLE>convection coefficient</TITLE>
+    <VARNAME>convectionCoefficient</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W/m**2/K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>72</SUB_ID>
+    <TITLE>heat flow rate fom the wall</TITLE>
+    <VARNAME>heatFlowRateFromWall</VARNAME>
+    <VARNAME2>outletTemperatureDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
    </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
@@ -248,11 +364,11 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoTDS</UNITS>
-     <EXPRESS2>@_0_8, @_0_9</EXPRESS2>
+     <EXPRESS2>@_2_2, @_0_8</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>59</SUB_ID>
-     <TITLE>fluid flow index (port1)</TITLE>
+     <TITLE>fluid flow index (port1); (connection with the fueling subsystem)</TITLE>
      <VARNAME>fluidFlow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
@@ -287,7 +403,7 @@
     </EVAR>
     <EVAR>
      <SUB_ID>64</SUB_ID>
-     <TITLE>thermal node index (port2)</TITLE>
+     <TITLE>thermal node index (port2); (connection with the tank's wall)</TITLE>
      <VARNAME>thermalNodeIndex</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
@@ -309,7 +425,7 @@
     </EVAR>
     <EVAR>
      <SUB_ID>50</SUB_ID>
-     <TITLE>fluid flow index (port3)</TITLE>
+     <TITLE>outlet fluid flow (port3); (connect with the extraction subsystem)</TITLE>
      <VARNAME>fluidFlow3Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
@@ -342,7 +458,7 @@
     </EVAR>
     <EVAR>
      <SUB_ID>56</SUB_ID>
-     <TITLE>fluid flow index (port4)</TITLE>
+     <TITLE>fluid flow index (port4); (use it for a additional heat/fluid exchange)</TITLE>
      <VARNAME>fluidFlow4Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
