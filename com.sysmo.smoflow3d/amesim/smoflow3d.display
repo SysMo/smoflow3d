@@ -34,6 +34,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_radiative_exchange" />    
    
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_tank" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
@@ -99,6 +100,7 @@
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Nodes/Volumes" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+  <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_tank" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />

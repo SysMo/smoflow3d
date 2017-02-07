@@ -103,3 +103,5 @@ smo_fluid_flow_source_mdot_t
 &SMO_FLUID_FLOW_SOURCE_MDOT_T SmoFlow3d
 smo_radiative_exchange
 &SMO_RADIATIVE_EXCHANGE SmoFlow3d
+smo_tank
+&SMO_TANK SmoFlow3d
