@@ -6,7 +6,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>61</SUB_ID_MAX>
   <DEFAULT_ICON>smo_free_convection_regulating_gain</DEFAULT_ICON>
-  <SUB_LABEL>free convection heat exchange with regulating signal</SUB_LABEL>
+  <SUB_LABEL>free convection heat exchange with a regulating gain</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>4</I_STORES_NUMBER>
   <P_STORES_NUMBER>4</P_STORES_NUMBER>

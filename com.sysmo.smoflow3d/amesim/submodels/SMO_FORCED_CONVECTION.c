@@ -1,5 +1,5 @@
 /* Submodel SMO_FORCED_CONVECTION skeleton created by AME Submodel editing utility
-   Thu Feb 9 09:58:15 2017 */
+   Thu Feb 9 13:36:56 2017 */
 
 
 
@@ -53,10 +53,11 @@ REVISIONS :
 */
 
 
-/* There are 3 integer parameters:
+/* There are 4 integer parameters:
 
    convCalcMethod covection calculation method
    useFilmState   use film state              
+   limitOutput    limit the heat exchange     
    useInjector    use an injector             
 */
 
@@ -67,7 +68,7 @@ REVISIONS :
    nusseltExpressionTurbulentFlow nusselt correlation expression Nu=f(Re, Pr) in turbulent flow
 */
 
-void smo_forced_convectionin_(int *n, double rp[8], int ip[3]
+void smo_forced_convectionin_(int *n, double rp[8], int ip[4]
       , char *tp[2], int ic[2], void *ps[3]
       , double *fluidFlowActivationSignal)
 
@@ -75,7 +76,7 @@ void smo_forced_convectionin_(int *n, double rp[8], int ip[3]
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int convCalcMethod, useFilmState, useInjector;
+   int convCalcMethod, useFilmState, limitOutput, useInjector;
    double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, hydraulicDiameterInjector, flowArea, 
       heatExchangeArea, ReL, ReH;
@@ -83,7 +84,8 @@ void smo_forced_convectionin_(int *n, double rp[8], int ip[3]
 
    convCalcMethod = ip[0];
    useFilmState = ip[1];
-   useInjector = ip[2];
+   limitOutput = ip[2];
+   useInjector = ip[3];
 
    heatExchangeGain = rp[0];
    convectionCoefficientGiven = rp[1];
@@ -125,6 +127,11 @@ void smo_forced_convectionin_(int *n, double rp[8], int ip[3]
    if (useFilmState < 1 || useFilmState > 2)
    {
       amefprintf(stderr, "\nuse film state must be in range [1..2].\n");
+      error = 2;
+   }
+   if (limitOutput < 1 || limitOutput > 2)
+   {
+      amefprintf(stderr, "\nlimit the heat exchange must be in range [1..2].\n");
       error = 2;
    }
    if (useInjector < 1 || useInjector > 2)
@@ -184,8 +191,8 @@ void smo_forced_convectionin_(int *n, double rp[8], int ip[3]
    }
    SMOCOMPONENT_SET_PROPS(_component)
  
-   ForcedConvection_setLimitOutput(_component, 0); //yes
    Convection_setHeatExchangeGain(_component, heatExchangeGain);
+   ForcedConvection_setLimitOutput(_component, limitOutput - 1);  //:TRICKY: 0-no, 1-yes
    Convection_setUseFilmState(_component, useFilmState - 1); //:TRICKY: 0-no, 1-yes
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -221,13 +228,13 @@ void smo_forced_convection_(int *n, double *massFlowRate
       , double *heatFlowIndex, double *thermalNodeIndex
       , double *reynoldsNumber, double *nusseltNumber
       , double *convectionCoefficient, double *heatFlowRateFromWall
-      , double rp[8], int ip[3], char *tp[2], int ic[2], void *ps[3])
+      , double rp[8], int ip[4], char *tp[2], int ic[2], void *ps[3])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int convCalcMethod, useFilmState, useInjector;
+   int convCalcMethod, useFilmState, limitOutput, useInjector;
    double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, hydraulicDiameterInjector, flowArea, 
       heatExchangeArea, ReL, ReH;
@@ -235,7 +242,8 @@ void smo_forced_convection_(int *n, double *massFlowRate
 
    convCalcMethod = ip[0];
    useFilmState = ip[1];
-   useInjector = ip[2];
+   limitOutput = ip[2];
+   useInjector = ip[3];
 
    heatExchangeGain = rp[0];
    convectionCoefficientGiven = rp[1];

@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>48</SUB_ID_MAX>
+  <SUB_ID_MAX>50</SUB_ID_MAX>
   <DEFAULT_ICON>smo_forced_convection</DEFAULT_ICON>
   <SUB_LABEL>forced convection</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -127,6 +127,24 @@
     <VISIBILITY>convCalcMethod==2</VISIBILITY>
     <DEF_VALUE>2</DEF_VALUE>
     <VALUE>2</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>50</SUB_ID>
+    <TITLE>limit the heat exchange</TITLE>
+    <VARNAME>limitOutput</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
     <MIN_VALUE>1</MIN_VALUE>
     <MAX_VALUE>2</MAX_VALUE>
     <ENUM_LIST>
