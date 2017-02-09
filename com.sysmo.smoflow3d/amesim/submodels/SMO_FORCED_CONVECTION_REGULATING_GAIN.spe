@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>51</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_forced_convection_regulating_gain</DEFAULT_ICON>
+  <SUB_LABEL>forced convection with a regulating gain</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>2</I_STORES_NUMBER>
+  <P_STORES_NUMBER>3</P_STORES_NUMBER>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>33</SUB_ID>
+    <TITLE>convection coefficient (given)</TITLE>
+    <VARNAME>convectionCoefficientGiven</VARNAME>
+    <VISIBILITY>convCalcMethod==1</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+01</DEF_VALUE>
+    <VALUE>1.00000000000000e+01</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>W/m**2/K</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>34</SUB_ID>
+    <TITLE>characteristic length (hydraulic diameter for a tube)</TITLE>
+    <VARNAME>characteristicLength</VARNAME>
+    <VISIBILITY>convCalcMethod==2</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+02</DEF_VALUE>
+    <VALUE>1.00000000000000e+02</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+033</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>35</SUB_ID>
+    <TITLE>hydraulic diameter of the injector</TITLE>
+    <VARNAME>hydraulicDiameterInjector</VARNAME>
+    <VISIBILITY>useInjector==2 && convCalcMethod==2</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
+    <VALUE>0.00000000000000e+00</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>36</SUB_ID>
+    <TITLE>flow (cross sectional) area</TITLE>
+    <VARNAME>flowArea</VARNAME>
+    <VISIBILITY>useInjector==1 && convCalcMethod==2</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e-01</DEF_VALUE>
+    <VALUE>1.00000000000000e-01</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+024</MAX_VALUE>
+    <UNITS>m**2</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>37</SUB_ID>
+    <TITLE>heat exchange area</TITLE>
+    <VARNAME>heatExchangeArea</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m**2</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>38</SUB_ID>
+    <TITLE>laminar to turbulent transition:  lower Reynolds number</TITLE>
+    <VARNAME>ReL</VARNAME>
+    <VISIBILITY>convCalcMethod == 2</VISIBILITY>
+    <DEF_VALUE>2.30000000000000e+03</DEF_VALUE>
+    <VALUE>2.30000000000000e+03</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>39</SUB_ID>
+    <TITLE>laminar to turbulent transition:  upper Reynolds number</TITLE>
+    <VARNAME>ReH</VARNAME>
+    <VISIBILITY>convCalcMethod == 2</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+04</DEF_VALUE>
+    <VALUE>1.00000000000000e+04</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>44</SUB_ID>
+    <TITLE>covection calculation method</TITLE>
+    <VARNAME>convCalcMethod</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>fixed convection coefficient</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>expression for Nusselt number</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>45</SUB_ID>
+    <TITLE>use film state</TITLE>
+    <VARNAME>useFilmState</VARNAME>
+    <VISIBILITY>convCalcMethod==2</VISIBILITY>
+    <DEF_VALUE>2</DEF_VALUE>
+    <VALUE>2</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>46</SUB_ID>
+    <TITLE>limit the heat exchange</TITLE>
+    <VARNAME>limitOutput</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>47</SUB_ID>
+    <TITLE>use an injector</TITLE>
+    <VARNAME>useInjector</VARNAME>
+    <VISIBILITY>convCalcMethod==2</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <TPARAMS_LIST>
+   <TPARAM>
+    <SUB_ID>50</SUB_ID>
+    <TITLE>nusselt correlation expression Nu=f(Re, Pr) in laminar flow</TITLE>
+    <VARNAME>nusseltExpressionLaminarFlow</VARNAME>
+    <VISIBILITY>convCalcMethod==2</VISIBILITY>
+    <DEF_VALUE>3.66</DEF_VALUE>
+    <VALUE>3.66</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>51</SUB_ID>
+    <TITLE>nusselt correlation expression Nu=f(Re, Pr) in turbulent flow</TITLE>
+    <VARNAME>nusseltExpressionTurbulentFlow</VARNAME>
+    <VISIBILITY>convCalcMethod==2</VISIBILITY>
+    <DEF_VALUE>(((1.8*log10(Re)-1.5)^-2)/8)*Re*Pr / (1 + 12.7*(((1.8*log10(Re)-1.5)^-2)/8)^0.5*(Pr^(2/3)-1))</DEF_VALUE>
+    <VALUE>(((1.8*log10(Re)-1.5)^-2)/8)*Re*Pr / (1 + 12.7*(((1.8*log10(Re)-1.5)^-2)/8)^0.5*(Pr^(2/3)-1))</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+  </TPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>20</SUB_ID>
+    <TITLE>Reynolds number</TITLE>
+    <VARNAME>reynoldsNumber</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>21</SUB_ID>
+    <TITLE>Nusselt number</TITLE>
+    <VARNAME>nusseltNumber</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>22</SUB_ID>
+    <TITLE>convection coefficient</TITLE>
+    <VARNAME>convectionCoefficient</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W/m**2/K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>23</SUB_ID>
+    <TITLE>heat flow rate  from the wall</TITLE>
+    <VARNAME>heatFlowRateFromWall</VARNAME>
+    <VARNAME2>outletTemperatureDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>4</SUB_ID>
+     <TITLE>mass flow rate</TITLE>
+     <VARNAME>massFlowRate</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>kg/s</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>11</SUB_ID>
+     <TITLE>fluid flow index</TITLE>
+     <VARNAME>fluidFlowIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>12</SUB_ID>
+     <TITLE>fluid flow activation signal</TITLE>
+     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <VISIBILITY>False</VISIBILITY>
+     <TYPE>5</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFAS</UNITS>
+     <MIN_VALUE>-1.00000000000000e+000</MIN_VALUE>
+     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+     <DEF_VALUE>-1.00000000000000e+000</DEF_VALUE>
+     <VALUE>-1.00000000000000e+000</VALUE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>13</SUB_ID>
+     <TITLE>fluid state index</TITLE>
+     <VARNAME>fluidStateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>2</SUB_ID>
+     <TITLE>heat exchange gain</TITLE>
+     <VARNAME>heatExchangeGain</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>14</SUB_ID>
+     <TITLE>heat flow index</TITLE>
+     <VARNAME>heatFlowIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoHFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>15</SUB_ID>
+     <TITLE>thermal node index</TITLE>
+     <VARNAME>thermalNodeIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTHN</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
+ </SUBMODEL>
+</SPE>
