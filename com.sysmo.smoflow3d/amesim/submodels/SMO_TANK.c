@@ -174,7 +174,7 @@ void smo_tankin_(int *n, double rp[12], int ip[4], char *tp[2]
 
    _convection = ForcedConvection_StraightPipe_NusseltExpression_new(pipeLength,
 		   hydraulicDiameter, flowAreaValue,
-		   nusseltExpressionLaminarFlow, nusseltExpressionTurbulentFlow, ReL, ReH, hydraulicDiameterInjector);
+		   nusseltExpressionLaminarFlow, nusseltExpressionTurbulentFlow, ReL, ReH);
 
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
    Convection_setUseFilmState(_convection, forcedConvectionUseFilmState - 1); //:TRICKY: (0-no, 1-yes)

@@ -52,8 +52,7 @@ ForcedConvection* ForcedConvection_StraightPipe_NusseltExpression_new(
 		const char* nusseltExpressionLaminarFlow,
 		const char* nusseltExpressionTurbulentFlow,
 		double criticalReynoldsNumber_EndLaminarFlow,
-		double criticalReynoldsNumber_StartTurbulentFlow,
-		double hydraulicDiameterInjector);
+		double criticalReynoldsNumber_StartTurbulentFlow);
 
 ForcedConvection* ForcedConvection_NusseltExpression_new(
 		double characteristicLength,
