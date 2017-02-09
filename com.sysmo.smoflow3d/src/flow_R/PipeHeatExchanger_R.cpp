@@ -74,14 +74,14 @@ PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		double surfaceRoughness,
 		double pressureDropGain,
 		double heatExchangeGain,
-		int heatExchangerLimitOutput,
+		int forcedConvectionLimitOutput,
 		int forcedConvectionUseFilmState) {
 	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(length, hydraulicDiameter, flowArea, surfaceRoughness);
 	friction->setPressureDropGain(pressureDropGain);
 
 	ForcedConvection* convection = ForcedConvection_StraightPipe_new(length, hydraulicDiameter, flowArea);
 	convection->setHeatExchangeGain(heatExchangeGain);
-	if (heatExchangerLimitOutput == 1) {
+	if (forcedConvectionLimitOutput == 1) {
 		convection->setLimitOutput(true);
 	} else {
 		convection->setLimitOutput(false);
