@@ -112,7 +112,8 @@ void ForcedConvection::compute_NoHeatFlow() {
  */
 class ForcedConvection_GivenConvectionCoefficient : public ForcedConvection {
 public:
-	ForcedConvection_GivenConvectionCoefficient(double heatExchangeArea) {
+	ForcedConvection_GivenConvectionCoefficient(double convectionCoefficient, double heatExchangeArea) {
+		this->convectionCoefficient = convectionCoefficient;
 		this->heatExchangeArea = heatExchangeArea;
 	}
 
@@ -123,14 +124,11 @@ public:
 		Re = 0.0;
 		Pr = 0.0;
 		Nu = 0.0;
-		heatFlowRate = heatExchangeGain * convectionCoefficient
-				* heatExchangeArea * wallOverheat;
+		heatFlowRate = heatExchangeGain * convectionCoefficient	* heatExchangeArea * wallOverheat;
 	}
 
 protected:
-	double computeNusseltNumber(double Re, double Pr) {
-		return 0;
-	}
+	double computeNusseltNumber(double Re, double Pr) {return 0;}
 };
 
 /**
@@ -185,19 +183,22 @@ protected:
 
 
 /**
- * ForcedConvection 'Straight Pipe with Nusselt Expression' model - C++
+ * ForcedConvection with Nusselt Expression model - C++
  */
-class ForcedConvection_StraightPipe_NusseltExpression : public ForcedConvection {
+class ForcedConvection_NusseltExpression : public ForcedConvection {
 public:
-	ForcedConvection_StraightPipe_NusseltExpression(
-			double length, double hydraulicDiameter, double flowArea,
-			const char* nusseltExpressionLaminarFlow, const char* nusseltExpressionTurbulentFlow,
-			double criticalReynoldsNumber_EndLaminarFlow, double criticalReynoldsNumber_StartTurbulentFlow,
+	ForcedConvection_NusseltExpression(
+			double characteristicLength,
+			double flowArea,
+			double heatExchangeArea,
+			const char* nusseltExpressionLaminarFlow,
+			const char* nusseltExpressionTurbulentFlow,
+			double criticalReynoldsNumber_EndLaminarFlow,
+			double criticalReynoldsNumber_StartTurbulentFlow,
 			double hydraulicDiameterInjector) {
-		this->characteristicLength = hydraulicDiameter;
+		this->characteristicLength = characteristicLength;
 		this->flowArea = flowArea;
-		double perimeter = 4 * flowArea / hydraulicDiameter;
-		this->heatExchangeArea = perimeter * length;
+		this->heatExchangeArea = heatExchangeArea;
 
 		this->nusseltExpressionLaminarFlow = FunctorTwoVariables_Expression_new(nusseltExpressionLaminarFlow, "Re", "Pr");
 		this->nusseltExpressionTurbulentFlow = FunctorTwoVariables_Expression_new(nusseltExpressionTurbulentFlow, "Re", "Pr");
@@ -239,36 +240,106 @@ protected:
 	double ReH;
 };
 
+/**
+ * ForcedConvection 'Straight Pipe with Nusselt Expression' model - C++
+ */
+class ForcedConvection_StraightPipe_NusseltExpression : public ForcedConvection_NusseltExpression {
+public:
+	ForcedConvection_StraightPipe_NusseltExpression(double length,
+			double hydraulicDiameter, double flowArea,
+			const char* nusseltExpressionLaminarFlow,
+			const char* nusseltExpressionTurbulentFlow,
+			double criticalReynoldsNumber_EndLaminarFlow,
+			double criticalReynoldsNumber_StartTurbulentFlow,
+			double hydraulicDiameterInjector) :
+			ForcedConvection_NusseltExpression(
+					hydraulicDiameter, //characteristicLength
+					flowArea,
+					(4 * flowArea / hydraulicDiameter) * length, //heat exchange area
+					nusseltExpressionLaminarFlow,
+					nusseltExpressionTurbulentFlow,
+					criticalReynoldsNumber_EndLaminarFlow,
+					criticalReynoldsNumber_StartTurbulentFlow,
+					hydraulicDiameterInjector) {
+		//pass
+	}
+};
+
 
 /**
  * ForcedConvection_XXX - C
  */
-ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(double heatExchangeArea) {
-	return new ForcedConvection_GivenConvectionCoefficient(heatExchangeArea);
+ForcedConvection* ForcedConvection_GivenConvectionCoefficient_new(double convectionCoefficient, double heatExchangeArea) {
+	return new ForcedConvection_GivenConvectionCoefficient(convectionCoefficient, heatExchangeArea);
 }
 
 ForcedConvection* ForcedConvection_StraightPipe_new(double length, double hydraulicDiameter, double flowArea) {
 	return new ForcedConvection_StraightPipe(length, hydraulicDiameter, flowArea);
 }
 
-ForcedConvection* ForcedConvection_StraightPipe_NusseltExpression_new(
-		double length, double hydraulicDiameter, double flowArea,
-		const char* nusseltExpressionLaminarFlow, const char* nusseltExpressionTurbulentFlow,
-		double criticalReynoldsNumber_EndLaminarFlow, double criticalReynoldsNumber_StartTurbulentFlow,
+ForcedConvection* ForcedConvection_NusseltExpression_new(
+		double characteristicLength, //hydraulic diameter
+		double flowArea,
+		double heatExchangeArea,
+		const char* nusseltExpressionLaminarFlow,
+		const char* nusseltExpressionTurbulentFlow,
+		double criticalReynoldsNumber_EndLaminarFlow,
+		double criticalReynoldsNumber_StartTurbulentFlow) {
+	return new ForcedConvection_NusseltExpression(
+			characteristicLength,
+			flowArea,
+			heatExchangeArea,
+			nusseltExpressionLaminarFlow,
+			nusseltExpressionTurbulentFlow,
+			criticalReynoldsNumber_EndLaminarFlow,
+			criticalReynoldsNumber_StartTurbulentFlow,
+			0.0); //hydraulicDiameterInjector
+}
+
+ForcedConvection* ForcedConvection_NusseltExpression_WithInjector_new(
+		double characteristicLength, //hydraulic diameter
+		double heatExchangeArea,
+		const char* nusseltExpressionLaminarFlow,
+		const char* nusseltExpressionTurbulentFlow,
+		double criticalReynoldsNumber_EndLaminarFlow,
+		double criticalReynoldsNumber_StartTurbulentFlow,
 		double hydraulicDiameterInjector) {
-	return new ForcedConvection_StraightPipe_NusseltExpression(length,
-			hydraulicDiameter, flowArea,
-			nusseltExpressionLaminarFlow, nusseltExpressionTurbulentFlow,
-			criticalReynoldsNumber_EndLaminarFlow, criticalReynoldsNumber_StartTurbulentFlow,
+	return new ForcedConvection_NusseltExpression(
+			characteristicLength,
+			0.0, //flowArea,
+			heatExchangeArea,
+			nusseltExpressionLaminarFlow,
+			nusseltExpressionTurbulentFlow,
+			criticalReynoldsNumber_EndLaminarFlow,
+			criticalReynoldsNumber_StartTurbulentFlow,
+			hydraulicDiameterInjector);
+
+}
+
+ForcedConvection* ForcedConvection_StraightPipe_NusseltExpression_new(
+		double length,
+		double hydraulicDiameter,
+		double flowArea,
+		const char* nusseltExpressionLaminarFlow,
+		const char* nusseltExpressionTurbulentFlow,
+		double criticalReynoldsNumber_EndLaminarFlow,
+		double criticalReynoldsNumber_StartTurbulentFlow,
+		double hydraulicDiameterInjector) {
+	return new ForcedConvection_StraightPipe_NusseltExpression(
+			length,
+			hydraulicDiameter,
+			flowArea,
+			nusseltExpressionLaminarFlow,
+			nusseltExpressionTurbulentFlow,
+			criticalReynoldsNumber_EndLaminarFlow,
+			criticalReynoldsNumber_StartTurbulentFlow,
 			hydraulicDiameterInjector);
 }
 
 /**
  * ForcedConvection - C
  */
-void ForcedConvection_init(ForcedConvection* convection,
-		MediumState* fluidState1, MediumState* fluidState2,
-		ThermalNode* wallNode) {
+void ForcedConvection_init(ForcedConvection* convection, MediumState* fluidState1, MediumState* fluidState2, ThermalNode* wallNode) {
 	convection->init(fluidState1, fluidState2, wallNode);
 }
 

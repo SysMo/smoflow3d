@@ -32,6 +32,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_forced_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_radiative_exchange" />    
    
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
@@ -95,6 +96,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_forced_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_radiative_exchange" />
   </GROUP>
 

@@ -60,7 +60,7 @@
     <SUB_ID>31</SUB_ID>
     <TITLE>length</TITLE>
     <VARNAME>length</VARNAME>
-    <VISIBILITY>(calculationMethod==4) || (calculationMethod==5) || (calculationMethod==6) || calculationMethod == 9 || calculationMethod==10</VISIBILITY>
+    <VISIBILITY>(calculationMethod==4) || (calculationMethod==5) || (calculationMethod==6 && areaCalculationMethod ==1) || calculationMethod == 9 || calculationMethod==10</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
     <VALUE>1.00000000000000e+00</VALUE>
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
@@ -228,7 +228,7 @@
     <MAX_VALUE>2</MAX_VALUE>
     <ENUM_LIST>
      <ENUM>
-      <ENUM_STRING>compute heat exchange area (A = L*Pi*D)</ENUM_STRING>
+      <ENUM_STRING>compute heat exchange area; A = Pi*D*L</ENUM_STRING>
      </ENUM>
      <ENUM>
       <ENUM_STRING>set heat exchange area</ENUM_STRING>

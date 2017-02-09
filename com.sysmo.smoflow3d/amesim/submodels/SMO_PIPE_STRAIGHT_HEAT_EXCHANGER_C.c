@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C skeleton created by AME Submodel editing utility
-   Wed Feb 1 16:36:20 2017 */
+   Thu Feb 9 09:01:35 2017 */
 
 
 
@@ -43,18 +43,18 @@ REVISIONS :
 
 /* There are 12 real parameters:
 
-   hydraulicDiameter         hydraulic diameter                                   [mm -> m]
-   pipeLength                pipe length                                          [m]
-   flowArea                  flow (cross sectional) area                          [mm**2 -> m**2]
-   heatExchangeGain          heat exchange gain                                   [null]
-   initialPressure           initial pressure                                     [barA -> PaA]
-   initialTemperature        initial temperature (K)                              [K]
-   initialTemperatureC       initial temperature (°C)                             [degC]
-   initialGasMassFraction    initial gas mass fraction                            [null]
-   initialSuperheat          initial superheat                                    [K]
-   ReL                       critical Reynolds number (end laminar flow)          [null]
-   ReH                       critical Reynolds number (start turbulent flow)      [null]
-   hydraulicDiameterInjector hydraulic diameter of the injector (0 - no injector) [mm -> m]
+   hydraulicDiameter         hydraulic diameter                                      [mm -> m]
+   pipeLength                pipe length                                             [m]
+   flowArea                  flow (cross sectional) area                             [mm**2 -> m**2]
+   heatExchangeGain          heat exchange gain                                      [null]
+   initialPressure           initial pressure                                        [barA -> PaA]
+   initialTemperature        initial temperature (K)                                 [K]
+   initialTemperatureC       initial temperature (°C)                                [degC]
+   initialGasMassFraction    initial gas mass fraction                               [null]
+   initialSuperheat          initial superheat                                       [K]
+   ReL                       laminar to turbulent transition:  lower Reynolds number [null]
+   ReH                       laminar to turbulent transition:  upper Reynolds number [null]
+   hydraulicDiameterInjector hydraulic diameter of the injector (0 - no injector)    [mm -> m]
 */
 
 
@@ -71,8 +71,8 @@ REVISIONS :
 
 /* There are 2 text parameters:
 
-   nusseltExpressionLaminarFlow   nusselt correlation expression Nu=f(Re, Pr) - laminar flow  
-   nusseltExpressionTurbulentFlow nusselt correlation expression Nu=f(Re, Pr) - turbulent flow
+   nusseltExpressionLaminarFlow   nusselt correlation expression Nu=f(Re, Pr) in laminar flow  
+   nusseltExpressionTurbulentFlow nusselt correlation expression Nu=f(Re, Pr) in turbulent flow
 */
 
 void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[12]
@@ -187,7 +187,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[12]
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    double flowAreaValue;
    if (geometryType == 1) { //cylindrical pipe
-	   flowAreaValue = M_PI / 4 * hydraulicDiameter * hydraulicDiameter;
+	   flowAreaValue = M_PI * hydraulicDiameter * hydraulicDiameter / 4.;
    } else { //non-cylindrical pipe
 	   flowAreaValue = flowArea;
    }

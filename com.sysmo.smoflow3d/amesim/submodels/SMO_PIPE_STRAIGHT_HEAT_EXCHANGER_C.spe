@@ -115,7 +115,7 @@
    </RPARAM>
    <RPARAM>
     <SUB_ID>168</SUB_ID>
-    <TITLE>critical Reynolds number (end laminar flow)</TITLE>
+    <TITLE>laminar to turbulent transition:  lower Reynolds number</TITLE>
     <VARNAME>ReL</VARNAME>
     <VISIBILITY>convCalcMethod == 2</VISIBILITY>
     <DEF_VALUE>2.30000000000000e+03</DEF_VALUE>
@@ -126,7 +126,7 @@
    </RPARAM>
    <RPARAM>
     <SUB_ID>169</SUB_ID>
-    <TITLE>critical Reynolds number (start turbulent flow)</TITLE>
+    <TITLE>laminar to turbulent transition:  upper Reynolds number</TITLE>
     <VARNAME>ReH</VARNAME>
     <VISIBILITY>convCalcMethod == 2</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+04</DEF_VALUE>
@@ -264,7 +264,7 @@
   <TPARAMS_LIST>
    <TPARAM>
     <SUB_ID>162</SUB_ID>
-    <TITLE>nusselt correlation expression Nu=f(Re, Pr) - laminar flow</TITLE>
+    <TITLE>nusselt correlation expression Nu=f(Re, Pr) in laminar flow</TITLE>
     <VARNAME>nusseltExpressionLaminarFlow</VARNAME>
     <VISIBILITY>convCalcMethod==2</VISIBILITY>
     <DEF_VALUE>3.66</DEF_VALUE>
@@ -273,7 +273,7 @@
    </TPARAM>
    <TPARAM>
     <SUB_ID>164</SUB_ID>
-    <TITLE>nusselt correlation expression Nu=f(Re, Pr) - turbulent flow</TITLE>
+    <TITLE>nusselt correlation expression Nu=f(Re, Pr) in turbulent flow</TITLE>
     <VARNAME>nusseltExpressionTurbulentFlow</VARNAME>
     <VISIBILITY>convCalcMethod==2</VISIBILITY>
     <DEF_VALUE>(((1.8*log10(Re)-1.5)^-2)/8)*Re*Pr / (1 + 12.7*(((1.8*log10(Re)-1.5)^-2)/8)^0.5*(Pr^(2/3)-1))</DEF_VALUE>
