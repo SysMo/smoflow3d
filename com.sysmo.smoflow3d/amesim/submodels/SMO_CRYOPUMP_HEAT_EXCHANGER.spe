@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE SPE>
-<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
@@ -17,8 +17,8 @@
     <TITLE>displacement volume</TITLE>
     <VARNAME>displacementVolume</VARNAME>
     <VISIBILITY>true</VISIBILITY>
-    <DEF_VALUE>1.00000000000000e+002</DEF_VALUE>
-    <VALUE>1.00000000000000e+002</VALUE>
+    <DEF_VALUE>1.00000000000000e+02</DEF_VALUE>
+    <VALUE>1.00000000000000e+02</VALUE>
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+006</MAX_VALUE>
     <UNITS>cm**3</UNITS>
@@ -28,8 +28,8 @@
     <TITLE>heat flow rate to pump reservoir (parameter)</TITLE>
     <VARNAME>heatFlowRateToPumpReservoirPrm</VARNAME>
     <VISIBILITY>computationMethod == 1</VISIBILITY>
-    <DEF_VALUE>1.00000000000000e+003</DEF_VALUE>
-    <VALUE>1.00000000000000e+003</VALUE>
+    <DEF_VALUE>1.00000000000000e+03</DEF_VALUE>
+    <VALUE>1.00000000000000e+03</VALUE>
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
     <UNITS>W</UNITS>
@@ -39,8 +39,8 @@
     <TITLE>fraction of extra heat going to fluid</TITLE>
     <VARNAME>fractionOfExtraHeatToFluid</VARNAME>
     <VISIBILITY>computationMethod == 2</VISIBILITY>
-    <DEF_VALUE>6.00000000000000e-001</DEF_VALUE>
-    <VALUE>6.00000000000000e-001</VALUE>
+    <DEF_VALUE>6.00000000000000e-01</DEF_VALUE>
+    <VALUE>6.00000000000000e-01</VALUE>
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
     <UNITS>null</UNITS>
@@ -87,7 +87,7 @@
   <TPARAMS_LIST>
    <TPARAM>
     <SUB_ID>39</SUB_ID>
-    <TITLE>expression for volumetric efficiency [-] = f(N[rev/min], pOut[barl])</TITLE>
+    <TITLE>expression for volumetric efficiency [-] = f(N[rev/min], pOut[barA])</TITLE>
     <VARNAME>etaVolumetricExpression</VARNAME>
     <VISIBILITY>true</VISIBILITY>
     <DEF_VALUE>0.6</DEF_VALUE>
@@ -96,7 +96,7 @@
    </TPARAM>
    <TPARAM>
     <SUB_ID>41</SUB_ID>
-    <TITLE>expression for isentropic efficiency [-] = f(N[rev/min],  pOut[barl])</TITLE>
+    <TITLE>expression for isentropic efficiency [-] = f(N[rev/min],  pOut[barA])</TITLE>
     <VARNAME>etaIsentropicExpression</VARNAME>
     <VISIBILITY>computationMethod == 2</VISIBILITY>
     <DEF_VALUE>0.75</DEF_VALUE>
@@ -105,7 +105,7 @@
    </TPARAM>
    <TPARAM>
     <SUB_ID>42</SUB_ID>
-    <TITLE>expression for mechanical efficiency [-] = f(N[rev/min],  pOut[barl])</TITLE>
+    <TITLE>expression for mechanical efficiency [-] = f(N[rev/min],  pOut[barA])</TITLE>
     <VARNAME>etaMechanicalExpression</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>0.9</DEF_VALUE>
@@ -114,7 +114,7 @@
    </TPARAM>
    <TPARAM>
     <SUB_ID>61</SUB_ID>
-    <TITLE>expression for outlet temperature [K] = f(N[rev/min],  pOut[barl])</TITLE>
+    <TITLE>expression for outlet temperature [K] = f(N[rev/min],  pOut[barA])</TITLE>
     <VARNAME>outletTemperatureExpression</VARNAME>
     <VISIBILITY>computationMethod == 1</VISIBILITY>
     <DEF_VALUE>60</DEF_VALUE>
@@ -311,5 +311,6 @@
     </EVAR>
    </PORT>
   </EVARS_LIST>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
  </SUBMODEL>
 </SPE>
