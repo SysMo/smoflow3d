@@ -95,7 +95,7 @@ CarbonFiberCompositeWarm::CarbonFiberCompositeWarm() {
 	const double numValues = 18;
 	ArrayXd TValues(numValues);
 	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 ,
-			273.15, 293.15, 313.15, 353.15, 423.15, 473.15, 523.15, 562.85;
+			273.15, 293.15, 313.15, 353.15, 423.15, 473.15, 523.15, 571.85;
 
 	double rhoValue = 1810.0;
 	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
@@ -107,12 +107,12 @@ CarbonFiberCompositeWarm::CarbonFiberCompositeWarm() {
 
 	ArrayXd lambdaValues(numValues);
 	lambdaValues << 0.05, 0.10, 0.14, 0.17, 0.20, 0.24, 0.27, 0.30, 0.33, 0.36,
-			0.38, 0.41, 0.43, 0.47, 0.54, 0.59, 0.64, 0.68;
+			0.38, 0.41, 0.43, 0.47, 0.54, 0.59, 0.64, 0.69;
 	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
 
 	ArrayXd enthalpyValues(numValues);
 	enthalpyValues << 0.0, 1133.7, 4551.7, 10896.2, 19901.45, 31301.82, 44831.7, 60225.57, 77217.82, 95542.82,
-			113194.7, 129124.7, 146164.7, 183444.7, 260199.7, 322974.7, 390174.7, 446509.0;
+			113194.7, 129124.7, 146164.7, 183444.7, 260199.7, 322974.7, 390174.7, 459280.0;
 
 	enthalpyFunction = new Interpolator1D(&TValues, &enthalpyValues);
 }
