@@ -32,6 +32,8 @@ public:
 
 protected:
 	ForcedConvection* convection;
+	MediumState* limitStateT;
+
 	ThermalNode* wallNode;
 	HeatFlow* wallHeatFlow;
 };

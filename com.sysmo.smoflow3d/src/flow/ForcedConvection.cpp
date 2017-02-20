@@ -49,7 +49,6 @@ void ForcedConvection::compute(double massFlowRate) {
 
 	double fluidTemperature = upstreamFluidState->T();
 	double wallTemperature = wallNode->getTemperature();
-
 	double wallOverheat = wallTemperature - fluidTemperature;
 	if (absMassFlowRate < cst::MinMassFlowRate) {
 		Re = 0;

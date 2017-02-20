@@ -21,12 +21,16 @@ PipeHeatExchanger_R::PipeHeatExchanger_R(FrictionFlowPipe* friction, ForcedConve
 	HeatFlow_register(wallHeatFlow);
 
 	wallNode = NULL;
+	limitStateT = NULL;
 }
 
 PipeHeatExchanger_R::~PipeHeatExchanger_R() {
 }
 
 void PipeHeatExchanger_R::init(MediumState* state1Input) {
+	limitStateT = MediumState_new(state1Input->getMedium());
+	MediumState_register(limitStateT);
+
 	Pipe_R::init(state1Input);
 	convection->init(state1, state2, wallNode);
 }
@@ -48,6 +52,18 @@ bool PipeHeatExchanger_R::compute(double massFlowRate, double minDownstreamPress
 
 	// Compute downstream enthalpy
 	double downstreamEnthalpy = upstreamState->h() + convection->getHeatFlowRate() / m::fabs(massFlowRate);
+
+	double wallTemperature = wallNode->getTemperature();
+	limitStateT->update_Tp(wallNode->getTemperature(), upstreamState->p());
+	if (wallTemperature >  upstreamState->T()) {// Ensure the outlet temperature is not above wall temperature
+		if (downstreamEnthalpy > limitStateT->h()) {
+			downstreamEnthalpy = limitStateT->h();
+		}
+	} else { // Ensure the outlet temperature is not below wall temperature
+		if (downstreamEnthalpy < limitStateT->h()) {
+			downstreamEnthalpy = limitStateT->h();
+		}
+	}
 
 	// Set downstream state
 	MediumState* downstreamState = getDownstreamState(massFlowRate);
