@@ -49,7 +49,7 @@ REVISIONS :
    heatExchangeGain       heat exchange gain                                      [null]
    initialPressure        initial pressure                                        [barA -> PaA]
    initialTemperature     initial temperature (K)                                 [K]
-   initialTemperatureC    initial temperature (°C)                                [degC]
+   initialTemperatureC    initial temperature (ï¿½C)                                [degC]
    initialGasMassFraction initial gas mass fraction                               [null]
    initialSuperheat       initial superheat                                       [K]
    ReL                    laminar to turbulent transition:  lower Reynolds number [null]
@@ -196,6 +196,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
  
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
    Convection_setUseFilmState(_convection, forcedConvectionUseFilmState - 1); //:TRICKY: (0-no, 1-yes)
+   ForcedConvection_setLimitOutput(_convection, 1); //:TRICKY: (0-no, 1-yes)
  
    double internalVolume = flowAreaValue * pipeLength;
    Medium* fluid = Medium_get(fluidIndex);

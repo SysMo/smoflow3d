@@ -56,7 +56,7 @@ REVISIONS :
    heatExchangeGain       heat exchange gain          [null]
    initialPressure        initial pressure            [barA -> PaA]
    initialTemperature     initial temperature (K)     [K]
-   initialTemperatureC    initial temperature (°C)    [degC]
+   initialTemperatureC    initial temperature (ï¿½C)    [degC]
    initialGasMassFraction initial gas mass fraction   [null]
    initialSuperheat       initial superheat           [K]
 */
@@ -180,6 +180,7 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[11]
 
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
    Convection_setUseFilmState(_convection, forcedConvectionUseFilmState - 1); //:TRICKY: (0-no, 1-yes)
+   ForcedConvection_setLimitOutput(_convection, 1); //:TRICKY: (0-no, 1-yes)
    FrictionFlowPipe_setPressureDropGain(_friction, pressureDropGain);
 
    double internalVolume = flowAreaValue * pipeLength;

@@ -53,6 +53,7 @@ bool PipeHeatExchanger_R::compute(double massFlowRate, double minDownstreamPress
 	// Compute downstream enthalpy
 	double downstreamEnthalpy = upstreamState->h() + convection->getHeatFlowRate() / m::fabs(massFlowRate);
 
+	// Try to limit the downstream enthalpy
 	double wallTemperature = wallNode->getTemperature();
 	limitStateT->update_Tp(wallNode->getTemperature(), upstreamState->p());
 	if (wallTemperature >  upstreamState->T()) {// Ensure the outlet temperature is not above wall temperature
