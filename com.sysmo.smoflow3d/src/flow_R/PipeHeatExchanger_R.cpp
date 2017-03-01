@@ -110,7 +110,6 @@ PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		convection->setUseFilmState(false);
 	}
 
-
 	return PipeHeatExhcanger_R_new(friction, convection);
 }
 
