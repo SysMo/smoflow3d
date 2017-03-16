@@ -107,3 +107,5 @@ smo_forced_convection
 &SMO_FORCED_CONVECTION SmoFlow3d
 smo_forced_convection_regulating_gain
 &SMO_FORCED_CONVECTION_REGULATING_GAIN SmoFlow3d
+smo_r_orifice
+&SMO_R_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
