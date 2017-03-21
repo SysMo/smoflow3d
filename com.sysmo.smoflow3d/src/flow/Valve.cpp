@@ -174,6 +174,18 @@ Valve* Valve_OrificeCompressibleIdealGas_new(
 	return new Valve(friction);
 }
 
+Valve* Valve_OrificeCompressibleRealGas_new(
+		int allowBidirectionalFlow,
+		double orificeArea,
+		double flowCoefficient) {
+	FrictionFlowValve* friction = FrictionFlowValve_OrificeCompressibleRealGas_new(
+			allowBidirectionalFlow,
+			orificeArea,
+			flowCoefficient);
+
+	return new Valve(friction);
+}
+
 void Valve_init(Valve* valve, MediumState* state1, MediumState* state2) {
 	valve->init(state1, state2);
 }

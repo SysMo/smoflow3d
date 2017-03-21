@@ -56,6 +56,7 @@ smo_temperature_source
 smo_adaptor_fluid_heat
 &SMO_ADAPTOR_FLUID_HEAT SmoFlow3d
 smo_orifice
+&SMO_ORIFICE_COMPRESSIBLE_REAL_GAS SmoFlow3d
 &SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
 smo_fluid_flow_source
 &SMO_FLUID_FLOW_SOURCE SmoFlow3d
