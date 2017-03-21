@@ -290,6 +290,13 @@ double MediumState_FluidCoolProp::cv() {
 	return _cv;
 }
 
+double MediumState_FluidCoolProp::speed_sound() {
+	if (!_speed_sound) {
+		_speed_sound = cps.speed_sound();
+	}
+	return _speed_sound;
+}
+
 double MediumState_FluidCoolProp::dpdt_v() {
 	if (!_dpdt_v) {
 		if (isTwoPhase()) {

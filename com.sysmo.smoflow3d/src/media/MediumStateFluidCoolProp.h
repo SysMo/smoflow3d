@@ -46,6 +46,7 @@ public:
 	virtual double s();
 	virtual double cp();
 	virtual double cv();
+	virtual double speed_sound();
 	virtual double dpdt_v();
 	virtual double dpdv_t();
 	virtual double dpdrho_t();

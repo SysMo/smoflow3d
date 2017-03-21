@@ -96,6 +96,7 @@ void MediumState::clearPropertyCache() {
 	_s.clear();
 	_cp.clear();
 	_cv.clear();
+	_speed_sound.clear();
 	_dpdt_v.clear();
 	_dpdv_t.clear();
 	_dpdrho_t.clear();
@@ -175,6 +176,10 @@ double MediumState::cp() {
 
 double MediumState::cv() {
 	RaiseError("Unimplemented virtual method 'MediumState::cv()'")
+}
+
+double MediumState::speed_sound() {
+	RaiseError("Unimplemented virtual method 'MediumState::speed_sound()'")
 }
 
 double MediumState::dpdt_v() {
@@ -372,6 +377,10 @@ double MediumState_cp(MediumState* mstate) {
 
 double MediumState_cv(MediumState* mstate) {
 	return mstate->cv();
+}
+
+double MediumState_speed_sound(MediumState* mstate) {
+	return mstate->speed_sound();
 }
 
 double MediumState_dpdt_v(MediumState* mstate) {
