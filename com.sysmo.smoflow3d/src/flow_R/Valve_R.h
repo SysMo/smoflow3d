@@ -26,6 +26,8 @@ public:
 
 	void setRegulatingSignal(double regulatingSignal);
 
+	FlowType getFlowType() {return friction->getFlowType();}
+
 protected:
 	FrictionFlowValve* friction;
 };
@@ -43,7 +45,15 @@ Valve_R* ValveKv_R_new(
 		double transitionMassFlowRate,
 		double transitionPressureDifference);
 
+Valve_R* Valve_OrificeCompressibleIdealGas_R_new(
+		int allowBidirectionalFlow,
+		double orificeArea,
+		double flowCoefficient);
+
+
 void Valve_R_setRegulatingSignal(Valve_R* valve, double regulatingSignal);
+
+int Valve_R_getFlowType(Valve_R* valve);
 END_C_LINKAGE
 
 

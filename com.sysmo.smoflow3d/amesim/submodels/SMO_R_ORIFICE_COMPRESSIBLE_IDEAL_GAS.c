@@ -27,6 +27,21 @@ REVISIONS :
 #define _SUBMODELNAME_ "SMO_R_ORIFICE_COMPRESSIBLE_IDEAL_GAS"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
+#include "SmoFlowAme.h"
+#include "flow_R/Valve_R.h"
+#include "flow_R/ManagerComponents_R.h"
+
+#define _component ps[0]
+#define _componentIndex ic[0]
+
+#define _manager ps[1]
+#define _managerIndex ic[1]
+
+#define _fluidFlow1 ps[2]
+#define _fluidFlow1Index ic[2]
+
+#define _fluidFlow2 ps[3]
+#define _fluidFlow2Index ic[3]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -95,6 +110,15 @@ void smo_r_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
+	_component = Valve_OrificeCompressibleIdealGas_R_new(
+		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
+		   orificeArea,
+		   flowCoefficient);
+	_componentIndex = Component_R_register(_component);
+	SMOCOMPONENT_SET_PROPS(_component)
+
+	_fluidFlow2Index = FlowComponent_R_getFlow2Index(_component);
+	_fluidFlow2 = FluidFlow_get(_fluidFlow2Index);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -167,6 +191,18 @@ void smo_r_orifice_compressible_ideal_gas_(int *n
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
+	SMOCOMPONENT_PRINT_MAIN_CALC
+	if (firstc_()) {
+		ManagerComponents_R_addOuterState2(_manager, *inputRCompID3);
+	}
+	ManagerComponents_R_compute(_manager);
+
+	*massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
+	*enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
+	*pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
+	*flowType = Valve_R_getFlowType(_component);
+
+	*outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -212,6 +248,16 @@ extern double smo_r_orifice_compressible_ideal_gas_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
+	SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID3")
+	if (firstc_()) {
+		_managerIndex = *smoRChainID;
+		_manager = ManagerComponents_R_get(_managerIndex);
+
+		ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
+	}
+	Valve_R_setRegulatingSignal(_component, *regulatingSignal);
+
+	outputRCompID3 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
