@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_REAL_GAS skeleton created by AME Submodel editing utility
-   Tue Mar 21 10:44:25 2017 */
+   Wed Mar 22 15:50:37 2017 */
 
 
 
@@ -179,10 +179,10 @@ void smo_orifice_compressible_real_gas_(int *n
       , double *fluidFlow2Index, double *fluidState2Index
       , double *massFlowRate, double *enthalpyFlowRate
       , double *pressureLoss, double *flowType, double rp[4]
-      , int ip[3], int ic[3], void *ps[3])
+      , int ip[3], int ic[3], void *ps[3], int *flag)
 
 {
-   int loop;
+   int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int allowBidirectionalFlow, useFluidFlowActivationSignal, 
@@ -198,6 +198,7 @@ void smo_orifice_compressible_real_gas_(int *n
    flowCoefficient = rp[1];
    openingPressDiff = rp[2];
    closingPressDiff = rp[3];
+   logi = 0;
    loop = 0;
 
 /* Common -> SI units conversions. */
