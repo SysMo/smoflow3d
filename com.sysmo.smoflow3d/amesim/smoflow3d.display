@@ -27,6 +27,8 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_mechanical_compressor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_cryopump_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_4port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_5port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
@@ -96,6 +98,8 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_mechanical_compressor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_cryopump_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_4port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_5port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
