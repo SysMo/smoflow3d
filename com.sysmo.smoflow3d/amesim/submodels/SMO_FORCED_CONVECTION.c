@@ -1,5 +1,5 @@
 /* Submodel SMO_FORCED_CONVECTION skeleton created by AME Submodel editing utility
-   Fri Feb 10 14:54:11 2017 */
+   ?? ??? 27 12:27:16 2018 */
 
 
 
@@ -29,13 +29,13 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "flow/ForcedConvection.h"
- 
+
 #define _heatFlowIndex ic[0]
 #define _heatFlow ps[0]
- 
+
 #define _fluidFlowIndex ic[1]
 #define _fluidFlow ps[1]
- 
+
 #define _component ps[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -162,10 +162,10 @@ void smo_forced_convectionin_(int *n, double rp[8], int ip[4]
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _heatFlow = HeatFlow_new();
    _heatFlowIndex = HeatFlow_register(_heatFlow);
- 
+
    _fluidFlow = FluidFlow_new();
    _fluidFlowIndex = FluidFlow_register(_fluidFlow);
- 
+
    if (convCalcMethod == 1) {
 	   _component = ForcedConvection_GivenConvectionCoefficient_new(convectionCoefficientGiven, heatExchangeArea);
    } else if (convCalcMethod == 2) {
@@ -190,7 +190,7 @@ void smo_forced_convectionin_(int *n, double rp[8], int ip[4]
 	   }
    }
    SMOCOMPONENT_SET_PROPS(_component)
- 
+
    Convection_setHeatExchangeGain(_component, heatExchangeGain);
    ForcedConvection_setLimitOutput(_component, limitOutput - 1);  //:TRICKY: 0-no, 1-yes
    Convection_setUseFilmState(_component, useFilmState - 1); //:TRICKY: 0-no, 1-yes
@@ -283,16 +283,16 @@ void smo_forced_convection_(int *n, double *massFlowRate
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 	   ForcedConvection_init(_component, fluidState, fluidState, wallNode);
    }
- 
+
    ForcedConvection_compute(_component, *massFlowRate);
    Convection_updateFluidFlow(_component, _fluidFlow);
    Convection_updateHeatFlow(_component, _heatFlow);
- 
+
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_component);
    *nusseltNumber = Convection_getNusseltNumber(_component);
    *convectionCoefficient = Convection_getConvectionCoefficient(_component);
    *heatFlowRateFromWall = Convection_getHeatFlowRate(_component);
- 
+
    *fluidFlowIndex = _fluidFlowIndex;
    *heatFlowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */

@@ -385,7 +385,7 @@ static char _bits[] = {
 ^ 29 28 signal
 @smo_radiative_exchange
 ~smo_radiative_exchange
-%radiative exchange between fluid/wall
+%radiative exchange between gas/wall
 #define icon_width 29
 #define icon_height 30
 static unsigned char icon_bits[] = {
