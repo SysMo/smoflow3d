@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SOURCE_CONSTANT skeleton created by AME Submodel editing utility
-   Fri Dec 6 19:15:02 2013 */
+   Wed Aug 2 06:12:45 2017 */
 
 
 
@@ -29,7 +29,7 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "media/MediumState.h"
-
+ 
 #define _fluidStateIndex ic[0]
 #define _fluidState ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -37,7 +37,7 @@ REVISIONS :
 
 /* There are 4 real parameters:
 
-   initialPressure         pressure          [barA -> PaA]
+   initialPressure         pressure          [bar -> Pa]
    initialTemperature      temperature       [K]
    initialSpecificEnthalpy specific enthalpy [kJ/kg -> J/kg]
    initialGasMassFraction  gas mass fraction [null]
@@ -132,7 +132,7 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
    Medium *fluid = Medium_get(mediumIndex);
    _fluidState = MediumState_new(fluid);
    _fluidStateIndex = MediumState_register(_fluidState);
-
+ 
    if (initConditionsChoice == 1) {
 	   MediumState_update_Tp(_fluidState, initialTemperature, initialPressure);
    } else if (initConditionsChoice == 2) {
@@ -142,14 +142,14 @@ void smo_fluid_state_source_constantin_(int *n, double rp[4]
    } else {
 	   AME_RAISE_ERROR("Unsupported type of initialization.")
    }
-
+ 
    *pressure = MediumState_p(_fluidState) / 1e5;
    *temperature = MediumState_T(_fluidState);
    *temperatureC = MediumState_T(_fluidState) - 273.15;
    *density = MediumState_rho(_fluidState);
    *specificEnthalpy = MediumState_h(_fluidState) / 1e3;
    *gasMassFraction = MediumState_q(_fluidState);
-
+ 
    *fluidStateIndex = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -201,8 +201,8 @@ void smo_fluid_state_source_constant_(int *n, double *fluidFlowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN [smoFFAS] */
 
 /*
    Set all submodel outputs below:
@@ -216,8 +216,8 @@ void smo_fluid_state_source_constant_(int *n, double *fluidFlowIndex
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
 }
 
 #endif

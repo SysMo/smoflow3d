@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_CHAMBER skeleton created by AME Submodel editing utility
-   Sat Nov 30 15:16:34 2013 */
+   Wed Aug 2 05:56:07 2017 */
 
 
 
@@ -30,12 +30,12 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "volumes/FluidChamber.h"
 #include "flow/FlowBase.h"
-
+ 
 #define _component ps[0]
-
+ 
 #define _fluidStateIndex ic[0]
 #define _fluidState ps[1]
-
+ 
 #define _fluidFlow1 ps[2]
 #define _fluidFlow2 ps[3]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -43,7 +43,7 @@ REVISIONS :
 
 /* There are 6 real parameters:
 
-   initialPressure        initial pressure          [barA -> PaA]
+   initialPressure        initial pressure          [bar -> Pa]
    initialTemperature     initial temperature (K)   [K]
    initialTemperatureC    initial temperature (°C)  [degC]
    initialGasMassFraction initial gas mass fraction [null]
@@ -136,11 +136,11 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
    Medium* fluid = Medium_get(fluidIndex);
    _component = FluidChamber_new(fluid);
    SMOCOMPONENT_SET_PROPS(_component)
-
+ 
    FluidChamber_setVolume(_component, volume);
    _fluidState = FluidChamber_getFluidState(_component);
    _fluidStateIndex = MediumState_index(_fluidState);
-
+ 
    if (stateVariableSelection == 1) {
 	   FluidChamber_selectStates(_component, iT, iD);
    } else if (stateVariableSelection == 2) {
@@ -152,7 +152,7 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
    } else {
 	   AME_RAISE_ERROR("Unsupported type of state variables.")
    }
-
+ 
    if (initConditionsChoice == 1) {
 	   MediumState_update_Tp(_fluidState, initialTemperature, initialPressure);
    } else if (initConditionsChoice == 2) {
@@ -162,7 +162,7 @@ void smo_fluid_chamberin_(int *n, double rp[6], int ip[3], int ic[1]
    } else {
 	   AME_RAISE_ERROR("Unsupported type of initialization.")
    }
-
+ 
    FluidChamber_getStateValues(_component, state1, state2, 1);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -226,11 +226,11 @@ void smo_fluid_chamber_(int *n, double *fluidStateIndex
 
 /* Common -> SI units conversions. */
 
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal1 *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal2 *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlow1Index *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal1 *= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidFlow2Index *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal2 *= ??; CONVERSION UNKNOWN [smoFFAS] */
 
 /*
    Set all submodel outputs below:
@@ -254,12 +254,12 @@ void smo_fluid_chamber_(int *n, double *fluidStateIndex
 	   _fluidFlow1 = FluidFlow_get(*fluidFlow1Index);
 	   _fluidFlow2 = FluidFlow_get(*fluidFlow2Index);
    }
-
+ 
    double massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1) + FluidFlow_getMassFlowRate(_fluidFlow2);
    double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1) + FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    FluidChamber_compute(_component, massFlowRate, enthalpyFlowRate, 0, 0);
    FluidChamber_getStateDerivatives(_component, state1Dot, state2Dot);
-
+ 
    *pressure = MediumState_p(_fluidState);
    *temperature = MediumState_T(_fluidState);
    *density = MediumState_rho(_fluidState);
@@ -271,11 +271,11 @@ void smo_fluid_chamber_(int *n, double *fluidStateIndex
 
 /* SI -> Common units conversions. */
 
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal1 /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal2 /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal1 /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal2 /= ??; CONVERSION UNKNOWN [smoFFAS] */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
 }
@@ -318,7 +318,7 @@ extern double smo_fluid_chamber_macro0_(int *n, double *state1
    fluidStateIndex = _fluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 
    return fluidStateIndex;
 }
