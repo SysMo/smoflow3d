@@ -1,5 +1,5 @@
 /* Submodel SMO_HEATEXCHANGER_CR skeleton created by AME Submodel editing utility
-   Sat Nov 30 15:46:57 2013 */
+   Thu Sep 14 10:06:02 2017 */
 
 
 
@@ -29,7 +29,7 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "volumes/HeatExchNoPrDropNoMassAcc_CR.h"
-
+ 
 #define _component ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -101,11 +101,11 @@ void smo_heatexchanger_crin_(int *n, double rp[1], void *ps[1])
 
 /*  There are 5 internal variables.
 
-      1 inletTemperature         inlet temperature       [K]    basic variable
-      2 outletTemperature        outlet temperature      [K]    basic variable
-      3 wallTemperature          temperature of the wall [K]    basic variable
-      4 heatFlowRateFromWall     heat flow rate          [W]    basic variable
-      5 massFlowRateInlet        mass flow rate at inlet [kg/s] basic variable
+      1 inletTemperature         inlet temperature            [K]    basic variable
+      2 outletTemperature        outlet temperature           [K]    basic variable
+      3 wallTemperature          temperature of the wall      [K]    basic variable
+      4 heatFlowRateFromWall     heat flow rate from the wall [W]    basic variable
+      5 massFlowRateInlet        mass flow rate at inlet      [kg/s] basic variable
 */
 
 void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
@@ -129,10 +129,10 @@ void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *inletFluidFlowIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *outletFluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *inletFluidFlowIndex *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *outletFluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Set all submodel outputs below:
@@ -156,26 +156,26 @@ void smo_heatexchanger_cr_(int *n, double *inletFluidFlowIndex
 			   MediumState_get(*outletFluidStateIndex),
 			   FluidFlow_get(*inletFluidFlowIndex));
    }
-
+ 
    HeatExchNoPrDropNoMassAcc_CR_compute(_component);
-
+ 
    *inletTemperature = HeatExchNoPrDropNoMassAcc_CR_getInletTemperature(_component);
    *outletTemperature = HeatExchNoPrDropNoMassAcc_CR_getOutletTemperature(_component);
    *wallTemperature = HeatExchNoPrDropNoMassAcc_CR_getWallTemperature(_component);
    *heatFlowRateFromWall = -HeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowRate(_component);
    *massFlowRateInlet = HeatExchNoPrDropNoMassAcc_CR_getMassFlowRateInlet(_component);
-
+ 
    *outletFluidFlowIndex = HeatExchNoPrDropNoMassAcc_CR_getFluidFlowOutletIndex(_component);
    *heatFlowIndex = HeatExchNoPrDropNoMassAcc_CR_getWallHeatFlowIndex(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *inletFluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
-/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *outletFluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *outletFluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *inletFluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN [smoHFL] */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *outletFluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *outletFluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 }
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE SPE>
-<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>120</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_simple_heater</DEFAULT_ICON>
+  <DEFAULT_ICON>smo_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>heat exchanger (no pressure drop, no mass accumulation) (C-R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <P_STORES_NUMBER>1</P_STORES_NUMBER>
@@ -17,8 +17,8 @@
     <TITLE>heat exchanger efficiency</TITLE>
     <VARNAME>heatExhcangeEfficienccy</VARNAME>
     <VISIBILITY>True</VISIBILITY>
-    <DEF_VALUE>1.00000000000000e+000</DEF_VALUE>
-    <VALUE>1.00000000000000e+000</VALUE>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
     <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
     <UNITS>null</UNITS>
@@ -55,7 +55,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>113</SUB_ID>
-    <TITLE>heat flow rate</TITLE>
+    <TITLE>heat flow rate from the wall</TITLE>
     <VARNAME>heatFlowRateFromWall</VARNAME>
     <VARNAME2>outletTemperatureDot</VARNAME2>
     <VISIBILITY>True</VISIBILITY>
@@ -164,5 +164,6 @@
     </EVAR>
    </PORT>
   </EVARS_LIST>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
  </SUBMODEL>
 </SPE>

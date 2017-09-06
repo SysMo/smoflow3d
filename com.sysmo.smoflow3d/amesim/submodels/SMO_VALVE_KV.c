@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_KV skeleton created by AME Submodel editing utility
-   Sun Dec 29 13:28:41 2013 */
+   Wed Sep 6 06:45:22 2017 */
 
 
 
@@ -29,12 +29,12 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "flow/Valve.h"
-
+ 
 #define _component ps[0]
-
+ 
 #define _fluidFlow1 ps[1]
 #define _fluidFlow1Index ic[1]
-
+ 
 #define _fluidFlow2 ps[2]
 #define _fluidFlow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -153,11 +153,11 @@ void smo_valve_kvin_(int *n, double rp[6], int ip[4], int ic[3]
 		   transitionPressureDifference,
 		   maximumMassFlowRate);
    SMOCOMPONENT_SET_PROPS(_component)
-
+ 
    Valve_setPressureDifferenceParameters(
 		   _component, useOpeningClosingPressDiff - 1,  //:TRICKY: useOpeningClosingPressDiff = '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
 		   openingPressDiff, closingPressDiff);
-
+ 
    _fluidFlow1 = FluidFlow_new();
    _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
    _fluidFlow2 = FluidFlow_new();
@@ -223,8 +223,8 @@ void smo_valve_kv_(int *n, double *fluidFlow1Index
 
 /* Common -> SI units conversions. */
 
-/*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
-/*   *fluidState2Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidState1Index *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidState2Index *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Set all submodel outputs below:
@@ -246,18 +246,18 @@ void smo_valve_kv_(int *n, double *fluidFlow1Index
 	   MediumState* state2 = MediumState_get(*fluidState2Index);
 	   Valve_init(_component, state1, state2);
    }
-
+ 
    Valve_setRegulatingSignal(_component, *regulatingSignal);
    Valve_compute(_component);
    Valve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
-
+ 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = Valve_getAbsolutePressureDrop(_component);
-
+ 
    *fluidFlow1Index = _fluidFlow1Index;
    *fluidFlow2Index = _fluidFlow2Index;
-
+ 
    if (useFluidFlowActivationSignal == 1) { //no
 	   *fluidFlowActivationSignal = -1; //not used
    } else { // yes
@@ -271,11 +271,11 @@ void smo_valve_kv_(int *n, double *fluidFlow1Index
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
-/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidState2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidState1Index /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidState2Index /= ??; CONVERSION UNKNOWN [smoTDS] */
    *pressureLoss /= 1.00000000000000e+005;
 }
 

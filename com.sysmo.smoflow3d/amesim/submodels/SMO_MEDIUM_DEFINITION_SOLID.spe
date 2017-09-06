@@ -6,7 +6,7 @@
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>18</SUB_ID_MAX>
   <DEFAULT_ICON>smo_medium_definition</DEFAULT_ICON>
-  <SUB_LABEL>user difined solid material definition</SUB_LABEL>
+  <SUB_LABEL>user defined solid material definition</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <HAS_NO_CALC>1</HAS_NO_CALC>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
