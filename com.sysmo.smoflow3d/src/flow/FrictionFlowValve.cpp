@@ -150,7 +150,7 @@ public:
 		this->maximumMassFlowRate = maximumMassFlowRate;
 	}
 
-	virtual double computePressureDrop(double massFlowRate) {
+	virtual double computePressureDrop(double massFlowRate) { //:TRICKY: Used in R components
 		// Set mass flow rate
 		this->massFlowRate = massFlowRate;
 		if (massFlowRate < 0.0 && !isBidirectionalFlowAllowed()) {
