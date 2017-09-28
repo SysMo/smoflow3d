@@ -146,7 +146,7 @@
    </RPARAM>
    <RPARAM>
     <SUB_ID>60</SUB_ID>
-    <TITLE>angle of inclination (tup surf >0, bottom <0)</TITLE>
+    <TITLE>angle of inclination (top surface > 0, bottom surface < 0)</TITLE>
     <VARNAME>angleOfInclination</VARNAME>
     <VISIBILITY>calculationMethod==10</VISIBILITY>
     <DEF_VALUE>3.00000000000000e+01</DEF_VALUE>

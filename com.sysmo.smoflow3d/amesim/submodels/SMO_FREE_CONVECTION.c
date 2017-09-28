@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Thu Feb 9 09:31:50 2017 */
+   Thu Sep 28 09:14:48 2017 */
 
 
 
@@ -42,19 +42,19 @@ REVISIONS :
 
 /* There are 13 real parameters:
 
-   heatExchangeGain           heat exchange gain                            [null]
-   convectionCoefficientGiven convection coefficient (given)                [W/m**2/K]
-   characteristicLength       characteristic length                         [m]
-   heatExchangeArea           heat exchange area                            [m**2]
-   length                     length                                        [m]
-   height                     height                                        [m]
-   width                      width                                         [m]
-   diameter                   diameter                                      [m]
-   basePipeDiameter           base pipe diameter                            [m]
-   finSpacing                 fin spacing                                   [m]
-   finThickness               fin thickness                                 [m]
-   finHeight                  fin height                                    [m]
-   angleOfInclination         angle of inclination (tup surf >0, bottom <0) [degree -> rad]
+   heatExchangeGain           heat exchange gain                                         [null]
+   convectionCoefficientGiven convection coefficient (given)                             [W/m**2/K]
+   characteristicLength       characteristic length                                      [m]
+   heatExchangeArea           heat exchange area                                         [m**2]
+   length                     length                                                     [m]
+   height                     height                                                     [m]
+   width                      width                                                      [m]
+   diameter                   diameter                                                   [m]
+   basePipeDiameter           base pipe diameter                                         [m]
+   finSpacing                 fin spacing                                                [m]
+   finThickness               fin thickness                                              [m]
+   finHeight                  fin height                                                 [m]
+   angleOfInclination         angle of inclination (top surface > 0, bottom surface < 0) [degree -> rad]
 */
 
 
