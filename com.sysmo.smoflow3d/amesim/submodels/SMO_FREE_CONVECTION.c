@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Thu Sep 28 09:14:48 2017 */
+   Thu Sep 28 11:39:04 2017 */
 
 
 
@@ -60,15 +60,15 @@ REVISIONS :
 
 /* There are 3 integer parameters:
 
-   calculationMethod     covection calculation method
-   useFilmState          use film state              
-   areaCalculationMethod area calculation method     
+   calculationMethod     convection calculation method
+   useFilmState          use film state               
+   areaCalculationMethod area calculation method      
 */
 
 
 /* There is 1 text parameter:
 
-   nusseltCorrelationExpr nusselt correlation expression Nu=f(Ra, Pr)
+   nusseltCorrelationExpr Nusselt correlation expression Nu=f(Ra, Pr)
 */
 
 void smo_free_convectionin_(int *n, double rp[13], int ip[3]
@@ -128,7 +128,7 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[3]
 
    if (calculationMethod < 1 || calculationMethod > 10)
    {
-      amefprintf(stderr, "\ncovection calculation method must be in range [1..10].\n");
+      amefprintf(stderr, "\nconvection calculation method must be in range [1..10].\n");
       error = 2;
    }
    if (useFilmState < 1 || useFilmState > 2)

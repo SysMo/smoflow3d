@@ -159,7 +159,7 @@
   <IPARAMS_LIST>
    <IPARAM>
     <SUB_ID>20</SUB_ID>
-    <TITLE>covection calculation method</TITLE>
+    <TITLE>convection calculation method</TITLE>
     <VARNAME>calculationMethod</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
@@ -239,7 +239,7 @@
   <TPARAMS_LIST>
    <TPARAM>
     <SUB_ID>24</SUB_ID>
-    <TITLE>nusselt correlation expression Nu=f(Ra, Pr)</TITLE>
+    <TITLE>Nusselt correlation expression Nu=f(Ra, Pr)</TITLE>
     <VARNAME>nusseltCorrelationExpr</VARNAME>
     <VISIBILITY>calculationMethod==2</VISIBILITY>
     <DEF_VALUE>(0.825+0.387*Ra^(1./6))^2</DEF_VALUE>
