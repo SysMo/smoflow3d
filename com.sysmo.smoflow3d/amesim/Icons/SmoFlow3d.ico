@@ -133,7 +133,7 @@ static unsigned char icon_bits[] = {
 ^   1  37 hflow
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_valve
-%valve with regulating signal input (R)
+%valve (R)
 #define _width 25
 #define _height 25
 static char _bits[] = {
@@ -352,7 +352,7 @@ static unsigned char DriveCycle_bits[] = {
 ^ 127 41 signal
 ^ 127 11 signal
 @smo_free_convection
-%free convection heat exchange 
+%free convection
 #define _width 29
 #define _height 30
 static char _bits[] = {
@@ -368,7 +368,7 @@ static char _bits[] = {
 ^ 16 30 thermal
 ^ 16  1 hflow
 @smo_free_convection_regulating_gain
-%free convection heat exchange with regulating gain
+%free convection with regulating gain
 #define _width 29
 #define _height 30
 static char _bits[] = {
@@ -385,7 +385,7 @@ static char _bits[] = {
 ^ 29 28 signal
 @smo_radiative_exchange
 ~smo_radiative_exchange
-%radiative exchange between a wall and a fluid
+%radiative exchange between fluid/wall
 #define icon_width 29
 #define icon_height 30
 static unsigned char icon_bits[] = {
@@ -476,7 +476,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_mechanical_compressor
 ~smo_mechanical_compressor
-%compressor/pump model (R)
+%compressor (R)
 #define _width 49
 #define _height 49
 static char _bits[] = {
@@ -781,7 +781,7 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 @smo_orifice
 ~smo_orifice
-%orifice with regulating signal input (R)
+%orifice (R)
 #define _width 25
 #define _height 25
 static char _bits[] = {
@@ -1158,7 +1158,7 @@ static char _bits[] = {
 ^ 1  15 hflow
 ^ 43 15 hflow
 @smo_file_reader
-%File reader (csv)
+%file reader
 #define _width 39
 #define _height 39
 static char _bits[] = {
@@ -1176,7 +1176,7 @@ static char _bits[] = {
 0xc0,0x07,0x00,0xf0,0x01,0x80,0x1f,0x00,0xfc,0x00,0x00,0x7f,0x00,0x7f,0x00,
 0x00,0xfc,0xff,0x1f,0x00,0x00,0xf0,0xff,0x07,0x00,0x00,0x80,0xff,0x00,0x00 };
 @smo_file_reader_data_selector
-%Data selector for the file reader (csv)
+%data selector of the file reader
 #define _width 32
 #define _height 32
 static char _bits[] = {

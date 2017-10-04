@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE SPE>
-<SPE DOC_VERSION="2" AME_VERSION="12.0.0 -  31356-25928 2013">
+<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
 
  <SUBMODEL>
   <HAS_TERMINATE>1</HAS_TERMINATE>
   <SUB_TYPE>0</SUB_TYPE>
   <DEFAULT_ICON>smiulation_environment</DEFAULT_ICON>
-  <SUB_LABEL>communication with the simulation environment</SUB_LABEL>
+  <SUB_LABEL>provides communication with the simulation environment</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <DISCONTINUITY>1</DISCONTINUITY>
   <TIME_REQUIRED>1</TIME_REQUIRED>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
  </SUBMODEL>
 </SPE>
