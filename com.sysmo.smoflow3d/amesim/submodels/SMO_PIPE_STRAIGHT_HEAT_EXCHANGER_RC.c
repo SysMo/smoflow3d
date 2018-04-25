@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   Mon Feb 3 21:53:41 2014 */
+   Wed Aug 2 06:01:06 2017 */
 
 
 
@@ -29,16 +29,16 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "volumes/PipeHeatExchPrDropMassAcc_RC.h"
-
+ 
 #define _port1FluidFlow ps[0]
 #define _port1FluidFlowIndex ic[0]
-
+ 
 #define _port3FluidState ps[1]
 #define _port3FluidStateIndex ic[1]
-
+ 
 #define _wallHeatFlow ps[2]
 #define _wallHeatFlowIndex ic[2]
-
+ 
 #define _port1FluidState ps[3]
 #define _friction ps[4]
 #define _convection ps[5]
@@ -54,9 +54,9 @@ REVISIONS :
    absoluteRoughness      absolute roughness          [mm -> m]
    pressureDropGain       pressure drop gain          [null]
    heatExchangeGain       heat exchange gain          [null]
-   initialPressure        initial pressure            [barA -> PaA]
+   initialPressure        initial pressure            [bar -> Pa]
    initialTemperature     initial temperature (K)     [K]
-   initialTemperatureC    initial temperature (ï¿½C)    [degC]
+   initialTemperatureC    initial temperature (°C)    [degC]
    initialGasMassFraction initial gas mass fraction   [null]
    initialSuperheat       initial superheat           [K]
 */
@@ -177,12 +177,12 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[11]
    }
    _friction = FrictionFlowPipe_StraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue, absoluteRoughness);
    _convection = ForcedConvection_StraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue);
-
+ 
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
    Convection_setUseFilmState(_convection, forcedConvectionUseFilmState - 1); //:TRICKY: (0-no, 1-yes)
    ForcedConvection_setLimitOutput(_convection, 1); //:TRICKY: (0-no, 1-yes)
    FrictionFlowPipe_setPressureDropGain(_friction, pressureDropGain);
-
+ 
    double internalVolume = flowAreaValue * pipeLength;
    _component = PipeHeatExchPrDropMassAcc_RC_new(
 		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
@@ -269,11 +269,11 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *port1FluidStateIndex *= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *port3FluidStateIndex *= ??; CONVERSION UNKNOWN */
-/*   *port3FluidFlowIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
+/*   *port1FluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *port3FluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *port3FluidFlowIndex *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN [smoFFAS] */
 
 /*
    Set all submodel outputs below:
@@ -296,10 +296,10 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
    if (firstc_()) {
 	   FluidFlow* port3Flow = FluidFlow_get(*port3FluidFlowIndex);
 	   PipeHeatExchPrDropMassAcc_RC_init(_component, port3Flow);
-
+ 
 	   _port1FluidFlow = PipeHeatExchPrDropMassAcc_RC_getPort1Flow(_component);
 	   _port1FluidFlowIndex = SmoObject_getInstanceIndex(_port1FluidFlow);
-
+ 
 	   _wallHeatFlow = PipeHeatExchPrDropMassAcc_RC_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
@@ -308,7 +308,7 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
    } else {
 	   PipeHeatExchPrDropMassAcc_RC_compute(_component);
    }
-
+ 
    *port1FluidFlowIndex = _port1FluidFlowIndex;
    *heatFlowIndex = _wallHeatFlowIndex;
    *port1Temperature = MediumState_T(_port1FluidState);
@@ -322,13 +322,13 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *port1FluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *port1FluidStateIndex /= ??; CONVERSION UNKNOWN */
-/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *port3FluidStateIndex /= ??; CONVERSION UNKNOWN */
-/*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
+/*   *port1FluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *port1FluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN [smoHFL] */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *port3FluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
    *totalPressureLoss /= 1.00000000000000e+005;
 }
 
@@ -372,8 +372,8 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *port1FluidStateIndex *= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
+/*   *port1FluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
 
 /*
    Define and return the following macro variable:
@@ -388,7 +388,7 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
 	   // Get the inlet state and wall node
 	   _port1FluidState = MediumState_get(*port1FluidStateIndex);
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
-
+ 
 	   // Initialize outlet state
 	   StateVariableSet internalStateInitialValues;
 	   if (initConditionsChoice == 1) {
@@ -400,27 +400,27 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
 	   } else {
 		   AME_RAISE_ERROR("Unsupported type of initialization.")
 	   }
-
+ 
 	   PipeHeatExchPrDropMassAcc_RC_initStates(_component, _port1FluidState, wallNode, stateVariableSelection, internalStateInitialValues);
-
+ 
 	   _port3FluidState = PipeHeatExchPrDropMassAcc_RC_getPort2State(_component);
 	   _port3FluidStateIndex = SmoObject_getInstanceIndex(_port3FluidState);
-
-
+ 
+ 
 	   PipeHeatExchPrDropMassAcc_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);
    } else {
 	   PipeHeatExchPrDropMassAcc_RC_setStateValues(_component, stateValues[0], stateValues[1]);
    }
-
+ 
    port3FluidStateIndex = _port3FluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *port1FluidStateIndex /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
+/*   *port1FluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
 
-/*   *port3FluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *port3FluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 
    return port3FluidStateIndex;
 }

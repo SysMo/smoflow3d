@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C skeleton created by AME Submodel editing utility
-   Fri Feb 10 14:54:48 2017 */
+   Wed Aug 2 06:01:25 2017 */
 
 
 
@@ -47,9 +47,9 @@ REVISIONS :
    pipeLength             pipe length                                             [m]
    flowArea               flow (cross sectional) area                             [mm**2 -> m**2]
    heatExchangeGain       heat exchange gain                                      [null]
-   initialPressure        initial pressure                                        [barA -> PaA]
+   initialPressure        initial pressure                                        [bar -> Pa]
    initialTemperature     initial temperature (K)                                 [K]
-   initialTemperatureC    initial temperature (ï¿½C)                                [degC]
+   initialTemperatureC    initial temperature (°C)                                [degC]
    initialGasMassFraction initial gas mass fraction                               [null]
    initialSuperheat       initial superheat                                       [K]
    ReL                    laminar to turbulent transition:  lower Reynolds number [null]
