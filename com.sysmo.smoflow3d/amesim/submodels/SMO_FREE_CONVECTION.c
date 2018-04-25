@@ -1,5 +1,5 @@
 /* Submodel SMO_FREE_CONVECTION skeleton created by AME Submodel editing utility
-   Fri Dec 20 15:12:58 2013 */
+   Thu Feb 9 09:31:50 2017 */
 
 
 
@@ -29,13 +29,13 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "flow/FreeConvection.h"
-
+ 
 #define _heatFlowIndex ic[0]
 #define _heatFlow ps[0]
-
+ 
 #define _fluidFlowIndex ic[1]
 #define _fluidFlow ps[1]
-
+ 
 #define _component ps[2]
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -54,14 +54,15 @@ REVISIONS :
    finSpacing                 fin spacing                                   [m]
    finThickness               fin thickness                                 [m]
    finHeight                  fin height                                    [m]
-   angleOfInclination         angle of inclination (tup surf >0, bottom <0) [deg]
+   angleOfInclination         angle of inclination (tup surf >0, bottom <0) [degree -> rad]
 */
 
 
-/* There are 2 integer parameters:
+/* There are 3 integer parameters:
 
-   calculationMethod covection calculation method
-   useFilmState      use film state              
+   calculationMethod     covection calculation method
+   useFilmState          use film state              
+   areaCalculationMethod area calculation method     
 */
 
 
@@ -70,7 +71,7 @@ REVISIONS :
    nusseltCorrelationExpr nusselt correlation expression Nu=f(Ra, Pr)
 */
 
-void smo_free_convectionin_(int *n, double rp[13], int ip[2]
+void smo_free_convectionin_(int *n, double rp[13], int ip[3]
       , char *tp[1], int ic[4], void *ps[4]
       , double *fluidFlowActivationSignal)
 
@@ -78,7 +79,7 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[2]
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int calculationMethod, useFilmState;
+   int calculationMethod, useFilmState, areaCalculationMethod;
    double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, heatExchangeArea, length, height, width, 
       diameter, basePipeDiameter, finSpacing, finThickness, finHeight
@@ -87,6 +88,7 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[2]
 
    calculationMethod = ip[0];
    useFilmState = ip[1];
+   areaCalculationMethod = ip[2];
 
    heatExchangeGain = rp[0];
    convectionCoefficientGiven = rp[1];
@@ -134,6 +136,11 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[2]
       amefprintf(stderr, "\nuse film state must be in range [1..2].\n");
       error = 2;
    }
+   if (areaCalculationMethod < 1 || areaCalculationMethod > 2)
+   {
+      amefprintf(stderr, "\narea calculation method must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -148,49 +155,48 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[2]
 
 /* Common -> SI units conversions. */
 
-/*   *rp[12]   *= ??; CONVERSION UNKNOWN */
+   rp[12]   *= 1.74532925199433e-002;
+   angleOfInclination = rp[12];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _heatFlow = HeatFlow_new();
    _heatFlowIndex = HeatFlow_register(_heatFlow);
-
+ 
    _fluidFlow = FluidFlow_new();
    _fluidFlowIndex = FluidFlow_register(_fluidFlow);
-
+ 
    if (calculationMethod == 1) {
-	   _component =
-			   FreeConvection_GivenConvectionCoefficient_new(convectionCoefficientGiven, heatExchangeArea);
+	   _component = FreeConvection_GivenConvectionCoefficient_new(convectionCoefficientGiven, heatExchangeArea);
    } else if (calculationMethod == 2) {
-	   _component =
-			   FreeConvection_NusseltExpression_new(characteristicLength, heatExchangeArea, nusseltCorrelationExpr);
+	   _component = FreeConvection_NusseltExpression_new(characteristicLength, heatExchangeArea, nusseltCorrelationExpr);
    } else if (calculationMethod == 3) {
-	   _component =
-			   FreeConvection_VerticalSurface_new(height, width);
+	   _component = FreeConvection_VerticalSurface_new(height, width);
    } else if (calculationMethod == 4) {
-	   _component =
-			   FreeConvection_HorizontalSurfaceTop_new(length, width);
+	   _component = FreeConvection_HorizontalSurfaceTop_new(length, width);
    } else if (calculationMethod == 5) {
-	   _component =
-			   FreeConvection_HorizontalSurfaceBottom_new(length, width);
+	   _component = FreeConvection_HorizontalSurfaceBottom_new(length, width);
    } else if (calculationMethod == 6) {
-	   _component =
-			   FreeConvection_CylindricalHorizontalSurface_new(length, diameter);
+	   if (areaCalculationMethod == 1) {
+		   _component = FreeConvection_CylindricalHorizontalSurface_new(length, diameter);
+	   } else {
+		   _component = FreeConvection_CylindricalHorizontalSurfaceWithArea_new(length, diameter, heatExchangeArea);
+	   }
    } else if (calculationMethod == 7) {
-	   _component =
-			   FreeConvection_CylindricalVerticalSurface_new(length, diameter);
+	   if (areaCalculationMethod == 1) {
+		   _component = FreeConvection_CylindricalVerticalSurface_new(length, diameter);
+	   } else {
+		   _component = FreeConvection_CylindricalVerticalSurfaceWithArea_new(length, diameter, heatExchangeArea);
+	   }
    } else if (calculationMethod == 8) {
-	   _component =
-			   FreeConvection_SphericalSurface_new(diameter);
+	   _component = FreeConvection_SphericalSurface_new(diameter);
    } else if (calculationMethod == 9) {
-	   _component =
-			   FreeConvection_FinnedPipe_new(length, basePipeDiameter, finSpacing, finThickness, finHeight);
+	   _component = FreeConvection_FinnedPipe_new(length, basePipeDiameter, finSpacing, finThickness, finHeight);
    } else if (calculationMethod == 10) {
-	   _component =
-			   FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
+	   _component = FreeConvection_InclinedSurface_new(length, width, angleOfInclination);
    }
    SMOCOMPONENT_SET_PROPS(_component)
-
+ 
    Convection_setHeatExchangeGain(_component, heatExchangeGain);
    Convection_setUseFilmState(_component, useFilmState - 1); //:TRICKY: 0-no, 1-yes
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -221,14 +227,14 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[2]
 void smo_free_convection_(int *n, double *heatFlowIndex
       , double *thermalNodeIndex, double *fluidFlowIndex
       , double *fluidStateIndex, double *Ra, double *Nu, double *h
-      , double *qDot, double rp[13], int ip[2], char *tp[1], int ic[4]
+      , double *qDot, double rp[13], int ip[3], char *tp[1], int ic[4]
       , void *ps[4])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int calculationMethod, useFilmState;
+   int calculationMethod, useFilmState, areaCalculationMethod;
    double heatExchangeGain, convectionCoefficientGiven, 
       characteristicLength, heatExchangeArea, length, height, width, 
       diameter, basePipeDiameter, finSpacing, finThickness, finHeight
@@ -237,6 +243,7 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 
    calculationMethod = ip[0];
    useFilmState = ip[1];
+   areaCalculationMethod = ip[2];
 
    heatExchangeGain = rp[0];
    convectionCoefficientGiven = rp[1];
@@ -257,8 +264,8 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Set all submodel outputs below:
@@ -280,7 +287,7 @@ void smo_free_convection_(int *n, double *heatFlowIndex
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 	   FreeConvection_init(_component, fluidState, wallNode);
    }
-
+ 
    FreeConvection_compute(_component);
    Convection_updateFluidFlow(_component, _fluidFlow);
    Convection_updateHeatFlow(_component, _heatFlow);
@@ -288,16 +295,16 @@ void smo_free_convection_(int *n, double *heatFlowIndex
    *Nu = Convection_getNusseltNumber(_component);
    *h = Convection_getConvectionCoefficient(_component);
    *qDot = Convection_getHeatFlowRate(_component);
-
+ 
    *fluidFlowIndex = _fluidFlowIndex;
    *heatFlowIndex = _heatFlowIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN [smoHFL] */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 }
 

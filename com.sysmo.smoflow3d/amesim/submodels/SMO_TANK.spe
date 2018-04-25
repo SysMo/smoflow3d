@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>94</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_tank</DEFAULT_ICON>
+  <SUB_LABEL>tank with an injector</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>2</I_STORES_NUMBER>
+  <P_STORES_NUMBER>6</P_STORES_NUMBER>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>31</SUB_ID>
+    <TITLE>initial pressure</TITLE>
+    <VARNAME>initialPressure</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>3.00000000000000e+00</DEF_VALUE>
+    <VALUE>3.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-008</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+008</MAX_VALUE>
+    <UNITS>barA</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>32</SUB_ID>
+    <TITLE>initial temperature (K)</TITLE>
+    <VARNAME>initialTemperature</VARNAME>
+    <VISIBILITY>(initConditionsChoice == 1)</VISIBILITY>
+    <DEF_VALUE>3.00000000000000e+02</DEF_VALUE>
+    <VALUE>3.00000000000000e+02</VALUE>
+    <MIN_VALUE>1.00000000000000e-001</MIN_VALUE>
+    <MAX_VALUE>5.00000000000000e+003</MAX_VALUE>
+    <UNITS>K</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>33</SUB_ID>
+    <TITLE>initial temperature (°C)</TITLE>
+    <VARNAME>initialTemperatureC</VARNAME>
+    <VISIBILITY>(initConditionsChoice == 2)</VISIBILITY>
+    <DEF_VALUE>1.50000000000000e+01</DEF_VALUE>
+    <VALUE>1.50000000000000e+01</VALUE>
+    <MIN_VALUE>-2.73150000000000e+002</MIN_VALUE>
+    <MAX_VALUE>5.00000000000000e+003</MAX_VALUE>
+    <UNITS>degC</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>34</SUB_ID>
+    <TITLE>initial gas mass fraction</TITLE>
+    <VARNAME>initialGasMassFraction</VARNAME>
+    <VISIBILITY>(initConditionsChoice == 3)</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e-01</DEF_VALUE>
+    <VALUE>5.00000000000000e-01</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>35</SUB_ID>
+    <TITLE>initial superheat</TITLE>
+    <VARNAME>initialSuperheat</VARNAME>
+    <VISIBILITY>(initConditionsChoice == 4)</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e+00</DEF_VALUE>
+    <VALUE>5.00000000000000e+00</VALUE>
+    <MIN_VALUE>-2.00000000000000e+002</MIN_VALUE>
+    <MAX_VALUE>2.00000000000000e+002</MAX_VALUE>
+    <UNITS>K</UNITS>
+    <IS_DELTA>1</IS_DELTA>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>36</SUB_ID>
+    <TITLE>volume</TITLE>
+    <VARNAME>volume</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-003</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+005</MAX_VALUE>
+    <UNITS>L</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>77</SUB_ID>
+    <TITLE>hydraulic diameter</TITLE>
+    <VARNAME>hydraulicDiameter</VARNAME>
+    <VISIBILITY>true</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e+00</DEF_VALUE>
+    <VALUE>5.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>78</SUB_ID>
+    <TITLE>pipe length</TITLE>
+    <VARNAME>pipeLength</VARNAME>
+    <VISIBILITY>true</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>80</SUB_ID>
+    <TITLE>heat exchange gain</TITLE>
+    <VARNAME>heatExchangeGain</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>84</SUB_ID>
+    <TITLE>critical Reynolds number (end laminar flow)</TITLE>
+    <VARNAME>ReL</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>2.30000000000000e+03</DEF_VALUE>
+    <VALUE>2.30000000000000e+03</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>85</SUB_ID>
+    <TITLE>critical Reynolds number (start turbulent flow)</TITLE>
+    <VARNAME>ReH</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+04</DEF_VALUE>
+    <VALUE>1.00000000000000e+04</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>86</SUB_ID>
+    <TITLE>hydraulic diameter of the injector</TITLE>
+    <VARNAME>hydraulicDiameterInjector</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
+    <VALUE>0.00000000000000e+00</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>40</SUB_ID>
+    <TITLE>fluid index</TITLE>
+    <VARNAME>fluidIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>41</SUB_ID>
+    <TITLE>type of initialization</TITLE>
+    <VARNAME>initConditionsChoice</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>4</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>pressure and temperature</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>pressure and temperature (degC)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>pressure and gas mass fraction</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>pressure and superheat</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>42</SUB_ID>
+    <TITLE>states variables</TITLE>
+    <VARNAME>stateVariableSelection</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>4</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>(T, rho)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(P, T)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(p, rho)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>(p, h)</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>90</SUB_ID>
+    <TITLE>use film state for the forced convection; T_film = (T_wall+T_fluid)/2</TITLE>
+    <VARNAME>forcedConvectionUseFilmState</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>2</DEF_VALUE>
+    <VALUE>2</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <TPARAMS_LIST>
+   <TPARAM>
+    <SUB_ID>93</SUB_ID>
+    <TITLE>nusselt correlation expression Nu=f(Re, Pr) - laminar flow</TITLE>
+    <VARNAME>nusseltExpressionLaminarFlow</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>3.66</DEF_VALUE>
+    <VALUE>3.66</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>94</SUB_ID>
+    <TITLE>nusselt correlation expression Nu=f(Re, Pr) - turbulent flow</TITLE>
+    <VARNAME>nusseltExpressionTurbulentFlow</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>(((1.8*log10(Re)-1.5)^-2)/8)*Re*Pr / (1 + 12.7*(((1.8*log10(Re)-1.5)^-2)/8)^0.5*(Pr^(2/3)-1))</DEF_VALUE>
+    <VALUE>(((1.8*log10(Re)-1.5)^-2)/8)*Re*Pr / (1 + 12.7*(((1.8*log10(Re)-1.5)^-2)/8)^0.5*(Pr^(2/3)-1))</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+  </TPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>16</SUB_ID>
+    <TITLE>pressure</TITLE>
+    <VARNAME>pressure</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>17</SUB_ID>
+    <TITLE>temperature</TITLE>
+    <VARNAME>temperature</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>18</SUB_ID>
+    <TITLE>density</TITLE>
+    <VARNAME>density</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/m**3</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>19</SUB_ID>
+    <TITLE>specific enthalpy</TITLE>
+    <VARNAME>specificEnthalpy</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kJ/kg</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>20</SUB_ID>
+    <TITLE>gas mass fraction</TITLE>
+    <VARNAME>gasMassFraction</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>21</SUB_ID>
+    <TITLE>subcooling / superheat</TITLE>
+    <VARNAME>superHeat</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <IS_DELTA>1</IS_DELTA>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>degC</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>22</SUB_ID>
+    <TITLE>mass in chamber</TITLE>
+    <VARNAME>totalMass</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>69</SUB_ID>
+    <TITLE>state values</TITLE>
+    <VARNAME>stateValues</VARNAME>
+    <VARNAME2>stateValuesDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>1</TYPE>
+    <DIMENSION>2</DIMENSION>
+    <UNITS>null</UNITS>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+    <DEF_VALUE>0</DEF_VALUE>
+    <VALUE>0</VALUE>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>70</SUB_ID>
+    <TITLE>Reynolds number</TITLE>
+    <VARNAME>reynoldsNumber</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>71</SUB_ID>
+    <TITLE>convection coefficient</TITLE>
+    <VARNAME>convectionCoefficient</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W/m**2/K</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>72</SUB_ID>
+    <TITLE>heat flow rate fom the wall</TITLE>
+    <VARNAME>heatFlowRateFromWall</VARNAME>
+    <VARNAME2>outletTemperatureDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>58</SUB_ID>
+     <TITLE>fluid state index</TITLE>
+     <VARNAME>fluidStateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+     <EXPRESS2>@_2_2, @_0_8</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>59</SUB_ID>
+     <TITLE>fluid flow index (port1); (connection with the fueling subsystem)</TITLE>
+     <VARNAME>fluidFlow1Index</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>60</SUB_ID>
+     <TITLE>fluid flow activation signal (port1)</TITLE>
+     <VARNAME>fluidFlowActivationSignal1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>63</SUB_ID>
+     <TITLE>heat flow index (port2)</TITLE>
+     <VARNAME>heatFlowIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoHFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>64</SUB_ID>
+     <TITLE>thermal node index (port2); (connection with the tank's wall)</TITLE>
+     <VARNAME>thermalNodeIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTHN</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>49</SUB_ID>
+     <VARNAME>fluidStateIndexDup3</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>0</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>50</SUB_ID>
+     <TITLE>outlet fluid flow (port3); (connect with the extraction subsystem)</TITLE>
+     <VARNAME>fluidFlow3Index</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>51</SUB_ID>
+     <TITLE>fluid flow activation signal (port3)</TITLE>
+     <VARNAME>fluidFlowActivationSignal3</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>55</SUB_ID>
+     <VARNAME>fluidStateIndexDup4</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>0</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>56</SUB_ID>
+     <TITLE>fluid flow index (port4); (use it for a additional heat/fluid exchange)</TITLE>
+     <VARNAME>fluidFlow4Index</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>57</SUB_ID>
+     <TITLE>fluid flow activation signal (port4)</TITLE>
+     <VARNAME>fluidFlowActivationSignal4</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
+ </SUBMODEL>
+</SPE>

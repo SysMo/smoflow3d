@@ -1,5 +1,6 @@
 ./submodels
 smo_medium_definition
+&SMO_MEDIUM_DEFINITION_SOLID SmoFlow3d
 &SMO_MEDIUM_DEFINITION SmoFlow3d
 smo_fluid_state_sensor
 &SMO_FLUID_STATE_SENSOR SmoFlow3d
@@ -55,6 +56,7 @@ smo_temperature_source
 smo_adaptor_fluid_heat
 &SMO_ADAPTOR_FLUID_HEAT SmoFlow3d
 smo_orifice
+&SMO_ORIFICE_COMPRESSIBLE_REAL_GAS SmoFlow3d
 &SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
 smo_fluid_flow_source
 &SMO_FLUID_FLOW_SOURCE SmoFlow3d
@@ -94,7 +96,15 @@ smo_r_pipe_constant_drag_coeff
 &SMO_R_PIPE_CONSTANT_DRAC_COEFF SmoFlow3d
 smo_file_reader
 &SMO_FILE_READER_CSV SmoFlow3d
-&SMO_FILE_READER
 smo_file_reader_data_selector
 &SMO_FILE_READER_CSV_DATA_SELECTOR SmoFlow3d
-&SMO_FILE_READER_DATA_SELCTOR
+smo_fluid_flow_source_mdot_t
+&SMO_FLUID_FLOW_SOURCE_MDOT_T SmoFlow3d
+smo_radiative_exchange
+&SMO_RADIATIVE_EXCHANGE SmoFlow3d
+smo_forced_convection
+&SMO_FORCED_CONVECTION SmoFlow3d
+smo_forced_convection_regulating_gain
+&SMO_FORCED_CONVECTION_REGULATING_GAIN SmoFlow3d
+smo_r_orifice
+&SMO_R_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d

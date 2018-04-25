@@ -21,12 +21,16 @@ PipeHeatExchanger_R::PipeHeatExchanger_R(FrictionFlowPipe* friction, ForcedConve
 	HeatFlow_register(wallHeatFlow);
 
 	wallNode = NULL;
+	limitStateT = NULL;
 }
 
 PipeHeatExchanger_R::~PipeHeatExchanger_R() {
 }
 
 void PipeHeatExchanger_R::init(MediumState* state1Input) {
+	limitStateT = MediumState_new(state1Input->getMedium());
+	MediumState_register(limitStateT);
+
 	Pipe_R::init(state1Input);
 	convection->init(state1, state2, wallNode);
 }
@@ -48,6 +52,19 @@ bool PipeHeatExchanger_R::compute(double massFlowRate, double minDownstreamPress
 
 	// Compute downstream enthalpy
 	double downstreamEnthalpy = upstreamState->h() + convection->getHeatFlowRate() / m::fabs(massFlowRate);
+
+	// Try to limit the downstream enthalpy
+	double wallTemperature = wallNode->getTemperature();
+	limitStateT->update_Tp(wallNode->getTemperature(), upstreamState->p());
+	if (wallTemperature >  upstreamState->T()) {// Ensure the outlet temperature is not above wall temperature
+		if (downstreamEnthalpy > limitStateT->h()) {
+			downstreamEnthalpy = limitStateT->h();
+		}
+	} else { // Ensure the outlet temperature is not below wall temperature
+		if (downstreamEnthalpy < limitStateT->h()) {
+			downstreamEnthalpy = limitStateT->h();
+		}
+	}
 
 	// Set downstream state
 	MediumState* downstreamState = getDownstreamState(massFlowRate);
@@ -74,14 +91,14 @@ PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		double surfaceRoughness,
 		double pressureDropGain,
 		double heatExchangeGain,
-		int heatExchangerLimitOutput,
+		int forcedConvectionLimitOutput,
 		int forcedConvectionUseFilmState) {
 	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(length, hydraulicDiameter, flowArea, surfaceRoughness);
 	friction->setPressureDropGain(pressureDropGain);
 
 	ForcedConvection* convection = ForcedConvection_StraightPipe_new(length, hydraulicDiameter, flowArea);
 	convection->setHeatExchangeGain(heatExchangeGain);
-	if (heatExchangerLimitOutput == 1) {
+	if (forcedConvectionLimitOutput == 1) {
 		convection->setLimitOutput(true);
 	} else {
 		convection->setLimitOutput(false);
@@ -92,7 +109,6 @@ PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 	} else {
 		convection->setUseFilmState(false);
 	}
-
 
 	return PipeHeatExhcanger_R_new(friction, convection);
 }

@@ -24,12 +24,32 @@ struct CarbonFiberComposite : public Medium_Solid {
 	CarbonFiberComposite();
 };
 
+struct CarbonFiberCompositeWarm : public Medium_Solid {
+	CarbonFiberCompositeWarm();
+};
+
 struct GlassFiberComposite : public Medium_Solid {
 	GlassFiberComposite();
 };
 
 struct HighDensityPolyethylene : public Medium_Solid {
 	HighDensityPolyethylene();
+};
+
+struct HighDensityPolyethyleneWarm : public Medium_Solid {
+	HighDensityPolyethyleneWarm();
+};
+
+struct ArmaflexLTD : public Medium_Solid {
+	ArmaflexLTD();
+};
+
+struct ArmaflexAF : public Medium_Solid {
+	ArmaflexAF();
+};
+
+struct SolidUserDefined : public Medium_Solid {
+	SolidUserDefined(const char* solidName, const char* density, const char* thermalConductivity, const char* heatCapacity, const char* enthalpy);
 };
 
 }

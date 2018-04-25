@@ -1,0 +1,3 @@
+./submodels
+smo_forced_convection
+&SMO_FORCED_CONVECTION SmoFlow3d

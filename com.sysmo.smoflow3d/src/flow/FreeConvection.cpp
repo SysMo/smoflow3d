@@ -208,6 +208,10 @@ public:
 		this->heatExchangeArea = length * m::pi * diameter;
 		this->characteristicLength = diameter;
 	}
+	FreeConvection_CylindricalHorizontalSurface(double length, double diameter, double heatExchangeArea) {
+		this->heatExchangeArea = heatExchangeArea;
+		this->characteristicLength = diameter;
+	}
 
 	virtual double computeNusseltNumber(double Ra, double Pr, double wallOverheat) {
 		// Correlation from VDI Heat Atlas F2.4.1
@@ -226,6 +230,12 @@ public:
 		this->height = height;
 		this->diameter = diameter;
 		this->heatExchangeArea = height * m::pi * diameter;
+		this->characteristicLength = height;
+	}
+	FreeConvection_CylindricalVerticalSurface(double height, double diameter, double heatExchangeArea) {
+		this->height = height;
+		this->diameter = diameter;
+		this->heatExchangeArea = heatExchangeArea;
 		this->characteristicLength = height;
 	}
 
@@ -298,57 +308,50 @@ protected:
 /**
  *  FreeConvection - C
  */
-FreeConvection* FreeConvection_GivenConvectionCoefficient_new(
-		double convectionCoefficient, double heatExchangeArea) {
-	return new FreeConvection_GivenConvectionCoefficient(
-			convectionCoefficient, heatExchangeArea);
+FreeConvection* FreeConvection_GivenConvectionCoefficient_new(double convectionCoefficient, double heatExchangeArea) {
+	return new FreeConvection_GivenConvectionCoefficient(convectionCoefficient, heatExchangeArea);
 }
 
-FreeConvection* FreeConvection_NusseltExpression_new(
-		double characteristicLength, double heatExchangeArea, const char* nusseltExpression) {
-	return new FreeConvection_NusseltExpression(
-			characteristicLength, heatExchangeArea, nusseltExpression);
+FreeConvection* FreeConvection_NusseltExpression_new(double characteristicLength, double heatExchangeArea, const char* nusseltExpression) {
+	return new FreeConvection_NusseltExpression(characteristicLength, heatExchangeArea, nusseltExpression);
 }
 
-FreeConvection* FreeConvection_VerticalSurface_new(
-		double height, double width) {
+FreeConvection* FreeConvection_VerticalSurface_new(double height, double width) {
 	return new FreeConvection_VerticalSurface(height, width);
 }
 
-FreeConvection* FreeConvection_InclinedSurface_new(
-		double length, double width, double angleOfInclination) {
+FreeConvection* FreeConvection_InclinedSurface_new(double length, double width, double angleOfInclination) {
 	return new FreeConvection_InclinedSurface(length, width, angleOfInclination);
 }
 
-FreeConvection* FreeConvection_HorizontalSurfaceTop_new(
-		double length, double width) {
-	return new FreeConvection_HorizontalSurface(
-			length, width, true);
+FreeConvection* FreeConvection_HorizontalSurfaceTop_new(double length, double width) {
+	return new FreeConvection_HorizontalSurface(length, width, true); //topSide = true
 }
 
-FreeConvection* FreeConvection_HorizontalSurfaceBottom_new(
-		double length, double width) {
-	return new FreeConvection_HorizontalSurface(
-			length, width, false);
+FreeConvection* FreeConvection_HorizontalSurfaceBottom_new(double length, double width) {
+	return new FreeConvection_HorizontalSurface(length, width, false); //topSide = false
 }
 
-FreeConvection* FreeConvection_CylindricalHorizontalSurface_new(
-		double length, double diameter) {
-	return new FreeConvection_CylindricalHorizontalSurface(
-			length, diameter);
+FreeConvection* FreeConvection_CylindricalHorizontalSurface_new(double length, double diameter) {
+	return new FreeConvection_CylindricalHorizontalSurface(length, diameter);
+}
+
+FreeConvection* FreeConvection_CylindricalHorizontalSurfaceWithArea_new(double length, double diameter, double heatExchangeArea) {
+	return new FreeConvection_CylindricalHorizontalSurface(length, diameter, heatExchangeArea);
 }
 
 FreeConvection* FreeConvection_CylindricalVerticalSurface_new(double height, double diameter) {
 	return new FreeConvection_CylindricalVerticalSurface(height, diameter);
 }
 
+FreeConvection* FreeConvection_CylindricalVerticalSurfaceWithArea_new(double height, double diameter, double heatExchangeArea) {
+	return new FreeConvection_CylindricalVerticalSurface(height, diameter, heatExchangeArea);
+}
+
 FreeConvection* FreeConvection_SphericalSurface_new(double diameter) {
 	return new FreeConvection_SphericalSurface(diameter);
 }
 
-FreeConvection* FreeConvection_FinnedPipe_new(
-		double pipeLength, double pipeDiameter, double finSpacing,
-		double finThickness, double finHeight) {
-	return new FreeConvection_FinnedPipe(pipeLength, pipeDiameter, finSpacing,
-			finThickness, finHeight);
+FreeConvection* FreeConvection_FinnedPipe_new(double pipeLength, double pipeDiameter, double finSpacing, double finThickness, double finHeight) {
+	return new FreeConvection_FinnedPipe(pipeLength, pipeDiameter, finSpacing, finThickness, finHeight);
 }

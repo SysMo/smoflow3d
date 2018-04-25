@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   Fri Dec 20 16:29:04 2013 */
+   Thu Feb 9 13:17:09 2017 */
 
 
 
@@ -30,19 +30,19 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "flow_R/PipeHeatExchanger_R.h"
 #include "flow_R/ManagerComponents_R.h"
-
+ 
 #define _component ps[0]
 #define _componentIndex ic[0]
-
+ 
 #define _manager ps[1]
 #define _managerIndex ic[1]
-
+ 
 #define _fluidFlow2 ps[2]
 #define _fluidFlow2Index ic[2]
-
+ 
 #define _wallHeatFlow ps[3]
 #define _wallHeatFlowIndex ic[3]
-
+ 
 #define _convection ps[4]
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -58,25 +58,28 @@ REVISIONS :
 */
 
 
-/* There are 2 integer parameters:
+/* There are 3 integer parameters:
 
-   geometryType                 geometry type                     
-   forcedConvectionUseFilmState use film state (forced convection)
+   geometryType                 geometry type                              
+   forcedConvectionUseFilmState use film state (forced convection)         
+   forcedConvectionLimitOutput  limit the heat exchange (forced convection)
 */
 
 void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
-      , int ip[2], int ic[4], void *ps[5])
+      , int ip[3], int ic[4], void *ps[5])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int geometryType, forcedConvectionUseFilmState;
+   int geometryType, forcedConvectionUseFilmState, 
+      forcedConvectionLimitOutput;
    double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
       pressureDropGain, heatExchangeGain;
 
    geometryType = ip[0];
    forcedConvectionUseFilmState = ip[1];
+   forcedConvectionLimitOutput = ip[2];
 
    pipeLength = rp[0];
    hydraulicDiameter = rp[1];
@@ -109,6 +112,11 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
       amefprintf(stderr, "\nuse film state (forced convection) must be in range [1..2].\n");
       error = 2;
    }
+   if (forcedConvectionLimitOutput < 1 || forcedConvectionLimitOutput > 2)
+   {
+      amefprintf(stderr, "\nlimit the heat exchange (forced convection) must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -138,7 +146,7 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
    } else { //non-cylindrical pipe
 	   flowAreaValue = flowArea;
    }
-
+ 
    _component = StraightPipeHeatExchanger_R_new(
 		   pipeLength,
 		   hydraulicDiameter,
@@ -146,13 +154,13 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 		   absoluteRoughness,
 		   pressureDropGain,
 		   heatExchangeGain,
-		   1, //heatExchangerLimitOutput (0-no, 1-yes),
+		   forcedConvectionLimitOutput - 1, //:TRICKY: (0-no, 1-yes),
 		   forcedConvectionUseFilmState - 1 //:TRICKY: (0-no, 1-yes)
    );
-
+ 
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
-
+ 
    _fluidFlow2Index = FlowComponent_R_getFlow2Index(_component);
    _fluidFlow2 = FluidFlow_get(_fluidFlow2Index);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -195,19 +203,21 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
       , double *inputRCompID3, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss
       , double *reynoldsNumber, double *convectionCoefficient
-      , double *heatFlowRateFromWall, double rp[6], int ip[2]
+      , double *heatFlowRateFromWall, double rp[6], int ip[3]
       , int ic[4], void *ps[5], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int geometryType, forcedConvectionUseFilmState;
+   int geometryType, forcedConvectionUseFilmState, 
+      forcedConvectionLimitOutput;
    double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
       pressureDropGain, heatExchangeGain;
 
    geometryType = ip[0];
    forcedConvectionUseFilmState = ip[1];
+   forcedConvectionLimitOutput = ip[2];
 
    pipeLength = rp[0];
    hydraulicDiameter = rp[1];
@@ -220,11 +230,11 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID3 *= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *outputRCompID3 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN [smoRCompID] */
 
 /*
    Set all submodel outputs below:
@@ -245,41 +255,41 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
    SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID3);
-
+ 
 	   _wallHeatFlow = PipeHeatExchanger_R_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
-
+ 
 	   _convection = PipeHeatExchanger_R_getConvection(_component);
    }
    ManagerComponents_R_compute(_manager);
-
+ 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
-
+ 
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
    *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
-
+ 
    *heatFlowIndex = _wallHeatFlowIndex;
    *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN [smoHFL] */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
    *pressureLoss /= 1.00000000000000e+005;
 }
 
 extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n
       , double *inputRCompID1, double *smoRChainID
-      , double *thermalNodeIndex, double rp[6], int ip[2], int ic[4]
+      , double *thermalNodeIndex, double rp[6], int ip[3], int ic[4]
       , void *ps[5], int *flag)
 
 {
@@ -287,12 +297,14 @@ extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int geometryType, forcedConvectionUseFilmState;
+   int geometryType, forcedConvectionUseFilmState, 
+      forcedConvectionLimitOutput;
    double pipeLength, hydraulicDiameter, flowArea, absoluteRoughness, 
       pressureDropGain, heatExchangeGain;
 
    geometryType = ip[0];
    forcedConvectionUseFilmState = ip[1];
+   forcedConvectionLimitOutput = ip[2];
 
    pipeLength = rp[0];
    hydraulicDiameter = rp[1];
@@ -305,9 +317,9 @@ extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
 
 /*
    Define and return the following macro variable:
@@ -321,23 +333,23 @@ extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n
    if (firstc_()) {
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
-
+ 
 	   ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
-
+ 
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 	   PipeHeatExchanger_R_setHeatExchangerThermalNode(_component, wallNode);
    }
-
+ 
    outputRCompID3 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
 
-/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 
    return outputRCompID3;
 }

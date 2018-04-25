@@ -2,67 +2,11 @@
  <CATEGORY ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="40" DEFAULT_ZOOM="120" DESCRIPTION="SmoFlow3d" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="120" >
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="All" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_medium_definition" />
-   
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_source_constant" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_source" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_source" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_zero" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_sensor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_sensor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_constant" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_source" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_zero" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_sensor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_sensor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />
-   
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_activation_signal_deactivator" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port_01" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_switcher_3port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_valve" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_orifice" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_exchanger" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_mechanical_compressor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_cryopump_heat_exchanger" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />   
-   
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
-   
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_drive_cycle_reader" />
+  
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smiulation_environment" />
-   
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_begin" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end_activating_signal" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_valve" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight_heat_exchanger" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_elbow" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_constant_drag_coeff" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_state_sensor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_flow_sensor" />
-   
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader_data_selector" />
-  </GROUP>
-
-
-  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Media" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+  
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_medium_definition" />
-  </GROUP>
-
-  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Sources/Sensors/Adaptors" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_source_constant" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_source" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_source" />
@@ -72,17 +16,11 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_constant" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_source" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_source_mdot_t" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_zero" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_sensor" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />
-  </GROUP>
-
-  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Flow" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
-  <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_activation_signal_deactivator" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port_01" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_switcher_3port" />
+   
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_orifice" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_exchanger" />
@@ -92,27 +30,100 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_forced_convection" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_forced_convection_regulating_gain" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_radiative_exchange" />
+   
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_activation_signal_deactivator" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port_01" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_switcher_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />    
+   
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
+   
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_begin" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end_activating_signal" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_valve" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_orifice" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_elbow" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_constant_drag_coeff" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_state_sensor" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_flow_sensor" />
+   
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
+   
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_drive_cycle_reader" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader_data_selector" />
+  </GROUP>
+	
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Simulations" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smiulation_environment" />
   </GROUP>
 
-  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Nodes/Volumes" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Materials" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_medium_definition" />
+  </GROUP>
+
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Sources, Sensors" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_source_constant" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_source" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_source" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_zero" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_sensor" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_temperature_sensor" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_constant" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_source_pt" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_source" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_source_mdot_t" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_zero" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_sensor" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_sensor" />
+  </GROUP>
+
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Flows" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_valve" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_orifice" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_mechanical_compressor" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_cryopump_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_forced_convection" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_forced_convection_regulating_gain" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_radiative_exchange" />
+   
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_activation_signal_deactivator" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port_01" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_switcher_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />
+  </GROUP>
+
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Volumes, Nodes" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
   </GROUP>
-
-  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Control/Simulations" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_drive_cycle_reader" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smiulation_environment" />
-  </GROUP>
   
-  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="R Components" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="R-Components" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_begin" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end_activating_signal" />	
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_valve" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_orifice" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_straight_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_pipe_elbow" />
@@ -121,7 +132,12 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_fluid_flow_sensor" />
   </GROUP>
   
-  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="File readers" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Controls" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_state_machine_controller" />
+  </GROUP>
+  
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Readers" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_drive_cycle_reader" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_file_reader_data_selector" />
   </GROUP>

@@ -80,6 +80,11 @@ Valve* Valve_OrificeCompressibleIdealGas_new(
 		double orificeArea,
 		double flowCoefficient);
 
+Valve* Valve_OrificeCompressibleRealGas_new(
+		int allowBidirectionalFlow,
+		double orificeArea,
+		double flowCoefficient);
+
 void Valve_init(Valve* valve, MediumState* state1, MediumState* state2);
 void Valve_compute(Valve* valve);
 

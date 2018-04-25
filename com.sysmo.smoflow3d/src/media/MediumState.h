@@ -70,6 +70,7 @@ public:
 	virtual double u();
 	virtual double cp();
 	virtual double cv();
+	virtual double speed_sound();
 	virtual double dpdt_v();
 	virtual double dpdv_t();
 	virtual double dpdrho_t();
@@ -95,6 +96,8 @@ public:
 protected:
 	MediumState(Medium* medium);
 
+	bool triggerDiscontinuity_NegativeStateValue(double stateValue);
+
 	Medium* medium;
 	double _T;
 	double _p;
@@ -105,6 +108,7 @@ protected:
 	CachedProperty _s;
 	CachedProperty _cp;
 	CachedProperty _cv;
+	CachedProperty _speed_sound;
 	CachedProperty _dpdt_v;
 	CachedProperty _dpdv_t;
 	CachedProperty _dpdrho_t;
@@ -159,6 +163,7 @@ double MediumState_qV(MediumState* mstate);
 double MediumState_u(MediumState* mstate);
 double MediumState_cp(MediumState* mstate);
 double MediumState_cv(MediumState* mstate);
+double MediumState_speed_sound(MediumState* mstate);
 double MediumState_dpdt_v(MediumState* mstate);
 double MediumState_dpdv_t(MediumState* mstate);
 double MediumState_dpdrho_t(MediumState* mstate);

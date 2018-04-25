@@ -6,6 +6,8 @@
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
+#include "util/String.h"
+#include "io_control/CSVProcessor.h"
 #include "SolidDefinitions.h"
 #include "math/Interpolators.h"
 #include "Eigen/Core"
@@ -14,33 +16,34 @@ using namespace Eigen;
 namespace solids {
 
 Aluminium6061::Aluminium6061() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/Alu6061-T6.xls
 	name = "Aluminium6061";
 
-	const double numValues = 12;
+	const double numValues = 13;
     ArrayXd TValues(numValues);
-    TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 , 275.0 , 300.0;
+    TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 , 275.0 , 300.0, 350;
 
     double rhoValue = 2700.0;
     densityFunction = FunctorOneVariable_Constant_new(rhoValue);
 
     ArrayXd cpValues(numValues);
-    cpValues << 8.85 , 148.84 , 334.15 , 492.2 , 616.63 , 713.03 , 784.783 , 835.24 , 869.61 , 895.04 , 920.01 , 953.86;
+    cpValues << 8.85 , 148.84 , 334.15 , 492.2 , 616.63 , 713.03 , 784.783 , 835.24 , 869.61 , 895.04 , 920.01 , 953.86, 1000;
     heatCapacityFunction = new Interpolator1D(&TValues, &cpValues);
 
     ArrayXd lambdaValues(numValues);
-    lambdaValues << 28.47 , 62.14 , 82.26 , 97.84 , 110.31 , 120.54 , 129.05 , 136.22 , 142.3 , 147.46 , 151.84 , 155.54;
+    lambdaValues << 28.47 , 62.14 , 82.26 , 97.84 , 110.31 , 120.54 , 129.05 , 136.22 , 142.3 , 147.46 , 151.84 , 155.54, 160;
     thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
 
 	ArrayXd enthalpyValues(numValues);
-	enthalpyValues << 0.0, 2365.35, 8402.73, 18732.1, 32592.47, 49213.22, 67935.89, 88186.18, 109496.8, 131554.92, 154243.05, 177666.42;
+	enthalpyValues << 0.0, 2365.35, 8402.73, 18732.1, 32592.47, 49213.22, 67935.89, 88186.18, 109496.8, 131554.92, 154243.05, 177666.42, 210000;
 	enthalpyFunction = new Interpolator1D(&TValues, &enthalpyValues);
 }
 
 StainlessSteel304::StainlessSteel304() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/StainlessSteel304.xls
 	name = "StainlessSteel304";
 
 	const double numValues = 12;
-
 	ArrayXd TValues(numValues);
 	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 , 275.0 , 300.0;
 
@@ -61,6 +64,7 @@ StainlessSteel304::StainlessSteel304() {
 }
 
 CarbonFiberComposite::CarbonFiberComposite() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/Carbon Fiber CompositeThermal Properties.xls
 	name = "CarbonFiberComposite";
 
 	const double numValues = 12;
@@ -84,11 +88,40 @@ CarbonFiberComposite::CarbonFiberComposite() {
 	enthalpyFunction = new Interpolator1D(&TValues, &enthalpyValues);
 }
 
+CarbonFiberCompositeWarm::CarbonFiberCompositeWarm() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/CFRC_Warm.xls
+	name = "CarbonFiberCompositeWarm";
+
+	const double numValues = 18;
+	ArrayXd TValues(numValues);
+	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 ,
+			273.15, 293.15, 313.15, 353.15, 423.15, 473.15, 523.15, 571.85;
+
+	double rhoValue = 1810.0;
+	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
+
+	ArrayXd cpValues(numValues);
+	cpValues << 0.05, 75.53, 197.91, 309.65, 410.77, 501.26, 581.13, 650.38, 709.0, 757.0,
+			768.0, 825.0, 879.0, 985.0, 1208.0, 1303.0, 1385.0, 1453.0;
+	heatCapacityFunction = new Interpolator1D(&TValues, &cpValues);
+
+	ArrayXd lambdaValues(numValues);
+	lambdaValues << 0.05, 0.10, 0.14, 0.17, 0.20, 0.24, 0.27, 0.30, 0.33, 0.36,
+			0.38, 0.41, 0.43, 0.47, 0.54, 0.59, 0.64, 0.69;
+	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
+
+	ArrayXd enthalpyValues(numValues);
+	enthalpyValues << 0.0, 1133.7, 4551.7, 10896.2, 19901.45, 31301.82, 44831.7, 60225.57, 77217.82, 95542.82,
+			113194.7, 129124.7, 146164.7, 183444.7, 260199.7, 322974.7, 390174.7, 459280.0;
+
+	enthalpyFunction = new Interpolator1D(&TValues, &enthalpyValues);
+}
+
 GlassFiberComposite::GlassFiberComposite() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/GFK_Auswertung_Waermeleitfaehigkeitsmessung.xlsx
 	name = "GlassFiberComposite";
 
 	const double numValues = 12;
-
 	ArrayXd TValues(numValues);
 	TValues << 20.0 , 50.0 , 75.0 , 100.0 , 125.0 , 150.0 , 175.0 , 200.0 , 225.0 , 250.0 , 275.0 , 300.0;
 
@@ -109,6 +142,7 @@ GlassFiberComposite::GlassFiberComposite() {
 }
 
 HighDensityPolyethylene::HighDensityPolyethylene() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/HDPE*
 	name = "HighDensityPolyethylene";
 
 	const double numValues = 15;
@@ -130,8 +164,137 @@ HighDensityPolyethylene::HighDensityPolyethylene() {
 	TValues_h << 0.0, 400.0;
 
 	ArrayXd enthalpyValues(2);
-	enthalpyValues << 0.0, 800000.00;
+	enthalpyValues << 0.0, 800000.0;
 	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
 }
 
+HighDensityPolyethyleneWarm::HighDensityPolyethyleneWarm() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/HDPE_Warm.xls
+	name = "HighDensityPolyethyleneWarm";
+
+	double rhoValue = 945.0;
+	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
+
+	double cpValue = 2000.0;
+	heatCapacityFunction = FunctorOneVariable_Constant_new(cpValue);
+
+	double lambdaValue = 0.51;
+	thermalConductivityFunction = FunctorOneVariable_Constant_new(lambdaValue);
+
+	ArrayXd TValues_h(2);
+	TValues_h << 0.0, 400.0;
+
+	ArrayXd enthalpyValues(2);
+	enthalpyValues << 0.0, 800000.0;
+	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
 }
+
+ArmaflexLTD::ArmaflexLTD() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/Armaflex
+	name = "ArmaflexLTD";
+
+	const double numValues = 7;
+	ArrayXd TValues(numValues);
+	TValues << 93.15, 173.15, 223.15, 273.15, 323.15, 373.15, 383.15;
+
+	double rhoValue = 70.0;
+	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
+
+	double cpValue = 2000.0; //:TRICKY: this value is only a guess
+	heatCapacityFunction = FunctorOneVariable_Constant_new(cpValue);
+
+	ArrayXd lambdaValues(numValues);
+	lambdaValues << 0.0307, 0.0390, 0.0395, 0.0400, 0.0435, 0.0530, 0.0559;
+	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
+
+	ArrayXd TValues_h(2);
+	TValues_h << 0, 400;
+
+	ArrayXd enthalpyValues(2);
+	enthalpyValues << 0.0, 800000.0;
+	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
+}
+
+ArmaflexAF::ArmaflexAF() {
+	//@source: SysMo/85_SoftwareLibs/MaterialData/Armaflex
+	name = "ArmaflexAF";
+
+	const double numValues = 7;
+	ArrayXd TValues(numValues);
+	TValues << 93.15, 173.15, 223.15, 273.15, 323.15, 373.15, 383.15;
+
+	double rhoValue = 50.0;
+	densityFunction = FunctorOneVariable_Constant_new(rhoValue);
+
+	double cpValue = 2000.0; //:TRICKY: this value is only a guess
+	heatCapacityFunction = FunctorOneVariable_Constant_new(cpValue);
+
+	ArrayXd lambdaValues(numValues);
+	lambdaValues << 0.044, 0.034, 0.033, 0.036, 0.043, 0.054, 0.057;
+	thermalConductivityFunction = new Interpolator1D(&TValues, &lambdaValues);
+
+	ArrayXd TValues_h(2);
+	TValues_h << 0, 400;
+
+	ArrayXd enthalpyValues(2);
+	enthalpyValues << 0.0, 800000.0;
+	enthalpyFunction = new Interpolator1D(&TValues_h, &enthalpyValues, true, 2, ibhConstantSlope);
+}
+
+void setDataFromCsvFile(const char* csvFile, FunctorOneVariable** functor) {
+	CSVProcessor csv;
+	VectorFloat vecTemperature;
+	csv.addFloatColumn(vecTemperature);
+	VectorFloat vecValue;
+	csv.addFloatColumn(vecValue);
+	String fileName(csvFile);
+	csv.read(fileName, ',', 1);
+
+	const double numValues = vecTemperature.size();
+	ArrayXd arrTValues(numValues);
+	ArrayXd arrValues(numValues);
+	for (size_t i = 0; i < vecTemperature.size(); i++) {
+		arrTValues(i) = vecTemperature.at(i);
+		arrValues(i) = vecValue.at(i);
+	}
+	(*functor) = new Interpolator1D(&arrTValues, &arrValues);
+}
+
+SolidUserDefined::SolidUserDefined(
+		const char* solidName,
+		const char* density,
+		const char* thermalConductivity,
+		const char* heatCapacity,
+		const char* enthalpy) {
+	name = solidName;
+
+	double densityConstValue;
+	if (smoflow::String::toDouble(density, &densityConstValue)) {
+		densityFunction = FunctorOneVariable_Constant_new(densityConstValue);
+	} else {
+		setDataFromCsvFile(density, &densityFunction);
+	}
+
+	double heatCapacityConstValue;
+	if (smoflow::String::toDouble(heatCapacity, &heatCapacityConstValue)) {
+		heatCapacityFunction = FunctorOneVariable_Constant_new(heatCapacityConstValue);
+	} else {
+		setDataFromCsvFile(heatCapacity, &heatCapacityFunction);
+	}
+
+	double thermalConductivityConstValue;
+	if (smoflow::String::toDouble(thermalConductivity, &thermalConductivityConstValue)) {
+		thermalConductivityFunction = FunctorOneVariable_Constant_new(thermalConductivityConstValue);
+	} else {
+		setDataFromCsvFile(thermalConductivity, &thermalConductivityFunction);
+	}
+
+	double enthalpyConstValue;
+	if (smoflow::String::toDouble(enthalpy, &enthalpyConstValue)) {
+		enthalpyFunction = FunctorOneVariable_Constant_new(enthalpyConstValue);
+	} else {
+		setDataFromCsvFile(enthalpy, &enthalpyFunction);
+	}
+}
+
+} //end namespace solids

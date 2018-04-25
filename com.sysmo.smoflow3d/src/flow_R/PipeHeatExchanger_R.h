@@ -32,6 +32,8 @@ public:
 
 protected:
 	ForcedConvection* convection;
+	MediumState* limitStateT;
+
 	ThermalNode* wallNode;
 	HeatFlow* wallHeatFlow;
 };
@@ -53,7 +55,7 @@ PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		double surfaceRoughness,
 		double pressureDropGain,
 		double heatExchangeGain,
-		int heatExchangerLimitOutput,
+		int forcedConvectionLimitOutput,
 		int forcedConvectionUseFilmState);
 
 HeatFlow* PipeHeatExchanger_R_getWallHeatFlow(PipeHeatExchanger_R* pipe);

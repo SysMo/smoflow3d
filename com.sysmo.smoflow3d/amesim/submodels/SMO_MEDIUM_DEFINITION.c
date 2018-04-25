@@ -1,5 +1,5 @@
 /* Submodel SMO_MEDIUM_DEFINITION skeleton created by AME Submodel editing utility
-   Sat Nov 30 14:30:33 2013 */
+   Sun Dec 1 09:13:32 2013 */
 
 
 
@@ -34,9 +34,13 @@ static const char* solidNames[] = {
 	"Aluminium6061",
 	"StainlessSteel304",
 	"CarbonFiberComposite",
+	"CarbonFiberCompositeWarm",
 	"GlassFiberComposite",
-	"Teflon",
-	"HighDensityPolyethylene"
+	"Teflon", //:SMO_TODO: (Milen)
+	"HighDensityPolyethylene",
+	"HighDensityPolyethyleneWarm",
+	"ArmaflexLTD",
+	"ArmaflexAF"
 };
 
 static const char* liquidNames[] = {
@@ -116,9 +120,9 @@ void smo_medium_definitionin_(int *n, int ip[5])
       amefprintf(stderr, "\nmedium type must be in range [1..3].\n");
       error = 2;
    }
-   if (solidNameIndex < 1 || solidNameIndex > 6)
+   if (solidNameIndex < 1 || solidNameIndex > 10)
    {
-      amefprintf(stderr, "\nsolid name must be in range [1..6].\n");
+      amefprintf(stderr, "\nsolid name must be in range [1..10].\n");
       error = 2;
    }
    if (liquidNameIndex < 1 || liquidNameIndex > 2)

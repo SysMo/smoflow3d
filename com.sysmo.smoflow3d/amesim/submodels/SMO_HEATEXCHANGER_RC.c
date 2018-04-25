@@ -158,8 +158,7 @@ void smo_heatexchanger_rcin_(int *n, double rp[7], int ip[3]
 	   }
 
 	   if (heatExchangeCalculationMethod == 2) {
-		   _convection = ForcedConvection_GivenConvectionCoefficient_new(heatExchangeArea);
-		   Convection_setConvectionCoefficient(_convection, convectionCoefficientGiven);
+		   _convection = ForcedConvection_GivenConvectionCoefficient_new(convectionCoefficientGiven, heatExchangeArea);
 	   } else {
 		   _convection = ForcedConvection_StraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue);
 	   }

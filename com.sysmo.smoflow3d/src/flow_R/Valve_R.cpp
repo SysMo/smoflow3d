@@ -78,6 +78,29 @@ Valve_R* ValveKv_R_new(
 	return valve;
 }
 
+Valve_R* Valve_OrificeCompressibleIdealGas_R_new(
+		int allowBidirectionalFlow,
+		double orificeArea,
+		double flowCoefficient) {
+	FrictionFlowValve* friction = FrictionFlowValve_OrificeCompressibleIdealGas_new(
+			allowBidirectionalFlow,
+			orificeArea,
+			flowCoefficient
+	);
+
+	Valve_R* valve = new Valve_R(friction);
+	if (allowBidirectionalFlow == 0) { //0 - no
+		valve->setIsBidirectionalFlowAllowed(false);
+	}
+
+	return valve;
+}
+
 void Valve_R_setRegulatingSignal(Valve_R* valve, double regulatingSignal) {
 	valve->setRegulatingSignal(regulatingSignal);
 }
+
+int Valve_R_getFlowType(Valve_R* valve) {
+	return (int) valve->getFlowType();
+}
+

@@ -51,7 +51,7 @@
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
     <MIN_VALUE>1</MIN_VALUE>
-    <MAX_VALUE>6</MAX_VALUE>
+    <MAX_VALUE>10</MAX_VALUE>
     <ENUM_LIST>
      <ENUM>
       <ENUM_STRING>aluminium 6061</ENUM_STRING>
@@ -63,6 +63,9 @@
       <ENUM_STRING>carbon-fiber composite (CFK)</ENUM_STRING>
      </ENUM>
      <ENUM>
+      <ENUM_STRING>carbon-fiber composite (CFK) - Warm</ENUM_STRING>
+     </ENUM>
+     <ENUM>
       <ENUM_STRING>glass-fiber composite (GFK)</ENUM_STRING>
      </ENUM>
      <ENUM>
@@ -70,6 +73,15 @@
      </ENUM>
      <ENUM>
       <ENUM_STRING>high density polyethylene (HDPE)</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>high density polyethylene (HDPE) - Warm</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>Armaflex LTD</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>AF Armaflex</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>

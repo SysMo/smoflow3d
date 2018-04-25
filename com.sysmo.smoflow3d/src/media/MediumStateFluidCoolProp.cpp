@@ -109,6 +109,11 @@ void MediumState_FluidCoolProp::init(std::string state1, double state1Value,
 
 
 void MediumState_FluidCoolProp::update_Tp(double T, double p) {
+	// Check for the negative state value
+	if (triggerDiscontinuity_NegativeStateValue(T)) return;
+	if (triggerDiscontinuity_NegativeStateValue(p)) return;
+
+	// Update the state
 	pre_update();
 	_T = T;
 	_p = p;
@@ -131,6 +136,11 @@ void MediumState_FluidCoolProp::update_Tp(double T, double p) {
 }
 
 void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
+	// Check for the negative state value
+	if (triggerDiscontinuity_NegativeStateValue(T)) return;
+	if (triggerDiscontinuity_NegativeStateValue(rho)) return;
+
+	// Update the state
 	pre_update();
 	_T = T;
 	_rho = rho;
@@ -141,6 +151,11 @@ void MediumState_FluidCoolProp::update_Trho(double T, double rho) {
 }
 
 void MediumState_FluidCoolProp::update_prho(double p, double rho) {
+	// Check for the negative state value
+	if (triggerDiscontinuity_NegativeStateValue(p)) return;
+	if (triggerDiscontinuity_NegativeStateValue(rho)) return;
+
+	// Update the state
 	pre_update();
 	_p = p;
 	_rho = rho;
@@ -163,6 +178,11 @@ void MediumState_FluidCoolProp::update_prho(double p, double rho) {
 }
 
 void MediumState_FluidCoolProp::update_ph(double p, double h) {
+	// Check for the negative state value
+	if (triggerDiscontinuity_NegativeStateValue(p)) return;
+	if (triggerDiscontinuity_NegativeStateValue(h)) return;
+
+	// Update the state
 	pre_update();
 	_p = p;
 	_h = h;
@@ -188,6 +208,11 @@ void MediumState_FluidCoolProp::update_ph(double p, double h) {
 }
 
 void MediumState_FluidCoolProp::update_ps(double p, double s) {
+	// Check for the negative state value
+	if (triggerDiscontinuity_NegativeStateValue(p)) return;
+	if (triggerDiscontinuity_NegativeStateValue(s)) return;
+
+	// Update the state
 	pre_update();
 	_p = p;
 //	if (ValidNumber(_T) && ValidNumber(_rho)) {
@@ -206,6 +231,11 @@ void MediumState_FluidCoolProp::update_ps(double p, double s) {
 }
 
 void MediumState_FluidCoolProp::update_pq(double p, double q) {
+	// Check for the negative state value
+	if (triggerDiscontinuity_NegativeStateValue(p)) return;
+	if (triggerDiscontinuity_NegativeStateValue(q)) return;
+
+	// Update the state
 	pre_update();
 	_p = p;
 	_q = q;
@@ -217,6 +247,11 @@ void MediumState_FluidCoolProp::update_pq(double p, double q) {
 }
 
 void MediumState_FluidCoolProp::update_Tq(double T, double q) {
+	// Check for the negative state value
+	if (triggerDiscontinuity_NegativeStateValue(T)) return;
+	if (triggerDiscontinuity_NegativeStateValue(q)) return;
+
+	// Update the state
 	pre_update();
 	_T = T;
 	_q = q;
@@ -253,6 +288,13 @@ double MediumState_FluidCoolProp::cv() {
 		_cv = cps.cv();
 	}
 	return _cv;
+}
+
+double MediumState_FluidCoolProp::speed_sound() {
+	if (!_speed_sound) {
+		_speed_sound = cps.speed_sound();
+	}
+	return _speed_sound;
 }
 
 double MediumState_FluidCoolProp::dpdt_v() {

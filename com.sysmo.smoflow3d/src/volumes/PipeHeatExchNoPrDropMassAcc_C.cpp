@@ -72,6 +72,7 @@ void PipeHeatExchNoPrDropMassAcc_C::getStateDerivatives(double* value1, double* 
 
 void PipeHeatExchNoPrDropMassAcc_C::compute() {
 	double massFlowRate = m::quadratic_mean(port1Flow->massFlowRate, port2Flow->massFlowRate);
+
 	convection->compute(massFlowRate);
 	convection->updateHeatFlow(wallHeatFlow);
 

@@ -80,6 +80,12 @@ FrictionFlowValve* FrictionFlowValve_OrificeCompressibleIdealGas_new(
 		int allowBidirectionalFlow,
 		double orificeArea,
 		double flowCoefficient);
+
+FrictionFlowValve* FrictionFlowValve_OrificeCompressibleRealGas_new(
+		int allowBidirectionalFlow,
+		double orificeArea,
+		double flowCoefficient);
+
 END_C_LINKAGE
 
 #endif /* FRICTIONFLOWVALVE_H_ */
