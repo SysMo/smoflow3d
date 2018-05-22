@@ -1,5 +1,5 @@
 /* Submodel SMO_R_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
-   Thu Nov 14 14:09:43 2013 */
+   Wed Aug 2 06:20:14 2017 */
 
 
 
@@ -32,10 +32,10 @@ REVISIONS :
 #include "Flow_R/FlowComponent_R.h"
 #include "flow_R/ManagerComponents_R.h"
 #include "Flow_R/Adaptor_R.h"
-
+ 
 #define _manager ps[0]
 #define _managerIndex ic[0]
-
+ 
 #define _fluidState ps[1]
 /* <<<<<<<<<<<<End of Private Code. */
 
@@ -126,7 +126,7 @@ void smo_r_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (�C)                    [degC]              basic variable
+      3 temperatureC                temperature (�C)                  [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -172,10 +172,10 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
 
 /* Common -> SI units conversions. */
 
-/*   *outputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
 
 /*
    Set all submodel outputs below:
@@ -207,18 +207,18 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
    SMOCOMPONENT_PRINT_MAIN_CALC
-
+ 
    // Initialization
    if (firstc_()) {
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
-
+ 
 	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID1);
    }
-
+ 
    // Try to compute R-components chain
    ManagerComponents_R_compute(_manager);
-
+ 
    // Set internal variables
    if (firstc_()) {
 	   Component_R* inputComponent3 =  Component_R_get(*inputRCompID3);
@@ -234,14 +234,14 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
 		   AME_RAISE_ERROR("Unexpected R-component type on the side of port3.");
 	   }
    }
-
+ 
    static const double outputInternalGain[19] = {
 		   1e-5, 1, 1, 1, 1,
 		   1e-3, 1e-3, 1e-3, 1e-3, 1,
 		   1, 1, 1, 1, 1,
 		   1, 1, 1, 1
    };
-
+ 
    c[0] = MediumState_p(_fluidState);
    c[1] = MediumState_T(_fluidState);
    c[2] = c[1] - 273.15;
@@ -261,8 +261,8 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
    c[16] = MediumState_lambda(_fluidState);
    c[17] = MediumState_Pr(_fluidState);
    //c[18] = MediumState_(fluidState);
-
-
+ 
+ 
    *measuredValue = c[propertyIndex - 1] * outputInternalGain[propertyIndex - 1] * gain + offset;
    *pressure = c[0];
    *temperature = c[1];
@@ -283,18 +283,18 @@ void smo_r_fluid_state_sensor_(int *n, double *outputRCompID1
    *lambda = c[16];
    *Pr = c[17];
    //c[18] = MediumState_(fluidState);
-
+ 
    // Set ouput variables
    *outputRCompID3 = *inputRCompID1;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *outputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
    *pressure /= 1.00000000000000e+005;
    *internalEnergy /= 1.00000000000000e+003;
    *enthalpy /= 1.00000000000000e+003;
@@ -324,7 +324,7 @@ extern double smo_r_fluid_state_sensor_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID3 *= ??; CONVERSION UNKNOWN [smoRCompID] */
 
 /*
    Define and return the following macro variable:
@@ -340,9 +340,9 @@ extern double smo_r_fluid_state_sensor_macro0_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 
-/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 
    return outputRCompID1;
 }

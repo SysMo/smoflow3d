@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_SENSOR skeleton created by AME Submodel editing utility
-   Sun Mar 23 15:04:56 2014 */
+   Wed Aug 2 06:18:46 2017 */
 
 
 
@@ -29,7 +29,7 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "media/MediumState.h"
-
+ 
 #define _fluidStateIndex ic[0]
 #define _fluidState ps[0]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -121,7 +121,7 @@ void smo_fluid_state_sensorin_(int *n, double rp[2], int ip[1]
 
       1 pressure                    pressure                            [bar -> Pa]         basic variable
       2 temperature                 temperature                         [K]                 basic variable
-      3 temperatureC                temperature (ï¿½C)                    [degC]              basic variable
+      3 temperatureC                temperature (°C)                    [degC]              basic variable
       4 density                     density                             [kg/m**3]           basic variable
       5 specificVolume              specific volume                     [m**3/kg]           basic variable
       6 internalEnergy              specific internal energy            [kJ/kg -> J/kg]     basic variable
@@ -169,9 +169,9 @@ void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Set all submodel outputs below:
@@ -228,9 +228,9 @@ void smo_fluid_state_sensor_(int *n, double *fluidFlowIndex
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
    *pressure /= 1.00000000000000e+005;
    *internalEnergy /= 1.00000000000000e+003;
    *enthalpy /= 1.00000000000000e+003;
@@ -260,7 +260,7 @@ extern double smo_fluid_state_sensor_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Define and return the following macro variable:
@@ -275,14 +275,14 @@ extern double smo_fluid_state_sensor_macro0_(int *n
 	   _fluidStateIndex = *fluidStateIndex;
 	   _fluidState = MediumState_get(_fluidStateIndex);
    }
-
+ 
    static const double outputInternalGain[21] = {
 		   1e-5, 1, 1, 1, 1,
 		   1e-3, 1e-3, 1e-3, 1e-3, 1,
 		   1, 1, 1, 1, 1,
 		   1, 1, 1, 1, 1, 1
    };
-
+ 
    c[0] = MediumState_p(_fluidState);
    c[1] = MediumState_T(_fluidState);
    c[2] = c[1] - 273.15;
@@ -303,13 +303,13 @@ extern double smo_fluid_state_sensor_macro0_(int *n
    c[17] = MediumState_Pr(_fluidState);
    //c[18] = MediumState_(fluidState);
    c[19] = MediumState_qV(_fluidState); //gas volume fraction
-
+ 
    if (c[19] == -1) {
 	   c[20] = -1; //liquid level
    } else {
 	   c[20] = 1 - c[19];
    }
-
+ 
    if (propertyIndex == 22) {
 	   measuredValue = _fluidStateIndex;
    } else {
@@ -320,7 +320,7 @@ extern double smo_fluid_state_sensor_macro0_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 
 
    return measuredValue;
