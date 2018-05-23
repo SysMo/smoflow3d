@@ -5,8 +5,8 @@
  <SUBMODEL>
   <HAS_TERMINATE>1</HAS_TERMINATE>
   <SUB_TYPE>0</SUB_TYPE>
-  <DEFAULT_ICON>smiulation_environment</DEFAULT_ICON>
-  <SUB_LABEL>provides communication with the simulation environment</SUB_LABEL>
+  <DEFAULT_ICON>smo_smiulation_environment</DEFAULT_ICON>
+  <SUB_LABEL>provides communication with the AMESim simulation environment</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <DISCONTINUITY>1</DISCONTINUITY>
   <TIME_REQUIRED>1</TIME_REQUIRED>

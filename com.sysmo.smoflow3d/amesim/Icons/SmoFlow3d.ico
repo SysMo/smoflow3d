@@ -905,9 +905,9 @@ static char _bits[] = {
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
 ^   1  40 thermal
 &* 0 unnamed 0 0 0.000000 0.000000 0.000000 0.000000
-@smiulation_environment
-~smiulation_environment
-%provides communication with the simulation environment 
+@smo_smiulation_environment
+~smo_smiulation_environment
+%provides communication with the AMESim simulation environment 
 #define icon_width 29
 #define icon_height 17
 static unsigned char icon_bits[] = {
