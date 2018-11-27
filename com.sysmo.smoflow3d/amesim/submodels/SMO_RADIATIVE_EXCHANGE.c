@@ -1,5 +1,5 @@
 /* Submodel SMO_RADIATIVE_EXCHANGE skeleton created by AME Submodel editing utility
-   Sun Jan 12 00:39:42 2014 */
+   ?? ??? 27 16:50:35 2018 */
 
 
 
@@ -141,8 +141,8 @@ void smo_radiative_exchange_(int *n, double *heatFlowIndex
 
 /* Common -> SI units conversions. */
 
-/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Set all submodel outputs below:
@@ -173,9 +173,9 @@ void smo_radiative_exchange_(int *n, double *heatFlowIndex
 
 /* SI -> Common units conversions. */
 
-/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
+/*   *heatFlowIndex /= ??; CONVERSION UNKNOWN [smoHFL] */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 }
 

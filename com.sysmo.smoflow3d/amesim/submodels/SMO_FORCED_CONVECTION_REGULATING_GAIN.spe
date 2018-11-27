@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE SPE>
-<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
+<SPE DOC_VERSION="2" AME_VERSION="16.0.0 - 68387-65635 2017">
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
@@ -131,7 +131,7 @@
     <SUB_ID>46</SUB_ID>
     <TITLE>limit the heat exchange</TITLE>
     <VARNAME>limitOutput</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>convCalcMethod==2</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
     <MIN_VALUE>1</MIN_VALUE>
