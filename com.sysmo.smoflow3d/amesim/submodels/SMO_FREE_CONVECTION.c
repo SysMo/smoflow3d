@@ -184,9 +184,9 @@ void smo_free_convectionin_(int *n, double rp[13], int ip[3]
 	   }
    } else if (calculationMethod == 7) {
 	   if (areaCalculationMethod == 1) {
-		   _component = FreeConvection_CylindricalVerticalSurface_new(length, diameter);
+		   _component = FreeConvection_CylindricalVerticalSurface_new(height, diameter);
 	   } else {
-		   _component = FreeConvection_CylindricalVerticalSurfaceWithArea_new(length, diameter, heatExchangeArea);
+		   _component = FreeConvection_CylindricalVerticalSurfaceWithArea_new(height, diameter, heatExchangeArea);
 	   }
    } else if (calculationMethod == 8) {
 	   _component = FreeConvection_SphericalSurface_new(diameter);
