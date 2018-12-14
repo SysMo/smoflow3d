@@ -4,16 +4,16 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>39</SUB_ID_MAX>
+  <SUB_ID_MAX>43</SUB_ID_MAX>
   <DEFAULT_ICON>smo_thermal_conduction</DEFAULT_ICON>
-  <SUB_LABEL>thermal conduction (R) - only in a linear case</SUB_LABEL>
+  <SUB_LABEL>thermal conduction (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>3</I_STORES_NUMBER>
   <P_STORES_NUMBER>3</P_STORES_NUMBER>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
    <RPARAM>
-    <SUB_ID>5</SUB_ID>
+    <SUB_ID>19</SUB_ID>
     <TITLE>conduction area</TITLE>
     <VARNAME>conductionArea</VARNAME>
     <VISIBILITY>True</VISIBILITY>
@@ -24,38 +24,94 @@
     <UNITS>mm**2</UNITS>
    </RPARAM>
    <RPARAM>
-    <SUB_ID>34</SUB_ID>
+    <SUB_ID>20</SUB_ID>
     <TITLE>conduction length</TITLE>
     <VARNAME>conductionLength</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>conductionType==1</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+01</DEF_VALUE>
     <VALUE>1.00000000000000e+01</VALUE>
     <MIN_VALUE>1.00000000000000e-012</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+012</MAX_VALUE>
     <UNITS>mm</UNITS>
    </RPARAM>
+   <RPARAM>
+    <SUB_ID>26</SUB_ID>
+    <TITLE>conduction length at port 1</TITLE>
+    <VARNAME>conductionLength1</VARNAME>
+    <VISIBILITY>conductionType==2</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+01</DEF_VALUE>
+    <VALUE>1.00000000000000e+01</VALUE>
+    <MIN_VALUE>1.00000000000000e-012</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+012</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>25</SUB_ID>
+    <TITLE>conduction length at port 2</TITLE>
+    <VARNAME>conductionLength2</VARNAME>
+    <VISIBILITY>conductionType==2</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+01</DEF_VALUE>
+    <VALUE>1.00000000000000e+01</VALUE>
+    <MIN_VALUE>1.00000000000000e-012</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+012</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>43</SUB_ID>
+    <TITLE>thermal contact resistance</TITLE>
+    <VARNAME>contactResistance</VARNAME>
+    <VISIBILITY>conductionType==2</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
+    <VALUE>0.00000000000000e+00</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m**2-K/W</UNITS>
+   </RPARAM>
   </RPARAMS_LIST>
   <IPARAMS_LIST>
    <IPARAM>
-    <SUB_ID>1</SUB_ID>
+    <SUB_ID>21</SUB_ID>
     <TITLE>conduction type</TITLE>
     <VARNAME>conductionType</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
     <MIN_VALUE>1</MIN_VALUE>
-    <MAX_VALUE>1</MAX_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
     <ENUM_LIST>
      <ENUM>
-      <ENUM_STRING>linear: qDot=f(lambda, area, length)</ENUM_STRING>
+      <ENUM_STRING>linear</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>different materials</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
    <IPARAM>
-    <SUB_ID>31</SUB_ID>
-    <TITLE>material  index</TITLE>
+    <SUB_ID>22</SUB_ID>
+    <TITLE>material index</TITLE>
     <VARNAME>materialIndex</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
+    <VISIBILITY>conductionType==1</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>29</SUB_ID>
+    <TITLE>material index at port1</TITLE>
+    <VARNAME>materialIndex1</VARNAME>
+    <VISIBILITY>conductionType==2</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>30</SUB_ID>
+    <TITLE>material index at port 2</TITLE>
+    <VARNAME>materialIndex2</VARNAME>
+    <VISIBILITY>conductionType==2</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>
     <VALUE>1</VALUE>
     <MIN_VALUE>1</MIN_VALUE>
@@ -64,7 +120,7 @@
   </IPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
-    <SUB_ID>39</SUB_ID>
+    <SUB_ID>14</SUB_ID>
     <TITLE>heat flow rate at port 2</TITLE>
     <VARNAME>qDot2</VARNAME>
     <VISIBILITY>True</VISIBILITY>
@@ -76,7 +132,7 @@
   <EVARS_LIST>
    <PORT>
     <EVAR>
-     <SUB_ID>35</SUB_ID>
+     <SUB_ID>9</SUB_ID>
      <TITLE>heat flow index 1</TITLE>
      <VARNAME>heatFlow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
@@ -87,7 +143,7 @@
      <UNITS>smoHFL</UNITS>
     </EVAR>
     <EVAR>
-     <SUB_ID>36</SUB_ID>
+     <SUB_ID>10</SUB_ID>
      <TITLE>thermal node index 1</TITLE>
      <VARNAME>thermalNode1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
@@ -100,7 +156,7 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>37</SUB_ID>
+     <SUB_ID>11</SUB_ID>
      <TITLE>heat flow index 2</TITLE>
      <VARNAME>heatFlow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
@@ -111,7 +167,7 @@
      <UNITS>smoHFL</UNITS>
     </EVAR>
     <EVAR>
-     <SUB_ID>38</SUB_ID>
+     <SUB_ID>12</SUB_ID>
      <TITLE>state index 2</TITLE>
      <VARNAME>thermalNode2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
@@ -123,6 +179,5 @@
     </EVAR>
    </PORT>
   </EVARS_LIST>
-  <SUBIDS_RESET>0</SUBIDS_RESET>
  </SUBMODEL>
 </SPE>

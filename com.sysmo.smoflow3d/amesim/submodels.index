@@ -52,6 +52,7 @@ smo_pipe_straight_heat_exchanger
 smo_thermal_material_point
 &SMO_THERMAL_MATERIAL_POINT SmoFlow3d
 smo_thermal_conduction
+&SMO_THERMAL_CONDUCTION_01 SmoFlow3d
 &SMO_THERMAL_CONDUCTION SmoFlow3d
 smo_temperature_source_constant
 &SMO_TEMPERATURE_SOURCE_CONSTANT SmoFlow3d
