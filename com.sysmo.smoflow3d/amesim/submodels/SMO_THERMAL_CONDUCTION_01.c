@@ -1,5 +1,5 @@
 /* Submodel SMO_THERMAL_CONDUCTION_01 skeleton created by AME Submodel editing utility
-   ??? ??? 14 12:48:18 2018 */
+   ?? ??? 19 09:56:44 2018 */
 
 
 
@@ -40,8 +40,9 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 5 real parameters:
+/* There are 6 real parameters:
 
+   heatExchangeGain  heat exchange gain          [null]
    conductionArea    conduction area             [mm**2 -> m**2]
    conductionLength  conduction length           [mm -> m]
    conductionLength1 conduction length at port 1 [mm -> m]
@@ -58,7 +59,7 @@ REVISIONS :
    materialIndex2 material index at port 2
 */
 
-void smo_thermal_conduction_01in_(int *n, double rp[5], int ip[4]
+void smo_thermal_conduction_01in_(int *n, double rp[6], int ip[4]
       , int ic[3], void *ps[3])
 
 {
@@ -66,26 +67,27 @@ void smo_thermal_conduction_01in_(int *n, double rp[5], int ip[4]
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int conductionType, materialIndex, materialIndex1, materialIndex2;
-   double conductionArea, conductionLength, conductionLength1, 
-      conductionLength2, contactResistance;
+   double heatExchangeGain, conductionArea, conductionLength, 
+      conductionLength1, conductionLength2, contactResistance;
 
    conductionType = ip[0];
    materialIndex = ip[1];
    materialIndex1 = ip[2];
    materialIndex2 = ip[3];
 
-   conductionArea = rp[0];
-   conductionLength = rp[1];
-   conductionLength1 = rp[2];
-   conductionLength2 = rp[3];
-   contactResistance = rp[4];
+   heatExchangeGain = rp[0];
+   conductionArea = rp[1];
+   conductionLength = rp[2];
+   conductionLength1 = rp[3];
+   conductionLength2 = rp[4];
+   contactResistance = rp[5];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..4]
+   rp[0..5]
 */
 
 
@@ -128,15 +130,15 @@ void smo_thermal_conduction_01in_(int *n, double rp[5], int ip[4]
 
 /* Common -> SI units conversions. */
 
-   rp[0]    *= 1.00000000000000e-006;
-   conductionArea = rp[0];
-   rp[1]    *= 1.00000000000000e-003;
-   conductionLength = rp[1];
+   rp[1]    *= 1.00000000000000e-006;
+   conductionArea = rp[1];
    rp[2]    *= 1.00000000000000e-003;
-   conductionLength1 = rp[2];
+   conductionLength = rp[2];
    rp[3]    *= 1.00000000000000e-003;
-   conductionLength2 = rp[3];
-/*   *rp[4]    *= ??; CONVERSION UNKNOWN [m**2-K/W] */
+   conductionLength1 = rp[3];
+   rp[4]    *= 1.00000000000000e-003;
+   conductionLength2 = rp[4];
+/*   *rp[5]    *= ??; CONVERSION UNKNOWN [m**2-K/W] */
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
@@ -168,6 +170,8 @@ void smo_thermal_conduction_01in_(int *n, double rp[5], int ip[4]
 			   conductionLength1, conductionLength2, contactResistance);
    }
 
+   ThermalConduction2Node_setHeatExchangeGain(_component, heatExchangeGain);
+
    SMOCOMPONENT_SET_PROPS(_component)
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -192,7 +196,7 @@ void smo_thermal_conduction_01in_(int *n, double rp[5], int ip[4]
 
 void smo_thermal_conduction_01_(int *n, double *heatFlow1Index
       , double *thermalNode1Index, double *heatFlow2Index
-      , double *thermalNode2Index, double *qDot2, double rp[5]
+      , double *thermalNode2Index, double *qDot2, double rp[6]
       , int ip[4], int ic[3], void *ps[3])
 
 {
@@ -200,19 +204,20 @@ void smo_thermal_conduction_01_(int *n, double *heatFlow1Index
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int conductionType, materialIndex, materialIndex1, materialIndex2;
-   double conductionArea, conductionLength, conductionLength1, 
-      conductionLength2, contactResistance;
+   double heatExchangeGain, conductionArea, conductionLength, 
+      conductionLength1, conductionLength2, contactResistance;
 
    conductionType = ip[0];
    materialIndex = ip[1];
    materialIndex1 = ip[2];
    materialIndex2 = ip[3];
 
-   conductionArea = rp[0];
-   conductionLength = rp[1];
-   conductionLength1 = rp[2];
-   conductionLength2 = rp[3];
-   contactResistance = rp[4];
+   heatExchangeGain = rp[0];
+   conductionArea = rp[1];
+   conductionLength = rp[2];
+   conductionLength1 = rp[3];
+   conductionLength2 = rp[4];
+   contactResistance = rp[5];
    loop = 0;
 
 /* Common -> SI units conversions. */

@@ -23,6 +23,7 @@ public:
 	virtual ~ThermalConduction2Node();
 
 	void init(ThermalNode* node1, ThermalNode* node2);
+	void setHeatExchangeGain(double gain) {this->heatExchangeGain = gain;}
 
 	virtual void compute() = 0;
 
@@ -36,6 +37,7 @@ protected:
 	ThermalNode* node2;
 	double heatFlowRate1;
 	double heatFlowRate2;
+	double heatExchangeGain;
 };
 
 #else //__cplusplus
@@ -54,6 +56,9 @@ ThermalConduction2Node* ThermalConduction2Node_2Material_new(
 void ThermalConduction2Node_init(
 		ThermalConduction2Node* conduction,
 		ThermalNode* node1, ThermalNode* node2);
+
+void ThermalConduction2Node_setHeatExchangeGain(
+		ThermalConduction2Node* conduction, double gain);
 
 void ThermalConduction2Node_compute(ThermalConduction2Node* conduction);
 

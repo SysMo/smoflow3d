@@ -18,6 +18,7 @@ ThermalConduction2Node::ThermalConduction2Node() {
 	node2 = NULL;
 	heatFlowRate1 = 0;
 	heatFlowRate2 = 0;
+	heatExchangeGain = 1.0;
 }
 
 ThermalConduction2Node::~ThermalConduction2Node() {
@@ -63,7 +64,8 @@ public:
 		double meanTemperature = (T1+T2)/2;
 		internalState->update_Tp(meanTemperature, cst::StandardPressure);
 
-		heatFlowRate1 = internalState->lambda() * area * (T2-T1) / length;
+		heatFlowRate1 = heatExchangeGain * internalState->lambda()
+				* area * (T2-T1) / length;
 		heatFlowRate2 = -heatFlowRate1;
 	}
 
@@ -95,7 +97,7 @@ public:
 		double T2 = node2->getTemperature();
 		internalState2->update_Tp(T2, cst::StandardPressure);
 
-		heatFlowRate1 = (T2-T1)/ (
+		heatFlowRate1 = heatExchangeGain * (T2-T1)/ (
 				length1/(internalState1->lambda() * area) +
 				length2/(internalState2->lambda() * area) +
 				contactResistance/area);
@@ -132,6 +134,11 @@ ThermalConduction2Node* ThermalConduction2Node_2Material_new(
 void ThermalConduction2Node_init(
 		ThermalConduction2Node* conduction, ThermalNode* node1, ThermalNode* node2) {
 	conduction->init(node1, node2);
+}
+
+void ThermalConduction2Node_setHeatExchangeGain(
+		ThermalConduction2Node* conduction, double gain) {
+	conduction->setHeatExchangeGain(gain);
 }
 
 void ThermalConduction2Node_compute(
