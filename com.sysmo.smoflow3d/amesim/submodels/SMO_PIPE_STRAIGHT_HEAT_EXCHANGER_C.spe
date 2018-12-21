@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE SPE>
-<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
+<SPE DOC_VERSION="2" AME_VERSION="16.0.0 - 68387-65635 2017">
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>171</SUB_ID_MAX>
+  <SUB_ID_MAX>173</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_straight_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>straight pipe with heat exchanger (no pressure drop, mass accumulation) (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -272,6 +272,20 @@
   </TPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
+    <SUB_ID>110</SUB_ID>
+    <TITLE>state values</TITLE>
+    <VARNAME>stateValues</VARNAME>
+    <VARNAME2>stateValuesDot</VARNAME2>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>1</TYPE>
+    <DIMENSION>2</DIMENSION>
+    <UNITS>null</UNITS>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
+    <DEF_VALUE>0</DEF_VALUE>
+    <VALUE>0</VALUE>
+   </IVAR>
+   <IVAR>
     <SUB_ID>127</SUB_ID>
     <TITLE>pressure</TITLE>
     <VARNAME>pressure</VARNAME>
@@ -297,6 +311,24 @@
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>kg/m**3</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>141</SUB_ID>
+    <TITLE>volume</TITLE>
+    <VARNAME>internalVolume</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>L</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>173</SUB_ID>
+    <TITLE>mass in pipe</TITLE>
+    <VARNAME>totalMass</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg</UNITS>
    </IVAR>
    <IVAR>
     <SUB_ID>133</SUB_ID>
@@ -325,29 +357,6 @@
     <IS_DELTA>1</IS_DELTA>
     <DIMENSION>1</DIMENSION>
     <UNITS>degC</UNITS>
-   </IVAR>
-   <IVAR>
-    <SUB_ID>141</SUB_ID>
-    <TITLE>volume</TITLE>
-    <VARNAME>internalVolume</VARNAME>
-    <VISIBILITY>True</VISIBILITY>
-    <TYPE>0</TYPE>
-    <DIMENSION>1</DIMENSION>
-    <UNITS>L</UNITS>
-   </IVAR>
-   <IVAR>
-    <SUB_ID>110</SUB_ID>
-    <TITLE>state values</TITLE>
-    <VARNAME>stateValues</VARNAME>
-    <VARNAME2>stateValuesDot</VARNAME2>
-    <VISIBILITY>True</VISIBILITY>
-    <TYPE>1</TYPE>
-    <DIMENSION>2</DIMENSION>
-    <UNITS>null</UNITS>
-    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
-    <MAX_VALUE>0.00000000000000e+000</MAX_VALUE>
-    <DEF_VALUE>0</DEF_VALUE>
-    <VALUE>0</VALUE>
    </IVAR>
    <IVAR>
     <SUB_ID>98</SUB_ID>
@@ -390,7 +399,7 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoTDS</UNITS>
-     <EXPRESS2>@_2_2, @_0_8</EXPRESS2>
+     <EXPRESS2>@_2_2, @_0_1</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>89</SUB_ID>

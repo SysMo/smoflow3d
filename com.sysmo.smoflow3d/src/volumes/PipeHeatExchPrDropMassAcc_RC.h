@@ -29,6 +29,9 @@ public:
 	void getStateValues(double* value1, double* value2);
 	void getStateDerivatives(double* value1, double* value2);
 
+	double getVolume() {return accFluid->getVolume();}
+	double getFluidMass() {return accFluid->getFluidMass();}
+
 	FluidFlow* getPort1Flow() {return port1Flow;}
 	MediumState* getPort2State() {return port2State;}
 	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
@@ -80,6 +83,8 @@ void PipeHeatExchPrDropMassAcc_RC_getStateDerivatives(PipeHeatExchPrDropMassAcc_
 MediumState* PipeHeatExchPrDropMassAcc_RC_getPort2State(PipeHeatExchPrDropMassAcc_RC* pipe);
 FluidFlow* PipeHeatExchPrDropMassAcc_RC_getPort1Flow(PipeHeatExchPrDropMassAcc_RC* pipe);
 HeatFlow* PipeHeatExchPrDropMassAcc_RC_getWallHeatFlow(PipeHeatExchPrDropMassAcc_RC* pipe);
+double PipeHeatExchPrDropMassAcc_RC_getVolume(PipeHeatExchPrDropMassAcc_RC* component);
+double PipeHeatExchPrDropMassAcc_RC_getFluidMass(PipeHeatExchPrDropMassAcc_RC* component);
 END_C_LINKAGE
 
 #endif /* PIPEHEATEXCHPRDROPMASSACC_RC_H_ */

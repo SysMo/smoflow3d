@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C skeleton created by AME Submodel editing utility
-   Thu Feb 2 14:29:23 2017 */
+   ?? ??? 19 10:39:49 2018 */
 
 
 
@@ -29,13 +29,13 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "volumes/PipeHeatExchNoPrDropMassAcc_C.h"
- 
+
 #define _wallHeatFlow ps[0]
 #define _wallHeatFlowIndex ic[0]
- 
+
 #define _pipeState ps[1]
 #define _pipeStateIndex ic[1]
- 
+
 #define _convection ps[2]
 #define _component ps[3]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -186,27 +186,27 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
    } else { //non-cylindrical pipe
 	   flowAreaValue = flowArea;
    }
- 
+
    if (convCalcMethod == 1) { //default expression for Nuselt number
 	   _convection = ForcedConvection_StraightPipe_new(pipeLength, hydraulicDiameter, flowAreaValue);
    } else { //user expression for Nuselt number
 		_convection = ForcedConvection_StraightPipe_NusseltExpression_new(pipeLength, hydraulicDiameter, flowAreaValue,
 				nusseltExpressionLaminarFlow, nusseltExpressionTurbulentFlow, ReL, ReH);
    }
- 
+
    Convection_setHeatExchangeGain(_convection, heatExchangeGain);
    Convection_setUseFilmState(_convection, forcedConvectionUseFilmState - 1); //:TRICKY: (0-no, 1-yes)
    ForcedConvection_setLimitOutput(_convection, 1); //:TRICKY: (0-no, 1-yes)
- 
+
    double internalVolume = flowAreaValue * pipeLength;
    Medium* fluid = Medium_get(fluidIndex);
    _component = PipeHeatExchNoPrDropMassAcc_C_new(fluid, internalVolume, _convection, stateVariableSelection);
    SMOCOMPONENT_SET_PROPS(_component)
- 
+
    _pipeState = PipeHeatExchNoPrDropMassAcc_C_getFluidState(_component);
    _pipeStateIndex = SmoObject_getInstanceIndex(_pipeState);
- 
- 
+
+
    if (initConditionsChoice == 1) {
  	   MediumState_update_Tp(_pipeState, initialTemperature, initialPressure);
     } else if (initConditionsChoice == 2) {
@@ -216,7 +216,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
     } else {
  	   AME_RAISE_ERROR("Unsupported type of initialization.")
     }
- 
+
    PipeHeatExchNoPrDropMassAcc_C_getStateValues(_component, &stateValues[0], &stateValues[1]);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -241,33 +241,34 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
       3 fluidFlowActivationSignal3     fluid flow activation signal (port3) [smoFFAS] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 11 internal variables.
+/*  There are 12 internal variables.
 
-      1 pressure                  pressure               [barA -> PaA]   basic variable
-      2 temperature               temperature            [K]             basic variable
-      3 density                   density                [kg/m**3]       basic variable
-      4 specificEnthalpy          specific enthalpy      [kJ/kg -> J/kg] basic variable
-      5 gasMassFraction           gas mass fraction      [null]          basic variable
-      6 superHeat                 subcooling / superheat [degC]          basic variable
-      7 internalVolume            volume                 [L -> m**3]     basic variable
-      8 stateValues[2]            state values           [null]          explicit state (derivative `stateValuesDot')
-      9 reynoldsNumber            Reynolds number        [null]          basic variable
-     10 convectionCoefficient     convection coefficient [W/m**2/K]      basic variable
-     11 heatFlowRateFromWall      heat flow rate         [W]             basic variable
+      1 stateValues[2]            state values           [null]          explicit state (derivative `stateValuesDot')
+      2 pressure                  pressure               [barA -> PaA]   basic variable
+      3 temperature               temperature            [K]             basic variable
+      4 density                   density                [kg/m**3]       basic variable
+      5 internalVolume            volume                 [L -> m**3]     basic variable
+      6 totalMass                 mass in pipe           [kg]            basic variable
+      7 specificEnthalpy          specific enthalpy      [kJ/kg -> J/kg] basic variable
+      8 gasMassFraction           gas mass fraction      [null]          basic variable
+      9 superHeat                 subcooling / superheat [degC]          basic variable
+     10 reynoldsNumber            Reynolds number        [null]          basic variable
+     11 convectionCoefficient     convection coefficient [W/m**2/K]      basic variable
+     12 heatFlowRateFromWall      heat flow rate         [W]             basic variable
 */
 
 void smo_pipe_straight_heat_exchanger_c_(int *n
       , double *port1FluidStateIndex, double *port1FluidFlowIndex
       , double *fluidFlowActivationSignal1, double *heatFlowIndex
       , double *thermalNodeIndex, double *port3FluidFlowIndex
-      , double *fluidFlowActivationSignal3, double *pressure
-      , double *temperature, double *density, double *specificEnthalpy
+      , double *fluidFlowActivationSignal3, double stateValues[2]
+      , double stateValuesDot[2], double *pressure
+      , double *temperature, double *density, double *internalVolume
+      , double *totalMass, double *specificEnthalpy
       , double *gasMassFraction, double *superHeat
-      , double *internalVolume, double stateValues[2]
-      , double stateValuesDot[2], double *reynoldsNumber
-      , double *convectionCoefficient, double *heatFlowRateFromWall
-      , double rp[11], int ip[6], char *tp[2], int ic[2], void *ps[4]
-      , int *flag)
+      , double *reynoldsNumber, double *convectionCoefficient
+      , double *heatFlowRateFromWall, double rp[11], int ip[6]
+      , char *tp[2], int ic[2], void *ps[4], int *flag)
 
 {
    int loop, logi;
@@ -318,14 +319,15 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
    Set all submodel outputs below:
 
    *heatFlowIndex = ??;
+   stateValuesDot[0..1] = ??;
    *pressure   = ??;
    *temperature = ??;
    *density    = ??;
+   *internalVolume = ??;
+   *totalMass  = ??;
    *specificEnthalpy = ??;
    *gasMassFraction = ??;
    *superHeat  = ??;
-   *internalVolume = ??;
-   stateValuesDot[0..1] = ??;
    *reynoldsNumber = ??;
    *convectionCoefficient = ??;
    *heatFlowRateFromWall = ??;
@@ -339,19 +341,19 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
 	   FluidFlow* port1Flow = FluidFlow_get(*port1FluidFlowIndex);
 	   FluidFlow* port3Flow = FluidFlow_get(*port3FluidFlowIndex);
 	   PipeHeatExchNoPrDropMassAcc_C_init(_component, port1Flow, port3Flow);
- 
+
 	   _wallHeatFlow = PipeHeatExchNoPrDropMassAcc_C_getWallHeatFlow(_component);
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
- 
+
    PipeHeatExchNoPrDropMassAcc_C_compute(_component);
    PipeHeatExchNoPrDropMassAcc_C_getStateDerivatives(_component, &stateValuesDot[0], &stateValuesDot[1]);
- 
+
    *heatFlowIndex = _wallHeatFlowIndex;
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
    *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
- 
+
    *pressure = MediumState_p(_pipeState);
    *temperature = MediumState_T(_pipeState);
    *density = MediumState_rho(_pipeState);
@@ -359,6 +361,7 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
    *gasMassFraction = MediumState_q(_pipeState);
    *superHeat  = MediumState_deltaTSat(_pipeState);
    *internalVolume = PipeHeatExchNoPrDropMassAcc_C_getVolume(_component);
+   *totalMass = PipeHeatExchNoPrDropMassAcc_C_getFluidMass(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -371,8 +374,8 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
 /*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal3 /= ??; CONVERSION UNKNOWN [smoFFAS] */
    *pressure /= 1.00000000000000e+005;
-   *specificEnthalpy /= 1.00000000000000e+003;
    *internalVolume /= 1.00000000000000e-003;
+   *specificEnthalpy /= 1.00000000000000e+003;
 }
 
 extern double smo_pipe_straight_heat_exchanger_c_macro0_(int *n
@@ -433,7 +436,7 @@ extern double smo_pipe_straight_heat_exchanger_c_macro0_(int *n
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 	   PipeHeatExchNoPrDropMassAcc_C_setWallNode(_component, wallNode);
    }
- 
+
    PipeHeatExchNoPrDropMassAcc_C_setStateValues(_component, stateValues[0], stateValues[1]);
    port1FluidStateIndex = _pipeStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */

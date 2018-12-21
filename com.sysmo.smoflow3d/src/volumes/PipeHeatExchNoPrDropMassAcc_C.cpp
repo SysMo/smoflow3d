@@ -126,3 +126,8 @@ MediumState* PipeHeatExchNoPrDropMassAcc_C_getFluidState(PipeHeatExchNoPrDropMas
 double PipeHeatExchNoPrDropMassAcc_C_getVolume(PipeHeatExchNoPrDropMassAcc_C* component) {
 	return component->getVolume();
 }
+
+double PipeHeatExchNoPrDropMassAcc_C_getFluidMass(PipeHeatExchNoPrDropMassAcc_C* component) {
+	return component->getFluidMass();
+}
+

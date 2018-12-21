@@ -29,6 +29,7 @@ public:
 	HeatFlow* getWallHeatFlow() {return wallHeatFlow;}
 	MediumState* getFluidState() {return accFluidState;}
 	double getVolume() {return accFluid->getVolume();}
+	double getFluidMass() {return accFluid->getFluidMass();}
 
 	void setWallNode(ThermalNode* wallNode) {this->wallNode = wallNode;}
 
@@ -68,6 +69,7 @@ void PipeHeatExchNoPrDropMassAcc_C_getStateDerivatives(PipeHeatExchNoPrDropMassA
 HeatFlow* PipeHeatExchNoPrDropMassAcc_C_getWallHeatFlow(PipeHeatExchNoPrDropMassAcc_C* component);
 MediumState* PipeHeatExchNoPrDropMassAcc_C_getFluidState(PipeHeatExchNoPrDropMassAcc_C* component);
 double PipeHeatExchNoPrDropMassAcc_C_getVolume(PipeHeatExchNoPrDropMassAcc_C* component);
+double PipeHeatExchNoPrDropMassAcc_C_getFluidMass(PipeHeatExchNoPrDropMassAcc_C* component);
 END_C_LINKAGE
 
 #endif /* PIPEHEATEXCHCNOPRESSDROPMASSACC_H_ */

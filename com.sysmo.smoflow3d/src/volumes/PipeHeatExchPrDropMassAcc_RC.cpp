@@ -168,3 +168,11 @@ FluidFlow* PipeHeatExchPrDropMassAcc_RC_getPort1Flow(PipeHeatExchPrDropMassAcc_R
 HeatFlow* PipeHeatExchPrDropMassAcc_RC_getWallHeatFlow(PipeHeatExchPrDropMassAcc_RC* pipe) {
 	return pipe->getWallHeatFlow();
 }
+
+double PipeHeatExchPrDropMassAcc_RC_getVolume(PipeHeatExchPrDropMassAcc_RC* component) {
+	return component->getVolume();
+}
+
+double PipeHeatExchPrDropMassAcc_RC_getFluidMass(PipeHeatExchPrDropMassAcc_RC* component) {
+	return component->getFluidMass();
+}
