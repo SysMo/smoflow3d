@@ -22,7 +22,7 @@ typedef enum {
 
 class FrictionFlowValve {
 public:
-	FrictionFlowValve(int allowBidirectionalFlow);
+	FrictionFlowValve(int allowBidirectionalFlow, int limitRegulatingSignal = 0);
 	virtual ~FrictionFlowValve();
 
 	void init(MediumState* state1, MediumState* state2);
@@ -40,6 +40,7 @@ public:
 	FlowType getFlowType() {return flowType;}
 
 	bool isBidirectionalFlowAllowed() {return allowBidirectionalFlow == 1;}
+	bool isRegulatingSignalLimited() {return limitRegulatingSignal == 1;}
 
 protected:
 	MediumState* getUpstreamState(double massFlowRate);
@@ -56,6 +57,7 @@ protected:
 
 private:
 	int allowBidirectionalFlow; //0 - no; 1 - yes
+	int limitRegulatingSignal; //0 - no; 1 - yes
 
 	MediumState* state1;
 	MediumState* state2;
@@ -74,7 +76,8 @@ FrictionFlowValve* FrictionFlowValve_Kv_new(
 		int transitionChoice,
 		double transitionMassFlowRate,
 		double transitionPressureDifference,
-		double maximumMassFlowRate);
+		double maximumMassFlowRate,
+		int limitRegulatingSignal);
 
 FrictionFlowValve* FrictionFlowValve_OrificeCompressibleIdealGas_new(
 		int allowBidirectionalFlow,

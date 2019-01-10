@@ -150,14 +150,16 @@ Valve* Valve_Kv_new(
 		int transitionChoice,
 		double transitionMassFlowRate,
 		double transitionPressureDifference,
-		double maximumMassFlowRate) {
+		double maximumMassFlowRate,
+		int limitRegulatingSignal) {
 	FrictionFlowValve* friction = FrictionFlowValve_Kv_new(
 				allowBidirectionalFlow,
 				Kv,
 				transitionChoice,
 				transitionMassFlowRate,
 				transitionPressureDifference,
-				maximumMassFlowRate);
+				maximumMassFlowRate,
+				limitRegulatingSignal);
 
 	return new Valve(friction);
 }

@@ -13,9 +13,12 @@ using namespace smoflow;
 /**
  * FrictionFlowValve - C++
  */
-FrictionFlowValve::FrictionFlowValve(int allowBidirectionalFlow) {
+
+FrictionFlowValve::FrictionFlowValve(
+		int allowBidirectionalFlow, int limitRegulatingSignal) {
 	flowType = sFlowType_Undefine;
 	this->allowBidirectionalFlow = allowBidirectionalFlow;
+	this->limitRegulatingSignal = limitRegulatingSignal;
 	regulatingSignal = 0.0;
 
 	massFlowRate = 0.0;
@@ -141,8 +144,9 @@ public:
 			int transitionChoice,
 			double transitionMassFlowRate,
 			double transitionPressureDifference,
-			double maximumMassFlowRate) :
-			FrictionFlowValve(allowBidirectionalFlow) {
+			double maximumMassFlowRate,
+			int limitRegulatingSignal) :
+			FrictionFlowValve(allowBidirectionalFlow, limitRegulatingSignal) {
 		this->Kv = Kv;
 		this->transitionChoice = transitionChoice; //1 - Minimum mass flow;  2 - Minimum pressure difference
 		this->transitionMassFlowRate = transitionMassFlowRate;
@@ -209,7 +213,9 @@ public:
 		}
 
 		// Compute mass flow rate
-		m::limitVariable(regulatingSignal, 0.0, 1.0);
+		if (isRegulatingSignalLimited()) {
+			m::limitVariable(regulatingSignal, 0.0, 1.0);
+		}
 
 		int flowDirection = 0;
 		if (regulatingSignal <= 0) {
@@ -448,14 +454,16 @@ FrictionFlowValve* FrictionFlowValve_Kv_new(
 		int transitionChoice,
 		double transitionMassFlowRate,
 		double transitionPressureDifference,
-		double maximumMassFlowRate) {
+		double maximumMassFlowRate,
+		int limitRegulatingSignal) {
 	return new FrictionFlowValve_Kv(
 			allowBidirectionalFlow,
 			Kv,
 			transitionChoice,
 			transitionMassFlowRate,
 			transitionPressureDifference,
-			maximumMassFlowRate);
+			maximumMassFlowRate,
+			limitRegulatingSignal);
 }
 
 FrictionFlowValve* FrictionFlowValve_OrificeCompressibleIdealGas_new(

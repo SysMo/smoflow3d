@@ -67,7 +67,8 @@ Valve_R* ValveKv_R_new(
 			transitionChoice,
 			transitionMassFlowRate,
 			transitionPressureDifference,
-			1.0e4 //maximumMassFlowRate
+			1.0e4, //maximumMassFlowRate
+			0 //limitRegulatingSignal 0 - no, 1 - yes
 	);
 
 	Valve_R* valve = new Valve_R(friction);

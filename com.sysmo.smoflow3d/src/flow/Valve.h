@@ -73,7 +73,8 @@ Valve* Valve_Kv_new(
 		int transitionChoice,
 		double transitionMassFlowRate,
 		double transitionPressureDifference,
-		double maximumMassFlowRate);
+		double maximumMassFlowRate,
+		int limitRegulatingSignal);
 
 Valve* Valve_OrificeCompressibleIdealGas_new(
 		int allowBidirectionalFlow,

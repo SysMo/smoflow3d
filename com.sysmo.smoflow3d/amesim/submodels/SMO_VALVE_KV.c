@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_KV skeleton created by AME Submodel editing utility
-   Thu Feb 2 14:28:04 2017 */
+   ???? ??? 10 14:37:43 2019 */
 
 
 
@@ -29,12 +29,12 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "flow/Valve.h"
- 
+
 #define _component ps[0]
- 
+
 #define _fluidFlow1 ps[1]
 #define _fluidFlow1Index ic[1]
- 
+
 #define _fluidFlow2 ps[2]
 #define _fluidFlow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -51,15 +51,16 @@ REVISIONS :
 */
 
 
-/* There are 4 integer parameters:
+/* There are 5 integer parameters:
 
    transitionChoice             choice of transition to linear region  
    allowBidirectionalFlow       allow bi-directional flow              
    useFluidFlowActivationSignal use fluid flow activation signal       
    useOpeningClosingPressDiff   use opening/closing pressure difference
+   limitRegulatingSignal        limit the regulating singal in [0,1]   
 */
 
-void smo_valve_kvin_(int *n, double rp[6], int ip[4], int ic[3]
+void smo_valve_kvin_(int *n, double rp[6], int ip[5], int ic[3]
       , void *ps[3])
 
 {
@@ -67,7 +68,8 @@ void smo_valve_kvin_(int *n, double rp[6], int ip[4], int ic[3]
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int transitionChoice, allowBidirectionalFlow, 
-      useFluidFlowActivationSignal, useOpeningClosingPressDiff;
+      useFluidFlowActivationSignal, useOpeningClosingPressDiff, 
+      limitRegulatingSignal;
    double Kv, transitionMassFlowRate, transitionPressureDifference, 
       maximumMassFlowRate, openingPressDiff, closingPressDiff;
 
@@ -75,6 +77,7 @@ void smo_valve_kvin_(int *n, double rp[6], int ip[4], int ic[3]
    allowBidirectionalFlow = ip[1];
    useFluidFlowActivationSignal = ip[2];
    useOpeningClosingPressDiff = ip[3];
+   limitRegulatingSignal = ip[4];
 
    Kv         = rp[0];
    transitionMassFlowRate = rp[1];
@@ -122,6 +125,11 @@ void smo_valve_kvin_(int *n, double rp[6], int ip[4], int ic[3]
       amefprintf(stderr, "\nuse opening/closing pressure difference must be in range [1..2].\n");
       error = 2;
    }
+   if (limitRegulatingSignal < 1 || limitRegulatingSignal > 2)
+   {
+      amefprintf(stderr, "\nlimit the regulating singal in [0,1] must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -146,18 +154,20 @@ void smo_valve_kvin_(int *n, double rp[6], int ip[4], int ic[3]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = Valve_Kv_new(
-		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
+		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow = '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
 		   Kv,
 		   transitionChoice,
 		   transitionMassFlowRate,
 		   transitionPressureDifference,
-		   maximumMassFlowRate);
+		   maximumMassFlowRate,
+		   limitRegulatingSignal - 1//:TRICKY: limitRegulatingSignal = '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
+   );
    SMOCOMPONENT_SET_PROPS(_component)
- 
+
    Valve_setPressureDifferenceParameters(
 		   _component, useOpeningClosingPressDiff - 1,  //:TRICKY: useOpeningClosingPressDiff = '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
 		   openingPressDiff, closingPressDiff);
- 
+
    _fluidFlow1 = FluidFlow_new();
    _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
    _fluidFlow2 = FluidFlow_new();
@@ -196,14 +206,15 @@ void smo_valve_kv_(int *n, double *fluidFlow1Index
       , double *regulatingSignal, double *fluidFlow2Index
       , double *fluidState2Index, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss, double rp[6]
-      , int ip[4], int ic[3], void *ps[3], int *flag)
+      , int ip[5], int ic[3], void *ps[3], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int transitionChoice, allowBidirectionalFlow, 
-      useFluidFlowActivationSignal, useOpeningClosingPressDiff;
+      useFluidFlowActivationSignal, useOpeningClosingPressDiff, 
+      limitRegulatingSignal;
    double Kv, transitionMassFlowRate, transitionPressureDifference, 
       maximumMassFlowRate, openingPressDiff, closingPressDiff;
 
@@ -211,6 +222,7 @@ void smo_valve_kv_(int *n, double *fluidFlow1Index
    allowBidirectionalFlow = ip[1];
    useFluidFlowActivationSignal = ip[2];
    useOpeningClosingPressDiff = ip[3];
+   limitRegulatingSignal = ip[4];
 
    Kv         = rp[0];
    transitionMassFlowRate = rp[1];
@@ -246,18 +258,18 @@ void smo_valve_kv_(int *n, double *fluidFlow1Index
 	   MediumState* state2 = MediumState_get(*fluidState2Index);
 	   Valve_init(_component, state1, state2);
    }
- 
+
    Valve_setRegulatingSignal(_component, *regulatingSignal);
    Valve_compute(_component);
    Valve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
- 
+
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = Valve_getAbsolutePressureDrop(_component);
- 
+
    *fluidFlow1Index = _fluidFlow1Index;
    *fluidFlow2Index = _fluidFlow2Index;
- 
+
    if (useFluidFlowActivationSignal == 1) { //no
 	   *fluidFlowActivationSignal = -1; //not used
    } else { // yes
