@@ -92,9 +92,13 @@ MediumState* FrictionFlowValve::getDownstreamState(int flowDirection) {
  * FrictionFlowValve_InputMassFlowRate - C++
  */
 class FrictionFlowValve_InputMassFlowRate : public FrictionFlowValve {
+private:
+	int useAsPump;
+
 public:
-	FrictionFlowValve_InputMassFlowRate(int allowBidirectionalFlow) :
+	FrictionFlowValve_InputMassFlowRate(int allowBidirectionalFlow, int useAsPump) :
 			FrictionFlowValve(allowBidirectionalFlow) {
+		this->useAsPump = useAsPump;
 	}
 
 	virtual double computePressureDrop(double massFlowRate) {
@@ -103,6 +107,13 @@ public:
 	}
 
 	virtual double computeMassFlowRate(double pressureDrop) {
+		//:TRICKY: Use the valve as a pump
+		if (useAsPump == 1) {
+			massFlowRate = regulatingSignal;
+			return massFlowRate;
+		}
+		//:END:
+
 		// Set absolute pressure drop
 		absPressureDrop = m::fabs(pressureDrop);
 		if (absPressureDrop < cst::MinPressureDrop) { //No flow
@@ -444,8 +455,9 @@ protected:
 /**
  * FrictionFlowValve - C
  */
-FrictionFlowValve* FrictionFlowValve_InputMassFlowRate_new(int allowBidirectionalFlow) {
-	return new FrictionFlowValve_InputMassFlowRate(allowBidirectionalFlow);
+FrictionFlowValve* FrictionFlowValve_InputMassFlowRate_new(
+		int allowBidirectionalFlow, int useAsPump) {
+	return new FrictionFlowValve_InputMassFlowRate(allowBidirectionalFlow, useAsPump);
 }
 
 FrictionFlowValve* FrictionFlowValve_Kv_new(

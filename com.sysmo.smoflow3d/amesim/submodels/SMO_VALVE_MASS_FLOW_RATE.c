@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_MASS_FLOW_RATE skeleton created by AME Submodel editing utility
-   Sun Dec 29 11:43:16 2013 */
+   ??? ??? 8 16:14:48 2019 */
 
 
 
@@ -47,14 +47,15 @@ REVISIONS :
 */
 
 
-/* There are 3 integer parameters:
+/* There are 4 integer parameters:
 
    allowBidirectionalFlow       allow bi-directional flow              
    useFluidFlowActivationSignal use fluid flow activation signal       
    useOpeningClosingPressDiff   use opening/closing pressure difference
+   useAsPump                    use as a pump                          
 */
 
-void smo_valve_mass_flow_ratein_(int *n, double rp[2], int ip[3]
+void smo_valve_mass_flow_ratein_(int *n, double rp[2], int ip[4]
       , int ic[3], void *ps[3])
 
 {
@@ -62,12 +63,13 @@ void smo_valve_mass_flow_ratein_(int *n, double rp[2], int ip[3]
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int allowBidirectionalFlow, useFluidFlowActivationSignal, 
-      useOpeningClosingPressDiff;
+      useOpeningClosingPressDiff, useAsPump;
    double openingPressDiff, closingPressDiff;
 
    allowBidirectionalFlow = ip[0];
    useFluidFlowActivationSignal = ip[1];
    useOpeningClosingPressDiff = ip[2];
+   useAsPump  = ip[3];
 
    openingPressDiff = rp[0];
    closingPressDiff = rp[1];
@@ -106,6 +108,11 @@ void smo_valve_mass_flow_ratein_(int *n, double rp[2], int ip[3]
       amefprintf(stderr, "\nuse opening/closing pressure difference must be in range [1..2].\n");
       error = 2;
    }
+   if (useAsPump < 1 || useAsPump > 2)
+   {
+      amefprintf(stderr, "\nuse as a pump must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -127,7 +134,10 @@ void smo_valve_mass_flow_ratein_(int *n, double rp[2], int ip[3]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = Valve_InputMassFlowRate_new(allowBidirectionalFlow - 1); //:TRICKY: allowBidirectionalFlow = {1-no, 2-yes} - 1 = {0-no, 1-yes});
+   _component = Valve_InputMassFlowRate_new(
+		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow = {1-no, 2-yes} - 1 = {0-no, 1-yes});
+   	   	   useAsPump -1
+   );
    SMOCOMPONENT_SET_PROPS(_component)
 
    Valve_setPressureDifferenceParameters(
@@ -172,19 +182,20 @@ void smo_valve_mass_flow_rate_(int *n, double *fluidFlow1Index
       , double *regulatingSignal, double *fluidFlow2Index
       , double *state2Index, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss, double rp[2]
-      , int ip[3], int ic[3], void *ps[3], int *flag)
+      , int ip[4], int ic[3], void *ps[3], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int allowBidirectionalFlow, useFluidFlowActivationSignal, 
-      useOpeningClosingPressDiff;
+      useOpeningClosingPressDiff, useAsPump;
    double openingPressDiff, closingPressDiff;
 
    allowBidirectionalFlow = ip[0];
    useFluidFlowActivationSignal = ip[1];
    useOpeningClosingPressDiff = ip[2];
+   useAsPump  = ip[3];
 
    openingPressDiff = rp[0];
    closingPressDiff = rp[1];
@@ -193,8 +204,8 @@ void smo_valve_mass_flow_rate_(int *n, double *fluidFlow1Index
 
 /* Common -> SI units conversions. */
 
-/*   *fluidState1Index *= ??; CONVERSION UNKNOWN */
-/*   *state2Index *= ??; CONVERSION UNKNOWN */
+/*   *fluidState1Index *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *state2Index *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Set all submodel outputs below:
@@ -241,11 +252,11 @@ void smo_valve_mass_flow_rate_(int *n, double *fluidFlow1Index
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
-/*   *fluidState1Index /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN */
-/*   *state2Index /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow1Index /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidState1Index /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlow2Index /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *state2Index /= ??; CONVERSION UNKNOWN [smoTDS] */
    *pressureLoss /= 1.00000000000000e+005;
 }
 

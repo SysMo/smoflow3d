@@ -139,8 +139,9 @@ void Valve::handleEvent_OpeningClosingPressureDifferenceIsCrossed() {
 /**
  * TwoPortValve - C
  */
-Valve* Valve_InputMassFlowRate_new(int allowBidirectionalFlow) {
-	FrictionFlowValve* friction = FrictionFlowValve_InputMassFlowRate_new(allowBidirectionalFlow);
+Valve* Valve_InputMassFlowRate_new(int allowBidirectionalFlow, int useAsPump) {
+	FrictionFlowValve* friction = FrictionFlowValve_InputMassFlowRate_new(
+			allowBidirectionalFlow, useAsPump);
 	return new Valve(friction);
 }
 

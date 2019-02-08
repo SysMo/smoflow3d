@@ -65,7 +65,8 @@ DECLARE_C_STRUCT(Valve)
 
 BEGIN_C_LINKAGE
 Valve* Valve_InputMassFlowRate_new(
-		int allowBidirectionalFlow);
+		int allowBidirectionalFlow,
+		int useAsPump);
 
 Valve* Valve_Kv_new(
 		int allowBidirectionalFlow,
