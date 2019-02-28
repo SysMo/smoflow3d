@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_FLOW_SWITCHER_3PORT skeleton created by AME Submodel editing utility
-   Wed Feb 26 18:38:11 2014 */
+   ???? ??? 28 11:05:12 2019 */
 
 
 
@@ -166,15 +166,15 @@ void smo_fluid_flow_switcher_3port_(int *n, double *fluidFlow1IndexOut
 
 /* Common -> SI units conversions. */
 
-/*   *fluidFlow1IndexOut *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal1Out *= ??; CONVERSION UNKNOWN */
-/*   *fluidState1IndexIn *= ??; CONVERSION UNKNOWN */
-/*   *fluidState2IndexOut *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2IndexIn *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal2In *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow3IndexOut *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal3Out *= ??; CONVERSION UNKNOWN */
-/*   *fluidState3IndexIn *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow1IndexOut *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal1Out *= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidState1IndexIn *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidState2IndexOut *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlow2IndexIn *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal2In *= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidFlow3IndexOut *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal3Out *= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidState3IndexIn *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Set all submodel outputs below:
@@ -205,15 +205,15 @@ void smo_fluid_flow_switcher_3port_(int *n, double *fluidFlow1IndexOut
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlow1IndexOut /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal1Out /= ??; CONVERSION UNKNOWN */
-/*   *fluidState1IndexIn /= ??; CONVERSION UNKNOWN */
-/*   *fluidState2IndexOut /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow2IndexIn /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal2In /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlow3IndexOut /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal3Out /= ??; CONVERSION UNKNOWN */
-/*   *fluidState3IndexIn /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow1IndexOut /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal1Out /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidState1IndexIn /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidState2IndexOut /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlow2IndexIn /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal2In /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidFlow3IndexOut /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal3Out /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidState3IndexIn /= ??; CONVERSION UNKNOWN [smoTDS] */
 }
 
 extern double smo_fluid_flow_switcher_3port_macro0_(int *n
@@ -234,7 +234,7 @@ extern double smo_fluid_flow_switcher_3port_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *fluidFlow2IndexIn *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2IndexIn *= ??; CONVERSION UNKNOWN [smoFFL] */
 
 /*
    Define and return the following macro variable:
@@ -268,9 +268,9 @@ extern double smo_fluid_flow_switcher_3port_macro0_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlow2IndexIn /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2IndexIn /= ??; CONVERSION UNKNOWN [smoFFL] */
 
-/*   *fluidFlow1IndexOut /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow1IndexOut /= ??; CONVERSION UNKNOWN [smoFFL] */
 
    return fluidFlow1IndexOut;
 }
@@ -293,7 +293,7 @@ extern double smo_fluid_flow_switcher_3port_macro1_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *fluidFlowActivationSignal2In *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal2In *= ??; CONVERSION UNKNOWN [smoFFAS] */
 
 /*
    Define and return the following macro variable:
@@ -314,9 +314,9 @@ extern double smo_fluid_flow_switcher_3port_macro1_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlowActivationSignal2In /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal2In /= ??; CONVERSION UNKNOWN [smoFFAS] */
 
-/*   *fluidFlowActivationSignal1Out /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal1Out /= ??; CONVERSION UNKNOWN [smoFFAS] */
 
    return fluidFlowActivationSignal1Out;
 }
@@ -340,8 +340,8 @@ extern double smo_fluid_flow_switcher_3port_macro2_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *fluidState1IndexIn *= ??; CONVERSION UNKNOWN */
-/*   *fluidState3IndexIn *= ??; CONVERSION UNKNOWN */
+/*   *fluidState1IndexIn *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidState3IndexIn *= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*
    Define and return the following macro variable:
@@ -371,7 +371,6 @@ extern double smo_fluid_flow_switcher_3port_macro2_(int *n
 	   _fluidState2IndexOut = MediumState_register(_fluidState2Out);
    }
 
-   //:TODO: (Milen) create a copy function for fluid states
    if (_isPort1Active) { //Port1 is active
 	   MediumState_copy(_fluidState1In, _fluidState2Out, stateVariableSelection);
    } else { //Port3 is active
@@ -383,10 +382,10 @@ extern double smo_fluid_flow_switcher_3port_macro2_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *fluidState1IndexIn /= ??; CONVERSION UNKNOWN */
-/*   *fluidState3IndexIn /= ??; CONVERSION UNKNOWN */
+/*   *fluidState1IndexIn /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidState3IndexIn /= ??; CONVERSION UNKNOWN [smoTDS] */
 
-/*   *fluidState2IndexOut /= ??; CONVERSION UNKNOWN */
+/*   *fluidState2IndexOut /= ??; CONVERSION UNKNOWN [smoTDS] */
 
    return fluidState2IndexOut;
 }
@@ -409,7 +408,7 @@ extern double smo_fluid_flow_switcher_3port_macro3_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *fluidFlow2IndexIn *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2IndexIn *= ??; CONVERSION UNKNOWN [smoFFL] */
 
 /*
    Define and return the following macro variable:
@@ -443,9 +442,9 @@ extern double smo_fluid_flow_switcher_3port_macro3_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlow2IndexIn /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow2IndexIn /= ??; CONVERSION UNKNOWN [smoFFL] */
 
-/*   *fluidFlow3IndexOut /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlow3IndexOut /= ??; CONVERSION UNKNOWN [smoFFL] */
 
    return fluidFlow3IndexOut;
 }
@@ -468,7 +467,7 @@ extern double smo_fluid_flow_switcher_3port_macro4_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *fluidFlowActivationSignal2In *= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal2In *= ??; CONVERSION UNKNOWN [smoFFAS] */
 
 /*
    Define and return the following macro variable:
@@ -489,9 +488,9 @@ extern double smo_fluid_flow_switcher_3port_macro4_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *fluidFlowActivationSignal2In /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal2In /= ??; CONVERSION UNKNOWN [smoFFAS] */
 
-/*   *fluidFlowActivationSignal3Out /= ??; CONVERSION UNKNOWN */
+/*   *fluidFlowActivationSignal3Out /= ??; CONVERSION UNKNOWN [smoFFAS] */
 
    return fluidFlowActivationSignal3Out;
 }
