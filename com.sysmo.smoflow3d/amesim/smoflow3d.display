@@ -30,6 +30,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_4port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_5port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction_regulating_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_forced_convection" />
@@ -101,6 +102,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_4port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_flow_splitter_5port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_conduction_regulating_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_free_convection_regulating_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_forced_convection" />
