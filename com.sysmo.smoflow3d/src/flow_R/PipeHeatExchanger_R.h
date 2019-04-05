@@ -56,7 +56,9 @@ PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		double pressureDropGain,
 		double heatExchangeGain,
 		int forcedConvectionLimitOutput,
-		int forcedConvectionUseFilmState);
+		int forcedConvectionUseFilmState,
+		int useDragCoeffGain,
+		const char* dragCoeffGainExpression);
 
 HeatFlow* PipeHeatExchanger_R_getWallHeatFlow(PipeHeatExchanger_R* pipe);
 ForcedConvection* PipeHeatExchanger_R_getConvection(PipeHeatExchanger_R* pipe);

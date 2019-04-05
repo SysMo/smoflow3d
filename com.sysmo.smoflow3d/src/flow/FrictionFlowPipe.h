@@ -25,6 +25,9 @@ public:
 	virtual double computePressureDrop(double massFlowRate) = 0;
 	virtual double computeMassFlowRate(double pressureDrop) = 0;
 
+	virtual void setUseDragCoeffGain(bool useDragCoeffGain) {};
+	virtual void setDragCoeffGainExpression(const char* dragCoeffGainExpression) {};
+
 	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
 
 	double getAbsolutePressureDrop() {return absPressureDrop;}

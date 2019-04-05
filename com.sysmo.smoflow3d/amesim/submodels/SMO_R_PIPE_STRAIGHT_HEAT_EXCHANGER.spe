@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE SPE>
-<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
+<SPE DOC_VERSION="2" AME_VERSION="16.0.0 - 68387-65635 2017">
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>147</SUB_ID_MAX>
+  <SUB_ID_MAX>154</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_pipe_straight_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>R-straight pipe with heat exchanger</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -135,7 +135,36 @@
      </ENUM>
     </ENUM_LIST>
    </IPARAM>
+   <IPARAM>
+    <SUB_ID>149</SUB_ID>
+    <TITLE>use drag coefficient gain</TITLE>
+    <VARNAME>useDragCoeffGain</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
   </IPARAMS_LIST>
+  <TPARAMS_LIST>
+   <TPARAM>
+    <SUB_ID>154</SUB_ID>
+    <TITLE>drag coefficient gain expression k=f(Re [-], rho_up [kg/m**3]) </TITLE>
+    <VARNAME>dragCoeffGainExpression</VARNAME>
+    <VISIBILITY>useDragCoeffGain == 2</VISIBILITY>
+    <DEF_VALUE>1.15 - (rho_up/50.)/2.</DEF_VALUE>
+    <VALUE>1.15 - (rho_up/50.)/2.</VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+  </TPARAMS_LIST>
   <IVARS_LIST>
    <IVAR>
     <SUB_ID>141</SUB_ID>

@@ -92,9 +92,17 @@ PipeHeatExchanger_R* StraightPipeHeatExchanger_R_new(
 		double pressureDropGain,
 		double heatExchangeGain,
 		int forcedConvectionLimitOutput,
-		int forcedConvectionUseFilmState) {
+		int forcedConvectionUseFilmState,
+		int useDragCoeffGain,
+		const char* dragCoeffGainExpression) {
 	FrictionFlowPipe* friction = FrictionFlowPipe_StraightPipe_new(length, hydraulicDiameter, flowArea, surfaceRoughness);
 	friction->setPressureDropGain(pressureDropGain);
+	if (useDragCoeffGain == 1) {
+		friction->setUseDragCoeffGain(true);
+		friction->setDragCoeffGainExpression(dragCoeffGainExpression);
+	} else {
+		friction->setUseDragCoeffGain(false);
+	}
 
 	ForcedConvection* convection = ForcedConvection_StraightPipe_new(length, hydraulicDiameter, flowArea);
 	convection->setHeatExchangeGain(heatExchangeGain);

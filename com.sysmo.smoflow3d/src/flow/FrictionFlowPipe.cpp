@@ -67,9 +67,20 @@ public:
 		FrictionFlowPipe(flowArea) {
 		this->hydraulicDiameter = hydraulicDiameter;
 		this->Re_cache = 1e5;
+
+		this->useDragCoeffGain = false;
+		this->dragCoeffGainExpression = NULL;
 	}
 
-	virtual double computePressureDrop(double massFlowRate) {
+	virtual void setUseDragCoeffGain(bool useDragCoeffGain) {
+		this->useDragCoeffGain = useDragCoeffGain;
+	}
+
+	virtual void setDragCoeffGainExpression(const char* dragCoeffGainExpression) {
+		this->dragCoeffGainExpression = FunctorTwoVariables_Expression_new(dragCoeffGainExpression, "Re", "rho_up");
+	}
+
+	virtual double computePressureDrop(double massFlowRate) {//:TRICKY: Used in R components
 		this->massFlowRate = massFlowRate;
 
 		MediumState* upstreamState;
@@ -85,7 +96,12 @@ public:
 
 		//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
 		double dragCoeff = calcDragCoefficient(Re);
-		double pressureDrop = pressureDropGain * dragCoeff
+
+		double dragCoeffGain = 1;
+		if (useDragCoeffGain) {
+			dragCoeffGain = calcDragCoeffGainExpression(Re, upstreamState->rho()); //e.g. 1.15 - (rho/50.)/2 -- FL pipes in G05-Model
+		}
+		double pressureDrop = pressureDropGain * dragCoeffGain * dragCoeff
 				* upstreamState->rho() * vFlow * vFlow / 2;
 
 		absPressureDrop = pressureDrop;
@@ -153,8 +169,15 @@ public:
 protected:
 	virtual double calcDragCoefficient(double Re) = 0;
 
+	inline double calcDragCoeffGainExpression(double Re, double rho_up) {
+		return  (*dragCoeffGainExpression)(Re, rho_up);
+	}
+
 protected:
 	double hydraulicDiameter;
+
+	bool useDragCoeffGain;
+	FunctorTwoVariables* dragCoeffGainExpression;
 
 private:
 	double Re_cache;
