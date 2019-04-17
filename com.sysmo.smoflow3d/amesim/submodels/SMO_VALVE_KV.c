@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_KV skeleton created by AME Submodel editing utility
-   ???? ??? 10 14:37:43 2019 */
+   ?? ??? 17 09:36:40 2019 */
 
 
 
@@ -42,12 +42,12 @@ REVISIONS :
 
 /* There are 6 real parameters:
 
-   Kv                           flow coefficient Kv            [null]
-   transitionMassFlowRate       transition mass flow rate      [kg/s]
-   transitionPressureDifference transition pressure difference [barA -> PaA]
-   maximumMassFlowRate          maximum mass flow              [kg/s]
-   openingPressDiff             opening pressure difference    [bar -> Pa]
-   closingPressDiff             closing pressure difference    [bar -> Pa]
+   Kv                           flow coefficient Kv in [(m**3/h)/sqrt(bar)] [null]
+   transitionMassFlowRate       transition mass flow rate                   [kg/s]
+   transitionPressureDifference transition pressure difference              [barA -> PaA]
+   maximumMassFlowRate          maximum mass flow                           [kg/s]
+   openingPressDiff             opening pressure difference                 [bar -> Pa]
+   closingPressDiff             closing pressure difference                 [bar -> Pa]
 */
 
 

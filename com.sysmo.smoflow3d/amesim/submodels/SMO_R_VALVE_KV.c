@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   Thu Feb 2 14:27:06 2017 */
+   ?? ??? 17 09:36:52 2019 */
 
 
 
@@ -30,16 +30,16 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "flow_R/Valve_R.h"
 #include "flow_R/ManagerComponents_R.h"
- 
+
 #define _component ps[0]
 #define _componentIndex ic[0]
- 
+
 #define _manager ps[1]
 #define _managerIndex ic[1]
- 
+
 #define _fluidFlow1 ps[2]
 #define _fluidFlow1Index ic[2]
- 
+
 #define _fluidFlow2 ps[3]
 #define _fluidFlow2Index ic[3]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -47,9 +47,9 @@ REVISIONS :
 
 /* There are 3 real parameters:
 
-   Kv                           flow coefficient Kv            [null]
-   transitionMassFlowRate       transition mass flow rate      [kg/s]
-   transitionPressureDifference transition pressure difference [barA -> PaA]
+   Kv                           flow coefficient Kv in [(m**3/h)/sqrt(bar)] [null]
+   transitionMassFlowRate       transition mass flow rate                   [kg/s]
+   transitionPressureDifference transition pressure difference              [barA -> PaA]
 */
 
 
@@ -127,7 +127,7 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 		   transitionPressureDifference);
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
- 
+
    _fluidFlow2Index = FlowComponent_R_getFlow2Index(_component);
    _fluidFlow2 = FluidFlow_get(_fluidFlow2Index);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -206,11 +206,11 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
 	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID3);
    }
    ManagerComponents_R_compute(_manager);
- 
+
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
- 
+
    *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
@@ -262,11 +262,11 @@ extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
    if (firstc_()) {
 	   _managerIndex = *smoRChainID;
 	   _manager = ManagerComponents_R_get(_managerIndex);
- 
+
 	   ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
    }
    Valve_R_setRegulatingSignal(_component, *regulatingSignal);
- 
+
    outputRCompID3 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 

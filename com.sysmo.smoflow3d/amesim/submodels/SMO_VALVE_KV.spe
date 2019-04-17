@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>79</SUB_ID_MAX>
+  <SUB_ID_MAX>81</SUB_ID_MAX>
   <DEFAULT_ICON>smo_valve</DEFAULT_ICON>
   <SUB_LABEL>Valve with a regulating input signal (R)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -14,8 +14,8 @@
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
    <RPARAM>
-    <SUB_ID>30</SUB_ID>
-    <TITLE>flow coefficient Kv</TITLE>
+    <SUB_ID>81</SUB_ID>
+    <TITLE>flow coefficient Kv in [(m**3/h)/sqrt(bar)]</TITLE>
     <VARNAME>Kv</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
