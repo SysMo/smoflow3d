@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   ?? ??? 19 10:41:01 2018 */
+   ???? ??? 16 16:02:22 2019 */
 
 
 
@@ -46,19 +46,20 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 11 real parameters:
+/* There are 12 real parameters:
 
-   hydraulicDiameter      hydraulic diameter          [mm -> m]
-   pipeLength             pipe length                 [m]
-   flowArea               flow (cross sectional) area [mm**2 -> m**2]
-   absoluteRoughness      absolute roughness          [mm -> m]
-   pressureDropGain       pressure drop gain          [null]
-   heatExchangeGain       heat exchange gain          [null]
-   initialPressure        initial pressure            [barA -> PaA]
-   initialTemperature     initial temperature (K)     [K]
-   initialTemperatureC    initial temperature (ï¿½C)    [degC]
-   initialGasMassFraction initial gas mass fraction   [null]
-   initialSuperheat       initial superheat           [K]
+   hydraulicDiameter             hydraulic diameter                        [mm -> m]
+   pipeLength                    pipe length                               [m]
+   flowArea                      flow (cross sectional) area               [mm**2 -> m**2]
+   absoluteRoughness             absolute roughness                        [mm -> m]
+   pressureDropGain              pressure drop gain                        [null]
+   heatExchangeGain              heat exchange gain                        [null]
+   heatExchangeGainDeactivedFlow heat exchange gain (deactived fluid flow) [null]
+   initialPressure               initial pressure                          [barA -> PaA]
+   initialTemperature            initial temperature (K)                   [K]
+   initialTemperatureC           initial temperature (°C)                  [degC]
+   initialGasMassFraction        initial gas mass fraction                 [null]
+   initialSuperheat              initial superheat                         [K]
 */
 
 
@@ -71,7 +72,7 @@ REVISIONS :
    stateVariableSelection       states variables                  
 */
 
-void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[11]
+void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[12]
       , int ip[5], int ic[6], void *ps[7], double stateValues[2])
 
 {
@@ -82,7 +83,8 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[11]
       forcedConvectionUseFilmState, initConditionsChoice, 
       stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
-      pressureDropGain, heatExchangeGain, initialPressure, 
+      pressureDropGain, heatExchangeGain, 
+      heatExchangeGainDeactivedFlow, initialPressure, 
       initialTemperature, initialTemperatureC, initialGasMassFraction
       , initialSuperheat;
 
@@ -98,18 +100,19 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[11]
    absoluteRoughness = rp[3];
    pressureDropGain = rp[4];
    heatExchangeGain = rp[5];
-   initialPressure = rp[6];
-   initialTemperature = rp[7];
-   initialTemperatureC = rp[8];
-   initialGasMassFraction = rp[9];
-   initialSuperheat = rp[10];
+   heatExchangeGainDeactivedFlow = rp[6];
+   initialPressure = rp[7];
+   initialTemperature = rp[8];
+   initialTemperatureC = rp[9];
+   initialGasMassFraction = rp[10];
+   initialSuperheat = rp[11];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..10]
+   rp[0..11]
    stateValues[0..1]
 */
 
@@ -164,8 +167,8 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[11]
    flowArea   = rp[2];
    rp[3]    *= 1.00000000000000e-003;
    absoluteRoughness = rp[3];
-   rp[6]    *= 1.00000000000000e+005;
-   initialPressure = rp[6];
+   rp[7]    *= 1.00000000000000e+005;
+   initialPressure = rp[7];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
@@ -235,7 +238,7 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
       , double *port3Temperature, double *internalVolume
       , double *totalMass, double *reynoldsNumber
       , double *convectionCoefficient, double *heatFlowRateFromWall
-      , double *totalPressureLoss, double rp[11], int ip[5], int ic[6]
+      , double *totalPressureLoss, double rp[12], int ip[5], int ic[6]
       , void *ps[7], int *flag)
 
 {
@@ -246,7 +249,8 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
       forcedConvectionUseFilmState, initConditionsChoice, 
       stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
-      pressureDropGain, heatExchangeGain, initialPressure, 
+      pressureDropGain, heatExchangeGain, 
+      heatExchangeGainDeactivedFlow, initialPressure, 
       initialTemperature, initialTemperatureC, initialGasMassFraction
       , initialSuperheat;
 
@@ -262,11 +266,12 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
    absoluteRoughness = rp[3];
    pressureDropGain = rp[4];
    heatExchangeGain = rp[5];
-   initialPressure = rp[6];
-   initialTemperature = rp[7];
-   initialTemperatureC = rp[8];
-   initialGasMassFraction = rp[9];
-   initialSuperheat = rp[10];
+   heatExchangeGainDeactivedFlow = rp[6];
+   initialPressure = rp[7];
+   initialTemperature = rp[8];
+   initialTemperatureC = rp[9];
+   initialGasMassFraction = rp[10];
+   initialSuperheat = rp[11];
    logi = 0;
    loop = 0;
 
@@ -309,8 +314,10 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
    }
    if (*fluidFlowActivationSignal == 0) {
+	   Convection_setHeatExchangeGain(_convection, heatExchangeGainDeactivedFlow);
 	   PipeHeatExchPrDropMassAcc_RC_compute_deactivedFluidFlow(_component);
    } else {
+	   Convection_setHeatExchangeGain(_convection, heatExchangeGain);
 	   PipeHeatExchPrDropMassAcc_RC_compute(_component);
    }
 
@@ -342,7 +349,7 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
 
 extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
       , double *port1FluidStateIndex, double *thermalNodeIndex
-      , double stateValues[2], double rp[11], int ip[5], int ic[6]
+      , double stateValues[2], double rp[12], int ip[5], int ic[6]
       , void *ps[7], int *flag)
 
 {
@@ -354,7 +361,8 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
       forcedConvectionUseFilmState, initConditionsChoice, 
       stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
-      pressureDropGain, heatExchangeGain, initialPressure, 
+      pressureDropGain, heatExchangeGain, 
+      heatExchangeGainDeactivedFlow, initialPressure, 
       initialTemperature, initialTemperatureC, initialGasMassFraction
       , initialSuperheat;
 
@@ -370,11 +378,12 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
    absoluteRoughness = rp[3];
    pressureDropGain = rp[4];
    heatExchangeGain = rp[5];
-   initialPressure = rp[6];
-   initialTemperature = rp[7];
-   initialTemperatureC = rp[8];
-   initialGasMassFraction = rp[9];
-   initialSuperheat = rp[10];
+   heatExchangeGainDeactivedFlow = rp[6];
+   initialPressure = rp[7];
+   initialTemperature = rp[8];
+   initialTemperatureC = rp[9];
+   initialGasMassFraction = rp[10];
+   initialSuperheat = rp[11];
    logi = 0;
    loop = 0;
 
