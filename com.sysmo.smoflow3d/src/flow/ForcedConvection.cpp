@@ -89,8 +89,10 @@ void ForcedConvection::compute(double massFlowRate) {
 		double limitHeatFlowRate = absMassFlowRate * (limitState->h() - upstreamFluidState->h());
 		if (heatFlowRate > 0) {
 			heatFlowRate = m::min(heatFlowRate, limitHeatFlowRate);
-		} else {
+		} else if (heatFlowRate < 0) {
 			heatFlowRate = m::max(heatFlowRate, limitHeatFlowRate);
+		} else {
+			heatFlowRate = 0;
 		}
 	}
 }
