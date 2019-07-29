@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   ??? ??? 5 10:49:41 2019 */
+   ??? ??? 27 22:03:42 2019 */
 
 
 
@@ -44,6 +44,7 @@ REVISIONS :
 #define _wallHeatFlowIndex ic[3]
 
 #define _convection ps[4]
+#define _friction ps[5]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -73,7 +74,7 @@ REVISIONS :
 */
 
 void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
-      , int ip[4], char *tp[1], int ic[4], void *ps[5])
+      , int ip[4], char *tp[1], int ic[4], void *ps[6])
 
 {
    int loop, error;
@@ -204,14 +205,17 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
       3 inputRCompID3       R-component ID (input, port3)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 6 internal variables.
+/*  There are 9 internal variables.
 
-      1 massFlowRate              mass flow rate (at port3)     [kg/s]      basic variable
-      2 enthalpyFlowRate          enthalpy flow rate (at port3) [W]         basic variable
-      3 pressureLoss              total pressure loss           [bar -> Pa] basic variable
-      4 reynoldsNumber            Reynolds number               [null]      basic variable
-      5 convectionCoefficient     convection coefficient        [W/m**2/K]  basic variable
-      6 heatFlowRateFromWall      heat flow rate                [W]         basic variable
+      1 massFlowRate              mass flow rate (at port3)        [kg/s]        basic variable
+      2 enthalpyFlowRate          enthalpy flow rate (at port3)    [W]           basic variable
+      3 pressureLoss              total pressure loss              [bar -> Pa]   basic variable
+      4 reynoldsNumber            Reynolds number                  [null]        basic variable
+      5 convectionCoefficient     convection coefficient           [W/m**2/K]    basic variable
+      6 heatFlowRateFromWall      heat flow rate                   [W]           basic variable
+      7 vFlowUp                   velocity (upstream flow)         [m/s]         basic variable
+      8 dynamicPressureUp         dynamic pressure (upstream flow) [barA -> PaA] basic variable
+      9 machNumberUp              Mach number (upstream flow)      [null]        basic variable
 */
 
 void smo_r_pipe_straight_heat_exchanger_(int *n
@@ -221,8 +225,9 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
       , double *inputRCompID3, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss
       , double *reynoldsNumber, double *convectionCoefficient
-      , double *heatFlowRateFromWall, double rp[6], int ip[4]
-      , char *tp[1], int ic[4], void *ps[5], int *flag)
+      , double *heatFlowRateFromWall, double *vFlowUp
+      , double *dynamicPressureUp, double *machNumberUp, double rp[6]
+      , int ip[4], char *tp[1], int ic[4], void *ps[6], int *flag)
 
 {
    int loop, logi;
@@ -269,6 +274,9 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
    *reynoldsNumber = ??;
    *convectionCoefficient = ??;
    *heatFlowRateFromWall = ??;
+   *vFlowUp    = ??;
+   *dynamicPressureUp = ??;
+   *machNumberUp = ??;
 */
 
 
@@ -282,6 +290,7 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
 	   _wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
 
 	   _convection = PipeHeatExchanger_R_getConvection(_component);
+	   _friction = Pipe_R_getFrictionFlowPipe(_component);
    }
    ManagerComponents_R_compute(_manager);
 
@@ -291,7 +300,11 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
 
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);
-   *heatFlowRateFromWall = -HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
+   *heatFlowRateFromWall = - HeatFlow_getEnthalpyFlowRate(_wallHeatFlow);
+
+   *vFlowUp = FrictionFlowPipe_getUpstreamVelocity(_friction, *massFlowRate);
+   *dynamicPressureUp = FrictionFlowPipe_getUpstreamDynamicPressure(_friction, *massFlowRate);
+   *machNumberUp = FrictionFlowPipe_getUpstreamMachNumber(_friction, *massFlowRate);
 
    *heatFlowIndex = _wallHeatFlowIndex;
    *outputRCompID1 = _componentIndex;
@@ -307,12 +320,13 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
 /*   *outputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *inputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
    *pressureLoss /= 1.00000000000000e+005;
+   *dynamicPressureUp /= 1.00000000000000e+005;
 }
 
 extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n
       , double *inputRCompID1, double *smoRChainID
       , double *thermalNodeIndex, double rp[6], int ip[4], char *tp[1]
-      , int ic[4], void *ps[5], int *flag)
+      , int ic[4], void *ps[6], int *flag)
 
 {
    double outputRCompID3;

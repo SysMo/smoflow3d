@@ -109,7 +109,7 @@ void PipeHeatExchPrDropMassAcc_RC::compute_deactivedFluidFlow() {
 
 void PipeHeatExchPrDropMassAcc_RC::compute(double pressureDrop) {
 	double massFlowRate = friction->computeMassFlowRate(pressureDrop);
-	friction->updateFluidFlows(port1Flow, internalFlow);
+	friction->updateFluidFlows(port1Flow, internalFlow, massFlowRate);
 
 	convection->compute(massFlowRate);
 	convection->updateHeatFlow(wallHeatFlow);

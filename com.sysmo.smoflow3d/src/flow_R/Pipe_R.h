@@ -23,8 +23,7 @@ public:
 	virtual void init(MediumState* state1);
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
-	double getReynoldsNumber() {return friction->getReynoldsNumber();}
-	double getDragCoefficient() {return friction->getDragCoefficient();}
+	FrictionFlowPipe* getFrictionFlowPipe() {return friction;}
 
 protected:
 	FrictionFlowPipe* friction;
@@ -65,9 +64,7 @@ Pipe_R* ConstantDragCoefficientStraightPipe_new(
 		double dragCoefficient,
 		double pressureDropGain);
 
-double Pipe_R_getReynoldsNumber(Pipe_R* pipe);
-double Pipe_R_getDragCoefficient(Pipe_R* pipe);
-
+FrictionFlowPipe* Pipe_R_getFrictionFlowPipe(Pipe_R* pipe);
 
 END_C_LINKAGE
 

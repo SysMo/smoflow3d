@@ -99,10 +99,6 @@ Pipe_R* ConstantDragCoefficientStraightPipe_new(
 	return Pipe_R_new(friction);
 }
 
-double Pipe_R_getDragCoefficient(Pipe_R* pipe) {
-	return pipe->getDragCoefficient();
-}
-
-double Pipe_R_getReynoldsNumber(Pipe_R* pipe) {
-	return pipe->getReynoldsNumber();
+FrictionFlowPipe* Pipe_R_getFrictionFlowPipe(Pipe_R* pipe) {
+	return pipe->getFrictionFlowPipe();
 }

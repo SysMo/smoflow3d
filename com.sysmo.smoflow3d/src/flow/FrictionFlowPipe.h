@@ -28,13 +28,16 @@ public:
 	virtual void setUseDragCoeffGain(bool useDragCoeffGain) {};
 	virtual void setDragCoeffGainExpression(const char* dragCoeffGainExpression) {};
 
-	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2);
+	void updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2, double massFlowRate);
 
 	double getAbsolutePressureDrop() {return absPressureDrop;}
-	double getMassFlowRate() {return massFlowRate;}
 
 	double getReynoldsNumber() {return reynoldsNumber;}
 	double getDragCoefficient() {return dragCoefficient;}
+
+	double getUpstreamVelocity(double massFlowRate);
+	double getUpstreamDynamicPressure(double massFlowRate);
+	double getUpstreamMachNumber(double massFlowRate);
 
 protected:
 	MediumState* getUpstreamState(double massFlowRate);
@@ -46,7 +49,6 @@ protected:
 	MediumState* state1;
 	MediumState* state2;
 
-	double massFlowRate;
 	double absPressureDrop;
 
 	double reynoldsNumber;
@@ -66,7 +68,11 @@ FrictionFlowPipe* FrictionFlowPipe_ConstantDragCoefficientStraightPipe_new(doubl
 void FrictionFlowPipe_setPressureDropGain(FrictionFlowPipe* component, double gain);
 
 double FrictionFlowPipe_getAbsolutePressureDrop(FrictionFlowPipe* component);
-double FrictionFlowPipe_getMassFlowRate(FrictionFlowPipe* component);
+
+double FrictionFlowPipe_getUpstreamVelocity(FrictionFlowPipe* component, double massFlowRate);
+double FrictionFlowPipe_getUpstreamDynamicPressure(FrictionFlowPipe* component, double massFlowRate);
+double FrictionFlowPipe_getUpstreamMachNumber(FrictionFlowPipe* component, double massFlowRate);
+
 END_C_LINKAGE
 
 #endif /* FRICTIONFLOWPIPE_H_ */

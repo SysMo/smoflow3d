@@ -18,8 +18,6 @@ FrictionFlowPipe::FrictionFlowPipe(double flowArea) {
 	this->flowArea = flowArea;
 
 	pressureDropGain = 0.0;
-
-	massFlowRate = 0.0;
 	absPressureDrop = 0.0;
 
 	state1 = NULL;
@@ -37,7 +35,7 @@ void FrictionFlowPipe::init(MediumState* state1, MediumState* state2) {
 	this->state2 = state2;
 }
 
-void FrictionFlowPipe::updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2) {
+void FrictionFlowPipe::updateFluidFlows(FluidFlow* flow1, FluidFlow* flow2, double massFlowRate) {
 	MediumState* upstreamState = getUpstreamState(massFlowRate);
 
 	flow1->massFlowRate = -massFlowRate;
@@ -57,6 +55,28 @@ MediumState* FrictionFlowPipe::getUpstreamState(double massFlowRate) {
 
 	return upstreamState;
 }
+
+double FrictionFlowPipe::getUpstreamVelocity(double massFlowRate) {
+	MediumState* upstreamState = getUpstreamState(massFlowRate);
+
+	return m::fabs(massFlowRate) / (upstreamState->rho() * flowArea); //vFlow
+}
+
+double FrictionFlowPipe::getUpstreamDynamicPressure(double massFlowRate) {
+	MediumState* upstreamState = getUpstreamState(massFlowRate);
+
+	double vFlow = m::fabs(massFlowRate) / (upstreamState->rho() * flowArea);
+	return upstreamState->rho() * vFlow * vFlow / 2;
+}
+
+double FrictionFlowPipe::getUpstreamMachNumber(double massFlowRate) {
+	MediumState* upstreamState = getUpstreamState(massFlowRate);
+
+	double vFlow = m::fabs(massFlowRate) / (upstreamState->rho() * flowArea);
+	return vFlow / upstreamState->speed_sound();
+}
+
+
 
 /**
  * FrictionFlowPipe_Base - C++
@@ -81,14 +101,7 @@ public:
 	}
 
 	virtual double computePressureDrop(double massFlowRate) {//:TRICKY: Used in R components
-		this->massFlowRate = massFlowRate;
-
-		MediumState* upstreamState;
-		if (massFlowRate >= 0) {
-			upstreamState = state1;
-		} else {
-			upstreamState = state2;
-		}
+		MediumState* upstreamState = getUpstreamState(massFlowRate);
 
 		double vFlow = m::fabs(massFlowRate) / (upstreamState->rho() * flowArea);
 		//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (2)
@@ -120,7 +133,6 @@ public:
 
 		absPressureDrop = m::fabs(pressureDrop);
 		if (absPressureDrop < cst::MinPressureDrop) {
-			massFlowRate = 0.0;
 			reynoldsNumber = 0.0;
 			dragCoefficient = 0.0;
 			return 0.0;
@@ -156,7 +168,7 @@ public:
 		//m::limitVariable(Re_cache, 10, 1e8); //:TRICKY:
 
 		// Compute mass flow rate, accounting for the flow direction
-		massFlowRate = upstreamState->rho() * vFlow * flowArea;
+		double massFlowRate = upstreamState->rho() * vFlow * flowArea;
 		if (pressureDrop < 0) {
 			massFlowRate = -massFlowRate;
 		}
@@ -199,14 +211,7 @@ public:
 	}
 
 	virtual double computePressureDrop(double massFlowRate) {
-		this->massFlowRate = massFlowRate;
-
-		MediumState* upstreamState;
-		if (massFlowRate >= 0) {
-			upstreamState = state1;
-		} else {
-			upstreamState = state2;
-		}
+		MediumState* upstreamState = getUpstreamState(massFlowRate);
 
 		//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
 		double vFlow = m::fabs(massFlowRate) / (upstreamState->rho() * flowArea);
@@ -226,7 +231,6 @@ public:
 	virtual double computeMassFlowRate(double pressureDrop) {
 		absPressureDrop = m::fabs(pressureDrop);
 		if (absPressureDrop < cst::MinPressureDrop) {
-			massFlowRate = 0.0;
 			reynoldsNumber = 0.0;
 			dragCoefficient = 0.0;
 			return 0.0;
@@ -240,7 +244,7 @@ public:
 		}
 
 		//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
-		massFlowRate = flowArea * m::sqrt(2 * upstreamState->rho() * absPressureDrop / (constDragCoefficient * pressureDropGain));
+		double massFlowRate = flowArea * m::sqrt(2 * upstreamState->rho() * absPressureDrop / (constDragCoefficient * pressureDropGain));
 		if (pressureDrop < 0) {
 			massFlowRate = -massFlowRate;
 		}
@@ -457,6 +461,15 @@ double FrictionFlowPipe_getAbsolutePressureDrop(FrictionFlowPipe* component) {
 	return component->getAbsolutePressureDrop();
 }
 
-double FrictionFlowPipe_getMassFlowRate(FrictionFlowPipe* component) {
-	return component->getMassFlowRate();
+
+double FrictionFlowPipe_getUpstreamVelocity(FrictionFlowPipe* component, double massFlowRate) {
+	return component->getUpstreamVelocity(massFlowRate);
+}
+
+double FrictionFlowPipe_getUpstreamDynamicPressure(FrictionFlowPipe* component, double massFlowRate) {
+	return component->getUpstreamDynamicPressure(massFlowRate);
+}
+
+double FrictionFlowPipe_getUpstreamMachNumber(FrictionFlowPipe* component, double massFlowRate) {
+	return component->getUpstreamMachNumber(massFlowRate);
 }
