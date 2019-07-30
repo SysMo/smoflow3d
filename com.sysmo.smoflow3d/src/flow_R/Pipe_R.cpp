@@ -102,3 +102,5 @@ Pipe_R* ConstantDragCoefficientStraightPipe_new(
 FrictionFlowPipe* Pipe_R_getFrictionFlowPipe(Pipe_R* pipe) {
 	return pipe->getFrictionFlowPipe();
 }
+
+

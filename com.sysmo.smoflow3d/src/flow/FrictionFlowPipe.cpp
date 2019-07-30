@@ -473,3 +473,11 @@ double FrictionFlowPipe_getUpstreamDynamicPressure(FrictionFlowPipe* component, 
 double FrictionFlowPipe_getUpstreamMachNumber(FrictionFlowPipe* component, double massFlowRate) {
 	return component->getUpstreamMachNumber(massFlowRate);
 }
+
+double FrictionFlowPipe_getReynoldsNumber(FrictionFlowPipe* component) {
+	return component->getReynoldsNumber();
+}
+
+double FrictionFlowPipe_getDragCoefficient(FrictionFlowPipe* component) {
+	return component->getDragCoefficient();
+}

@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_CONSTANT_DRAC_COEFF skeleton created by AME Submodel editing utility
-   Sat Nov 23 13:02:29 2013 */
+   ?? ??? 30 17:26:58 2019 */
 
 
 
@@ -39,6 +39,8 @@ REVISIONS :
 
 #define _fluidFlow2 ps[2]
 #define _fluidFlow2Index ic[2]
+
+#define _friction ps[3]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -59,7 +61,7 @@ REVISIONS :
 */
 
 void smo_r_pipe_constant_drac_coeffin_(int *n, double rp[6], int ip[1]
-      , int ic[3], void *ps[3])
+      , int ic[3], void *ps[4])
 
 {
    int loop, error;
@@ -164,7 +166,7 @@ void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1
       , double *massFlowRate, double *enthalpyFlowRate
       , double *pressureLoss, double *reynoldsNumber
       , double *dragCoefficient, double rp[6], int ip[1], int ic[3]
-      , void *ps[3])
+      , void *ps[4])
 
 {
    int loop;
@@ -186,10 +188,10 @@ void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1
 
 /* Common -> SI units conversions. */
 
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID2 *= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID2 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *outputRCompID2 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID2 *= ??; CONVERSION UNKNOWN [smoRCompID] */
 
 /*
    Set all submodel outputs below:
@@ -208,31 +210,32 @@ void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1
    SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID2);
+	   _friction = Pipe_R_getFrictionFlowPipe(_component);
    }
    ManagerComponents_R_compute(_manager);
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
-   *reynoldsNumber = Pipe_R_getReynoldsNumber(_component);
-   *dragCoefficient = Pipe_R_getDragCoefficient(_component);
+   *reynoldsNumber = FrictionFlowPipe_getReynoldsNumber(_friction);
+   *dragCoefficient = FrictionFlowPipe_getDragCoefficient(_friction);
 
    *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
 
-/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID2 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID2 /= ??; CONVERSION UNKNOWN [smoRCompID] */
    *pressureLoss /= 1.00000000000000e+005;
 }
 
 extern double smo_r_pipe_constant_drac_coeff_macro0_(int *n
       , double *inputRCompID1, double *smoRChainID, double rp[6]
-      , int ip[1], int ic[3], void *ps[3])
+      , int ip[1], int ic[3], void *ps[4])
 
 {
    double outputRCompID2;
@@ -255,8 +258,8 @@ extern double smo_r_pipe_constant_drac_coeff_macro0_(int *n
 
 /* Common -> SI units conversions. */
 
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
 
 /*
    Define and return the following macro variable:
@@ -279,10 +282,10 @@ extern double smo_r_pipe_constant_drac_coeff_macro0_(int *n
 
 /* SI -> Common units conversions. */
 
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
 
-/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 
    return outputRCompID2;
 }

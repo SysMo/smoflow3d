@@ -73,6 +73,9 @@ double FrictionFlowPipe_getUpstreamVelocity(FrictionFlowPipe* component, double 
 double FrictionFlowPipe_getUpstreamDynamicPressure(FrictionFlowPipe* component, double massFlowRate);
 double FrictionFlowPipe_getUpstreamMachNumber(FrictionFlowPipe* component, double massFlowRate);
 
+double FrictionFlowPipe_getReynoldsNumber(FrictionFlowPipe* component);
+double FrictionFlowPipe_getDragCoefficient(FrictionFlowPipe* component);
+
 END_C_LINKAGE
 
 #endif /* FRICTIONFLOWPIPE_H_ */
