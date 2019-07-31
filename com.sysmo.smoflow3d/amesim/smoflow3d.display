@@ -41,6 +41,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port_01" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_switcher_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />    
    
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
@@ -113,7 +114,9 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_splitter_3port_01" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_switcher_3port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />
+   
   </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Volumes, Nodes" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >

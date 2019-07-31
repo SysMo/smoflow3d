@@ -115,3 +115,5 @@ smo_r_orifice
 &SMO_R_ORIFICE_COMPRESSIBLE_IDEAL_GAS SmoFlow3d
 smo_thermal_conduction_regulating_gain
 &SMO_THERMAL_CONDUCTION_01_REGULATING_GAIN SmoFlow3d
+smo_fluid_flow_gain
+&SMO_FLUID_FLOW_GAIN SmoFlow3d
