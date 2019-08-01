@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_CHAMBER_4PORT skeleton created by AME Submodel editing utility
-   Thu Feb 2 14:13:11 2017 */
+   ???? ??? 1 13:01:38 2019 */
 
 
 
@@ -30,12 +30,12 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "volumes/FluidChamber.h"
 #include "flow/FlowBase.h"
- 
+
 #define _component ps[0]
- 
+
 #define _fluidStateIndex ic[0]
 #define _fluidState ps[1]
- 
+
 #define _fluidFlow1 ps[2]
 #define _fluidFlow2 ps[3]
 #define _fluidFlow3 ps[4]
@@ -46,7 +46,7 @@ REVISIONS :
 /* There are 6 real parameters:
 
    initialPressure        initial pressure          [barA -> PaA]
-   initialTemperature     initial temperature (K)   [K]
+   initialTemperature     initial temperature       [K]
    initialTemperatureC    initial temperature (°C)  [degC]
    initialGasMassFraction initial gas mass fraction [null]
    initialSuperheat       initial superheat         [K]
@@ -138,11 +138,11 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
    Medium* fluid = Medium_get(fluidIndex);
    _component = FluidChamber_new(fluid);
    SMOCOMPONENT_SET_PROPS(_component)
- 
+
    FluidChamber_setVolume(_component, volume);
    _fluidState = FluidChamber_getFluidState(_component);
    _fluidStateIndex = MediumState_index(_fluidState);
- 
+
    if (stateVariableSelection == 1) {
 	   FluidChamber_selectStates(_component, iT, iD);
    } else if (stateVariableSelection == 2) {
@@ -154,7 +154,7 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
    } else {
 	   AME_RAISE_ERROR("Unsupported type of state variables.")
    }
- 
+
    if (initConditionsChoice == 1) {
 	   MediumState_update_Tp(_fluidState, initialTemperature, initialPressure);
    } else if (initConditionsChoice == 2) {
@@ -164,7 +164,7 @@ void smo_fluid_chamber_4portin_(int *n, double rp[6], int ip[3]
    } else {
 	   AME_RAISE_ERROR("Unsupported type of initialization.")
    }
- 
+
    FluidChamber_getStateValues(_component, state1, state2, 1);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
@@ -276,14 +276,14 @@ void smo_fluid_chamber_4port_(int *n, double *fluidStateIndex
 	   _fluidFlow3 = FluidFlow_get(*fluidFlow3Index);
 	   _fluidFlow4 = FluidFlow_get(*fluidFlow4Index);
    }
- 
+
    double massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow1) + FluidFlow_getMassFlowRate(_fluidFlow2)
 		   +  FluidFlow_getMassFlowRate(_fluidFlow3) + FluidFlow_getMassFlowRate(_fluidFlow4);
    double enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow1) + FluidFlow_getEnthalpyFlowRate(_fluidFlow2)
 		   + FluidFlow_getEnthalpyFlowRate(_fluidFlow3) + FluidFlow_getEnthalpyFlowRate(_fluidFlow4);
    FluidChamber_compute(_component, massFlowRate, enthalpyFlowRate, 0, 0);
    FluidChamber_getStateDerivatives(_component, state1Dot, state2Dot);
- 
+
    *pressure = MediumState_p(_fluidState);
    *temperature = MediumState_T(_fluidState);
    *density = MediumState_rho(_fluidState);

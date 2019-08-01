@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE SPE>
-<SPE DOC_VERSION="2" AME_VERSION="15.0.0 -  55369-51281 2016">
+<SPE DOC_VERSION="2" AME_VERSION="16.0.0 - 68387-65635 2017">
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
   <SUB_ID_MAX>60</SUB_ID_MAX>
   <DEFAULT_ICON>smo_fluid_chamber_cst_volume_4port</DEFAULT_ICON>
-  <SUB_LABEL>fluid chamber with constant volume and 2 ports (C)</SUB_LABEL>
+  <SUB_LABEL>fluid chamber with constant volume and 4 ports (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>1</I_STORES_NUMBER>
   <P_STORES_NUMBER>6</P_STORES_NUMBER>
@@ -25,7 +25,7 @@
    </RPARAM>
    <RPARAM>
     <SUB_ID>29</SUB_ID>
-    <TITLE>initial temperature (K)</TITLE>
+    <TITLE>initial temperature</TITLE>
     <VARNAME>initialTemperature</VARNAME>
     <VISIBILITY>(initConditionsChoice == 1)</VISIBILITY>
     <DEF_VALUE>3.00000000000000e+02</DEF_VALUE>
@@ -75,7 +75,7 @@
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
     <VALUE>1.00000000000000e+00</VALUE>
-    <MIN_VALUE>1.00000000000000e-003</MIN_VALUE>
+    <MIN_VALUE>1.00000000000000e-004</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+005</MAX_VALUE>
     <UNITS>L</UNITS>
    </RPARAM>
