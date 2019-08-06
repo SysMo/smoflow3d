@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   ???? ??? 16 16:02:22 2019 */
+   ?? ??? 6 10:23:52 2019 */
 
 
 
@@ -216,17 +216,22 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[12]
       3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 */
 
-/*  There are 9 internal variables.
+/*  There are 14 internal variables.
 
-      1 stateValues[2]            state values           [null]      explicit state (derivative `stateValuesDot')
-      2 port1Temperature          port 1 temperature     [K]         basic variable
-      3 port3Temperature          port 3 temperature     [K]         basic variable
-      4 internalVolume            volume                 [L -> m**3] basic variable
-      5 totalMass                 mass in pipe           [kg]        basic variable
-      6 reynoldsNumber            Reynolds number        [null]      basic variable
-      7 convectionCoefficient     convection coefficient [W/m**2/K]  basic variable
-      8 heatFlowRateFromWall      heat flow rate         [W]         basic variable
-      9 totalPressureLoss         total pressure loss    [bar -> Pa] basic variable
+      1 stateValues[2]            state values                     [null]        explicit state (derivative `stateValuesDot')
+      2 port1Temperature          port 1 temperature               [K]           basic variable
+      3 port3Temperature          port 3 temperature               [K]           basic variable
+      4 internalVolume            volume                           [L -> m**3]   basic variable
+      5 totalMass                 fluid mass in the pipe           [kg]          basic variable
+      6 massFlowRate              mass flow rate (at port1)        [kg/s]        basic variable
+      7 enthalpyFlowRate          enthalpy flow rate (at port1)    [W]           basic variable
+      8 totalPressureLoss         total pressure loss              [bar -> Pa]   basic variable
+      9 reynoldsNumber            Reynolds number                  [null]        basic variable
+     10 convectionCoefficient     convection coefficient           [W/m**2/K]    basic variable
+     11 heatFlowRateFromWall      heat flow rate                   [W]           basic variable
+     12 vFlowUp                   velocity (upstream flow)         [m/s]         basic variable
+     13 dynamicPressureUp         dynamic pressure (upstream flow) [barA -> PaA] basic variable
+     14 machNumberUp              Mach number (upstream flow)      [null]        basic variable
 */
 
 void smo_pipe_straight_heat_exchanger_rc_(int *n
@@ -236,10 +241,12 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
       , double *fluidFlowActivationSignal, double stateValues[2]
       , double stateValuesDot[2], double *port1Temperature
       , double *port3Temperature, double *internalVolume
-      , double *totalMass, double *reynoldsNumber
-      , double *convectionCoefficient, double *heatFlowRateFromWall
-      , double *totalPressureLoss, double rp[12], int ip[5], int ic[6]
-      , void *ps[7], int *flag)
+      , double *totalMass, double *massFlowRate
+      , double *enthalpyFlowRate, double *totalPressureLoss
+      , double *reynoldsNumber, double *convectionCoefficient
+      , double *heatFlowRateFromWall, double *vFlowUp
+      , double *dynamicPressureUp, double *machNumberUp, double rp[12]
+      , int ip[5], int ic[6], void *ps[7], int *flag)
 
 {
    int loop, logi;
@@ -293,10 +300,15 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
    *port3Temperature = ??;
    *internalVolume = ??;
    *totalMass  = ??;
+   *massFlowRate = ??;
+   *enthalpyFlowRate = ??;
+   *totalPressureLoss = ??;
    *reynoldsNumber = ??;
    *convectionCoefficient = ??;
    *heatFlowRateFromWall = ??;
-   *totalPressureLoss = ??;
+   *vFlowUp    = ??;
+   *dynamicPressureUp = ??;
+   *machNumberUp = ??;
 */
 
 
@@ -332,6 +344,12 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
    *totalPressureLoss = FrictionFlowPipe_getAbsolutePressureDrop(_friction);
    *internalVolume = PipeHeatExchPrDropMassAcc_RC_getVolume(_component);
    *totalMass = PipeHeatExchPrDropMassAcc_RC_getFluidMass(_component);
+
+   *massFlowRate = FluidFlow_getMassFlowRate(_port1FluidFlow);
+   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_port1FluidFlow);
+   *vFlowUp = FrictionFlowPipe_getUpstreamVelocity(_friction, *massFlowRate);
+   *dynamicPressureUp = FrictionFlowPipe_getUpstreamDynamicPressure(_friction, *massFlowRate);
+   *machNumberUp = FrictionFlowPipe_getUpstreamMachNumber(_friction, *massFlowRate);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -345,6 +363,7 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
 /*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
    *internalVolume /= 1.00000000000000e-003;
    *totalPressureLoss /= 1.00000000000000e+005;
+   *dynamicPressureUp /= 1.00000000000000e+005;
 }
 
 extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n

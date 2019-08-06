@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>149</SUB_ID_MAX>
+  <SUB_ID_MAX>159</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_straight_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>straight pipe with heat exchanger (pressure drop, mass accumulation) (R-C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -339,12 +339,39 @@
    </IVAR>
    <IVAR>
     <SUB_ID>147</SUB_ID>
-    <TITLE>mass in pipe</TITLE>
+    <TITLE>fluid mass in the pipe</TITLE>
     <VARNAME>totalMass</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
     <UNITS>kg</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>158</SUB_ID>
+    <TITLE>mass flow rate (at port1)</TITLE>
+    <VARNAME>massFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/s</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>159</SUB_ID>
+    <TITLE>enthalpy flow rate (at port1)</TITLE>
+    <VARNAME>enthalpyFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>122</SUB_ID>
+    <TITLE>total pressure loss</TITLE>
+    <VARNAME>totalPressureLoss</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
    </IVAR>
    <IVAR>
     <SUB_ID>98</SUB_ID>
@@ -375,13 +402,31 @@
     <UNITS>W</UNITS>
    </IVAR>
    <IVAR>
-    <SUB_ID>122</SUB_ID>
-    <TITLE>total pressure loss</TITLE>
-    <VARNAME>totalPressureLoss</VARNAME>
+    <SUB_ID>153</SUB_ID>
+    <TITLE>velocity (upstream flow)</TITLE>
+    <VARNAME>vFlowUp</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>
-    <UNITS>bar</UNITS>
+    <UNITS>m/s</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>154</SUB_ID>
+    <TITLE>dynamic pressure (upstream flow)</TITLE>
+    <VARNAME>dynamicPressureUp</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>barA</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>155</SUB_ID>
+    <TITLE>Mach number (upstream flow)</TITLE>
+    <VARNAME>machNumberUp</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
    </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
