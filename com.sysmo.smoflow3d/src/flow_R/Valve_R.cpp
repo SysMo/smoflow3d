@@ -14,6 +14,7 @@ using namespace smoflow;
  */
 Valve_R::Valve_R(FrictionFlowValve* friction) {
 	this->friction = friction;
+	this->flagCloseFlowAtNegativeRegulatingSignal = true;
 }
 
 Valve_R::~Valve_R() {
@@ -47,10 +48,22 @@ void Valve_R::setRegulatingSignal(double regulatingSignal) {
 	friction->setRegulatingSignal(regulatingSignal);
 	if (regulatingSignal > 0) {
 		openFlow();
-	} else {
+	} else if (regulatingSignal == 0){
 		closeFlow();
+	} else { //regulatingSignal < 0
+		if (flagCloseFlowAtNegativeRegulatingSignal == true) {
+			closeFlow();
+		} else {
+			openFlow(); //:TRICKY: the flow is open and dp = 0 bar; i.e. no pressure loss in the valve
+		}
 	}
 }
+
+void Valve_R::setCloseFlowAtNegativeRegulatingSignal(bool flagCloseFlowAtNegativeRegulatingSignal) {
+	this->flagCloseFlowAtNegativeRegulatingSignal = flagCloseFlowAtNegativeRegulatingSignal;
+}
+
+
 
 /**
  * Valve_R - C
@@ -101,7 +114,16 @@ void Valve_R_setRegulatingSignal(Valve_R* valve, double regulatingSignal) {
 	valve->setRegulatingSignal(regulatingSignal);
 }
 
+void Valve_R_setCloseFlowAtNegativeRegulatingSignal(Valve_R* valve, int flagCloseFlowAtNegativeRegulatingSignal) {
+	if (flagCloseFlowAtNegativeRegulatingSignal == 1) {
+		valve->setCloseFlowAtNegativeRegulatingSignal(true);
+	} else {
+		valve->setCloseFlowAtNegativeRegulatingSignal(false);
+	}
+}
+
 int Valve_R_getFlowType(Valve_R* valve) {
 	return (int) valve->getFlowType();
 }
+
 

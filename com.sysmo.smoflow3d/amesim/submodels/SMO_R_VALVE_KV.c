@@ -1,5 +1,5 @@
 /* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   ?? ??? 17 09:36:52 2019 */
+   ?? ??? 7 10:01:09 2019 */
 
 
 
@@ -53,24 +53,27 @@ REVISIONS :
 */
 
 
-/* There are 2 integer parameters:
+/* There are 3 integer parameters:
 
-   transitionChoice       choice of transition to linear region
-   allowBidirectionalFlow allow bi-directional flow            
+   transitionChoice             choice of transition to linear region       
+   allowBidirectionalFlow       allow bi-directional flow                   
+   closeFlowAtNegativeRegSignal close the flow at negative regulating signal
 */
 
-void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
+void smo_r_valve_kvin_(int *n, double rp[3], int ip[3], int ic[4]
       , void *ps[4])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int transitionChoice, allowBidirectionalFlow;
+   int transitionChoice, allowBidirectionalFlow, 
+      closeFlowAtNegativeRegSignal;
    double Kv, transitionMassFlowRate, transitionPressureDifference;
 
    transitionChoice = ip[0];
    allowBidirectionalFlow = ip[1];
+   closeFlowAtNegativeRegSignal = ip[2];
 
    Kv         = rp[0];
    transitionMassFlowRate = rp[1];
@@ -100,6 +103,11 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
       amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
       error = 2;
    }
+   if (closeFlowAtNegativeRegSignal < 1 || closeFlowAtNegativeRegSignal > 2)
+   {
+      amefprintf(stderr, "\nclose the flow at negative regulating signal must be in range [1..2].\n");
+      error = 2;
+   }
 
    if(error == 1)
    {
@@ -127,6 +135,8 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[2], int ic[4]
 		   transitionPressureDifference);
    _componentIndex = Component_R_register(_component);
    SMOCOMPONENT_SET_PROPS(_component)
+
+   Valve_R_setCloseFlowAtNegativeRegulatingSignal(_component, closeFlowAtNegativeRegSignal -1); //:TRICKY: closeFlowAtNegativeRegSignal =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
 
    _fluidFlow2Index = FlowComponent_R_getFlow2Index(_component);
    _fluidFlow2 = FluidFlow_get(_fluidFlow2Index);
@@ -164,17 +174,19 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
       , double *regulatingSignal, double *outputRCompID3
       , double *inputRCompID3, double *massFlowRate
       , double *enthalpyFlowRate, double *pressureLoss, double rp[3]
-      , int ip[2], int ic[4], void *ps[4], int *flag)
+      , int ip[3], int ic[4], void *ps[4], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int transitionChoice, allowBidirectionalFlow;
+   int transitionChoice, allowBidirectionalFlow, 
+      closeFlowAtNegativeRegSignal;
    double Kv, transitionMassFlowRate, transitionPressureDifference;
 
    transitionChoice = ip[0];
    allowBidirectionalFlow = ip[1];
+   closeFlowAtNegativeRegSignal = ip[2];
 
    Kv         = rp[0];
    transitionMassFlowRate = rp[1];
@@ -226,18 +238,20 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
 
 extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
       , double *smoRChainID, double *regulatingSignal, double rp[3]
-      , int ip[2], int ic[4], void *ps[4], int *flag)
+      , int ip[3], int ic[4], void *ps[4], int *flag)
 
 {
    double outputRCompID3;
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int transitionChoice, allowBidirectionalFlow;
+   int transitionChoice, allowBidirectionalFlow, 
+      closeFlowAtNegativeRegSignal;
    double Kv, transitionMassFlowRate, transitionPressureDifference;
 
    transitionChoice = ip[0];
    allowBidirectionalFlow = ip[1];
+   closeFlowAtNegativeRegSignal = ip[2];
 
    Kv         = rp[0];
    transitionMassFlowRate = rp[1];

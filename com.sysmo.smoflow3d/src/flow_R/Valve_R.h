@@ -25,11 +25,13 @@ public:
 	virtual bool compute(double massFlowRate, double minDownstreamPressure);
 
 	void setRegulatingSignal(double regulatingSignal);
+	void setCloseFlowAtNegativeRegulatingSignal(bool flagCloseFlowAtNegativeRegulatingSignal);
 
 	FlowType getFlowType() {return friction->getFlowType();}
 
 protected:
 	FrictionFlowValve* friction;
+	bool flagCloseFlowAtNegativeRegulatingSignal;
 };
 
 #else //_cplusplus
@@ -52,8 +54,11 @@ Valve_R* Valve_OrificeCompressibleIdealGas_R_new(
 
 
 void Valve_R_setRegulatingSignal(Valve_R* valve, double regulatingSignal);
+void Valve_R_setCloseFlowAtNegativeRegulatingSignal(Valve_R* valve, int flagCloseFlowAtNegativeRegulatingSignal);
 
 int Valve_R_getFlowType(Valve_R* valve);
+
+
 END_C_LINKAGE
 
 
