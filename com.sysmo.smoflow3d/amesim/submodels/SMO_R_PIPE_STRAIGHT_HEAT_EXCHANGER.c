@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   ??? ??? 27 22:03:42 2019 */
+   ??? ??? 9 10:17:39 2019 */
 
 
 
@@ -207,15 +207,15 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
 
 /*  There are 9 internal variables.
 
-      1 massFlowRate              mass flow rate (at port3)        [kg/s]        basic variable
-      2 enthalpyFlowRate          enthalpy flow rate (at port3)    [W]           basic variable
-      3 pressureLoss              total pressure loss              [bar -> Pa]   basic variable
-      4 reynoldsNumber            Reynolds number                  [null]        basic variable
-      5 convectionCoefficient     convection coefficient           [W/m**2/K]    basic variable
-      6 heatFlowRateFromWall      heat flow rate                   [W]           basic variable
-      7 vFlowUp                   velocity (upstream flow)         [m/s]         basic variable
-      8 dynamicPressureUp         dynamic pressure (upstream flow) [barA -> PaA] basic variable
-      9 machNumberUp              Mach number (upstream flow)      [null]        basic variable
+      1 massFlowRate              mass flow rate (port1 -> port3)     [kg/s]        basic variable
+      2 enthalpyFlowRate          enthalpy flow rate (port1 -> port3) [W]           basic variable
+      3 pressureLoss              total pressure loss                 [bar -> Pa]   basic variable
+      4 reynoldsNumber            Reynolds number                     [null]        basic variable
+      5 convectionCoefficient     convection coefficient              [W/m**2/K]    basic variable
+      6 heatFlowRateFromWall      heat flow rate                      [W]           basic variable
+      7 vFlowUp                   velocity (upstream flow)            [m/s]         basic variable
+      8 dynamicPressureUp         dynamic pressure (upstream flow)    [barA -> PaA] basic variable
+      9 machNumberUp              Mach number (upstream flow)         [null]        basic variable
 */
 
 void smo_r_pipe_straight_heat_exchanger_(int *n

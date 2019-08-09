@@ -1,5 +1,5 @@
 /* Submodel SMO_VALVE_MASS_FLOW_RATE skeleton created by AME Submodel editing utility
-   ??? ??? 8 16:14:48 2019 */
+   ??? ??? 9 10:12:13 2019 */
 
 
 
@@ -172,9 +172,9 @@ void smo_valve_mass_flow_ratein_(int *n, double rp[2], int ip[4]
 
 /*  There are 3 internal variables.
 
-      1 massFlowRate         mass flow rate (at port3)     [kg/s]      basic variable
-      2 enthalpyFlowRate     enthalpy flow rate (at port3) [W]         basic variable
-      3 pressureLoss         total pressure loss           [bar -> Pa] basic variable
+      1 massFlowRate         mass flow rate (port1 -> port3)     [kg/s]      basic variable
+      2 enthalpyFlowRate     enthalpy flow rate (port1 -> port3) [W]         basic variable
+      3 pressureLoss         total pressure loss                 [bar -> Pa] basic variable
 */
 
 void smo_valve_mass_flow_rate_(int *n, double *fluidFlow1Index

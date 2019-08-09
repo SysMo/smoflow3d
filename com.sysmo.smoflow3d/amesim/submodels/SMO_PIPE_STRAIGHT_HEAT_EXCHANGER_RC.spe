@@ -348,7 +348,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>158</SUB_ID>
-    <TITLE>mass flow rate (at port1)</TITLE>
+    <TITLE>mass flow rate (port3 -> port1)</TITLE>
     <VARNAME>massFlowRate</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
@@ -357,7 +357,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>159</SUB_ID>
-    <TITLE>enthalpy flow rate (at port1)</TITLE>
+    <TITLE>enthalpy flow rate (port3 -> port1)</TITLE>
     <VARNAME>enthalpyFlowRate</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>

@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   ?? ??? 6 10:23:52 2019 */
+   ??? ??? 9 10:18:42 2019 */
 
 
 
@@ -218,20 +218,20 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[12]
 
 /*  There are 14 internal variables.
 
-      1 stateValues[2]            state values                     [null]        explicit state (derivative `stateValuesDot')
-      2 port1Temperature          port 1 temperature               [K]           basic variable
-      3 port3Temperature          port 3 temperature               [K]           basic variable
-      4 internalVolume            volume                           [L -> m**3]   basic variable
-      5 totalMass                 fluid mass in the pipe           [kg]          basic variable
-      6 massFlowRate              mass flow rate (at port1)        [kg/s]        basic variable
-      7 enthalpyFlowRate          enthalpy flow rate (at port1)    [W]           basic variable
-      8 totalPressureLoss         total pressure loss              [bar -> Pa]   basic variable
-      9 reynoldsNumber            Reynolds number                  [null]        basic variable
-     10 convectionCoefficient     convection coefficient           [W/m**2/K]    basic variable
-     11 heatFlowRateFromWall      heat flow rate                   [W]           basic variable
-     12 vFlowUp                   velocity (upstream flow)         [m/s]         basic variable
-     13 dynamicPressureUp         dynamic pressure (upstream flow) [barA -> PaA] basic variable
-     14 machNumberUp              Mach number (upstream flow)      [null]        basic variable
+      1 stateValues[2]            state values                        [null]        explicit state (derivative `stateValuesDot')
+      2 port1Temperature          port 1 temperature                  [K]           basic variable
+      3 port3Temperature          port 3 temperature                  [K]           basic variable
+      4 internalVolume            volume                              [L -> m**3]   basic variable
+      5 totalMass                 fluid mass in the pipe              [kg]          basic variable
+      6 massFlowRate              mass flow rate (port3 -> port1)     [kg/s]        basic variable
+      7 enthalpyFlowRate          enthalpy flow rate (port3 -> port1) [W]           basic variable
+      8 totalPressureLoss         total pressure loss                 [bar -> Pa]   basic variable
+      9 reynoldsNumber            Reynolds number                     [null]        basic variable
+     10 convectionCoefficient     convection coefficient              [W/m**2/K]    basic variable
+     11 heatFlowRateFromWall      heat flow rate                      [W]           basic variable
+     12 vFlowUp                   velocity (upstream flow)            [m/s]         basic variable
+     13 dynamicPressureUp         dynamic pressure (upstream flow)    [barA -> PaA] basic variable
+     14 machNumberUp              Mach number (upstream flow)         [null]        basic variable
 */
 
 void smo_pipe_straight_heat_exchanger_rc_(int *n

@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_CONSTANT_DRAC_COEFF skeleton created by AME Submodel editing utility
-   ?? ??? 30 17:26:58 2019 */
+   ??? ??? 9 10:18:11 2019 */
 
 
 
@@ -153,11 +153,11 @@ void smo_r_pipe_constant_drac_coeffin_(int *n, double rp[6], int ip[1]
 
 /*  There are 5 internal variables.
 
-      1 massFlowRate         mass flow rate (at port3)     [kg/s]      basic variable
-      2 enthalpyFlowRate     enthalpy flow rate (at port3) [W]         basic variable
-      3 pressureLoss         total pressure loss           [bar -> Pa] basic variable
-      4 reynoldsNumber       Reynolds number               [null]      basic variable
-      5 dragCoefficient      drag coefficient              [null]      basic variable
+      1 massFlowRate         mass flow rate (port1 -> port3)     [kg/s]      basic variable
+      2 enthalpyFlowRate     enthalpy flow rate (port1 -> port3) [W]         basic variable
+      3 pressureLoss         total pressure loss                 [bar -> Pa] basic variable
+      4 reynoldsNumber       Reynolds number                     [null]      basic variable
+      5 dragCoefficient      drag coefficient                    [null]      basic variable
 */
 
 void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1

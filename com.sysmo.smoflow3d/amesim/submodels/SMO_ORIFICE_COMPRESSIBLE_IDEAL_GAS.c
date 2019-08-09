@@ -1,5 +1,5 @@
 /* Submodel SMO_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Thu Feb 2 14:21:31 2017 */
+   ??? ??? 9 10:15:36 2019 */
 
 
 
@@ -29,12 +29,12 @@ REVISIONS :
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
 #include "flow/Valve.h"
- 
+
 #define _component ps[0]
- 
+
 #define _fluidFlow1 ps[1]
 #define _fluidFlow1Index ic[1]
- 
+
 #define _fluidFlow2 ps[2]
 #define _fluidFlow2Index ic[2]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -92,7 +92,7 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[4]
 	   amefprintf(stderr, "\nflow coefficient = %f, but must be in range [0.0 .. 1.0].\n", flowCoefficient);
 	   error = 2;
    }
- 
+
    if (useOpeningClosingPressDiff == 2 && openingPressDiff < closingPressDiff)
    {
       amefprintf(stderr, "\n Closing pressure difference must be less than opening pressure difference.\n");
@@ -145,11 +145,11 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[4]
 		   orificeArea,
 		   flowCoefficient);
    SMOCOMPONENT_SET_PROPS(_component)
- 
+
    Valve_setPressureDifferenceParameters(
 		   _component, useOpeningClosingPressDiff - 1,  //:TRICKY: useOpeningClosingPressDiff = '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
 		   openingPressDiff, closingPressDiff);
- 
+
    _fluidFlow1 = FluidFlow_new();
    _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
    _fluidFlow2 = FluidFlow_new();
@@ -178,8 +178,8 @@ void smo_orifice_compressible_ideal_gasin_(int *n, double rp[4]
 
 /*  There are 4 internal variables.
 
-      1 massFlowRate         mass flow rate                        [kg/s]        basic variable
-      2 enthalpyFlowRate     enthalpy flow rate                    [W]           basic variable
+      1 massFlowRate         mass flow rate (port1 -> port3)       [kg/s]        basic variable
+      2 enthalpyFlowRate     enthalpy flow rate (port1 -> port3)   [W]           basic variable
       3 pressureLoss         total pressure loss                   [barA -> PaA] basic variable
       4 flowType             flow type = {0 - subsonic, 1 - sonic} [null]        basic variable
 */
@@ -238,19 +238,19 @@ void smo_orifice_compressible_ideal_gas_(int *n
 	   MediumState* state2 = MediumState_get(*fluidState2Index);
 	   Valve_init(_component, state1, state2);
    }
- 
+
    Valve_setRegulatingSignal(_component, *regulatingSignal);
    Valve_compute(_component);
    Valve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
- 
+
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = Valve_getAbsolutePressureDrop(_component);
    *flowType = Valve_getFlowType(_component);
- 
+
    *fluidFlow1Index = _fluidFlow1Index;
    *fluidFlow2Index = _fluidFlow2Index;
- 
+
    if (useFluidFlowActivationSignal == 1) { //no
 	   *fluidFlowActivationSignal = -1; //not used
    } else { // yes

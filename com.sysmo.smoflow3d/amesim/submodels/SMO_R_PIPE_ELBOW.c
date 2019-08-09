@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_ELBOW skeleton created by AME Submodel editing utility
-   Fri Nov 22 11:06:43 2013 */
+   ??? ??? 9 10:17:59 2019 */
 
 
 
@@ -168,11 +168,11 @@ void smo_r_pipe_elbowin_(int *n, double rp[6], int ip[1], int ic[3]
 
 /*  There are 5 internal variables.
 
-      1 massFlowRate         mass flow rate (at port3)     [kg/s]      basic variable
-      2 enthalpyFlowRate     enthalpy flow rate (at port3) [W]         basic variable
-      3 pressureLoss         total pressure loss           [bar -> Pa] basic variable
-      4 reynoldsNumber       Reynolds number               [null]      basic variable
-      5 dragCoefficient      drag coefficient              [null]      basic variable
+      1 massFlowRate         mass flow rate (port1 -> port3)     [kg/s]      basic variable
+      2 enthalpyFlowRate     enthalpy flow rate (port1 -> port3) [W]         basic variable
+      3 pressureLoss         total pressure loss                 [bar -> Pa] basic variable
+      4 reynoldsNumber       Reynolds number                     [null]      basic variable
+      5 dragCoefficient      drag coefficient                    [null]      basic variable
 */
 
 void smo_r_pipe_elbow_(int *n, double *outputRCompID1
@@ -203,10 +203,10 @@ void smo_r_pipe_elbow_(int *n, double *outputRCompID1
 
 /* Common -> SI units conversions. */
 
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID2 *= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID2 *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *outputRCompID2 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID2 *= ??; CONVERSION UNKNOWN [smoRCompID] */
 
 /*
    Set all submodel outputs below:
@@ -239,11 +239,11 @@ void smo_r_pipe_elbow_(int *n, double *outputRCompID1
 
 /* SI -> Common units conversions. */
 
-/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
-/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
-/*   *inputRCompID2 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
+/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *inputRCompID2 /= ??; CONVERSION UNKNOWN [smoRCompID] */
    *pressureLoss /= 1.00000000000000e+005;
 }
 
@@ -272,8 +272,8 @@ extern double smo_r_pipe_elbow_macro0_(int *n, double *inputRCompID1
 
 /* Common -> SI units conversions. */
 
-/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID *= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
 
 /*
    Define and return the following macro variable:
@@ -296,10 +296,10 @@ extern double smo_r_pipe_elbow_macro0_(int *n, double *inputRCompID1
 
 /* SI -> Common units conversions. */
 
-/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN */
-/*   *smoRChainID /= ??; CONVERSION UNKNOWN */
+/*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
+/*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
 
-/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN */
+/*   *outputRCompID2 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 
    return outputRCompID2;
 }

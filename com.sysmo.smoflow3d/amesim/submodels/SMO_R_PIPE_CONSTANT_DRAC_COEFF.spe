@@ -102,7 +102,7 @@
   <IVARS_LIST>
    <IVAR>
     <SUB_ID>16</SUB_ID>
-    <TITLE>mass flow rate (at port3)</TITLE>
+    <TITLE>mass flow rate (port1 -> port3)</TITLE>
     <VARNAME>massFlowRate</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
@@ -111,7 +111,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>17</SUB_ID>
-    <TITLE>enthalpy flow rate (at port3)</TITLE>
+    <TITLE>enthalpy flow rate (port1 -> port3)</TITLE>
     <VARNAME>enthalpyFlowRate</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
