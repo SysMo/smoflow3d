@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="16.0.0 - 68387-65635 2017">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>25</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_fluid_state_sensor</DEFAULT_ICON>
+  <SUB_LABEL>fluid state and flow sensor</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <R_STORES_NUMBER>3</R_STORES_NUMBER>
+  <I_STORES_NUMBER>2</I_STORES_NUMBER>
+  <P_STORES_NUMBER>2</P_STORES_NUMBER>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>23</SUB_ID>
+    <TITLE>flow area</TITLE>
+    <VARNAME>flowArea</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
+    <VALUE>0.00000000000000e+00</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>mm**2</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>25</SUB_ID>
+    <TITLE>measured fluid property</TITLE>
+    <VARNAME>propertyIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>4</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>velocity of the flow [m/s]</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>dynamic pressure of the flow [bar]</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>Mach number [-]</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>thermodynamic state index [-]</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>19</SUB_ID>
+    <TITLE>velocity of the flow (port3 -> port1)</TITLE>
+    <VARNAME>vFlow3</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>m/s</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>20</SUB_ID>
+    <TITLE>dynamic pressure of the flow (port3 -> port1)</TITLE>
+    <VARNAME>dynamicPressure3</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>21</SUB_ID>
+    <TITLE>Mach number of the flow</TITLE>
+    <VARNAME>machNumber3</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>8</SUB_ID>
+     <VARNAME>fluidStateIndexDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>2</PRIMARY_PORT>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>9</SUB_ID>
+     <TITLE>fluid flow index</TITLE>
+     <VARNAME>fluidFlowIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoFFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>10</SUB_ID>
+     <TITLE>fluid flow activation signal</TITLE>
+     <VARNAME>fluidFlowActivationSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>smoFFAS</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>15</SUB_ID>
+     <TITLE>measured value</TITLE>
+     <VARNAME>measuredValue</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNITS>null</UNITS>
+     <EXPRESS2>@_3_3, @_1_2</EXPRESS2>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>12</SUB_ID>
+     <VARNAME>fluidFlowIndexDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>13</SUB_ID>
+     <VARNAME>fluidFlowActivationSignalDup</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>14</SUB_ID>
+     <TITLE>fluid state index</TITLE>
+     <VARNAME>fluidStateIndex</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
+ </SUBMODEL>
+</SPE>

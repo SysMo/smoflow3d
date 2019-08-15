@@ -4,6 +4,7 @@ smo_medium_definition
 &SMO_MEDIUM_DEFINITION SmoFlow3d
 smo_fluid_state_sensor
 &SMO_FLUID_STATE_SENSOR SmoFlow3d
+&SMO_FLUID_STATE_FLOW_SENSOR SmoFlow3d
 smo_fluid_flow_zero
 &SMO_FLUID_FLOW_ZERO SmoFlow3d
 smo_fluid_state_source_constant
