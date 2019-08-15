@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_STRAIGHT skeleton created by AME Submodel editing utility
-   ??? ??? 9 10:17:21 2019 */
+   ???? ??? 15 11:53:43 2019 */
 
 
 
@@ -39,6 +39,8 @@ REVISIONS :
 
 #define _fluidFlow2 ps[2]
 #define _fluidFlow2Index ic[2]
+
+#define _friction ps[3]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -58,7 +60,7 @@ REVISIONS :
 */
 
 void smo_r_pipe_straightin_(int *n, double rp[5], int ip[1], int ic[3]
-      , void *ps[3])
+      , void *ps[4])
 
 {
    int loop, error;
@@ -170,7 +172,7 @@ void smo_r_pipe_straight_(int *n, double *outputRCompID1
       , double *massFlowRate, double *enthalpyFlowRate
       , double *pressureLoss, double *reynoldsNumber
       , double *dragCoefficient, double rp[5], int ip[1], int ic[3]
-      , void *ps[3])
+      , void *ps[4])
 
 {
    int loop;
@@ -213,14 +215,15 @@ void smo_r_pipe_straight_(int *n, double *outputRCompID1
    SMOCOMPONENT_PRINT_MAIN_CALC
    if (firstc_()) {
 	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID2);
+	   _friction = Pipe_R_getFrictionFlowPipe(_component);
    }
    ManagerComponents_R_compute(_manager);
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
-   *reynoldsNumber = Pipe_R_getReynoldsNumber(_component);
-   *dragCoefficient = Pipe_R_getDragCoefficient(_component);
+   *reynoldsNumber = FrictionFlowPipe_getReynoldsNumber(_friction);
+   *dragCoefficient = FrictionFlowPipe_getDragCoefficient(_friction);
 
    *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
@@ -237,7 +240,7 @@ void smo_r_pipe_straight_(int *n, double *outputRCompID1
 
 extern double smo_r_pipe_straight_macro0_(int *n
       , double *inputRCompID1, double *smoRChainID, double rp[5]
-      , int ip[1], int ic[3], void *ps[3])
+      , int ip[1], int ic[3], void *ps[4])
 
 {
    double outputRCompID2;

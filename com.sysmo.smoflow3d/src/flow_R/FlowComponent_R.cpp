@@ -73,6 +73,10 @@ double FlowComponent_R::getAbsolutePressureDrop() {
 	return m::fabs(state1->p() - state2->p());
 }
 
+double FlowComponent_R::getPressureDrop12() {
+	return state1->p() - state2->p();
+}
+
 /**
  * Component_R - C
  */
@@ -98,4 +102,8 @@ int FlowComponent_R_getState2Index(FlowComponent_R* component) {
 
 double FlowComponent_R_getAbsolutePressureDrop(FlowComponent_R* component) {
 	return component->getAbsolutePressureDrop();
+}
+
+double FlowComponent_R_getPressureDrop12(FlowComponent_R* component) {
+	return component->getPressureDrop12();
 }

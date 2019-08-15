@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>43</SUB_ID_MAX>
+  <SUB_ID_MAX>45</SUB_ID_MAX>
   <DEFAULT_ICON>smo_r_pipe_constant_drag_coeff</DEFAULT_ICON>
   <SUB_LABEL>R-pipe with constant drag coefficient</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -122,6 +122,16 @@
     <SUB_ID>18</SUB_ID>
     <TITLE>total pressure loss</TITLE>
     <VARNAME>pressureLoss</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <IS_DELTA>1</IS_DELTA>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>45</SUB_ID>
+    <TITLE>pressure loss (port1 - port3)</TITLE>
+    <VARNAME>pressureLoss13</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <IS_DELTA>1</IS_DELTA>

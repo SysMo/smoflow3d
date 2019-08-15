@@ -44,6 +44,7 @@ public:
 	void setComponent2(FlowComponent_R* component) {component2 = component;}
 
 	double getAbsolutePressureDrop();
+	double getPressureDrop12();
 
 protected:
 	int flow1Index;
@@ -72,6 +73,7 @@ int FlowComponent_R_getFlow2Index(FlowComponent_R* component);
 int FlowComponent_R_getState2Index(FlowComponent_R* component);
 
 double FlowComponent_R_getAbsolutePressureDrop(FlowComponent_R* component);
+double FlowComponent_R_getPressureDrop12(FlowComponent_R* component);
 END_C_LINKAGE
 
 #endif /* FLOWCOMPONENT_R_H_ */

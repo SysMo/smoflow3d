@@ -1,5 +1,5 @@
 /* Submodel SMO_R_PIPE_CONSTANT_DRAC_COEFF skeleton created by AME Submodel editing utility
-   ??? ??? 9 10:18:11 2019 */
+   ???? ??? 15 10:59:58 2019 */
 
 
 
@@ -151,22 +151,23 @@ void smo_r_pipe_constant_drac_coeffin_(int *n, double rp[6], int ip[1]
       3 inputRCompID2       R-component ID (input, port2)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 5 internal variables.
+/*  There are 6 internal variables.
 
       1 massFlowRate         mass flow rate (port1 -> port3)     [kg/s]      basic variable
       2 enthalpyFlowRate     enthalpy flow rate (port1 -> port3) [W]         basic variable
       3 pressureLoss         total pressure loss                 [bar -> Pa] basic variable
-      4 reynoldsNumber       Reynolds number                     [null]      basic variable
-      5 dragCoefficient      drag coefficient                    [null]      basic variable
+      4 pressureLoss13       pressure loss (port1 - port3)       [bar -> Pa] basic variable
+      5 reynoldsNumber       Reynolds number                     [null]      basic variable
+      6 dragCoefficient      drag coefficient                    [null]      basic variable
 */
 
 void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *smoRChainID
       , double *outputRCompID2, double *inputRCompID2
       , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressureLoss, double *reynoldsNumber
-      , double *dragCoefficient, double rp[6], int ip[1], int ic[3]
-      , void *ps[4])
+      , double *pressureLoss, double *pressureLoss13
+      , double *reynoldsNumber, double *dragCoefficient, double rp[6]
+      , int ip[1], int ic[3], void *ps[4])
 
 {
    int loop;
@@ -200,6 +201,7 @@ void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressureLoss = ??;
+   *pressureLoss13 = ??;
    *reynoldsNumber = ??;
    *dragCoefficient = ??;
 */
@@ -217,6 +219,7 @@ void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
    *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
+   *pressureLoss13 = FlowComponent_R_getPressureDrop12(_component);
    *reynoldsNumber = FrictionFlowPipe_getReynoldsNumber(_friction);
    *dragCoefficient = FrictionFlowPipe_getDragCoefficient(_friction);
 
@@ -231,6 +234,7 @@ void smo_r_pipe_constant_drac_coeff_(int *n, double *outputRCompID1
 /*   *outputRCompID2 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *inputRCompID2 /= ??; CONVERSION UNKNOWN [smoRCompID] */
    *pressureLoss /= 1.00000000000000e+005;
+   *pressureLoss13 /= 1.00000000000000e+005;
 }
 
 extern double smo_r_pipe_constant_drac_coeff_macro0_(int *n
