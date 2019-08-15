@@ -40,6 +40,9 @@ DECLARE_C_STRUCT(Valve_R)
 
 
 BEGIN_C_LINKAGE
+Valve_R* Valve_InputPressureLoss_R_new(
+		int allowBidirectionalFlow);
+
 Valve_R* ValveKv_R_new(
 		int allowBidirectionalFlow,
 		double Kv,
@@ -51,7 +54,6 @@ Valve_R* Valve_OrificeCompressibleIdealGas_R_new(
 		int allowBidirectionalFlow,
 		double orificeArea,
 		double flowCoefficient);
-
 
 void Valve_R_setRegulatingSignal(Valve_R* valve, double regulatingSignal);
 void Valve_R_setCloseFlowAtNegativeRegulatingSignal(Valve_R* valve, int flagCloseFlowAtNegativeRegulatingSignal);

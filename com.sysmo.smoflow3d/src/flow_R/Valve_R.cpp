@@ -68,6 +68,12 @@ void Valve_R::setCloseFlowAtNegativeRegulatingSignal(bool flagCloseFlowAtNegativ
 /**
  * Valve_R - C
  */
+Valve_R* Valve_InputPressureLoss_R_new(int allowBidirectionalFlow) {
+	FrictionFlowValve* friction = FrictionFlowValve_InputPressureLoss_new(allowBidirectionalFlow);
+	Valve_R* valve = new Valve_R(friction);
+	return valve;
+}
+
 Valve_R* ValveKv_R_new(
 		int allowBidirectionalFlow,
 		double Kv,

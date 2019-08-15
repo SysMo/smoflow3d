@@ -68,6 +68,9 @@ DECLARE_C_STRUCT(FrictionFlowValve)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
+FrictionFlowValve* FrictionFlowValve_InputPressureLoss_new(
+		int allowBidirectionalFlow);
+
 FrictionFlowValve* FrictionFlowValve_InputMassFlowRate_new(
 		int allowBidirectionalFlow, int useAsPump);
 

@@ -89,6 +89,37 @@ MediumState* FrictionFlowValve::getDownstreamState(int flowDirection) {
  ***   FrictionFlowValve implementation classes
  *************************************************************/
 /**
+ * FrictionFlowValve_InputPressureLoss - C++
+ */
+class FrictionFlowValve_InputPressureLoss : public FrictionFlowValve {
+public:
+	FrictionFlowValve_InputPressureLoss(int allowBidirectionalFlow) :
+			FrictionFlowValve(allowBidirectionalFlow) {
+	}
+
+	virtual double computePressureDrop(double massFlowRate) {
+		// Set mass flow rate
+		this->massFlowRate = massFlowRate;
+		if (massFlowRate < 0.0 && !isBidirectionalFlowAllowed()) {
+			absPressureDrop = 0.0;
+			return 0.0;
+		}
+
+		double pressureDrop = regulatingSignal;
+		absPressureDrop = pressureDrop;
+		if (massFlowRate < 0.0) {
+			pressureDrop = -pressureDrop;
+		}
+		return pressureDrop;
+	}
+
+	virtual double computeMassFlowRate(double pressureDrop) {
+		RaiseError_UnimplementedFunction();
+		return 0.0;
+	}
+};
+
+/**
  * FrictionFlowValve_InputMassFlowRate - C++
  */
 class FrictionFlowValve_InputMassFlowRate : public FrictionFlowValve {
@@ -455,6 +486,10 @@ protected:
 /**
  * FrictionFlowValve - C
  */
+FrictionFlowValve* FrictionFlowValve_InputPressureLoss_new(int allowBidirectionalFlow) {
+	return new FrictionFlowValve_InputPressureLoss(allowBidirectionalFlow);
+}
+
 FrictionFlowValve* FrictionFlowValve_InputMassFlowRate_new(
 		int allowBidirectionalFlow, int useAsPump) {
 	return new FrictionFlowValve_InputMassFlowRate(allowBidirectionalFlow, useAsPump);

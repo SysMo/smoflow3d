@@ -1,5 +1,5 @@
-/* Submodel SMO_R_ORIFICE_COMPRESSIBLE_IDEAL_GAS skeleton created by AME Submodel editing utility
-   Thu Mar 16 11:19:11 2017 */
+/* Submodel SMO_R_VALVE_PRESSURE_LOSS skeleton created by AME Submodel editing utility
+   ???? ??? 15 15:11:08 2019 */
 
 
 
@@ -9,22 +9,22 @@
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
- 
+
 ------------------------------------------------------------------------------
 DESCRIPTION :
- 
+
 ------------------------------------------------------------------------------
 USAGE :
- 
+
 ------------------------------------------------------------------------------
 PARAMETER SETTINGS :
- 
+
 ------------------------------------------------------------------------------
 REVISIONS :
- 
+
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_R_ORIFICE_COMPRESSIBLE_IDEAL_GAS"
+#define _SUBMODELNAME_ "SMO_R_VALVE_PRESSURE_LOSS"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -44,41 +44,25 @@ REVISIONS :
 #define _fluidFlow2Index ic[3]
 /* <<<<<<<<<<<<End of Private Code. */
 
+/* There are 2 integer parameters:
 
-/* There are 2 real parameters:
-
-   orificeArea      orifice area    [mm**2 -> m**2]
-   flowCoefficient flow coefficient [null]
+   allowBidirectionalFlow       allow bi-directional flow                   
+   closeFlowAtNegativeRegSignal close the flow at negative regulating signal
 */
 
-
-/* There is 1 integer parameter:
-
-   allowBidirectionalFlow allow bi-directional flow
-*/
-
-void smo_r_orifice_compressible_ideal_gasin_(int *n, double rp[2]
-      , int ip[1], int ic[4], void *ps[4])
+void smo_r_valve_pressure_lossin_(int *n, int ip[2], int ic[4]
+      , void *ps[4])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int allowBidirectionalFlow;
-   double orificeArea, flowCoefficient;
+   int allowBidirectionalFlow, closeFlowAtNegativeRegSignal;
 
    allowBidirectionalFlow = ip[0];
-
-   orificeArea = rp[0];
-   flowCoefficient = rp[1];
+   closeFlowAtNegativeRegSignal = ip[1];
    loop = 0;
    error = 0;
-
-/*
-   If necessary, check values of the following:
-
-   rp[0..1]
-*/
 
 
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
@@ -89,6 +73,11 @@ void smo_r_orifice_compressible_ideal_gasin_(int *n, double rp[2]
    if (allowBidirectionalFlow < 1 || allowBidirectionalFlow > 2)
    {
       amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
+      error = 2;
+   }
+   if (closeFlowAtNegativeRegSignal < 1 || closeFlowAtNegativeRegSignal > 2)
+   {
+      amefprintf(stderr, "\nclose the flow at negative regulating signal must be in range [1..2].\n");
       error = 2;
    }
 
@@ -103,19 +92,15 @@ void smo_r_orifice_compressible_ideal_gasin_(int *n, double rp[2]
       AmeExit(1);
    }
 
-/* Common -> SI units conversions. */
-
-   rp[0]    *= 1.00000000000000e-006;
-   orificeArea = rp[0];
-
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-	_component = Valve_OrificeCompressibleIdealGas_R_new(
-		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
-		   orificeArea,
-		   flowCoefficient);
+	_component = Valve_InputPressureLoss_R_new(
+		allowBidirectionalFlow - 1 //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
+	);
 	_componentIndex = Component_R_register(_component);
 	SMOCOMPONENT_SET_PROPS(_component)
+
+	Valve_R_setCloseFlowAtNegativeRegulatingSignal(_component, closeFlowAtNegativeRegSignal -1); //:TRICKY: closeFlowAtNegativeRegSignal =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
 
 	_fluidFlow2Index = FlowComponent_R_getFlow2Index(_component);
 	_fluidFlow2 = FluidFlow_get(_fluidFlow2Index);
@@ -132,49 +117,44 @@ void smo_r_orifice_compressible_ideal_gasin_(int *n, double rp[2]
 
    Port 2 has 1 variable:
 
-      1 regulatingSignal     regulating signal [null] basic variable input
+      1 regulatingSignal     regulating signal [bar -> Pa] basic variable input
 
    Port 3 has 3 variables:
 
-      1 outputRCompID3      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_orifice_compressible_ideal_gas_macro0_'  UNPLOTTABLE
+      1 outputRCompID3      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_valve_pressure_loss_macro0_'  UNPLOTTABLE
       2 smoRChainIDDupl     duplicate of smoRChainID      
       3 inputRCompID3       R-component ID (input, port3)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
 
-/*  There are 4 internal variables.
+/*  There are 3 internal variables.
 
-      1 massFlowRate         mass flow rate                        [kg/s]      basic variable
-      2 enthalpyFlowRate     enthalpy flow rate                    [W]         basic variable
-      3 pressureLoss         total pressure loss                   [bar -> Pa] basic variable
-      4 flowType             flow type = {0 - subsonic, 1 - sonic} [null]      basic variable
+      1 massFlowRate         mass flow rate (port1 -> port3)     [kg/s]      basic variable
+      2 enthalpyFlowRate     enthalpy flow rate (port1 -> port3) [W]         basic variable
+      3 pressureLoss         total pressure loss                 [bar -> Pa] basic variable
 */
 
-void smo_r_orifice_compressible_ideal_gas_(int *n
-      , double *outputRCompID1, double *inputRCompID1
-      , double *smoRChainID, double *regulatingSignal
-      , double *outputRCompID3, double *inputRCompID3
-      , double *massFlowRate, double *enthalpyFlowRate
-      , double *pressureLoss, double *flowType, double rp[2]
-      , int ip[1], int ic[4], void *ps[4], int *flag)
+void smo_r_valve_pressure_loss_(int *n, double *outputRCompID1
+      , double *inputRCompID1, double *smoRChainID
+      , double *regulatingSignal, double *outputRCompID3
+      , double *inputRCompID3, double *massFlowRate
+      , double *enthalpyFlowRate, double *pressureLoss, int ip[2]
+      , int ic[4], void *ps[4])
 
 {
-   int loop, logi;
+   int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int allowBidirectionalFlow;
-   double orificeArea, flowCoefficient;
+   int allowBidirectionalFlow, closeFlowAtNegativeRegSignal;
 
    allowBidirectionalFlow = ip[0];
-
-   orificeArea = rp[0];
-   flowCoefficient = rp[1];
-   logi = 0;
+   closeFlowAtNegativeRegSignal = ip[1];
    loop = 0;
 
 /* Common -> SI units conversions. */
 
 /*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
+   *regulatingSignal *= 1.00000000000000e+005;
 /*   *outputRCompID3 *= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *inputRCompID3 *= ??; CONVERSION UNKNOWN [smoRCompID] */
 
@@ -185,24 +165,22 @@ void smo_r_orifice_compressible_ideal_gas_(int *n
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *pressureLoss = ??;
-   *flowType   = ??;
 */
 
 
 
 /* >>>>>>>>>>>>Calculation Function Executable Statements. */
-	SMOCOMPONENT_PRINT_MAIN_CALC
-	if (firstc_()) {
-		ManagerComponents_R_addOuterState2(_manager, *inputRCompID3);
-	}
-	ManagerComponents_R_compute(_manager);
+   SMOCOMPONENT_PRINT_MAIN_CALC
+   if (firstc_()) {
+	   ManagerComponents_R_addOuterState2(_manager, *inputRCompID3);
+   }
+   ManagerComponents_R_compute(_manager);
 
-	*massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
-	*enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
-	*pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
-	*flowType = Valve_R_getFlowType(_component);
+   *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow2);
+   *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
+   *pressureLoss = FlowComponent_R_getAbsolutePressureDrop(_component);
 
-	*outputRCompID1 = _componentIndex;
+   *outputRCompID1 = _componentIndex;
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -210,35 +188,32 @@ void smo_r_orifice_compressible_ideal_gas_(int *n
 /*   *outputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
+   *regulatingSignal /= 1.00000000000000e+005;
 /*   *outputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *inputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
    *pressureLoss /= 1.00000000000000e+005;
 }
 
-extern double smo_r_orifice_compressible_ideal_gas_macro0_(int *n
+extern double smo_r_valve_pressure_loss_macro0_(int *n
       , double *inputRCompID1, double *smoRChainID
-      , double *regulatingSignal, double rp[2], int ip[1], int ic[4]
-      , void *ps[4], int *flag)
+      , double *regulatingSignal, int ip[2], int ic[4], void *ps[4])
 
 {
    double outputRCompID3;
-   int loop, logi;
+   int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int allowBidirectionalFlow;
-   double orificeArea, flowCoefficient;
+   int allowBidirectionalFlow, closeFlowAtNegativeRegSignal;
 
    allowBidirectionalFlow = ip[0];
-
-   orificeArea = rp[0];
-   flowCoefficient = rp[1];
-   logi = 0;
+   closeFlowAtNegativeRegSignal = ip[1];
    loop = 0;
 
 /* Common -> SI units conversions. */
 
 /*   *inputRCompID1 *= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *smoRChainID *= ??; CONVERSION UNKNOWN [smoRChainID] */
+   *regulatingSignal *= 1.00000000000000e+005;
 
 /*
    Define and return the following macro variable:
@@ -248,22 +223,23 @@ extern double smo_r_orifice_compressible_ideal_gas_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-	SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID3")
-	if (firstc_()) {
-		_managerIndex = *smoRChainID;
-		_manager = ManagerComponents_R_get(_managerIndex);
+   SMOCOMPONENt_PRINT_MACRO_MSG("outputRCompID3")
+   if (firstc_()) {
+	   _managerIndex = *smoRChainID;
+	   _manager = ManagerComponents_R_get(_managerIndex);
 
-		ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
-	}
-	ValveRegSignal_R_setRegulatingSignal(_component, *regulatingSignal);
+	   ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
+   }
+   Valve_R_setRegulatingSignal(_component, *regulatingSignal);
 
-	outputRCompID3 = _componentIndex;
+   outputRCompID3 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
 
 /* SI -> Common units conversions. */
 
 /*   *inputRCompID1 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *smoRChainID /= ??; CONVERSION UNKNOWN [smoRChainID] */
+   *regulatingSignal /= 1.00000000000000e+005;
 
 /*   *outputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 
