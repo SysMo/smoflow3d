@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>159</SUB_ID_MAX>
+  <SUB_ID_MAX>161</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_straight_heat_exchanger</DEFAULT_ICON>
   <SUB_LABEL>straight pipe with heat exchanger (pressure drop, mass accumulation) (R-C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -148,6 +148,16 @@
    </RPARAM>
   </RPARAMS_LIST>
   <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>161</SUB_ID>
+    <TITLE>fluid index</TITLE>
+    <VARNAME>fluidIndex</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>99</MAX_VALUE>
+   </IPARAM>
    <IPARAM>
     <SUB_ID>131</SUB_ID>
     <TITLE>allow bi-directional flow</TITLE>
