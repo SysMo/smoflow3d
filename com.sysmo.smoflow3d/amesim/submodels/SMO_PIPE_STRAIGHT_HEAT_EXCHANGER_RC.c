@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   ??? ??? 9 10:18:42 2019 */
+   ?? ??? 21 11:25:04 2019 */
 
 
 
@@ -63,8 +63,9 @@ REVISIONS :
 */
 
 
-/* There are 5 integer parameters:
+/* There are 6 integer parameters:
 
+   fluidIndex                   fluid index                       
    allowBidirectionalFlow       allow bi-directional flow         
    geometryType                 geometry type                     
    forcedConvectionUseFilmState use film state (forced convection)
@@ -73,13 +74,13 @@ REVISIONS :
 */
 
 void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[12]
-      , int ip[5], int ic[6], void *ps[7], double stateValues[2])
+      , int ip[6], int ic[6], void *ps[7], double stateValues[2])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int allowBidirectionalFlow, geometryType, 
+   int fluidIndex, allowBidirectionalFlow, geometryType, 
       forcedConvectionUseFilmState, initConditionsChoice, 
       stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
@@ -88,11 +89,12 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[12]
       initialTemperature, initialTemperatureC, initialGasMassFraction
       , initialSuperheat;
 
-   allowBidirectionalFlow = ip[0];
-   geometryType = ip[1];
-   forcedConvectionUseFilmState = ip[2];
-   initConditionsChoice = ip[3];
-   stateVariableSelection = ip[4];
+   fluidIndex = ip[0];
+   allowBidirectionalFlow = ip[1];
+   geometryType = ip[2];
+   forcedConvectionUseFilmState = ip[3];
+   initConditionsChoice = ip[4];
+   stateVariableSelection = ip[5];
 
    hydraulicDiameter = rp[0];
    pipeLength = rp[1];
@@ -122,6 +124,11 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[12]
 
 /*   Integer parameter checking:   */
 
+   if (fluidIndex < 1 || fluidIndex > 99)
+   {
+      amefprintf(stderr, "\nfluid index must be in range [1..99].\n");
+      error = 2;
+   }
    if (allowBidirectionalFlow < 1 || allowBidirectionalFlow > 2)
    {
       amefprintf(stderr, "\nallow bi-directional flow must be in range [1..2].\n");
@@ -193,6 +200,27 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[12]
 		   _friction,
 		   _convection);
    SMOCOMPONENT_SET_PROPS(_component)
+
+   // Initialize the internal state
+   StateVariableSet internalStateInitialValues;
+   if (initConditionsChoice == 1) {
+	   internalStateInitialValues = (StateVariableSet) {iT, initialTemperature, iP, initialPressure};
+   } else if (initConditionsChoice == 2) {
+	   internalStateInitialValues = (StateVariableSet) {iT, initialTemperatureC + 273.15, iP, initialPressure};
+   } else if (initConditionsChoice == 3) {
+	   internalStateInitialValues = (StateVariableSet) {iP, initialPressure, iQ, initialGasMassFraction};
+   } else {
+	   AME_RAISE_ERROR("Unsupported type of initialization.");
+	   internalStateInitialValues = (StateVariableSet) {iT, initialTemperature, iP, initialPressure};
+   }
+
+   Medium* fluid = Medium_get(fluidIndex);
+   PipeHeatExchPrDropMassAcc_RC_initInternalState(_component, fluid, stateVariableSelection, internalStateInitialValues);
+
+   _port3FluidState = PipeHeatExchPrDropMassAcc_RC_getPort2State(_component);
+   _port3FluidStateIndex = SmoObject_getInstanceIndex(_port3FluidState);
+
+   PipeHeatExchPrDropMassAcc_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -246,13 +274,13 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
       , double *reynoldsNumber, double *convectionCoefficient
       , double *heatFlowRateFromWall, double *vFlowUp
       , double *dynamicPressureUp, double *machNumberUp, double rp[12]
-      , int ip[5], int ic[6], void *ps[7], int *flag)
+      , int ip[6], int ic[6], void *ps[7], int *flag)
 
 {
    int loop, logi;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int allowBidirectionalFlow, geometryType, 
+   int fluidIndex, allowBidirectionalFlow, geometryType, 
       forcedConvectionUseFilmState, initConditionsChoice, 
       stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
@@ -261,11 +289,12 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
       initialTemperature, initialTemperatureC, initialGasMassFraction
       , initialSuperheat;
 
-   allowBidirectionalFlow = ip[0];
-   geometryType = ip[1];
-   forcedConvectionUseFilmState = ip[2];
-   initConditionsChoice = ip[3];
-   stateVariableSelection = ip[4];
+   fluidIndex = ip[0];
+   allowBidirectionalFlow = ip[1];
+   geometryType = ip[2];
+   forcedConvectionUseFilmState = ip[3];
+   initConditionsChoice = ip[4];
+   stateVariableSelection = ip[5];
 
    hydraulicDiameter = rp[0];
    pipeLength = rp[1];
@@ -368,7 +397,7 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
 
 extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
       , double *port1FluidStateIndex, double *thermalNodeIndex
-      , double stateValues[2], double rp[12], int ip[5], int ic[6]
+      , double stateValues[2], double rp[12], int ip[6], int ic[6]
       , void *ps[7], int *flag)
 
 {
@@ -376,7 +405,7 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
    int loop, logi;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int allowBidirectionalFlow, geometryType, 
+   int fluidIndex, allowBidirectionalFlow, geometryType, 
       forcedConvectionUseFilmState, initConditionsChoice, 
       stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
@@ -385,11 +414,12 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
       initialTemperature, initialTemperatureC, initialGasMassFraction
       , initialSuperheat;
 
-   allowBidirectionalFlow = ip[0];
-   geometryType = ip[1];
-   forcedConvectionUseFilmState = ip[2];
-   initConditionsChoice = ip[3];
-   stateVariableSelection = ip[4];
+   fluidIndex = ip[0];
+   allowBidirectionalFlow = ip[1];
+   geometryType = ip[2];
+   forcedConvectionUseFilmState = ip[3];
+   initConditionsChoice = ip[4];
+   stateVariableSelection = ip[5];
 
    hydraulicDiameter = rp[0];
    pipeLength = rp[1];
@@ -421,33 +451,14 @@ extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
    SMOCOMPONENt_PRINT_MACRO
    if (firstc_()) {
-	   // Get the inlet state and wall node
 	   _port1FluidState = MediumState_get(*port1FluidStateIndex);
 	   ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
 
-	   // Initialize outlet state
-	   StateVariableSet internalStateInitialValues;
-	   if (initConditionsChoice == 1) {
-		   internalStateInitialValues = (StateVariableSet) {iT, initialTemperature, iP, initialPressure};
-	   } else if (initConditionsChoice == 2) {
-		   internalStateInitialValues = (StateVariableSet) {iT, initialTemperatureC + 273.15, iP, initialPressure};
-	   } else if (initConditionsChoice == 3) {
-		   internalStateInitialValues = (StateVariableSet) {iP, initialPressure, iQ, initialGasMassFraction};
-	   } else {
-		   AME_RAISE_ERROR("Unsupported type of initialization.");
-		   internalStateInitialValues = (StateVariableSet) {iT, initialTemperature, iP, initialPressure};
-	   }
-
-	   PipeHeatExchPrDropMassAcc_RC_initStates(_component, _port1FluidState, wallNode, stateVariableSelection, internalStateInitialValues);
-
-	   _port3FluidState = PipeHeatExchPrDropMassAcc_RC_getPort2State(_component);
-	   _port3FluidStateIndex = SmoObject_getInstanceIndex(_port3FluidState);
-
-
-	   PipeHeatExchPrDropMassAcc_RC_getStateValues(_component, &stateValues[0], &stateValues[1]);
-   } else {
-	   PipeHeatExchPrDropMassAcc_RC_setStateValues(_component, stateValues[0], stateValues[1]);
+	   PipeHeatExchPrDropMassAcc_RC_initOuterStates(_component, _port1FluidState, wallNode);
    }
+
+   PipeHeatExchPrDropMassAcc_RC_setStateValues(_component, stateValues[0], stateValues[1]);
+
 
    port3FluidStateIndex = _port3FluidStateIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */

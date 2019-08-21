@@ -57,12 +57,13 @@ void PipeHeatExchPrDropMassAcc_RC::init(FluidFlow* port2Flow) {
 	FluidFlow_register(internalFlow);
 }
 
-void PipeHeatExchPrDropMassAcc_RC::initStates(MediumState* port1State, ThermalNode* wallNode,
-		int stateVariableSelection, StateVariableSet& internalStateInitialValues) {
+void PipeHeatExchPrDropMassAcc_RC::initOuterStates(MediumState* port1State, ThermalNode* wallNode) {
 	this->port1State = port1State;
 	this->wallNode = wallNode;
+}
 
-	accFluid = FluidChamber_new(port1State->getMedium());
+void PipeHeatExchPrDropMassAcc_RC::initInternalState(Medium* fluid, int stateVariableSelection, StateVariableSet& internalStateInitialValues) {
+	accFluid = FluidChamber_new(fluid);
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
 
 	accFluid->setVolume(volume);
@@ -134,9 +135,13 @@ void PipeHeatExchPrDropMassAcc_RC_init(PipeHeatExchPrDropMassAcc_RC* pipe, Fluid
 	pipe->init(port2Flow);
 }
 
-void PipeHeatExchPrDropMassAcc_RC_initStates(PipeHeatExchPrDropMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode,
-		int stateVariableSelection, StateVariableSet innerStateInitializer) {
-	pipe->initStates(port1State, wallNode, stateVariableSelection, innerStateInitializer);
+void PipeHeatExchPrDropMassAcc_RC_initOuterStates(PipeHeatExchPrDropMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode) {
+	pipe->initOuterStates(port1State, wallNode);
+}
+
+void PipeHeatExchPrDropMassAcc_RC_initInternalState(PipeHeatExchPrDropMassAcc_RC* pipe,
+		Medium* fluid, int stateVariableSelection, StateVariableSet innerStateInitializer) {
+	pipe->initInternalState(fluid, stateVariableSelection, innerStateInitializer);
 }
 
 void PipeHeatExchPrDropMassAcc_RC_compute(PipeHeatExchPrDropMassAcc_RC* pipe) {

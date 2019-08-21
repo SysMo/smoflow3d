@@ -21,7 +21,8 @@ public:
 	virtual ~PipeHeatExchPrDropMassAcc_RC();
 
 	void init(FluidFlow* port2Flow);
-	void initStates(MediumState* port1State, ThermalNode* wallNode, int stateVariableSelection, StateVariableSet& internalStateInitialValues);
+	void initOuterStates(MediumState* port1State, ThermalNode* wallNode);
+	void initInternalState(Medium* fluid, int stateVariableSelection, StateVariableSet& internalStateInitialValues);
 	void compute();
 	void compute_deactivedFluidFlow();
 
@@ -72,7 +73,8 @@ BEGIN_C_LINKAGE
 PipeHeatExchPrDropMassAcc_RC* PipeHeatExchPrDropMassAcc_RC_new(int allowBidirectionalFlow, double internalVolume, FrictionFlowPipe* friction, ForcedConvection* convection);
 
 void PipeHeatExchPrDropMassAcc_RC_init(PipeHeatExchPrDropMassAcc_RC* pipe, FluidFlow* port2Flow);
-void PipeHeatExchPrDropMassAcc_RC_initStates(PipeHeatExchPrDropMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode, int stateVariableSelection, StateVariableSet innerStateInitializer);
+void PipeHeatExchPrDropMassAcc_RC_initOuterStates(PipeHeatExchPrDropMassAcc_RC* pipe, MediumState* port1State, ThermalNode* wallNode);
+void PipeHeatExchPrDropMassAcc_RC_initInternalState(PipeHeatExchPrDropMassAcc_RC* pipe, Medium* fluid, int stateVariableSelection, StateVariableSet innerStateInitializer);
 void PipeHeatExchPrDropMassAcc_RC_compute(PipeHeatExchPrDropMassAcc_RC* pipe);
 void PipeHeatExchPrDropMassAcc_RC_compute_deactivedFluidFlow(PipeHeatExchPrDropMassAcc_RC* pipe);
 
