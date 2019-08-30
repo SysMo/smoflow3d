@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>57</SUB_ID_MAX>
+  <SUB_ID_MAX>61</SUB_ID_MAX>
   <DEFAULT_ICON>smo_Tpipe_junction</DEFAULT_ICON>
   <SUB_LABEL>T-pipe junction</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -239,7 +239,7 @@
   <EVARS_LIST>
    <PORT>
     <EVAR>
-     <SUB_ID>4</SUB_ID>
+     <SUB_ID>59</SUB_ID>
      <TITLE>fluid state index (port1)</TITLE>
      <VARNAME>fluidStateIndex1</VARNAME>
      <VISIBILITY>True</VISIBILITY>
@@ -275,13 +275,16 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>49</SUB_ID>
-     <VARNAME>stateIndexDup2</VARNAME>
+     <SUB_ID>60</SUB_ID>
+     <TITLE>fluid state index (port2)</TITLE>
+     <VARNAME>fluidStateIndex2</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>4</TYPE>
-     <PRIMARY_PORT>0</PRIMARY_PORT>
-     <PRIMARY_VAR>0</PRIMARY_VAR>
-     <DUP_TYPE>0</DUP_TYPE>
+     <TYPE>12</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+     <EXPRESS2>@_1_1</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>50</SUB_ID>
@@ -308,13 +311,16 @@
    </PORT>
    <PORT>
     <EVAR>
-     <SUB_ID>55</SUB_ID>
-     <VARNAME>stateIndexDup3</VARNAME>
+     <SUB_ID>61</SUB_ID>
+     <TITLE>fluid state index (port3)</TITLE>
+     <VARNAME>fluidStateIndex3</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>4</TYPE>
-     <PRIMARY_PORT>0</PRIMARY_PORT>
-     <PRIMARY_VAR>0</PRIMARY_VAR>
-     <DUP_TYPE>0</DUP_TYPE>
+     <TYPE>12</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTDS</UNITS>
+     <EXPRESS2>@_1_1</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>56</SUB_ID>

@@ -110,6 +110,12 @@ void TPipeJunction::compute() {
 	accFluid->compute(netMassFlowRate, netEnthalpyFlow, 0, 0); // netHeatFlowRate = netVolumeChangeRate = 0
 }
 
+void TPipeJunction::computeFluidStates23() {
+	//:TODO:
+	MediumState_copy(fluidState1, fluidState2, 3);
+	MediumState_copy(fluidState1, fluidState3, 3);
+}
+
 
 /**
  * TPipeJunction - C
@@ -159,4 +165,8 @@ double TPipeJunction_getFluidMass(TPipeJunction* component) {
 
 void TPipeJunction_compute(TPipeJunction* component) {
 	component->compute();
+}
+
+void TPipeJunction_computeFluidStates23(TPipeJunction* component) {
+	component->computeFluidStates23();
 }

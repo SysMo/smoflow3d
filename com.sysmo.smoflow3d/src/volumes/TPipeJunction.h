@@ -34,6 +34,7 @@ public:
 	double getFluidMass();
 
 	void compute();
+	void computeFluidStates23();
 
 protected:
 	//void compute(double pressureDrop);
@@ -72,6 +73,7 @@ MediumState* TPipeJunction_getFluidState3(TPipeJunction* component);
 double TPipeJunction_getFluidMass(TPipeJunction* component);
 
 void TPipeJunction_compute(TPipeJunction* component);
+void TPipeJunction_computeFluidStates23(TPipeJunction* component);
 
 END_C_LINKAGE
 

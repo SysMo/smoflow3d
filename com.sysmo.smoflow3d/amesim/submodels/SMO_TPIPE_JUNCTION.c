@@ -1,5 +1,5 @@
 /* Submodel SMO_TPIPE_JUNCTION skeleton created by AME Submodel editing utility
-   ??? ??? 30 15:34:05 2019 */
+   ??? ??? 30 15:52:14 2019 */
 
 
 
@@ -171,13 +171,13 @@ void smo_tpipe_junctionin_(int *n, double rp[6], int ip[3], int ic[3]
 
    Port 2 has 3 variables:
 
-      1 stateIndexDup2                 duplicate of fluidStateIndex1       
+      1 fluidStateIndex2               fluid state index (port2)            [smoTDS]  multi line macro shared with 'fluidStateIndex1'  UNPLOTTABLE
       2 fluidFlowIndex2                fluid flow index (port2)             [smoFFL]  basic variable input  UNPLOTTABLE
       3 fluidFlowActivationSignal2     fluid flow activation signal (port2) [smoFFAS] basic variable input  UNPLOTTABLE
 
    Port 3 has 3 variables:
 
-      1 stateIndexDup3                 duplicate of fluidStateIndex1       
+      1 fluidStateIndex3               fluid state index (port3)            [smoTDS]  multi line macro shared with 'fluidStateIndex1'  UNPLOTTABLE
       2 fluidFlowIndex3                fluid flow index (port3)             [smoFFL]  basic variable input  UNPLOTTABLE
       3 fluidFlowActivationSignal3     fluid flow activation signal (port3) [smoFFAS] basic variable input  UNPLOTTABLE
 */
@@ -197,7 +197,8 @@ void smo_tpipe_junctionin_(int *n, double rp[6], int ip[3], int ic[3]
 
 void smo_tpipe_junction_(int *n, double *fluidStateIndex1
       , double *fluidFlowIndex1, double *fluidFlowActivationSignal1
-      , double *fluidFlowIndex2, double *fluidFlowActivationSignal2
+      , double *fluidStateIndex2, double *fluidFlowIndex2
+      , double *fluidFlowActivationSignal2, double *fluidStateIndex3
       , double *fluidFlowIndex3, double *fluidFlowActivationSignal3
       , double *pressure, double *temperature, double *density
       , double *specificEnthalpy, double *gasMassFraction
@@ -230,8 +231,10 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
 /*   *fluidStateIndex1 *= ??; CONVERSION UNKNOWN [smoTDS] */
 /*   *fluidFlowIndex1 *= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal1 *= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidStateIndex2 *= ??; CONVERSION UNKNOWN [smoTDS] */
 /*   *fluidFlowIndex2 *= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal2 *= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidStateIndex3 *= ??; CONVERSION UNKNOWN [smoTDS] */
 /*   *fluidFlowIndex3 *= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal3 *= ??; CONVERSION UNKNOWN [smoFFAS] */
 
@@ -278,17 +281,20 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
 /*   *fluidStateIndex1 /= ??; CONVERSION UNKNOWN [smoTDS] */
 /*   *fluidFlowIndex1 /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal1 /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidStateIndex2 /= ??; CONVERSION UNKNOWN [smoTDS] */
 /*   *fluidFlowIndex2 /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal2 /= ??; CONVERSION UNKNOWN [smoFFAS] */
+/*   *fluidStateIndex3 /= ??; CONVERSION UNKNOWN [smoTDS] */
 /*   *fluidFlowIndex3 /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal3 /= ??; CONVERSION UNKNOWN [smoFFAS] */
    *pressure /= 1.00000000000000e+005;
    *specificEnthalpy /= 1.00000000000000e+003;
 }
 
-extern double smo_tpipe_junction_macro0_(int *n, double *state1
-      , double *state2, double rp[6], int ip[3], int ic[3]
-      , void *ps[7])
+extern double smo_tpipe_junction_macro0_(int *n
+      , double *fluidStateIndex2, double *fluidStateIndex3
+      , double *state1, double *state2, double rp[6], int ip[3]
+      , int ic[3], void *ps[7])
 
 {
    double fluidStateIndex1;
@@ -315,14 +321,28 @@ extern double smo_tpipe_junction_macro0_(int *n, double *state1
    Define and return the following macro variable:
 
    fluidStateIndex1 = ??;
+
+   Define the following shared macro variable(s):
+
+   *fluidStateIndex2 = ??;
+   *fluidStateIndex3 = ??;
 */
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
 	SMOCOMPONENt_PRINT_MACRO
 	TPipeJunction_setStateValues(_component, *state1, *state2);
+	TPipeJunction_computeFluidStates23(_component);
+
 	fluidStateIndex1 = _fluidStateIndex1;
+	*fluidStateIndex2 = _fluidStateIndex2;
+	*fluidStateIndex3 = _fluidStateIndex3;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
+
+/* SI -> Common units conversions. */
+
+/*   *fluidStateIndex2 /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidStateIndex3 /= ??; CONVERSION UNKNOWN [smoTDS] */
 
 /*   *fluidStateIndex1 /= ??; CONVERSION UNKNOWN [smoTDS] */
 
