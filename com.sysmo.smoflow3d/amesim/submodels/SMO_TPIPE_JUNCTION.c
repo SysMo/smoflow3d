@@ -1,5 +1,5 @@
 /* Submodel SMO_TPIPE_JUNCTION skeleton created by AME Submodel editing utility
-   ???? ??? 29 15:43:34 2019 */
+   ??? ??? 30 15:34:05 2019 */
 
 
 
@@ -36,9 +36,15 @@ REVISIONS :
 #define _fluidStateIndex1 ic[0]
 #define _fluidState1 ps[1]
 
-#define _fluidFlow1 ps[2]
-#define _fluidFlow2 ps[3]
-#define _fluidFlow3 ps[4]
+#define _fluidStateIndex2 ic[1]
+#define _fluidState2 ps[2]
+
+#define _fluidStateIndex3 ic[2]
+#define _fluidState3 ps[3]
+
+#define _fluidFlow1 ps[4]
+#define _fluidFlow2 ps[5]
+#define _fluidFlow3 ps[6]
 /* <<<<<<<<<<<<End of Private Code. */
 
 
@@ -60,8 +66,8 @@ REVISIONS :
    stateVariableSelection states variables      
 */
 
-void smo_tpipe_junctionin_(int *n, double rp[6], int ip[3], int ic[1]
-      , void *ps[5], double *state1, double *state2)
+void smo_tpipe_junctionin_(int *n, double rp[6], int ip[3], int ic[3]
+      , void *ps[7], double *state1, double *state2)
 
 {
    int loop, error;
@@ -138,18 +144,18 @@ void smo_tpipe_junctionin_(int *n, double rp[6], int ip[3], int ic[1]
 	_component = TPipeJunction_new(fluid, volume, stateVariableSelection);
 	SMOCOMPONENT_SET_PROPS(_component)
 
+	TPipeJunction_initFluidStates(_component,
+			initConditionsChoice, initialPressure, initialTemperature,
+			initialTemperatureC, initialGasMassFraction);
+
 	_fluidState1 = TPipeJunction_getFluidState1(_component);
 	_fluidStateIndex1 = MediumState_index(_fluidState1);
 
-	if (initConditionsChoice == 1) {
-		MediumState_update_Tp(_fluidState1, initialTemperature, initialPressure);
-	} else if (initConditionsChoice == 2) {
-		MediumState_update_Tp(_fluidState1, initialTemperatureC + 273.15, initialPressure);
-	} else if (initConditionsChoice == 3) {
-		MediumState_update_pq(_fluidState1, initialPressure, initialGasMassFraction);
-	} else {
-		AME_RAISE_ERROR("Unsupported type of initialization.")
-	}
+	_fluidState2 = TPipeJunction_getFluidState2(_component);
+	_fluidStateIndex2 = MediumState_index(_fluidState2);
+
+	_fluidState3 = TPipeJunction_getFluidState3(_component);
+	_fluidStateIndex3 = MediumState_index(_fluidState3);
 
 	TPipeJunction_getStateValues(_component, state1, state2);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -197,7 +203,7 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
       , double *specificEnthalpy, double *gasMassFraction
       , double *superHeat, double *totalMass, double *state1
       , double *state1Dot, double *state2, double *state2Dot
-      , double rp[6], int ip[3], int ic[1], void *ps[5])
+      , double rp[6], int ip[3], int ic[3], void *ps[7])
 
 {
    int loop;
@@ -281,8 +287,8 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
 }
 
 extern double smo_tpipe_junction_macro0_(int *n, double *state1
-      , double *state2, double rp[6], int ip[3], int ic[1]
-      , void *ps[5])
+      , double *state2, double rp[6], int ip[3], int ic[3]
+      , void *ps[7])
 
 {
    double fluidStateIndex1;

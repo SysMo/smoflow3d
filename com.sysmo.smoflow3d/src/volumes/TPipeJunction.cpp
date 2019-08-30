@@ -31,9 +31,42 @@ TPipeJunction::TPipeJunction(Medium *fluid, double internalVolume, int stateVari
 	port1Flow = NULL;
 	port2Flow = NULL;
 	port3Flow = NULL;
+
+	fluidState1 = NULL;
+	fluidState2 = NULL;
+	fluidState3 = NULL;
 }
 
 TPipeJunction::~TPipeJunction() {
+}
+
+void TPipeJunction::initFluidStates(
+		int initConditionsChoice, double initialPressure,
+		double initialTemperature, double initialTemperatureC, double initialGasMassFraction) {
+	fluidState1 = accFluid->getFluidState();
+	Medium* fluid = fluidState1->getMedium();
+
+	fluidState2 = MediumState_new(fluid);
+	MediumState_register(fluidState2);
+
+	fluidState3 = MediumState_new(fluid);
+	MediumState_register(fluidState3);
+
+	if (initConditionsChoice == 1) {
+		fluidState1->update_Tp(initialTemperature, initialPressure);
+		fluidState2->update_Tp(initialTemperature, initialPressure);
+		fluidState3->update_Tp(initialTemperature, initialPressure);
+	} else if (initConditionsChoice == 2) {
+		fluidState1->update_Tp(initialTemperatureC + 273.15, initialPressure);
+		fluidState2->update_Tp(initialTemperatureC + 273.15, initialPressure);
+		fluidState3->update_Tp(initialTemperatureC + 273.15, initialPressure);
+	} else if (initConditionsChoice == 3) {
+		fluidState1->update_pq(initialPressure, initialGasMassFraction);
+		fluidState2->update_pq(initialPressure, initialGasMassFraction);
+		fluidState3->update_pq(initialPressure, initialGasMassFraction);
+	} else {
+		RaiseComponentError(this, "Unsupported type of initialization.");
+	}
 }
 
 void TPipeJunction::initFlows(FluidFlow* port1Flow, FluidFlow* port2Flow, FluidFlow* port3Flow) {
@@ -55,7 +88,15 @@ void TPipeJunction::getStateDerivatives(double* value1, double* value2) {
 }
 
 MediumState* TPipeJunction::getFluidState1() {
-	return accFluid->getFluidState();
+	return fluidState1;
+}
+
+MediumState* TPipeJunction::getFluidState2() {
+	return fluidState2;
+}
+
+MediumState* TPipeJunction::getFluidState3() {
+	return fluidState3;
 }
 
 double TPipeJunction::getFluidMass() {
@@ -77,6 +118,13 @@ TPipeJunction* TPipeJunction_new(Medium *fluid, double internalVolume, int state
 	return new TPipeJunction(fluid, internalVolume, stateVariableSelection);
 }
 
+void TPipeJunction_initFluidStates(TPipeJunction* component, int initConditionsChoice,
+		double initialPressure, double initialTemperature, double initialTemperatureC,
+		double initialGasMassFraction) {
+	component->initFluidStates(initConditionsChoice, initialPressure,
+			initialTemperature, initialTemperatureC, initialGasMassFraction);
+}
+
 void TPipeJunction_initFlows(TPipeJunction* component, FluidFlow* port1Flow, FluidFlow* port2Flow, FluidFlow* port3Flow) {
 	component->initFlows(port1Flow, port2Flow, port3Flow);
 }
@@ -95,6 +143,14 @@ void TPipeJunction_getStateDerivatives(TPipeJunction* component, double* value1,
 
 MediumState* TPipeJunction_getFluidState1(TPipeJunction* component) {
 	return component->getFluidState1();
+}
+
+MediumState* TPipeJunction_getFluidState2(TPipeJunction* component) {
+	return component->getFluidState2();
+}
+
+MediumState* TPipeJunction_getFluidState3(TPipeJunction* component) {
+	return component->getFluidState3();
 }
 
 double TPipeJunction_getFluidMass(TPipeJunction* component) {
