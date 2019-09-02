@@ -11,7 +11,15 @@
 /**
  * TPipeJunction - C++
  */
-TPipeJunction::TPipeJunction(Medium *fluid, double internalVolume, int stateVariableSelection) {
+TPipeJunction::TPipeJunction(Medium *fluid,
+		double internalVolume,
+		double flowArea,
+		int stateVariableSelection) {
+	this->flowArea = flowArea;
+	if (flowArea <= 0) {
+		RaiseComponentError(this, "The flow area should be positive.");
+	}
+
 	accFluid = FluidChamber_new(fluid);
 	SMOCOMPONENT_SET_PARENT(accFluid, this);
 	accFluid->setVolume(internalVolume);
@@ -35,6 +43,9 @@ TPipeJunction::TPipeJunction(Medium *fluid, double internalVolume, int stateVari
 	fluidState1 = NULL;
 	fluidState2 = NULL;
 	fluidState3 = NULL;
+
+	dp2 = 0;
+	dp3 = 0;
 }
 
 TPipeJunction::~TPipeJunction() {
@@ -69,9 +80,15 @@ void TPipeJunction::initFluidStates(
 	}
 }
 
-void TPipeJunction::initFlows(FluidFlow* port1Flow, FluidFlow* port2Flow, FluidFlow* port3Flow) {
+void TPipeJunction::setFluidFlow1(FluidFlow* port1Flow) {
 	this->port1Flow = port1Flow;
+}
+
+void TPipeJunction::setFluidFlow2(FluidFlow* port2Flow) {
 	this->port2Flow = port2Flow;
+}
+
+void TPipeJunction::setFluidFlow3(FluidFlow* port3Flow) {
 	this->port3Flow = port3Flow;
 }
 
@@ -110,29 +127,98 @@ void TPipeJunction::compute() {
 	accFluid->compute(netMassFlowRate, netEnthalpyFlow, 0, 0); // netHeatFlowRate = netVolumeChangeRate = 0
 }
 
-void TPipeJunction::computeFluidStates23() {
-	//:TODO:
-	MediumState_copy(fluidState1, fluidState2, 3);
-	MediumState_copy(fluidState1, fluidState3, 3);
-}
+
+/**
+ * TPipeJunction_ConstantDragCoefficients - C++
+ */
+class TPipeJunction_ConstantDragCoefficients : public TPipeJunction {
+public:
+	TPipeJunction_ConstantDragCoefficients(
+			Medium *fluid,
+			double internalVolume,
+			double flowArea,
+			double dragCoeff2,
+			double dragCoeff3,
+			int stateVariableSelection) :
+			TPipeJunction(
+					fluid,
+					internalVolume,
+					flowArea,
+					stateVariableSelection) {
+		this->dragCoeff2 = dragCoeff2;
+		this->dragCoeff3 = dragCoeff3;
+	}
+
+	virtual void updateFluidStates23() {
+		if (port1Flow == NULL) {
+			MediumState_copy(fluidState1, fluidState2, 2); //:TRICKY: 2 -- use (p,T)
+			MediumState_copy(fluidState1, fluidState3, 2);
+			dp2 = 0;
+			dp3 = 0;
+		} else {
+			double rho1 = fluidState1->rho();
+			double mDot1 = port1Flow->massFlowRate;
+			double vFlow1 = mDot1 / (rho1 * flowArea);
+			double dynamicPressure1 = rho1 * vFlow1 * vFlow1 / 2.;
+			dp2 = dragCoeff2*dynamicPressure1;
+			dp3 = dragCoeff3*dynamicPressure1;
+
+			fluidState2->update_ph(fluidState1->p() - dp2, fluidState1->h());
+			fluidState3->update_ph(fluidState1->p() - dp3, fluidState1->h());
+		}
+	}
+
+protected:
+	double dragCoeff2;
+	double dragCoeff3;
+};
+
 
 
 /**
  * TPipeJunction - C
  */
-TPipeJunction* TPipeJunction_new(Medium *fluid, double internalVolume, int stateVariableSelection) {
-	return new TPipeJunction(fluid, internalVolume, stateVariableSelection);
+TPipeJunction* TPipeJunction_ConstantDragCoefficients_new(
+		Medium *fluid,
+		double internalVolume,
+		double flowArea,
+		double dragCoeff2,
+		double dragCoeff3,
+		int stateVariableSelection) {
+	return new TPipeJunction_ConstantDragCoefficients(
+			fluid,
+			internalVolume,
+			flowArea,
+			dragCoeff2,
+			dragCoeff3,
+			stateVariableSelection);
 }
 
-void TPipeJunction_initFluidStates(TPipeJunction* component, int initConditionsChoice,
-		double initialPressure, double initialTemperature, double initialTemperatureC,
+void TPipeJunction_initFluidStates(
+		TPipeJunction* component,
+		int initConditionsChoice,
+		double initialPressure,
+		double initialTemperature,
+		double initialTemperatureC,
 		double initialGasMassFraction) {
-	component->initFluidStates(initConditionsChoice, initialPressure,
-			initialTemperature, initialTemperatureC, initialGasMassFraction);
+	component->initFluidStates(
+			initConditionsChoice,
+			initialPressure,
+			initialTemperature,
+			initialTemperatureC,
+			initialGasMassFraction);
 }
 
-void TPipeJunction_initFlows(TPipeJunction* component, FluidFlow* port1Flow, FluidFlow* port2Flow, FluidFlow* port3Flow) {
-	component->initFlows(port1Flow, port2Flow, port3Flow);
+void TPipeJunction_setFluidFlow1(TPipeJunction* component, FluidFlow* port1Flow) {
+	component->setFluidFlow1(port1Flow);
+}
+
+void TPipeJunction_setFluidFlow2(TPipeJunction* component, FluidFlow* port2Flow) {
+	component->setFluidFlow2(port2Flow);
+}
+
+void TPipeJunction_setFluidFlow3(TPipeJunction* component, FluidFlow* port3Flow) {
+	component->setFluidFlow3(port3Flow);
 }
 
 void TPipeJunction_setStateValues(TPipeJunction* component, double value1, double value2) {
@@ -159,6 +245,14 @@ MediumState* TPipeJunction_getFluidState3(TPipeJunction* component) {
 	return component->getFluidState3();
 }
 
+double TPipeJunction_getPressureLoss2(TPipeJunction* component) {
+	return component->getPressureLoss2();
+}
+
+double TPipeJunction_getPressureLoss3(TPipeJunction* component) {
+	return component->getPressureLoss3();
+}
+
 double TPipeJunction_getFluidMass(TPipeJunction* component) {
 	return component->getFluidMass();
 }
@@ -167,6 +261,6 @@ void TPipeJunction_compute(TPipeJunction* component) {
 	component->compute();
 }
 
-void TPipeJunction_computeFluidStates23(TPipeJunction* component) {
-	component->computeFluidStates23();
+void TPipeJunction_updateFluidStates23(TPipeJunction* component) {
+	component->updateFluidStates23();
 }

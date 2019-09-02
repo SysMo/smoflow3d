@@ -16,12 +16,15 @@
 
 class TPipeJunction : public SmoComponent {
 public:
-	TPipeJunction(Medium *fluid, double internalVolume, int stateVariableSelection);
+	TPipeJunction(Medium *fluid, double internalVolume, double flowArea, int stateVariableSelection);
 	virtual ~TPipeJunction();
 
 	void initFluidStates(int initConditionsChoice, double initialPressure,
 				double initialTemperature, double initialTemperatureC, double initialGasMassFraction);
-	void initFlows(FluidFlow* port1Flow, FluidFlow* port2Flow, FluidFlow* port3Flow);
+
+	void setFluidFlow1(FluidFlow* port1Flow);
+	void setFluidFlow2(FluidFlow* port2Flow);
+	void setFluidFlow3(FluidFlow* port3Flow);
 
 	void getStateValues(double* value1, double* value2);
 	void setStateValues(double value1, double value2);
@@ -31,13 +34,13 @@ public:
 	MediumState* getFluidState2();
 	MediumState* getFluidState3();
 
+	double getPressureLoss2() {return dp2;}
+	double getPressureLoss3() {return dp3;}
+
 	double getFluidMass();
 
 	void compute();
-	void computeFluidStates23();
-
-protected:
-	//void compute(double pressureDrop);
+	virtual void updateFluidStates23() = 0;
 
 protected:
 	// Ports
@@ -50,7 +53,16 @@ protected:
 	MediumState* fluidState1;
 	MediumState* fluidState2;
 	MediumState* fluidState3;
+
+	double dp2;
+	double dp3;
+
+	// Parameters
+	double flowArea;
+
 };
+
+
 
 #else //__cplusplus
 DECLARE_C_STRUCT(TPipeJunction)
@@ -58,22 +70,42 @@ DECLARE_C_STRUCT(TPipeJunction)
 
 BEGIN_C_LINKAGE
 
-TPipeJunction* TPipeJunction_new(Medium* fluid, double internalVolume, int stateVariableSelection);
-void TPipeJunction_initFluidStates(TPipeJunction* component, int initConditionsChoice, double initialPressure, double initialTemperature, double initialTemperatureC, double initialGasMassFraction);
-void TPipeJunction_initFlows(TPipeJunction* component, FluidFlow* port1Flow, FluidFlow* port2Flow, FluidFlow* port3Flow);
+TPipeJunction* TPipeJunction_ConstantDragCoefficients_new(
+		Medium* fluid,
+		double internalVolume,
+		double flowArea,
+		double dragCoeff2,
+		double dragCoeff3,
+		int stateVariableSelection);
+
+void TPipeJunction_initFluidStates(
+		TPipeJunction* component,
+		int initConditionsChoice,
+		double initialPressure,
+		double initialTemperature,
+		double initialTemperatureC,
+		double initialGasMassFraction);
 
 void TPipeJunction_setStateValues(TPipeJunction* component, double value1, double value2);
 void TPipeJunction_getStateValues(TPipeJunction* component, double* value1, double* value2);
 void TPipeJunction_getStateDerivatives(TPipeJunction* component, double* value1, double* value2);
 
+void TPipeJunction_setFluidFlow1(TPipeJunction* component, FluidFlow* port1Flow);
+void TPipeJunction_setFluidFlow2(TPipeJunction* component, FluidFlow* port2Flow);
+void TPipeJunction_setFluidFlow3(TPipeJunction* component, FluidFlow* port3Flow);
+
 MediumState* TPipeJunction_getFluidState1(TPipeJunction* component);
 MediumState* TPipeJunction_getFluidState2(TPipeJunction* component);
 MediumState* TPipeJunction_getFluidState3(TPipeJunction* component);
 
+double TPipeJunction_getPressureLoss2(TPipeJunction* component);
+double TPipeJunction_getPressureLoss3(TPipeJunction* component);
+
 double TPipeJunction_getFluidMass(TPipeJunction* component);
 
 void TPipeJunction_compute(TPipeJunction* component);
-void TPipeJunction_computeFluidStates23(TPipeJunction* component);
+void TPipeJunction_updateFluidStates23(TPipeJunction* component);
+
 
 END_C_LINKAGE
 
