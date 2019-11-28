@@ -2,7 +2,7 @@
  * PipeHeatExchPrDropMassAcc_RCR.cpp
  *
  *  Created on: Nov 28, 2019
- *      Author: Milen Borisov
+ *      Author: Milen Borisov, Atanas Pavlov
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
