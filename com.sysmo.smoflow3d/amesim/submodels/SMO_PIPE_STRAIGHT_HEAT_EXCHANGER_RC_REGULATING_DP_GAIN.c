@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC_REGULATING_DP_GAIN skeleton created by AME Submodel editing utility
-   ??? ??? 27 11:38:24 2019 */
+   ???? ??? 28 17:52:27 2019 */
 
 
 
@@ -225,9 +225,9 @@ void smo_pipe_straight_heat_exchanger_rc_regulating_dp_gainin_(int *n
 
    Port 1 has 3 variables:
 
-      1 port1FluidFlowIndex              fluid flow index at port 1  [smoFFL] basic variable output  UNPLOTTABLE
+      1 port1FluidFlowIndex              fluid flow index at port 1   [smoFFL] basic variable output  UNPLOTTABLE
       2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
-      3 port1FluidStateIndex             fluid state index at port 1 [smoTDS] basic variable input  UNPLOTTABLE
+      3 port1FluidStateIndex             fluid state index at port 1  [smoTDS] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
