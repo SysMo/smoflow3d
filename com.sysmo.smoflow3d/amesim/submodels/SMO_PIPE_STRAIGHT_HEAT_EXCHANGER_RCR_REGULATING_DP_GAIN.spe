@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>124</SUB_ID_MAX>
+  <SUB_ID_MAX>126</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pipe_straight_heat_exchanger_regulating_dp_gain</DEFAULT_ICON>
   <SUB_LABEL>straight pipe with heat exchanger and regulating pressure drop gain (pressure drop, mass accumulation) (R-C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
@@ -56,6 +56,17 @@
     <MIN_VALUE>1.00000000000000e-030</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
     <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>126</SUB_ID>
+    <TITLE>pressure drop gain</TITLE>
+    <VARNAME>pressureDropGainConst</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>-1.00000000000000e+030</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
    </RPARAM>
    <RPARAM>
     <SUB_ID>70</SUB_ID>
@@ -287,7 +298,7 @@
     <SUB_ID>124</SUB_ID>
     <PARAM_GROUP_ELEMENT_LIST>
      <PARAM_GROUP_ELEMENT>
-      <PARAM_GROUP_ELEMENT_VARNAME>pressureDropGain</PARAM_GROUP_ELEMENT_VARNAME>
+      <PARAM_GROUP_ELEMENT_VARNAME>pressureDropGainRegSignal</PARAM_GROUP_ELEMENT_VARNAME>
       <PARAM_GROUP_ELEMENT_DISPLAY>1</PARAM_GROUP_ELEMENT_DISPLAY>
      </PARAM_GROUP_ELEMENT>
      <PARAM_GROUP_ELEMENT>
@@ -724,8 +735,8 @@
    <PORT>
     <EVAR>
      <SUB_ID>2</SUB_ID>
-     <TITLE>pressure drop gain</TITLE>
-     <VARNAME>pressureDropGain</VARNAME>
+     <TITLE>pressure drop gain (regulated signal)</TITLE>
+     <VARNAME>pressureDropGainRegSignal</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>

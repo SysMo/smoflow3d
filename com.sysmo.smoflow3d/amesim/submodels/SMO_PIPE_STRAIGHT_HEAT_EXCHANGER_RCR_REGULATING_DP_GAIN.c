@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RCR_REGULATING_DP_GAIN skeleton created by AME Submodel editing utility
-   ???? ??? 28 17:48:02 2019 */
+   ?? ??? 3 10:17:35 2019 */
 
 
 
@@ -49,12 +49,13 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 11 real parameters:
+/* There are 12 real parameters:
 
    hydraulicDiameter             hydraulic diameter                        [mm -> m]
    pipeLength                    pipe length                               [m]
    flowArea                      flow (cross sectional) area               [mm**2 -> m**2]
    absoluteRoughness             absolute roughness                        [mm -> m]
+   pressureDropGainConst         pressure drop gain                        [null]
    heatExchangeGain              heat exchange gain                        [null]
    heatExchangeGainDeactivedFlow heat exchange gain (deactived fluid flow) [null]
    initialPressure               initial pressure                          [barA -> PaA]
@@ -77,7 +78,7 @@ REVISIONS :
 */
 
 void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gainin_(int *n
-      , double rp[11], int ip[7], int ic[3], void *ps[8]
+      , double rp[12], int ip[7], int ic[3], void *ps[8]
       , double stateValues[2])
 
 {
@@ -88,9 +89,10 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gainin_(int *n
       forcedConvectionUseFilmState, useFluidFlowActivationSignal, 
       initConditionsChoice, stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
-      heatExchangeGain, heatExchangeGainDeactivedFlow, initialPressure
-      , initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat;
+      pressureDropGainConst, heatExchangeGain, 
+      heatExchangeGainDeactivedFlow, initialPressure, 
+      initialTemperature, initialTemperatureC, initialGasMassFraction
+      , initialSuperheat;
 
    fluidIndex = ip[0];
    allowBidirectionalFlow = ip[1];
@@ -104,20 +106,21 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gainin_(int *n
    pipeLength = rp[1];
    flowArea   = rp[2];
    absoluteRoughness = rp[3];
-   heatExchangeGain = rp[4];
-   heatExchangeGainDeactivedFlow = rp[5];
-   initialPressure = rp[6];
-   initialTemperature = rp[7];
-   initialTemperatureC = rp[8];
-   initialGasMassFraction = rp[9];
-   initialSuperheat = rp[10];
+   pressureDropGainConst = rp[4];
+   heatExchangeGain = rp[5];
+   heatExchangeGainDeactivedFlow = rp[6];
+   initialPressure = rp[7];
+   initialTemperature = rp[8];
+   initialTemperatureC = rp[9];
+   initialGasMassFraction = rp[10];
+   initialSuperheat = rp[11];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..10]
+   rp[0..11]
    stateValues[0..1]
 */
 
@@ -182,8 +185,8 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gainin_(int *n
    flowArea   = rp[2];
    rp[3]    *= 1.00000000000000e-003;
    absoluteRoughness = rp[3];
-   rp[6]    *= 1.00000000000000e+005;
-   initialPressure = rp[6];
+   rp[7]    *= 1.00000000000000e+005;
+   initialPressure = rp[7];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
@@ -251,7 +254,7 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gainin_(int *n
 
    Port 4 has 1 variable:
 
-      1 pressureDropGain     pressure drop gain [null] basic variable input
+      1 pressureDropGainRegSignal     pressure drop gain (regulated signal) [null] basic variable input
 */
 
 /*  There are 22 internal variables.
@@ -286,19 +289,20 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gain_(int *n
       , double *port1FluidStateIndex, double *heatFlowIndex
       , double *thermalNodeIndex, double *port3FluidFlowIndex
       , double *fluidFlowActivationSignal3
-      , double *port3FluidStateIndex, double *pressureDropGain
-      , double *pressureLossTotal, double stateValues[2]
-      , double stateValuesDot[2], double *internalPressure
-      , double *internalTemperatrue, double *internalDensity
-      , double *internalVolume, double *totalMass
-      , double *massFlowRate1, double *massFlowRate3
-      , double *enthalpyFlowRate1, double *enthalpyFlowRate3
-      , double *pressureLoss1, double *pressureLoss3
-      , double *dynamicPressureUp1, double *dynamicPressureUp3
-      , double *vFlowUp1, double *vFlowUp3, double *machNumberUp1
-      , double *machNumberUp3, double *reynoldsNumber
-      , double *convectionCoefficient, double *heatFlowRateFromWall
-      , double rp[11], int ip[7], int ic[3], void *ps[8], int *flag)
+      , double *port3FluidStateIndex
+      , double *pressureDropGainRegSignal, double *pressureLossTotal
+      , double stateValues[2], double stateValuesDot[2]
+      , double *internalPressure, double *internalTemperatrue
+      , double *internalDensity, double *internalVolume
+      , double *totalMass, double *massFlowRate1
+      , double *massFlowRate3, double *enthalpyFlowRate1
+      , double *enthalpyFlowRate3, double *pressureLoss1
+      , double *pressureLoss3, double *dynamicPressureUp1
+      , double *dynamicPressureUp3, double *vFlowUp1, double *vFlowUp3
+      , double *machNumberUp1, double *machNumberUp3
+      , double *reynoldsNumber, double *convectionCoefficient
+      , double *heatFlowRateFromWall, double rp[12], int ip[7]
+      , int ic[3], void *ps[8], int *flag)
 
 {
    int loop, logi;
@@ -308,9 +312,10 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gain_(int *n
       forcedConvectionUseFilmState, useFluidFlowActivationSignal, 
       initConditionsChoice, stateVariableSelection;
    double hydraulicDiameter, pipeLength, flowArea, absoluteRoughness, 
-      heatExchangeGain, heatExchangeGainDeactivedFlow, initialPressure
-      , initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat;
+      pressureDropGainConst, heatExchangeGain, 
+      heatExchangeGainDeactivedFlow, initialPressure, 
+      initialTemperature, initialTemperatureC, initialGasMassFraction
+      , initialSuperheat;
 
    fluidIndex = ip[0];
    allowBidirectionalFlow = ip[1];
@@ -324,13 +329,14 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gain_(int *n
    pipeLength = rp[1];
    flowArea   = rp[2];
    absoluteRoughness = rp[3];
-   heatExchangeGain = rp[4];
-   heatExchangeGainDeactivedFlow = rp[5];
-   initialPressure = rp[6];
-   initialTemperature = rp[7];
-   initialTemperatureC = rp[8];
-   initialGasMassFraction = rp[9];
-   initialSuperheat = rp[10];
+   pressureDropGainConst = rp[4];
+   heatExchangeGain = rp[5];
+   heatExchangeGainDeactivedFlow = rp[6];
+   initialPressure = rp[7];
+   initialTemperature = rp[8];
+   initialTemperatureC = rp[9];
+   initialGasMassFraction = rp[10];
+   initialSuperheat = rp[11];
    logi = 0;
    loop = 0;
 
@@ -396,9 +402,10 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gain_(int *n
 
    PipeHeatExchPrDropMassAcc_RCR_setStateValues(_component, stateValues[0], stateValues[1]);
 
-   FrictionFlowPipe_setPressureDropGain(_friction1, *pressureDropGain);
-   FrictionFlowPipe_setPressureDropGain(_friction3, *pressureDropGain);
-   if (*pressureDropGain <= 0) { //no flow
+   double pressureDropGainTotal = (*pressureDropGainRegSignal) * pressureDropGainConst;
+   FrictionFlowPipe_setPressureDropGain(_friction1, pressureDropGainTotal);
+   FrictionFlowPipe_setPressureDropGain(_friction3, pressureDropGainTotal);
+   if (*pressureDropGainRegSignal <= 0) { //no flow
 	   Convection_setHeatExchangeGain(_convection, heatExchangeGainDeactivedFlow);
 	   PipeHeatExchPrDropMassAcc_RCR_compute_deactivedFluidFlow(_component);
    } else {
