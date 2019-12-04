@@ -124,4 +124,5 @@ smo_Tpipe_junction
 smo_pipe_straight_heat_exchanger_regulating_dp_gain
 &SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC_REGULATING_DP_GAIN SmoFlow3d
 &SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RCR_REGULATING_DP_GAIN SmoFlow3d
-
+smo_heat_flow_gain
+&SMO_HEAT_FLOW_GAIN SmoFlow3d

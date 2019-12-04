@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="16.0.0 - 68387-65635 2017">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>10</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_heat_flow_gain</DEFAULT_ICON>
+  <SUB_LABEL>heat flow gain</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>1</I_STORES_NUMBER>
+  <P_STORES_NUMBER>1</P_STORES_NUMBER>
+  <HAS_NO_CALC>1</HAS_NO_CALC>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>6</SUB_ID>
+     <VARNAME>thermalNodeIndexOut1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>2</PRIMARY_PORT>
+     <PRIMARY_VAR>1</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>7</SUB_ID>
+     <TITLE>heat flow index (in)</TITLE>
+     <VARNAME>heatFlowIndexIn1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoHFL</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>8</SUB_ID>
+     <TITLE>heat flow gain</TITLE>
+     <VARNAME>heatFlowGain</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>9</SUB_ID>
+     <TITLE>heat flow index (out)</TITLE>
+     <VARNAME>heatFlowIndexOut3</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoHFL</UNITS>
+     <EXPRESS2>@_1_2, @_2_1</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>10</SUB_ID>
+     <TITLE>thermal node index (in)</TITLE>
+     <VARNAME>thermalNodeIndexIn3</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTHN</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
+ </SUBMODEL>
+</SPE>
