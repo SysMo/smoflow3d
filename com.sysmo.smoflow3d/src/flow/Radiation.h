@@ -21,21 +21,12 @@ public:
 	Radiation();
 	virtual ~Radiation();
 
-	void init(MediumState* fluidState, ThermalNode* wallNode);
-
 	void setHeatExchangeGain(double gain) {this->heatExchangeGain = gain;}
 
-	double getHeatFlowRate() {return heatFlowRate;} //:TRICKY: heat flow rate from the wall to the fluid
-
-	void updateHeatFlow(HeatFlow* flow); //heat flow to the wall
-	void updateFluidFlow(FluidFlow* flow); //fluid flow to the fluid
+	double getHeatFlowRate() {return heatFlowRate;} //:TRICKY: heat flow rate from port-1 to port-2
 
 protected:
 	double heatExchangeGain;
-
-	MediumState* fluidState;
-	ThermalNode* wallNode;
-
 	double heatFlowRate;
 };
 
@@ -47,9 +38,6 @@ BEGIN_C_LINKAGE
 void Radiation_setHeatExchangeGain(Radiation* radiation, double gain);
 
 double Radiation_getHeatFlowRate(Radiation* radiation);
-
-void Radiation_updateHeatFlow(Radiation* radiation, HeatFlow* flow);
-void Radiation_updateFluidFlow(Radiation* radiation, FluidFlow* flow);
 END_C_LINKAGE
 
 #endif /* RADIATION_H_ */

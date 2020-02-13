@@ -22,9 +22,15 @@ public:
 
 	virtual void compute();
 
+	void updateHeatFlow(HeatFlow* flow); //heat flow to the wall
+	void updateFluidFlow(FluidFlow* flow); //fluid flow to the fluid
+
 protected:
 	double heatExchangeArea;
 	double emissivity;
+
+	MediumState* fluidState;
+	ThermalNode* wallNode;
 };
 
 #else //__cplusplus
@@ -32,10 +38,13 @@ DECLARE_C_STRUCT(RadiationWallFluid)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
+RadiationWallFluid* RadiationWallFluid_new(double emissivity, double heatExchangeArea);
+
 void RadiationWallFluid_init(RadiationWallFluid* radiation, MediumState* fluidState, ThermalNode* wallNode);
 void RadiationWallFluid_compute(RadiationWallFluid* radiation);
 
-RadiationWallFluid* RadiationWallFluid_new(double emissivity, double heatExchangeArea);
+void RadiationWallFluid_updateHeatFlow(RadiationWallFluid* radiation, HeatFlow* flow);
+void RadiationWallFluid_updateFluidFlow(RadiationWallFluid* radiation, FluidFlow* flow);
 END_C_LINKAGE
 
 #endif /* RADIATION_WALL_FLUID_H_ */

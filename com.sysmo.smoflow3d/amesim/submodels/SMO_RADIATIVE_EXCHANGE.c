@@ -163,8 +163,8 @@ void smo_radiative_exchange_(int *n, double *heatFlowIndex
    }
 
    RadiationWallFluid_compute(_component);
-   Radiation_updateFluidFlow(_component, _fluidFlow);
-   Radiation_updateHeatFlow(_component, _heatFlow);
+   RadiationWallFluid_updateFluidFlow(_component, _fluidFlow);
+   RadiationWallFluid_updateHeatFlow(_component, _heatFlow);
    *qDot = Radiation_getHeatFlowRate(_component);
 
    *fluidFlowIndex = _fluidFlowIndex;
