@@ -52,6 +52,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger_regulating_dp_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_symmetrical_junction" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
    
@@ -133,6 +134,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger_regulating_dp_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_symmetrical_junction" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
   </GROUP>

@@ -121,8 +121,6 @@ smo_thermal_conduction_regulating_gain
 &SMO_THERMAL_CONDUCTION_01_REGULATING_GAIN SmoFlow3d
 smo_fluid_flow_gain
 &SMO_FLUID_FLOW_GAIN SmoFlow3d
-smo_Tpipe_junction
-&SMO_TPIPE_JUNCTION SmoFlow3d
 smo_pipe_straight_heat_exchanger_regulating_dp_gain
 &SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC_REGULATING_DP_GAIN SmoFlow3d
 &SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RCR_REGULATING_DP_GAIN SmoFlow3d
@@ -130,3 +128,7 @@ smo_heat_flow_gain
 &SMO_HEAT_FLOW_GAIN SmoFlow3d
 smo_radiative_exchange_two_surfaces
 &SMO_RADIATIVE_EXCHANGE_TWO_SURFACES SmoFlow3d
+smo_Tpipe_junction
+&SMO_TPIPE_JUNCTION SmoFlow3d
+smo_Tpipe_symmetrical_junction
+&SMO_TPIPE_SYMMETRICAL_JUNCTION SmoFlow3d

@@ -210,7 +210,7 @@ public:
 		this->constDragCoefficient = dragCoefficient;
 	}
 
-	virtual double computePressureDrop(double massFlowRate) {
+	virtual double computePressureDrop(double massFlowRate) { //:TRICKY: Used in R-components
 		MediumState* upstreamState = getUpstreamState(massFlowRate);
 
 		//@see VDI Heat Atlas, L1.2.1 (page 1057), Eq. (1)
@@ -228,7 +228,7 @@ public:
 		return pressureDrop;
 	}
 
-	virtual double computeMassFlowRate(double pressureDrop) {
+	virtual double computeMassFlowRate(double pressureDrop) { //:TRICKY: Used in N-components
 		absPressureDrop = m::fabs(pressureDrop);
 		if (absPressureDrop < cst::MinPressureDrop) {
 			reynoldsNumber = 0.0;
