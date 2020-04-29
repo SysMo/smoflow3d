@@ -74,7 +74,7 @@ Valve_R* Valve_InputPressureLoss_R_new(int allowBidirectionalFlow) {
 	return valve;
 }
 
-Valve_R* ValveKv_R_new(
+Valve_R* Valve_Kv_R_new(
 		int allowBidirectionalFlow,
 		double Kv,
 		int transitionChoice,
@@ -83,6 +83,32 @@ Valve_R* ValveKv_R_new(
 	FrictionFlowValve* friction = FrictionFlowValve_Kv_new(
 			allowBidirectionalFlow,
 			Kv,
+			transitionChoice,
+			transitionMassFlowRate,
+			transitionPressureDifference,
+			1.0e4, //maximumMassFlowRate
+			0 //limitRegulatingSignal 0 - no, 1 - yes
+	);
+
+	Valve_R* valve = new Valve_R(friction);
+	if (allowBidirectionalFlow == 0) { //0 - no
+		valve->setIsBidirectionalFlowAllowed(false);
+	}
+
+	return valve;
+}
+
+Valve_R* Valve_TwoKv_R_new(
+		int allowBidirectionalFlow,
+		double Kv1,
+		double Kv2,
+		int transitionChoice,
+		double transitionMassFlowRate,
+		double transitionPressureDifference) {
+	FrictionFlowValve* friction = FrictionFlowValve_TwoKv_new(
+			allowBidirectionalFlow,
+			Kv1,
+			Kv2,
 			transitionChoice,
 			transitionMassFlowRate,
 			transitionPressureDifference,

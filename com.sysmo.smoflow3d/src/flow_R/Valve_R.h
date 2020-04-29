@@ -43,9 +43,17 @@ BEGIN_C_LINKAGE
 Valve_R* Valve_InputPressureLoss_R_new(
 		int allowBidirectionalFlow);
 
-Valve_R* ValveKv_R_new(
+Valve_R* Valve_Kv_R_new(
 		int allowBidirectionalFlow,
 		double Kv,
+		int transitionChoice,
+		double transitionMassFlowRate,
+		double transitionPressureDifference);
+
+Valve_R* Valve_TwoKv_R_new(
+		int allowBidirectionalFlow,
+		double Kv1,
+		double Kv2,
 		int transitionChoice,
 		double transitionMassFlowRate,
 		double transitionPressureDifference);

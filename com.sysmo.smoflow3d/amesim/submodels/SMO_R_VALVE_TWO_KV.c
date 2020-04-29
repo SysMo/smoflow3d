@@ -1,5 +1,5 @@
-/* Submodel SMO_R_VALVE_KV skeleton created by AME Submodel editing utility
-   ??? ??? 9 10:17:00 2019 */
+/* Submodel SMO_R_VALVE_TWO_KV skeleton created by AME Submodel editing utility
+   ?? ??? 29 14:25:49 2020 */
 
 
 
@@ -9,22 +9,22 @@
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
- 
+
 ------------------------------------------------------------------------------
 DESCRIPTION :
- 
+
 ------------------------------------------------------------------------------
 USAGE :
- 
+
 ------------------------------------------------------------------------------
 PARAMETER SETTINGS :
- 
+
 ------------------------------------------------------------------------------
 REVISIONS :
- 
+
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_R_VALVE_KV"
+#define _SUBMODELNAME_ "SMO_R_VALVE_TWO_KV"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -45,11 +45,12 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 3 real parameters:
+/* There are 4 real parameters:
 
-   Kv                           flow coefficient Kv in [(m**3/h)/sqrt(bar)] [null]
-   transitionMassFlowRate       transition mass flow rate                   [kg/s]
-   transitionPressureDifference transition pressure difference              [barA -> PaA]
+   Kv1                          Kv (port1->port3) - flow coefficient in [(m**3/h)/sqrt(bar)] [null]
+   Kv2                          Kv (port3->port1) - flow coefficient in [(m**3/h)/sqrt(bar)] [null]
+   transitionMassFlowRate       transition mass flow rate                                    [kg/s]
+   transitionPressureDifference transition pressure difference                               [barA -> PaA]
 */
 
 
@@ -60,7 +61,7 @@ REVISIONS :
    closeFlowAtNegativeRegSignal close the flow at negative regulating signal
 */
 
-void smo_r_valve_kvin_(int *n, double rp[3], int ip[3], int ic[4]
+void smo_r_valve_two_kvin_(int *n, double rp[4], int ip[3], int ic[4]
       , void *ps[4])
 
 {
@@ -69,22 +70,24 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[3], int ic[4]
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int transitionChoice, allowBidirectionalFlow, 
       closeFlowAtNegativeRegSignal;
-   double Kv, transitionMassFlowRate, transitionPressureDifference;
+   double Kv1, Kv2, transitionMassFlowRate, 
+      transitionPressureDifference;
 
    transitionChoice = ip[0];
    allowBidirectionalFlow = ip[1];
    closeFlowAtNegativeRegSignal = ip[2];
 
-   Kv         = rp[0];
-   transitionMassFlowRate = rp[1];
-   transitionPressureDifference = rp[2];
+   Kv1        = rp[0];
+   Kv2        = rp[1];
+   transitionMassFlowRate = rp[2];
+   transitionPressureDifference = rp[3];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..2]
+   rp[0..3]
 */
 
 
@@ -122,14 +125,15 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[3], int ic[4]
 
 /* Common -> SI units conversions. */
 
-   rp[2]    *= 1.00000000000000e+005;
-   transitionPressureDifference = rp[2];
+   rp[3]    *= 1.00000000000000e+005;
+   transitionPressureDifference = rp[3];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = Valve_Kv_R_new(
+   _component = Valve_TwoKv_R_new(
 		   allowBidirectionalFlow - 1, //:TRICKY: allowBidirectionalFlow =  '{1-no, 2-yes} - 1'  =  '{0-no, 1-yes}'
-		   Kv,
+		   Kv1,
+		   Kv2,
 		   transitionChoice,
 		   transitionMassFlowRate,
 		   transitionPressureDifference);
@@ -157,7 +161,7 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[3], int ic[4]
 
    Port 3 has 3 variables:
 
-      1 outputRCompID3      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_valve_kv_macro0_'  UNPLOTTABLE
+      1 outputRCompID3      R-component ID (output, port3) [smoRCompID] multi line macro 'smo_r_valve_two_kv_macro0_'  UNPLOTTABLE
       2 smoRChainIDDupl     duplicate of smoRChainID      
       3 inputRCompID3       R-component ID (input, port3)  [smoRCompID] basic variable input  UNPLOTTABLE
 */
@@ -169,11 +173,11 @@ void smo_r_valve_kvin_(int *n, double rp[3], int ip[3], int ic[4]
       3 pressureLoss         total pressure loss                 [bar -> Pa] basic variable
 */
 
-void smo_r_valve_kv_(int *n, double *outputRCompID1
+void smo_r_valve_two_kv_(int *n, double *outputRCompID1
       , double *inputRCompID1, double *smoRChainID
       , double *regulatingSignal, double *outputRCompID3
       , double *inputRCompID3, double *massFlowRate
-      , double *enthalpyFlowRate, double *pressureLoss, double rp[3]
+      , double *enthalpyFlowRate, double *pressureLoss, double rp[4]
       , int ip[3], int ic[4], void *ps[4], int *flag)
 
 {
@@ -182,15 +186,17 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int transitionChoice, allowBidirectionalFlow, 
       closeFlowAtNegativeRegSignal;
-   double Kv, transitionMassFlowRate, transitionPressureDifference;
+   double Kv1, Kv2, transitionMassFlowRate, 
+      transitionPressureDifference;
 
    transitionChoice = ip[0];
    allowBidirectionalFlow = ip[1];
    closeFlowAtNegativeRegSignal = ip[2];
 
-   Kv         = rp[0];
-   transitionMassFlowRate = rp[1];
-   transitionPressureDifference = rp[2];
+   Kv1        = rp[0];
+   Kv2        = rp[1];
+   transitionMassFlowRate = rp[2];
+   transitionPressureDifference = rp[3];
    logi = 0;
    loop = 0;
 
@@ -236,8 +242,8 @@ void smo_r_valve_kv_(int *n, double *outputRCompID1
    *pressureLoss /= 1.00000000000000e+005;
 }
 
-extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
-      , double *smoRChainID, double *regulatingSignal, double rp[3]
+extern double smo_r_valve_two_kv_macro0_(int *n, double *inputRCompID1
+      , double *smoRChainID, double *regulatingSignal, double rp[4]
       , int ip[3], int ic[4], void *ps[4], int *flag)
 
 {
@@ -247,15 +253,17 @@ extern double smo_r_valve_kv_macro0_(int *n, double *inputRCompID1
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
    int transitionChoice, allowBidirectionalFlow, 
       closeFlowAtNegativeRegSignal;
-   double Kv, transitionMassFlowRate, transitionPressureDifference;
+   double Kv1, Kv2, transitionMassFlowRate, 
+      transitionPressureDifference;
 
    transitionChoice = ip[0];
    allowBidirectionalFlow = ip[1];
    closeFlowAtNegativeRegSignal = ip[2];
 
-   Kv         = rp[0];
-   transitionMassFlowRate = rp[1];
-   transitionPressureDifference = rp[2];
+   Kv1        = rp[0];
+   Kv2        = rp[1];
+   transitionMassFlowRate = rp[2];
+   transitionPressureDifference = rp[3];
    logi = 0;
    loop = 0;
 

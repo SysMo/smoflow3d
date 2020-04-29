@@ -196,7 +196,7 @@ public:
 		this->maximumMassFlowRate = maximumMassFlowRate;
 	}
 
-	virtual double computePressureDrop(double massFlowRate) { //:TRICKY: Used in R components
+	virtual double computePressureDrop(double massFlowRate) { //:TRICKY: Used in R-components
 		// Set mass flow rate
 		this->massFlowRate = massFlowRate;
 		if (massFlowRate < 0.0 && !isBidirectionalFlowAllowed()) {
@@ -246,7 +246,7 @@ public:
 		return pressureDrop;
 	}
 
-	virtual double computeMassFlowRate(double pressureDrop) {
+	virtual double computeMassFlowRate(double pressureDrop) {  //:TRICKY: Used in N-components
 		// Set absolute pressure drop
 		absPressureDrop = m::fabs(pressureDrop);
 		if (absPressureDrop < cst::MinPressureDrop) { //No flow
@@ -305,6 +305,10 @@ public:
 		return massFlowRate;
 	}
 
+protected:
+
+	void setKv(double Kv) {this->Kv = Kv;}
+
 private:
 	int transitionChoice;
 	double transitionMassFlowRate;
@@ -314,6 +318,57 @@ private:
 
 	static const double N1 = 8.784e-07; //2.403e-5; //:SMO_SETTINGS:
 	static const double referenceLiquidDensity = 1000; //:SMO_SETTINGS:
+};
+
+/**
+ * FrictionFlowValve_Kv - C++
+ */
+class FrictionFlowValve_TwoKv : public FrictionFlowValve_Kv {
+public:
+	FrictionFlowValve_TwoKv(
+			int allowBidirectionalFlow,
+			double Kv1,
+			double Kv2,
+			int transitionChoice,
+			double transitionMassFlowRate,
+			double transitionPressureDifference,
+			double maximumMassFlowRate,
+			int limitRegulatingSignal) :
+				FrictionFlowValve_Kv (
+						allowBidirectionalFlow,
+						Kv1,
+						transitionChoice,
+						transitionMassFlowRate,
+						transitionPressureDifference,
+						maximumMassFlowRate,
+						limitRegulatingSignal) {
+		this->Kv1 = Kv1;
+		this->Kv2 = Kv2;
+	};
+
+	virtual double computePressureDrop(double massFlowRate) {
+		if (massFlowRate >= 0) {
+			setKv(Kv1);
+		} else {
+			setKv(Kv2);
+		}
+
+		return FrictionFlowValve_Kv::computePressureDrop(massFlowRate);
+	}
+
+	virtual double computeMassFlowRate(double pressureDrop) {  //:TRICKY: Used in N-components
+		if (pressureDrop >= 0) {
+			setKv(Kv1);
+		} else {
+			setKv(Kv2);
+		}
+
+		return FrictionFlowValve_Kv::computeMassFlowRate(pressureDrop);
+	}
+
+private:
+	double Kv1;
+	double Kv2;
 };
 
 /**
@@ -397,6 +452,7 @@ protected:
 	double orificeArea;
 	double flowCoefficient;
 };
+
 
 /**
  * FrictionFlowValve_OrificeCompressibleRealGas - C++
@@ -506,6 +562,26 @@ FrictionFlowValve* FrictionFlowValve_Kv_new(
 	return new FrictionFlowValve_Kv(
 			allowBidirectionalFlow,
 			Kv,
+			transitionChoice,
+			transitionMassFlowRate,
+			transitionPressureDifference,
+			maximumMassFlowRate,
+			limitRegulatingSignal);
+}
+
+FrictionFlowValve* FrictionFlowValve_TwoKv_new(
+		int allowBidirectionalFlow,
+		double Kv1,
+		double Kv2,
+		int transitionChoice,
+		double transitionMassFlowRate,
+		double transitionPressureDifference,
+		double maximumMassFlowRate,
+		int limitRegulatingSignal) {
+	return new FrictionFlowValve_TwoKv(
+			allowBidirectionalFlow,
+			Kv1,
+			Kv2,
 			transitionChoice,
 			transitionMassFlowRate,
 			transitionPressureDifference,

@@ -88,6 +88,7 @@ smo_r_fluid_flow_sensor
 &SMO_R_FLUID_FLOW_SENSOR SmoFlow3d
 smo_r_valve
 &SMO_R_VALVE_KV SmoFlow3d
+&SMO_R_VALVE_TWO_KV SmoFlow3d
 &SMO_R_VALVE_PRESSURE_LOSS SmoFlow3d
 smo_r_adaptor_begin
 &SMO_R_ADAPTOR_BEGIN SmoFlow3d

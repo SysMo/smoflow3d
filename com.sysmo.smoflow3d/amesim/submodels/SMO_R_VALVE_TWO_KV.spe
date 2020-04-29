@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="16.0.0 - 68387-65635 2017">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>36</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_r_valve</DEFAULT_ICON>
+  <SUB_LABEL>R-valve with a regulating signal input (Two Kv)</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>4</I_STORES_NUMBER>
+  <P_STORES_NUMBER>4</P_STORES_NUMBER>
+  <DISCONTINUITY>1</DISCONTINUITY>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>27</SUB_ID>
+    <TITLE>Kv (port1->port3) - flow coefficient in [(m**3/h)/sqrt(bar)]</TITLE>
+    <VARNAME>Kv1</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>28</SUB_ID>
+    <TITLE>Kv (port3->port1) - flow coefficient in [(m**3/h)/sqrt(bar)]</TITLE>
+    <VARNAME>Kv2</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>29</SUB_ID>
+    <TITLE>transition mass flow rate</TITLE>
+    <VARNAME>transitionMassFlowRate</VARNAME>
+    <VISIBILITY>(transitionChoice == 1)</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e-04</DEF_VALUE>
+    <VALUE>1.00000000000000e-04</VALUE>
+    <MIN_VALUE>1.00000000000000e-010</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
+    <UNITS>kg/s</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>30</SUB_ID>
+    <TITLE>transition pressure difference</TITLE>
+    <VARNAME>transitionPressureDifference</VARNAME>
+    <VISIBILITY>(transitionChoice == 2)</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e-03</DEF_VALUE>
+    <VALUE>1.00000000000000e-03</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+010</MAX_VALUE>
+    <UNITS>barA</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <IPARAMS_LIST>
+   <IPARAM>
+    <SUB_ID>34</SUB_ID>
+    <TITLE>choice of transition to linear region</TITLE>
+    <VARNAME>transitionChoice</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>Minimum mass flow</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>Minimum pressure difference</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>35</SUB_ID>
+    <TITLE>allow bi-directional flow</TITLE>
+    <VARNAME>allowBidirectionalFlow</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>2</DEF_VALUE>
+    <VALUE>2</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+      <ICON_MAP>
+       <ICON_MAP_FORMAT>xbm</ICON_MAP_FORMAT>
+       <ICON_MAP_DATA>
+        #define icon_width 25
+        #define icon_height 25
+        static unsigned char icon_bits[] = {
+        0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x10,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x10,0x70,0x00,0x00,0x00,0x90,0x00,0x00,0x38,0x90,0x00,0x80,0x28,
+        0x72,0x00,0x80,0x29,0x53,0x00,0x80,0xbb,0x93,0x00,0x80,0xd6,0x02,0x00,0x80,
+        0x7c,0x02,0x00,0xff,0x38,0xfe,0x01,0x80,0x6c,0x02,0x00,0x80,0xc6,0x02,0x00,
+        0x80,0x83,0x03,0x00,0x80,0x01,0x03,0x00,0x80,0x00,0x02,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x80,0x00,0x00,0x00,0x00,0x01,0x00,0x80,0xff,0x03,0x00,0x00,0x00,
+        0x01,0x00,0x00,0x80,0x00,0x00,0x00,0x00,0x00,0x00
+        };
+       </ICON_MAP_DATA>
+      </ICON_MAP>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+      <ICON_MAP>
+       <ICON_MAP_FORMAT>xbm</ICON_MAP_FORMAT>
+       <ICON_MAP_DATA>
+        #define icon_width 25
+        #define icon_height 25
+        static unsigned char icon_bits[] = {
+        0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x10,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x10,0x70,0x00,0x00,0x00,0x90,0x00,0x00,0x38,0x90,0x00,0x80,0x28,
+        0x72,0x00,0x80,0x29,0x53,0x00,0x80,0xbb,0x93,0x00,0x80,0xd6,0x02,0x00,0x80,
+        0x7c,0x02,0x00,0xff,0x38,0xfe,0x01,0x80,0x6c,0x02,0x00,0x80,0xc6,0x02,0x00,
+        0x80,0x83,0x03,0x00,0x80,0x01,0x03,0x00,0x80,0x00,0x02,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+        };
+       </ICON_MAP_DATA>
+      </ICON_MAP>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>36</SUB_ID>
+    <TITLE>close the flow at negative regulating signal</TITLE>
+    <VARNAME>closeFlowAtNegativeRegSignal</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>2</DEF_VALUE>
+    <VALUE>2</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
+      <ICON_MAP>
+       <ICON_MAP_FORMAT>xbm</ICON_MAP_FORMAT>
+       <ICON_MAP_DATA>
+        #define icon_width 25
+        #define icon_height 25
+        static unsigned char icon_bits[] = {
+        0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x10,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x10,0x70,0x00,0x00,0x00,0x90,0x00,0x00,0x38,0x90,0x00,0x80,0x28,
+        0x72,0x00,0x80,0x29,0x53,0x00,0x80,0xbb,0x93,0x00,0x80,0xd6,0x02,0x00,0x80,
+        0x7c,0x02,0x00,0xff,0x38,0xfe,0x01,0x80,0x6c,0x02,0x00,0x80,0xc6,0x02,0x00,
+        0x80,0x83,0x03,0x00,0x80,0x01,0x03,0x00,0x80,0x00,0x02,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x80,0x00,0x00,0x00,0x00,0x01,0x00,0x80,0xff,0x03,0x00,0x00,0x00,
+        0x01,0x00,0x00,0x80,0x00,0x00,0x00,0x00,0x00,0x00
+        };
+       </ICON_MAP_DATA>
+      </ICON_MAP>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+      <ICON_MAP>
+       <ICON_MAP_FORMAT>xbm</ICON_MAP_FORMAT>
+       <ICON_MAP_DATA>
+        #define icon_width 25
+        #define icon_height 25
+        static unsigned char icon_bits[] = {
+        0x00,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x10,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x10,0x70,0x00,0x00,0x00,0x90,0x00,0x00,0x38,0x90,0x00,0x80,0x28,
+        0x72,0x00,0x80,0x29,0x53,0x00,0x80,0xbb,0x93,0x00,0x80,0xd6,0x02,0x00,0x80,
+        0x7c,0x02,0x00,0xff,0x38,0xfe,0x01,0x80,0x6c,0x02,0x00,0x80,0xc6,0x02,0x00,
+        0x80,0x83,0x03,0x00,0x80,0x01,0x03,0x00,0x80,0x00,0x02,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+        };
+       </ICON_MAP_DATA>
+      </ICON_MAP>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+  </IPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>20</SUB_ID>
+    <TITLE>mass flow rate (port1 -> port3)</TITLE>
+    <VARNAME>massFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>kg/s</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>21</SUB_ID>
+    <TITLE>enthalpy flow rate (port1 -> port3)</TITLE>
+    <VARNAME>enthalpyFlowRate</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>22</SUB_ID>
+    <TITLE>total pressure loss</TITLE>
+    <VARNAME>pressureLoss</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <IS_DELTA>1</IS_DELTA>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>bar</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>10</SUB_ID>
+     <TITLE>R-component ID (ouput, port1)</TITLE>
+     <VARNAME>outputRCompID1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRCompID</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>11</SUB_ID>
+     <TITLE>R-component ID (input, port1)</TITLE>
+     <VARNAME>inputRCompID1</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRCompID</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>12</SUB_ID>
+     <TITLE>R-components chain ID</TITLE>
+     <VARNAME>smoRChainID</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRChainID</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>13</SUB_ID>
+     <TITLE>regulating signal</TITLE>
+     <VARNAME>regulatingSignal</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNITS>null</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>14</SUB_ID>
+     <TITLE>R-component ID (output, port3)</TITLE>
+     <VARNAME>outputRCompID3</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>8</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRCompID</UNITS>
+     <EXPRESS2>@_2_1, @_1_2, @_1_3</EXPRESS2>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>15</SUB_ID>
+     <VARNAME>smoRChainIDDupl</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>4</TYPE>
+     <PRIMARY_PORT>0</PRIMARY_PORT>
+     <PRIMARY_VAR>2</PRIMARY_VAR>
+     <DUP_TYPE>0</DUP_TYPE>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>16</SUB_ID>
+     <TITLE>R-component ID (input, port3)</TITLE>
+     <VARNAME>inputRCompID3</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoRCompID</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
+ </SUBMODEL>
+</SPE>

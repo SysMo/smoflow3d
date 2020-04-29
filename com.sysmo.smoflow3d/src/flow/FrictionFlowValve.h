@@ -83,6 +83,16 @@ FrictionFlowValve* FrictionFlowValve_Kv_new(
 		double maximumMassFlowRate,
 		int limitRegulatingSignal);
 
+FrictionFlowValve* FrictionFlowValve_TwoKv_new(
+		int allowBidirectionalFlow,
+		double Kv1,
+		double Kv2,
+		int transitionChoice,
+		double transitionMassFlowRate,
+		double transitionPressureDifference,
+		double maximumMassFlowRate,
+		int limitRegulatingSignal);
+
 FrictionFlowValve* FrictionFlowValve_OrificeCompressibleIdealGas_new(
 		int allowBidirectionalFlow,
 		double orificeArea,
