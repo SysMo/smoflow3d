@@ -1380,7 +1380,7 @@ static unsigned char icon_bits[] = {
 ^  10  20 thermal
 @smo_Tpipe_junction
 ~smo_Tpipe_junction
-%T-pipe junction
+%T-pipe junction with constant drag cofficients
 #define TPipeJunction_width 43
 #define TPipeJunction_height 32
 static unsigned char TPipeJunction_bits[] = {
