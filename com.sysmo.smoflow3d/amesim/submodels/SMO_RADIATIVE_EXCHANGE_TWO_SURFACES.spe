@@ -82,7 +82,7 @@
   <IVARS_LIST>
    <IVAR>
     <SUB_ID>28</SUB_ID>
-    <TITLE>heat flow rate from port1</TITLE>
+    <TITLE>heat flow rate from port-1</TITLE>
     <VARNAME>qDot1</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
@@ -94,7 +94,7 @@
    <PORT>
     <EVAR>
      <SUB_ID>5</SUB_ID>
-     <TITLE>heat flow index 1</TITLE>
+     <TITLE>heat flow index (port-1)</TITLE>
      <VARNAME>heatFlow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
@@ -105,7 +105,7 @@
     </EVAR>
     <EVAR>
      <SUB_ID>6</SUB_ID>
-     <TITLE>thermal node index 1</TITLE>
+     <TITLE>thermal node index (port-1)</TITLE>
      <VARNAME>thermalNode1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
@@ -118,7 +118,7 @@
    <PORT>
     <EVAR>
      <SUB_ID>7</SUB_ID>
-     <TITLE>heat flow index 2</TITLE>
+     <TITLE>heat flow index (port-2)</TITLE>
      <VARNAME>heatFlow2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>
@@ -129,7 +129,7 @@
     </EVAR>
     <EVAR>
      <SUB_ID>8</SUB_ID>
-     <TITLE>state index 2</TITLE>
+     <TITLE>thermal node index (port-2)</TITLE>
      <VARNAME>thermalNode2Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
      <TYPE>0</TYPE>

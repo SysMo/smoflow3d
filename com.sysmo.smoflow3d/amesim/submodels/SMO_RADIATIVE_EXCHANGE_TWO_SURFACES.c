@@ -1,5 +1,5 @@
 /* Submodel SMO_RADIATIVE_EXCHANGE_TWO_SURFACES skeleton created by AME Submodel editing utility
-   ???? ??? 13 14:00:38 2020 */
+   ?? ??? 17 15:48:32 2020 */
 
 
 
@@ -112,18 +112,18 @@ void smo_radiative_exchange_two_surfacesin_(int *n, double rp[6]
 
    Port 1 has 2 variables:
 
-      1 heatFlow1Index        heat flow index 1    [smoHFL] basic variable output  UNPLOTTABLE
-      2 thermalNode1Index     thermal node index 1 [smoTHN] basic variable input  UNPLOTTABLE
+      1 heatFlow1Index        heat flow index (port-1)    [smoHFL] basic variable output  UNPLOTTABLE
+      2 thermalNode1Index     thermal node index (port-1) [smoTHN] basic variable input  UNPLOTTABLE
 
    Port 2 has 2 variables:
 
-      1 heatFlow2Index        heat flow index 2 [smoHFL] basic variable output  UNPLOTTABLE
-      2 thermalNode2Index     state index 2     [smoTHN] basic variable input  UNPLOTTABLE
+      1 heatFlow2Index        heat flow index (port-2)    [smoHFL] basic variable output  UNPLOTTABLE
+      2 thermalNode2Index     thermal node index (port-2) [smoTHN] basic variable input  UNPLOTTABLE
 */
 
 /*  There is 1 internal variable.
 
-      1 qDot1     heat flow rate from port1 [W] basic variable
+      1 qDot1     heat flow rate from port-1 [W] basic variable
 */
 
 void smo_radiative_exchange_two_surfaces_(int *n
