@@ -255,7 +255,7 @@ extern double smo_r_orifice_compressible_ideal_gas_macro0_(int *n
 
 		ManagerComponents_R_addComponent(_manager, _component, *inputRCompID1);
 	}
-	ValveRegSignal_R_setRegulatingSignal(_component, *regulatingSignal);
+	//ValveRegSignal_R_setRegulatingSignal(_component, *regulatingSignal);
 
 	outputRCompID3 = _componentIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */
