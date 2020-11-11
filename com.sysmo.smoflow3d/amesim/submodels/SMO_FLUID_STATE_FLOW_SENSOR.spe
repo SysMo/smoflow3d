@@ -28,7 +28,7 @@
   <IPARAMS_LIST>
    <IPARAM>
     <SUB_ID>25</SUB_ID>
-    <TITLE>measured fluid property</TITLE>
+    <TITLE>measured flow property</TITLE>
     <VARNAME>propertyIndex</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>1</DEF_VALUE>

@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_STATE_FLOW_SENSOR skeleton created by AME Submodel editing utility
-   ???? ??? 15 17:23:13 2019 */
+   ?? ??? 11 11:31:54 2020 */
 
 
 
@@ -47,7 +47,7 @@ REVISIONS :
 
 /* There is 1 integer parameter:
 
-   propertyIndex measured fluid property
+   propertyIndex measured flow property
 */
 
 void smo_fluid_state_flow_sensorin_(int *n, double rp[1], int ip[1]
@@ -80,7 +80,7 @@ void smo_fluid_state_flow_sensorin_(int *n, double rp[1], int ip[1]
 
    if (propertyIndex < 1 || propertyIndex > 4)
    {
-      amefprintf(stderr, "\nmeasured fluid property must be in range [1..4].\n");
+      amefprintf(stderr, "\nmeasured flow property must be in range [1..4].\n");
       error = 2;
    }
 
@@ -119,9 +119,9 @@ void smo_fluid_state_flow_sensorin_(int *n, double rp[1], int ip[1]
 
    Port 3 has 3 variables:
 
-      1 fluidFlowIndexDup                duplicate of fluidFlowIndex
+      1 fluidFlowIndexDup                duplicate of fluidFlowIndex 
       2 fluidFlowActivationSignalDup     duplicate of fluidFlowActivationSignal
-      3 fluidStateIndex                  fluid state index [smoTDS] basic variable input  UNPLOTTABLE
+      3 fluidStateIndex                  fluid state index            [smoTDS] basic variable input  UNPLOTTABLE
 */
 
 /*  There are 3 internal variables.
