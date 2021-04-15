@@ -196,10 +196,13 @@ void smo_fluid_flow_sensor_(int *n, double *fluidStateIndex
 
    if (measuredFlowPropertyIndex == 1) {
 	   *measuredValue = *massFlowRate;
+	   *measuredValue = *measuredValue * gain + offset;
    } else if (measuredFlowPropertyIndex == 2) {
 	   *measuredValue = *enthalpyFlowRate;
+	   *measuredValue = *measuredValue * gain + offset;
    } else if (measuredFlowPropertyIndex == 3) {
 	   *measuredValue = *flowTemperature;
+	   *measuredValue = *measuredValue * gain + offset;
    } else if (measuredFlowPropertyIndex == 4) {
 	   *measuredValue = _fluidFlowIndex;
    } else {
