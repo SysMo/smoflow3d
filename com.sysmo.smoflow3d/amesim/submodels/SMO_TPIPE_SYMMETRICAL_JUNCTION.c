@@ -446,7 +446,7 @@ extern double smo_tpipe_symmetrical_junction_macro1_(int *n
 		TPipeJunction_setFluidFlow1(_component, _fluidFlow1);
 	}
 	TPipeJunction_setStateValues(_component, *state1, *state2);
-	TPipeJunction_updateFluidStates23(_component);
+	TPipeJunction_updateFluidStates23(_component, 0); //:TRICKY: the second parameter 'mass flow ratio' is not used for calculation of the drag coefficients
 
 	fluidStateIndex2 = _fluidStateIndex2;
 	*fluidStateIndex3 = _fluidStateIndex3;

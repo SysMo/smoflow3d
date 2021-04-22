@@ -133,3 +133,5 @@ smo_Tpipe_junction
 &SMO_TPIPE_JUNCTION SmoFlow3d
 smo_Tpipe_symmetrical_junction
 &SMO_TPIPE_SYMMETRICAL_JUNCTION SmoFlow3d
+smo_Tpipe_junction_regulating_mass_flow_ratio
+&SMO_TPIPE_JUNCTION_REGULATING_MASS_FLOW_RATIO SmoFlow3d

@@ -1,5 +1,5 @@
-/* Submodel SMO_TPIPE_JUNCTION skeleton created by AME Submodel editing utility
-   ??? ??? 1 15:38:50 2019 */
+/* Submodel SMO_TPIPE_JUNCTION_REGULATING_MASS_FLOW_RATIO skeleton created by AME Submodel editing utility
+   ???? ??? 22 09:53:58 2021 */
 
 
 
@@ -24,7 +24,7 @@ REVISIONS :
 
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_TPIPE_JUNCTION"
+#define _SUBMODELNAME_ "SMO_TPIPE_JUNCTION_REGULATING_MASS_FLOW_RATIO"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -48,7 +48,7 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 9 real parameters:
+/* There are 7 real parameters:
 
    initialPressure        initial pressure          [barA -> PaA]
    initialTemperature     initial temperature       [K]
@@ -57,8 +57,6 @@ REVISIONS :
    initialSuperheat       initial superheat         [K]
    volume                 volume                    [L -> m**3]
    flowArea               flow area                 [mm**2 -> m**2]
-   dragCoeff2             drag coefficient (port2)  [null]
-   dragCoeff3             drag coefficient (port3)  [null]
 */
 
 
@@ -69,8 +67,9 @@ REVISIONS :
    stateVariableSelection states variables      
 */
 
-void smo_tpipe_junctionin_(int *n, double rp[9], int ip[3], int ic[3]
-      , void *ps[7], double *state1, double *state2)
+void smo_tpipe_junction_regulating_mass_flow_ratioin_(int *n
+      , double rp[7], int ip[3], int ic[3], void *ps[7]
+      , double *state1, double *state2)
 
 {
    int loop, error;
@@ -78,8 +77,7 @@ void smo_tpipe_junctionin_(int *n, double rp[9], int ip[3], int ic[3]
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
    int fluidIndex, initConditionsChoice, stateVariableSelection;
    double initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, volume, flowArea, 
-      dragCoeff2, dragCoeff3;
+      initialGasMassFraction, initialSuperheat, volume, flowArea;
 
    fluidIndex = ip[0];
    initConditionsChoice = ip[1];
@@ -92,15 +90,13 @@ void smo_tpipe_junctionin_(int *n, double rp[9], int ip[3], int ic[3]
    initialSuperheat = rp[4];
    volume     = rp[5];
    flowArea   = rp[6];
-   dragCoeff2 = rp[7];
-   dragCoeff3 = rp[8];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..8]
+   rp[0..6]
    *state1
    *state2
 */
@@ -150,12 +146,10 @@ void smo_tpipe_junctionin_(int *n, double rp[9], int ip[3], int ic[3]
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
 	Medium* fluid = Medium_get(fluidIndex);
-	_component = TPipeJunction_ConstantDragCoefficients_new(
+	_component = TPipeJunction_RegulatingMassFlowRatio_new(
 			fluid,
 			volume,
 			flowArea,
-			dragCoeff2,
-			dragCoeff3,
 			stateVariableSelection);
 	SMOCOMPONENT_SET_PROPS(_component)
 
@@ -176,17 +170,17 @@ void smo_tpipe_junctionin_(int *n, double rp[9], int ip[3], int ic[3]
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
-/*  There are 3 ports.
+/*  There are 4 ports.
 
    Port 1 has 3 variables:
 
-      1 fluidStateIndex1               fluid state index (port1)            [smoTDS]  multi line macro 'smo_tpipe_junction_macro0_'  UNPLOTTABLE
+      1 fluidStateIndex1               fluid state index (port1)            [smoTDS]  multi line macro 'smo_tpipe_junction_regulating_mass_flow_ratio_macro0_'  UNPLOTTABLE
       2 fluidFlowIndex1                fluid flow index (port1)             [smoFFL]  basic variable input  UNPLOTTABLE
       3 fluidFlowActivationSignal1     fluid flow activation signal (port1) [smoFFAS] basic variable input  UNPLOTTABLE
 
    Port 2 has 3 variables:
 
-      1 fluidStateIndex2               fluid state index (port2)            [smoTDS]  multi line macro 'smo_tpipe_junction_macro1_'  UNPLOTTABLE
+      1 fluidStateIndex2               fluid state index (port2)            [smoTDS]  multi line macro 'smo_tpipe_junction_regulating_mass_flow_ratio_macro1_'  UNPLOTTABLE
       2 fluidFlowIndex2                fluid flow index (port2)             [smoFFL]  basic variable input  UNPLOTTABLE
       3 fluidFlowActivationSignal2     fluid flow activation signal (port2) [smoFFAS] basic variable input  UNPLOTTABLE
 
@@ -195,9 +189,13 @@ void smo_tpipe_junctionin_(int *n, double rp[9], int ip[3], int ic[3]
       1 fluidStateIndex3               fluid state index (port3)            [smoTDS]  multi line macro shared with 'fluidStateIndex2'  UNPLOTTABLE
       2 fluidFlowIndex3                fluid flow index (port3)             [smoFFL]  basic variable input  UNPLOTTABLE
       3 fluidFlowActivationSignal3     fluid flow activation signal (port3) [smoFFAS] basic variable input  UNPLOTTABLE
+
+   Port 4 has 1 variable:
+
+      1 mDotRatio21Reg     mass flow ratio (port2/port1) - the input of port4 [null] basic variable input
 */
 
-/*  There are 18 internal variables.
+/*  There are 22 internal variables.
 
       1 pressure             pressure (port1)                [barA -> PaA]   basic variable
       2 temperature          temperature (port1)             [K]             basic variable
@@ -206,7 +204,7 @@ void smo_tpipe_junctionin_(int *n, double rp[9], int ip[3], int ic[3]
       5 gasMassFraction      gas mass fraction (port1)       [null]          basic variable
       6 superHeat            subcooling / superheat (port1)  [degC]          basic variable
       7 massFlowRate1        mass flow rate (port1)          [kg/s]          basic variable
-      8 totalMass            fluid mass in pipe              [kg]            basic variable
+      8 totalMass            fluid mass in T-pipe            [kg]            basic variable
       9 state1               state variable 1                [null]          explicit state (derivative `state1Dot')
      10 state2               state variable 2                [null]          explicit state (derivative `state2Dot')
      11 pressureLoss2        pressure loss (port1 - prort2)  [bar -> Pa]     basic variable
@@ -217,13 +215,18 @@ void smo_tpipe_junctionin_(int *n, double rp[9], int ip[3], int ic[3]
      16 pressure3            pressure (port3)                [barA -> PaA]   basic variable
      17 temperature3         temperature (port3)             [K]             basic variable
      18 massFlowRate3        mass flow rate (port1 -> port3) [kg/s]          basic variable
+     19 dragCoeff2           drag coefficient (port2)        [null]          basic variable
+     20 dragCoeff3           drag coefficient (port3)        [null]          basic variable
+     21 mDotRatio21          mass flow ratio (port2/port1)   [null]          basic variable
+     22 mDotRatio31          mass flow ratio (port3/port1)   [null]          basic variable
 */
 
-void smo_tpipe_junction_(int *n, double *fluidStateIndex1
-      , double *fluidFlowIndex1, double *fluidFlowActivationSignal1
-      , double *fluidStateIndex2, double *fluidFlowIndex2
-      , double *fluidFlowActivationSignal2, double *fluidStateIndex3
-      , double *fluidFlowIndex3, double *fluidFlowActivationSignal3
+void smo_tpipe_junction_regulating_mass_flow_ratio_(int *n
+      , double *fluidStateIndex1, double *fluidFlowIndex1
+      , double *fluidFlowActivationSignal1, double *fluidStateIndex2
+      , double *fluidFlowIndex2, double *fluidFlowActivationSignal2
+      , double *fluidStateIndex3, double *fluidFlowIndex3
+      , double *fluidFlowActivationSignal3, double *mDotRatio21Reg
       , double *pressure, double *temperature, double *density
       , double *specificEnthalpy, double *gasMassFraction
       , double *superHeat, double *massFlowRate1, double *totalMass
@@ -231,8 +234,9 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
       , double *state2Dot, double *pressureLoss2, double *pressure2
       , double *temperature2, double *massFlowRate2
       , double *pressureLoss3, double *pressure3, double *temperature3
-      , double *massFlowRate3, double rp[9], int ip[3], int ic[3]
-      , void *ps[7])
+      , double *massFlowRate3, double *dragCoeff2, double *dragCoeff3
+      , double *mDotRatio21, double *mDotRatio31, double rp[7]
+      , int ip[3], int ic[3], void *ps[7])
 
 {
    int loop;
@@ -240,8 +244,7 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
    int fluidIndex, initConditionsChoice, stateVariableSelection;
    double initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, volume, flowArea, 
-      dragCoeff2, dragCoeff3;
+      initialGasMassFraction, initialSuperheat, volume, flowArea;
 
    fluidIndex = ip[0];
    initConditionsChoice = ip[1];
@@ -254,8 +257,6 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
    initialSuperheat = rp[4];
    volume     = rp[5];
    flowArea   = rp[6];
-   dragCoeff2 = rp[7];
-   dragCoeff3 = rp[8];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -291,6 +292,10 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
    *pressure3  = ??;
    *temperature3 = ??;
    *massFlowRate3 = ??;
+   *dragCoeff2 = ??;
+   *dragCoeff3 = ??;
+   *mDotRatio21 = ??;
+   *mDotRatio31 = ??;
 */
 
 
@@ -324,6 +329,11 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
 	*massFlowRate1 = FluidFlow_getMassFlowRate(_fluidFlow1);
 	*massFlowRate2 = -FluidFlow_getMassFlowRate(_fluidFlow2);
 	*massFlowRate3 = -FluidFlow_getMassFlowRate(_fluidFlow3);
+	*dragCoeff2 = TPipeJunction_getDragCoeff2(_component);
+	*dragCoeff3 = TPipeJunction_getDragCoeff3(_component);
+
+	*mDotRatio21 = *massFlowRate2/(*massFlowRate1);
+	*mDotRatio31 = *massFlowRate3/(*massFlowRate1);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -345,9 +355,9 @@ void smo_tpipe_junction_(int *n, double *fluidStateIndex1
    *pressure3 /= 1.00000000000000e+005;
 }
 
-extern double smo_tpipe_junction_macro0_(int *n, double *state1
-      , double *state2, double rp[9], int ip[3], int ic[3]
-      , void *ps[7])
+extern double smo_tpipe_junction_regulating_mass_flow_ratio_macro0_(
+      int *n, double *state1, double *state2, double rp[7], int ip[3]
+      , int ic[3], void *ps[7])
 
 {
    double fluidStateIndex1;
@@ -356,8 +366,7 @@ extern double smo_tpipe_junction_macro0_(int *n, double *state1
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
    int fluidIndex, initConditionsChoice, stateVariableSelection;
    double initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, volume, flowArea, 
-      dragCoeff2, dragCoeff3;
+      initialGasMassFraction, initialSuperheat, volume, flowArea;
 
    fluidIndex = ip[0];
    initConditionsChoice = ip[1];
@@ -370,8 +379,6 @@ extern double smo_tpipe_junction_macro0_(int *n, double *state1
    initialSuperheat = rp[4];
    volume     = rp[5];
    flowArea   = rp[6];
-   dragCoeff2 = rp[7];
-   dragCoeff3 = rp[8];
    loop = 0;
 
 /*
@@ -393,10 +400,10 @@ extern double smo_tpipe_junction_macro0_(int *n, double *state1
    return fluidStateIndex1;
 }
 
-extern double smo_tpipe_junction_macro1_(int *n
-      , double *fluidFlowIndex1, double *fluidStateIndex3
-      , double *state1, double *state2, double rp[9], int ip[3]
-      , int ic[3], void *ps[7])
+extern double smo_tpipe_junction_regulating_mass_flow_ratio_macro1_(
+      int *n, double *fluidFlowIndex1, double *fluidStateIndex3
+      , double *mDotRatio21Reg, double *state1, double *state2
+      , double rp[7], int ip[3], int ic[3], void *ps[7])
 
 {
    double fluidStateIndex2;
@@ -405,8 +412,7 @@ extern double smo_tpipe_junction_macro1_(int *n
 /* <<<<<<<<<<<<End of Extra Macro macro1 declarations. */
    int fluidIndex, initConditionsChoice, stateVariableSelection;
    double initialPressure, initialTemperature, initialTemperatureC, 
-      initialGasMassFraction, initialSuperheat, volume, flowArea, 
-      dragCoeff2, dragCoeff3;
+      initialGasMassFraction, initialSuperheat, volume, flowArea;
 
    fluidIndex = ip[0];
    initConditionsChoice = ip[1];
@@ -419,8 +425,6 @@ extern double smo_tpipe_junction_macro1_(int *n
    initialSuperheat = rp[4];
    volume     = rp[5];
    flowArea   = rp[6];
-   dragCoeff2 = rp[7];
-   dragCoeff3 = rp[8];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -446,7 +450,7 @@ extern double smo_tpipe_junction_macro1_(int *n
 		TPipeJunction_setFluidFlow1(_component, _fluidFlow1);
 	}
 	TPipeJunction_setStateValues(_component, *state1, *state2);
-	TPipeJunction_updateFluidStates23(_component, 0); //:TRICKY: the second parameter 'mass flow ratio' is not used for calculation of the drag coefficients
+	TPipeJunction_updateFluidStates23(_component, *mDotRatio21Reg);
 
 	fluidStateIndex2 = _fluidStateIndex2;
 	*fluidStateIndex3 = _fluidStateIndex3;

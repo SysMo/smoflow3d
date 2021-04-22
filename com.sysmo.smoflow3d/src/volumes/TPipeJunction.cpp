@@ -7,6 +7,8 @@
  */
 
 #include "TPipeJunction.h"
+#include "math/Interpolators.h"
+using namespace smoflow;
 
 /**
  * TPipeJunction - C++
@@ -44,8 +46,11 @@ TPipeJunction::TPipeJunction(Medium *fluid,
 	fluidState2 = NULL;
 	fluidState3 = NULL;
 
-	dp2 = 0;
-	dp3 = 0;
+	pressureLoss2 = 0;
+	pressureLoss3 = 0;
+
+	dragCoeff2 = 0;
+	dragCoeff3 = 0;
 }
 
 TPipeJunction::~TPipeJunction() {
@@ -104,18 +109,6 @@ void TPipeJunction::getStateDerivatives(double* value1, double* value2) {
 	accFluid->getStateDerivatives(value1, value2);
 }
 
-MediumState* TPipeJunction::getFluidState1() {
-	return fluidState1;
-}
-
-MediumState* TPipeJunction::getFluidState2() {
-	return fluidState2;
-}
-
-MediumState* TPipeJunction::getFluidState3() {
-	return fluidState3;
-}
-
 double TPipeJunction::getFluidMass() {
 	return accFluid->getFluidMass();
 }
@@ -125,6 +118,17 @@ void TPipeJunction::compute() {
 	double netEnthalpyFlow = port1Flow->enthalpyFlowRate + port2Flow->enthalpyFlowRate + port3Flow->enthalpyFlowRate;
 
 	accFluid->compute(netMassFlowRate, netEnthalpyFlow, 0, 0); // netHeatFlowRate = netVolumeChangeRate = 0
+}
+
+void TPipeJunction::updateFluidStates23AtZeroMassFlow() {
+	MediumState_copy(fluidState1, fluidState2, 2); //:TRICKY: 2 -- use (p,T)
+	MediumState_copy(fluidState1, fluidState3, 2);
+
+	pressureLoss2 = 0;
+	pressureLoss3 = 0;
+
+	dragCoeff2 = 0;
+	dragCoeff3 = 0;
 }
 
 
@@ -149,30 +153,148 @@ public:
 		this->dragCoeff3 = dragCoeff3;
 	}
 
-	virtual void updateFluidStates23() {
+	virtual void updateFluidStates23(double mDotRatio21) {
+		//:TRICKY: mDotRatio21 is not used for calculation of the drag coefficients, because they are constant
+
+		// FluidFlow in port-1 is not initialized
 		if (port1Flow == NULL) {
-			MediumState_copy(fluidState1, fluidState2, 2); //:TRICKY: 2 -- use (p,T)
-			MediumState_copy(fluidState1, fluidState3, 2);
-			dp2 = 0;
-			dp3 = 0;
-		} else {
-			double rho1 = fluidState1->rho();
-			double mDot1 = port1Flow->massFlowRate;
-			double vFlow1 = mDot1 / (rho1 * flowArea);
-			double dynamicPressure1 = rho1 * vFlow1 * vFlow1 / 2.;
-			dp2 = dragCoeff2*dynamicPressure1;
-			dp3 = dragCoeff3*dynamicPressure1;
-
-			fluidState2->update_ph(fluidState1->p() - dp2, fluidState1->h());
-			fluidState3->update_ph(fluidState1->p() - dp3, fluidState1->h());
+			updateFluidStates23AtZeroMassFlow();
+			return;
 		}
-	}
 
-protected:
-	double dragCoeff2;
-	double dragCoeff3;
+		// FluidFlow in port-1 is initialized
+		double rho1 = fluidState1->rho();
+		double mDot1 = port1Flow->massFlowRate;
+		double vFlow1 = mDot1 / (rho1 * flowArea);
+		double dynamicPressure1 = rho1 * vFlow1 * vFlow1 / 2.;
+
+		pressureLoss2 = dragCoeff2*dynamicPressure1;
+		pressureLoss3 = dragCoeff3*dynamicPressure1;
+
+		if (mDot1 < 0) { //:TRICKY: the T-junction has an inlet branch pipe (i.e. the flow convergence)
+			pressureLoss2 = -pressureLoss2;
+			pressureLoss3 = -pressureLoss3;
+		}
+
+		fluidState2->update_ph(fluidState1->p() - pressureLoss2, fluidState1->h());
+		fluidState3->update_ph(fluidState1->p() - pressureLoss3, fluidState1->h());
+	}
 };
 
+
+/**
+ * TPipeJunction_RegulatingMassFlowRate - C++
+ */
+class TPipeJunction_RegulatingMassFlowRatio : public TPipeJunction {
+public:
+	TPipeJunction_RegulatingMassFlowRatio(
+			Medium *fluid,
+			double internalVolume,
+			double flowArea,
+			int stateVariableSelection) :
+			TPipeJunction(
+					fluid,
+					internalVolume,
+					flowArea,
+					stateVariableSelection) {
+	}
+
+	virtual void updateFluidStates23(double mDotRatio21) {
+		// FluidFlow in port-1 is not initialized
+		if (port1Flow == NULL) {
+			updateFluidStates23AtZeroMassFlow();
+			return;
+		}
+
+		// Get mass flow rate in port-1
+		double mDot1 = port1Flow->massFlowRate;
+		if (mDot1 == 0.0) {
+			updateFluidStates23AtZeroMassFlow();
+			return;
+		}
+
+		// Limit the mass flow ratio (port1/port2) in the interval [0, 1]
+		m::limitVariable(mDotRatio21, 0.0, 1.0);
+
+		// Compute the dynamic pressure of the flow in port-1
+		double rho1 = fluidState1->rho();
+		double vFlow1 = mDot1 / (rho1 * flowArea);
+		double dynamicPressure1 = rho1 * vFlow1 * vFlow1 / 2.;
+
+		// Compute the drag coefficient of port-2
+		if (mDot1 < 0) {  //T-junction has an inlet branch pipe
+			static FunctorOneVariable* dc2Function_inletBranch = NULL;
+			if (dc2Function_inletBranch == NULL) {
+				ArrayXd inputValues(11); //mass flow ratio (Qa/Qt)
+				inputValues <<   0.00,  0.10,  0.20,  0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00;
+				ArrayXd outputValues(11); //drag coefficients applicable to the outgoing connection
+				outputValues << -0.60, -0.37, -0.18, -0.07, 0.26, 0.46, 0.62, 0.78, 0.94, 1.08, 1.20;
+
+				dc2Function_inletBranch = new Interpolator1D(&inputValues, &outputValues);
+			}
+			FunctorCache* dc2FunctionCache_inletBranch = dc2Function_inletBranch->createCache();
+			dragCoeff2 = (*dc2Function_inletBranch)(mDotRatio21, dc2FunctionCache_inletBranch);
+		} else { //T-junction has an outgoing branch pipe
+			static FunctorOneVariable* dc2Function_outgoingBranch = NULL;
+			if (dc2Function_outgoingBranch == NULL) {
+				ArrayXd inputValues(11); //mass flow ratio (Qa/Qt)
+				inputValues <<  0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00;
+				ArrayXd outputValues(11); //drag coefficients applicable to the outgoing connection
+				outputValues << 1.00, 1.00, 1.01, 1.03, 1.05, 1.09, 1.15, 1.22, 1.32, 1.38, 1.45;
+
+				dc2Function_outgoingBranch = new Interpolator1D(&inputValues, &outputValues);
+			}
+			FunctorCache* dc2FunctionCache_outgoingBranch = dc2Function_outgoingBranch->createCache();
+			dragCoeff2 = (*dc2Function_outgoingBranch)(mDotRatio21, dc2FunctionCache_outgoingBranch);
+		}
+		if (mDotRatio21 == 0.0) {
+			dragCoeff2 = 0.0;
+		}
+
+		// Compute the drag coefficient of port-3
+		if (mDot1 < 0) {  //T-junction has an inlet branch pipe
+			static FunctorOneVariable* dc3Function_inletBranch = NULL;
+			if (dc3Function_inletBranch == NULL) {
+				ArrayXd inputValues(11); //mass flow ratio (Qa/Qt)
+				inputValues <<  0.00, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00;
+				ArrayXd outputValues(11); //drag coefficients applicable to the straight connection
+				outputValues << 0.00, 0.16, 0.27, 0.38, 0.46, 0.53, 0.57, 0.59, 0.60, 0.59, 0.55;
+
+				dc3Function_inletBranch = new Interpolator1D(&inputValues, &outputValues);
+			}
+			FunctorCache* dc3FunctionCache_inletBranch = dc3Function_inletBranch->createCache();
+			dragCoeff3 = (*dc3Function_inletBranch)(mDotRatio21, dc3FunctionCache_inletBranch);
+		} else { //T-junction has an outgoing branch pipe
+			static FunctorOneVariable* dc3Function_outgoingBranch = NULL;
+			if (dc3Function_outgoingBranch == NULL) {
+				ArrayXd inputValues(11); //mass flow ratio (Qa/Qt)
+				inputValues <<  0.00, 0.100, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00;
+				ArrayXd outputValues(11); //drag coefficients applicable to the straight connection
+				outputValues << 0.00, 0.004, 0.02, 0.04, 0.06, 0.10, 0.15, 0.20, 0.26, 0.32, 0.40;
+
+				dc3Function_outgoingBranch = new Interpolator1D(&inputValues, &outputValues);
+			}
+			FunctorCache* dc3FunctionCache_outgoingBranch = dc3Function_outgoingBranch->createCache();
+			dragCoeff3 = (*dc3Function_outgoingBranch)(mDotRatio21, dc3FunctionCache_outgoingBranch);
+		}
+		if (mDotRatio21 == 1.0) {
+			dragCoeff3 = 0.0;
+		}
+
+		// Compute the pressure losses
+		pressureLoss2 = dragCoeff2*dynamicPressure1;
+		pressureLoss3 = dragCoeff3*dynamicPressure1;
+
+		if (mDot1 < 0) {  //:TRICKY: the T-junction has an inlet branch pipe (i.e. the flow convergence)
+			pressureLoss2 = -pressureLoss2;
+			pressureLoss3 = -pressureLoss3;
+		}
+
+		// Update the fluid states of port-2 and port-3
+		fluidState2->update_ph(fluidState1->p() - pressureLoss2, fluidState1->h());
+		fluidState3->update_ph(fluidState1->p() - pressureLoss3, fluidState1->h());
+	}
+};
 
 
 /**
@@ -192,6 +314,18 @@ TPipeJunction* TPipeJunction_ConstantDragCoefficients_new(
 			dragCoeff2,
 			dragCoeff3,
 			stateVariableSelection);
+}
+
+TPipeJunction* TPipeJunction_RegulatingMassFlowRatio_new(
+		Medium* fluid,
+		double internalVolume,
+		double flowArea,
+		int stateVariableSelection) {
+	return new TPipeJunction_RegulatingMassFlowRatio(
+				fluid,
+				internalVolume,
+				flowArea,
+				stateVariableSelection);
 }
 
 void TPipeJunction_initFluidStates(
@@ -257,10 +391,18 @@ double TPipeJunction_getFluidMass(TPipeJunction* component) {
 	return component->getFluidMass();
 }
 
+double TPipeJunction_getDragCoeff2(TPipeJunction* component) {
+	return component->getDragCoeff2();
+}
+
+double TPipeJunction_getDragCoeff3(TPipeJunction* component) {
+	return component->getDragCoeff3();
+}
+
 void TPipeJunction_compute(TPipeJunction* component) {
 	component->compute();
 }
 
-void TPipeJunction_updateFluidStates23(TPipeJunction* component) {
-	component->updateFluidStates23();
+void TPipeJunction_updateFluidStates23(TPipeJunction* component, double mDotRatio21) {
+	component->updateFluidStates23(mDotRatio21);
 }

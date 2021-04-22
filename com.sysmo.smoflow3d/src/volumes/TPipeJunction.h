@@ -30,19 +30,25 @@ public:
 	void setStateValues(double value1, double value2);
 	void getStateDerivatives(double* value1, double* value2);
 
-	MediumState* getFluidState1();
-	MediumState* getFluidState2();
-	MediumState* getFluidState3();
+	MediumState* getFluidState1() {return fluidState1;}
+	MediumState* getFluidState2() {return fluidState2;}
+	MediumState* getFluidState3() {return fluidState3;}
 
-	double getPressureLoss2() {return dp2;}
-	double getPressureLoss3() {return dp3;}
+	double getPressureLoss2() {return pressureLoss2;}
+	double getPressureLoss3() {return pressureLoss3;}
 
 	double getFluidMass();
 
+	double getDragCoeff2() {return dragCoeff2;}
+	double getDragCoeff3() {return dragCoeff3;}
+
 	void compute();
-	virtual void updateFluidStates23() = 0;
+	virtual void updateFluidStates23(double mDotRatio21) = 0;
 
 protected:
+
+	void updateFluidStates23AtZeroMassFlow();
+
 	// Ports
 	FluidFlow* port1Flow; // input
 	FluidFlow* port2Flow; // input
@@ -54,8 +60,11 @@ protected:
 	MediumState* fluidState2;
 	MediumState* fluidState3;
 
-	double dp2;
-	double dp3;
+	double pressureLoss2;
+	double pressureLoss3;
+
+	double dragCoeff2;
+	double dragCoeff3;
 
 	// Parameters
 	double flowArea;
@@ -76,6 +85,12 @@ TPipeJunction* TPipeJunction_ConstantDragCoefficients_new(
 		double flowArea,
 		double dragCoeff2,
 		double dragCoeff3,
+		int stateVariableSelection);
+
+TPipeJunction* TPipeJunction_RegulatingMassFlowRatio_new(
+		Medium* fluid,
+		double internalVolume,
+		double flowArea,
 		int stateVariableSelection);
 
 void TPipeJunction_initFluidStates(
@@ -103,8 +118,11 @@ double TPipeJunction_getPressureLoss3(TPipeJunction* component);
 
 double TPipeJunction_getFluidMass(TPipeJunction* component);
 
+double TPipeJunction_getDragCoeff2(TPipeJunction* component);
+double TPipeJunction_getDragCoeff3(TPipeJunction* component);
+
 void TPipeJunction_compute(TPipeJunction* component);
-void TPipeJunction_updateFluidStates23(TPipeJunction* component);
+void TPipeJunction_updateFluidStates23(TPipeJunction* component, double mDotRatio21);
 
 
 END_C_LINKAGE
