@@ -45,7 +45,7 @@ protected:
 class RadiationTwoSurfaces_VariableEmissivity  : public RadiationTwoSurfaces {
 public:
 	RadiationTwoSurfaces_VariableEmissivity(
-			const char*  emissivity1Var, const char*  emissivity2Var,
+			const char* emissivity1Var, const char* emissivity2Var,
 			double heatExchangeArea1, double heatExchangeArea2,
 			double shapeFactor12);
 

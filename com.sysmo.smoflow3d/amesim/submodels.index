@@ -112,6 +112,7 @@ smo_fluid_flow_source_mdot_t
 &SMO_FLUID_FLOW_SOURCE_MDOT_T SmoFlow3d
 smo_radiative_exchange
 &SMO_RADIATIVE_EXCHANGE SmoFlow3d
+&SMO_RADIATIVE_EXCHANGE_VARIABLE_EMISSIVITY SmoFlow3d
 smo_forced_convection
 &SMO_FORCED_CONVECTION SmoFlow3d
 smo_forced_convection_regulating_gain

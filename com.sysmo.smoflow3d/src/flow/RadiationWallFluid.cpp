@@ -6,9 +6,10 @@
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "RadiationWallFluid.h"
-#include "math/Functors.h"
+#include "util/String.h"
+#include "math/Interpolators.h"
 #include "util/CommonDefinitions.h"
+#include "RadiationWallFluid.h"
 
 using namespace smoflow;
 
@@ -51,10 +52,40 @@ void RadiationWallFluid::updateFluidFlow(FluidFlow* flow) {
 
 
 /**
+ * RadiationWallFluid_VariableEmissivity - C++
+ */
+RadiationWallFluid_VariableEmissivity::RadiationWallFluid_VariableEmissivity(
+		const char* emissivityVar, double heatExchangeArea) :
+		RadiationWallFluid(0, heatExchangeArea) {//:TRICKY: emissivity is not used during the initialization
+	double emissivityConst;
+	if (smoflow::String::toDouble(emissivityVar, &emissivityConst)) {
+		emissivityFunction = FunctorOneVariable_Constant_new(emissivityConst);
+	} else {
+		Interpolator1D::createFromCsvFile(emissivityVar, &emissivityFunction);
+	}
+	emissivityCache = emissivityFunction->createCache();
+}
+
+RadiationWallFluid_VariableEmissivity::~RadiationWallFluid_VariableEmissivity() {
+}
+
+void RadiationWallFluid_VariableEmissivity::compute() {
+	emissivity = (*emissivityFunction)(wallNode->getTemperature(), emissivityCache);
+
+	RadiationWallFluid::compute();
+}
+
+
+/**
  * RadiationWallFluid - C
  */
 RadiationWallFluid* RadiationWallFluid_new(double emissivity, double heatExchangeArea) {
 	return new RadiationWallFluid(emissivity, heatExchangeArea);
+}
+
+RadiationWallFluid* RadiationWallFluid_VariableEmissivity_new(
+		const char* emissivityVar, double heatExchangeArea) {
+	return new RadiationWallFluid_VariableEmissivity(emissivityVar, heatExchangeArea);
 }
 
 void RadiationWallFluid_init(RadiationWallFluid* radiation, MediumState* fluidState, ThermalNode* wallNode) {
@@ -71,4 +102,8 @@ void RadiationWallFluid_updateHeatFlow(RadiationWallFluid* radiation, HeatFlow* 
 
 void RadiationWallFluid_updateFluidFlow(RadiationWallFluid* radiation, FluidFlow* flow) {
 	radiation->updateFluidFlow(flow);
+}
+
+double RadiationWallFluid_getEmissivity(RadiationWallFluid* radiation) {
+	return radiation->getEmissivity();
 }

@@ -69,10 +69,9 @@ RadiationTwoSurfaces_VariableEmissivity::RadiationTwoSurfaces_VariableEmissivity
 		double heatExchangeArea1, double heatExchangeArea2,
 		double shapeFactor12) :
 				RadiationTwoSurfaces(
-						0, 0, //:TRICKY: not used in the initialization
+						0, 0, //:TRICKY: emissivity1 and emissivity2 are not used during the initialization
 						heatExchangeArea1, heatExchangeArea2,
 						shapeFactor12) {
-
 	double emissivity1Const;
 	if (smoflow::String::toDouble(emissivity1Var, &emissivity1Const)) {
 		emissivity1Function = FunctorOneVariable_Constant_new(emissivity1Const);
@@ -93,13 +92,13 @@ RadiationTwoSurfaces_VariableEmissivity::RadiationTwoSurfaces_VariableEmissivity
 RadiationTwoSurfaces_VariableEmissivity::~RadiationTwoSurfaces_VariableEmissivity() {
 }
 
-
 void RadiationTwoSurfaces_VariableEmissivity::compute() {
 	emissivity1 = (*emissivity1Function)(wallNode1->getTemperature(), emissivity1Cache);
 	emissivity2 = (*emissivity2Function)(wallNode2->getTemperature(), emissivity2Cache);
 
 	RadiationTwoSurfaces::compute();
 }
+
 
 /**
  * RadiationTwoSurfaces - C
