@@ -7,6 +7,7 @@
  */
 
 #include "Interpolators.h"
+#include "io_control/CSVProcessor.h"
 using namespace smoflow;
 
 Interpolator1D::Interpolator1D(ArrayXd* xValues, ArrayXd* yValues, bool copyValues,
@@ -37,6 +38,25 @@ Interpolator1D::~Interpolator1D() {
 FunctorCache* Interpolator1D::createCache() {
 	// :SMO_TODO: (Nasko) Delete the cache object in destructor
 	return new Interpolator1DCache();
+}
+
+void Interpolator1D::createFromCsvFile(const char* csvFile, FunctorOneVariable** functor) {
+	CSVProcessor csv;
+	VectorFloat vecTemperature;
+	csv.addFloatColumn(vecTemperature);
+	VectorFloat vecValue;
+	csv.addFloatColumn(vecValue);
+	std::string fileName(csvFile);
+	csv.read(fileName, ',', 1);
+
+	const double numValues = vecTemperature.size();
+	ArrayXd arrTValues(numValues);
+	ArrayXd arrValues(numValues);
+	for (size_t i = 0; i < vecTemperature.size(); i++) {
+		arrTValues(i) = vecTemperature.at(i);
+		arrValues(i) = vecValue.at(i);
+	}
+	(*functor) = new Interpolator1D(&arrTValues, &arrValues);
 }
 
 size_t Interpolator1D::hunt(double xValue, Interpolator1DCache* cache) {

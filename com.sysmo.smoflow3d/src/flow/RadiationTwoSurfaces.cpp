@@ -6,9 +6,10 @@
  *	 Copyright: SysMo Ltd., Bulgaria
  */
 
-#include "RadiationTwoSurfaces.h"
-#include "math/Functors.h"
+#include "util/String.h"
+#include "math/Interpolators.h"
 #include "util/CommonDefinitions.h"
+#include "RadiationTwoSurfaces.h"
 
 using namespace smoflow;
 
@@ -61,6 +62,46 @@ void RadiationTwoSurfaces::updateHeatFlow2(HeatFlow* flow2) {
 
 
 /**
+ * RadiationTwoSurfaces_VariableEmissivity - C++
+ */
+RadiationTwoSurfaces_VariableEmissivity::RadiationTwoSurfaces_VariableEmissivity(
+		const char* emissivity1Var, const char* emissivity2Var,
+		double heatExchangeArea1, double heatExchangeArea2,
+		double shapeFactor12) :
+				RadiationTwoSurfaces(
+						0, 0, //:TRICKY: not used in the initialization
+						heatExchangeArea1, heatExchangeArea2,
+						shapeFactor12) {
+
+	double emissivity1Const;
+	if (smoflow::String::toDouble(emissivity1Var, &emissivity1Const)) {
+		emissivity1Function = FunctorOneVariable_Constant_new(emissivity1Const);
+	} else {
+		Interpolator1D::createFromCsvFile(emissivity1Var, &emissivity1Function);
+	}
+	emissivity1Cache = emissivity1Function->createCache();
+
+	double emissivity2Const;
+	if (smoflow::String::toDouble(emissivity2Var, &emissivity2Const)) {
+		emissivity2Function = FunctorOneVariable_Constant_new(emissivity2Const);
+	} else {
+		Interpolator1D::createFromCsvFile(emissivity2Var, &emissivity2Function);
+	}
+	emissivity2Cache = emissivity2Function->createCache();
+}
+
+RadiationTwoSurfaces_VariableEmissivity::~RadiationTwoSurfaces_VariableEmissivity() {
+}
+
+
+void RadiationTwoSurfaces_VariableEmissivity::compute() {
+	emissivity1 = (*emissivity1Function)(wallNode1->getTemperature(), emissivity1Cache);
+	emissivity2 = (*emissivity2Function)(wallNode2->getTemperature(), emissivity2Cache);
+
+	RadiationTwoSurfaces::compute();
+}
+
+/**
  * RadiationTwoSurfaces - C
  */
 RadiationTwoSurfaces* RadiationTwoSurfaces_new(
@@ -69,6 +110,16 @@ RadiationTwoSurfaces* RadiationTwoSurfaces_new(
 		double shapeFactor12) {
 	return new RadiationTwoSurfaces(
 			emissivity1, emissivity2,
+			heatExchangeArea1, heatExchangeArea2,
+			shapeFactor12);
+}
+
+RadiationTwoSurfaces* RadiationTwoSurfaces_VariableEmissivity_new(
+		const char* emissivity1Var, const char* emissivity2Var,
+		double heatExchangeArea1, double heatExchangeArea2,
+		double shapeFactor12) {
+	return new RadiationTwoSurfaces_VariableEmissivity(
+			emissivity1Var, emissivity2Var,
 			heatExchangeArea1, heatExchangeArea2,
 			shapeFactor12);
 }
@@ -87,4 +138,12 @@ void RadiationTwoSurfaces_updateHeatFlow1(RadiationTwoSurfaces* radiation, HeatF
 
 void RadiationTwoSurfaces_updateHeatFlow2(RadiationTwoSurfaces* radiation, HeatFlow* flow2) {
 	radiation->updateHeatFlow2(flow2);
+}
+
+double RadiationTwoSurfaces_getEmissivity1(RadiationTwoSurfaces* radiation) {
+	return radiation->getEmissivity1();
+}
+
+double RadiationTwoSurfaces_getEmissivity2(RadiationTwoSurfaces* radiation) {
+	return radiation->getEmissivity2();
 }

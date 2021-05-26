@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SPE>
+<SPE DOC_VERSION="2" AME_VERSION="16.0.0 - 68387-65635 2017">
+
+ <SUBMODEL>
+  <SUB_TYPE>0</SUB_TYPE>
+  <SUB_ID_MAX>37</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_radiative_exchange_two_surfaces</DEFAULT_ICON>
+  <SUB_LABEL>radiative exchange between grey surfaces that form an enclosure with variable emissivity by temperature</SUB_LABEL>
+  <SUB_UNIT>0</SUB_UNIT>
+  <I_STORES_NUMBER>3</I_STORES_NUMBER>
+  <P_STORES_NUMBER>3</P_STORES_NUMBER>
+  <OUTPUT_TYPE>1</OUTPUT_TYPE>
+  <RPARAMS_LIST>
+   <RPARAM>
+    <SUB_ID>21</SUB_ID>
+    <TITLE>heat exchange gain</TITLE>
+    <VARNAME>heatExchangeGain</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>24</SUB_ID>
+    <TITLE>emitting area of body-1</TITLE>
+    <VARNAME>heatExchangeArea1</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m**2</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>25</SUB_ID>
+    <TITLE>emitting area of body-2</TITLE>
+    <VARNAME>heatExchangeArea2</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e+00</DEF_VALUE>
+    <VALUE>1.00000000000000e+00</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+030</MAX_VALUE>
+    <UNITS>m**2</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>27</SUB_ID>
+    <TITLE>shape factor from which surface-1 "sees" surface-2</TITLE>
+    <VARNAME>shapeFactor12</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>5.00000000000000e-01</DEF_VALUE>
+    <VALUE>5.00000000000000e-01</VALUE>
+    <MIN_VALUE>0.00000000000000e+000</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+000</MAX_VALUE>
+    <UNITS>null</UNITS>
+   </RPARAM>
+  </RPARAMS_LIST>
+  <TPARAMS_LIST>
+   <TPARAM>
+    <SUB_ID>33</SUB_ID>
+    <TITLE>emissivity values of body-1</TITLE>
+    <VARNAME>emissivity1Var</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE><enter a float value or a csv file with columns 'T [K]' and 'emissivity', and a header row></DEF_VALUE>
+    <VALUE><enter a float value or a csv file with columns 'T [K]' and 'emissivity', and a header row></VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+   <TPARAM>
+    <SUB_ID>34</SUB_ID>
+    <TITLE>emissivity values of body-2</TITLE>
+    <VARNAME>emissivity2Var</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE><enter a float value or a csv file with columns 'T [K]' and 'emissivity', and a header row></DEF_VALUE>
+    <VALUE><enter a float value or a csv file with columns 'T [K]' and 'emissivity', and a header row></VALUE>
+    <TEXT_TYPE>0</TEXT_TYPE>
+   </TPARAM>
+  </TPARAMS_LIST>
+  <IVARS_LIST>
+   <IVAR>
+    <SUB_ID>28</SUB_ID>
+    <TITLE>heat flow rate from port-1</TITLE>
+    <VARNAME>qDot1</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>W</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>35</SUB_ID>
+    <TITLE>emissivity of body-1</TITLE>
+    <VARNAME>emissivity1</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>37</SUB_ID>
+    <TITLE>emissivity of body-2</TITLE>
+    <VARNAME>emissivity2</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>null</UNITS>
+   </IVAR>
+  </IVARS_LIST>
+  <EVARS_LIST>
+   <PORT>
+    <EVAR>
+     <SUB_ID>5</SUB_ID>
+     <TITLE>heat flow index (port-1)</TITLE>
+     <VARNAME>heatFlow1Index</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoHFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>6</SUB_ID>
+     <TITLE>thermal node index (port-1)</TITLE>
+     <VARNAME>thermalNode1Index</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTHN</UNITS>
+    </EVAR>
+   </PORT>
+   <PORT>
+    <EVAR>
+     <SUB_ID>7</SUB_ID>
+     <TITLE>heat flow index (port-2)</TITLE>
+     <VARNAME>heatFlow2Index</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>2</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoHFL</UNITS>
+    </EVAR>
+    <EVAR>
+     <SUB_ID>8</SUB_ID>
+     <TITLE>thermal node index (port-2)</TITLE>
+     <VARNAME>thermalNode2Index</VARNAME>
+     <VISIBILITY>True</VISIBILITY>
+     <TYPE>0</TYPE>
+     <DIMENSION>1</DIMENSION>
+     <IO>1</IO>
+     <UNPLOTTABLE>1</UNPLOTTABLE>
+     <UNITS>smoTHN</UNITS>
+    </EVAR>
+   </PORT>
+  </EVARS_LIST>
+  <SUBIDS_RESET>0</SUBIDS_RESET>
+ </SUBMODEL>
+</SPE>

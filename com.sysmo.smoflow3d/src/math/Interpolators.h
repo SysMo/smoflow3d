@@ -34,6 +34,9 @@ public:
 	virtual ~Interpolator1D();
 	virtual double operator()(double value, FunctorCache* cache);
 	virtual FunctorCache* createCache();
+
+	static void createFromCsvFile(const char* csvFile, FunctorOneVariable** functor);
+
 protected:
 	size_t hunt(double xValue, Interpolator1DCache* cache);
 	double rawInterp(size_t xIndex, double value);
@@ -45,7 +48,6 @@ protected:
 	size_t numValues;
 	size_t interpolationOrder;
 	InterpolationBoundaryHandling boundaryHandling;
-
 };
 
 #else //__cplusplus
