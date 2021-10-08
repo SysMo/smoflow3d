@@ -131,13 +131,21 @@ void TPipeJunction::updateFluidStates23AtZeroMassFlow() {
 	dragCoeff3 = 0;
 }
 
+HeatFlow* TPipeJunction::getWallHeatFlow() {
+	RaiseError("Unimplemented virtual method 'TPipeJunction::getWallHeatFlow'")
+	return NULL;
+}
+
+void TPipeJunction::setWallNode(ThermalNode* wallNode) {
+	RaiseError("Unimplemented virtual method 'TPipeJunction::setWallNode'")
+}
 
 /**
  * TPipeJunction_ConstantDragCoefficients - C++
  */
 class TPipeJunction_ConstantDragCoefficients : public TPipeJunction {
 public:
-	TPipeJunction_ConstantDragCoefficients(
+	TPipeJunction_ConstantDragCoefficients (
 			Medium *fluid,
 			double internalVolume,
 			double flowArea,
@@ -151,6 +159,9 @@ public:
 					stateVariableSelection) {
 		this->dragCoeff2 = dragCoeff2;
 		this->dragCoeff3 = dragCoeff3;
+	}
+
+	virtual ~TPipeJunction_ConstantDragCoefficients() {
 	}
 
 	virtual void updateFluidStates23(double mDotRatio21) {
@@ -296,6 +307,70 @@ public:
 	}
 };
 
+/**
+ * TPipeJunction_ConstantDragCoefficients_HeatExchanger - C++
+ */
+
+class TPipeJunction_ConstantDragCoefficients_HeatExchanger : public TPipeJunction_ConstantDragCoefficients {
+public:
+	TPipeJunction_ConstantDragCoefficients_HeatExchanger(
+			Medium *fluid,
+			double internalVolume,
+			double flowArea,
+			double dragCoeff2,
+			double dragCoeff3,
+			ForcedConvection* convection,
+			int stateVariableSelection) :
+				TPipeJunction_ConstantDragCoefficients(
+					fluid,
+					internalVolume,
+					flowArea,
+					dragCoeff2,
+					dragCoeff3,
+					stateVariableSelection) {
+		this->convection = convection;
+		SMOCOMPONENT_SET_PARENT(this->convection, this);
+
+		this->wallHeatFlow = NULL;
+		this->wallNode = NULL;
+	}
+
+	virtual ~TPipeJunction_ConstantDragCoefficients_HeatExchanger() {
+	}
+
+	virtual HeatFlow* getWallHeatFlow() {
+		return wallHeatFlow;
+	}
+
+	virtual void setWallNode(ThermalNode* wallNode) {
+		this->wallNode = wallNode;
+
+		wallHeatFlow = HeatFlow_new();
+		HeatFlow_register(this->wallHeatFlow);
+
+		convection->init(fluidState1, fluidState1, wallNode); //:TRICKY: the both states of the convection are the internal state
+		convection->setLimitOutput(false);
+	}
+
+	virtual void compute() {
+		double netMassFlowRate = port1Flow->massFlowRate + port2Flow->massFlowRate + port3Flow->massFlowRate;
+		double netEnthalpyFlow = port1Flow->enthalpyFlowRate + port2Flow->enthalpyFlowRate + port3Flow->enthalpyFlowRate;
+
+		convection->compute(port1Flow->massFlowRate); //TRICKY
+		convection->updateHeatFlow(wallHeatFlow);
+		double netHeatFlowRate = convection->getHeatFlowRate();
+
+		accFluid->compute(netMassFlowRate, netEnthalpyFlow, netHeatFlowRate, 0); //netVolumeChangeRate = 0
+	}
+
+private:
+	ForcedConvection* convection;
+
+	// Thermal port
+	ThermalNode* wallNode; // input
+	HeatFlow* wallHeatFlow;	// output
+};
+
 
 /**
  * TPipeJunction - C
@@ -325,6 +400,24 @@ TPipeJunction* TPipeJunction_RegulatingMassFlowRatio_new(
 				fluid,
 				internalVolume,
 				flowArea,
+				stateVariableSelection);
+}
+
+TPipeJunction* TPipeJunction_ConstantDragCoefficients_HeatExchanger_new(
+			Medium* fluid,
+			double internalVolume,
+			double flowArea,
+			double dragCoeff2,
+			double dragCoeff3,
+			ForcedConvection* convection,
+			int stateVariableSelection) {
+	return new TPipeJunction_ConstantDragCoefficients_HeatExchanger(
+				fluid,
+				internalVolume,
+				flowArea,
+				dragCoeff2,
+				dragCoeff3,
+				convection,
 				stateVariableSelection);
 }
 
@@ -405,4 +498,14 @@ void TPipeJunction_compute(TPipeJunction* component) {
 
 void TPipeJunction_updateFluidStates23(TPipeJunction* component, double mDotRatio21) {
 	component->updateFluidStates23(mDotRatio21);
+}
+
+void TPipeJunction_HeatExchanger_setWallNode(
+		TPipeJunction* component, ThermalNode* wallNode) {
+	component->setWallNode(wallNode);
+}
+
+HeatFlow* TPipeJunction_HeatExchanger_getWallHeatFlow(
+		TPipeJunction* component) {
+	return component->getWallHeatFlow();
 }

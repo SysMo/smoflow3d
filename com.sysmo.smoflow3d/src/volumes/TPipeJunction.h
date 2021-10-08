@@ -11,6 +11,7 @@
 
 #include "flow/FlowBase.h"
 #include "volumes/FluidChamber.h"
+#include "flow/ForcedConvection.h"
 
 #ifdef __cplusplus
 
@@ -42,8 +43,10 @@ public:
 	double getDragCoeff2() {return dragCoeff2;}
 	double getDragCoeff3() {return dragCoeff3;}
 
-	void compute();
+	virtual void compute();
 	virtual void updateFluidStates23(double mDotRatio21) = 0;
+	virtual HeatFlow* getWallHeatFlow();
+	virtual void setWallNode(ThermalNode* wallNode);
 
 protected:
 
@@ -78,6 +81,15 @@ DECLARE_C_STRUCT(TPipeJunction)
 #endif //__cplusplus
 
 BEGIN_C_LINKAGE
+
+TPipeJunction* TPipeJunction_ConstantDragCoefficients_HeatExchanger_new(
+			Medium *fluid,
+			double internalVolume,
+			double flowArea,
+			double dragCoeff2,
+			double dragCoeff3,
+			ForcedConvection* convection,
+			int stateVariableSelection);
 
 TPipeJunction* TPipeJunction_ConstantDragCoefficients_new(
 		Medium* fluid,
@@ -124,6 +136,11 @@ double TPipeJunction_getDragCoeff3(TPipeJunction* component);
 void TPipeJunction_compute(TPipeJunction* component);
 void TPipeJunction_updateFluidStates23(TPipeJunction* component, double mDotRatio21);
 
+void TPipeJunction_HeatExchanger_setWallNode(
+		TPipeJunction* component, ThermalNode* wallNode);
+
+HeatFlow* TPipeJunction_HeatExchanger_getWallHeatFlow(
+		TPipeJunction* component);
 
 END_C_LINKAGE
 
