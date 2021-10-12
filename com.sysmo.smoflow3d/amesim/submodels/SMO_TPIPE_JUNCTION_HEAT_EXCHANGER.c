@@ -1,5 +1,5 @@
 /* Submodel SMO_TPIPE_JUNCTION_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   ??? ??? 8 14:21:46 2021 */
+   ??? ??? 11 20:32:56 2021 */
 
 
 
@@ -92,7 +92,7 @@ REVISIONS :
 */
 
 void smo_tpipe_junction_heat_exchangerin_(int *n, double rp[14]
-      , int ip[6], char *tp[2], int ic[4], void *ps[9], double *state1
+      , int ip[6], char *tp[2], int ic[5], void *ps[9], double *state1
       , double *state2)
 
 {
@@ -312,7 +312,7 @@ void smo_tpipe_junction_heat_exchanger_(int *n
       , double *pressure3, double *temperature3, double *massFlowRate3
       , double *reynoldsNumber, double *convectionCoefficient
       , double *heatFlowRateFromWall, double rp[14], int ip[6]
-      , char *tp[2], int ic[4], void *ps[9])
+      , char *tp[2], int ic[5], void *ps[9])
 
 {
    int loop;
@@ -404,6 +404,8 @@ void smo_tpipe_junction_heat_exchanger_(int *n
 		TPipeJunction_setFluidFlow2(_component, _fluidFlow2);
 		TPipeJunction_setFluidFlow3(_component, _fluidFlow3);
 
+		TPipeJunction_HeatExchanger_initWallHeatFlow(_component);
+
 		_wallHeatFlow = TPipeJunction_HeatExchanger_getWallHeatFlow(_component);
 		_wallHeatFlowIndex = SmoObject_getInstanceIndex(_wallHeatFlow);
 	}
@@ -457,7 +459,7 @@ void smo_tpipe_junction_heat_exchanger_(int *n
 
 extern double smo_tpipe_junction_heat_exchanger_macro0_(int *n
       , double *thermalNodeIndex, double *state1, double *state2
-      , double rp[14], int ip[6], char *tp[2], int ic[4], void *ps[9])
+      , double rp[14], int ip[6], char *tp[2], int ic[5], void *ps[9])
 
 {
    double fluidStateIndex1;
@@ -532,8 +534,8 @@ extern double smo_tpipe_junction_heat_exchanger_macro0_(int *n
 
 extern double smo_tpipe_junction_heat_exchanger_macro1_(int *n
       , double *fluidFlowIndex1, double *fluidStateIndex3
-      , double *state1, double *state2, double rp[14], int ip[6]
-      , char *tp[2], int ic[4], void *ps[9])
+      , double *thermalNodeIndex, double *state1, double *state2
+      , double rp[14], int ip[6], char *tp[2], int ic[5], void *ps[9])
 
 {
    double fluidStateIndex2;
@@ -578,6 +580,7 @@ extern double smo_tpipe_junction_heat_exchanger_macro1_(int *n
 /* Common -> SI units conversions. */
 
 /*   *fluidFlowIndex1 *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
 
 /*
    Define and return the following macro variable:
@@ -593,6 +596,9 @@ extern double smo_tpipe_junction_heat_exchanger_macro1_(int *n
 /* >>>>>>>>>>>>Macro Function macro1 Executable Statements. */
 	SMOCOMPONENt_PRINT_MACRO
 	if (firstc_()) {
+		ThermalNode* wallNode = ThermalNode_get(*thermalNodeIndex);
+		TPipeJunction_HeatExchanger_setWallNode(_component, wallNode);
+
 		_fluidFlow1 = FluidFlow_get(*fluidFlowIndex1);
 
 		TPipeJunction_setFluidFlow1(_component, _fluidFlow1);
@@ -608,6 +614,7 @@ extern double smo_tpipe_junction_heat_exchanger_macro1_(int *n
 
 /*   *fluidFlowIndex1 /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidStateIndex3 /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
 
 /*   *fluidStateIndex2 /= ??; CONVERSION UNKNOWN [smoTDS] */
 

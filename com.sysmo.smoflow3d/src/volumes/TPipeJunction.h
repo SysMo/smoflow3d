@@ -47,6 +47,7 @@ public:
 	virtual void updateFluidStates23(double mDotRatio21) = 0;
 	virtual HeatFlow* getWallHeatFlow();
 	virtual void setWallNode(ThermalNode* wallNode);
+	virtual void initWallHeatFlow();
 
 protected:
 
@@ -136,11 +137,9 @@ double TPipeJunction_getDragCoeff3(TPipeJunction* component);
 void TPipeJunction_compute(TPipeJunction* component);
 void TPipeJunction_updateFluidStates23(TPipeJunction* component, double mDotRatio21);
 
-void TPipeJunction_HeatExchanger_setWallNode(
-		TPipeJunction* component, ThermalNode* wallNode);
-
-HeatFlow* TPipeJunction_HeatExchanger_getWallHeatFlow(
-		TPipeJunction* component);
+void TPipeJunction_HeatExchanger_setWallNode(TPipeJunction* component, ThermalNode* wallNode);
+void TPipeJunction_HeatExchanger_initWallHeatFlow(TPipeJunction* component);
+HeatFlow* TPipeJunction_HeatExchanger_getWallHeatFlow(TPipeJunction* component);
 
 END_C_LINKAGE
 

@@ -10,7 +10,7 @@
   <AUTONOMOUS_RUNTIME>False</AUTONOMOUS_RUNTIME>
   <SUB_LABEL>T-pipe junction with constant drag coefficients and heat exchanger</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
-  <I_STORES_NUMBER>4</I_STORES_NUMBER>
+  <I_STORES_NUMBER>5</I_STORES_NUMBER>
   <P_STORES_NUMBER>9</P_STORES_NUMBER>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
@@ -671,7 +671,7 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoTDS</UNITS>
-     <EXPRESS2>@_0_9, @_0_10, @_1_2</EXPRESS2>
+     <EXPRESS2>@_0_9, @_0_10, @_1_2, @_4_2</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>5</SUB_ID>

@@ -140,6 +140,11 @@ void TPipeJunction::setWallNode(ThermalNode* wallNode) {
 	RaiseError("Unimplemented virtual method 'TPipeJunction::setWallNode'")
 }
 
+void TPipeJunction::initWallHeatFlow() {
+	RaiseError("Unimplemented virtual method 'TPipeJunction::initWallHeatFlow'")
+}
+
+
 /**
  * TPipeJunction_ConstantDragCoefficients - C++
  */
@@ -344,7 +349,9 @@ public:
 
 	virtual void setWallNode(ThermalNode* wallNode) {
 		this->wallNode = wallNode;
+	}
 
+	virtual void initWallHeatFlow() {
 		wallHeatFlow = HeatFlow_new();
 		HeatFlow_register(this->wallHeatFlow);
 
@@ -505,7 +512,12 @@ void TPipeJunction_HeatExchanger_setWallNode(
 	component->setWallNode(wallNode);
 }
 
+void TPipeJunction_HeatExchanger_initWallHeatFlow(TPipeJunction* component) {
+	component->initWallHeatFlow();
+}
+
 HeatFlow* TPipeJunction_HeatExchanger_getWallHeatFlow(
 		TPipeJunction* component) {
 	return component->getWallHeatFlow();
 }
+
