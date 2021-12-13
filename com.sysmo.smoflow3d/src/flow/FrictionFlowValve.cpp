@@ -85,6 +85,15 @@ MediumState* FrictionFlowValve::getDownstreamState(int flowDirection) {
 	return downstreamState;
 }
 
+void FrictionFlowValve::setFlowArea(double flowArea) {
+	RaiseError_UnimplementedFunction();
+}
+
+double FrictionFlowValve::getFlowArea() {
+	RaiseError_UnimplementedFunction();
+	return 0.0;
+}
+
 /*************************************************************
  ***   FrictionFlowValve implementation classes
  *************************************************************/
@@ -532,6 +541,14 @@ public:
 				* Cm * pUp / m::sqrt(tUp);
 
 		return massFlowRate;
+	}
+
+	virtual void setFlowArea(double flowArea) {
+		orificeArea = flowArea;
+	}
+
+	virtual double getFlowArea() {
+		return orificeArea;
 	}
 
 protected:

@@ -21,6 +21,17 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_sensor" />
    
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger_regulating_dp_gain" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction_regulating_mass_flow_ratio" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_symmetrical_junction" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
+   
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_orifice" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_heat_exchanger" />
@@ -47,16 +58,7 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />    
    
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger_regulating_dp_gain" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction_heat_exchanger" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction_regulating_mass_flow_ratio" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_symmetrical_junction" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_flapper_nozzle_valve" />
    
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_begin" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_end" />
@@ -100,6 +102,19 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_state_sensor" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_sensor" />
   </GROUP>
+  
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Volumes, Nodes" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger_regulating_dp_gain" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction_heat_exchanger" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction_regulating_mass_flow_ratio" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_symmetrical_junction" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
+  </GROUP>
 
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Flows" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_valve" />
@@ -129,18 +144,9 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />
    
   </GROUP>
-
-  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Volumes, Nodes" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_chamber_cst_volume_4port" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pipe_straight_heat_exchanger_regulating_dp_gain" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction_heat_exchanger" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_junction_regulating_mass_flow_ratio" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_Tpipe_symmetrical_junction" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_thermal_material_point" />
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_phase_separator" />
+  
+  <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Pneumatic" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_flapper_nozzle_valve" />
   </GROUP>
   
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="R-Components" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >

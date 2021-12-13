@@ -136,6 +136,10 @@ void Valve::handleEvent_OpeningClosingPressureDifferenceIsCrossed() {
 	}
 }
 
+
+
+
+
 /**
  * TwoPortValve - C
  */
@@ -188,6 +192,7 @@ Valve* Valve_OrificeCompressibleRealGas_new(
 
 	return new Valve(friction);
 }
+
 
 void Valve_init(Valve* valve, MediumState* state1, MediumState* state2) {
 	valve->init(state1, state2);

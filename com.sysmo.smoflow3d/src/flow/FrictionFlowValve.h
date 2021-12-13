@@ -42,6 +42,9 @@ public:
 	bool isBidirectionalFlowAllowed() {return allowBidirectionalFlow == 1;}
 	bool isRegulatingSignalLimited() {return limitRegulatingSignal == 1;}
 
+	virtual void setFlowArea(double flowArea);
+	virtual double getFlowArea();
+
 protected:
 	MediumState* getUpstreamState(double massFlowRate);
 	MediumState* getUpstreamState(int flowDirection);

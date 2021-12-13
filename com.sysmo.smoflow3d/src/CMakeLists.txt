@@ -65,6 +65,7 @@ add_library(SmoFlow SHARED
     flow/FrictionFlowPipe.cpp
     flow/FrictionFlowValve.cpp
     flow/PhaseSeparator.cpp
+    flow/PneumaticValve.cpp
     flow/Radiation.cpp
     flow/RadiationWallFluid.cpp
     flow/RadiationTwoSurfaces.cpp
