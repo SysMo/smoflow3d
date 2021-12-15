@@ -65,7 +65,6 @@ add_library(SmoFlow SHARED
     flow/FrictionFlowPipe.cpp
     flow/FrictionFlowValve.cpp
     flow/PhaseSeparator.cpp
-    flow/PneumaticValve.cpp
     flow/Radiation.cpp
     flow/RadiationWallFluid.cpp
     flow/RadiationTwoSurfaces.cpp
@@ -84,6 +83,8 @@ add_library(SmoFlow SHARED
     volumes/HeatExchNoPrDropNoMassAcc_RC.cpp
     volumes/HeatExchNoPrDropNoMassAcc_CR.cpp
     volumes/TPipeJunction.cpp
+    pneumatic/PneumaticValve.cpp
+    pneumatic/PneumaticPiston.cpp
     ${MU_PARSER_FILES}
     ${SMO_FILE_RADER}
 )

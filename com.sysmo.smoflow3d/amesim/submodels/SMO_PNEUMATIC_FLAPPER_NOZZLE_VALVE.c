@@ -29,7 +29,7 @@ REVISIONS :
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "flow/PneumaticValve.h"
+#include "pneumatic/PneumaticValve.h"
 
 #define _component ps[0]
 
@@ -294,7 +294,7 @@ extern double smo_pneumatic_flapper_nozzle_valve_macro0_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro0 Executable Statements. */
-	SMOCOMPONENT_PRINT_MAIN_CALC
+    SMOCOMPONENt_PRINT_MACRO
 	if (firstc_()) {
 		MediumState* state1 = MediumState_get(*fluidState1Index);
 		MediumState* state2 = MediumState_get(*fluidState2Index);
@@ -368,14 +368,14 @@ extern double smo_pneumatic_flapper_nozzle_valve_macro1_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro1 Executable Statements. */
-    SMOCOMPONENT_PRINT_MAIN_CALC
+    SMOCOMPONENt_PRINT_MACRO
    	if (firstc_()) {
    		MediumState* state1 = MediumState_get(*fluidState1Index);
    		MediumState* state2 = MediumState_get(*fluidState2Index);
    		Valve_init(_component, state1, state2);
    	}
 
-    f4 = *f3 + Valve_PneumaticFlapperNozzleValve_getTotalPressureForceOnFlapper(_component);
+    f4 = *f3 + Valve_PneumaticFlapperNozzleValve_getPressureForceOnFlapper(_component);
 /* <<<<<<<<<<<<End of Macro macro1 Executable Statements. */
 
 /* SI -> Common units conversions. */

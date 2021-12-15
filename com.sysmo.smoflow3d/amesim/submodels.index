@@ -141,3 +141,5 @@ smo_Tpipe_junction_regulating_mass_flow_ratio
 &SMO_TPIPE_JUNCTION_REGULATING_MASS_FLOW_RATIO SmoFlow3d
 smo_pneumatic_flapper_nozzle_valve
 &SMO_PNEUMATIC_FLAPPER_NOZZLE_VALVE SmoFlow3d
+smo_pneumatic_piston
+&SMO_PNEUMATIC_PISTON SmoFlow3d
