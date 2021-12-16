@@ -4,11 +4,11 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>68</SUB_ID_MAX>
-  <DEFAULT_ICON>smo_pneumatic_flapper_nozzle_valve</DEFAULT_ICON>
+  <SUB_ID_MAX>74</SUB_ID_MAX>
+  <DEFAULT_ICON>smo_pneumatic_flat_flapper_nozzle_valve</DEFAULT_ICON>
   <AUTONOMOUS_COMPILATION>False</AUTONOMOUS_COMPILATION>
   <AUTONOMOUS_RUNTIME>False</AUTONOMOUS_RUNTIME>
-  <SUB_LABEL>pneumatic flapper nozzle valve</SUB_LABEL>
+  <SUB_LABEL>pneumatic flat flapper nozzle valve</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>3</I_STORES_NUMBER>
   <P_STORES_NUMBER>3</P_STORES_NUMBER>
@@ -81,6 +81,17 @@
     <UNITS>mm</UNITS>
    </RPARAM>
    <RPARAM>
+    <SUB_ID>74</SUB_ID>
+    <TITLE>transition opening for pressure force on the flapper seat</TITLE>
+    <VARNAME>xlim</VARNAME>
+    <VISIBILITY>(forcecontact == 2)</VISIBILITY>
+    <DEF_VALUE>1.00000000000000e-01</DEF_VALUE>
+    <VALUE>1.00000000000000e-01</VALUE>
+    <MIN_VALUE>0.00000000000000e+00</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+30</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
     <SUB_ID>38</SUB_ID>
     <TITLE>flow coefficient</TITLE>
     <VARNAME>flowCoefficient</VARNAME>
@@ -108,6 +119,42 @@
      </ENUM>
      <ENUM>
       <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>71</SUB_ID>
+    <TITLE>pressure acting in the flapper seat area</TITLE>
+    <VARNAME>forcemode</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>constant</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>gradient</ENUM_STRING>
+     </ENUM>
+    </ENUM_LIST>
+   </IPARAM>
+   <IPARAM>
+    <SUB_ID>72</SUB_ID>
+    <TITLE>pressure force contribution on the flapper seat at zero lift</TITLE>
+    <VARNAME>forcecontact</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>1</DEF_VALUE>
+    <VALUE>1</VALUE>
+    <MIN_VALUE>1</MIN_VALUE>
+    <MAX_VALUE>2</MAX_VALUE>
+    <ENUM_LIST>
+     <ENUM>
+      <ENUM_STRING>yes</ENUM_STRING>
+     </ENUM>
+     <ENUM>
+      <ENUM_STRING>no</ENUM_STRING>
      </ENUM>
     </ENUM_LIST>
    </IPARAM>

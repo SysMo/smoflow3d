@@ -1,5 +1,5 @@
-/* Submodel SMO_PNEUMATIC_FLAPPER_NOZZLE_VALVE skeleton created by AME Submodel editing utility
-   ?? ??? 15 11:02:27 2021 */
+/* Submodel SMO_PNEUMATIC_FLAT_FLAPPER_NOZZLE_VALVE skeleton created by AME Submodel editing utility
+   ?? ??? 22 15:22:59 2021 */
 
 
 
@@ -25,11 +25,11 @@ REVISIONS :
 
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_PNEUMATIC_FLAPPER_NOZZLE_VALVE"
+#define _SUBMODELNAME_ "SMO_PNEUMATIC_FLAT_FLAPPER_NOZZLE_VALVE"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
-#include "pneumatic/PneumaticValve.h"
+#include "pneumatic/PneumaticFlapperValve.h"
 
 #define _component ps[0]
 
@@ -41,34 +41,39 @@ REVISIONS :
 /* <<<<<<<<<<<<End of Private Code. */
 
 
-/* There are 7 real parameters:
+/* There are 8 real parameters:
 
-   di              internal diameter of the nozzle (hole)                [mm -> m]
-   dr              rod diameter (nozzle side)                            [mm -> m]
-   df              diameter of the flapper                               [mm -> m]
-   xlift0          opening (underlap) corresponding to zero displacement [mm -> m]
-   xmin            opening for minimum area                              [mm -> m]
-   xmax            opening for maximum area                              [mm -> m]
-   flowCoefficient flow coefficient                                      [null]
+   di              internal diameter of the nozzle (hole)                    [mm -> m]
+   dr              rod diameter (nozzle side)                                [mm -> m]
+   df              diameter of the flapper                                   [mm -> m]
+   xlift0          opening (underlap) corresponding to zero displacement     [mm -> m]
+   xmin            opening for minimum area                                  [mm -> m]
+   xmax            opening for maximum area                                  [mm -> m]
+   xlim            transition opening for pressure force on the flapper seat [mm -> m]
+   flowCoefficient flow coefficient                                          [null]
 */
 
 
-/* There is 1 integer parameter:
+/* There are 3 integer parameters:
 
-   useFluidFlowActivationSignal use fluid flow activation signal
+   useFluidFlowActivationSignal use fluid flow activation signal                            
+   forcemode                    pressure acting in the flapper seat area                    
+   forcecontact                 pressure force contribution on the flapper seat at zero lift
 */
 
-void smo_pneumatic_flapper_nozzle_valvein_(int *n, double rp[7]
-      , int ip[1], int ic[3], void *ps[3])
+void smo_pneumatic_flat_flapper_nozzle_valvein_(int *n, double rp[8]
+      , int ip[3], int ic[3], void *ps[3])
 
 {
    int loop, error;
 /* >>>>>>>>>>>>Extra Initialization Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Initialization declarations. */
-   int useFluidFlowActivationSignal;
-   double di, dr, df, xlift0, xmin, xmax, flowCoefficient;
+   int useFluidFlowActivationSignal, forcemode, forcecontact;
+   double di, dr, df, xlift0, xmin, xmax, xlim, flowCoefficient;
 
    useFluidFlowActivationSignal = ip[0];
+   forcemode  = ip[1];
+   forcecontact = ip[2];
 
    di         = rp[0];
    dr         = rp[1];
@@ -76,14 +81,15 @@ void smo_pneumatic_flapper_nozzle_valvein_(int *n, double rp[7]
    xlift0     = rp[3];
    xmin       = rp[4];
    xmax       = rp[5];
-   flowCoefficient = rp[6];
+   xlim       = rp[6];
+   flowCoefficient = rp[7];
    loop = 0;
    error = 0;
 
 /*
    If necessary, check values of the following:
 
-   rp[0..6]
+   rp[0..7]
 */
 
 
@@ -95,6 +101,16 @@ void smo_pneumatic_flapper_nozzle_valvein_(int *n, double rp[7]
    if (useFluidFlowActivationSignal < 1 || useFluidFlowActivationSignal > 2)
    {
       amefprintf(stderr, "\nuse fluid flow activation signal must be in range [1..2].\n");
+      error = 2;
+   }
+   if (forcemode < 1 || forcemode > 2)
+   {
+      amefprintf(stderr, "\npressure acting in the flapper seat area must be in range [1..2].\n");
+      error = 2;
+   }
+   if (forcecontact < 1 || forcecontact > 2)
+   {
+      amefprintf(stderr, "\npressure force contribution on the flapper seat at zero lift must be in range [1..2].\n");
       error = 2;
    }
 
@@ -117,16 +133,21 @@ void smo_pneumatic_flapper_nozzle_valvein_(int *n, double rp[7]
    xmin       = rp[4];
    rp[5]    *= 1.00000000000000e-03;
    xmax       = rp[5];
+   rp[6]    *= 1.00000000000000e-03;
+   xlim       = rp[6];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-	_component = Valve_PneumaticFlapperNozzleValve_new(
+	_component = PneumaticFlatFlapperNozzleValve_new(
 		di, //diameterNozzle
 		dr, //diameterRod
 		df, //diameterFlapper
 		xlift0, //flapperLift0
 		xmin, //x for opening minimum area
 		xmax, //x for opening maximum area
+		forcemode, //pressure acting in the flapper seat area {1-constant, 2-gradient}
+		forcecontact, //pressure force contribution on the flapper seat at zero lift {1-Yes, 2-No}
+		xlim, //transition opening for pressure force on the flapper seat
 		flowCoefficient);
 	SMOCOMPONENT_SET_PROPS(_component)
 
@@ -146,7 +167,7 @@ void smo_pneumatic_flapper_nozzle_valvein_(int *n, double rp[7]
 
    Port 1 has 3 variables:
 
-      1 fluidFlow1Index               fluid flow1 index                                                      [smoFFL]  multi line macro 'smo_pneumatic_flapper_nozzle_valve_macro0_'  UNPLOTTABLE
+      1 fluidFlow1Index               fluid flow1 index                                                      [smoFFL]  multi line macro 'smo_pneumatic_flat_flapper_nozzle_valve_macro0_'  UNPLOTTABLE
       2 fluidFlowActivationSignal     flow activation signal = {-1 - not used; 0 - deactivate; 1 - activate} [smoFFAS] multi line macro shared with 'fluidFlow1Index'
       3 fluidState1Index              fluid state1 index                                                     [smoTDS]  basic variable input  UNPLOTTABLE
 
@@ -164,7 +185,7 @@ void smo_pneumatic_flapper_nozzle_valvein_(int *n, double rp[7]
 
    Port 4 has 3 variables:
 
-      1 f4     force at port4         [N]   multi line macro 'smo_pneumatic_flapper_nozzle_valve_macro1_'
+      1 f4     force at port4         [N]   multi line macro 'smo_pneumatic_flat_flapper_nozzle_valve_macro1_'
       2 v4     velocity at port4      [m/s] basic variable input
       3 x4     displacement at port 4 [m]   basic variable input
 */
@@ -180,23 +201,25 @@ void smo_pneumatic_flapper_nozzle_valvein_(int *n, double rp[7]
       7 throatArea           throat area                           [mm**2 -> m**2] basic variable
 */
 
-void smo_pneumatic_flapper_nozzle_valve_(int *n
+void smo_pneumatic_flat_flapper_nozzle_valve_(int *n
       , double *fluidFlow1Index, double *fluidFlowActivationSignal
       , double *fluidState1Index, double *fluidFlow2Index
       , double *fluidState2Index, double *f3, double *f4, double *v4
       , double *x4, double *massFlowRate, double *enthalpyFlowRate
       , double *pressureLoss, double *flowType, double *flapperLift
-      , double *flowArea, double *throatArea, double rp[7], int ip[1]
+      , double *flowArea, double *throatArea, double rp[8], int ip[3]
       , int ic[3], void *ps[3])
 
 {
    int loop;
 /* >>>>>>>>>>>>Extra Calculation Function Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Calculation declarations. */
-   int useFluidFlowActivationSignal;
-   double di, dr, df, xlift0, xmin, xmax, flowCoefficient;
+   int useFluidFlowActivationSignal, forcemode, forcecontact;
+   double di, dr, df, xlift0, xmin, xmax, xlim, flowCoefficient;
 
    useFluidFlowActivationSignal = ip[0];
+   forcemode  = ip[1];
+   forcecontact = ip[2];
 
    di         = rp[0];
    dr         = rp[1];
@@ -204,7 +227,8 @@ void smo_pneumatic_flapper_nozzle_valve_(int *n
    xlift0     = rp[3];
    xmin       = rp[4];
    xmax       = rp[5];
-   flowCoefficient = rp[6];
+   xlim       = rp[6];
+   flowCoefficient = rp[7];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -234,9 +258,9 @@ void smo_pneumatic_flapper_nozzle_valve_(int *n
 	*enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow2);
 	*pressureLoss = Valve_getAbsolutePressureDrop(_component);
 	*flowType = Valve_getFlowType(_component);
-	*flapperLift = Valve_PneumaticFlapperNozzleValve_getFlapperLift(_component);
-	*flowArea = Valve_PneumaticFlapperNozzleValve_getFlowArea(_component);
-	*throatArea = Valve_PneumaticFlapperNozzleValve_getThroatArea(_component);
+	*flapperLift = PneumaticFlapperValve_getFlapperLift(_component);
+	*flowArea = PneumaticFlapperValve_getFlowArea(_component);
+	*throatArea = PneumaticFlapperValve_getThroatArea(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -252,20 +276,22 @@ void smo_pneumatic_flapper_nozzle_valve_(int *n
    *throatArea /= 1.00000000000000e-06;
 }
 
-extern double smo_pneumatic_flapper_nozzle_valve_macro0_(int *n
+extern double smo_pneumatic_flat_flapper_nozzle_valve_macro0_(int *n
       , double *fluidFlowActivationSignal, double *fluidState1Index
       , double *fluidFlow2Index, double *fluidState2Index, double *x4
-      , double rp[7], int ip[1], int ic[3], void *ps[3])
+      , double rp[8], int ip[3], int ic[3], void *ps[3])
 
 {
    double fluidFlow1Index;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro0 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro0 declarations. */
-   int useFluidFlowActivationSignal;
-   double di, dr, df, xlift0, xmin, xmax, flowCoefficient;
+   int useFluidFlowActivationSignal, forcemode, forcecontact;
+   double di, dr, df, xlift0, xmin, xmax, xlim, flowCoefficient;
 
    useFluidFlowActivationSignal = ip[0];
+   forcemode  = ip[1];
+   forcecontact = ip[2];
 
    di         = rp[0];
    dr         = rp[1];
@@ -273,7 +299,8 @@ extern double smo_pneumatic_flapper_nozzle_valve_macro0_(int *n
    xlift0     = rp[3];
    xmin       = rp[4];
    xmax       = rp[5];
-   flowCoefficient = rp[6];
+   xlim       = rp[6];
+   flowCoefficient = rp[7];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -301,7 +328,7 @@ extern double smo_pneumatic_flapper_nozzle_valve_macro0_(int *n
 		Valve_init(_component, state1, state2);
 	}
 
-	Valve_PneumaticFlapperNozzleValve_setFlapperPosition(_component, *x4);
+	PneumaticFlapperValve_setFlapperPosition(_component, *x4);
 	Valve_compute(_component);
 	Valve_updateFluidFlows(_component, _fluidFlow1, _fluidFlow2);
 
@@ -332,19 +359,21 @@ extern double smo_pneumatic_flapper_nozzle_valve_macro0_(int *n
    return fluidFlow1Index;
 }
 
-extern double smo_pneumatic_flapper_nozzle_valve_macro1_(int *n
+extern double smo_pneumatic_flat_flapper_nozzle_valve_macro1_(int *n
       , double *fluidState1Index, double *fluidState2Index, double *f3
-      , double rp[7], int ip[1], int ic[3], void *ps[3])
+      , double rp[8], int ip[3], int ic[3], void *ps[3])
 
 {
    double f4;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro1 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro1 declarations. */
-   int useFluidFlowActivationSignal;
-   double di, dr, df, xlift0, xmin, xmax, flowCoefficient;
+   int useFluidFlowActivationSignal, forcemode, forcecontact;
+   double di, dr, df, xlift0, xmin, xmax, xlim, flowCoefficient;
 
    useFluidFlowActivationSignal = ip[0];
+   forcemode  = ip[1];
+   forcecontact = ip[2];
 
    di         = rp[0];
    dr         = rp[1];
@@ -352,7 +381,8 @@ extern double smo_pneumatic_flapper_nozzle_valve_macro1_(int *n
    xlift0     = rp[3];
    xmin       = rp[4];
    xmax       = rp[5];
-   flowCoefficient = rp[6];
+   xlim       = rp[6];
+   flowCoefficient = rp[7];
    loop = 0;
 
 /* Common -> SI units conversions. */
@@ -375,7 +405,7 @@ extern double smo_pneumatic_flapper_nozzle_valve_macro1_(int *n
    		Valve_init(_component, state1, state2);
    	}
 
-    f4 = *f3 + Valve_PneumaticFlapperNozzleValve_getPressureForceOnFlapper(_component);
+    f4 = *f3 + PneumaticFlapperValve_getPressureForceOnFlapper(_component);
 /* <<<<<<<<<<<<End of Macro macro1 Executable Statements. */
 
 /* SI -> Common units conversions. */

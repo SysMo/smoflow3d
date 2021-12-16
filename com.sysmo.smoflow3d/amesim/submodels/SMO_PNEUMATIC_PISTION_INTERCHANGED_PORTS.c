@@ -1,5 +1,5 @@
-/* Submodel SMO_PNEUMATIC_PISTON skeleton created by AME Submodel editing utility
-   ?? ??? 21 14:24:09 2021 */
+/* Submodel SMO_PNEUMATIC_PISTION_INTERCHANGED_PORTS skeleton created by AME Submodel editing utility
+   ?? ??? 21 14:30:10 2021 */
 
 
 
@@ -25,7 +25,7 @@ REVISIONS :
 
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_PNEUMATIC_PISTON"
+#define _SUBMODELNAME_ "SMO_PNEUMATIC_PISTION_INTERCHANGED_PORTS"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -44,8 +44,8 @@ REVISIONS :
    dr rod diameter    [mm -> m]
 */
 
-void smo_pneumatic_pistonin_(int *n, double rp[2], int ic[2]
-      , void *ps[2])
+void smo_pneumatic_pistion_interchanged_portsin_(int *n, double rp[2]
+      , int ic[2], void *ps[2])
 
 {
    int loop, error;
@@ -82,15 +82,15 @@ void smo_pneumatic_pistonin_(int *n, double rp[2], int ic[2]
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
-   _component = PneumaticPiston_new(
-   		dp, //diameterPiston
-   		dr); //diameterRod
+	_component = PneumaticPiston_new(
+			dp, //diameterPiston
+			dr); //diameterRod
 
-   	SMOCOMPONENT_SET_PROPS(_component)
+	SMOCOMPONENT_SET_PROPS(_component)
 
-   _fluidFlow1 = FluidFlow_new();
-   FluidFlow_zero(_fluidFlow1);
-   _fluidFlow1Index = FluidFlow_register(_fluidFlow1);
+	_fluidFlow1 = FluidFlow_new();
+	FluidFlow_zero(_fluidFlow1);
+	_fluidFlow1Index = FluidFlow_register(_fluidFlow1);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
 }
 
@@ -98,38 +98,38 @@ void smo_pneumatic_pistonin_(int *n, double rp[2], int ic[2]
 
    Port 1 has 3 variables:
 
-      1 fluidFlow1Index               fluid flow1 index                                                      [smoFFL]  multi line macro 'smo_pneumatic_piston_macro0_'  UNPLOTTABLE
+      1 fluidFlow1Index               fluid flow1 index                                                      [smoFFL]  multi line macro 'smo_pneumatic_pistion_interchanged_ports_macro0_'  UNPLOTTABLE
       2 fluidFlowActivationSignal     flow activation signal = {-1 - not used; 0 - deactivate; 1 - activate} [smoFFAS] multi line macro shared with 'fluidFlow1Index'
       3 fluidState1Index              fluid state1 index                                                     [smoTDS]  basic variable input  UNPLOTTABLE
 
    Port 2 has 3 variables:
 
-      1 v2     duplicate of v3      
-      2 x2     duplicate of x3      
-      3 f2     force at port2        [N] basic variable input
+      1 f2     force at port2        [N]   multi line macro 'smo_pneumatic_pistion_interchanged_ports_macro1_'
+      2 v2     velocity at port2     [m/s] basic variable input
+      3 x2     displacement at port2 [m]   basic variable input
 
    Port 3 has 3 variables:
 
-      1 f3     force at port3        [N]   multi line macro 'smo_pneumatic_piston_macro1_'
-      2 v3     velocity at port3     [m/s] basic variable input
-      3 x3     displacement at port3 [m]   basic variable input
+      1 v3     duplicate of v2      
+      2 x3     duplicate of x2      
+      3 f3     force at port3        [N] basic variable input
 */
 
 /*  There are 2 internal variables.
 
-      1 pistonArea      piston area  [mm**2 -> m**2] multi line macro shared with 'f3'
-      2 pistonForce     piston force [N]             multi line macro shared with 'f3'
+      1 pistonArea      piston area  [mm**2 -> m**2] multi line macro shared with 'f2'
+      2 pistonForce     piston force [N]             multi line macro shared with 'f2'
 */
 
 #if 0
 
 /* THE CALCULATION FUNCTION WILL NOT BE CALLED. */
 
-void smo_pneumatic_piston_(int *n, double *fluidFlow1Index
-      , double *fluidFlowActivationSignal, double *fluidState1Index
-      , double *f2, double *f3, double *v3, double *x3
-      , double *pistonArea, double *pistonForce, double rp[2]
-      , int ic[2], void *ps[2])
+void smo_pneumatic_pistion_interchanged_ports_(int *n
+      , double *fluidFlow1Index, double *fluidFlowActivationSignal
+      , double *fluidState1Index, double *f2, double *v2, double *x2
+      , double *f3, double *pistonArea, double *pistonForce
+      , double rp[2], int ic[2], void *ps[2])
 
 {
    int loop;
@@ -167,7 +167,7 @@ void smo_pneumatic_piston_(int *n, double *fluidFlow1Index
 }
 
 #endif
-extern double smo_pneumatic_piston_macro0_(int *n
+extern double smo_pneumatic_pistion_interchanged_ports_macro0_(int *n
       , double *fluidFlowActivationSignal, double rp[2], int ic[2]
       , void *ps[2])
 
@@ -207,12 +207,12 @@ extern double smo_pneumatic_piston_macro0_(int *n
    return fluidFlow1Index;
 }
 
-extern double smo_pneumatic_piston_macro1_(int *n
-      , double *fluidState1Index, double *f2, double *pistonArea
+extern double smo_pneumatic_pistion_interchanged_ports_macro1_(int *n
+      , double *fluidState1Index, double *f3, double *pistonArea
       , double *pistonForce, double rp[2], int ic[2], void *ps[2])
 
 {
-   double f3;
+   double f2;
    int loop;
 /* >>>>>>>>>>>>Extra Macro Function macro1 Declarations Here. */
 /* <<<<<<<<<<<<End of Extra Macro macro1 declarations. */
@@ -229,7 +229,7 @@ extern double smo_pneumatic_piston_macro1_(int *n
 /*
    Define and return the following macro variable:
 
-   f3         = ??;
+   f2         = ??;
 
    Define the following shared macro variable(s):
 
@@ -239,15 +239,15 @@ extern double smo_pneumatic_piston_macro1_(int *n
 
 
 /* >>>>>>>>>>>>Macro Function macro1 Executable Statements. */
-    SMOCOMPONENt_PRINT_MACRO
-	if (firstc_()) {
-		MediumState* state1 = MediumState_get(*fluidState1Index);
-		PneumaticPiston_init(_component, state1);
-	}
+   SMOCOMPONENt_PRINT_MACRO
+   if (firstc_()) {
+	   MediumState* state1 = MediumState_get(*fluidState1Index);
+	   PneumaticPiston_init(_component, state1);
+   }
 
-    *pistonArea = PneumaticPiston_getPistonArea(_component);
-    *pistonForce = PneumaticPiston_getPressureForceOnPiston(_component);
-    f3 = *f2 + *pistonForce;
+   *pistonArea = PneumaticPiston_getPistonArea(_component);
+   *pistonForce = PneumaticPiston_getPressureForceOnPiston(_component);
+   f2 = *f3 - *pistonForce;
 /* <<<<<<<<<<<<End of Macro macro1 Executable Statements. */
 
 /* SI -> Common units conversions. */
@@ -256,6 +256,6 @@ extern double smo_pneumatic_piston_macro1_(int *n
    *pistonArea /= 1.00000000000000e-06;
 
 
-   return f3;
+   return f2;
 }
 

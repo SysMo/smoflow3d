@@ -58,7 +58,8 @@
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_fluid_flow_gain" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_adaptor_fluid_heat" />    
    
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_flapper_nozzle_valve" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_flat_flapper_nozzle_valve" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_tubular_flapper_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_piston" />
    
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_r_adaptor_begin" />
@@ -147,7 +148,8 @@
   </GROUP>
   
   <GROUP ZOOM_MAX="200" DEFAULT_COMP_HEIGHT="60" DEFAULT_ZOOM="100" DESCRIPTION="Pneumatic" ICON="DEFAULT_ICON" ZOOM_MIN="20" DEFAULT_COMP_WIDTH="80" >
-   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_flapper_nozzle_valve" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_flat_flapper_nozzle_valve" />
+   <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_tubular_flapper_valve" />
    <COMPONENT LIBRARY="SmoFlow3d" NAME="smo_pneumatic_piston" />
   </GROUP>
   

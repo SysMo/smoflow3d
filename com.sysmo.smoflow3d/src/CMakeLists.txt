@@ -83,7 +83,7 @@ add_library(SmoFlow SHARED
     volumes/HeatExchNoPrDropNoMassAcc_RC.cpp
     volumes/HeatExchNoPrDropNoMassAcc_CR.cpp
     volumes/TPipeJunction.cpp
-    pneumatic/PneumaticValve.cpp
+    pneumatic/PneumaticFlapperValve.cpp
     pneumatic/PneumaticPiston.cpp
     ${MU_PARSER_FILES}
     ${SMO_FILE_RADER}

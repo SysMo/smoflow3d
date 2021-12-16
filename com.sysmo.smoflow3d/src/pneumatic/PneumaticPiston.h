@@ -24,10 +24,13 @@ public:
 	void init(MediumState* state1);
 
 	double getPressureForceOnPiston();
+	double getPistonArea();
 
 protected:
 	double diameterPiston; //dp
 	double diameterRod; //dr
+
+	double pistonArea;
 
 	MediumState* state1;
 };
@@ -44,6 +47,7 @@ PneumaticPiston* PneumaticPiston_new(double diameterPiston, double diameterRod);
 void PneumaticPiston_init(PneumaticPiston* piston, MediumState* state1);
 
 double PneumaticPiston_getPressureForceOnPiston(PneumaticPiston* piston);
+double PneumaticPiston_getPistonArea(PneumaticPiston* piston);
 
 END_C_LINKAGE
 

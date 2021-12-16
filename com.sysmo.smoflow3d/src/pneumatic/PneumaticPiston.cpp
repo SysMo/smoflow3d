@@ -17,6 +17,8 @@ PneumaticPiston::PneumaticPiston(double diameterPistion, double diameterRod) {
 	this->diameterPiston = diameterPistion; //dp
 	this->diameterRod = diameterRod; //dr
 
+	this->pistonArea = m::pi * (diameterPiston*diameterPiston - diameterRod*diameterRod)/4.;
+
 	this->state1 = NULL;
 }
 
@@ -28,7 +30,11 @@ void PneumaticPiston::init(MediumState* state1) {
 }
 
 double PneumaticPiston::getPressureForceOnPiston() {
-	return state1->p() * m::pi * (diameterPiston*diameterPiston - diameterRod*diameterRod);
+	return state1->p() * getPistonArea();
+}
+
+double PneumaticPiston::getPistonArea() {
+	return pistonArea;
 }
 
 /**
@@ -44,4 +50,8 @@ void PneumaticPiston_init(PneumaticPiston* piston, MediumState* state1) {
 
 double PneumaticPiston_getPressureForceOnPiston(PneumaticPiston* piston) {
 	return piston->getPressureForceOnPiston();
+}
+
+double PneumaticPiston_getPistonArea(PneumaticPiston* piston) {
+	return piston->getPistonArea();
 }

@@ -19,10 +19,13 @@
 #include <cmath>
 #include <limits>
 #include <math.h>
+#include <algorithm>
 
 namespace smoflow {
 
 namespace cst {
+    const double AtmosphericPressure = 101300; //[Pa]
+
 	const double StandardPressure = 1e5; // [Pa]
 	const double StandardTemperature = 288.15; // [K]
 
@@ -143,6 +146,43 @@ namespace m {
 	inline double tanh(const double& x) {
 		return std::tanh((long double) x);
 	}
+
+	/* Smooth */
+	inline double polysmooth(const double& x, const double& x1_, const double& x2_, const double& f1_, const double& f2_) {
+		// Check input variables
+		double x1 = x1_;
+		double x2 = x2_;
+		double f1 = f1_;
+		double f2 = f2_;
+
+		if (x1 > x2) {
+			x1 = x2_;
+			x2 = x1_;
+			f1 = f2_;
+			f2 = f1_;
+		}
+
+		if (x1 == x2) {
+			return (f1+f2)/2.;
+		}
+
+		// Compute the smooth value
+		if (x <= x1) {
+			return f1;
+		}
+
+		if (x >= x2) {
+			return f2;
+		}
+
+		//Case: x1 < x < x2
+		double z = (x - x1) / (x2 - x1);
+		double th = pow((1-z),5)*(1 + 5*z + 15*pow(z,2) + 35*pow(z,3) + 70*pow(z,4));
+		double xSmooth = th*(f1 - f2) + f2;
+
+		return xSmooth;
+	}
+
 } /* end namespace m */
 } /* end namespace smoflow */
 
