@@ -545,10 +545,6 @@
      <UNITS>smoFFAS</UNITS>
     </EVAR>
    </PORT>
-   <PORT>
-    <PORT_TAG>thermal</PORT_TAG>
-    <USE_REQUIRED>0</USE_REQUIRED>
-   </PORT>
   </EVARS_LIST>
   <SUBIDS_RESET>0</SUBIDS_RESET>
  </SUBMODEL>
