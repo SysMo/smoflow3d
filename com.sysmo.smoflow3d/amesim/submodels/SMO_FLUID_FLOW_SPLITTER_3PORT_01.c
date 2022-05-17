@@ -166,10 +166,14 @@ extern double smo_fluid_flow_splitter_3port_01_macro0_(int *n
    FluidFlow* flowIn1 = FluidFlow_get(*fluidFlowIndexIn1);
    FluidFlow* flowIn3 = FluidFlow_get(*fluidFlowIndexIn3);
 
-   double massFlowIn = FluidFlow_getMassFlowRate(flowIn1) + FluidFlow_getMassFlowRate(flowIn3);
-   double enthalpyFlowIn = FluidFlow_getEnthalpyFlowRate(flowIn1) + FluidFlow_getEnthalpyFlowRate(flowIn3);
-   FluidFlow_setMassFlowRate(_fluidFlowOut, massFlowIn);
-   FluidFlow_setEnthalpyFlowRate(_fluidFlowOut, enthalpyFlowIn);
+   double netMassFlowIn = FluidFlow_getMassFlowRate(flowIn1) + FluidFlow_getMassFlowRate(flowIn3);
+   double netEnthalpyFlowIn = FluidFlow_getEnthalpyFlowRate(flowIn1) + FluidFlow_getEnthalpyFlowRate(flowIn3);
+   double netVolumeIn = FluidFlow_getVolume(flowIn1) + FluidFlow_getVolume(flowIn3);
+   double netVolumeDotIn = FluidFlow_getVolumeDot(flowIn1) + FluidFlow_getVolumeDot(flowIn3);
+   FluidFlow_setMassFlowRate(_fluidFlowOut, netMassFlowIn);
+   FluidFlow_setEnthalpyFlowRate(_fluidFlowOut, netEnthalpyFlowIn);
+   FluidFlow_setVolume(_fluidFlowOut, netVolumeIn);
+   FluidFlow_setVolumeDot(_fluidFlowOut, netVolumeDotIn);
 
    fluidFlowIndexOut = _fluidFlowOutIndex;
 /* <<<<<<<<<<<<End of Macro macro0 Executable Statements. */

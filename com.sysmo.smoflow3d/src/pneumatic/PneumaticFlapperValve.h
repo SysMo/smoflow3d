@@ -35,6 +35,8 @@ public:
 
 	void setFlapperPosition(double flapperDisplacement);
 
+	virtual void updateVolumes(double v4, double x4, FluidFlow* flow1, FluidFlow* flow2);
+
 protected:
 	virtual void initAreas() = 0;
 	virtual double calcFlowArea(double flapperLift) = 0;
@@ -69,6 +71,8 @@ Valve* PneumaticFlatFlapperNozzleValve_new(
 		int forceMode,
 		int forceContact,
 		double xLim,
+		double vol10,
+		double vol20,
 		double flowCoefficient);
 
 Valve* PneumaticTubularFlapperValve_new(
@@ -88,6 +92,9 @@ double PneumaticFlapperValve_getPressureForceOnFlapper(PneumaticFlapperValve* va
 double PneumaticFlapperValve_getFlapperLift(PneumaticFlapperValve* valve);
 double PneumaticFlapperValve_getFlowArea(PneumaticFlapperValve* valve);
 double PneumaticFlapperValve_getThroatArea(PneumaticFlapperValve* valve);
+
+void PneumaticFlapperValve_updateVolumes(
+		PneumaticFlapperValve* valve, double v4, double x4, FluidFlow* flow1, FluidFlow* flow2);
 
 END_C_LINKAGE
 

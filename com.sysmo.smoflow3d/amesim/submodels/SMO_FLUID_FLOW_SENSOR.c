@@ -1,11 +1,12 @@
 /* Submodel SMO_FLUID_FLOW_SENSOR skeleton created by AME Submodel editing utility
-   Sat Nov 30 14:34:03 2013 */
+   ??? ??? 16 17:51:35 2022 */
 
 
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
@@ -89,15 +90,9 @@ void smo_fluid_flow_sensorin_(int *n, double rp[2], int ip[1]
       error = 2;
    }
 
-   if(error == 1)
+   if (ameHandleSubmodelError(_SUBMODELNAME_, *n, error))
    {
-      amefprintf(stderr, "\nWarning in %s instance %d.\n", _SUBMODELNAME_, *n);
-   }
-   else if(error == 2)
-   {
-      amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-      amefprintf(stderr, "Terminating the program.\n");
-      AmeExit(1);
+      return;
    }
 
 
@@ -124,18 +119,21 @@ void smo_fluid_flow_sensorin_(int *n, double rp[2], int ip[1]
       3 fluidFlowActivationSignal     fluid flow activation signal [smoFFAS] basic variable input
 */
 
-/*  There are 3 internal variables.
+/*  There are 5 internal variables.
 
-      1 massFlowRate         mass flow rate     [kg/s] basic variable
-      2 enthalpyFlowRate     enthalpy flow rate [W]    basic variable
-      3 flowTemperature      flow temperature   [K]    basic variable
+      1 massFlowRate         mass flow rate       [kg/s]          basic variable
+      2 enthalpyFlowRate     enthalpy flow rate   [W]             basic variable
+      3 flowTemperature      flow temperature     [K]             basic variable
+      4 volume               volume               [L -> m**3]     basic variable
+      5 volumeDot            derivative of volume [L/s -> m**3/s] basic variable
 */
 
 void smo_fluid_flow_sensor_(int *n, double *fluidStateIndex
       , double *measuredValue, double *fluidFlowIndex
       , double *fluidFlowActivationSignal, double *massFlowRate
       , double *enthalpyFlowRate, double *flowTemperature
-      , double rp[2], int ip[1], int ic[3], void *ps[3])
+      , double *volume, double *volumeDot, double rp[2], int ip[1]
+      , int ic[3], void *ps[3])
 
 {
    int loop;
@@ -152,9 +150,9 @@ void smo_fluid_flow_sensor_(int *n, double *fluidStateIndex
 
 /* Common -> SI units conversions. */
 
-/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlowIndex *= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal *= ??; CONVERSION UNKNOWN [smoFFAS] */
 
 /*
    Set all submodel outputs below:
@@ -163,6 +161,8 @@ void smo_fluid_flow_sensor_(int *n, double *fluidStateIndex
    *massFlowRate = ??;
    *enthalpyFlowRate = ??;
    *flowTemperature = ??;
+   *volume     = ??;
+   *volumeDot  = ??;
 */
 
 
@@ -185,6 +185,8 @@ void smo_fluid_flow_sensor_(int *n, double *fluidStateIndex
 
    *massFlowRate = FluidFlow_getMassFlowRate(_fluidFlow);;
    *enthalpyFlowRate = FluidFlow_getEnthalpyFlowRate(_fluidFlow);
+   *volume = FluidFlow_getVolume(_fluidFlow);
+   *volumeDot = FluidFlow_getVolumeDot(_fluidFlow);
 
    if (fabs(*massFlowRate) > 1e-12) {
 	   double h = *enthalpyFlowRate / *massFlowRate;
@@ -212,8 +214,10 @@ void smo_fluid_flow_sensor_(int *n, double *fluidStateIndex
 
 /* SI -> Common units conversions. */
 
-/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN */
-/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN */
+/*   *fluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
+/*   *fluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
+/*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
+   *volume   /= 1.00000000000000e-03;
+   *volumeDot /= 1.00000000000000e-03;
 }
 

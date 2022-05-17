@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>74</SUB_ID_MAX>
+  <SUB_ID_MAX>86</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pneumatic_flat_flapper_nozzle_valve</DEFAULT_ICON>
   <AUTONOMOUS_COMPILATION>False</AUTONOMOUS_COMPILATION>
   <AUTONOMOUS_RUNTIME>False</AUTONOMOUS_RUNTIME>
@@ -90,6 +90,28 @@
     <MIN_VALUE>0.00000000000000e+00</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+30</MAX_VALUE>
     <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>77</SUB_ID>
+    <TITLE> volume at port 1 corresponding to zero lift</TITLE>
+    <VARNAME>vol10</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
+    <VALUE>0.00000000000000e+00</VALUE>
+    <MIN_VALUE>-1.00000000000000e+27</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+27</MAX_VALUE>
+    <UNITS>cm**3</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>78</SUB_ID>
+    <TITLE> volume at port 2 corresponding to zero lift</TITLE>
+    <VARNAME>vol20</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
+    <VALUE>0.00000000000000e+00</VALUE>
+    <MIN_VALUE>-1.00000000000000e+27</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+27</MAX_VALUE>
+    <UNITS>cm**3</UNITS>
    </RPARAM>
    <RPARAM>
     <SUB_ID>38</SUB_ID>
@@ -224,6 +246,42 @@
     <DIMENSION>1</DIMENSION>
     <UNITS>mm**2</UNITS>
    </IVAR>
+   <IVAR>
+    <SUB_ID>83</SUB_ID>
+    <TITLE>volume at port-1</TITLE>
+    <VARNAME>volume1</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>L</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>84</SUB_ID>
+    <TITLE>derivative of volume at port-1</TITLE>
+    <VARNAME>volumeDot1</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>L/min</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>85</SUB_ID>
+    <TITLE>volume at port-2</TITLE>
+    <VARNAME>volume2</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>L</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>86</SUB_ID>
+    <TITLE>derivative of volume at port-2</TITLE>
+    <VARNAME>volumeDot2</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>L/min</UNITS>
+   </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
@@ -239,7 +297,7 @@
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
-     <EXPRESS2>@_1_3, @_2_3, @_4_3</EXPRESS2>
+     <EXPRESS2>@_1_3, @_2_3, @_4_2, @_4_3</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>53</SUB_ID>

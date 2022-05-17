@@ -80,7 +80,7 @@ void PipeHeatExchNoPrDropMassAcc_C::compute() {
 	double netEnthalpyFlow = port1Flow->enthalpyFlowRate + port2Flow->enthalpyFlowRate;
 	double netMassFlowRate = port1Flow->massFlowRate + port2Flow->massFlowRate;
 
-	accFluid->compute(netMassFlowRate, netEnthalpyFlow, netHeatFlowRate, 0);
+	accFluid->compute(netMassFlowRate, netEnthalpyFlow, netHeatFlowRate, 0, 0); //volume = volumeDot = 0
 }
 
 /**

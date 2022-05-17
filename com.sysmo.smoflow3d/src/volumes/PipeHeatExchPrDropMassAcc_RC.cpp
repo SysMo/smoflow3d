@@ -119,7 +119,7 @@ void PipeHeatExchPrDropMassAcc_RC::compute(double pressureDrop) {
 	double netEnthalpyFlow = internalFlow->enthalpyFlowRate + port2Flow->enthalpyFlowRate;
 	double netMassFlowRate = internalFlow->massFlowRate + port2Flow->massFlowRate;
 
-	accFluid->compute(netMassFlowRate, netEnthalpyFlow, netHeatFlowRate, 0);
+	accFluid->compute(netMassFlowRate, netEnthalpyFlow, netHeatFlowRate, 0, 0); //volume = volumeDot = 0
 }
 
 

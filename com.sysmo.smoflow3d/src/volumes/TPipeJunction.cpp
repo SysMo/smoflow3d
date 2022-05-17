@@ -117,7 +117,7 @@ void TPipeJunction::compute() {
 	double netMassFlowRate = port1Flow->massFlowRate + port2Flow->massFlowRate + port3Flow->massFlowRate;
 	double netEnthalpyFlow = port1Flow->enthalpyFlowRate + port2Flow->enthalpyFlowRate + port3Flow->enthalpyFlowRate;
 
-	accFluid->compute(netMassFlowRate, netEnthalpyFlow, 0, 0); // netHeatFlowRate = netVolumeChangeRate = 0
+	accFluid->compute(netMassFlowRate, netEnthalpyFlow, 0, 0, 0); // netHeatFlowRate = volume = volumeDot = 0
 }
 
 void TPipeJunction::updateFluidStates23AtZeroMassFlow() {
@@ -367,7 +367,7 @@ public:
 		convection->updateHeatFlow(wallHeatFlow);
 		double netHeatFlowRate = convection->getHeatFlowRate();
 
-		accFluid->compute(netMassFlowRate, netEnthalpyFlow, netHeatFlowRate, 0); //netVolumeChangeRate = 0
+		accFluid->compute(netMassFlowRate, netEnthalpyFlow, netHeatFlowRate, 0, 0); //volume = volumeDot = 0
 	}
 
 private:

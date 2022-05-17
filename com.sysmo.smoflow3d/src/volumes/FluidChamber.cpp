@@ -14,7 +14,8 @@
 FluidChamber::FluidChamber(Medium *fluid) {
 	fluidState = MediumState_new(fluid);
 	MediumState_register(fluidState);
-	volume = 0;
+	setVolume(0.0);
+	totalVolume = 0.0;
 	flagInTwoPhase = false;
 }
 
@@ -116,12 +117,24 @@ void FluidChamber::getStateDerivatives(double* stateDerivative1, double* stateDe
 	*stateDerivative2 = stateDerivatives[1];
 }
 
-void FluidChamber::compute(double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate) {
+void FluidChamber::compute(
+		double massFlowRate,
+		double enthalpyFlowRate,
+		double heatFlowRate,
+		double volume,
+		double volumeDot) {
 	double fluidMass = getFluidMass();
-	double c1 = massFlowRate/fluidMass - volumeChangeRate/volume;
-	double UDot = enthalpyFlowRate + heatFlowRate - fluidState->p() * volumeChangeRate;
+	double deadVolume = getVolume();
+	totalVolume = deadVolume + volume;
+	if (totalVolume < 0.01*deadVolume) {
+		//The total volume of the chamber is limited to 1% of its dead volume
+		totalVolume = 0.01*deadVolume;
+	}
+
+	double c1 = massFlowRate/fluidMass - volumeDot/totalVolume;
+	double UDot = enthalpyFlowRate + heatFlowRate - fluidState->p() * volumeDot;
 	stateTimeDerivatives.rho = fluidState->rho() * c1;
-	computeStateDerivatives_cv(massFlowRate, UDot, volumeChangeRate);
+	computeStateDerivatives_cv(massFlowRate, UDot, volumeDot);
 
 	handleEvent_FluidPhaseTransition();
 }
@@ -137,7 +150,8 @@ void FluidChamber::computeStateDerivatives_cv(double mDot, double UDot, double V
 }
 
 void FluidChamber::computeStateDerivatives_cp(double mDot, double UDot, double VDot) {
-	//stateTimeDerivatives.specificVolume = - specificVolume * c1;
+	//:NOTE: This function is not used, because it is not suitable for the two phase region and
+	//also it doesn't work for state variables = (p,h)
 	double fluidMass = getFluidMass();
 
 	double dvdt_p = fluidState->dvdt_p();
@@ -200,8 +214,8 @@ void FluidChamber_getStateValues(FluidChamber* chamber, double* stateValue1, dou
 	chamber->getStateValues(stateValue1, stateValue2, getFromFluid);
 }
 
-void FluidChamber_compute(FluidChamber* chamber, double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volumeChangeRate) {
-	chamber->compute(massFlowRate, enthalpyFlowRate, heatFlowRate, volumeChangeRate);
+void FluidChamber_compute(FluidChamber* chamber, double massFlowRate, double enthalpyFlowRate, double heatFlowRate, double volume, double volumeDot) {
+	chamber->compute(massFlowRate, enthalpyFlowRate, heatFlowRate, volume, volumeDot);
 }
 
 void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDerivative1, double* stateDerivative2) {
@@ -210,4 +224,12 @@ void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDeriva
 
 MediumState* FluidChamber_getFluidState(FluidChamber* chamber) {
 	return chamber->getFluidState();
+}
+
+double FluidChamber_getVolume(FluidChamber* chamber) {
+	return chamber->getVolume();
+}
+
+double FluidChamber_getTotalVolume(FluidChamber* chamber) {
+	return chamber->getTotalVolume();
 }

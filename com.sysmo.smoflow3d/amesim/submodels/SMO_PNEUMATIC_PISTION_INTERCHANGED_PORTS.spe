@@ -4,7 +4,7 @@
 
  <SUBMODEL>
   <SUB_TYPE>0</SUB_TYPE>
-  <SUB_ID_MAX>26</SUB_ID_MAX>
+  <SUB_ID_MAX>34</SUB_ID_MAX>
   <DEFAULT_ICON>smo_pneumatic_piston</DEFAULT_ICON>
   <AUTONOMOUS_COMPILATION>False</AUTONOMOUS_COMPILATION>
   <AUTONOMOUS_RUNTIME>False</AUTONOMOUS_RUNTIME>
@@ -12,7 +12,6 @@
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>2</I_STORES_NUMBER>
   <P_STORES_NUMBER>2</P_STORES_NUMBER>
-  <HAS_NO_CALC>1</HAS_NO_CALC>
   <OUTPUT_TYPE>1</OUTPUT_TYPE>
   <RPARAMS_LIST>
    <RPARAM>
@@ -34,6 +33,17 @@
     <DEF_VALUE>5.00000000000000e+00</DEF_VALUE>
     <VALUE>5.00000000000000e+00</VALUE>
     <MIN_VALUE>0.00000000000000e+00</MIN_VALUE>
+    <MAX_VALUE>1.00000000000000e+30</MAX_VALUE>
+    <UNITS>mm</UNITS>
+   </RPARAM>
+   <RPARAM>
+    <SUB_ID>28</SUB_ID>
+    <TITLE>chamber length at zero displacement</TITLE>
+    <VARNAME>x0</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
+    <VALUE>0.00000000000000e+00</VALUE>
+    <MIN_VALUE>-1.00000000000000e+30</MIN_VALUE>
     <MAX_VALUE>1.00000000000000e+30</MAX_VALUE>
     <UNITS>mm</UNITS>
    </RPARAM>
@@ -59,6 +69,33 @@
     <UNITS>N</UNITS>
     <EXPRESS2>@_2_1</EXPRESS2>
    </IVAR>
+   <IVAR>
+    <SUB_ID>32</SUB_ID>
+    <TITLE>length of chamber</TITLE>
+    <VARNAME>length</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>mm</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>33</SUB_ID>
+    <TITLE>volume at port-1</TITLE>
+    <VARNAME>volume</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>L</UNITS>
+   </IVAR>
+   <IVAR>
+    <SUB_ID>34</SUB_ID>
+    <TITLE>derivative of volume at port-1</TITLE>
+    <VARNAME>volumeDot</VARNAME>
+    <VISIBILITY>True</VISIBILITY>
+    <TYPE>0</TYPE>
+    <DIMENSION>1</DIMENSION>
+    <UNITS>L/s</UNITS>
+   </IVAR>
   </IVARS_LIST>
   <EVARS_LIST>
    <PORT>
@@ -69,23 +106,21 @@
      <TITLE>fluid flow1 index</TITLE>
      <VARNAME>fluidFlow1Index</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>8</TYPE>
+     <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNPLOTTABLE>1</UNPLOTTABLE>
      <UNITS>smoFFL</UNITS>
-     <EXPRESS2></EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>9</SUB_ID>
      <TITLE>flow activation signal = {-1 - not used; 0 - deactivate; 1 - activate}</TITLE>
      <VARNAME>fluidFlowActivationSignal</VARNAME>
      <VISIBILITY>True</VISIBILITY>
-     <TYPE>12</TYPE>
+     <TYPE>0</TYPE>
      <DIMENSION>1</DIMENSION>
      <IO>2</IO>
      <UNITS>smoFFAS</UNITS>
-     <EXPRESS2>@_1_1</EXPRESS2>
     </EVAR>
     <EVAR>
      <SUB_ID>10</SUB_ID>

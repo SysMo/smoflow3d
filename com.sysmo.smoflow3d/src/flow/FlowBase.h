@@ -25,11 +25,13 @@ struct HeatFlow : public FlowBase {
 };
 
 struct FluidFlow : public FlowBase {
-	FluidFlow () : massFlowRate(0.0), enthalpyFlowRate(0.0) {}
+	FluidFlow () : massFlowRate(0.0), enthalpyFlowRate(0.0), volume(0.0), volumeDot(0.0) {}
 
 	double massFlowRate;
 	double enthalpyFlowRate;
-	//double volumetricFlowRate; //:NOT_USED:
+
+	double volume;
+	double volumeDot;
 };
 
 #else //__cplusplus
@@ -57,6 +59,11 @@ void FluidFlow_setMassFlowRate(FluidFlow* flow, double massFlowRate);
 double FluidFlow_getMassFlowRate(FluidFlow* flow);
 void FluidFlow_setEnthalpyFlowRate(FluidFlow* flow, double enthalpyFlowRate);
 double FluidFlow_getEnthalpyFlowRate(FluidFlow* flow);
+void FluidFlow_setVolume(FluidFlow* flow, double volume);
+double FluidFlow_getVolume(FluidFlow* flow);
+void FluidFlow_setVolumeDot(FluidFlow* flow, double volumeDot);
+double FluidFlow_getVolumeDot(FluidFlow* flow);
+
 
 void FluidFlow_copy(FluidFlow* flowSource, FluidFlow* flowTarget);
 void FluidFlow_zero(FluidFlow* flow);

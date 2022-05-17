@@ -68,6 +68,13 @@ double PneumaticFlapperValve::getThroatArea() {
 	return throatArea;
 }
 
+void PneumaticFlapperValve::updateVolumes(double v4, double x4, FluidFlow* flow1, FluidFlow* flow2) {
+	flow1->volume = 0.0;
+	flow1->volumeDot = 0.0;
+
+	flow2->volume = 0.0;
+	flow2->volumeDot = 0.0;
+}
 
 
 /**
@@ -85,7 +92,9 @@ public:
 			double xForMaxArea,
 			int forceMode,
 			int forceContact,
-			double xLim) :
+			double xLim,
+			double vol10,
+			double vol20) :
 				PneumaticFlapperValve(friction, flapperLift0, xForMinArea, xForMaxArea) {
 		this->nozzleDiameter = nozzleDiameter;
 		this->rodDiameter = rodDiameter;
@@ -94,6 +103,9 @@ public:
 		this->forceMode = forceMode;
 		this->forceContact = forceContact;
 		this->xLim = xLim;
+
+		this->vol10 = vol10;
+		this->vol20 = vol20;
 
 		initAreas();
 		setFlapperPosition(0); //flapperDisplacement = 0
@@ -133,6 +145,25 @@ public:
 		return forceOnFlapperSeatSmooth + forceP2;
 	}
 
+	virtual void updateVolumes(double v4, double x4, FluidFlow* flow1, FluidFlow* flow2) {
+		// Compute the flapper lift
+		double xLift = flapperLift0 - x4;
+
+		double area1 = (flapperDiameter*flapperDiameter - nozzleDiameter*nozzleDiameter)/4.;
+		double area2 = (nozzleDiameter*nozzleDiameter - rodDiameter*rodDiameter)/4.;
+		double vol1 = vol10 + xLift * m::pi * area1;
+		double vol2 = vol20 + xLift * m::pi * area2;
+
+		double volDot1 = -v4 * m::pi * area1;
+		double volDot2 = -v4 * m::pi * area2;
+
+		flow1->volume = vol1;
+		flow1->volumeDot = volDot1;
+
+		flow2->volume = vol2;
+		flow2->volumeDot = volDot2;
+	}
+
 protected:
 
 	virtual void initAreas() {
@@ -153,6 +184,9 @@ protected:
 	int forceMode; //pressure acting in the flapper seat area {1-constant, 2-gradient}
 	int forceContact; //pressure force contribution on the flapper seat at zero lift {1-Yes, 2-No}
 	double xLim; //transition opening for pressure force on the flapper seat
+
+	double vol10; // volume at port-1 corresponding to zero lift
+	double vol20; // volume at port-2 corresponding to zero lift
 };
 
 
@@ -243,6 +277,8 @@ Valve* PneumaticFlatFlapperNozzleValve_new(
 		int forceMode,
 		int forceContact,
 		double xLim,
+		double vol10,
+		double vol20,
 		double flowCoefficient) {
 	FrictionFlowValve* friction = FrictionFlowValve_OrificeCompressibleRealGas_new(
 			1, //allowBidirectionalFlow = 1 - yes
@@ -259,7 +295,9 @@ Valve* PneumaticFlatFlapperNozzleValve_new(
 			xForMaxArea,
 			forceMode,
 			forceContact,
-			xLim);
+			xLim,
+			vol10,
+			vol20);
 }
 
 Valve* PneumaticTubularFlapperValve_new(
@@ -307,5 +345,10 @@ double PneumaticFlapperValve_getFlowArea(PneumaticFlapperValve* valve) {
 
 double PneumaticFlapperValve_getThroatArea(PneumaticFlapperValve* valve) {
 	return valve->getThroatArea();
+}
+
+void PneumaticFlapperValve_updateVolumes(PneumaticFlapperValve* valve,
+		double v4, double x4, FluidFlow* flow1, FluidFlow* flow2) {
+	valve->updateVolumes(v4, x4, flow1, flow2);
 }
 
