@@ -1,5 +1,5 @@
-/* Submodel SMO_PNEUMATIC_PISTION_INTERCHANGED_PORTS skeleton created by AME Submodel editing utility
-   ?? ??? 17 16:13:23 2022 */
+/* Submodel SMO_PNEUMATIC_PISTON_INTERCHANGED_PORTS skeleton created by AME Submodel editing utility
+   ?? ??? 13 16:50:00 2022 */
 
 
 
@@ -25,7 +25,7 @@ REVISIONS :
 
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_PNEUMATIC_PISTION_INTERCHANGED_PORTS"
+#define _SUBMODELNAME_ "SMO_PNEUMATIC_PISTON_INTERCHANGED_PORTS"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -45,7 +45,7 @@ REVISIONS :
    x0 chamber length at zero displacement [mm -> m]
 */
 
-void smo_pneumatic_pistion_interchanged_portsin_(int *n, double rp[3]
+void smo_pneumatic_piston_interchanged_portsin_(int *n, double rp[3]
       , int ic[2], void *ps[2])
 
 {
@@ -109,7 +109,7 @@ void smo_pneumatic_pistion_interchanged_portsin_(int *n, double rp[3]
 
    Port 2 has 3 variables:
 
-      1 f2     force at port2        [N]   multi line macro 'smo_pneumatic_pistion_interchanged_ports_macro0_'
+      1 f2     force at port2        [N]   multi line macro 'smo_pneumatic_piston_interchanged_ports_macro0_'
       2 v2     velocity at port2     [m/s] basic variable input
       3 x2     displacement at port2 [m]   basic variable input
 
@@ -129,7 +129,7 @@ void smo_pneumatic_pistion_interchanged_portsin_(int *n, double rp[3]
       5 volumeDot       derivative of volume at port-1 [L/s -> m**3/s] basic variable
 */
 
-void smo_pneumatic_pistion_interchanged_ports_(int *n
+void smo_pneumatic_piston_interchanged_ports_(int *n
       , double *fluidFlow1Index, double *fluidFlowActivationSignal
       , double *fluidState1Index, double *f2, double *v2, double *x2
       , double *f3, double *pistonArea, double *pistonForce
@@ -189,7 +189,7 @@ void smo_pneumatic_pistion_interchanged_ports_(int *n
    *volumeDot /= 1.00000000000000e-03;
 }
 
-extern double smo_pneumatic_pistion_interchanged_ports_macro0_(int *n
+extern double smo_pneumatic_piston_interchanged_ports_macro0_(int *n
       , double *fluidState1Index, double *f3, double *pistonArea
       , double *pistonForce, double rp[3], int ic[2], void *ps[2])
 
