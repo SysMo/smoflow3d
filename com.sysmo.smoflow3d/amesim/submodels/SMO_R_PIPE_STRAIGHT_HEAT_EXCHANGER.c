@@ -1,11 +1,12 @@
 /* Submodel SMO_R_PIPE_STRAIGHT_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   ??? ??? 9 10:17:39 2019 */
+   ?? ??? 13 14:50:44 2022 */
 
 
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
@@ -135,24 +136,18 @@ void smo_r_pipe_straight_heat_exchangerin_(int *n, double rp[6]
       error = 2;
    }
 
-   if(error == 1)
+   if (ameHandleSubmodelError(_SUBMODELNAME_, *n, error))
    {
-      amefprintf(stderr, "\nWarning in %s instance %d.\n", _SUBMODELNAME_, *n);
-   }
-   else if(error == 2)
-   {
-      amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-      amefprintf(stderr, "Terminating the program.\n");
-      AmeExit(1);
+      return;
    }
 
 /* Common -> SI units conversions. */
 
-   rp[1]    *= 1.00000000000000e-003;
+   rp[1]    *= 1.00000000000000e-03;
    hydraulicDiameter = rp[1];
-   rp[2]    *= 1.00000000000000e-006;
+   rp[2]    *= 1.00000000000000e-06;
    flowArea   = rp[2];
-   rp[3]    *= 1.00000000000000e-003;
+   rp[3]    *= 1.00000000000000e-03;
    absoluteRoughness = rp[3];
 
 
@@ -319,8 +314,8 @@ void smo_r_pipe_straight_heat_exchanger_(int *n
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
 /*   *outputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
 /*   *inputRCompID3 /= ??; CONVERSION UNKNOWN [smoRCompID] */
-   *pressureLoss /= 1.00000000000000e+005;
-   *dynamicPressureUp /= 1.00000000000000e+005;
+   *pressureLoss /= 1.00000000000000e+05;
+   *dynamicPressureUp /= 1.00000000000000e+05;
 }
 
 extern double smo_r_pipe_straight_heat_exchanger_macro0_(int *n

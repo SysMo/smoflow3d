@@ -8,7 +8,7 @@
   <DEFAULT_ICON>smo_Tpipe_junction_heat_exchanger</DEFAULT_ICON>
   <AUTONOMOUS_COMPILATION>False</AUTONOMOUS_COMPILATION>
   <AUTONOMOUS_RUNTIME>False</AUTONOMOUS_RUNTIME>
-  <SUB_LABEL>T-pipe junction with constant drag coefficients and heat exchanger</SUB_LABEL>
+  <SUB_LABEL>T-pipe junction with constant drag coefficients and heat exchange</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>5</I_STORES_NUMBER>
   <P_STORES_NUMBER>9</P_STORES_NUMBER>

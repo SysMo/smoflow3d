@@ -1,11 +1,12 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RCR_REGULATING_DP_GAIN skeleton created by AME Submodel editing utility
-   ?? ??? 3 10:17:35 2019 */
+   ?? ??? 13 14:49:48 2022 */
 
 
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
@@ -60,7 +61,7 @@ REVISIONS :
    heatExchangeGainDeactivedFlow heat exchange gain (deactived fluid flow) [null]
    initialPressure               initial pressure                          [barA -> PaA]
    initialTemperature            initial temperature (K)                   [K]
-   initialTemperatureC           initial temperature (°C)                  [degC]
+   initialTemperatureC           initial temperature (Â°C)                 [degC]
    initialGasMassFraction        initial gas mass fraction                 [null]
    initialSuperheat              initial superheat                         [K]
 */
@@ -166,26 +167,20 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gainin_(int *n
       error = 2;
    }
 
-   if(error == 1)
+   if (ameHandleSubmodelError(_SUBMODELNAME_, *n, error))
    {
-      amefprintf(stderr, "\nWarning in %s instance %d.\n", _SUBMODELNAME_, *n);
-   }
-   else if(error == 2)
-   {
-      amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-      amefprintf(stderr, "Terminating the program.\n");
-      AmeExit(1);
+      return;
    }
 
 /* Common -> SI units conversions. */
 
-   rp[0]    *= 1.00000000000000e-003;
+   rp[0]    *= 1.00000000000000e-03;
    hydraulicDiameter = rp[0];
-   rp[2]    *= 1.00000000000000e-006;
+   rp[2]    *= 1.00000000000000e-06;
    flowArea   = rp[2];
-   rp[3]    *= 1.00000000000000e-003;
+   rp[3]    *= 1.00000000000000e-03;
    absoluteRoughness = rp[3];
-   rp[7]    *= 1.00000000000000e+005;
+   rp[7]    *= 1.00000000000000e+05;
    initialPressure = rp[7];
 
 
@@ -473,13 +468,13 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gain_(int *n
 /*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal3 /= ??; CONVERSION UNKNOWN [smoFFAS] */
 /*   *port3FluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
-   *pressureLossTotal /= 1.00000000000000e+005;
-   *internalPressure /= 1.00000000000000e+005;
+   *pressureLossTotal /= 1.00000000000000e+05;
+   *internalPressure /= 1.00000000000000e+05;
 /*   *internalDensity /= ??; CONVERSION UNKNOWN [[kg/m**3]] */
-   *internalVolume /= 1.00000000000000e-003;
-   *pressureLoss1 /= 1.00000000000000e+005;
-   *pressureLoss3 /= 1.00000000000000e+005;
-   *dynamicPressureUp1 /= 1.00000000000000e+005;
-   *dynamicPressureUp3 /= 1.00000000000000e+005;
+   *internalVolume /= 1.00000000000000e-03;
+   *pressureLoss1 /= 1.00000000000000e+05;
+   *pressureLoss3 /= 1.00000000000000e+05;
+   *dynamicPressureUp1 /= 1.00000000000000e+05;
+   *dynamicPressureUp3 /= 1.00000000000000e+05;
 }
 

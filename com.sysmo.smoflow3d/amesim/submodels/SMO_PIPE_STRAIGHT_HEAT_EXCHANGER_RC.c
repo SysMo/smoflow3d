@@ -1,11 +1,12 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RC skeleton created by AME Submodel editing utility
-   ?? ??? 21 11:25:04 2019 */
+   ?? ??? 13 14:48:35 2022 */
 
 
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
@@ -57,7 +58,7 @@ REVISIONS :
    heatExchangeGainDeactivedFlow heat exchange gain (deactived fluid flow) [null]
    initialPressure               initial pressure                          [barA -> PaA]
    initialTemperature            initial temperature (K)                   [K]
-   initialTemperatureC           initial temperature (°C)                  [degC]
+   initialTemperatureC           initial temperature (Â°C)                 [degC]
    initialGasMassFraction        initial gas mass fraction                 [null]
    initialSuperheat              initial superheat                         [K]
 */
@@ -155,26 +156,20 @@ void smo_pipe_straight_heat_exchanger_rcin_(int *n, double rp[12]
       error = 2;
    }
 
-   if(error == 1)
+   if (ameHandleSubmodelError(_SUBMODELNAME_, *n, error))
    {
-      amefprintf(stderr, "\nWarning in %s instance %d.\n", _SUBMODELNAME_, *n);
-   }
-   else if(error == 2)
-   {
-      amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-      amefprintf(stderr, "Terminating the program.\n");
-      AmeExit(1);
+      return;
    }
 
 /* Common -> SI units conversions. */
 
-   rp[0]    *= 1.00000000000000e-003;
+   rp[0]    *= 1.00000000000000e-03;
    hydraulicDiameter = rp[0];
-   rp[2]    *= 1.00000000000000e-006;
+   rp[2]    *= 1.00000000000000e-06;
    flowArea   = rp[2];
-   rp[3]    *= 1.00000000000000e-003;
+   rp[3]    *= 1.00000000000000e-03;
    absoluteRoughness = rp[3];
-   rp[7]    *= 1.00000000000000e+005;
+   rp[7]    *= 1.00000000000000e+05;
    initialPressure = rp[7];
 
 
@@ -390,9 +385,9 @@ void smo_pipe_straight_heat_exchanger_rc_(int *n
 /*   *port3FluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
 /*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
-   *internalVolume /= 1.00000000000000e-003;
-   *totalPressureLoss /= 1.00000000000000e+005;
-   *dynamicPressureUp /= 1.00000000000000e+005;
+   *internalVolume /= 1.00000000000000e-03;
+   *totalPressureLoss /= 1.00000000000000e+05;
+   *dynamicPressureUp /= 1.00000000000000e+05;
 }
 
 extern double smo_pipe_straight_heat_exchanger_rc_macro0_(int *n

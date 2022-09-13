@@ -1,11 +1,12 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C skeleton created by AME Submodel editing utility
-   ?? ??? 19 10:39:49 2018 */
+   ?? ??? 13 14:49:21 2022 */
 
 
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
@@ -49,7 +50,7 @@ REVISIONS :
    heatExchangeGain       heat exchange gain                                      [null]
    initialPressure        initial pressure                                        [barA -> PaA]
    initialTemperature     initial temperature (K)                                 [K]
-   initialTemperatureC    initial temperature (°C)                                [degC]
+   initialTemperatureC    initial temperature (Â°C)                               [degC]
    initialGasMassFraction initial gas mass fraction                               [null]
    initialSuperheat       initial superheat                                       [K]
    ReL                    laminar to turbulent transition:  lower Reynolds number [null]
@@ -158,24 +159,18 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
       error = 2;
    }
 
-   if(error == 1)
+   if (ameHandleSubmodelError(_SUBMODELNAME_, *n, error))
    {
-      amefprintf(stderr, "\nWarning in %s instance %d.\n", _SUBMODELNAME_, *n);
-   }
-   else if(error == 2)
-   {
-      amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-      amefprintf(stderr, "Terminating the program.\n");
-      AmeExit(1);
+      return;
    }
 
 /* Common -> SI units conversions. */
 
-   rp[0]    *= 1.00000000000000e-003;
+   rp[0]    *= 1.00000000000000e-03;
    hydraulicDiameter = rp[0];
-   rp[2]    *= 1.00000000000000e-006;
+   rp[2]    *= 1.00000000000000e-06;
    flowArea   = rp[2];
-   rp[4]    *= 1.00000000000000e+005;
+   rp[4]    *= 1.00000000000000e+05;
    initialPressure = rp[4];
 
 
@@ -373,9 +368,9 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
 /*   *port3FluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal3 /= ??; CONVERSION UNKNOWN [smoFFAS] */
-   *pressure /= 1.00000000000000e+005;
-   *internalVolume /= 1.00000000000000e-003;
-   *specificEnthalpy /= 1.00000000000000e+003;
+   *pressure /= 1.00000000000000e+05;
+   *internalVolume /= 1.00000000000000e-03;
+   *specificEnthalpy /= 1.00000000000000e+03;
 }
 
 extern double smo_pipe_straight_heat_exchanger_c_macro0_(int *n

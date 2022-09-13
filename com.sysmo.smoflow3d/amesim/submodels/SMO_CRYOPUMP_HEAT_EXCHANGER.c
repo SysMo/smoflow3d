@@ -1,11 +1,12 @@
 /* Submodel SMO_CRYOPUMP_HEAT_EXCHANGER skeleton created by AME Submodel editing utility
-   Fri Feb 10 10:06:55 2017 */
+   ?? ??? 13 14:50:33 2022 */
 
 
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
@@ -30,15 +31,15 @@ REVISIONS :
 #include "SmoFlowAme.h"
 #include "flow/CryopumpHeatExch.h"
 #include "math/Functors.h"
- 
+
 #define _component ps[0]
- 
+
 #define _inletFluidFlow ps[1]
 #define _inletFluidFlowIndex ic[1]
- 
+
 #define _outletFluidFlow ps[2]
 #define _outletFluidFlowIndex ic[2]
- 
+
 #define _heatFlowIndex ic[3]
 #define _heatFlow ps[3]
 /* <<<<<<<<<<<<End of Private Code. */
@@ -117,31 +118,25 @@ void smo_cryopump_heat_exchangerin_(int *n, double rp[3], int ip[2]
       error = 2;
    }
 
-   if(error == 1)
+   if (ameHandleSubmodelError(_SUBMODELNAME_, *n, error))
    {
-      amefprintf(stderr, "\nWarning in %s instance %d.\n", _SUBMODELNAME_, *n);
-   }
-   else if(error == 2)
-   {
-      amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-      amefprintf(stderr, "Terminating the program.\n");
-      AmeExit(1);
+      return;
    }
 
 /* Common -> SI units conversions. */
 
-   rp[0]    *= 1.00000000000000e-006;
+   rp[0]    *= 1.00000000000000e-06;
    displacementVolume = rp[0];
 
 
 /* >>>>>>>>>>>>Initialization Function Executable Statements. */
    _component = CryopumpHeatExch_new();
    SMOCOMPONENT_SET_PROPS(_component)
- 
+
    CryopumpHeatExch_setDisplacementVolume(_component, displacementVolume);
    CryopumpHeatExch_setVolumetricEfficiencyFunction(_component, FunctorTwoVariables_Expression_new(etaVolumetricExpression, "N", "pOut"));
    CryopumpHeatExch_setMechanicalEfficiencyFunction(_component, FunctorTwoVariables_Expression_new(etaMechanicalExpression, "N", "pOut"));
- 
+
    CryopumpHeatExch_setComputationMethod(_component, computationMethod);
    if (computationMethod == 1) { //using outlet temperature
 	   CryopumpHeatExch_setOutletTemperatureFunction(_component, FunctorTwoVariables_Expression_new(outletTemperatureExpression, "N", "pOut"));
@@ -150,13 +145,13 @@ void smo_cryopump_heat_exchangerin_(int *n, double rp[3], int ip[2]
 	   CryopumpHeatExch_setIsentropicEfficiencyFunction(_component, FunctorTwoVariables_Expression_new(etaIsentropicExpression, "N", "pOut"));
 	   CryopumpHeatExch_setFractionOfExtraHeatToFluid(_component, fractionOfExtraHeatToFluid);
    }
- 
+
    _inletFluidFlow = FluidFlow_new();
    _inletFluidFlowIndex = FluidFlow_register(_inletFluidFlow);
- 
+
    _outletFluidFlow = FluidFlow_new();
    _outletFluidFlowIndex = FluidFlow_register(_outletFluidFlow);
- 
+
    _heatFlow = HeatFlow_new();
    _heatFlowIndex = HeatFlow_register(_heatFlow);
 /* <<<<<<<<<<<<End of Initialization Executable Statements. */
@@ -238,7 +233,7 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
 
 /*   *inletFluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
 /*   *outletFluidStateIndex *= ??; CONVERSION UNKNOWN [smoTDS] */
-   *rotarySpeed *= 1.04719755119660e-001;
+   *rotarySpeed *= 1.04719755119660e-01;
 /*   *thermalNodeIndex *= ??; CONVERSION UNKNOWN [smoTHN] */
 
 /*
@@ -268,12 +263,12 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
 	   MediumState* outletState = MediumState_get(*outletFluidStateIndex);
 	   CryopumpHeatExch_init(_component, inletState, outletState);
    }
- 
+
    if (*rotarySpeed > 1e-12) {
 	   CryopumpHeatExch_setRotationalSpeed(_component, *rotarySpeed);
 	   CryopumpHeatExch_compute(_component);
 	   CryopumpHeatExch_updateFluidFlows(_component, _inletFluidFlow, _outletFluidFlow);
- 
+
 	   *pressureRatio = CryopumpHeatExch_getPressureRatio(_component);
 	   *torque = CryopumpHeatExch_getTorque(_component);
 	   *etaVolumetric = CryopumpHeatExch_getVolumetricEfficiency(_component);
@@ -286,10 +281,10 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
    } else {
 	   FluidFlow_setMassFlowRate(_inletFluidFlow, 0.0);
 	   FluidFlow_setEnthalpyFlowRate(_inletFluidFlow, 0.0);
- 
+
 	   FluidFlow_setMassFlowRate(_outletFluidFlow, 0.0);
 	   FluidFlow_setEnthalpyFlowRate(_outletFluidFlow, 0.0);
- 
+
 	   *pressureRatio = 0.0;
 	   *torque = 0.0;
 	   *etaVolumetric = 0.0;
@@ -301,12 +296,12 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
 	   *heatFlowRateToPumpReservoir = 0.0;
    }
    HeatFlow_setEnthalpyFlowRate(_heatFlow, *heatFlowRateToPumpReservoir);
- 
+
    *inletFluidFlowIndex = _inletFluidFlowIndex;
    *outletFluidFlowIndex = _outletFluidFlowIndex;
    *heatFlowIndex = _heatFlowIndex;
- 
- 
+
+
    if (useFluidFlowActivationSignal == 1) { //no
 	   *fluidFlowActivationSignal = -1; //not used
    } else { // yes
@@ -325,7 +320,7 @@ void smo_cryopump_heat_exchanger_(int *n, double *inletFluidFlowIndex
 /*   *outletFluidFlowIndex /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal /= ??; CONVERSION UNKNOWN [smoFFAS] */
 /*   *outletFluidStateIndex /= ??; CONVERSION UNKNOWN [smoTDS] */
-   *rotarySpeed /= 1.04719755119660e-001;
+   *rotarySpeed /= 1.04719755119660e-01;
 /*   *heatFlowIndex /= ??; CONVERSION UNKNOWN [smoHFL] */
 /*   *thermalNodeIndex /= ??; CONVERSION UNKNOWN [smoTHN] */
 }
