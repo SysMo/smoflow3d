@@ -1,11 +1,12 @@
-/* Submodel SMO_RADIATIVE_EXCHANGE_TWO_SURFACE_VARIABLE_EMISSIVITY skeleton created by AME Submodel editing utility
-   ?? ??? 26 11:38:31 2021 */
+/* Submodel SMO_RADIATIVE_EXCHANGE_TWO_SURFACES_VARIABLE_EMISSIVITY skeleton created by AME Submodel editing utility
+   ?? ??? 13 15:37:10 2022 */
 
 
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
@@ -24,7 +25,7 @@ REVISIONS :
 
 ******************************************************************************* */
 
-#define _SUBMODELNAME_ "SMO_RADIATIVE_EXCHANGE_TWO_SURFACE_VARIABLE_EMISSIVITY"
+#define _SUBMODELNAME_ "SMO_RADIATIVE_EXCHANGE_TWO_SURFACES_VARIABLE_EMISSIVITY"
 
 /* >>>>>>>>>>>>Insert Private Code Here. */
 #include "SmoFlowAme.h"
@@ -55,7 +56,7 @@ REVISIONS :
    emissivity2Var emissivity values of body-2
 */
 
-void smo_radiative_exchange_two_surface_variable_emissivityin_(int *n
+void smo_radiative_exchange_two_surfaces_variable_emissivityin_(int *n
       , double rp[4], char *tp[2], int ic[3], void *ps[3])
 
 {
@@ -86,15 +87,9 @@ void smo_radiative_exchange_two_surface_variable_emissivityin_(int *n
 /* >>>>>>>>>>>>Initialization Function Check Statements. */
 /* <<<<<<<<<<<<End of Initialization Check Statements. */
 
-   if(error == 1)
+   if (ameHandleSubmodelError(_SUBMODELNAME_, *n, error))
    {
-      amefprintf(stderr, "\nWarning in %s instance %d.\n", _SUBMODELNAME_, *n);
-   }
-   else if(error == 2)
-   {
-      amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-      amefprintf(stderr, "Terminating the program.\n");
-      AmeExit(1);
+      return;
    }
 
 
@@ -135,7 +130,7 @@ void smo_radiative_exchange_two_surface_variable_emissivityin_(int *n
       3 emissivity2     emissivity of body-2       [null] basic variable
 */
 
-void smo_radiative_exchange_two_surface_variable_emissivity_(int *n
+void smo_radiative_exchange_two_surfaces_variable_emissivity_(int *n
       , double *heatFlow1Index, double *thermalNode1Index
       , double *heatFlow2Index, double *thermalNode2Index
       , double *qDot1, double *emissivity1, double *emissivity2

@@ -130,7 +130,7 @@ smo_heat_flow_gain
 &SMO_HEAT_FLOW_GAIN SmoFlow3d
 smo_radiative_exchange_two_surfaces
 &SMO_RADIATIVE_EXCHANGE_TWO_SURFACES SmoFlow3d
-&SMO_RADIATIVE_EXCHANGE_TWO_SURFACE_VARIABLE_EMISSIVITY SmoFlow3d
+&SMO_RADIATIVE_EXCHANGE_TWO_SURFACES_VARIABLE_EMISSIVITY SmoFlow3d
 smo_Tpipe_junction
 &SMO_TPIPE_JUNCTION SmoFlow3d
 smo_Tpipe_junction_heat_exchanger
