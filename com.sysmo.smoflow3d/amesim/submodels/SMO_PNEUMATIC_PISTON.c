@@ -1,5 +1,5 @@
 /* Submodel SMO_PNEUMATIC_PISTON skeleton created by AME Submodel editing utility
-   ?? ??? 18 16:32:16 2022 */
+   ?? ??? 14 16:45:21 2022 */
 
 
 
@@ -40,9 +40,9 @@ REVISIONS :
 
 /* There are 3 real parameters:
 
-   dp piston diameter                     [mm -> m]
-   dr rod diameter                        [mm -> m]
-   x0 chamber length at zero displacement [mm -> m]
+   dp piston diameter                            [mm -> m]
+   dr rod diameter                               [mm -> m]
+   x0 length of the chamber at zero displacement [mm -> m]
 */
 
 void smo_pneumatic_pistonin_(int *n, double rp[3], int ic[2]
@@ -124,7 +124,7 @@ void smo_pneumatic_pistonin_(int *n, double rp[3], int ic[2]
 
       1 pistonArea      piston area                    [mm**2 -> m**2]   multi line macro shared with 'f3'
       2 pistonForce     piston force                   [N]               multi line macro shared with 'f3'
-      3 length          length of chamber              [mm -> m]         basic variable
+      3 length          length of the chamber          [mm -> m]         basic variable
       4 volume          volume at port-1               [L -> m**3]       basic variable
       5 volumeDot       derivative of volume at port-1 [L/min -> m**3/s] basic variable
 */

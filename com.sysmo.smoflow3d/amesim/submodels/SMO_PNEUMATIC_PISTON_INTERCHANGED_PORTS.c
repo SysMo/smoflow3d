@@ -1,5 +1,5 @@
 /* Submodel SMO_PNEUMATIC_PISTON_INTERCHANGED_PORTS skeleton created by AME Submodel editing utility
-   ?? ??? 13 16:50:00 2022 */
+   ?? ??? 14 16:45:52 2022 */
 
 
 
@@ -40,9 +40,9 @@ REVISIONS :
 
 /* There are 3 real parameters:
 
-   dp piston diameter                     [mm -> m]
-   dr rod diameter                        [mm -> m]
-   x0 chamber length at zero displacement [mm -> m]
+   dp piston diameter                            [mm -> m]
+   dr rod diameter                               [mm -> m]
+   x0 length of the chamber at zero displacement [mm -> m]
 */
 
 void smo_pneumatic_piston_interchanged_portsin_(int *n, double rp[3]

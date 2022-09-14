@@ -38,7 +38,7 @@
    </RPARAM>
    <RPARAM>
     <SUB_ID>44</SUB_ID>
-    <TITLE>chamber length at zero displacement</TITLE>
+    <TITLE>length of the chamber at zero displacement</TITLE>
     <VARNAME>x0</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <DEF_VALUE>0.00000000000000e+00</DEF_VALUE>
@@ -71,7 +71,7 @@
    </IVAR>
    <IVAR>
     <SUB_ID>45</SUB_ID>
-    <TITLE>length of chamber</TITLE>
+    <TITLE>length of the chamber</TITLE>
     <VARNAME>length</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>

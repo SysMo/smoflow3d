@@ -1,5 +1,5 @@
 /* Submodel SMO_PNEUMATIC_FLAT_FLAPPER_NOZZLE_VALVE skeleton created by AME Submodel editing utility
-   ?? ??? 18 16:32:44 2022 */
+   ???? ??? 15 13:14:31 2022 */
 
 
 
@@ -50,8 +50,8 @@ REVISIONS :
    xmin            opening for minimum area                                  [mm -> m]
    xmax            opening for maximum area                                  [mm -> m]
    xlim            transition opening for pressure force on the flapper seat [mm -> m]
-   vol10            volume at port 1 corresponding to zero lift              [cm**3 -> m**3]
-   vol20            volume at port 2 corresponding to zero lift              [cm**3 -> m**3]
+   vol10           volume at port-1 corresponding to zero lift               [cm**3 -> m**3]
+   vol20           volume at port-2 corresponding to zero lift               [cm**3 -> m**3]
    flowCoefficient flow coefficient                                          [null]
 */
 
