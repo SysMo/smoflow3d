@@ -1,5 +1,5 @@
 /* Submodel SMO_FLUID_CHAMBER_4PORT skeleton created by AME Submodel editing utility
-   ??? ??? 16 16:40:17 2022 */
+   ?? ??? 14 09:15:18 2022 */
 
 
 
@@ -309,7 +309,7 @@ void smo_fluid_chamber_4port_(int *n, double *fluidStateIndex
 	*specificEnthalpy = MediumState_h(_fluidState);
 	*gasMassFraction = MediumState_q(_fluidState);
 	*superHeat  = MediumState_deltaTSat(_fluidState);
-	*totalMass  = FluidChamber_getFluidMass(_component);
+	*totalMass  = FluidChamber_getTotalFluidMass(_component);
 	*totalVolume = FluidChamber_getTotalVolume(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 

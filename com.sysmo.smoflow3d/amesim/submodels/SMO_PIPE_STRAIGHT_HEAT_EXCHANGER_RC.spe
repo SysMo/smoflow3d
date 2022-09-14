@@ -352,7 +352,7 @@
    <IVAR>
     <SUB_ID>147</SUB_ID>
     <TITLE>fluid mass in the pipe</TITLE>
-    <VARNAME>totalMass</VARNAME>
+    <VARNAME>mass</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>

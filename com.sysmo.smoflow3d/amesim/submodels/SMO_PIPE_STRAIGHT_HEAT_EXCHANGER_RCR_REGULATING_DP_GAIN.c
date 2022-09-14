@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_RCR_REGULATING_DP_GAIN skeleton created by AME Submodel editing utility
-   ?? ??? 13 14:49:48 2022 */
+   ?? ??? 14 10:09:02 2022 */
 
 
 
@@ -260,7 +260,7 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gainin_(int *n
       4 internalTemperatrue       fluid temperature                         [K]           basic variable
       5 internalDensity           fluid density                             [[kg/m**3]]   basic variable
       6 internalVolume            fluid volume                              [L -> m**3]   basic variable
-      7 totalMass                 fluid mass in the pipe                    [kg]          basic variable
+      7 mass                      fluid mass in the pipe                    [kg]          basic variable
       8 massFlowRate1             mass flow rate at port1                   [kg/s]        basic variable
       9 massFlowRate3             mass flow rate at port3                   [kg/s]        basic variable
      10 enthalpyFlowRate1         enthalpy flow rate at port1               [W]           basic variable
@@ -288,16 +288,15 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gain_(int *n
       , double *pressureDropGainRegSignal, double *pressureLossTotal
       , double stateValues[2], double stateValuesDot[2]
       , double *internalPressure, double *internalTemperatrue
-      , double *internalDensity, double *internalVolume
-      , double *totalMass, double *massFlowRate1
-      , double *massFlowRate3, double *enthalpyFlowRate1
-      , double *enthalpyFlowRate3, double *pressureLoss1
-      , double *pressureLoss3, double *dynamicPressureUp1
-      , double *dynamicPressureUp3, double *vFlowUp1, double *vFlowUp3
-      , double *machNumberUp1, double *machNumberUp3
-      , double *reynoldsNumber, double *convectionCoefficient
-      , double *heatFlowRateFromWall, double rp[12], int ip[7]
-      , int ic[3], void *ps[8], int *flag)
+      , double *internalDensity, double *internalVolume, double *mass
+      , double *massFlowRate1, double *massFlowRate3
+      , double *enthalpyFlowRate1, double *enthalpyFlowRate3
+      , double *pressureLoss1, double *pressureLoss3
+      , double *dynamicPressureUp1, double *dynamicPressureUp3
+      , double *vFlowUp1, double *vFlowUp3, double *machNumberUp1
+      , double *machNumberUp3, double *reynoldsNumber
+      , double *convectionCoefficient, double *heatFlowRateFromWall
+      , double rp[12], int ip[7], int ic[3], void *ps[8], int *flag)
 
 {
    int loop, logi;
@@ -355,7 +354,7 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gain_(int *n
    *internalTemperatrue = ??;
    *internalDensity = ??;
    *internalVolume = ??;
-   *totalMass  = ??;
+   *mass       = ??;
    *massFlowRate1 = ??;
    *massFlowRate3 = ??;
    *enthalpyFlowRate1 = ??;
@@ -418,7 +417,7 @@ void smo_pipe_straight_heat_exchanger_rcr_regulating_dp_gain_(int *n
    *internalTemperatrue = MediumState_T(_internalFluidState);
    *internalDensity = MediumState_rho(_internalFluidState);
    *internalVolume = PipeHeatExchPrDropMassAcc_RCR_getVolume(_component);
-   *totalMass = PipeHeatExchPrDropMassAcc_RCR_getFluidMass(_component);
+   *mass = PipeHeatExchPrDropMassAcc_RCR_getFluidMass(_component);
 
    *reynoldsNumber = ForcedConvection_getReynoldsNumber(_convection);
    *convectionCoefficient = Convection_getConvectionCoefficient(_convection);

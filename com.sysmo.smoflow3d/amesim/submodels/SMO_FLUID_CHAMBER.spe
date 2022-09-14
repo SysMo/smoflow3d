@@ -8,7 +8,7 @@
   <DEFAULT_ICON>smo_fluid_chamber_cst_volume</DEFAULT_ICON>
   <AUTONOMOUS_COMPILATION>False</AUTONOMOUS_COMPILATION>
   <AUTONOMOUS_RUNTIME>False</AUTONOMOUS_RUNTIME>
-  <SUB_LABEL>fluid chamber with constant volume and 2 ports (C)</SUB_LABEL>
+  <SUB_LABEL>fluid chamber 2 ports (C)</SUB_LABEL>
   <SUB_UNIT>0</SUB_UNIT>
   <I_STORES_NUMBER>1</I_STORES_NUMBER>
   <P_STORES_NUMBER>4</P_STORES_NUMBER>

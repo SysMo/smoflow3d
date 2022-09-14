@@ -123,7 +123,6 @@ void FluidChamber::compute(
 		double heatFlowRate,
 		double volume,
 		double volumeDot) {
-	double fluidMass = getFluidMass();
 	double deadVolume = getVolume();
 	totalVolume = deadVolume + volume;
 	if (totalVolume < 0.01*deadVolume) {
@@ -131,7 +130,7 @@ void FluidChamber::compute(
 		totalVolume = 0.01*deadVolume;
 	}
 
-	double c1 = massFlowRate/fluidMass - volumeDot/totalVolume;
+	double c1 = massFlowRate/getTotalFluidMass() - volumeDot/totalVolume;
 	double UDot = enthalpyFlowRate + heatFlowRate - fluidState->p() * volumeDot;
 	stateTimeDerivatives.rho = fluidState->rho() * c1;
 	computeStateDerivatives_cv(massFlowRate, UDot, volumeDot);
@@ -140,9 +139,8 @@ void FluidChamber::compute(
 }
 
 void FluidChamber::computeStateDerivatives_cv(double mDot, double UDot, double VDot) {
-	double fluidMass = getFluidMass();
 	double vDot = - stateTimeDerivatives.rho / (fluidState->rho() * fluidState->rho());
-	double uDot = (UDot - mDot * fluidState->u())/fluidMass;
+	double uDot = (UDot - mDot * fluidState->u())/getTotalFluidMass();
 	double k2 = (fluidState->T() * fluidState->dpdt_v() - fluidState->p()) * vDot;
 	stateTimeDerivatives.T = (uDot - k2) / fluidState->cv();
 	stateTimeDerivatives.p = fluidState->dpdt_v() * stateTimeDerivatives.T + fluidState->dpdrho_t() * stateTimeDerivatives.rho;
@@ -152,17 +150,17 @@ void FluidChamber::computeStateDerivatives_cv(double mDot, double UDot, double V
 void FluidChamber::computeStateDerivatives_cp(double mDot, double UDot, double VDot) {
 	//:NOTE: This function is not used, because it is not suitable for the two phase region and
 	//also it doesn't work for state variables = (p,h)
-	double fluidMass = getFluidMass();
+	double totalFluidMass = getTotalFluidMass();
 
 	double dvdt_p = fluidState->dvdt_p();
 	double dvdp_T = 1./fluidState->dpdv_t();
 
 	double alpha_m = mDot /fluidState->rho();
-	double alpha_T = fluidMass * dvdt_p;
-	double alpha_p = fluidMass * dvdp_T;
+	double alpha_T = totalFluidMass * dvdt_p;
+	double alpha_p = totalFluidMass * dvdp_T;
 	double beta_m = mDot * fluidState->u();
-	double beta_T = fluidMass * (fluidState->cp() - fluidState->p() * dvdt_p);
-	double beta_p = - fluidMass * (fluidState->p() * dvdp_T + fluidState->T() * dvdt_p);
+	double beta_T = totalFluidMass * (fluidState->cp() - fluidState->p() * dvdt_p);
+	double beta_p = - totalFluidMass * (fluidState->p() * dvdp_T + fluidState->T() * dvdt_p);
 
 	stateTimeDerivatives.T = (beta_p * (VDot - alpha_m) - alpha_p * (UDot - beta_m)) /
 			(alpha_T * beta_p - alpha_p * beta_T);
@@ -232,4 +230,8 @@ double FluidChamber_getVolume(FluidChamber* chamber) {
 
 double FluidChamber_getTotalVolume(FluidChamber* chamber) {
 	return chamber->getTotalVolume();
+}
+
+double FluidChamber_getTotalFluidMass(FluidChamber* chamber) {
+	return chamber->getTotalFluidMass();
 }

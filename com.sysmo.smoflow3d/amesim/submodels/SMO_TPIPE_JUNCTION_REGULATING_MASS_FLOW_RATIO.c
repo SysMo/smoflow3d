@@ -1,11 +1,12 @@
 /* Submodel SMO_TPIPE_JUNCTION_REGULATING_MASS_FLOW_RATIO skeleton created by AME Submodel editing utility
-   ???? ??? 22 09:53:58 2021 */
+   ?? ??? 14 10:06:33 2022 */
 
 
 
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "ameutils.h"
 /* *******************************************************************************
 TITLE :
@@ -52,7 +53,7 @@ REVISIONS :
 
    initialPressure        initial pressure          [barA -> PaA]
    initialTemperature     initial temperature       [K]
-   initialTemperatureC    initial temperature (°C)  [degC]
+   initialTemperatureC    initial temperature (Â°C) [degC]
    initialGasMassFraction initial gas mass fraction [null]
    initialSuperheat       initial superheat         [K]
    volume                 volume                    [L -> m**3]
@@ -123,24 +124,18 @@ void smo_tpipe_junction_regulating_mass_flow_ratioin_(int *n
       error = 2;
    }
 
-   if(error == 1)
+   if (ameHandleSubmodelError(_SUBMODELNAME_, *n, error))
    {
-      amefprintf(stderr, "\nWarning in %s instance %d.\n", _SUBMODELNAME_, *n);
-   }
-   else if(error == 2)
-   {
-      amefprintf(stderr, "\nFatal error in %s instance %d.\n", _SUBMODELNAME_, *n);
-      amefprintf(stderr, "Terminating the program.\n");
-      AmeExit(1);
+      return;
    }
 
 /* Common -> SI units conversions. */
 
-   rp[0]    *= 1.00000000000000e+005;
+   rp[0]    *= 1.00000000000000e+05;
    initialPressure = rp[0];
-   rp[5]    *= 1.00000000000000e-003;
+   rp[5]    *= 1.00000000000000e-03;
    volume     = rp[5];
-   rp[6]    *= 1.00000000000000e-006;
+   rp[6]    *= 1.00000000000000e-06;
    flowArea   = rp[6];
 
 
@@ -204,7 +199,7 @@ void smo_tpipe_junction_regulating_mass_flow_ratioin_(int *n
       5 gasMassFraction      gas mass fraction (port1)       [null]          basic variable
       6 superHeat            subcooling / superheat (port1)  [degC]          basic variable
       7 massFlowRate1        mass flow rate (port1)          [kg/s]          basic variable
-      8 totalMass            fluid mass in T-pipe            [kg]            basic variable
+      8 mass                 fluid mass in T-pipe            [kg]            basic variable
       9 state1               state variable 1                [null]          explicit state (derivative `state1Dot')
      10 state2               state variable 2                [null]          explicit state (derivative `state2Dot')
      11 pressureLoss2        pressure loss (port1 - prort2)  [bar -> Pa]     basic variable
@@ -229,7 +224,7 @@ void smo_tpipe_junction_regulating_mass_flow_ratio_(int *n
       , double *fluidFlowActivationSignal3, double *mDotRatio21Reg
       , double *pressure, double *temperature, double *density
       , double *specificEnthalpy, double *gasMassFraction
-      , double *superHeat, double *massFlowRate1, double *totalMass
+      , double *superHeat, double *massFlowRate1, double *mass
       , double *state1, double *state1Dot, double *state2
       , double *state2Dot, double *pressureLoss2, double *pressure2
       , double *temperature2, double *massFlowRate2
@@ -281,7 +276,7 @@ void smo_tpipe_junction_regulating_mass_flow_ratio_(int *n
    *gasMassFraction = ??;
    *superHeat  = ??;
    *massFlowRate1 = ??;
-   *totalMass  = ??;
+   *mass       = ??;
    *state1Dot  = ??;
    *state2Dot  = ??;
    *pressureLoss2 = ??;
@@ -319,7 +314,7 @@ void smo_tpipe_junction_regulating_mass_flow_ratio_(int *n
 	*specificEnthalpy = MediumState_h(_fluidState1);
 	*gasMassFraction = MediumState_q(_fluidState1);
 	*superHeat  = MediumState_deltaTSat(_fluidState1);
-	*totalMass  = TPipeJunction_getFluidMass(_component);
+	*mass  = TPipeJunction_getFluidMass(_component);
 	*pressureLoss2 = TPipeJunction_getPressureLoss2(_component);
 	*pressureLoss3 = TPipeJunction_getPressureLoss3(_component);
 	*pressure2 = MediumState_p(_fluidState2);
@@ -347,12 +342,12 @@ void smo_tpipe_junction_regulating_mass_flow_ratio_(int *n
 /*   *fluidStateIndex3 /= ??; CONVERSION UNKNOWN [smoTDS] */
 /*   *fluidFlowIndex3 /= ??; CONVERSION UNKNOWN [smoFFL] */
 /*   *fluidFlowActivationSignal3 /= ??; CONVERSION UNKNOWN [smoFFAS] */
-   *pressure /= 1.00000000000000e+005;
-   *specificEnthalpy /= 1.00000000000000e+003;
-   *pressureLoss2 /= 1.00000000000000e+005;
-   *pressure2 /= 1.00000000000000e+005;
-   *pressureLoss3 /= 1.00000000000000e+005;
-   *pressure3 /= 1.00000000000000e+005;
+   *pressure /= 1.00000000000000e+05;
+   *specificEnthalpy /= 1.00000000000000e+03;
+   *pressureLoss2 /= 1.00000000000000e+05;
+   *pressure2 /= 1.00000000000000e+05;
+   *pressureLoss3 /= 1.00000000000000e+05;
+   *pressure3 /= 1.00000000000000e+05;
 }
 
 extern double smo_tpipe_junction_regulating_mass_flow_ratio_macro0_(

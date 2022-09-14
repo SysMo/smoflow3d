@@ -25,6 +25,7 @@ public:
 	double getVolume() {return volume;}
 	double getTotalVolume() {return totalVolume;}
 	double getFluidMass() {return fluidState->rho() * volume;}
+	double getTotalFluidMass() {return fluidState->rho() * getTotalVolume();}
 	MediumState* getFluidState(){return fluidState;}
 
 	void setStateValues(double stateValue1, double stateValue2);
@@ -71,6 +72,7 @@ void FluidChamber_getStateDerivatives(FluidChamber* chamber, double* stateDeriva
 MediumState* FluidChamber_getFluidState(FluidChamber* chamber);
 double FluidChamber_getVolume(FluidChamber* chamber);
 double FluidChamber_getTotalVolume(FluidChamber* chamber);
+double FluidChamber_getTotalFluidMass(FluidChamber* chamber);
 END_C_LINKAGE
 
 #endif /* FLUIDCHAMBER_H_ */

@@ -326,7 +326,7 @@
    <IVAR>
     <SUB_ID>173</SUB_ID>
     <TITLE>mass in pipe</TITLE>
-    <VARNAME>totalMass</VARNAME>
+    <VARNAME>mass</VARNAME>
     <VISIBILITY>True</VISIBILITY>
     <TYPE>0</TYPE>
     <DIMENSION>1</DIMENSION>

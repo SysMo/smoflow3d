@@ -1,5 +1,5 @@
 /* Submodel SMO_PIPE_STRAIGHT_HEAT_EXCHANGER_C skeleton created by AME Submodel editing utility
-   ?? ??? 13 14:49:21 2022 */
+   ?? ??? 14 10:08:04 2022 */
 
 
 
@@ -243,7 +243,7 @@ void smo_pipe_straight_heat_exchanger_cin_(int *n, double rp[11]
       3 temperature               temperature            [K]             basic variable
       4 density                   density                [kg/m**3]       basic variable
       5 internalVolume            volume                 [L -> m**3]     basic variable
-      6 totalMass                 mass in pipe           [kg]            basic variable
+      6 mass                      mass in pipe           [kg]            basic variable
       7 specificEnthalpy          specific enthalpy      [kJ/kg -> J/kg] basic variable
       8 gasMassFraction           gas mass fraction      [null]          basic variable
       9 superHeat                 subcooling / superheat [degC]          basic variable
@@ -259,7 +259,7 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
       , double *fluidFlowActivationSignal3, double stateValues[2]
       , double stateValuesDot[2], double *pressure
       , double *temperature, double *density, double *internalVolume
-      , double *totalMass, double *specificEnthalpy
+      , double *mass, double *specificEnthalpy
       , double *gasMassFraction, double *superHeat
       , double *reynoldsNumber, double *convectionCoefficient
       , double *heatFlowRateFromWall, double rp[11], int ip[6]
@@ -319,7 +319,7 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
    *temperature = ??;
    *density    = ??;
    *internalVolume = ??;
-   *totalMass  = ??;
+   *mass       = ??;
    *specificEnthalpy = ??;
    *gasMassFraction = ??;
    *superHeat  = ??;
@@ -356,7 +356,7 @@ void smo_pipe_straight_heat_exchanger_c_(int *n
    *gasMassFraction = MediumState_q(_pipeState);
    *superHeat  = MediumState_deltaTSat(_pipeState);
    *internalVolume = PipeHeatExchNoPrDropMassAcc_C_getVolume(_component);
-   *totalMass = PipeHeatExchNoPrDropMassAcc_C_getFluidMass(_component);
+   *mass = PipeHeatExchNoPrDropMassAcc_C_getFluidMass(_component);
 /* <<<<<<<<<<<<End of Calculation Executable Statements. */
 
 /* SI -> Common units conversions. */
