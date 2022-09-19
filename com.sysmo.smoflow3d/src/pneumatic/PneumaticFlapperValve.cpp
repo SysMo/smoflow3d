@@ -168,8 +168,8 @@ protected:
 
 	virtual void initAreas() {
 		this->throatArea = m::pi * (nozzleDiameter*nozzleDiameter - rodDiameter*rodDiameter) /4.;
-		this->minFlowArea = m::pi * flapperDiameter * xForMinArea;
-		this->maxFlowArea = m::pi * flapperDiameter * xForMaxArea;
+		this->minFlowArea = m::pi * nozzleDiameter * xForMinArea;
+		this->maxFlowArea = m::pi * nozzleDiameter * xForMaxArea;
 	}
 
 	virtual double calcFlowArea(double flapperLift) {
