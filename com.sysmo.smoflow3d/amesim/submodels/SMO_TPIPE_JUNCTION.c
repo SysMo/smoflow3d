@@ -1,5 +1,5 @@
 /* Submodel SMO_TPIPE_JUNCTION skeleton created by AME Submodel editing utility
-   ?? ??? 14 10:05:16 2022 */
+   ???? ??? 27 09:16:09 2022 */
 
 
 
