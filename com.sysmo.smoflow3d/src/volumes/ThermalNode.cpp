@@ -40,9 +40,10 @@ void ThermalMaterialNode::addMaterialMass(Medium_Solid* medium, double mass) {
 	size_t i = 0;
 	// Check if a state with such a medium is already present
 	for (i = 0; i < subnodeStates.size(); i++) {
-		if (subnodeStates[i]->getMedium() == medium)
+		if (subnodeStates[i]->getMedium() == medium) {
 			subnodeMasses[i] += mass;
 			break;
+		}
 	}
 	// If not, create a new state with this medium
 	if (i == subnodeStates.size()) {
